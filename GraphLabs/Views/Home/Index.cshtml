@@ -1,0 +1,55 @@
+﻿@model PagedList.IPagedList<GraphLabs.Site.Models.NewsPubl>
+
+@{
+    ViewBag.Title = "Главная";
+}
+
+<h2>Новости</h2>
+
+@foreach (var item in Model)
+{
+    <div class="news-block">
+    <h5>
+        @Html.DisplayFor(modelItem => item.Header)
+    </h5>
+    
+    <div class="display-field">
+        @Html.Raw(item.Text)
+    </div>
+    
+    <div class="news-author-time">
+        @Html.DisplayFor(modelItem => item.Author),  @Html.DisplayFor(modelItem => item.Date)
+    </div>
+    </div>
+}
+
+<div> 
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) 
+    из @Model.PageCount 
+      
+    @if (Model.HasPreviousPage)
+    { 
+        @Html.ActionLink("<<", "Index", new { page = 1 }) 
+        @Html.Raw(" "); 
+        @Html.ActionLink("< Назад", "Index", new { page = Model.PageNumber - 1 }) 
+    }
+    else
+    { 
+        @:<< 
+        @Html.Raw(" "); 
+        @:< Назад 
+    } 
+      
+    @if (Model.HasNextPage)
+    { 
+        @Html.ActionLink("Вперед >", "Index", new { page = Model.PageNumber + 1 }) 
+        @Html.Raw(" "); 
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount }) 
+    }
+    else
+    { 
+        @:Вперед > 
+        @Html.Raw(" ") 
+        @:>> 
+    } 
+</div>

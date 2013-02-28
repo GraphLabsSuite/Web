@@ -1,0 +1,37 @@
+﻿@model GraphLabs.Site.Models.NewsPubl
+
+@{
+    ViewBag.Title = "Удаление новости";
+}
+
+<h2>Удаление новости</h2>
+
+<fieldset>
+    <legend>Новость</legend>
+
+    <div class="display-label">Заголовок</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Header)
+    </div>
+
+    <div class="display-label">Текст</div>
+    <div class="display-field">
+        @Html.Raw("<pre>"+ Html.Encode(Model.Text) + "</pre>")
+    </div>
+
+    <div class="display-label">Автор</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Author)
+    </div>
+
+    <div class="display-label">Дата создания</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Назад к списку", "Index")
+    </p>
+}

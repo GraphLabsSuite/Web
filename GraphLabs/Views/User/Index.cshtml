@@ -1,0 +1,120 @@
+﻿@model PagedList.IPagedList<GraphLabs.Site.Models.User>
+
+@if (ViewBag.Verify)
+{
+    ViewBag.Title = "Все пользователи";
+}
+else
+{
+    ViewBag.Title = "Неутвержденные пользователи";
+}
+
+@if (ViewBag.Verify)
+{
+    <h2>Все пользователи</h2>
+}
+else
+{
+    <h2>Неутвержденные пользователи</h2>
+}
+
+<p>
+    @if (ViewBag.Verify)
+    {
+        @Html.ActionLink("Показать только неутвержденных", "Index", new { sortOrder = ViewBag.CurrentSort, VerifySortParam = ViewBag.Verify })
+    }
+    else
+    {
+        @Html.ActionLink("Показать всех пользователей", "Index", new { sortOrder = ViewBag.CurrentSort, VerifySortParam = ViewBag.Verify })
+    }
+</p>
+
+<table>
+    <tr>
+        <th>
+            Имя
+        </th>
+        <th>
+            Отчество
+        </th>
+        <th>
+            @Html.ActionLink("Фамилия", "Index", new { sortOrder = ViewBag.SurNameSortParam, VerifySortParam = !ViewBag.Verify })
+        </th>
+        <th>
+            Email
+        </th>
+        @if (ViewBag.Verify)
+        {
+        <th>
+            @Html.ActionLink("Подтвержден", "Index", new { sortOrder = ViewBag.IsActiveSortParam, VerifySortParam = !ViewBag.Verify })
+        </th>
+        }
+        <th>
+            @Html.ActionLink("Группа", "Index", new { sortOrder = ViewBag.GroupSortParam, VerifySortParam = !ViewBag.Verify })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FatherName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        @if (ViewBag.Verify)
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.Verify)
+        </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.Group.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.UserID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.UserID })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div> 
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) 
+    из @Model.PageCount 
+      
+    @if (Model.HasPreviousPage)
+    { 
+        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, VerifySortParam = !ViewBag.Verify }) 
+        @Html.Raw(" "); 
+        @Html.ActionLink("< Назад", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, VerifySortParam = !ViewBag.Verify }) 
+    }
+    else
+    { 
+        @:<< 
+        @Html.Raw(" "); 
+        @:< Назад 
+    } 
+      
+    @if (Model.HasNextPage)
+    { 
+        @Html.ActionLink("Вперед >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, VerifySortParam = !ViewBag.Verify }) 
+        @Html.Raw(" "); 
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, VerifySortParam = !ViewBag.Verify }) 
+    }
+    else
+    { 
+        @:Вперед > 
+        @Html.Raw(" ") 
+        @:>> 
+    } 
+</div>
