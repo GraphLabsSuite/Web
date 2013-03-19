@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.Web.WebPages.OAuth</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.Web.WebPages.OAuth.AuthenticationClientData"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.AuthenticationClientData.#ctor(DotNetOpenAuth.AspNet.IAuthenticationClient,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.AuthenticationClientData.AuthenticationClient"></member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.AuthenticationClientData.DisplayName"></member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.AuthenticationClientData.ExtraData"></member>
+    <member name="T:Microsoft.Web.WebPages.OAuth.OAuthAccount">
+      <summary>Представляет учетную запись OAuth или OpenID.</summary>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthAccount.#ctor(System.String,System.String)">
+      <summary>Инициализирует новый экземпляр класса <see cref="T:Microsoft.Web.WebPages.OAuth.OAuthAccount" />.</summary>
+      <param name="provider">Имя поставщика.</param>
+      <param name="providerUserId">ИД пользователя поставщика.</param>
+    </member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.OAuthAccount.Provider">
+      <summary>Получает имя поставщика.</summary>
+      <returns>Имя поставщика.</returns>
+    </member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.OAuthAccount.ProviderUserId">
+      <summary>Получает ИД пользователя поставщика.</summary>
+      <returns>ИД пользователя поставщика.</returns>
+    </member>
+    <member name="T:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity">
+      <summary>Управляет безопасностью, которая использует такие поставщики проверки подлинности OAuth, как Facebook, Twitter, LinkedIn и Windows Live, и такие поставщики проверки подлинности OpenID, как Google и Yahoo.</summary>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.CreateOrUpdateAccount(System.String,System.String,System.String)">
+      <summary>Создает или обновляет учетную запись с помощью указанного поставщика и ИД пользователя для ИД поставщика, а также связывает новую учетную запись с указанным именем пользователя.</summary>
+      <param name="providerName">Имя поставщика.</param>
+      <param name="providerUserId">ИД пользователя для указанного поставщика.</param>
+      <param name="userName">Имя пользователя.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.DeleteAccount(System.String,System.String)">
+      <summary>Удаляет указанную учетную запись членства.</summary>
+      <returns>Значение true, если учетная запись была удалена, или false если не была.</returns>
+      <param name="providerName">Имя поставщика.</param>
+      <param name="providerUserId">ИД пользователя для указанного поставщика.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.GetAccountsFromUserName(System.String)">
+      <summary>Получает одну или несколько учетных записей, связанных с указанным именем пользователя.</summary>
+      <returns>Коллекция учетных записей.</returns>
+      <param name="userName">Имя пользователя.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.GetOAuthClientData(System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.GetUserName(System.String,System.String)">
+      <summary>Возвращает ИД пользователя для указанного поставщика OAuth или OpenID и ИД пользователя поставщика.</summary>
+      <returns>ИД пользователя или null при отсутствии ИД пользователя, связанного с ИД пользователя поставщика OAuth или OpenID.</returns>
+      <param name="providerName">Имя поставщика.</param>
+      <param name="providerUserId">ИД пользователя для указанного поставщика.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.HasLocalAccount(System.Int32)"></member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.IsAuthenticatedWithOAuth">
+      <summary>Возвращает значение, которое указывает, прошел ли пользователь проверку подлинности с использованием OAuth.</summary>
+      <returns>Значение true, если пользователь прошел проверку OAuth; в противном случае — значение false.</returns>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.Login(System.String,System.String,System.Boolean)">
+      <summary>Реализует вход пользователя в систему.</summary>
+      <returns>Значение true, если вход выполнен успешно. В противном случае — false.</returns>
+      <param name="providerName">Имя поставщика.</param>
+      <param name="providerUserId">ИД пользователя для указанного поставщика.</param>
+      <param name="createPersistentCookie">Значение true, чтобы создать постоянный файл cookie, так что данные для входа сохраняются между сеансами работы в браузере; в противном случае значение false.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterClient(DotNetOpenAuth.AspNet.IAuthenticationClient)">
+      <summary>Регистрирует клиент проверки подлинности OAuth.</summary>
+      <param name="client">Один из поддерживаемых клиентов OAuth.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterClient(DotNetOpenAuth.AspNet.IAuthenticationClient,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="P:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisteredClientData"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterFacebookClient(System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterFacebookClient(System.String,System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterFacebookClient(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterGoogleClient"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterGoogleClient(System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterGoogleClient(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterLinkedInClient(System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterLinkedInClient(System.String,System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterLinkedInClient(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterMicrosoftClient(System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterMicrosoftClient(System.String,System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterMicrosoftClient(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterTwitterClient(System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterTwitterClient(System.String,System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterTwitterClient(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterYahooClient"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterYahooClient(System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RegisterYahooClient(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RequestAuthentication(System.String)">
+      <summary>Запрашивает у указанного поставщика запуск проверки подлинности путем направления пользователей на внешний веб-сайт.</summary>
+      <param name="provider">Поставщик OAuth.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.RequestAuthentication(System.String,System.String)">
+      <summary>Запрашивает у указанного поставщика запуска проверки подлинности путем направления пользователей на внешний веб-сайт, и указывает поставщику на необходимость перенаправления пользователя на указанный URL-адрес, если проверка выполнена успешно.</summary>
+      <param name="provider">Поставщик OAuth.</param>
+      <param name="returnUrl">URL-адрес для возврата, если проверка выполнена успешно.</param>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.SerializeProviderUserId(System.String,System.String)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.TryDeserializeProviderUserId(System.String,System.String@,System.String@)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.TryGetOAuthClientData(System.String,Microsoft.Web.WebPages.OAuth.AuthenticationClientData@)"></member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.VerifyAuthentication">
+      <summary>Возвращает значение, указывающее, подтверждена ли учетная запись пользователя поставщиком.</summary>
+      <returns>Экземпляр <see cref="T:DotNetOpenAuth.AspNet.AuthenticationResult" />, который можно запросить для определения того, успешно ли прошла проверка.</returns>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.OAuthWebSecurity.VerifyAuthentication(System.String)"></member>
+    <member name="T:Microsoft.Web.WebPages.OAuth.PreApplicationStartCode">
+      <summary>Предоставляет точку регистрации предварительного кода запуска для безопасности на основе OAuth.</summary>
+    </member>
+    <member name="M:Microsoft.Web.WebPages.OAuth.PreApplicationStartCode.Start">
+      <summary>Регистрирует предварительный код запуска OAuth.</summary>
+    </member>
+  </members>
+</doc>

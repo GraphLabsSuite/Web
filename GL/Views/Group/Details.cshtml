@@ -1,0 +1,30 @@
+﻿@model GraphLabs.DataModel.Group
+
+@{
+    ViewBag.Title = "Состав группы";
+}
+
+<h2>Состав группы</h2>
+
+<fieldset>
+    <legend>@Html.DisplayFor(model => model.Name)</legend>
+    
+    <table>
+        <tr>
+            <th>
+                1
+            </th>
+        </tr>
+@foreach (var item in Model.StudyInGroups)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Name)
+        </td>
+    </tr>
+}
+    </table>
+</fieldset>
+<p>
+    @Html.ActionLink("Обратно к списку", "Index")
+</p>
