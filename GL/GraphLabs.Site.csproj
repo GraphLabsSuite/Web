@@ -166,6 +166,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PermController.cs" />
+    <Compile Include="Controllers\TermController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -283,6 +284,11 @@
     <Content Include="Views\Group\Details.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
+    <Content Include="Views\Term\Index.cshtml" />
+    <Content Include="Views\Term\Details.cshtml" />
+    <Content Include="Views\Term\Create.cshtml" />
+    <Content Include="Views\Term\Edit.cshtml" />
+    <Content Include="Views\Term\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

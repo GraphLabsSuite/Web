@@ -37,6 +37,16 @@ namespace GL.Controllers
             {
                 User user = new User { Login = reg.Login, PasswordHash = Hash(reg.Password), Name = reg.Name, Surname = reg.SurName, FatherName = reg.FatherName, Email = reg.Email, Verify = false };
                 db.Users.Add(user);
+                var cur_group = from g in db.Groups
+                                where g.ID_Group == reg.ID_Group
+                                select g;
+                Group gr = cur_group.First();
+                var def_term = from t in db.Terms
+                               where t.ID_Term == 1
+                               select t;
+                Term dt = def_term.First();
+                StudyInGroup sig = new StudyInGroup { User = user, Group = gr, Term = dt };
+                db.StudyInGroups.Add(sig);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
