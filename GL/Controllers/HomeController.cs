@@ -56,13 +56,64 @@ namespace GL.Controllers
                          where g.ID_Group >= 1
                          orderby g.Name
                          select g;
-            ViewBag.GroupID = new SelectList(groups, "GroupID", "Name", reg.ID_Group);
+            ViewBag.ID_Group = new SelectList(groups, "ID_Group", "Name", reg.ID_Group);
             return View(reg);
         }
 
         private string Hash(string p)
         {
             return p;
+        }
+
+        public ActionResult Auth()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Auth(Auth log)
+        {
+            ViewBag.Message = "";
+            if (ModelState.IsValid)
+            {
+                String passHash = Hash(log.Password);
+                var us = from u in db.Users
+                         where u.Login == log.Login
+                         where u.PasswordHash == passHash
+                         where u.Verify == true
+                         select u;
+                
+                User user;
+                try
+                {
+                    user = us.First();
+                }
+                catch (InvalidOperationException)
+                {
+                    ViewBag.Message = "Такая пара логин-пароль не найдена!";
+                    return View(log);
+                }
+
+                FillSession(user);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(log);
+        }
+
+        private void FillSession(User user)
+        {
+            Session["Name"] = user.Name;
+            Session["Surame"] = user.Surname;
+            Session["FatherName"] = user.FatherName;
+
+            var group = from g in db.StudyInGroups
+                        where g.User.ID_User == user.ID_User
+                        select g.Group;
+            Group gr = group.First();
+
+            Session["ID_Group"] = gr.ID_Group;
         }
     }
 }

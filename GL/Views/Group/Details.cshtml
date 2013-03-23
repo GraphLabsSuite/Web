@@ -12,7 +12,21 @@
     <table>
         <tr>
             <th>
-                1
+                @Html.DisplayName("Имя")
+            </th>
+            <th>
+                @Html.DisplayName("Фамилия")
+            </th>
+            <th>
+                @Html.DisplayName("Отчество")
+            </th>
+            <th>
+                @Html.DisplayName("E-mail")
+            </th>
+            <th>
+                @Html.DisplayName("Подтвержден")
+            </th>
+            <th>
             </th>
         </tr>
 @foreach (var item in Model.StudyInGroups)
@@ -20,6 +34,21 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.User.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FatherName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Verify)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", "User", new { id=item.User.ID_User })
         </td>
     </tr>
 }

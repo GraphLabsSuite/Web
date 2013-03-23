@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Auth.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -289,6 +290,7 @@
     <Content Include="Views\Term\Create.cshtml" />
     <Content Include="Views\Term\Edit.cshtml" />
     <Content Include="Views\Term\Delete.cshtml" />
+    <Content Include="Views\Home\Auth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
