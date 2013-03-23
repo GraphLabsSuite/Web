@@ -1,0 +1,45 @@
+﻿@model GL.Models.Auth
+
+@{
+    ViewBag.Title = "Авторизация";
+}
+
+<h2>Авторизация</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="message-error">
+            @ViewBag.Message
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Login)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Login)
+            @Html.ValidationMessageFor(model => model.Login)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <p>
+            <input type="submit" value="Авторизовать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Обратно на главную", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
