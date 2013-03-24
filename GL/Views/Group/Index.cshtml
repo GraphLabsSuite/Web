@@ -30,7 +30,8 @@
         </td>
         <td>
             @Html.ActionLink("Редактировать", "Edit", new { id=item.ID_Group }) |
-            @Html.ActionLink("Подробности", "Details", new { id=item.ID_Group })
+            @Html.ActionLink("Подробности", "Details", new { id=item.ID_Group }) |
+            @Html.ActionLink("Управление правами", "Perm", new { id=item.ID_Group })
         </td>
     </tr>
 }

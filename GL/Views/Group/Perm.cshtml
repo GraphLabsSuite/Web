@@ -1,0 +1,50 @@
+﻿@model List<GL.Models.PermissionInGroup>
+
+@{
+    ViewBag.Title = "Управление правами";
+}
+
+<h2>Управление правами @ViewBag.Name</h2>
+
+@using (Html.BeginForm()) {
+      @Html.ValidationSummary(true)
+<fieldset>
+
+    <legend>@ViewBag.Name</legend>
+
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Описание
+        </th>
+        <th></th>
+    </tr>
+
+@for(int i=0; i<Model.Count; i++) {
+    <tr>
+        <td>
+            @Html.EditorFor(modelItem => modelItem[i].Enable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem[i].Name)
+        </td>
+        <td>
+        @Html.HiddenFor(modelItem => modelItem[i].ID)
+        @Html.HiddenFor(modelItem => modelItem[i].ID_Permission)
+        @Html.HiddenFor(modelItem => modelItem[i].Name)
+        </td>
+    </tr>
+}
+
+</table>
+    <p>
+        <input type="submit" name="button" value="Стандартные права" />
+        <input type="submit" name="button" value="Сохранить" />
+    </p>
+</fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

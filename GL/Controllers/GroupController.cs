@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GraphLabs.DataModel;
+using GL.Models;
+using GL.Controllers.Attributes;
 
 namespace GL.Controllers
 {
@@ -89,7 +91,54 @@ namespace GL.Controllers
             }
             return View(group);
         }
-        
+
+        public ActionResult Perm(long id = 0)
+        {
+            if (CheckAdministrationID(id))
+            {
+                return HttpNotFound();
+            }
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+
+            var perms = (from p in db.Permissions select p).ToList();
+            List<PermissionInGroup> perm = new List<PermissionInGroup>();
+            foreach (var item in perms)
+            {
+                if (group.Permission.Contains(item))
+                {
+                    perm.Add(new PermissionInGroup { ID_Permission = item.ID_Permission, Enable = true, Name = item.Description });
+                }
+                else
+                {
+                    perm.Add(new PermissionInGroup { ID_Permission=item.ID_Permission, Enable = false, Name = item.Description });
+                }
+            }
+
+            ViewBag.Name = group.Name;
+
+            return View(perm);
+        }
+
+        [HttpPost]
+        [ActionName("Perm")]
+        [AcceptParameter(Name="button", Value="Стандартные права")]
+        public ActionResult FillDefaultStudent(List<PermissionInGroup> perm)
+        {
+            return View(perm);
+        }
+
+        [HttpPost]
+        [ActionName("Perm")]
+        [AcceptParameter(Name = "button", Value = "Сохранить")]
+        public ActionResult Perm(List<PermissionInGroup> perm)
+        {
+            return View(perm);
+        }
+
         private bool CheckAdministrationID(long id)
         {
             if ((id == 1) || (id == 2))
