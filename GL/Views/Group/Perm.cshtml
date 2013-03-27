@@ -24,7 +24,7 @@
 @for(int i=0; i<Model.Count; i++) {
     <tr>
         <td>
-            @Html.EditorFor(modelItem => modelItem[i].Enable)
+            @Html.CheckBoxFor(modelItem => modelItem[i].Enable, new { id = "box_"+i.ToString() })
         </td>
         <td>
             @Html.DisplayFor(modelItem => modelItem[i].Name)
@@ -39,12 +39,29 @@
 
 </table>
     <p>
-        <input type="submit" name="button" value="Стандартные права" />
-        <input type="submit" name="button" value="Сохранить" />
+        <input type="button" value="Снять выделение" onclick="fillall( @Model.Count , false )" />
+        <input type="button" value="Отметить все" onclick="fillall( @Model.Count , true )" />
+        <input type="button" value="Стандартные права" onclick="standard()" />
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
     </p>
 </fieldset>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script type="text/javascript">
+        function fillall(count, value) {
+            for (var i = 0; i < count; i++) {
+                document.getElementById('box_' + i.toString()).checked = value;
+            }
+        }
+
+        function standard()
+        {
+            alert('not implemented yet :(');
+        }
+    </script>
 }
