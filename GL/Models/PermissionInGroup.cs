@@ -8,7 +8,7 @@ namespace GL.Models
 {
     public class PermissionInGroup
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
 
         public long ID_Permission { get; set; }
 

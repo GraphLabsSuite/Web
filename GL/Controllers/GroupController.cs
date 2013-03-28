@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using GraphLabs.DataModel;
 using GL.Models;
-using GL.Controllers.Attributes;
 
 namespace GL.Controllers
 {
@@ -110,11 +109,11 @@ namespace GL.Controllers
             {
                 if (group.Permission.Contains(item))
                 {
-                    perm.Add(new PermissionInGroup { ID_Permission = item.ID_Permission, Enable = true, Name = item.Description });
+                    perm.Add(new PermissionInGroup { ID = id, ID_Permission = item.ID_Permission, Enable = true, Name = item.Description });
                 }
                 else
                 {
-                    perm.Add(new PermissionInGroup { ID_Permission=item.ID_Permission, Enable = false, Name = item.Description });
+                    perm.Add(new PermissionInGroup { ID = id, ID_Permission=item.ID_Permission, Enable = false, Name = item.Description });
                 }
             }
 
@@ -122,21 +121,30 @@ namespace GL.Controllers
 
             return View(perm);
         }
-
+        
         [HttpPost]
-        [ActionName("Perm")]
-        [AcceptParameter(Name="button", Value="Стандартные права")]
-        public ActionResult FillDefaultStudent(List<PermissionInGroup> perm)
+        public ActionResult Perm(List<PermissionInGroup> perm, long id = 0)
         {
-            return View(perm);
-        }
+            Group group = db.Groups.Find(perm[0].ID);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
 
-        [HttpPost]
-        [ActionName("Perm")]
-        [AcceptParameter(Name = "button", Value = "Сохранить")]
-        public ActionResult Perm(List<PermissionInGroup> perm)
-        {
-            return View(perm);
+            group.Permission.Clear();
+
+            foreach (var item in perm)
+            {
+                if (item.Enable)
+                {
+                    Permission p = db.Permissions.Find(item.ID_Permission);
+                    group.Permission.Add(p);
+                }
+            }
+
+            db.Entry(group).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         private bool CheckAdministrationID(long id)
