@@ -104,28 +104,26 @@ namespace GL.Controllers
             }
 
             var perms = (from p in db.Permissions select p).ToList();
-            List<PermissionInGroup> perm = new List<PermissionInGroup>();
+            GroupPermissions gp = new GroupPermissions { ID_Group = id, Group_Name = group.Name, Permissions = new List<PermChoose>() };
             foreach (var item in perms)
             {
                 if (group.Permission.Contains(item))
                 {
-                    perm.Add(new PermissionInGroup { ID = id, ID_Permission = item.ID_Permission, Enable = true, Name = item.Description });
+                    gp.Permissions.Add(new PermChoose { ID_Permission = item.ID_Permission, Enable = true, Name = item.Description });
                 }
                 else
                 {
-                    perm.Add(new PermissionInGroup { ID = id, ID_Permission=item.ID_Permission, Enable = false, Name = item.Description });
+                    gp.Permissions.Add(new PermChoose { ID_Permission=item.ID_Permission, Enable = false, Name = item.Description });
                 }
             }
-
-            ViewBag.Name = group.Name;
-
-            return View(perm);
+            
+            return View(gp);
         }
         
         [HttpPost]
-        public ActionResult Perm(List<PermissionInGroup> perm, long id = 0)
+        public ActionResult Perm(GroupPermissions gp)
         {
-            Group group = db.Groups.Find(perm[0].ID);
+            Group group = db.Groups.Find(gp.ID_Group);
             if (group == null)
             {
                 return HttpNotFound();
@@ -133,7 +131,7 @@ namespace GL.Controllers
 
             group.Permission.Clear();
 
-            foreach (var item in perm)
+            foreach (var item in gp.Permissions)
             {
                 if (item.Enable)
                 {

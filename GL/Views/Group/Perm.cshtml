@@ -1,16 +1,18 @@
-﻿@model List<GL.Models.PermissionInGroup>
+﻿@model GL.Models.GroupPermissions
 
 @{
     ViewBag.Title = "Управление правами";
 }
 
-<h2>Управление правами @ViewBag.Name</h2>
+<h2>Управление правами @Html.DisplayFor(model => model.Group_Name)</h2>
 
 @using (Html.BeginForm()) {
       @Html.ValidationSummary(true)
 <fieldset>
 
-    <legend>@ViewBag.Name</legend>
+    <legend>@Html.DisplayFor(model => model.Group_Name)</legend>
+
+    @Html.HiddenFor(model => model.ID_Group)
 
 <table>
     <tr>
@@ -21,26 +23,26 @@
         <th></th>
     </tr>
 
-@for(int i=0; i<Model.Count; i++) {
+@for(int i=0; i<Model.Permissions.Count; ++i) {
     <tr>
         <td>
-            @Html.CheckBoxFor(modelItem => modelItem[i].Enable, new { id = "box_"+i.ToString() })
+            @Html.CheckBoxFor(modelItem => modelItem.Permissions[i].Enable, new { id = "box_"+i.ToString() })
         </td>
         <td>
-            @Html.DisplayFor(modelItem => modelItem[i].Name)
+            @Html.DisplayFor(modelItem => modelItem.Permissions[i].Name)
         </td>
         <td>
-        @Html.HiddenFor(modelItem => modelItem[i].ID)
-        @Html.HiddenFor(modelItem => modelItem[i].ID_Permission)
-        @Html.HiddenFor(modelItem => modelItem[i].Name)
+        @Html.HiddenFor(modelItem => modelItem.Permissions[i].ID)
+        @Html.HiddenFor(modelItem => modelItem.Permissions[i].ID_Permission)
+        @Html.HiddenFor(modelItem => modelItem.Permissions[i].Name)
         </td>
     </tr>
 }
 
 </table>
     <p>
-        <input type="button" value="Снять выделение" onclick="fillall( @Model.Count , false )" />
-        <input type="button" value="Отметить все" onclick="fillall( @Model.Count , true )" />
+        <input type="button" value="Снять выделение" onclick="fillall( @Model.Permissions.Count , false )" />
+        <input type="button" value="Отметить все" onclick="fillall( @Model.Permissions.Count , true )" />
         <input type="button" value="Стандартные права" onclick="standard()" />
     </p>
     <p>

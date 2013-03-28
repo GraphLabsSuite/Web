@@ -173,7 +173,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Auth.cs" />
-    <Compile Include="Models\PermissionInGroup.cs" />
+    <Compile Include="Models\GroupPermissions.cs" />
+    <Compile Include="Models\PermChoose.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
