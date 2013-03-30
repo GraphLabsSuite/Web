@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using GraphLabs.DataModel;
-using GL.Models;
+using GraphLabs.Site.Models;
 
-namespace GL.Controllers
+namespace GraphLabs.Site.Controllers
 {
     public class HomeController : Controller
     {

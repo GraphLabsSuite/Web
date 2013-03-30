@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;using GL.Models;
+﻿using System.Collections.Generic;
 
-namespace GL.Models
+namespace GraphLabs.Site.Models
 {
     public class GroupPermissions
     {
