@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GraphLabs.DataModel.Group>
+﻿@model PagedList.IPagedList<GraphLabs.DataModel.Group>
 
 @{
     ViewBag.Title = "Группы";
@@ -12,10 +12,10 @@
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("Название", "Index", new { sortOrder=ViewBag.NameSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsRegistrationAvailbale)
+            @Html.ActionLink("Доступность", "Index", new { sortOrder=ViewBag.AvailableSortParam })
         </th>
         <th></th>
     </tr>
@@ -37,3 +37,33 @@
 }
 
 </table>
+
+<div>
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort })
+        @Html.Raw(" ");
+        @Html.ActionLink("Пред", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:Пред
+    }
+
+    @if (Model.HasNextPage) 
+    { 
+        @Html.ActionLink("След", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort }) 
+        @Html.Raw(" "); 
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort }) 
+    } 
+    else 
+    { 
+        @:След 
+        @Html.Raw(" ") 
+        @:>> 
+    } 
+</div>

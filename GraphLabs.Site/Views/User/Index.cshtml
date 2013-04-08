@@ -1,48 +1,59 @@
-﻿@model IEnumerable<GraphLabs.DataModel.User>
+﻿@model PagedList.IPagedList<GraphLabs.Site.Models.DispUser>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Пользователи системы";
 }
 
-<h2>Index</h2>
+<h2>
+    @if (ViewBag.CurrentUnverify)
+    {
+        @Html.DisplayName("Неутвержденные пользователи")
+    }
+    else
+    {
+        @Html.DisplayName("Все пользователи")
+    }
+</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (ViewBag.CurrentUnverify)
+    {
+        @Html.ActionLink("Показать всех пользователей", "Index", new { displayUnverify = ViewBag.DisplayUnverify })
+    }
+    else
+    {
+        @Html.ActionLink("Показать неутвержденных", "Index", new { displayUnverify = ViewBag.DisplayUnverify })
+    }
 </p>
+
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ID_User)
+            @Html.ActionLink("Фамилия", "Index", new { sortOrder=ViewBag.SurNameSortParam, displayUnverify = ViewBag.CurrentUnverify })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Surname)
+            Имя
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Отчество
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FatherName)
+            E-mail
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PasswordHash)
+            Группа
         </th>
+        @if (!(ViewBag.CurrentUnverify))
+        {
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Утвержден", "Index", new { sortOrder=ViewBag.VerifySortParam, displayUnverify = ViewBag.CurrentUnverify })
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Login)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Verify)
-        </th>
+        }
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ID_User)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Surname)
         </td>
@@ -53,22 +64,52 @@
             @Html.DisplayFor(modelItem => item.FatherName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PasswordHash)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Login)
+            @Html.DisplayFor(modelItem => item.Group)
         </td>
+        @if (!(ViewBag.CurrentUnverify))
+        {
         <td>
             @Html.DisplayFor(modelItem => item.Verify)
         </td>
+        }
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_User }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID_User })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
 }
 
 </table>
+
+<div>
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort })
+        @Html.Raw(" ");
+        @Html.ActionLink("Пред", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:Пред
+    }
+
+    @if (Model.HasNextPage) 
+    { 
+        @Html.ActionLink("След", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort }) 
+        @Html.Raw(" "); 
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort }) 
+    } 
+    else 
+    { 
+        @:След 
+        @Html.Raw(" ") 
+        @:>> 
+    } 
+</div>

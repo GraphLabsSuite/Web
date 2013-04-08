@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DataModel;
 using GraphLabs.Site.Models;
+using PagedList;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -14,9 +15,35 @@ namespace GraphLabs.Site.Controllers
         //
         // GET: /Group/
 
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
-            return View(db.Groups.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParam = string.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
+            ViewBag.AvailableSortParam = sortOrder == "Available" ? "Available desc" : "Available";
+
+            var groups = from g in db.Groups
+                         select g;
+
+            switch (sortOrder)
+            {
+                case "Name desc":
+                    groups = groups.OrderByDescending(g => g.Name);
+                    break;
+                case "Available":
+                    groups = groups.OrderBy(g => g.IsRegistrationAvailbale);
+                    break;
+                case "Available desc":
+                    groups = groups.OrderByDescending(g => g.IsRegistrationAvailbale);
+                    break;
+                default:
+                    groups = groups.OrderBy(g => g.Name);
+                    break;
+            }
+
+            int pageSize = 15;
+            int pageIndex = (page ?? 1);
+            
+            return View(groups.ToPagedList(pageIndex, pageSize));
         }
 
         //

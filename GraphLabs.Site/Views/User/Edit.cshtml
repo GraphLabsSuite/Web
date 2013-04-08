@@ -1,18 +1,20 @@
 ﻿@model GraphLabs.DataModel.User
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование пользователя";
 }
 
-<h2>Edit</h2>
+<h2>Редактирование пользователя</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>User</legend>
+        <legend>Пользователь</legend>
 
         @Html.HiddenFor(model => model.ID_User)
+        @Html.HiddenFor(model => model.PasswordHash)
+        @Html.HiddenFor(model => model.Login)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Surname)
@@ -37,15 +39,7 @@
             @Html.EditorFor(model => model.FatherName)
             @Html.ValidationMessageFor(model => model.FatherName)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PasswordHash)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PasswordHash)
-            @Html.ValidationMessageFor(model => model.PasswordHash)
-        </div>
-
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.Email)
         </div>
@@ -53,15 +47,7 @@
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Login)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Login)
-            @Html.ValidationMessageFor(model => model.Login)
-        </div>
-
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.Verify)
         </div>
@@ -71,13 +57,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Сохранить" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Обратно к списку", "Index")
 </div>
 
 @section Scripts {

@@ -43,6 +43,9 @@
       <HintPath>..\packages\GraphLabs.DataModel\GraphLabs.DataModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.15.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -176,6 +179,7 @@
     <Compile Include="Models\GroupPermissions.cs" />
     <Compile Include="Models\PermChoose.cs" />
     <Compile Include="Models\Registration.cs" />
+    <Compile Include="Models\DispUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
