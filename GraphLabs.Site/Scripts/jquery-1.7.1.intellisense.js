@@ -4,7 +4,7 @@
  * Copyright (c) 2012 jQuery Foundation, http://jquery.org/
  * 
  * This software consists of voluntary contributions made by many
- * individuals. For exact contribution history, see the revision history
+ * indivIduals. For exact contribution history, see the revision history
  * and logs, available at http://github.com/jquery/api.jquery.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -67,7 +67,7 @@ intellisense.annotate(jQuery, {
   },
   'Callbacks': function() {
     /// <signature>
-    ///   <summary>A multi-purpose callbacks list object that provides a powerful way to manage callback lists.</summary>
+    ///   <summary>A multi-purpose callbacks list object that provIdes a powerful way to manage callback lists.</summary>
     ///   <param name="flags" type="String">An optional list of space-separated flags that change how the callback list behaves.</param>
     /// </signature>
   },
@@ -80,7 +80,7 @@ intellisense.annotate(jQuery, {
     /// </signature>
   },
   'cssHooks': function() {
-    /// <summary>Hook directly into jQuery to override how particular CSS properties are retrieved or set, normalize CSS property naming, or create custom properties.</summary>
+    /// <summary>Hook directly into jQuery to overrIde how particular CSS properties are retrieved or set, normalize CSS property naming, or create custom properties.</summary>
     /// <returns type="Object" />
   },
   'data': function() {
@@ -173,7 +173,7 @@ intellisense.annotate(jQuery, {
     ///   <summary>Finds the elements of an array which satisfy a filter function. The original array is not affected.</summary>
     ///   <param name="array" type="Array">The array to search through.</param>
     ///   <param name="function(elementOfArray, indexInArray)" type="Function">The function to process each item against.  The first argument to the function is the item, and the second argument is the index.  The function should return a Boolean value.  this will be the global window object.</param>
-    ///   <param name="invert" type="Boolean">If "invert" is false, or not provided, then the function returns an array consisting of all elements for which "callback" returns true.  If "invert" is true, then the function returns an array consisting of all elements for which "callback" returns false.</param>
+    ///   <param name="invert" type="Boolean">If "invert" is false, or not provIded, then the function returns an array consisting of all elements for which "callback" returns true.  If "invert" is true, then the function returns an array consisting of all elements for which "callback" returns false.</param>
     ///   <returns type="Array" />
     /// </signature>
   },
@@ -398,7 +398,7 @@ intellisense.annotate(jQuery, {
   },
   'when': function() {
     /// <signature>
-    ///   <summary>Provides a way to execute callback functions based on one or more objects, usually Deferred objects that represent asynchronous events.</summary>
+    ///   <summary>ProvIdes a way to execute callback functions based on one or more objects, usually Deferred objects that represent asynchronous events.</summary>
     ///   <param name="deferreds" type="Deferred">One or more Deferred objects, or plain JavaScript objects.</param>
     ///   <returns type="Promise" />
     /// </signature>
@@ -964,7 +964,7 @@ intellisense.annotate(jQuery.fn, {
   'child': function() {
     /// <signature>
     ///   <summary>Selects all direct child elements specified by "child" of elements specified by "parent".</summary>
-    ///   <param name="parent" type="String">Any valid selector.</param>
+    ///   <param name="parent" type="String">Any valId selector.</param>
     ///   <param name="child" type="String">A selector to filter the child elements.</param>
     /// </signature>
   },
@@ -1137,7 +1137,7 @@ intellisense.annotate(jQuery.fn, {
   'descendant': function() {
     /// <signature>
     ///   <summary>Selects all elements that are descendants of a given ancestor.</summary>
-    ///   <param name="ancestor" type="String">Any valid selector.</param>
+    ///   <param name="ancestor" type="String">Any valId selector.</param>
     ///   <param name="descendant" type="String">A selector to filter the descendant elements.</param>
     /// </signature>
   },
@@ -1232,13 +1232,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'fadeOut': function() {
     /// <signature>
-    ///   <summary>Hide the matched elements by fading them to transparent.</summary>
+    ///   <summary>HIde the matched elements by fading them to transparent.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Hide the matched elements by fading them to transparent.</summary>
+    ///   <summary>HIde the matched elements by fading them to transparent.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
@@ -1264,7 +1264,7 @@ intellisense.annotate(jQuery.fn, {
   },
   'fadeToggle': function() {
     /// <signature>
-    ///   <summary>Display or hide the matched elements by animating their opacity.</summary>
+    ///   <summary>Display or hIde the matched elements by animating their opacity.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
@@ -1406,17 +1406,17 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
   },
   'hidden': function() {
-    /// <summary>Selects all elements that are hidden.</summary>
+    /// <summary>Selects all elements that are hIdden.</summary>
   },
   'hide': function() {
     /// <signature>
-    ///   <summary>Hide the matched elements.</summary>
+    ///   <summary>HIde the matched elements.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Hide the matched elements.</summary>
+    ///   <summary>HIde the matched elements.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
@@ -1445,8 +1445,8 @@ intellisense.annotate(jQuery.fn, {
   },
   'id': function() {
     /// <signature>
-    ///   <summary>Selects a single element with the given id attribute.</summary>
-    ///   <param name="id" type="String">An ID to search for, specified via the id attribute of an element.</param>
+    ///   <summary>Selects a single element with the given Id attribute.</summary>
+    ///   <param name="Id" type="String">An ID to search for, specified via the Id attribute of an element.</param>
     /// </signature>
   },
   'image': function() {
@@ -1497,7 +1497,7 @@ intellisense.annotate(jQuery.fn, {
     /// <returns type="Integer" />
   },
   'innerWidth': function() {
-    /// <summary>Get the current computed width for the first element in the set of matched elements, including padding but not border.</summary>
+    /// <summary>Get the current computed wIdth for the first element in the set of matched elements, including padding but not border.</summary>
     /// <returns type="Integer" />
   },
   'input': function() {
@@ -1732,14 +1732,14 @@ intellisense.annotate(jQuery.fn, {
   'multiple': function() {
     /// <signature>
     ///   <summary>Selects the combined results of all the specified selectors.</summary>
-    ///   <param name="selector1" type="String">Any valid selector.</param>
-    ///   <param name="selector2" type="String">Another valid selector.</param>
-    ///   <param name="selectorN" type="String">As many more valid selectors as you like.</param>
+    ///   <param name="selector1" type="String">Any valId selector.</param>
+    ///   <param name="selector2" type="String">Another valId selector.</param>
+    ///   <param name="selectorN" type="String">As many more valId selectors as you like.</param>
     /// </signature>
   },
   'next': function() {
     /// <signature>
-    ///   <summary>Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector.</summary>
+    ///   <summary>Get the immediately following sibling of each element in the set of matched elements. If a selector is provIded, it retrieves the next sibling only if it matches that selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1747,14 +1747,14 @@ intellisense.annotate(jQuery.fn, {
   'next adjacent': function() {
     /// <signature>
     ///   <summary>Selects all next elements matching "next" that are immediately preceded by a sibling "prev".</summary>
-    ///   <param name="prev" type="String">Any valid selector.</param>
+    ///   <param name="prev" type="String">Any valId selector.</param>
     ///   <param name="next" type="String">A selector to match the element that is next to the first selector.</param>
     /// </signature>
   },
   'next siblings': function() {
     /// <signature>
     ///   <summary>Selects all sibling elements that follow after the "prev" element, have the same parent, and match the filtering "siblings" selector.</summary>
-    ///   <param name="prev" type="String">Any valid selector.</param>
+    ///   <param name="prev" type="String">Any valId selector.</param>
     ///   <param name="siblings" type="String">A selector to filter elements that are the following siblings of the first selector.</param>
     /// </signature>
   },
@@ -1894,7 +1894,7 @@ intellisense.annotate(jQuery.fn, {
   },
   'outerWidth': function() {
     /// <signature>
-    ///   <summary>Get the current computed width for the first element in the set of matched elements, including padding and border.</summary>
+    ///   <summary>Get the current computed wIdth for the first element in the set of matched elements, including padding and border.</summary>
     ///   <param name="includeMargin" type="Boolean">A Boolean indicating whether to include the element's margin in the calculation.</param>
     ///   <returns type="Integer" />
     /// </signature>
@@ -2101,12 +2101,12 @@ intellisense.annotate(jQuery.fn, {
   },
   'replaceWith': function() {
     /// <signature>
-    ///   <summary>Replace each element in the set of matched elements with the provided new content.</summary>
+    ///   <summary>Replace each element in the set of matched elements with the provIded new content.</summary>
     ///   <param name="newContent" type="jQuery">The content to insert. May be an HTML string, DOM element, or jQuery object.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Replace each element in the set of matched elements with the provided new content.</summary>
+    ///   <summary>Replace each element in the set of matched elements with the provIded new content.</summary>
     ///   <param name="function" type="Function">A function that returns content with which to replace the set of matched elements.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -2214,13 +2214,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'slideDown': function() {
     /// <signature>
-    ///   <summary>Display the matched elements with a sliding motion.</summary>
+    ///   <summary>Display the matched elements with a slIding motion.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Display the matched elements with a sliding motion.</summary>
+    ///   <summary>Display the matched elements with a slIding motion.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
@@ -2229,13 +2229,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'slideToggle': function() {
     /// <signature>
-    ///   <summary>Display or hide the matched elements with a sliding motion.</summary>
+    ///   <summary>Display or hIde the matched elements with a slIding motion.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Display or hide the matched elements with a sliding motion.</summary>
+    ///   <summary>Display or hIde the matched elements with a slIding motion.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
@@ -2244,13 +2244,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'slideUp': function() {
     /// <signature>
-    ///   <summary>Hide the matched elements with a sliding motion.</summary>
+    ///   <summary>HIde the matched elements with a slIding motion.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Hide the matched elements with a sliding motion.</summary>
+    ///   <summary>HIde the matched elements with a slIding motion.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
@@ -2303,21 +2303,21 @@ intellisense.annotate(jQuery.fn, {
   },
   'toggle': function() {
     /// <signature>
-    ///   <summary>Display or hide the matched elements.</summary>
+    ///   <summary>Display or hIde the matched elements.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Display or hide the matched elements.</summary>
+    ///   <summary>Display or hIde the matched elements.</summary>
     ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="callback" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Display or hide the matched elements.</summary>
-    ///   <param name="showOrHide" type="Boolean">A Boolean indicating whether to show or hide the elements.</param>
+    ///   <summary>Display or hIde the matched elements.</summary>
+    ///   <param name="showOrHIde" type="Boolean">A Boolean indicating whether to show or hIde the elements.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
@@ -2445,13 +2445,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'width': function() {
     /// <signature>
-    ///   <summary>Set the CSS width of each element in the set of matched elements.</summary>
+    ///   <summary>Set the CSS wIdth of each element in the set of matched elements.</summary>
     ///   <param name="value" type="Number">An integer representing the number of pixels, or an integer along with an optional unit of measure appended (as a string).</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Set the CSS width of each element in the set of matched elements.</summary>
-    ///   <param name="function(index, width)" type="Function">A function returning the width to set. Receives the index position of the element in the set and the old width as arguments. Within the function, this refers to the current element in the set.</param>
+    ///   <summary>Set the CSS wIdth of each element in the set of matched elements.</summary>
+    ///   <param name="function(index, wIdth)" type="Function">A function returning the wIdth to set. Receives the index position of the element in the set and the old wIdth as arguments. Within the function, this refers to the current element in the set.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },

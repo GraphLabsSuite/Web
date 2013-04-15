@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DataModel;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
     public class HomeController : Controller
     {
-        private GraphLabsContext db = new GraphLabsContext();
+        private readonly GraphLabsContext _ctx = new GraphLabsContext();
 
         public ActionResult Index()
         {
@@ -17,47 +20,53 @@ namespace GraphLabs.Site.Controllers
             return View();
         }
 
+        /// <summary> Начальное заполнение ViewBag </summary>
         public ActionResult Registration()
         {
-            var groups = from g in db.Groups
-                         where g.IsRegistrationAvailbale == true
-                         where g.ID_Group >= 2
-                         orderby g.Name
-                         select g;
-            ViewBag.ID_Group = new SelectList(groups, "ID_Group", "Name");
+            FillGroups();
             return View();
         }
 
+        /// <summary> Обрабатываем Submit регистрации </summary>
         [HttpPost]
         public ActionResult Registration(Registration reg)
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Login = reg.Login, PasswordHash = Hash(reg.Password), Name = reg.Name, Surname = reg.SurName, FatherName = reg.FatherName, Email = reg.Email, Verify = false };
-                db.Users.Add(user);
-                var cur_group = from g in db.Groups
-                                where g.ID_Group == reg.ID_Group
-                                select g;
-                Group gr = cur_group.First();
-                var def_term = from t in db.Terms
-                               where t.ID_Term == 1
-                               select t;
-                Term dt = def_term.First();
-                StudyInGroup sig = new StudyInGroup { User = user, Group = gr, Term = dt };
-                db.StudyInGroups.Add(sig);
-                db.SaveChanges();
+                var student = new Student
+                    {
+                        Login = reg.Login, 
+                        PasswordHash = Hash(reg.Password), 
+                        Name = reg.Name, 
+                        Surname = reg.SurName, 
+                        FatherName = reg.FatherName,
+                        Email = reg.Email, 
+                        IsVerified = false
+                    };
+                _ctx.Users.Add(student);
+                var group = _ctx.Groups.Single(g => g.Id == reg.ID_Group);
+                group.Students.Add(student);
+
+                _ctx.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            var groups = from g in db.Groups
-                         where g.IsRegistrationAvailbale == true
-                         where g.ID_Group >= 1
-                         orderby g.Name
-                         select g;
-            ViewBag.ID_Group = new SelectList(groups, "ID_Group", "Name", reg.ID_Group);
+            FillGroups(reg.ID_Group);
             return View(reg);
         }
 
+        private void FillGroups(object selectedValue = null)
+        {
+            var dateService = ServiceLocator.Locator.Get<ISystemDateService>();
+            var groups = from g in _ctx.Groups
+                         where g.IsOpen
+                         orderby g.GetName(dateService)
+                         select g;
+
+            ViewBag.ID_Group = new SelectList(groups, "ID_Group", "Name", selectedValue);
+        }
+
+        //TODO: вытащить в какие-нибудь Utils
         private string Hash(string p)
         {
             return p;
@@ -68,23 +77,22 @@ namespace GraphLabs.Site.Controllers
             return View();
         }
 
+        /// <summary> Вход </summary>
         [HttpPost]
         public ActionResult Auth(Auth log)
         {
             ViewBag.Message = "";
             if (ModelState.IsValid)
             {
-                String passHash = Hash(log.Password);
-                var us = from u in db.Users
-                         where u.Login == log.Login
-                         where u.PasswordHash == passHash
-                         where u.Verify == true
-                         select u;
+                var passHash = Hash(log.Password);
+                var foundUsers = from u in _ctx.Users
+                                 where u.Login == log.Login && u.PasswordHash == passHash && (!(u is Student) || (u as Student).IsVerified)
+                                 select u;
                 
                 User user;
                 try
                 {
-                    user = us.First();
+                    user = foundUsers.Single();
                 }
                 catch (InvalidOperationException)
                 {
@@ -102,16 +110,29 @@ namespace GraphLabs.Site.Controllers
 
         private void FillSession(User user)
         {
-            Session["Name"] = user.Name;
-            Session["Surame"] = user.Surname;
-            Session["FatherName"] = user.FatherName;
+            var guid = Guid.NewGuid();
 
-            var group = from g in db.StudyInGroups
-                        where g.User.ID_User == user.ID_User
-                        select g.Group;
-            Group gr = group.First();
+            Session["id_user"] = user.Id;
+            Session["guid"] = guid.ToString();
 
-            Session["ID_Group"] = gr.ID_Group;
+            // Если остались активные сессии - убьём их
+            var oldSessions = _ctx.Sessions.Where(s => s.User.Id == user.Id && s.IsActive);
+            foreach (var s in oldSessions)
+            {
+                _ctx.Sessions.Remove(s);
+            }
+
+            // Впишем новую
+            var session = new Session
+                {
+                    CreationTime = DateTime.Now,
+                    IsActive = true,
+                    User = user,
+                    Guid = guid,
+                    IP = this.GetClientIP()
+                };
+            _ctx.Sessions.Add(session);
+            _ctx.SaveChanges();
         }
     }
 }

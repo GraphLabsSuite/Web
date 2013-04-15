@@ -1,4 +1,4 @@
-﻿@model GraphLabs.DataModel.Group
+﻿@model GraphLabs.DomainModel.Group
 
 @{
     ViewBag.Title = "Состав группы";
@@ -7,7 +7,7 @@
 <h2>Состав группы</h2>
 
 <fieldset>
-    <legend>@Html.DisplayFor(model => model.Name)</legend>
+    <legend>@Html.DisplayFor(model => model.GetNumber())</legend>
     
     <table>
         <tr>
@@ -45,10 +45,10 @@
             @Html.DisplayFor(modelItem => item.User.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.Verify)
+            @Html.DisplayFor(modelItem => item.User.IsVerified)
         </td>
         <td>
-            @Html.ActionLink("Редактировать", "Edit", "User", new { id=item.User.ID_User })
+            @Html.ActionLink("Редактировать", "Edit", "User", new { id=item.User.Id_User })
         </td>
     </tr>
 }

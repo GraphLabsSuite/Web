@@ -39,8 +39,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GraphLabs.DataModel">
-      <HintPath>..\packages\GraphLabs.DataModel\GraphLabs.DataModel.dll</HintPath>
+    <Reference Include="GraphLabs.DomainModel">
+      <HintPath>..\packages\GraphLabs.DataModel\GraphLabs.DomainModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList">
@@ -169,18 +169,17 @@
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PermController.cs" />
-    <Compile Include="Controllers\TermController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Auth.cs" />
-    <Compile Include="Models\GroupPermissions.cs" />
     <Compile Include="Models\PermChoose.cs" />
     <Compile Include="Models\Registration.cs" />
-    <Compile Include="Models\DispUser.cs" />
+    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ControllerExtensions.cs" />
+    <Compile Include="Utils\InsufficientPrivilegesException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -283,8 +282,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Perm\Index.cshtml" />
-    <Content Include="Views\Perm\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
@@ -293,11 +290,6 @@
     <Content Include="Views\Group\Details.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
-    <Content Include="Views\Term\Index.cshtml" />
-    <Content Include="Views\Term\Details.cshtml" />
-    <Content Include="Views\Term\Create.cshtml" />
-    <Content Include="Views\Term\Edit.cshtml" />
-    <Content Include="Views\Term\Delete.cshtml" />
     <Content Include="Views\Home\Auth.cshtml" />
     <Content Include="Views\Group\Perm.cshtml" />
   </ItemGroup>

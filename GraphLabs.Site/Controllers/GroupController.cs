@@ -2,7 +2,9 @@
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DataModel;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Models;
 using PagedList;
 
@@ -10,7 +12,8 @@ namespace GraphLabs.Site.Controllers
 {
     public class GroupController : Controller
     {
-        private GraphLabsContext db = new GraphLabsContext();
+        private readonly GraphLabsContext _ctx = new GraphLabsContext();
+        private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
 
         //
         // GET: /Group/
@@ -21,22 +24,22 @@ namespace GraphLabs.Site.Controllers
             ViewBag.NameSortParam = string.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.AvailableSortParam = sortOrder == "Available" ? "Available desc" : "Available";
 
-            var groups = from g in db.Groups
+            var groups = from g in _ctx.Groups
                          select g;
 
             switch (sortOrder)
             {
                 case "Name desc":
-                    groups = groups.OrderByDescending(g => g.Name);
+                    groups = groups.OrderByDescending(g => g.GetName(_dateService));
                     break;
                 case "Available":
-                    groups = groups.OrderBy(g => g.IsRegistrationAvailbale);
+                    groups = groups.OrderBy(g => g.IsOpen);
                     break;
                 case "Available desc":
-                    groups = groups.OrderByDescending(g => g.IsRegistrationAvailbale);
+                    groups = groups.OrderByDescending(g => g.IsOpen);
                     break;
                 default:
-                    groups = groups.OrderBy(g => g.Name);
+                    groups = groups.OrderBy(g => g.GetName(_dateService));
                     break;
             }
 
@@ -51,7 +54,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Details(long id = 0)
         {
-            Group group = db.Groups.Find(id);
+            Group group = _ctx.Groups.Find(id);
             if (group == null)
             {
                 return HttpNotFound();
@@ -75,8 +78,8 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Groups.Add(group);
-                db.SaveChanges();
+                _ctx.Groups.Add(group);
+                _ctx.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -92,7 +95,7 @@ namespace GraphLabs.Site.Controllers
             {
                 return HttpNotFound();
             }
-            Group group = db.Groups.Find(id);
+            Group group = _ctx.Groups.Find(id);
             if (group == null)
             {
                 return HttpNotFound();
@@ -108,65 +111,11 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(group).State = EntityState.Modified;
-                db.SaveChanges();
+                _ctx.Entry(group).State = EntityState.Modified;
+                _ctx.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(group);
-        }
-
-        public ActionResult Perm(long id = 0)
-        {
-            if (CheckAdministrationID(id))
-            {
-                return HttpNotFound();
-            }
-            Group group = db.Groups.Find(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-
-            var perms = (from p in db.Permissions select p).ToList();
-            GroupPermissions gp = new GroupPermissions { ID_Group = id, Group_Name = group.Name, Permissions = new List<PermChoose>() };
-            foreach (var item in perms)
-            {
-                if (group.Permission.Contains(item))
-                {
-                    gp.Permissions.Add(new PermChoose { ID_Permission = item.ID_Permission, Enable = true, Name = item.Description });
-                }
-                else
-                {
-                    gp.Permissions.Add(new PermChoose { ID_Permission=item.ID_Permission, Enable = false, Name = item.Description });
-                }
-            }
-            
-            return View(gp);
-        }
-        
-        [HttpPost]
-        public ActionResult Perm(GroupPermissions gp)
-        {
-            Group group = db.Groups.Find(gp.ID_Group);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-
-            group.Permission.Clear();
-
-            foreach (var item in gp.Permissions)
-            {
-                if (item.Enable)
-                {
-                    Permission p = db.Permissions.Find(item.ID_Permission);
-                    group.Permission.Add(p);
-                }
-            }
-
-            db.Entry(group).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         private bool CheckAdministrationID(long id)
@@ -183,7 +132,7 @@ namespace GraphLabs.Site.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _ctx.Dispose();
             base.Dispose(disposing);
         }
     }

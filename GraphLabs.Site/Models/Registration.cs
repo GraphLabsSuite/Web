@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using GraphLabs.DataModel;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {
+    /// <summary> Данные для регистрации </summary>
     public class Registration
     {
         public int ID { get; set; }

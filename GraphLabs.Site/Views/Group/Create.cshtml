@@ -1,4 +1,4 @@
-﻿@model GraphLabs.DataModel.Group
+﻿@model GraphLabs.DomainModel.Group
 
 @{
     ViewBag.Title = "Создание группы";
@@ -11,19 +11,19 @@
 
     <fieldset>
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            @Html.LabelFor(model => model.Number)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
+            @Html.EditorFor(model => model.Number)
+            @Html.ValidationMessageFor(model => model.Number)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.IsRegistrationAvailbale)
+            @Html.LabelFor(model => model.IsOpen)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.IsRegistrationAvailbale)
-            @Html.ValidationMessageFor(model => model.IsRegistrationAvailbale)
+            @Html.EditorFor(model => model.IsOpen)
+            @Html.ValidationMessageFor(model => model.IsOpen)
         </div>
 
         <p>

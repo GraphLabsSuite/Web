@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<GraphLabs.DataModel.Group>
+﻿@model PagedList.IPagedList<GraphLabs.DomainModel.Group>
 
 @{
     ViewBag.Title = "Группы";
@@ -26,12 +26,12 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsRegistrationAvailbale)
+            @Html.DisplayFor(modelItem => item.IsOpen)
         </td>
         <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id=item.ID_Group }) |
-            @Html.ActionLink("Подробности", "Details", new { id=item.ID_Group }) |
-            @Html.ActionLink("Управление правами", "Perm", new { id=item.ID_Group })
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id_Group }) |
+            @Html.ActionLink("Подробности", "Details", new { id=item.Id_Group }) |
+            @Html.ActionLink("Управление правами", "Perm", new { id=item.Id_Group })
         </td>
     </tr>
 }

@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<GraphLabs.Site.Models.DispUser>
+﻿@model PagedList.IPagedList<GraphLabs.Site.Models.UserInfo>
 
 @{
     ViewBag.Title = "Пользователи системы";
@@ -55,13 +55,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Surname)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FatherName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
@@ -72,12 +66,12 @@
         @if (!(ViewBag.CurrentUnverify))
         {
         <td>
-            @Html.DisplayFor(modelItem => item.Verify)
+            @Html.DisplayFor(modelItem => item.IsVerified)
         </td>
         }
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

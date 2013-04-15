@@ -1,4 +1,4 @@
-﻿@model GraphLabs.DataModel.User
+﻿@model GraphLabs.DomainModel.User
 
 @{
     ViewBag.Title = "Delete";
@@ -60,10 +60,10 @@
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Verify)
+         @Html.DisplayNameFor(model => model.IsVerified)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Verify)
+        @Html.DisplayFor(model => model.IsVerified)
     </div>
 </fieldset>
 @using (Html.BeginForm()) {

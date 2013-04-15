@@ -1,4 +1,4 @@
-﻿@model GraphLabs.DataModel.User
+﻿@model GraphLabs.DomainModel.User
 
 @{
     ViewBag.Title = "Редактирование пользователя";
@@ -12,10 +12,15 @@
     <fieldset>
         <legend>Пользователь</legend>
 
-        @Html.HiddenFor(model => model.ID_User)
+        @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.PasswordHash)
-        @Html.HiddenFor(model => model.Login)
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Login)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Login)
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.Surname)
         </div>
@@ -49,11 +54,11 @@
         </div>
         
         <div class="editor-label">
-            @Html.LabelFor(model => model.Verify)
+            @Html.LabelFor(model => model.IsVerified)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Verify)
-            @Html.ValidationMessageFor(model => model.Verify)
+            @Html.EditorFor(model => model.IsVerified)
+            @Html.ValidationMessageFor(model => model.IsVerified)
         </div>
 
         <p>

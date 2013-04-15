@@ -1,7 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
-using GraphLabs.DataModel;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Models;
 using PagedList;
 
@@ -9,34 +12,34 @@ namespace GraphLabs.Site.Controllers
 {
     public class UserController : Controller
     {
-        private GraphLabsContext db = new GraphLabsContext();
+        private readonly GraphLabsContext _ctx = new GraphLabsContext();
+        private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
 
         //
         // GET: /User/
 
         public ActionResult Index(string sortOrder, bool? displayUnverify, int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
+            ViewBag.SortOrder = sortOrder;
             ViewBag.CurrentUnverify = (displayUnverify ?? true);
             ViewBag.SurNameSortParam = string.IsNullOrEmpty(sortOrder) ? "SurName desc" : "";
-            ViewBag.VerifySortParam = sortOrder == "Verify" ? "Verify desc" : "Verify";
-            ViewBag.DisplayUnverify = (displayUnverify ?? true) ? false : true;
+            ViewBag.VerifySortParam = sortOrder == "IsVerified" ? "IsVerified desc" : "IsVerified";
+            ViewBag.DisplayUnverify = !(displayUnverify ?? true);
 
-            var users = from g in db.Users
+            var users = from g in _ctx.Users
                          select g;
 
-            System.Collections.Generic.List<GraphLabs.Site.Models.DispUser> us = new System.Collections.Generic.List<Models.DispUser>();
-            
+            Expression<Func<User, bool>> verifiedCondition = u => !(u is Student) || ((Student)u).IsVerified;
             switch (sortOrder)
             {
                 case "SurName desc":
                     users = users.OrderByDescending(g => g.Surname);
                     break;
-                case "Verify":
-                    users = users.OrderBy(g => g.Verify);
+                case "IsVerified":
+                    users = users.OrderBy(verifiedCondition);
                     break;
-                case "Verify desc":
-                    users = users.OrderByDescending(g => g.Verify);
+                case "IsVerified desc":
+                    users = users.OrderByDescending(verifiedCondition);
                     break;
                 default:
                     users = users.OrderBy(g => g.Surname);
@@ -45,23 +48,16 @@ namespace GraphLabs.Site.Controllers
 
             if (displayUnverify ?? true)
             {
-                users = users.Where(g => g.Verify == false);
+                users = users.Where(g => g is Student && !((Student)g).IsVerified);
             }
 
-            foreach (var item in users)
-            {
-                //string gr = (from g in db.StudyInGroups
-                             
-                             //select g.Group.Name).ToList()[0];
-                string gr;
-                gr = item.StudyInGroups.First().Group.Name;
-                us.Add(new GraphLabs.Site.Models.DispUser { ID = item.ID_User, Email = item.Email, FatherName = item.FatherName, Name = item.Name, Surname = item.Surname, Verify = item.Verify, Group = gr });
-            }
 
-            int pageSize = 15;
-            int pageIndex = (page ?? 1);
+            var us = (from item in users select new UserInfo(item, _dateService)).ToList();
 
-            return View(us.ToPagedList(pageIndex, pageSize));
+            const int PAGE_SIZE = 15;
+            var pageIndex = (page ?? 1);
+
+            return View(us.ToPagedList(pageIndex, PAGE_SIZE));
         }
         
         //
@@ -69,7 +65,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            User user = db.Users.Find(id);
+            User user = _ctx.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -85,8 +81,8 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                _ctx.Entry(user).State = EntityState.Modified;
+                _ctx.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -97,7 +93,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Delete(long id = 0)
         {
-            User user = db.Users.Find(id);
+            User user = _ctx.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -111,17 +107,24 @@ namespace GraphLabs.Site.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id)
         {
-            User user = db.Users.Find(id);
-            StudyInGroup sig = user.StudyInGroups.First();
-            db.Users.Remove(user);
-            db.StudyInGroups.Remove(sig);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return HttpNotFound();
+            //if (!this.CheckUser(UserRole.Administrator))
+            //{
+                
+            //}
+
+            //var user = _ctx.Users.Find(User);
+
+            //StudyInGroup sig = user.StudyInGroups.First();
+            //_ctx.Users.Remove(user);
+            //_ctx.StudyInGroups.Remove(sig);
+            //_ctx.SaveChanges();
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _ctx.Dispose();
             base.Dispose(disposing);
         }
     }

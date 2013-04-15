@@ -1,8 +1,8 @@
-/**
- * jQuery Validation Plugin 1.9.0
+﻿/**
+ * jQuery ValIdation Plugin 1.9.0
  *
- * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
- * http://docs.jquery.com/Plugins/Validation
+ * http://bassistance.de/jquery-plugins/jquery-plugin-valIdation/
+ * http://docs.jquery.com/Plugins/ValIdation
  *
  * Copyright (c) 2006 - 2011 Jörn Zaefferer
  *
@@ -12,32 +12,32 @@
 (function($) {
 
 $.extend($.fn, {
-	// http://docs.jquery.com/Plugins/Validation/validate
+	// http://docs.jquery.com/Plugins/ValIdation/valIdate
 	validate: function( options ) {
 
 		// if nothing is selected, return nothing; can't chain anyway
 		if (!this.length) {
-			options && options.debug && window.console && console.warn( "nothing selected, can't validate, returning nothing" );
+			options && options.debug && window.console && console.warn( "nothing selected, can't valIdate, returning nothing" );
 			return;
 		}
 
-		// check if a validator for this form was already created
-		var validator = $.data(this[0], 'validator');
+		// check if a valIdator for this form was already created
+		var validator = $.data(this[0], 'valIdator');
 		if ( validator ) {
 			return validator;
 		}
 
-		// Add novalidate tag if HTML5.
-		this.attr('novalidate', 'novalidate');
+		// Add novalIdate tag if HTML5.
+		this.attr('novalIdate', 'novalIdate');
 
 		validator = new $.validator( options, this[0] );
-		$.data(this[0], 'validator', validator);
+		$.data(this[0], 'valIdator', validator);
 
 		if ( validator.settings.onsubmit ) {
 
 			var inputsAndButtons = this.find("input, button");
 
-			// allow suppresing validation by adding a cancel class to the submit button
+			// allow suppresing valIdation by adding a cancel class to the submit button
 			inputsAndButtons.filter(".cancel").click(function () {
 				validator.cancelSubmit = true;
 			});
@@ -49,7 +49,7 @@ $.extend($.fn, {
 				});
 			}
 
-			// validate the form on submit
+			// valIdate the form on submit
 			this.submit( function( event ) {
 				if ( validator.settings.debug )
 					// prevent form submit to be able to see console output
@@ -58,12 +58,12 @@ $.extend($.fn, {
 				function handle() {
 					if ( validator.settings.submitHandler ) {
 						if (validator.submitButton) {
-							// insert a hidden input as a replacement for the missing submit button
-							var hidden = $("<input type='hidden'/>").attr("name", validator.submitButton.name).val(validator.submitButton.value).appendTo(validator.currentForm);
+							// insert a hIdden input as a replacement for the missing submit button
+							var hidden = $("<input type='hIdden'/>").attr("name", validator.submitButton.name).val(validator.submitButton.value).appendTo(validator.currentForm);
 						}
 						validator.settings.submitHandler.call( validator, validator.currentForm );
 						if (validator.submitButton) {
-							// and clean up afterwards; thanks to no-block-scope, hidden can be referenced
+							// and clean up afterwards; thanks to no-block-scope, hIdden can be referenced
 							hidden.remove();
 						}
 						return false;
@@ -71,7 +71,7 @@ $.extend($.fn, {
 					return true;
 				}
 
-				// prevent submit for invalid forms or custom submit handlers
+				// prevent submit for invalId forms or custom submit handlers
 				if ( validator.cancelSubmit ) {
 					validator.cancelSubmit = false;
 					return handle();
@@ -91,7 +91,7 @@ $.extend($.fn, {
 
 		return validator;
 	},
-	// http://docs.jquery.com/Plugins/Validation/valid
+	// http://docs.jquery.com/Plugins/ValIdation/valId
 	valid: function() {
         if ( $(this[0]).is('form')) {
             return this.validate().form();
@@ -114,12 +114,12 @@ $.extend($.fn, {
 		});
 		return result;
 	},
-	// http://docs.jquery.com/Plugins/Validation/rules
+	// http://docs.jquery.com/Plugins/ValIdation/rules
 	rules: function(command, argument) {
 		var element = this[0];
 
 		if (command) {
-			var settings = $.data(element.form, 'validator').settings;
+			var settings = $.data(element.form, 'valIdator').settings;
 			var staticRules = settings.rules;
 			var existingRules = $.validator.staticRules(element);
 			switch(command) {
@@ -165,15 +165,15 @@ $.extend($.fn, {
 
 // Custom selectors
 $.extend($.expr[":"], {
-	// http://docs.jquery.com/Plugins/Validation/blank
+	// http://docs.jquery.com/Plugins/ValIdation/blank
 	blank: function(a) {return !$.trim("" + a.value);},
-	// http://docs.jquery.com/Plugins/Validation/filled
+	// http://docs.jquery.com/Plugins/ValIdation/filled
 	filled: function(a) {return !!$.trim("" + a.value);},
-	// http://docs.jquery.com/Plugins/Validation/unchecked
+	// http://docs.jquery.com/Plugins/ValIdation/unchecked
 	unchecked: function(a) {return !a.checked;}
 });
 
-// constructor for validator
+// constructor for valIdator
 $.validator = function( options, form ) {
 	this.settings = $.extend( true, {}, $.validator.defaults, options );
 	this.currentForm = form;
@@ -206,18 +206,18 @@ $.extend($.validator, {
 		groups: {},
 		rules: {},
 		errorClass: "error",
-		validClass: "valid",
+		validClass: "valId",
 		errorElement: "label",
 		focusInvalid: true,
 		errorContainer: $( [] ),
 		errorLabelContainer: $( [] ),
 		onsubmit: true,
-		ignore: ":hidden",
+		ignore: ":hIdden",
 		ignoreTitle: false,
 		onfocusin: function(element, event) {
 			this.lastActive = element;
 
-			// hide error label and remove error class on focus if enabled
+			// hIde error label and remove error class on focus if enabled
 			if ( this.settings.focusCleanup && !this.blockFocusCleanup ) {
 				this.settings.unhighlight && this.settings.unhighlight.call( this, element, this.settings.errorClass, this.settings.validClass );
 				this.addWrapper(this.errorsFor(element)).hide();
@@ -257,7 +257,7 @@ $.extend($.validator, {
 		}
 	},
 
-	// http://docs.jquery.com/Plugins/Validation/Validator/setDefaults
+	// http://docs.jquery.com/Plugins/ValIdation/ValIdator/setDefaults
 	setDefaults: function(settings) {
 		$.extend( $.validator.defaults, settings );
 	},
@@ -265,15 +265,15 @@ $.extend($.validator, {
 	messages: {
 		required: "This field is required.",
 		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
-		url: "Please enter a valid URL.",
-		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date (ISO).",
-		number: "Please enter a valid number.",
+		email: "Please enter a valId email address.",
+		url: "Please enter a valId URL.",
+		date: "Please enter a valId date.",
+		dateISO: "Please enter a valId date (ISO).",
+		number: "Please enter a valId number.",
 		digits: "Please enter only digits.",
-		creditcard: "Please enter a valid credit card number.",
+		creditcard: "Please enter a valId credit card number.",
 		equalTo: "Please enter the same value again.",
-		accept: "Please enter a value with a valid extension.",
+		accept: "Please enter a value with a valId extension.",
 		maxlength: $.validator.format("Please enter no more than {0} characters."),
 		minlength: $.validator.format("Please enter at least {0} characters."),
 		rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
@@ -309,8 +309,8 @@ $.extend($.validator, {
 			});
 
 			function delegate(event) {
-				var validator = $.data(this[0].form, "validator"),
-					eventType = "on" + event.type.replace(/^validate/, "");
+				var validator = $.data(this[0].form, "valIdator"),
+					eventType = "on" + event.type.replace(/^valIdate/, "");
 				validator.settings[eventType] && validator.settings[eventType].call(validator, this[0], event);
 			}
 			$(this.currentForm)
@@ -323,16 +323,16 @@ $.extend($.validator, {
 				.validateDelegate("[type='radio'], [type='checkbox'], select, option", "click", delegate);
 
 			if (this.settings.invalidHandler)
-				$(this.currentForm).bind("invalid-form.validate", this.settings.invalidHandler);
+				$(this.currentForm).bind("invalId-form.valIdate", this.settings.invalidHandler);
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Validator/form
+		// http://docs.jquery.com/Plugins/ValIdation/ValIdator/form
 		form: function() {
 			this.checkForm();
 			$.extend(this.submitted, this.errorMap);
 			this.invalid = $.extend({}, this.errorMap);
 			if (!this.valid())
-				$(this.currentForm).triggerHandler("invalid-form", [this]);
+				$(this.currentForm).triggerHandler("invalId-form", [this]);
 			this.showErrors();
 			return this.valid();
 		},
@@ -345,7 +345,7 @@ $.extend($.validator, {
 			return this.valid();
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Validator/element
+		// http://docs.jquery.com/Plugins/ValIdation/ValIdator/element
 		element: function( element ) {
 			element = this.validationTargetFor( this.clean( element ) );
 			this.lastElement = element;
@@ -358,14 +358,14 @@ $.extend($.validator, {
 				this.invalid[element.name] = true;
 			}
 			if ( !this.numberOfInvalids() ) {
-				// Hide error containers on last error
+				// HIde error containers on last error
 				this.toHide = this.toHide.add( this.containers );
 			}
 			this.showErrors();
 			return result;
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Validator/showErrors
+		// http://docs.jquery.com/Plugins/ValIdation/ValIdator/showErrors
 		showErrors: function(errors) {
 			if(errors) {
 				// add items to error list and map
@@ -387,7 +387,7 @@ $.extend($.validator, {
 				: this.defaultShowErrors();
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Validator/resetForm
+		// http://docs.jquery.com/Plugins/ValIdation/ValIdator/resetForm
 		resetForm: function() {
 			if ( $.fn.resetForm )
 				$( this.currentForm ).resetForm();
@@ -430,7 +430,7 @@ $.extend($.validator, {
 					// manually trigger focusin event; without it, focusin handler isn't called, findLastActive won't have anything to find
 					.trigger("focusin");
 				} catch(e) {
-					// ignore IE throwing errors when focusing hidden elements
+					// ignore IE throwing errors when focusing hIdden elements
 				}
 			}
 		},
@@ -446,7 +446,7 @@ $.extend($.validator, {
 			var validator = this,
 				rulesCache = {};
 
-			// select all valid inputs inside the form (no submit or reset buttons)
+			// select all valId inputs insIde the form (no submit or reset buttons)
 			return $(this.currentForm)
 			.find("input, select, textarea")
 			.not(":submit, :reset, :image, [disabled]")
@@ -500,8 +500,8 @@ $.extend($.validator, {
 				try {
 					var result = $.validator.methods[method].call( this, element.value.replace(/\r/g, ""), element, rule.parameters );
 
-					// if a method indicates that the field is optional and therefore valid,
-					// don't mark it as valid when there are no other rules
+					// if a method indicates that the field is optional and therefore valId,
+					// don't mark it as valId when there are no other rules
 					if ( result == "dependency-mismatch" ) {
 						dependencyMismatch = true;
 						continue;
@@ -530,7 +530,7 @@ $.extend($.validator, {
 			return true;
 		},
 
-		// return the custom message for the given element and validation method
+		// return the custom message for the given element and valIdation method
 		// specified in the element's "messages" metadata
 		customMetaMessage: function(element, method) {
 			if (!$.metadata)
@@ -543,7 +543,7 @@ $.extend($.validator, {
 			return meta && meta.messages && meta.messages[method];
 		},
 
-		// return the custom message for the given element name and validation method
+		// return the custom message for the given element name and valIdation method
 		customMessage: function( name, method ) {
 			var m = this.settings.messages[name];
 			return m && (m.constructor == String
@@ -673,7 +673,7 @@ $.extend($.validator, {
 		},
 
 		validationTargetFor: function(element) {
-			// if radio/checkbox, validate first element in group instead
+			// if radio/checkbox, valIdate first element in group instead
 			if (this.checkable(element)) {
 				element = this.findByName( element.name ).not(this.settings.ignore)[0];
 			}
@@ -742,7 +742,7 @@ $.extend($.validator, {
 				$(this.currentForm).submit();
 				this.formSubmitted = false;
 			} else if (!valid && this.pendingRequest == 0 && this.formSubmitted) {
-				$(this.currentForm).triggerHandler("invalid-form", [this]);
+				$(this.currentForm).triggerHandler("invalId-form", [this]);
 				this.formSubmitted = false;
 			}
 		},
@@ -817,7 +817,7 @@ $.extend($.validator, {
 	metadataRules: function(element) {
 		if (!$.metadata) return {};
 
-		var meta = $.data(element.form, 'validator').settings.meta;
+		var meta = $.data(element.form, 'valIdator').settings.meta;
 		return meta ?
 			$(element).metadata()[meta] :
 			$(element).metadata();
@@ -825,7 +825,7 @@ $.extend($.validator, {
 
 	staticRules: function(element) {
 		var rules = {};
-		var validator = $.data(element.form, 'validator');
+		var validator = $.data(element.form, 'valIdator');
 		if (validator.settings.rules) {
 			rules = $.validator.normalizeRule(validator.settings.rules[element.name]) || {};
 		}
@@ -909,7 +909,7 @@ $.extend($.validator, {
 		return data;
 	},
 
-	// http://docs.jquery.com/Plugins/Validation/Validator/addMethod
+	// http://docs.jquery.com/Plugins/ValIdation/ValIdator/addMethod
 	addMethod: function(name, method, message) {
 		$.validator.methods[name] = method;
 		$.validator.messages[name] = message != undefined ? message : $.validator.messages[name];
@@ -920,7 +920,7 @@ $.extend($.validator, {
 
 	methods: {
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/required
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/required
 		required: function(value, element, param) {
 			// check if dependency is met
 			if ( !this.depend(param, element) )
@@ -938,7 +938,7 @@ $.extend($.validator, {
 			}
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/remote
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/remote
 		remote: function(value, element, param) {
 			if ( this.optional(element) )
 				return "dependency-mismatch";
@@ -966,7 +966,7 @@ $.extend($.validator, {
 			$.ajax($.extend(true, {
 				url: param,
 				mode: "abort",
-				port: "validate" + element.name,
+				port: "valIdate" + element.name,
 				dataType: "json",
 				data: data,
 				success: function(response) {
@@ -991,70 +991,70 @@ $.extend($.validator, {
 			return "pending";
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/minlength
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/minlength
 		minlength: function(value, element, param) {
 			return this.optional(element) || this.getLength($.trim(value), element) >= param;
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/maxlength
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/maxlength
 		maxlength: function(value, element, param) {
 			return this.optional(element) || this.getLength($.trim(value), element) <= param;
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/rangelength
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/rangelength
 		rangelength: function(value, element, param) {
 			var length = this.getLength($.trim(value), element);
 			return this.optional(element) || ( length >= param[0] && length <= param[1] );
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/min
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/min
 		min: function( value, element, param ) {
 			return this.optional(element) || value >= param;
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/max
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/max
 		max: function( value, element, param ) {
 			return this.optional(element) || value <= param;
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/range
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/range
 		range: function( value, element, param ) {
 			return this.optional(element) || ( value >= param[0] && value <= param[1] );
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/email
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/email
 		email: function(value, element) {
-			// contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
+			// contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_valIdation/
 			return this.optional(element) || /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(value);
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/url
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/url
 		url: function(value, element) {
 			// contributed by Scott Gonzalez: http://projects.scottsplayground.com/iri/
 			return this.optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/date
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/date
 		date: function(value, element) {
-			return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+			return this.optional(element) || !/InvalId|NaN/.test(new Date(value));
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/dateISO
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/dateISO
 		dateISO: function(value, element) {
 			return this.optional(element) || /^\d{4}[\/-]\d{1,2}[\/-]\d{1,2}$/.test(value);
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/number
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/number
 		number: function(value, element) {
 			return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(value);
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/digits
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/digits
 		digits: function(value, element) {
 			return this.optional(element) || /^\d+$/.test(value);
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/creditcard
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/creditcard
 		// based on http://en.wikipedia.org/wiki/Luhn
 		creditcard: function(value, element) {
 			if ( this.optional(element) )
@@ -1082,17 +1082,17 @@ $.extend($.validator, {
 			return (nCheck % 10) == 0;
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/accept
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/accept
 		accept: function(value, element, param) {
 			param = typeof param == "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
 			return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i"));
 		},
 
-		// http://docs.jquery.com/Plugins/Validation/Methods/equalTo
+		// http://docs.jquery.com/Plugins/ValIdation/Methods/equalTo
 		equalTo: function(value, element, param) {
-			// bind to the blur event of the target in order to revalidate whenever the target field is updated
-			// TODO find a way to bind the event just once, avoiding the unbind-rebind overhead
-			var target = $(param).unbind(".validate-equalTo").bind("blur.validate-equalTo", function() {
+			// bind to the blur event of the target in order to revalIdate whenever the target field is updated
+			// TODO find a way to bind the event just once, avoIding the unbind-rebind overhead
+			var target = $(param).unbind(".valIdate-equalTo").bind("blur.valIdate-equalTo", function() {
 				$(element).valid();
 			});
 			return value == target.val();
@@ -1102,7 +1102,7 @@ $.extend($.validator, {
 
 });
 
-// deprecated, use $.validator.format instead
+// deprecated, use $.valIdator.format instead
 $.format = $.validator.format;
 
 })(jQuery);
@@ -1140,14 +1140,14 @@ $.format = $.validator.format;
 	}
 })(jQuery);
 
-// provides cross-browser focusin and focusout events
+// provIdes cross-browser focusin and focusout events
 // IE has native support, in other browsers, use event caputuring (neither bubbles)
 
-// provides delegate(type: String, delegate: Selector, handler: Callback) plugin for easier event delegation
+// provIdes delegate(type: String, delegate: Selector, handler: Callback) plugin for easier event delegation
 // handler is only called when $(event.target).is(delegate), in the scope of the jquery-object for event.target
 ;(function($) {
-	// only implement if not provided by jQuery core (since 1.4)
-	// TODO verify if jQuery 1.4's implementation is compatible with older jQuery special-event APIs
+	// only implement if not provIded by jQuery core (since 1.4)
+	// TODO IsVerified if jQuery 1.4's implementation is compatible with older jQuery special-event APIs
 	if (!jQuery.event.special.focusin && !jQuery.event.special.focusout && document.addEventListener) {
 		$.each({
 			focus: 'focusin',
