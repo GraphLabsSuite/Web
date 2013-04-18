@@ -100,6 +100,9 @@ namespace GraphLabs.Site.Utils
             if (session == null)
                 return false;
 
+            if (controller.GetClientIP() != session.IP)
+                return false;
+
             // Проверим контрольную сумму
             if (session.CheckSumm != controller.Session.CalculateCheckSumm(session.User))
                 return false;
