@@ -1,0 +1,16 @@
+﻿@model GraphLabs.Site.Models.ChangePasswordModel
+@{
+    ViewBag.Title = "Управление учётной записью";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+
+<p class="message-success">@ViewBag.StatusMessage</p>
+
+@Html.Partial("_ChangePasswordPartial")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Models
 {
     /// <summary> Данные для регистрации </summary>
-    public class Registration
+    public class RegistrationModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Логин обязателен")]
         [MaxLength(20, ErrorMessage = "Максимальная длина 20 символов")]
@@ -14,7 +15,7 @@ namespace GraphLabs.Site.Models
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Пароль обязателен")]
-        [MinLength(6, ErrorMessage = "Минимальная длина 6 символов")]
+        [MinLength(SecurityExtensions.MIN_PASSWORD_LENGTH, ErrorMessage = "Минимальная длина 6 символов")]
         [MaxLength(20, ErrorMessage = "Максимальная длина 20 символов")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
@@ -22,7 +23,7 @@ namespace GraphLabs.Site.Models
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-        [Display(Name = "Повторите пароль")]
+        [Display(Name = "Подтверждение")]
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Имя обязательно")]
@@ -33,7 +34,7 @@ namespace GraphLabs.Site.Models
         [Required(ErrorMessage = "Фамилия обязательна")]
         [MaxLength(20, ErrorMessage = "Максимальная длина 20 символов")]
         [Display(Name = "Фамилия")]
-        public string SurName { get; set; }
+        public string Surname { get; set; }
 
         [Required(ErrorMessage = "Отчество обязательно")]
         [MaxLength(20, ErrorMessage = "Максимальная длина 20 символов")]

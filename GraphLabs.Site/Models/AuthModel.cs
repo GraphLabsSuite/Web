@@ -2,7 +2,7 @@
 
 namespace GraphLabs.Site.Models
 {
-    public class Auth
+    public class AuthModel
     {
         public int ID { get; set; }
 

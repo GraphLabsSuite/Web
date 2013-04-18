@@ -22,7 +22,7 @@ namespace GraphLabs.Site.Controllers
         {
             ViewBag.SortOrder = sortOrder;
             ViewBag.CurrentUnverify = (displayUnverify ?? true);
-            ViewBag.SurNameSortParam = string.IsNullOrEmpty(sortOrder) ? "SurName desc" : "";
+            ViewBag.SurNameSortParam = string.IsNullOrEmpty(sortOrder) ? "Surname desc" : "";
             ViewBag.VerifySortParam = sortOrder == "IsVerified" ? "IsVerified desc" : "IsVerified";
             ViewBag.DisplayUnverify = !(displayUnverify ?? true);
 
@@ -32,7 +32,7 @@ namespace GraphLabs.Site.Controllers
             Expression<Func<User, bool>> verifiedCondition = u => !(u is Student) || ((Student)u).IsVerified;
             switch (sortOrder)
             {
-                case "SurName desc":
+                case "Surname desc":
                     users = users.OrderByDescending(g => g.Surname);
                     break;
                 case "IsVerified":
@@ -52,7 +52,7 @@ namespace GraphLabs.Site.Controllers
             }
 
 
-            var us = (from item in users select new UserInfo(item, _dateService)).ToList();
+            var us = (from item in users select new UserModel(item, _dateService)).ToList();
 
             const int PAGE_SIZE = 15;
             var pageIndex = (page ?? 1);
@@ -108,7 +108,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult DeleteConfirmed(long id)
         {
             return HttpNotFound();
-            //if (!this.CheckUser(UserRole.Administrator))
+            //if (!this.CheckAuthentication(UserRole.Administrator))
             //{
                 
             //}

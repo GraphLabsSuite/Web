@@ -5,7 +5,7 @@ using GraphLabs.DomainModel.Services;
 namespace GraphLabs.Site.Models
 {
     /// <summary> Моделька для отображения во View </summary>
-    public class UserInfo
+    public class UserModel
     {
         /// <summary> Id </summary>
         public long Id { get; set; }
@@ -29,7 +29,7 @@ namespace GraphLabs.Site.Models
         public bool? IsDismissed { get; set; }
 
         /// <summary> Конструктор для простого создания из модели </summary>
-        public UserInfo(User model, ISystemDateService dateService)
+        public UserModel(User model, ISystemDateService dateService)
         {
             Id = model.Id;
             Name = string.Format("{0} {1} {2}", model.Surname, model.Name, model.FatherName);

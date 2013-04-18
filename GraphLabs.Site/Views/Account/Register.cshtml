@@ -1,15 +1,18 @@
-﻿@model GraphLabs.Site.Models.Registration
+﻿@model GraphLabs.Site.Models.RegistrationModel
 
 @{
-    ViewBag.Title = "Регистрация";
+    ViewBag.Title = "Создание учётной записи";
 }
 
-<h2>Регистрация</h2>
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
 
 @using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
 
     <fieldset>
+        <legend>Данные для регистрации</legend>
         <div class="editor-label">
             @Html.LabelFor(model => model.Login)
         </div>
@@ -43,11 +46,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.SurName)
+            @Html.LabelFor(model => model.Surname)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.SurName)
-            @Html.ValidationMessageFor(model => model.SurName)
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
         </div>
 
         <div class="editor-label">
@@ -79,10 +82,6 @@
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Обратно на главную", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
