@@ -20,7 +20,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Login(string returnUrl)
         {
             if (this.IsAuthenticated(_ctx))
-                RedirectToLocal(returnUrl);
+                return RedirectToLocal(returnUrl);
             this.AllowAnonymous(_ctx);
 
             ViewBag.ReturnUrl = returnUrl;
@@ -35,7 +35,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Login(AuthModel model, string returnUrl)
         {
             if (this.IsAuthenticated(_ctx))
-                RedirectToLocal(returnUrl);
+                return RedirectToLocal(returnUrl);
             else if (ModelState.IsValid && this.Login(_ctx, model.Email, model.Password))
             {
                 return RedirectToLocal(returnUrl);
@@ -65,7 +65,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Register()
         {
             if (this.IsAuthenticated(_ctx))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             this.AllowAnonymous(_ctx);
 
             FillGroups();
@@ -80,7 +80,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Register(RegistrationModel reg)
         {
             if (this.IsAuthenticated(_ctx))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
             if (ModelState.IsValid)
             {
