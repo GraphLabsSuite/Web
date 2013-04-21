@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Services;
-using GraphLabs.Site.Models;
 using PagedList;
 
 namespace GraphLabs.Site.Controllers

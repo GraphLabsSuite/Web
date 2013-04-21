@@ -108,7 +108,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult DeleteConfirmed(long id)
         {
             return HttpNotFound();
-            //if (!this.CheckAuthentication(UserRole.Administrator))
+            //if (!this.IsAuthenticated(UserRole.Administrator))
             //{
                 
             //}

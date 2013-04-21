@@ -2,13 +2,14 @@
 
 namespace GraphLabs.Site.Models
 {
+    /// <summary> Данные для авторизации </summary>
     public class AuthModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        [Required(ErrorMessage = "Вы не ввели логин")]
-        [Display(Name = "Логин")]
-        public string Login { get; set; }
+        [Required(ErrorMessage = "Вы не ввели e-mail")]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Вы не ввели пароль")]
         [DataType(DataType.Password)]

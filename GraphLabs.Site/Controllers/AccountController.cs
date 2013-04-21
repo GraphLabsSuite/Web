@@ -5,8 +5,6 @@ using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Utils;
-using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
 using GraphLabs.Site.Models;
 
 namespace GraphLabs.Site.Controllers
@@ -21,6 +19,10 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы входа </summary>
         public ActionResult Login(string returnUrl)
         {
+            if (this.IsAuthenticated(_ctx))
+                RedirectToLocal(returnUrl);
+            this.AllowAnonymous(_ctx);
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -32,15 +34,16 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(AuthModel model, string returnUrl)
         {
-            if (this.IsAuthenticated())
+            if (this.IsAuthenticated(_ctx))
                 RedirectToLocal(returnUrl);
-            else if (ModelState.IsValid && this.Login(_ctx, model.Login, model.Password))
+            else if (ModelState.IsValid && this.Login(_ctx, model.Email, model.Password))
             {
                 return RedirectToLocal(returnUrl);
             }
 
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", UserMessages.LOGIN_PASSWORD_NOT_FOUND);
+            this.AllowAnonymous(_ctx);
             return View(model);
         }
 
@@ -61,6 +64,10 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы регистрации </summary>
         public ActionResult Register()
         {
+            if (this.IsAuthenticated(_ctx))
+                RedirectToAction("Index", "Home");
+            this.AllowAnonymous(_ctx);
+
             FillGroups();
             return View();
         }
@@ -72,12 +79,14 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegistrationModel reg)
         {
+            if (this.IsAuthenticated(_ctx))
+                RedirectToAction("Index", "Home");
+
             if (ModelState.IsValid)
             {
                 var salt = HashCalculator.GenerateRandomSalt();
                 var student = new Student
                 {
-                    Login = reg.Login,
                     PasswordHash = HashCalculator.GenerateSaltedHash(reg.Password, salt),
                     HashSalt = salt,
                     Name = reg.Name,
@@ -100,6 +109,7 @@ namespace GraphLabs.Site.Controllers
                 }
             }
 
+            this.AllowAnonymous(_ctx);
             FillGroups(reg.ID_Group);
             return View(reg);
         }
@@ -119,7 +129,7 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Управление аккаунтом - смена пароля </summary>
         public ActionResult Manage(string message)
         {
-            if (!this.CheckAuthentication(_ctx))
+            if (!this.IsAuthenticated(_ctx))
             {
                 ViewBag.ReturnUrl = Url.Action("Manage");
                 return RedirectToAction("Login", new { Message = UserMessages.AUTH_REQUIRED });
@@ -137,7 +147,7 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Manage(ChangePasswordModel model)
         {
-            if (!this.CheckAuthentication(_ctx))
+            if (!this.IsAuthenticated(_ctx))
             {
                 ViewBag.ReturnUrl = Url.Action("Manage");
                 return RedirectToAction("Login", new { Message = UserMessages.AUTH_REQUIRED });

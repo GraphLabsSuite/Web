@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -14,14 +16,16 @@ namespace GraphLabs.Site.Utils
         public const int MIN_PASSWORD_LENGTH = 6;
 
         private const string SESSION_GUID = "key";
+        private const string REMOTE_ADDR = "REMOTE_ADDR";
+
 
         #region Log In/Out
 
         /// <summary> Выполняет вход </summary>
-        public static bool Login(this Controller controller, GraphLabsContext ctx, string login, string password)
+        public static bool Login(this Controller controller, GraphLabsContext ctx, string email, string password)
         {
             var foundUser = (from u in ctx.Users
-                             where u.Login == login && (!(u is Student) || (u as Student).IsVerified)
+                             where u.Email == email && (!(u is Student) || (u as Student).IsVerified)
                              select u
                              ).SingleOrDefault();
             if (foundUser == null)
@@ -82,14 +86,56 @@ namespace GraphLabs.Site.Utils
 
         #endregion // Log In/Out
 
-        /// <summary> Проверяет, авторизован ли пользователь, но не выполняет никаких проверок сессии </summary>
-        public static bool IsAuthenticated(this Controller controller)
+
+        #region Проверки во View
+
+        /// <summary> Проверяет, что для страницы указан режим доступа </summary>
+        public static string CheckAuthentication(this WebViewPage page)
         {
-            return !string.IsNullOrWhiteSpace((string)controller.Session[SESSION_GUID]);
+            #if DEBUG
+            var allowAnonymous = (bool?)page.ViewBag.AllowAnonymous;
+            var isAuthenticated = (bool?)page.ViewBag.IsAuthenticated;
+            
+            Contract.Assume(allowAnonymous.HasValue || isAuthenticated.HasValue, "Для действия не указаны разрешения безопасности для страницы.");
+            #endif
+            
+            return string.Empty;
+        }
+
+        /// <summary> Проверяет, что пользователь авторизован </summary>
+        public static bool IsAuthenticated(this WebViewPage page)
+        {
+            var isAuthenticated = (bool?)page.ViewBag.IsAuthenticated;
+
+            return isAuthenticated == true;
+        }
+
+
+        /// <summary> Обладает ли пользователь ролью? (например, администратор обладает ролями студента и преподавателя) </summary>
+        public static bool IsUserInRole(this WebViewPage page, UserRole role)
+        {
+            if (!page.IsAuthenticated())
+                return false;
+
+            return CheckRole((UserRole)page.ViewBag.UserRole, role);
+        }
+
+        #endregion
+
+
+        #region Провеврки в контроллере
+
+        /// <summary> Помечает, что страница доступна к просмотру неавторизованному пользователю. </summary>
+        public static void AllowAnonymous(this Controller controller, GraphLabsContext ctx)
+        {
+            if (controller.IsAuthenticated(ctx))
+                return;
+
+            controller.ViewBag.AllowAnonymous = true;
         }
 
         /// <summary> Проверяет, что пользователь авторизован и сессия правильная; переставляет время последнего действия; заполняет ViewBag. </summary>
-        public static bool CheckAuthentication(this Controller controller, GraphLabsContext ctx)
+        public static bool IsAuthenticated(this Controller controller, GraphLabsContext ctx)
         {
             // Проверим, что вообще залогинены
             if (!controller.IsAuthenticated())
@@ -112,11 +158,23 @@ namespace GraphLabs.Site.Utils
             ctx.SaveChanges();
 
             // Заполним ViewBag
-            controller.ViewBag.IsAuthenticated = true;
-            controller.ViewBag.UserName = controller.Session.GetUser(ctx).GetShortName();
+            controller.FillViewBag(ctx);
 
             return true;
         }
+
+        /// <summary> Проверяет, имеет ли пользователь указанную роль, + проверка сессии; прописывает роль во ViewBag </summary>
+        /// <remarks> Например, администратор обладает ролями студента и преподавателя. </remarks>
+        public static bool IsUserInRole(this Controller controller, GraphLabsContext ctx, UserRole role)
+        {
+            if (!IsAuthenticated(controller, ctx))
+                return false;
+            var user = controller.Session.GetUser(ctx);
+
+            return CheckRole(user.Role, role);
+        }
+
+        #endregion
 
         /// <summary> Возвращает текущего пользователя по сессии </summary>
         public static User GetUser(this HttpSessionStateBase session, GraphLabsContext ctx)
@@ -128,20 +186,25 @@ namespace GraphLabs.Site.Utils
         /// <summary> Получает IP клиента </summary>
         public static string GetClientIP(this Controller controller)
         {
-            return controller.Request.ServerVariables["REMOTE_ADDR"];
+            return controller.Request.ServerVariables[REMOTE_ADDR];
         }
 
-        /// <summary> Проверяет, имеет ли пользователь указанную роль, + проверка сессии </summary>
-        public static bool CheckRole(this Controller controller, GraphLabsContext ctx, UserRole role)
-        {
-            if (!CheckAuthentication(controller, ctx))
-                return false;
-            var user = controller.Session.GetUser(ctx);
-            
-            return CheckRole(user, role);
-        }
 
         #region Вспомогательное
+
+        private static void FillViewBag(this Controller controller, GraphLabsContext ctx)
+        {
+            controller.ViewBag.IsAuthenticated = true;
+            var user = controller.Session.GetUser(ctx);
+            controller.ViewBag.UserName = user.GetShortName();
+            controller.ViewBag.UserRole = user.Role;
+        }
+
+        /// <summary> Проверяет, авторизован ли пользователь, но не выполняет никаких проверок сессии </summary>
+        private static bool IsAuthenticated(this Controller controller)
+        {
+            return !string.IsNullOrWhiteSpace((string)controller.Session[SESSION_GUID]);
+        }
 
         private static Session GetFromDb(this HttpSessionStateBase session, GraphLabsContext ctx)
         {
@@ -169,16 +232,16 @@ namespace GraphLabs.Site.Utils
             return HashCalculator.GenerateSaltedHash(guid, saltBase64);
         }
 
-        private static bool CheckRole(User user, UserRole role)
+        private static bool CheckRole(UserRole availableRole, UserRole requiredRole)
         {
-            switch (role)
+            switch (requiredRole)
             {
                 case UserRole.Student:
                     return true;
                 case UserRole.Teacher:
-                    return user.Role != UserRole.Student;
+                    return availableRole != UserRole.Student;
                 case UserRole.Administrator:
-                    return user.Role == UserRole.Administrator;
+                    return availableRole == UserRole.Administrator;
                 default:
                     throw new NotSupportedException("Что-то тут забыли.");
             }

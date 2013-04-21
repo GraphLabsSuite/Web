@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Utils;
+
+@this.CheckAuthentication();
+
+<!DOCTYPE html>
 <html lang="ru">
     <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -22,8 +27,18 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Администрирование", "Admin", "Admin")</li>
-                            <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                            @if (this.IsUserInRole(UserRole.Teacher))
+                            {
+                                <li>@Html.ActionLink("Задания", "TasksManagement", "TasksManagement")</li>
+                                <li>@Html.ActionLink("Лабораторные", "LabsList", "LabsList")</li>
+                                <li>@Html.ActionLink("Результаты", "Results", "AllResults")</li>
+                                <li>@Html.ActionLink("Система", "Settings", "Settings")</li>
+                            }
+                            @if (ViewBag.UserRole == UserRole.Student)
+                            {
+                                <li>@Html.ActionLink("Лабораторные", "LabsList", "LabsList")</li>
+                                <li>@Html.ActionLink("Мои результаты", "Results", "MyResults")</li>
+                            }
                         </ul>
                     </nav>
                 </div>
@@ -38,7 +53,10 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year — приложение ASP.NET MVC</p>
+                    <p>&copy; 2012-2013 — Национальный Исследовательский Ядерный Университет «МИФИ»</p>
+                </div>
+                <div class="float-right">
+                    <p><a href="http://bugs.svtz.ru">Сообщить об ошибке</a></p>
                 </div>
             </div>
         </footer>

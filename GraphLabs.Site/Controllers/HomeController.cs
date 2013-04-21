@@ -1,10 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Services;
-using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
@@ -17,7 +12,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Index()
         {
-            this.CheckAuthentication(_ctx);
+            this.AllowAnonymous(_ctx);
 
             ViewBag.Message = "Тут будут новости";
 

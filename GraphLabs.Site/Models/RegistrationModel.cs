@@ -9,10 +9,16 @@ namespace GraphLabs.Site.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Логин обязателен")]
-        [MaxLength(20, ErrorMessage = "Максимальная длина 20 символов")]
-        [Display(Name = "Логин")]
-        public string Login { get; set; }
+        [Required(ErrorMessage = "E-mail обязателен")]
+        [MaxLength(40, ErrorMessage = "Максимальная длина 40 символов")]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Необходимо подтвердить E-mail")]
+        [Compare("Email", ErrorMessage = "Указанные E-mail не совпадают")]
+        [MaxLength(40, ErrorMessage = "Максимальная длина 40 символов")]
+        [Display(Name = "E-mail ещё раз")]
+        public string ConfirmEmail { get; set; }
 
         [Required(ErrorMessage = "Пароль обязателен")]
         [MinLength(SecurityExtensions.MIN_PASSWORD_LENGTH, ErrorMessage = "Минимальная длина 6 символов")]
@@ -40,11 +46,6 @@ namespace GraphLabs.Site.Models
         [MaxLength(20, ErrorMessage = "Максимальная длина 20 символов")]
         [Display(Name = "Отчество")]
         public string FatherName { get; set; }
-
-        [Required(ErrorMessage = "E-mail обязателен")]
-        [MaxLength(40, ErrorMessage = "Максимальная длина 40 символов")]
-        [Display(Name = "E-mail адрес")]
-        public string Email { get; set; }
 
         public int ID_Group { get; set; }
         public Group Group { get; set; }

@@ -1,24 +1,34 @@
 ﻿@model GraphLabs.Site.Models.RegistrationModel
 
 @{
-    ViewBag.Title = "Создание учётной записи";
+    ViewBag.Title = "Создание учётной записи студента";
 }
 
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
 </hgroup>
 
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
 
     <fieldset>
         <legend>Данные для регистрации</legend>
+
         <div class="editor-label">
-            @Html.LabelFor(model => model.Login)
+            @Html.LabelFor(model => model.Email)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Login)
-            @Html.ValidationMessageFor(model => model.Login)
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfirmEmail)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ConfirmEmail)
+            @Html.ValidationMessageFor(model => model.ConfirmEmail)
         </div>
 
         <div class="editor-label">
@@ -36,6 +46,14 @@
             @Html.EditorFor(model => model.ConfirmPassword)
             @Html.ValidationMessageFor(model => model.ConfirmPassword)
         </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FatherName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FatherName)
+            @Html.ValidationMessageFor(model => model.FatherName)
+        </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -51,22 +69,6 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Surname)
             @Html.ValidationMessageFor(model => model.Surname)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.FatherName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.FatherName)
-            @Html.ValidationMessageFor(model => model.FatherName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
         </div>
 
         <div class="editor-label">

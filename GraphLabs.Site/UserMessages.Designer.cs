@@ -70,7 +70,7 @@ namespace GraphLabs.Site {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to При регистрации возникла ошибка. Вероятно, пользователь с таким именем уже существует..
+        ///   Looks up a localized string similar to При регистрации возникла ошибка. Вероятно, пользователь с таким e-mail уже существует..
         /// </summary>
         internal static string DUPLICATE_LOGIN {
             get {
@@ -88,7 +88,7 @@ namespace GraphLabs.Site {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось найти указанную комбинацию логина и пароля..
+        ///   Looks up a localized string similar to Не удалось найти указанную комбинацию e-mail и пароля..
         /// </summary>
         internal static string LOGIN_PASSWORD_NOT_FOUND {
             get {
