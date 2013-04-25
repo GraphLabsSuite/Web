@@ -61,6 +61,15 @@ namespace GraphLabs.Site {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Недостаточно прав для просмотра запрошенной страницы. Если Вы уверены, что права должны быть, обратитесь к системному администратору..
+        /// </summary>
+        internal static string ACCES_DENIED {
+            get {
+                return ResourceManager.GetString("ACCES_DENIED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Для выполнения запрошенного действия необходимо выполнить вход в систему..
         /// </summary>
         internal static string AUTH_REQUIRED {
@@ -111,6 +120,33 @@ namespace GraphLabs.Site {
         internal static string REGISTRATION_COMPLETE {
             get {
                 return ResourceManager.GetString("REGISTRATION_COMPLETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузка не удалась. Задание с таким названием и версией уже существует..
+        /// </summary>
+        internal static string TASK_EXISTS {
+            get {
+                return ResourceManager.GetString("TASK_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось загрузить указанный файл. Вероятно, он имеет неверный формат..
+        /// </summary>
+        internal static string UPLOAD_ERROR {
+            get {
+                return ResourceManager.GetString("UPLOAD_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Файл для загрузки не указан..
+        /// </summary>
+        internal static string UPLOAD_FILE_NOT_SPECIFIED {
+            get {
+                return ResourceManager.GetString("UPLOAD_FILE_NOT_SPECIFIED", resourceCulture);
             }
         }
     }

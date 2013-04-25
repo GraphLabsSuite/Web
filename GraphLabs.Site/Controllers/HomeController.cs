@@ -10,11 +10,18 @@ namespace GraphLabs.Site.Controllers
 
         public bool IsAuthenticated = true;
 
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             this.AllowAnonymous(_ctx);
 
-            ViewBag.Message = "Тут будут новости";
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                ViewBag.Message = message;
+            }
+            else
+            {
+                ViewBag.Message = "Тут будут новости.";
+            }
 
             return View();
         }

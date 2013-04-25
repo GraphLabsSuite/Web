@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ACCES_DENIED" xml:space="preserve">
+    <value>Недостаточно прав для просмотра запрошенной страницы. Если Вы уверены, что права должны быть, обратитесь к системному администратору.</value>
+  </data>
   <data name="AUTH_REQUIRED" xml:space="preserve">
     <value>Для выполнения запрошенного действия необходимо выполнить вход в систему.</value>
   </data>
@@ -134,5 +137,14 @@
   </data>
   <data name="REGISTRATION_COMPLETE" xml:space="preserve">
     <value>Регистрация успешно выполнена. Вы сможете войти, когда преподаватель подтвердит вашу учётную запись, о чём будет сообщено дополнительно по e-mail.</value>
+  </data>
+  <data name="TASK_EXISTS" xml:space="preserve">
+    <value>Загрузка не удалась. Задание с таким названием и версией уже существует.</value>
+  </data>
+  <data name="UPLOAD_ERROR" xml:space="preserve">
+    <value>Не удалось загрузить указанный файл. Вероятно, он имеет неверный формат.</value>
+  </data>
+  <data name="UPLOAD_FILE_NOT_SPECIFIED" xml:space="preserve">
+    <value>Файл для загрузки не указан.</value>
   </data>
 </root>

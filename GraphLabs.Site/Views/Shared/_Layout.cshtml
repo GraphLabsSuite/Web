@@ -29,15 +29,15 @@
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
                             @if (this.IsUserInRole(UserRole.Teacher))
                             {
-                                <li>@Html.ActionLink("Задания", "TasksManagement", "TasksManagement")</li>
-                                <li>@Html.ActionLink("Лабораторные", "LabsList", "LabsList")</li>
-                                <li>@Html.ActionLink("Результаты", "Results", "AllResults")</li>
-                                <li>@Html.ActionLink("Система", "Settings", "Settings")</li>
+                                <li>@Html.ActionLink("Задания", "Index", "Task")</li>
+                                <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
+                                <li>@Html.ActionLink("Результаты", "All", "Results")</li>
+                                <li>@Html.ActionLink("Система", "Index", "Settings")</li>
                             }
                             @if (ViewBag.UserRole == UserRole.Student)
                             {
-                                <li>@Html.ActionLink("Лабораторные", "LabsList", "LabsList")</li>
-                                <li>@Html.ActionLink("Мои результаты", "Results", "MyResults")</li>
+                                <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
+                                <li>@Html.ActionLink("Мои результаты", "My", "Results")</li>
                             }
                         </ul>
                     </nav>
@@ -47,6 +47,12 @@
         <div id="body">
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                {
+                    <div class="error">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
                 @RenderBody()
             </section>
         </div>

@@ -1,0 +1,14 @@
+﻿@model GraphLabs.DomainModel.Task
+
+@{
+    ViewBag.Title = "Загрузить новое задание";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Upload", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="fileUpload"/>
+    <input type="submit" value="Загрузить" />      
+}    
+

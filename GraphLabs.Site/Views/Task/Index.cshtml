@@ -1,0 +1,42 @@
+﻿@model GraphLabs.DomainModel.Task[]
+
+@{
+    ViewBag.Title = "Задания для лабораторных работ";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p>
+    @Html.ActionLink("Добавить", "Upload")
+</p>
+
+
+
+
+<!--<a href="#" onclick="$('#dialog-modal').dialog();">Upload File</a>-->
+
+@{
+    var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage :4);
+    grid.Pager(WebGridPagerModes.NextPrevious);
+        @grid.GetHtml(tableStyle: "webGrid", 
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row-style",
+            alternatingRowStyle: "webgrid-alternating-row",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            
+            columns: grid.Columns(
+                grid.Column(header: "#",        format: item => item.Id,          columnName: "Id"),
+                grid.Column(header: "Название", format: item => item.Name,        columnName: "Name"),
+                grid.Column(header: "Описание", format: item => item.Description, columnName: "Description"),
+                grid.Column(header: "Версия",   format: item => item.Version,     columnName: "Version"),
+                grid.Column(header: "",         format: item => Html.ActionLink("Изменить", "Edit", new { id = item.Id }), 
+                            style: "actions", canSort: false)
+                )
+            );
+
+
+}
