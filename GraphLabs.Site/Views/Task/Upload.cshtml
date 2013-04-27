@@ -1,6 +1,4 @@
-﻿@model GraphLabs.DomainModel.Task
-
-@{
+﻿@{
     ViewBag.Title = "Загрузить новое задание";
 }
 
@@ -8,7 +6,7 @@
 
 @using (Html.BeginForm("Upload", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="file" name="fileUpload"/>
-    <input type="submit" value="Загрузить" />      
+    <p><input type="file" name="xap" required /></p>
+    <p><input type="submit" value="Загрузить" /></p>
 }    
 

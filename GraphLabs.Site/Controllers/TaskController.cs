@@ -49,7 +49,7 @@ namespace GraphLabs.Site.Controllers
 
         /// <summary> Загружаем задание </summary>
         [HttpPost]
-        public ActionResult Upload()
+        public ActionResult Upload(HttpPostedFileBase xap)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
             {
@@ -57,11 +57,10 @@ namespace GraphLabs.Site.Controllers
             }
 
             // Verify that the user selected a file
-            if (Request.Files.Count == 1 && Request.Files[0] != null && Request.Files[0].ContentLength > 0)
+            //if (Request.Files.Count == 1 && Request.Files[0] != null && Request.Files[0].ContentLength > 0)
+            if (xap != null && xap.ContentLength > 0)
             {
-                var file = Request.Files[0];
-
-                var newTask = _ctx.Tasks.CreateFromXap(file.InputStream);
+                var newTask = _ctx.Tasks.CreateFromXap(xap.InputStream);
                 if (newTask == null)
                     return RedirectToAction("Upload", "Task", new { Message = UserMessages.UPLOAD_ERROR });
 

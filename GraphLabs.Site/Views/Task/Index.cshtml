@@ -10,10 +10,13 @@
     @Html.ActionLink("Добавить", "Upload")
 </p>
 
-
-
-
-<!--<a href="#" onclick="$('#dialog-modal').dialog();">Upload File</a>-->
+<style type="text/css">
+  .idColumn { width:3%; }
+  .nameColumn { width:32%; }
+  .descColumn { width:50%; }
+  .versionColumn { width:10%; }
+  .editColumn { width:5%; }
+</style>
 
 @{
     var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage :4);
@@ -29,12 +32,12 @@
             htmlAttributes: new { id = "datatable" },
             
             columns: grid.Columns(
-                grid.Column(header: "#",        format: item => item.Id,          columnName: "Id"),
-                grid.Column(header: "Название", format: item => item.Name,        columnName: "Name"),
-                grid.Column(header: "Описание", format: item => item.Description, columnName: "Description"),
-                grid.Column(header: "Версия",   format: item => item.Version,     columnName: "Version"),
+                grid.Column(header: "#",        format: item => item.Id,          columnName: "Id", style:"idColumn"),
+                grid.Column(header: "Название", format: item => item.Name,        columnName: "Name", style:"nameColumn"),
+                grid.Column(header: "Описание", format: item => item.Description, columnName: "Description", style:"descColumn"),
+                grid.Column(header: "Версия",   format: item => item.Version,     columnName: "Version", style:"versionColumn;"),
                 grid.Column(header: "",         format: item => Html.ActionLink("Изменить", "Edit", new { id = item.Id }), 
-                            style: "actions", canSort: false)
+                            style: "actions,editColumn", canSort: false)
                 )
             );
 

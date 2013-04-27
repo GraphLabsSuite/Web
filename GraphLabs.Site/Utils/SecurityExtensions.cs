@@ -209,7 +209,7 @@ namespace GraphLabs.Site.Utils
         private static Session GetFromDb(this HttpSessionStateBase session, GraphLabsContext ctx)
         {
             var guid = new Guid(session.GetGuid());
-            return ctx.Sessions.Single(s => s.Guid == guid);
+            return ctx.Sessions.SingleOrDefault(s => s.Guid == guid);
         }
 
         private static string GetGuid(this HttpSessionStateBase session)
