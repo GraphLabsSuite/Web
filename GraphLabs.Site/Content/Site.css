@@ -328,6 +328,17 @@ aside {
     font-weight: 700;
 }
 
+#leftPanel {
+    border-right: solid 2px #c8c8c8;
+    float: left;
+    width: 47%;
+}
+
+#rightPanel {
+    float: right;
+    width: 47%;
+}
+
 /* login page */
 #loginForm {
     border-right: solid 2px #c8c8c8;
@@ -441,7 +452,7 @@ input, textarea {
 
 textarea {
     font-family: inherit;
-    width: 500px;
+    width: 300px;
 }
 
     input:focus, textarea:focus {
@@ -477,7 +488,7 @@ textarea {
 
 /* webgrid */
 .webgrid {
-    border: 1px solid #B2B2B2;
+    border: 1px solid #e2e2e2;
 }
 
 .webgrid-header {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GraphLabs.DomainModel.Utils;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 using GraphLabs.DomainModel;
@@ -51,6 +52,7 @@ namespace GraphLabs.Site.Controllers
 
         /// <summary> Загружаем задание </summary>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Upload(HttpPostedFileBase xap)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
@@ -96,7 +98,7 @@ namespace GraphLabs.Site.Controllers
         //
         // GET: /Tasks/Edit
         /// <summary> Начальная отрисовка формы редактирования </summary>
-        public ActionResult Edit(long id)
+        public ActionResult Edit(long id, string message)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
             {
@@ -106,14 +108,17 @@ namespace GraphLabs.Site.Controllers
             var task = _ctx.Tasks.Find(id);
             if (task == null)
                 return RedirectToAction("Index");
+            
+            ViewBag.Message = message;
 
-            return View(new Models.TaskModel(task));
+            return View(new TaskModel(task));
         }
 
         //
         // POST: /Tasks/Edit
         /// <summary> Начальная отрисовка формы редактирования </summary>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(TaskModel model)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
@@ -122,11 +127,59 @@ namespace GraphLabs.Site.Controllers
             }
 
             model.SaveToDb(_ctx);
-            return RedirectToAction("Index", new { Message = UserMessages.EDIT_COMPLETE });
+            return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
         }
 
+        //
+        // POST: /Tasks/EditVariantGenerator
+        /// <summary> Начальная отрисовка формы редактирования </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditVariantGenerator(HttpPostedFileBase newGenerator, TaskModel model,
+            string upload, string delete)
+        {
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            if (!string.IsNullOrEmpty(upload))
+            {
+                // Проверим, что вообще есть, что загружать
+                if (newGenerator != null && newGenerator.ContentLength > 0)
+                {
+                    // Убедимся, что хотя бы формат правильный (xap, и нам удалось вытащить информацию о нём)
+                    if (XapProcessor.Parse(newGenerator.InputStream) != null)
+                    {
+                        // Наконец, сохраним.
+                        var task = _ctx.Tasks.Find(model.Id);
+                        task.VariantGenerator = newGenerator.InputStream.ReadToEnd();
+                        _ctx.SaveChanges();
+
+                        return RedirectToAction("Edit", new {Id = model.Id, Message = UserMessages.EDIT_COMPLETE});
+                    }
+
+                    return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.UPLOAD_ERROR });
+                }
+
+                return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.UPLOAD_FILE_NOT_SPECIFIED });
+            }
+
+            if (!string.IsNullOrEmpty(delete))
+            {
+                var task = _ctx.Tasks.Find(model.Id);
+                if (task.VariantGenerator != null)
+                {
+                    task.VariantGenerator = null;
+                    _ctx.SaveChanges();
+                }
+
+                return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
+            }
+
+            throw new ArgumentException("Ошибка при обработке запроса на редактирования генератора вариантов - неверный набор входных аргументов.");
+        }
 
         #endregion
-
     }
 }

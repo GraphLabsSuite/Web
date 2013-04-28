@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
-using System.Management.Instrumentation;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Utils;
 
 namespace GraphLabs.Site.Models
 {
@@ -25,13 +25,35 @@ namespace GraphLabs.Site.Models
         [Display(Name = "Примечание")]
         public string Note { get; set; }
 
+        
+        #region VariantGenerator 
+
+        [Display(Name = "Название")]
+        public string VariantGeneratorName { get; set; }
+
+        [Display(Name = "Версия")]
+        public string VariantGeneratorVersion { get; set; }
+
+        /// <summary> Есть ли генератор вариантов? </summary>
+        public bool HasVariantGenerator
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(VariantGeneratorName) || 
+                    !string.IsNullOrEmpty(VariantGeneratorVersion);
+            }
+        }
+
+        #endregion
+
+
         /// <summary> Ctor. </summary>
         public TaskModel()
         {
         }
 
         /// <summary> Ctor. </summary>
-        public TaskModel(Task task, bool cutNote = false)
+        public TaskModel(Task task, bool loadForTableView = false)
         {
             Contract.Requires(task != null);
 
@@ -41,13 +63,25 @@ namespace GraphLabs.Site.Models
             Version = task.Version;
 
             const int NOTE_CUT_LENGTH = 30;
-            if (cutNote && task.Note != null && task.Note.Length > NOTE_CUT_LENGTH)
+            if (loadForTableView && task.Note != null && task.Note.Length > NOTE_CUT_LENGTH)
             {
                 Note = string.Format("{0}...", task.Note.Substring(0, NOTE_CUT_LENGTH).Trim());
             }
             else
             {
                 Note = task.Note;
+            }
+
+            if (loadForTableView || task.VariantGenerator == null)
+            {
+                return;
+            }
+
+            using (var generator = new MemoryStream(task.VariantGenerator))
+            {
+                var info = XapProcessor.Parse(generator);
+                VariantGeneratorName = info.Name;
+                VariantGeneratorVersion = info.Version;
             }
         }
 
