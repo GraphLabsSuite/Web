@@ -2,7 +2,11 @@
 
 <h3>Генератор вариантов.</h3>
 
-@using (Html.BeginForm("EditVariantGenerator", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditVariantGenerator", "Task", FormMethod.Post, 
+    new {
+            enctype = "multipart/form-data",
+            onsubmit= Model.HasVariantGenerator ? "return confirm('Вы уверены?');" : "return true;"
+        }))
 {
     @Html.AntiForgeryToken()
     
