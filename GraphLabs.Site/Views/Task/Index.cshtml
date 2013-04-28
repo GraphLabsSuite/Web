@@ -1,4 +1,4 @@
-﻿@model GraphLabs.DomainModel.Task[]
+﻿@model GraphLabs.Site.Models.TaskModel[]
 
 @{
     ViewBag.Title = "Задания для лабораторных работ";
@@ -32,11 +32,11 @@
             htmlAttributes: new { id = "datatable" },
             
             columns: grid.Columns(
-                grid.Column(header: "#",          format: item => item.Id,          columnName: "Id", style:"idColumn"),
-                grid.Column(header: "Название",   format: item => item.Name,        columnName: "Name", style:"nameColumn"),
-                grid.Column(header: "Описание",   format: item => item.Sections,    columnName: "Sections", style:"sectionsColumn"),
-                grid.Column(header: "Версия",     format: item => item.Version,     columnName: "Version", style:"versionColumn;"),
-                grid.Column(header: "Примечание", format: item => item.Note,        columnName: "Note", style:"noteColumn;")
+                grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "Название",   format: item => item.Name,     columnName: "Name",     style:"nameColumn"),
+                grid.Column(header: "Описание",   format: item => item.Sections, columnName: "Sections", style:"sectionsColumn"),
+                grid.Column(header: "Версия",     format: item => item.Version,  columnName: "Version",  style:"versionColumn;"),
+                grid.Column(header: "Примечание", format: item => item.Note,     columnName: "Note",     style:"noteColumn;")
                 )
             );
 

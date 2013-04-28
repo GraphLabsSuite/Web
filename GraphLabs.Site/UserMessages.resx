@@ -126,6 +126,9 @@
   <data name="DUPLICATE_LOGIN" xml:space="preserve">
     <value>При регистрации возникла ошибка. Вероятно, пользователь с таким e-mail уже существует.</value>
   </data>
+  <data name="EDIT_COMPLETE" xml:space="preserve">
+    <value>Изменения сохранены.</value>
+  </data>
   <data name="ILLEGAL_PASSWORD" xml:space="preserve">
     <value>Старый пароль введён неверно.</value>
   </data>

@@ -88,6 +88,15 @@ namespace GraphLabs.Site {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Изменения сохранены..
+        /// </summary>
+        internal static string EDIT_COMPLETE {
+            get {
+                return ResourceManager.GetString("EDIT_COMPLETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Старый пароль введён неверно..
         /// </summary>
         internal static string ILLEGAL_PASSWORD {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
@@ -24,7 +25,8 @@ namespace GraphLabs.Site.Controllers
             }
 
             var tasks = (from task in _ctx.Tasks
-                         select task)
+                         select task).ToArray()
+                        .Select(t => new TaskModel(t, true))
                         .ToArray();
 
             ViewBag.Message = message;
@@ -57,7 +59,6 @@ namespace GraphLabs.Site.Controllers
             }
 
             // Verify that the user selected a file
-            //if (Request.Files.Count == 1 && Request.Files[0] != null && Request.Files[0].ContentLength > 0)
             if (xap != null && xap.ContentLength > 0)
             {
                 var newTask = _ctx.Tasks.CreateFromXap(xap.InputStream);
@@ -89,6 +90,7 @@ namespace GraphLabs.Site.Controllers
 
         #endregion
 
+
         #region Edit
         
         //
@@ -107,6 +109,22 @@ namespace GraphLabs.Site.Controllers
 
             return View(new Models.TaskModel(task));
         }
+
+        //
+        // POST: /Tasks/Edit
+        /// <summary> Начальная отрисовка формы редактирования </summary>
+        [HttpPost]
+        public ActionResult Edit(TaskModel model)
+        {
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            model.SaveToDb(_ctx);
+            return RedirectToAction("Index", new { Message = UserMessages.EDIT_COMPLETE });
+        }
+
 
         #endregion
 
