@@ -5,7 +5,7 @@
 @using (Html.BeginForm("EditVariantGenerator", "Task", FormMethod.Post, 
     new {
             enctype = "multipart/form-data",
-            onsubmit= Model.HasVariantGenerator ? "return confirm('Вы уверены?');" : "return true;"
+            onsubmit= Model.HasVariantGenerator ? "return confirm('Вы собираетесь совершить необратимое действие. Продолжить?');" : "return true;"
         }))
 {
     @Html.AntiForgeryToken()
