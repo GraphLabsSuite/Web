@@ -420,6 +420,11 @@ label {
     font-weight: 600;
 }
 
+.readonly-editor input, textarea {
+    background-color: #F4F4F4;
+    color: #727272;
+}
+
 label.checkbox {
     display: inline;
 }
@@ -469,6 +474,42 @@ textarea {
         padding: 4px;
         margin-right: 4px;
     }
+
+/* webgrid */
+.webgrid {
+    border: 1px solid #B2B2B2;
+}
+
+.webgrid-header {
+    font-size: 0.9em;
+    background-color: #E5E5E5;
+}
+
+.webgrid td:first-child  {
+    padding-left: 20px;
+}
+
+.webgrid th:first-child a {
+    padding-left: 15px;
+}
+
+.webgrid-row {
+    font-size: 0.8em;
+}
+
+.webgrid-row td, .webgrid-altrow td, .webgrid th {
+    padding-left: 5px;
+}
+
+.webgrid-altrow {
+    font-size: 0.8em;
+    background-color: #E5E5E5;
+}
+
+.webgrid-row:hover, .webgrid-altrow:hover, .webgrid th:hover {
+    background-color: rgb(199, 209, 214);
+    cursor: pointer;
+}
 
 /* info and errors */
 .message-info {

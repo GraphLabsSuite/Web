@@ -15,7 +15,7 @@ namespace GraphLabs.Site.Controllers
 
         //
         // GET: /Tasks/
-        /// <summary> Начальная отрисовка </summary>
+        /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index(string message)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
@@ -88,5 +88,27 @@ namespace GraphLabs.Site.Controllers
         }
 
         #endregion
+
+        #region Edit
+        
+        //
+        // GET: /Tasks/Edit
+        /// <summary> Начальная отрисовка формы редактирования </summary>
+        public ActionResult Edit(long id)
+        {
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            var task = _ctx.Tasks.Find(id);
+            if (task == null)
+                return RedirectToAction("Index");
+
+            return View(new Models.TaskModel(task));
+        }
+
+        #endregion
+
     }
 }
