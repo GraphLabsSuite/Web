@@ -9,6 +9,7 @@
 
 @using (Html.BeginForm("Upload", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.AntiForgeryToken();
     <p>Укажите silverlight-приложение (*.xap) для загрузки:</p>
     <p><input type="file" name="xap" required /></p>
     <p><input type="submit" value="Загрузить" /></p>
