@@ -1,69 +1,47 @@
-﻿@model PagedList.IPagedList<GraphLabs.DomainModel.Group>
+﻿@model GraphLabs.Site.Models.GroupModel[]
 
 @{
-    ViewBag.Title = "Группы";
+    ViewBag.Title = "Группы пользователей";
 }
 
-<h2>Группы</h2>
+<hgroup>
+    <h2>Группы</h2>
+    @Html.ActionLink("Добавить", "Create")
+</hgroup>
 
-<p>
-    @Html.ActionLink("Создать новую", "Create")
-</p>
-<table>
-    <tr>
-        <th>
-            @Html.ActionLink("Название", "Index", new { sortOrder=ViewBag.NameSortParam })
-        </th>
-        <th>
-            @Html.ActionLink("Доступность", "Index", new { sortOrder=ViewBag.AvailableSortParam })
-        </th>
-        <th></th>
-    </tr>
+<style type="text/css">
+    .idColumn { width:10%; }
+    .nameColumn { width:70%; }
+    .openColumn { width:20%; }
+</style>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsOpen)
-        </td>
-        <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id_Group }) |
-            @Html.ActionLink("Подробности", "Details", new { id=item.Id_Group }) |
-            @Html.ActionLink("Управление правами", "Perm", new { id=item.Id_Group })
-        </td>
-    </tr>
+@{
+    var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage:10);
+    grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(tableStyle: "webGrid", 
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            
+            columns: grid.Columns(
+                grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "Название",   format: item => item.Name,     columnName: "Name",     style:"nameColumn"),
+                grid.Column(header: "Доступность",   format: item => item.IsOpen, columnName: "IsOpen", style:"openColumn")
+                )
+            );
 }
 
-</table>
-
-<div>
-    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
-    @if (Model.HasPreviousPage)
-    {
-        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort })
-        @Html.Raw(" ");
-        @Html.ActionLink("Пред", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort })
-    }
-    else
-    {
-        @:<<
-        @Html.Raw(" ");
-        @:Пред
-    }
-
-    @if (Model.HasNextPage) 
-    { 
-        @Html.ActionLink("След", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort }) 
-        @Html.Raw(" "); 
-        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort }) 
-    } 
-    else 
-    { 
-        @:След 
-        @Html.Raw(" ") 
-        @:>> 
-    } 
-</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('tbody tr').live('click', function() {
+                location.href = '/Group/Edit/' + $(this).find('td:first').text();
+            });
+        });
+    </script>
+}

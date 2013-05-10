@@ -72,7 +72,11 @@ namespace GraphLabs.Site.Utils
         /// <summary> Выход </summary>
         public static void Logout(this Controller controller, GraphLabsContext ctx)
         {
-            var guid = new Guid((string)controller.Session[SESSION_GUID]);
+            var sessionGUID = (string)controller.Session[SESSION_GUID];
+
+            if (string.IsNullOrWhiteSpace(sessionGUID)) return;
+
+            var guid = new Guid(sessionGUID);
 
             var session = ctx.Sessions.SingleOrDefault(s => s.Guid == guid);
             if (session != null)

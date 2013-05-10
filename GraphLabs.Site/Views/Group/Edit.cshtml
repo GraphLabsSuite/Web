@@ -1,32 +1,43 @@
-﻿@model GraphLabs.DomainModel.Group
+﻿@model GraphLabs.Site.Models.GroupModel
 
 @{
     ViewBag.Title = "Редактирование группы";
 }
 
-<h2>Редактирование группы</h2>
+<hgroup>
+    <h2>Редактирование группы</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
 
-        @Html.HiddenFor(model => model.ID_Group)
+        @Html.HiddenFor(model => model.Id)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            @Html.LabelFor(model => model.FirstYear)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
+            @Html.EditorFor(model => model.FirstYear)
+            @Html.ValidationMessageFor(model => model.FirstYear)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.IsRegistrationAvailbale)
+            @Html.LabelFor(model => model.Number)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.IsRegistrationAvailbale)
-            @Html.ValidationMessageFor(model => model.IsRegistrationAvailbale)
+            @Html.EditorFor(model => model.Number)
+            @Html.ValidationMessageFor(model => model.Number)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsOpen)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsOpen)
+            @Html.ValidationMessageFor(model => model.IsOpen)
         </div>
 
         <p>
@@ -35,8 +46,37 @@
     </fieldset>
 }
 
+<style type="text/css">
+    .idColumn { width:10%; }
+    .nameColumn { width:70%; }
+    .openColumn { width:20%; }
+</style>
+
+@{
+    var grid = new WebGrid(Model.Students, canPage:true ,canSort:true, rowsPerPage:10);
+    grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(tableStyle: "webGrid", 
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            
+            columns: grid.Columns(
+                grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "Название",   format: item => item.Name,     columnName: "Name",     style:"nameColumn"),
+                grid.Column(header: "Доступность",   format: item => item.Email, columnName: "IsOpen", style:"openColumn")
+                )
+            );
+
+
+}
+
 <div>
-    @Html.ActionLink("Обратно к списку", "Index")
+    
 </div>
 
 @section Scripts {

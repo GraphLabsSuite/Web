@@ -4,14 +4,25 @@
     ViewBag.Title = "Создание группы";
 }
 
-<h2>Создание группы</h2>
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <div class="editor-label">
-            @Html.LabelFor(model => model.Number)
+            Год основания группы
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstYear)
+            @Html.ValidationMessageFor(model => model.FirstYear)
+        </div>
+
+        <div class="editor-label">
+            Номер группы
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Number)
@@ -19,7 +30,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.IsOpen)
+            Доступна ли группа для регистрации?
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.IsOpen)
@@ -31,10 +42,6 @@
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Обратно к списку", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

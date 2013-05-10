@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -213,6 +213,7 @@
     </Compile>
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -330,11 +331,8 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Group\Index.cshtml" />
-    <Content Include="Views\Group\Details.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
-    <Content Include="Views\Group\Perm.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
@@ -343,6 +341,7 @@
     <Content Include="Views\Task\Edit.cshtml" />
     <Content Include="Views\Task\_EditTaskPartial.cshtml" />
     <Content Include="Views\Task\_EditVariantGeneratorPartial.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

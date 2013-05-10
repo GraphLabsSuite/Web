@@ -4,8 +4,10 @@
     ViewBag.Title = "Загрузить новое задание";
 }
 
-<h2>@ViewBag.Title.</h2>
-
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
 
 @using (Html.BeginForm("Upload", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

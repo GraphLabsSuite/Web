@@ -48,6 +48,6 @@ namespace GraphLabs.Site.Models
         public string FatherName { get; set; }
 
         public int ID_Group { get; set; }
-        public Group Group { get; set; }
+        public GroupModel Group { get; set; }
     }
 }
