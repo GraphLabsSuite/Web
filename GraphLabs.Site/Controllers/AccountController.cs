@@ -116,12 +116,12 @@ namespace GraphLabs.Site.Controllers
 
         private void FillGroups(object selectedValue = null)
         {
-            var dateService = ServiceLocator.Locator.Get<ISystemDateService>();
-            var groups = _ctx.Groups.Where(g => g.IsOpen)
-                .ToArray() // делаем ToArray(), т.к. GetName - метод расширения, и его невозможно выполнить в БД.
-                .OrderBy(g => g.GetName(dateService));
-
-            ViewBag.ID_Group = new SelectList(groups, "ID_Group", "Name", selectedValue);
+            var groups = (from g in _ctx.Groups
+                          where g.IsOpen
+                          select g).ToList()
+                          .Select(t => new GroupModel(t))
+                          .ToList();
+            ViewBag.ID_Group = new SelectList(groups, "Id", "Name", selectedValue);
         }
 
         //
