@@ -93,6 +93,7 @@ namespace GraphLabs.Site.Controllers
                     Surname = reg.Surname,
                     FatherName = reg.FatherName,
                     Email = reg.Email,
+                    Role = UserRole.Student,
                     IsVerified = false
                 };
                 _ctx.Users.Add(student);

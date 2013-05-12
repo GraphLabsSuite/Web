@@ -216,6 +216,7 @@
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
+    <Compile Include="Models\UserIndex.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserMessages.Designer.cs">
@@ -327,7 +328,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\IndexOld.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -342,6 +343,9 @@
     <Content Include="Views\Task\_EditTaskPartial.cshtml" />
     <Content Include="Views\Task\_EditVariantGeneratorPartial.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\_IndexOptionPartial.cshtml" />
+    <Content Include="Views\User\_IndexListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

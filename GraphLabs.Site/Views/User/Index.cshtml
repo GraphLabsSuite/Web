@@ -1,109 +1,24 @@
-﻿@model PagedList.IPagedList<GraphLabs.Site.Models.UserModel>
-
-@{
-    ViewBag.Title = "Пользователи системы";
+﻿@{
+    ViewBag.Title = "Список пользователей";
 }
 
-<h2>
-    @if (ViewBag.CurrentUnverify)
-    {
-        @Html.DisplayName("Неутвержденные пользователи")
-    }
-    else
-    {
-        @Html.DisplayName("Все пользователи")
-    }
-</h2>
+<hgroup>
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
 
-<p>
-    @if (ViewBag.CurrentUnverify)
-    {
-        @Html.ActionLink("Показать всех пользователей", "Index", new { displayUnverify = ViewBag.DisplayUnverify })
-    }
-    else
-    {
-        @Html.ActionLink("Показать неутвержденных", "Index", new { displayUnverify = ViewBag.DisplayUnverify })
-    }
-</p>
+<section id="leftPanel">
+    @Html.Partial("_IndexOptionPartial")
+</section>
+<section id="rightPanel">
+    @Html.Partial("_IndexListPartial")
+</section>
 
-<table>
-    <tr>
-        <th>
-            @Html.ActionLink("Фамилия", "Index", new { sortOrder=ViewBag.SurNameSortParam, displayUnverify = ViewBag.CurrentUnverify })
-        </th>
-        <th>
-            Имя
-        </th>
-        <th>
-            Отчество
-        </th>
-        <th>
-            E-mail
-        </th>
-        <th>
-            Группа
-        </th>
-        @if (!(ViewBag.CurrentUnverify))
-        {
-        <th>
-            @Html.ActionLink("Утвержден", "Index", new { sortOrder=ViewBag.VerifySortParam, displayUnverify = ViewBag.CurrentUnverify })
-        </th>
-        }
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Group)
-        </td>
-        @if (!(ViewBag.CurrentUnverify))
-        {
-        <td>
-            @Html.DisplayFor(modelItem => item.IsVerified)
-        </td>
-        }
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('tbody tr').live('click', function() {
+                location.href = '/User/Edit/' + $(this).find('td:first').text();
+            });
+        });
+    </script>
 }
-
-</table>
-
-<div>
-    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
-    @if (Model.HasPreviousPage)
-    {
-        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort })
-        @Html.Raw(" ");
-        @Html.ActionLink("Пред", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort })
-    }
-    else
-    {
-        @:<<
-        @Html.Raw(" ");
-        @:Пред
-    }
-
-    @if (Model.HasNextPage) 
-    { 
-        @Html.ActionLink("След", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort }) 
-        @Html.Raw(" "); 
-        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort }) 
-    } 
-    else 
-    { 
-        @:След 
-        @Html.Raw(" ") 
-        @:>> 
-    } 
-</div>

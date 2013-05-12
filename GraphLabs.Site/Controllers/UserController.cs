@@ -7,6 +7,7 @@ using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Models;
 using PagedList;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -18,34 +19,15 @@ namespace GraphLabs.Site.Controllers
         //
         // GET: /User/
 
-        public ActionResult Index(string sortOrder, bool? displayUnverify, int? page)
+        /*public ActionResult Index(bool? displayUnverify)
         {
-            ViewBag.SortOrder = sortOrder;
-            ViewBag.CurrentUnverify = (displayUnverify ?? true);
-            ViewBag.SurNameSortParam = string.IsNullOrEmpty(sortOrder) ? "Surname desc" : "";
-            ViewBag.VerifySortParam = sortOrder == "IsVerified" ? "IsVerified desc" : "IsVerified";
             ViewBag.DisplayUnverify = !(displayUnverify ?? true);
 
             var users = from g in _ctx.Users
                          select g;
 
-            Expression<Func<User, bool>> verifiedCondition = u => !(u is Student) || ((Student)u).IsVerified;
-            switch (sortOrder)
-            {
-                case "Surname desc":
-                    users = users.OrderByDescending(g => g.Surname);
-                    break;
-                case "IsVerified":
-                    users = users.OrderBy(verifiedCondition);
-                    break;
-                case "IsVerified desc":
-                    users = users.OrderByDescending(verifiedCondition);
-                    break;
-                default:
-                    users = users.OrderBy(g => g.Surname);
-                    break;
-            }
-
+            //Expression<Func<User, bool>> verifiedCondition = u => !(u is Student) || ((Student)u).IsVerified;
+            
             if (displayUnverify ?? true)
             {
                 users = users.Where(g => g is Student && !((Student)g).IsVerified);
@@ -53,13 +35,48 @@ namespace GraphLabs.Site.Controllers
 
 
             var us = (from item in users select new UserModel(item, _dateService)).ToList();
+            
+            return View(us);
+        }*/
 
-            const int PAGE_SIZE = 15;
-            var pageIndex = (page ?? 1);
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]        
+        public ActionResult Index(UserIndex ui)
+        {
+            this.AllowAnonymous(_ctx);
 
-            return View(us.ToPagedList(pageIndex, PAGE_SIZE));
+            if (ui == null) { ui = new UserIndex(); }
+
+            var user = (from u in _ctx.Users
+                        select u).ToList();
+
+            System.Collections.Generic.List<User> userList = new System.Collections.Generic.List<User>();
+
+            if (ui.Admin)
+            {
+                userList.AddRange(user.Where(u => u.Role == UserRole.Administrator).ToList());
+            }
+            if (ui.Teacher)
+            {
+                userList.AddRange(user.Where(u => u.Role == UserRole.Teacher).ToList());
+            }
+            if (ui.VerStudent)
+            {
+                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && ((Student)u).IsVerified).ToList());
+            }
+            if (ui.UnVerStudent)
+            {
+                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && (!((Student)u).IsVerified)).ToList());
+            }
+
+            var us = userList.Select(u => new UserModel(u, _dateService)).ToList();
+
+            ui.Users = us;
+
+            return View(ui);
         }
+
         
+
         //
         // GET: /User/Edit/5
 

@@ -1,0 +1,48 @@
+﻿@model GraphLabs.Site.Models.UserIndex
+
+<h3>Настройки отображения</h3>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Admin)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Admin)
+            @Html.ValidationMessageFor(model => model.Admin)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Teacher)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Teacher)
+            @Html.ValidationMessageFor(model => model.Teacher)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VerStudent)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VerStudent)
+            @Html.ValidationMessageFor(model => model.VerStudent)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UnVerStudent)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UnVerStudent)
+            @Html.ValidationMessageFor(model => model.UnVerStudent)
+        </div>
+
+        <p>
+            <input type="submit" value="Отобразить" />
+        </p>
+    </fieldset>
+}

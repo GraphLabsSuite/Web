@@ -28,6 +28,10 @@ namespace GraphLabs.Site.Models
         /// <summary> Отчислен? </summary>
         public bool? IsDismissed { get; set; }
 
+        public UserModel()
+        {
+        }
+
         /// <summary> Конструктор для простого создания из модели </summary>
         public UserModel(User model, ISystemDateService dateService)
         {
