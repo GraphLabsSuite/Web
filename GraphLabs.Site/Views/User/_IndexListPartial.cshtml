@@ -4,7 +4,7 @@
     ViewBag.Title = "Список пользователей";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Title</h3>
 
 <p>
     @Html.ActionLink("Добавить", "Create")
@@ -12,10 +12,9 @@
 
 <style type="text/css">
     .idColumn { width:5%; }
-    .nameColumn { width:33%; }
-    .emailColumn { width:33%; }
-    .isstudColumn { width:5%; }
-    .groupColumn { width:19%; }
+    .nameColumn { width:41%; }
+    .emailColumn { width:25%; }
+    .groupColumn { width:24%; }
     .isverColumn { width:5%; }
 </style>
 
@@ -35,10 +34,9 @@
             columns: grid.Columns(
                 grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
                 grid.Column(header: "ФИО",   format: item => item.Name,     columnName: "Name",     style:"nameColumn"),
-                grid.Column(header: "Email",   format: item => item.Email, columnName: "Sections", style:"emailColumn"),
-                grid.Column(header: "Студент",     format: item => item.IsStudent,  columnName: "Version",  style:"isstudColumn;"),
-                grid.Column(header: "Группа", format: item => item.Group,     columnName: "Note",     style:"groupColumn;"),
-                grid.Column(header: "Подтверждение", format: item => item.IsVerified,     columnName: "Note",     style:"isverColumn;")
+                grid.Column(header: "Email",   format: item => item.Email, columnName: "Email", style:"emailColumn"),
+                grid.Column(header: "Группа", format: item => item.Group,     columnName: "Group",     style:"groupColumn;"),
+                grid.Column(header: "Подтверждение", format:  @<text>@Html.Raw("<img class=\"color\" src=\"/Images/_" + item.IsVerified + ".png\" />")</text>,     columnName: "Verify",     style:"isverColumn;")
                 )
             );
 

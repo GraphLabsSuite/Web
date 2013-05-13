@@ -39,12 +39,23 @@ namespace GraphLabs.Site.Controllers
             return View(us);
         }*/
 
-        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]        
+        public ActionResult Index()
+        {
+            UserIndex ui = new UserIndex();
+
+            if (Session["Model"] != null)
+            {
+                ui = (UserIndex)Session["Model"];
+                Session["Model"] = null;
+            }
+
+            return Index(ui);
+        }
+
+        [HttpPost]        
         public ActionResult Index(UserIndex ui)
         {
             this.AllowAnonymous(_ctx);
-
-            if (ui == null) { ui = new UserIndex(); }
 
             var user = (from u in _ctx.Users
                         select u).ToList();
@@ -61,16 +72,22 @@ namespace GraphLabs.Site.Controllers
             }
             if (ui.VerStudent)
             {
-                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && ((Student)u).IsVerified).ToList());
+                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && (!((Student)u).IsDismissed) && ((Student)u).IsVerified).ToList());
             }
             if (ui.UnVerStudent)
             {
-                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && (!((Student)u).IsVerified)).ToList());
+                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && (!((Student)u).IsDismissed) && (!((Student)u).IsVerified)).ToList());
+            }
+            if (ui.DismissStudent)
+            {
+                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && ((Student)u).IsDismissed).ToList());
             }
 
             var us = userList.Select(u => new UserModel(u, _dateService)).ToList();
 
             ui.Users = us;
+
+            Session.Add("Model", ui);
 
             return View(ui);
         }

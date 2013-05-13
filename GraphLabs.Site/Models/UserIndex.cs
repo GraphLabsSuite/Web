@@ -17,14 +17,17 @@ namespace GraphLabs.Site.Models
 
         public bool Admin { get; set; }
 
+        public bool DismissStudent { get; set; }
+
         public List<UserModel> Users { get; set;}
 
         public UserIndex()
         {
-            VerStudent = true;
-            UnVerStudent = false;
+            VerStudent = false;
+            UnVerStudent = true;
             Teacher = false;
             Admin = false;
+            DismissStudent = false;
         }
     }
 }

@@ -328,6 +328,16 @@ aside {
     font-weight: 700;
 }
 
+.smallLeftPanel {
+    float: left;
+    width: 20%;
+}
+
+.smallRightPanel {
+    float: left;
+    width: 20%;
+}
+
 #leftPanel {
     border-right: solid 2px #c8c8c8;
     float: left;
@@ -337,6 +347,19 @@ aside {
 #rightPanel {
     float: right;
     width: 47%;
+}
+
+#upPanel {
+    border-bottom: solid 2px #c8c8c8;
+    float: left;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+#downPanel {
+    float: left;
+    width: 100%;
+    padding-top: 20px;
 }
 
 /* login page */
