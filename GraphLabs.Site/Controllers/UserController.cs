@@ -15,30 +15,7 @@ namespace GraphLabs.Site.Controllers
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
         private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
-
-        //
-        // GET: /User/
-
-        /*public ActionResult Index(bool? displayUnverify)
-        {
-            ViewBag.DisplayUnverify = !(displayUnverify ?? true);
-
-            var users = from g in _ctx.Users
-                         select g;
-
-            //Expression<Func<User, bool>> verifiedCondition = u => !(u is Student) || ((Student)u).IsVerified;
-            
-            if (displayUnverify ?? true)
-            {
-                users = users.Where(g => g is Student && !((Student)g).IsVerified);
-            }
-
-
-            var us = (from item in users select new UserModel(item, _dateService)).ToList();
-            
-            return View(us);
-        }*/
-
+                
         public ActionResult Index()
         {
             UserIndex ui = new UserIndex();
@@ -119,6 +96,53 @@ namespace GraphLabs.Site.Controllers
                 _ctx.SaveChanges();
                 return RedirectToAction("Index");
             }
+            return View(user);
+        }
+
+        public ActionResult Create()
+        {
+            this.AllowAnonymous(_ctx);
+
+            UserCreate user = new UserCreate();
+
+            System.Collections.Generic.List<SelectListItem> roles = new System.Collections.Generic.List<SelectListItem>();
+            roles.Add(new SelectListItem() { Text = "Администратор", Value = "4" });
+            roles.Add(new SelectListItem() { Text = "Преподаватель", Value = "2" });
+
+            ViewBag.Role = roles;
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Create(UserCreate user)
+        {
+            this.AllowAnonymous(_ctx);
+
+            if (ModelState.IsValid)
+            {
+                var salt = HashCalculator.GenerateRandomSalt();
+                User us = new User
+                {
+                    PasswordHash = HashCalculator.GenerateSaltedHash(user.Pass, salt),
+                    HashSalt = salt,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    FatherName = user.FatherName,
+                    Email = user.Email,
+                    Role = user.Role
+                };
+                _ctx.Users.Add(us);
+                _ctx.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            System.Collections.Generic.List<SelectListItem> roles = new System.Collections.Generic.List<SelectListItem>();
+            roles.Add(new SelectListItem() { Text = "Администратор", Value = "4" });
+            roles.Add(new SelectListItem() { Text = "Преподаватель", Value = "2" });
+
+            ViewBag.Role = roles;
+
             return View(user);
         }
 
