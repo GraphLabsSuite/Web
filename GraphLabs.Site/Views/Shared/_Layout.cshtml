@@ -29,6 +29,8 @@
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
                             @if (this.IsUserInRole(UserRole.Teacher))
                             {
+                                <li>@Html.ActionLink("Группы", "Index", "Group")</li>
+                                <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
                                 <li>@Html.ActionLink("Задания", "Index", "Task")</li>
                                 <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
                                 <li>@Html.ActionLink("Результаты", "All", "Results")</li>

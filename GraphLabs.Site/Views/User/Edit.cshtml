@@ -1,10 +1,18 @@
-﻿@model GraphLabs.DomainModel.User
+﻿@model GraphLabs.Site.Models.UserEdit
 
 @{
     ViewBag.Title = "Редактирование пользователя";
 }
 
-<h2>Редактирование пользователя</h2>
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+<br />
+
+<div class="mesage-error">
+    @ViewBag.Message
+</div>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -13,14 +21,17 @@
         <legend>Пользователь</legend>
 
         @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.PasswordHash)
+        @Html.HiddenFor(model => model.Role)
+        @Html.HiddenFor(model => model.IsVerified)
+        @Html.HiddenFor(model => model.IsDismissed)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Login)
+            @Html.LabelFor(model => model.Email)
         </div>
-        <div class="editor-field">
-            @Html.DisplayFor(model => model.Login)
+        <div class="readonly-editor">
+            @Html.EditorFor(model => model.Email, new { @readonly = "readonly" })
         </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Surname)
         </div>
@@ -45,32 +56,64 @@
             @Html.ValidationMessageFor(model => model.FatherName)
         </div>
         
+        <div id="Group" style="display: none;">
         <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
+            @Html.LabelFor(model => model.GroupID)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
+            @Html.DropDownList("GroupID")
+            @Html.ValidationMessageFor(model => model.GroupID)
         </div>
-        
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IsVerified)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IsVerified)
-            @Html.ValidationMessageFor(model => model.IsVerified)
         </div>
 
         <p>
-            <input type="submit" value="Сохранить" />
+            <input id="Verify"  style="display: none;" type="submit" name="action" value="Утвердить" />
+            <input id="Dismiss" style="display: none;" type="submit" name="action" value="Исключить" />
+            <input id="Delete"  style="display: none;" type="submit" name="action" value="Удалить" />
+        </p>
+
+        <p>
+            <input type="submit" name="action" value="Сохранить" />
         </p>
     </fieldset>
 }
 
-<div>
-    @Html.ActionLink("Обратно к списку", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            checkRole();
+            checkAdmin();
+        });
+
+        function checkRole() {
+            var role = $('#Role').val();
+            if (role == 'Student') {
+                changeForStudent();
+            }
+        };
+
+        function changeForStudent() {
+            $('#Group').attr('style', '');
+            var isver = $('#IsVerified').val();
+            if (isver == 'False') {
+                $('#Verify').attr('style', '');
+            }
+            var isdis = $('#IsDismissed').val();
+            if (isdis == 'False') {
+                $('#Dismiss').attr('style', '');
+            }
+        };
+
+        function checkAdmin() {
+            if ('@ViewBag.UserRole' == 'Administrator') {
+                openDelete();
+            }
+        };
+
+        function openDelete() {
+            $('#Delete').attr('style', '');
+        };
+    </script>
 }

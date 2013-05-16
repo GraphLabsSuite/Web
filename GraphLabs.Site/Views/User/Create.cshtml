@@ -10,6 +10,10 @@
 </hgroup>
 <br />
 
+<div class="mesage-error">
+    @ViewBag.Message
+</div>
+
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 

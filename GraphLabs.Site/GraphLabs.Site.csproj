@@ -217,6 +217,7 @@
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\UserCreate.cs" />
+    <Compile Include="Models\UserEdit.cs" />
     <Compile Include="Models\UserIndex.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,6 +226,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\MultiButtonAttribute.cs" />
     <Compile Include="Utils\SecurityExtensions.cs" />
     <Compile Include="Utils\HashCalculator.cs" />
   </ItemGroup>
@@ -333,7 +335,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />

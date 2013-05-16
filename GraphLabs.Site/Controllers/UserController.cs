@@ -32,7 +32,10 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]        
         public ActionResult Index(UserIndex ui)
         {
-            this.AllowAnonymous(_ctx);
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
 
             var user = (from u in _ctx.Users
                         select u).ToList();
@@ -76,32 +79,195 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            User user = _ctx.Users.Find(id);
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+                        
+            var user = _ctx.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
+
+            if (user.Role != UserRole.Student && !this.IsUserInRole(_ctx, UserRole.Administrator))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            UserEdit ue = new UserEdit(user);
+            if (user.Role == UserRole.Student)
+            {
+                ue.ChangeToStudent((Student)user);             
+            }
+
+            FillGroups(ue.GroupID);
+
+            return View(ue);
+        }
+
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "Утвердить")]
+        public ActionResult Verify(UserEdit user)
+        {
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            ModelState.Remove("IsVerified");
+            user.IsVerified = true;
+            
+            Student us = (Student)_ctx.Users.Find(user.Id);
+
+            if (us == null)
+            {
+                return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
+            }
+            
+            us.IsVerified = true;
+            _ctx.Entry(us).State = EntityState.Modified;
+            _ctx.SaveChanges();
+
+            FillGroups(user.GroupID);
+
             return View(user);
         }
 
-        //
-        // POST: /User/Edit/5
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "Исключить")]
+        public ActionResult Dismiss(UserEdit user)
+        {
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            ModelState.Remove("IsDismissed");
+            user.IsDismissed = true;
+
+            Student us = (Student)_ctx.Users.Find(user.Id);
+
+            if (us == null)
+            {
+                return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
+            }
+
+            us.IsDismissed = true;
+            _ctx.Entry(us).State = EntityState.Modified;
+            _ctx.SaveChanges();
+
+            FillGroups(user.GroupID);
+
+            return View(user);
+        }
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "Удалить")]
+        public ActionResult Delete(UserEdit user)
         {
+            if (!this.IsUserInRole(_ctx, UserRole.Administrator))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+
+            if (user.Role == UserRole.Student)
+            {
+                Student stud = (Student)_ctx.Users.Find(user.Id);
+                try
+                {
+                    _ctx.Users.Remove(stud);
+                }
+                catch (System.ArgumentNullException)
+                {
+                    return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
+                }
+            }
+            else
+            {
+                User us = _ctx.Users.Find(user.Id);
+                try
+                {
+                    _ctx.Users.Remove(us);
+                }
+                catch (System.ArgumentNullException)
+                {
+                    return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
+                }
+            }
+
+            _ctx.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [MultiButton(MatchFormKey = "action", MatchFormValue = "Сохранить")]
+        public ActionResult Save(UserEdit user)
+        {
+            if (!this.IsUserInRole(_ctx, UserRole.Teacher) || (user.Role != UserRole.Student && !this.IsUserInRole(_ctx, UserRole.Administrator)))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
+            
             if (ModelState.IsValid)
             {
-                _ctx.Entry(user).State = EntityState.Modified;
-                _ctx.SaveChanges();
-                return RedirectToAction("Index");
+                if (user.Role == UserRole.Student)
+                {
+                    Student stud = (Student)_ctx.Users.Find(user.Id);
+
+                    if (stud == null)
+                    {
+                        return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
+                    }
+                    
+                    stud.Group = _ctx.Groups.Find(user.GroupID);
+                    stud.FatherName = user.FatherName;
+                    stud.Name = user.Name;
+                    stud.Surname = user.Surname;
+
+                    _ctx.Entry(stud).State = EntityState.Modified;
+                    _ctx.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    User us = _ctx.Users.Find(user.Id);
+                    
+                    if (us == null)
+                    {
+                        return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
+                    }
+                    
+                    us.FatherName = user.FatherName;
+                    us.Surname = user.Surname;
+                    us.Name = user.Name;
+
+                    _ctx.Entry(us).State = EntityState.Modified;
+                    _ctx.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
             }
+
+            return ReturnWithMessage(user);
+        }
+
+        private ActionResult ReturnWithMessage(UserEdit user, string mes = "")
+        {
+            ViewBag.Message = mes;
+
+            FillGroups(user.GroupID);
             return View(user);
         }
 
         public ActionResult Create()
         {
-            this.AllowAnonymous(_ctx);
+            if (!this.IsUserInRole(_ctx, UserRole.Administrator))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
 
             UserCreate user = new UserCreate();
 
@@ -114,7 +280,10 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(UserCreate user)
         {
-            this.AllowAnonymous(_ctx);
+            if (!this.IsUserInRole(_ctx, UserRole.Administrator))
+            {
+                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            }
 
             if (ModelState.IsValid)
             {
@@ -135,7 +304,16 @@ namespace GraphLabs.Site.Controllers
                         IsVerified = true,
                         Group = group
                     };
-                    _ctx.Users.Add(us);
+
+                    try
+                    {
+                        _ctx.Users.Add(us);
+                    }
+                    catch (System.Data.SqlClient.SqlException)
+                    {
+                        return ReturnCreateWithMessage(user, "Пользователь с таким email уже существует!");
+                    }
+
                     _ctx.SaveChanges();
                 }
                 else
@@ -150,11 +328,27 @@ namespace GraphLabs.Site.Controllers
                         Email = user.Email,
                         Role = user.Role
                     };
-                    _ctx.Users.Add(us);
+                    
+                    try
+                    {
+                        _ctx.Users.Add(us);
+                    }
+                    catch (System.Data.SqlClient.SqlException)
+                    {
+                        return ReturnCreateWithMessage(user, "Пользователь с таким email уже существует!");
+                    }
+
                     _ctx.SaveChanges();
                 }
                 return RedirectToAction("Index");
             }
+
+            return ReturnCreateWithMessage(user);
+        }
+
+        private ActionResult ReturnCreateWithMessage(UserCreate user, string mes = "")
+        {
+            ViewBag.Message = mes;
 
             FillRoleList();
             FillGroups(user.GroupID);
@@ -181,41 +375,7 @@ namespace GraphLabs.Site.Controllers
                           .ToList();
             ViewBag.GroupID = new SelectList(groups, "Id", "Name", selectedValue);
         }
-
-        //
-        // GET: /User/Delete/5
-
-        public ActionResult Delete(long id = 0)
-        {
-            User user = _ctx.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        //
-        // POST: /User/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            return HttpNotFound();
-            //if (!this.IsAuthenticated(UserRole.Administrator))
-            //{
-                
-            //}
-
-            //var user = _ctx.Users.Find(User);
-
-            //StudyInGroup sig = user.StudyInGroups.First();
-            //_ctx.Users.Remove(user);
-            //_ctx.StudyInGroups.Remove(sig);
-            //_ctx.SaveChanges();
-            //return RedirectToAction("Index");
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             _ctx.Dispose();

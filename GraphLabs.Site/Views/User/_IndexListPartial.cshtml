@@ -16,6 +16,7 @@
     .emailColumn { width:25%; }
     .groupColumn { width:24%; }
     .isverColumn { width:5%; }
+    .isdismiss { color: #a3a3a3; }
 </style>
 
 @{
@@ -32,10 +33,10 @@
             htmlAttributes: new { id = "datatable" },
             
             columns: grid.Columns(
-                grid.Column(header: "#",          format: @<text> @if (item.IsStudent) {} else {} </text>,       columnName: "Id",       style:"idColumn"),
-                grid.Column(header: "ФИО",   format: item => item.Name,     columnName: "Name",     style:"nameColumn"),
-                grid.Column(header: "Email",   format: item => item.Email, columnName: "Email", style:"emailColumn"),
-                grid.Column(header: "Группа", format: item => item.Group,     columnName: "Group",     style:"groupColumn;"),
+                grid.Column(header: "#",          format: @<text> @if (item.IsStudent && item.IsDismissed) {<span class="isdismiss">@item.id</span>} else {<span>@item.id</span>} </text>,       columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "ФИО",   format: @<text> @if (item.IsStudent && item.IsDismissed) {<span class="isdismiss">@item.Name</span>} else {<span>@item.Name</span>} </text>,     columnName: "Name",     style:"nameColumn"),
+                grid.Column(header: "Email",   format: @<text> @if (item.IsStudent && item.IsDismissed) {<span class="isdismiss">@item.Email</span>} else {<span>@item.Email</span>} </text>, columnName: "Email", style:"emailColumn"),
+                grid.Column(header: "Группа", format: @<text> @if (item.IsStudent && item.IsDismissed) {<span class="isdismiss">@item.Group</span>} else {<span>@item.Group</span>} </text>,     columnName: "Group",     style:"groupColumn;"),
                 grid.Column(header: "Подтверждение", format:  @<text>@Html.Raw("<img src=\"/Images/_" + item.IsVerified + ".png\" />")</text>,     columnName: "Verify",     style:"isverColumn;")
                 )
             );
