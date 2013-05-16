@@ -105,11 +105,8 @@ namespace GraphLabs.Site.Controllers
 
             UserCreate user = new UserCreate();
 
-            System.Collections.Generic.List<SelectListItem> roles = new System.Collections.Generic.List<SelectListItem>();
-            roles.Add(new SelectListItem() { Text = "Администратор", Value = "4" });
-            roles.Add(new SelectListItem() { Text = "Преподаватель", Value = "2" });
-
-            ViewBag.Role = roles;
+            FillRoleList();
+            FillGroups();
 
             return View(user);
         }
@@ -122,28 +119,67 @@ namespace GraphLabs.Site.Controllers
             if (ModelState.IsValid)
             {
                 var salt = HashCalculator.GenerateRandomSalt();
-                User us = new User
+                
+                if (user.Role == UserRole.Student)
                 {
-                    PasswordHash = HashCalculator.GenerateSaltedHash(user.Pass, salt),
-                    HashSalt = salt,
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    FatherName = user.FatherName,
-                    Email = user.Email,
-                    Role = user.Role
-                };
-                _ctx.Users.Add(us);
-                _ctx.SaveChanges();
+                    Group group = _ctx.Groups.Find(user.GroupID);
+                    Student us = new Student
+                    {
+                        PasswordHash = HashCalculator.GenerateSaltedHash(user.Pass, salt),
+                        HashSalt = salt,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        FatherName = user.FatherName,
+                        Email = user.Email,
+                        Role = user.Role,
+                        IsVerified = true,
+                        Group = group
+                    };
+                    _ctx.Users.Add(us);
+                    _ctx.SaveChanges();
+                }
+                else
+                {
+                    User us = new User
+                    {
+                        PasswordHash = HashCalculator.GenerateSaltedHash(user.Pass, salt),
+                        HashSalt = salt,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        FatherName = user.FatherName,
+                        Email = user.Email,
+                        Role = user.Role
+                    };
+                    _ctx.Users.Add(us);
+                    _ctx.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
+            FillRoleList();
+            FillGroups(user.GroupID);
+
+            return View(user);
+        }
+
+        private void FillRoleList()
+        {
             System.Collections.Generic.List<SelectListItem> roles = new System.Collections.Generic.List<SelectListItem>();
             roles.Add(new SelectListItem() { Text = "Администратор", Value = "4" });
             roles.Add(new SelectListItem() { Text = "Преподаватель", Value = "2" });
+            roles.Add(new SelectListItem() { Text = "Студент", Value = "1" });
 
             ViewBag.Role = roles;
+        }
 
-            return View(user);
+        private void FillGroups(object selectedValue = null)
+        {
+            var groups = (from g in _ctx.Groups
+                          where g.IsOpen
+                          select g).ToList()
+                          .Select(t => new GroupModel(t))
+                          .ToList();
+            ViewBag.GroupID = new SelectList(groups, "Id", "Name", selectedValue);
         }
 
         //

@@ -27,6 +27,9 @@ namespace GraphLabs.Site.Models
         [Display(Name = "Должность")]
         public UserRole Role { get; set; }
 
+        [Display(Name = "Группа")]
+        public long GroupID { get; set; }
+
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
