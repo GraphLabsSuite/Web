@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<input id="addopt" type="button" value="Add option">
+
+@section Scripts{
+    <script>
+        var count = 0;
+        var count2 = 0;
+
+        jQuery(document).ready(function() {
+            jQuery("h2").css("color", "red");
+            CreateSelect();
+        });
+
+        function CreateSelect() {
+            $('input').after("<select id='firsel'></select>");
+            $('#firsel').css('display', 'block').css('width', '40%').css('float', 'left');
+            $('select').after("<select id='secsel'></select>");
+            $('#secsel').css('display', 'block').css('width', '40%').css('float', 'right');
+        };
+
+        function AddOption() {
+            $('#firsel').append("<option class=\"firsel\"> opt " + count.toString() + " </option>");
+            ++count;
+            $('#firsel').attr("size", (count).toString());
+        };
+
+        $('body').on('dblclick', '.firsel', function (event) {
+            AddSecOption($(this).val());
+            return false;
+        });
+
+        $('body').on('dblclick', '.secsel', function (event) {
+            $(this).remove();
+            --count2;
+            $('#secsel').attr("size", (count2).toString());
+            return false;
+        });
+
+        $('#addopt').click(function (event) {
+            AddOption();
+        });
+
+        function AddSecOption(x) {
+            $('#secsel').append("<option class=\"secsel\">"+x+"</option>");
+            ++count2;
+            $('#secsel').attr("size", (count2).toString());
+        };        
+    </script>
+}
