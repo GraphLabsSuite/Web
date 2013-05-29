@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Utils;
+using System.IO;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -20,5 +21,22 @@ namespace GraphLabs.Site.Controllers
             return View();
         }
 
+        public ActionResult XAP()
+        {
+            this.AllowAnonymous(_ctx);
+            Task task = _ctx.Tasks.First();
+            byte[] x = task.Xap;
+            
+            return View(x);
+        }
+
+        public byte[] data()
+        {
+            this.AllowAnonymous(_ctx);
+            Task task = _ctx.Tasks.First();
+            byte[] x = task.Xap;
+
+            return x;
+        }
     }
 }

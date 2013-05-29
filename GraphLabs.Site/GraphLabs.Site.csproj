@@ -206,6 +206,7 @@
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LabController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -214,6 +215,7 @@
     </Compile>
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\CreateLabVariant.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
@@ -288,6 +290,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\listHide.png" />
+    <Content Include="Images\listOpen.png" />
     <Content Include="Images\_.png" />
     <Content Include="Images\_false.png" />
     <Content Include="Images\_true.png" />
@@ -353,6 +357,8 @@
     <Content Include="Views\User\_IndexListPartial.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\XAP.cshtml" />
+    <Content Include="Views\Lab\CreateLabVariant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

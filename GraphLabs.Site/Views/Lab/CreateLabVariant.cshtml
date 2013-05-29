@@ -1,0 +1,144 @@
+﻿@model GraphLabs.Site.Models.CreateLabVariant
+
+@{
+    ViewBag.Title = "CreateLabVariant";
+}
+
+<h2>CreateLabVariant</h2>
+
+<select id="firstSelect" class="labSelectLeft" size="10">
+    @foreach (var item in Model.Variants)
+    {
+        <option class="header">
+            @item.Key
+        </option>
+        foreach (var elem in item.Value)
+        {
+            <option class="variant unmarked" value="@elem.Key">
+                @elem.Value
+            </option>
+        }
+    }        
+</select>
+
+<input id="delOpt" class="arrowButton" type="button" value="<"/>
+<input id="addOpt" class="arrowButton" type="button" value=">"/>
+
+<select id="secondSelect" class="labSelectRight" size="10">
+</select>
+
+@section Scripts
+{
+    <script>
+        var options = [];
+        var numberOfHeaders = @Model.Variants.Count
+
+        $(document).ready(function () {
+            SetIdToHeaderOptions();
+            MarkedVariantOptions();
+            HideAllOptions();
+            $("#firstSelect").focus();
+        });
+
+        function SetIdToHeaderOptions() {
+            $("#firstSelect option.header").attr("id", function (index, attr) { return index; } );
+        };
+
+        function MarkedVariantOptions() {
+            for (var i = numberOfHeaders - 1; i >= 0; --i) {
+                options[i] = $("#" + i + " ~ option.variant.unmarked").toggleClass("unmarked opt" + i);
+            };
+        };
+
+        function HideAllOptions() {
+            for (var i = numberOfHeaders - 1; i >= 0; --i) {
+                options[i] = $("#" + i + " ~ option.variant").detach();
+            };
+        };
+
+        $("#firstSelect option.header").click(function () {
+            if (this.getAttribute("data-open") == "true") {
+                HideOptions(this.getAttribute("id"));
+                this.setAttribute("data-open", "false");
+            }
+            else {
+                ShowOptions(this.getAttribute("id"));
+                this.setAttribute("data-open", "true");
+            }
+        });
+        
+        function ShowOptions(id) {
+            $("#" + id).after(options[id]);
+        };
+
+        function HideOptions(id) {
+            $("#" + id + " ~ option.variant.opt"+id).detach();
+        };
+
+        $("#addOpt").click(function () {
+            var elem = $("#firstSelect option.variant:selected");
+            if (elem.length == 0) {
+                return;
+            };
+            if (elem.attr("disabled") == "disabled") {
+                return;
+            };
+            elem.removeClass("variant");
+            var elemClass = elem.attr("class");
+            var groupId = elemClass.substr(3);
+            var groupName = $("#firstSelect option.header#" + groupId).val();
+            $("#secondSelect").append(elem.clone());
+            $("#secondSelect option." + elemClass).prepend(groupName+": ");
+            $("#firstSelect option." + elemClass).attr("disabled", "disabled");
+            elem.addClass("variant");
+            $("#firstSelect").focus();
+        });
+
+        $("#firstSelect option.variant").dblclick(function () {
+            $("#addOpt").click();
+        });
+
+        $("#delOpt").click(function () {
+            var elem = $("#secondSelect option:selected");
+            if (elem.length == 0) {
+                return;
+            };
+            var elemClass = elem.attr("class");
+            var groupId = elemClass.substr(3);
+            var group = $("#firstSelect option.header#" + groupId);
+            elem.remove();
+            if (group.attr("data-open") != "true") {
+                group.click();
+            };
+            $("#firstSelect option.variant." + elemClass).removeAttr("disabled");
+            $("#secondSelect").focus();
+        });
+
+        $("#firstSelect").keydown(function (e) {
+            switch (e.which) {
+                case 13:
+                    var elem = $("#firstSelect option.variant:selected");
+                    if (elem.length != 0) {
+                        $("#addOpt").click();
+                    };
+                    elem = $("#firstSelect option.header:selected");
+                    if (elem.length != 0) {
+                        elem.click();
+                    };
+                    break;
+            };
+        });
+
+        $("#secondSelect").keydown(function (e) {
+            switch (e.which) {
+                case 13:
+                    var elem = $("#secondSelect option:selected");
+                    if (elem.length != 0) {
+                        $("#delOpt").click();
+                    };
+                    break;
+            };
+        });
+
+    </script>
+}

@@ -661,6 +661,29 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
+select.labSelectLeft {
+    display: block;
+    width: 40%;
+    float: left;
+}
+
+select.labSelectRight {
+    display: block;
+    width: 40%;
+    float: right;
+}
+
+option.header {
+    background: #c8c8c8;
+    text-align: center;
+}
+
+input.arrowButton {
+    display: block;
+    width: 5%;
+    float: left;
+    margin: 2.5%;
+}
 
 /********************
 *   Mobile Styles   *
@@ -829,3 +852,4 @@ tr.pager td {
             margin: 0;
         }
 }
+
