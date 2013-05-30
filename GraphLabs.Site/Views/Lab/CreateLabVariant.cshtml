@@ -5,7 +5,9 @@
 }
 
 <h2>CreateLabVariant</h2>
-
+<div id="createLabLeftPanel">
+    <h3 class="buttonCenter">Варианты заданий</h3>
+    <input id="firstSelectSize" type="number" value="10" />
 <select id="firstSelect" class="labSelectLeft" size="10">
     @foreach (var item in Model.Variants)
     {
@@ -20,12 +22,25 @@
         }
     }        
 </select>
+    <div class="buttonCenter">
+        <input id="CloseAll" type="button" value="Скрыть все" />
+        <input id="OpenAll" type="button" value="Открыть все" />
+    </div>
+</div>
 
 <input id="delOpt" class="arrowButton" type="button" value="<"/>
 <input id="addOpt" class="arrowButton" type="button" value=">"/>
 
-<select id="secondSelect" class="labSelectRight" size="10">
-</select>
+<div id="createLabRightPanel">
+    <h3 class="buttonCenter">Вариант котрольной</h3>
+    <input id="secondSelectSize" type="number" value="10" />
+    <select id="secondSelect" class="labSelectRight" size="10">
+    </select>
+    <div class="buttonCenter">
+        <input id="VarUp" type="button" value="˄"/>
+        <input id="VarDown" type="button" value="˅"/>
+    </div>
+</div>
 
 @section Scripts
 {
@@ -56,6 +71,26 @@
             };
         };
 
+        $("#CloseAll").click(function () {
+            for (var i = 0; i < numberOfHeaders; ++i) {
+                var header = $("#firstSelect option.header#" + i);
+                if (header.attr("data-open") == "true") {
+                    HideOptions(i);
+                    header.attr("data-open", "false");
+                };
+            };
+        });
+
+        $("#OpenAll").click(function () {
+            for (var i = 0; i < numberOfHeaders; ++i) {
+                var header = $("#firstSelect option.header#" + i);
+                if (header.attr("data-open") != "true") {
+                    ShowOptions(i);
+                    header.attr("data-open", "true");
+                };
+            };
+        });
+
         $("#firstSelect option.header").click(function () {
             if (this.getAttribute("data-open") == "true") {
                 HideOptions(this.getAttribute("id"));
@@ -74,6 +109,22 @@
         function HideOptions(id) {
             $("#" + id + " ~ option.variant.opt"+id).detach();
         };
+
+        $("#firstSelectSize").change(function () {
+            var p = $("#firstSelectSize");
+            if (p.val() < 2) {
+                p.val(2);
+            };
+            $("#firstSelect").attr("size", p.val());
+        });
+
+        $("#secondSelectSize").change(function () {
+            var p = $("#secondSelectSize");
+            if (p.val() < 2) {
+                p.val(2);
+            };
+            $("#secondSelect").attr("size", p.val());
+        });
 
         $("#addOpt").click(function () {
             var elem = $("#firstSelect option.variant:selected");
@@ -112,6 +163,32 @@
             };
             $("#firstSelect option.variant." + elemClass).removeAttr("disabled");
             $("#secondSelect").focus();
+        });
+
+        $("#VarUp").click(function () {
+            var opt = $("#secondSelect option:selected");
+            if (opt.length == 0) {
+                return;
+            };
+            var prev = opt.prev();
+            if (prev.length == 0) {
+                return;
+            };
+            var p = opt.detach();
+            prev.before(p);
+        });
+
+        $("#VarDown").click(function () {
+            var opt = $("#secondSelect option:selected");
+            if (opt.length == 0) {
+                return;
+            };
+            var next = opt.next();
+            if (next.length == 0) {
+                return;
+            };
+            var p = opt.detach();
+            next.after(p);
         });
 
         $("#firstSelect").keydown(function (e) {

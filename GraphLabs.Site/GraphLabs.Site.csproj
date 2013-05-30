@@ -359,6 +359,7 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\XAP.cshtml" />
     <Content Include="Views\Lab\CreateLabVariant.cshtml" />
+    <Content Include="Views\Lab\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

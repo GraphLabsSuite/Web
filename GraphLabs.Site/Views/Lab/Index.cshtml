@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Список лабораторных работ";
+}
+
+<h2 id="title">@ViewBag.Title</h2>
+
+<div class="NewLab">
+    <input id="CreateLab" type="button" value="Создать лабораторную работу">
+</div>
+<div class="CreateLab">
+    @Html.Label("Название: ")
+    <input id="LabName" type="text">
+    <input id="Create" type="button" value="Создать">
+    <input id="CreateCancel" type="button" value="Отмена">
+</div>
+
+@section Scripts {
+    <script>
+        var newLab;
+        var createLab;
+
+        $(document).ready(function () {
+            HideCreate();
+        });
+
+        function HideCreate() {
+            createLab = $(".CreateLab").detach();
+        };
+
+        $("#CreateLab").click(function () {
+            newLab = $(".NewLab").detach();
+            $("#title").after(createLab);
+        });
+
+        $("#CreateCancel").click(function () {
+            $(".CreateLab").detach();
+            $("#title").after(newLab);
+        });
+
+    </script>
+}

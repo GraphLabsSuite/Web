@@ -338,6 +338,18 @@ aside {
     width: 20%;
 }
 
+#createLabLeftPanel {
+    display: block;
+    float: left;
+    width: 40%;
+}
+
+#createLabRightPanel {
+    display: block;
+    float: right;
+    width: 40%;
+}
+
 #leftPanel {
     border-right: solid 2px #c8c8c8;
     float: left;
@@ -663,14 +675,12 @@ tr.pager td {
 
 select.labSelectLeft {
     display: block;
-    width: 40%;
-    float: left;
+    width: 100%;
 }
 
 select.labSelectRight {
     display: block;
-    width: 40%;
-    float: right;
+    width: 100%;
 }
 
 option.header {
@@ -682,7 +692,15 @@ input.arrowButton {
     display: block;
     width: 5%;
     float: left;
-    margin: 2.5%;
+    margin: 10% 2.5% 0% 2.5%;
+}
+
+.buttonCenter {
+    text-align: center;
+}
+
+#secondSelectSize, #firstSelectSize {
+    display: block;
 }
 
 /********************
