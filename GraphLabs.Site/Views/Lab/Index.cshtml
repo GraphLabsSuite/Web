@@ -9,6 +9,7 @@
 </div>
 <div class="CreateLab">
     @Html.Label("Название: ")
+    <div id="CreateError" class="message-error">Введите название!</div>
     <input id="LabName" type="text">
     <input id="Create" type="button" value="Создать">
     <input id="CreateCancel" type="button" value="Отмена">
@@ -18,8 +19,10 @@
     <script>
         var newLab;
         var createLab;
+        var createError;
 
         $(document).ready(function () {
+            HideError();
             HideCreate();
         });
 
@@ -27,12 +30,27 @@
             createLab = $(".CreateLab").detach();
         };
 
+        function HideError() {
+            createError = $("#CreateError").detach();
+        };
+
         $("#CreateLab").click(function () {
             newLab = $(".NewLab").detach();
             $("#title").after(createLab);
         });
 
+        $("#Create").click(function () {
+            $("#CreateError").detach();
+            if ($("#LabName").val() == "") {
+                $("#LabName").before(createError);
+                return;
+            };
+            location.href = "/Lab/AddLab/?name=" + $("#LabName").val();
+        });
+
         $("#CreateCancel").click(function () {
+            $("#CreateError").detach();
+            $("#LabName").val("");
             $(".CreateLab").detach();
             $("#title").after(newLab);
         });

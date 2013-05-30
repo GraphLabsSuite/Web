@@ -25,7 +25,7 @@ namespace GraphLabs.Site.Utils
         public static bool Login(this Controller controller, GraphLabsContext ctx, string email, string password)
         {
             var foundUser = (from u in ctx.Users
-                             where u.Email == email && (!(u is Student) || (u as Student).IsVerified)
+                             where u.Email == email && (!(u is Student) || ((u as Student).IsVerified && !(u as Student).IsDismissed))
                              select u
                              ).SingleOrDefault();
             if (foundUser == null)

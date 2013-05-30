@@ -23,23 +23,37 @@ namespace GraphLabs.Site.Controllers
             return View();
         }
 
-        public ActionResult CreateLabVariant()
+        public ActionResult CreateLabVariant(CreateLabVariant clv)
         {
             this.AllowAnonymous(_ctx);
 
-            CreateLabVariant labs = GetLabVariants();
+            GetLabVariants(clv);
             
-            return View(labs);
+            return View("CreateLabVariant", clv);
         }
 
-        private CreateLabVariant GetLabVariants()
+        private void GetLabVariants(CreateLabVariant clv)
         {
             Dictionary<string, List<KeyValuePair<int, string>>> x = new Dictionary<string, List<KeyValuePair<int, string>>>();
             x.Add("задание 1", new List<KeyValuePair<int, string>> { new KeyValuePair<int, string>(1, "вариант 1"), new KeyValuePair<int, string>(2, "вариант 2"), new KeyValuePair<int, string>(3, "вариант 3") });
             x.Add("задание 2", new List<KeyValuePair<int, string>> { new KeyValuePair<int, string>(1, "вариант 1") });
             x.Add("задание 3", new List<KeyValuePair<int, string>> { new KeyValuePair<int, string>(1, "вариант 1"), new KeyValuePair<int, string>(2, "вариант 2") });
             x.Add("задание 4", new List<KeyValuePair<int, string>> { new KeyValuePair<int, string>(1, "вариант 1"), new KeyValuePair<int, string>(2, "вариант 2"), new KeyValuePair<int, string>(3, "вариант 3") });
-            return new CreateLabVariant { Variants = x };
+            clv.Variants = x;
+        }
+
+        public ActionResult AddLab(string name)
+        {
+            this.AllowAnonymous(_ctx);
+
+            if ( String.IsNullOrEmpty(name) )
+            {
+                ViewBag.Error = "Отсутствует название лабораторной работы!";
+                return View("Index");
+            }
+            //TODO: проверка существования в БД, добавление в БД
+            CreateLabVariant clv = new CreateLabVariant { LabName=name };
+            return RedirectToAction("CreateLabVariant", clv);
         }
     }
 }
