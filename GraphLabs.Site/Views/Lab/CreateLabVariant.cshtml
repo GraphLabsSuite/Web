@@ -51,16 +51,18 @@
 
         $(document).ready(function () {
             SetIdToHeaderOptions();
-            MarkedVariantOptions();
+            MarkVariantOptions();
             HideAllOptions();
             $("#firstSelect").focus();
         });
 
         function SetIdToHeaderOptions() {
-            $("#firstSelect option.header").attr("id", function (index, attr) { return index; } );
+            $("#firstSelect option.header").attr("id", function (index, attr) {
+                return index;
+            });
         };
 
-        function MarkedVariantOptions() {
+        function MarkVariantOptions() {
             for (var i = numberOfHeaders - 1; i >= 0; --i) {
                 options[i] = $("#" + i + " ~ option.variant.unmarked").toggleClass("unmarked opt" + i);
             };
@@ -164,6 +166,10 @@
             };
             $("#firstSelect option.variant." + elemClass).removeAttr("disabled");
             $("#secondSelect").focus();
+        });
+
+        $("#secondSelect option").live("dblclick", function () {
+            $("#delOpt").click();
         });
 
         $("#VarUp").click(function () {
