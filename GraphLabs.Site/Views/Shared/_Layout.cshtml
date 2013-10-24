@@ -15,15 +15,10 @@
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("GraphLabs", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
+        <div id="header">            
+        </div>
+        <div id="body">
+            <div class="float-left">                    
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
@@ -44,9 +39,11 @@
                         </ul>
                     </nav>
                 </div>
+            <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
             </div>
-        </header>
-        <div id="body">
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
                 @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
@@ -58,7 +55,7 @@
                 @RenderBody()
             </section>
         </div>
-        <footer>
+        <div id="footer">
             <div class="content-wrapper">
                 <div class="float-left">
                     <p>&copy; 2012-2013 — Национальный Исследовательский Ядерный Университет «МИФИ»</p>
@@ -67,7 +64,8 @@
                     <p><a href="http://bugs.svtz.ru">Сообщить об ошибке</a></p>
                 </div>
             </div>
-        </footer>
+        </div>
+        
 
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
