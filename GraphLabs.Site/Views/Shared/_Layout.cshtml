@@ -21,6 +21,9 @@
             <div class="float-left">                    
                     <nav>
                         <ul id="menu">
+                            <li>
+                                <a href="#">Меню</a>
+                            <ul>
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
                             @if (this.IsUserInRole(UserRole.Teacher))
                             {
@@ -36,6 +39,8 @@
                                 <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
                                 <li>@Html.ActionLink("Мои результаты", "My", "Results")</li>
                             }
+                            </ul>
+                            </li>
                         </ul>
                     </nav>
                 </div>

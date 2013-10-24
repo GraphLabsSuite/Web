@@ -1,5 +1,5 @@
 ﻿html {
-    background-color: #f212d2;
+    background-color: #fff;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -10,14 +10,15 @@ body {
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     min-height: 100%;
     position: relative;
-    width: 100%;
+    max-width: 1024px;
+    min-width: 800px;
 }
 
-hgroup, nav, section {
+hgroup, section {
     display: block;
 }
 
@@ -26,27 +27,26 @@ hgroup, nav, section {
 .content-wrapper {
     margin: 0 auto;
     max-width: 960px;
+    clear: both;
 }
 
 #header {
-    background: url(../Images/top.gif) left no-repeat, url(../Images/22.gif) right no-repeat;
+    background: url(../Images/top.gif) left top no-repeat, url(../Images/22.gif) right top no-repeat;
     clear: both;
     background-color: #5c7e94;
     font-size: .8em;
     height: 138px;
     top: 0;
-    left:50%;
-    margin-left:-512px;
-    width: 1024px;
+    left:0;
+    width: 100%;
     position: absolute;
 }
 
 #body {
     background-color: #e8edef;
     clear: both;
-    left:50%;
-    margin-left:-512px;
-    width: 1024px;
+    left:0;
+    width: 100%;
     top: 138px;
     bottom: 100px;
     position: absolute;
@@ -55,7 +55,7 @@ hgroup, nav, section {
 
     .main-content {
         padding-left: 10px;
-        padding-top: 30px;
+        padding-top: 10px;
     }
 
     .featured + .main-content {
@@ -72,10 +72,9 @@ hgroup, nav, section {
     background-color: #5c7e94;
     font-size: .8em;
     height: 100px;    
-    left:50%;
-    margin-left:-512px;
+    left:0;
     bottom: 0;
-    width: 1024px;
+    width: 100%;
     position: absolute;
 }
 /* --- */
@@ -172,7 +171,7 @@ h5, h6 {
 #login {
     display: block;
     font-size: .85em;
-    margin: 0 0 10px;
+    margin: 10px 10px 10px 0;
     text-align: right;
 }
 
@@ -191,43 +190,116 @@ h5, h6 {
         text-decoration: underline;
     }
 
-    #login ul {
-        margin: 0;
-    }
-
-    #login li {
-        display: inline;
-        list-style: none;
-    }
-
+#login p a {
+	-moz-box-shadow:inset 0px 1px 0px 0px #cae3fc;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #cae3fc;
+	box-shadow:inset 0px 1px 0px 0px #cae3fc;
+	background-color:#79bbff;
+	-webkit-border-top-left-radius:20px;
+	-moz-border-radius-topleft:20px;
+	border-top-left-radius:20px;
+	-webkit-border-top-right-radius:20px;
+	-moz-border-radius-topright:20px;
+	border-top-right-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	-moz-border-radius-bottomright:20px;
+	border-bottom-right-radius:20px;
+	-webkit-border-bottom-left-radius:20px;
+	-moz-border-radius-bottomleft:20px;
+	border-bottom-left-radius:20px;
+	text-indent:0;
+	border:1px solid #469df5;
+	display:inline-block;
+	color:#050105;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:25px;
+	line-height:25px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #287ace;
+}
+#login p a:hover {
+	background-color:#4197ee;
+}
+#login p a:active {
+	position:relative;
+	top:1px;
+}
 
 /* menu
 ----------------------------------------------------------*/
-ul#menu {
-    font-size: 1.3em;
-    font-weight: 600;
-    margin: 0 0 5px;
-    padding: 0;
-    text-align: right;
+#menu{
+	float:left;
+	width:100%;
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:10px;
+}
+#menu li{
+	float:left;
+	margin-right:10px;
+	position: relative;
+	display:block;
+}
+#menu li a{
+	display:block;
+	padding:5px;
+	color:#fff;
+	background:#333;
+	text-decoration:none;
+	
+	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}
+#menu li a:hover{
+	color:#fff;
+	background:#6b0c36;
+	background:rgba(107,12,54,0.75); /* Выглядит полупрозрачным */
+	text-decoration:underline;
 }
 
-    ul#menu li {
-        display: inline;
-        list-style: none;
-        padding-left: 15px;
-    }
-
-        ul#menu li a {
-            background: none;
-            color: #999;
-            text-decoration: none;
-        }
-
-        ul#menu li a:hover {
-            color: #333;
-            text-decoration: none;
-        }
-
+/*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
+#menu ul{
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Скрываем за экраном, когда не нужно (данный метод лучше, чем display:none;) */
+	opacity:0; /* Устанавливаем начальное состояние прозрачности */
+	-webkit-transition:0.25s linear opacity; /* В Webkit выпадающие пункты будут проявляться */
+}
+#menu ul li{
+	padding-top:1px; /* Вводим отступ между li чтобы создать иллюзию разделенных пунктов меню */
+	float:none;
+}
+#menu ul a{
+	white-space:nowrap; /* Останавливаем перенос текста и создаем многострочный выпадающий пункт */
+	display:block;
+}
+#menu li:hover ul{ /* Выводим выпадающий пункт при наведении курсора */
+	left:0; /* Приносим его обратно на экран, когда нужно */
+	opacity:1; /* Делаем непрозрачным */
+}
+#menu li:hover a{ /* Устанавливаем стили для верхнего уровня, когда выводится выпадающий список */
+	background:#6b0c36;
+	background:rgba(107,12,54,0.75); /* Выглядит полупрозрачным */
+	text-decoration:underline;
+}
+#menu li:hover ul a{ /* Изменяем некоторые стили верхнего уровня при выводе выпадающего пункта */
+	text-decoration:none;
+	-webkit-transition:-webkit-transform 0.075s linear;
+}
+#menu li:hover ul li a:hover{ /* Устанавливаем стили для выпадающих пунктов, когда курсор наводится на конкретный пункт */
+	background:#333;
+	background:rgba(51,51,51,0.75); /* Будет полупрозрачным */
+	text-decoration:underline;
+	-moz-transform:scale(1.05);
+	-webkit-transform:scale(1.05);
+}
 
 /* page elements
 ----------------------------------------------------------*/

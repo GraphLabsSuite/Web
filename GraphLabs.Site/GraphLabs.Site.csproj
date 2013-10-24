@@ -291,8 +291,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\22.gif" />
-    <Content Include="Images\listHide.png" />
-    <Content Include="Images\listOpen.png" />
     <Content Include="Images\top.gif" />
     <Content Include="Images\_.png" />
     <Content Include="Images\_false.png" />
