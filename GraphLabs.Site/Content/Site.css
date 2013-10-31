@@ -43,12 +43,22 @@ hgroup, section {
 }
 
 #body {
-    background-color: #e8edef;
+    background-color: #5c7e94;
     clear: both;
     left:0;
     width: 100%;
     top: 138px;
     bottom: 100px;
+    position: absolute;
+}
+
+#main {
+    background-color: #e8edef;
+    clear: both;
+    left:0;
+    width: 100%;
+    top: 60px;
+    bottom: 0;
     position: absolute;
     overflow-y: auto;
 }
@@ -170,7 +180,6 @@ h5, h6 {
 ----------------------------------------------------------*/
 #login {
     display: block;
-    font-size: .85em;
     margin: 10px 10px 10px 0;
     text-align: right;
 }
@@ -191,6 +200,7 @@ h5, h6 {
     }
 
 #login p a {
+    padding:5px;
 	-moz-box-shadow:inset 0px 1px 0px 0px #cae3fc;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #cae3fc;
 	box-shadow:inset 0px 1px 0px 0px #cae3fc;
@@ -232,36 +242,66 @@ h5, h6 {
 
 /* menu
 ----------------------------------------------------------*/
+/*Почему z-index 8? Потому что 8 - мое любимое число!*/
 #menu{
 	float:left;
 	width:100%;
 	list-style:none;
 	font-weight:bold;
 	margin-bottom:10px;
+    z-index: 8;
 }
 #menu li{
 	float:left;
 	margin-right:10px;
 	position: relative;
 	display:block;
+    z-index: 8;
 }
 #menu li a{
-	display:block;
 	padding:5px;
-	color:#fff;
-	background:#333;
-	text-decoration:none;
+	background:#79bbff;
 	
+    text-indent:0;
+	border:1px solid #469df5;
+	display:inline-block;
+	color:#050105;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:25px;
+	line-height:25px;
+	width:120px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #287ace;
+
 	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
-	border-radius:2px;
+	-moz-box-shadow:inset 0px 1px 0px 0px #cae3fc;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #cae3fc;
+	box-shadow:inset 0px 1px 0px 0px #cae3fc;
+	background-color:#79bbff;
+	-webkit-border-top-left-radius:20px;
+	-moz-border-radius-topleft:20px;
+	border-top-left-radius:20px;
+	-webkit-border-top-right-radius:20px;
+	-moz-border-radius-topright:20px;
+	border-top-right-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	-moz-border-radius-bottomright:20px;
+	border-bottom-right-radius:20px;
+	-webkit-border-bottom-left-radius:20px;
+	-moz-border-radius-bottomleft:20px;
+	border-bottom-left-radius:20px;
+
+    z-index: 8;
 }
 #menu li a:hover{
 	color:#fff;
-	background:#6b0c36;
-	background:rgba(107,12,54,0.75); /* Выглядит полупрозрачным */
+	background: #79bbff;
 	text-decoration:underline;
+    z-index: 8;
 }
 
 /*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
@@ -271,34 +311,39 @@ h5, h6 {
 	left:-9999px; /* Скрываем за экраном, когда не нужно (данный метод лучше, чем display:none;) */
 	opacity:0; /* Устанавливаем начальное состояние прозрачности */
 	-webkit-transition:0.25s linear opacity; /* В Webkit выпадающие пункты будут проявляться */
+    z-index: 8;
 }
 #menu ul li{
 	padding-top:1px; /* Вводим отступ между li чтобы создать иллюзию разделенных пунктов меню */
 	float:none;
+    z-index: 8;
 }
 #menu ul a{
 	white-space:nowrap; /* Останавливаем перенос текста и создаем многострочный выпадающий пункт */
 	display:block;
+    z-index: 8;
 }
 #menu li:hover ul{ /* Выводим выпадающий пункт при наведении курсора */
 	left:0; /* Приносим его обратно на экран, когда нужно */
 	opacity:1; /* Делаем непрозрачным */
+    z-index: 8;
 }
 #menu li:hover a{ /* Устанавливаем стили для верхнего уровня, когда выводится выпадающий список */
-	background:#6b0c36;
-	background:rgba(107,12,54,0.75); /* Выглядит полупрозрачным */
-	text-decoration:underline;
+	background:#79bbff;
+	text-decoration:none;
+    z-index: 8;
 }
 #menu li:hover ul a{ /* Изменяем некоторые стили верхнего уровня при выводе выпадающего пункта */
 	text-decoration:none;
 	-webkit-transition:-webkit-transform 0.075s linear;
+    z-index: 8;
 }
 #menu li:hover ul li a:hover{ /* Устанавливаем стили для выпадающих пунктов, когда курсор наводится на конкретный пункт */
-	background:#333;
-	background:rgba(51,51,51,0.75); /* Будет полупрозрачным */
+	background: #4197ee;
 	text-decoration:underline;
 	-moz-transform:scale(1.05);
 	-webkit-transform:scale(1.05);
+    z-index: 8;
 }
 
 /* page elements

@@ -25,20 +25,17 @@
                                 <a href="#">Меню</a>
                             <ul>
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            @if (this.IsUserInRole(UserRole.Teacher))
-                            {
+                            
                                 <li>@Html.ActionLink("Группы", "Index", "Group")</li>
                                 <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
                                 <li>@Html.ActionLink("Задания", "Index", "Task")</li>
                                 <li>@Html.ActionLink("Лабораторные", "Index", "Lab")</li>
                                 <li>@Html.ActionLink("Результаты", "All", "Results")</li>
                                 <li>@Html.ActionLink("Система", "Index", "Settings")</li>
-                            }
-                            @if (ViewBag.UserRole == UserRole.Student)
-                            {
+                            
                                 <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
                                 <li>@Html.ActionLink("Мои результаты", "My", "Results")</li>
-                            }
+                            
                             </ul>
                             </li>
                         </ul>
@@ -49,16 +46,18 @@
                         @Html.Partial("_LoginPartial")
                     </section>
             </div>
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
-                {
-                    <div class="error">
-                        <p>@ViewBag.Message</p>
-                    </div>
-                }
-                @RenderBody()
-            </section>
+            <div id="main">
+                @RenderSection("featured", required: false)
+                <section class="content-wrapper main-content clear-fix">
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                    {
+                        <div class="error">
+                            <p>@ViewBag.Message</p>
+                        </div>
+                    }
+                    @RenderBody()
+                </section>
+            </div>
         </div>
         <div id="footer">
             <div class="content-wrapper">
