@@ -5,12 +5,10 @@
         @Html.ActionLink((string)ViewBag.UserName, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
-            <p><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></p>
+            <a href="javascript:document.getElementById('logoutForm').submit()">Выход</a>
         }
     </text>
 } else {
-    <p>
-        @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-        @Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    </p>
+    @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+    @Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
 }

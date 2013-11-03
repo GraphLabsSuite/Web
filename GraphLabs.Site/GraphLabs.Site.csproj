@@ -207,6 +207,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LabController.cs" />
+    <Compile Include="Controllers\LabsController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -215,6 +216,7 @@
     </Compile>
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariant.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
@@ -360,6 +362,8 @@
     <Content Include="Views\Test\XAP.cshtml" />
     <Content Include="Views\Lab\CreateLabVariant.cshtml" />
     <Content Include="Views\Lab\Index.cshtml" />
+    <Content Include="Views\Labs\Index.cshtml" />
+    <Content Include="Views\Labs\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -35,7 +35,7 @@ hgroup, section {
     clear: both;
     background-color: #5c7e94;
     font-size: .8em;
-    height: 138px;
+    height: 143px;
     top: 0;
     left:0;
     width: 100%;
@@ -43,11 +43,11 @@ hgroup, section {
 }
 
 #body {
-    background-color: #5c7e94;
+    background-color: #8aa5b7;
     clear: both;
     left:0;
     width: 100%;
-    top: 138px;
+    top: 143px;
     bottom: 100px;
     position: absolute;
 }
@@ -57,7 +57,7 @@ hgroup, section {
     clear: both;
     left:0;
     width: 100%;
-    top: 60px;
+    top: 25px;
     bottom: 0;
     position: absolute;
     overflow-y: auto;
@@ -179,17 +179,28 @@ h5, h6 {
 /* login
 ----------------------------------------------------------*/
 #login {
+    position: relative;
     display: block;
-    margin: 10px 10px 10px 0;
+    font-size: .85em;
+    margin: 0 0 10px;
     text-align: right;
+    height: 25px;
 }
 
     #login a {
-        background-color: #d3dce0;
+        display: inline-block;
+        background-color: #8aa5b7;
         margin-left: 10px;
-        margin-right: 3px;
-        padding: 2px 3px;
+        margin-right: 10px;
+        padding: 2px 5px;
         text-decoration: none;
+        height: 25px;
+        font-family:Arial;
+	font-size:15px;
+	font-style:normal;
+        color: #050105;
+        text-shadow:1px 1px 0px #287ace;
+	    text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */
     }
 
     #login a.username {
@@ -199,56 +210,14 @@ h5, h6 {
         text-decoration: underline;
     }
 
-#login p a {
-    padding:5px;
-	-moz-box-shadow:inset 0px 1px 0px 0px #cae3fc;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #cae3fc;
-	box-shadow:inset 0px 1px 0px 0px #cae3fc;
-	background-color:#79bbff;
-	-webkit-border-top-left-radius:20px;
-	-moz-border-radius-topleft:20px;
-	border-top-left-radius:20px;
-	-webkit-border-top-right-radius:20px;
-	-moz-border-radius-topright:20px;
-	border-top-right-radius:20px;
-	-webkit-border-bottom-right-radius:20px;
-	-moz-border-radius-bottomright:20px;
-	border-bottom-right-radius:20px;
-	-webkit-border-bottom-left-radius:20px;
-	-moz-border-radius-bottomleft:20px;
-	border-bottom-left-radius:20px;
-	text-indent:0;
-	border:1px solid #469df5;
-	display:inline-block;
-	color:#050105;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	font-style:normal;
-	height:25px;
-	line-height:25px;
-	width:100px;
-	text-decoration:none;
-	text-align:center;
-	text-shadow:1px 1px 0px #287ace;
-}
-#login p a:hover {
-	background-color:#4197ee;
-}
-#login p a:active {
-	position:relative;
-	top:1px;
-}
-
 /* menu
 ----------------------------------------------------------*/
 /*Почему z-index 8? Потому что 8 - мое любимое число!*/
 #menu{
+    margin: 0;
 	float:left;
 	width:100%;
 	list-style:none;
-	font-weight:bold;
-	margin-bottom:10px;
     z-index: 8;
 }
 #menu li{
@@ -259,16 +228,13 @@ h5, h6 {
     z-index: 8;
 }
 #menu li a{
-	padding:5px;
-	background:#79bbff;
-	
+	padding:0;
+	background: #8aa5b7;	
     text-indent:0;
-	border:1px solid #469df5;
 	display:inline-block;
-	color:#050105;
+	color: #050105;
 	font-family:Arial;
 	font-size:15px;
-	font-weight:bold;
 	font-style:normal;
 	height:25px;
 	line-height:25px;
@@ -276,30 +242,25 @@ h5, h6 {
 	text-decoration:none;
 	text-align:center;
 	text-shadow:1px 1px 0px #287ace;
-
-	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */
-	-moz-box-shadow:inset 0px 1px 0px 0px #cae3fc;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #cae3fc;
-	box-shadow:inset 0px 1px 0px 0px #cae3fc;
-	background-color:#79bbff;
-	-webkit-border-top-left-radius:20px;
-	-moz-border-radius-topleft:20px;
-	border-top-left-radius:20px;
-	-webkit-border-top-right-radius:20px;
-	-moz-border-radius-topright:20px;
-	border-top-right-radius:20px;
-	-webkit-border-bottom-right-radius:20px;
-	-moz-border-radius-bottomright:20px;
-	border-bottom-right-radius:20px;
-	-webkit-border-bottom-left-radius:20px;
-	-moz-border-radius-bottomleft:20px;
-	border-bottom-left-radius:20px;
+	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */	
+	-webkit-border-top-left-radius:2px;
+	-moz-border-radius-topleft:2px;
+	border-top-left-radius:2px;
+	-webkit-border-top-right-radius:2px;
+	-moz-border-radius-topright:2px;
+	border-top-right-radius:2px;
+	-webkit-border-bottom-right-radius:2px;
+	-moz-border-radius-bottomright:2px;
+	border-bottom-right-radius:2px;
+	-webkit-border-bottom-left-radius:2px;
+	-moz-border-radius-bottomleft:2px;
+	border-bottom-left-radius:2px;
 
     z-index: 8;
 }
 #menu li a:hover{
 	color:#fff;
-	background: #79bbff;
+	background: #8aa5b7;
 	text-decoration:underline;
     z-index: 8;
 }
@@ -329,7 +290,7 @@ h5, h6 {
     z-index: 8;
 }
 #menu li:hover a{ /* Устанавливаем стили для верхнего уровня, когда выводится выпадающий список */
-	background:#79bbff;
+	background: #8aa5b7;
 	text-decoration:none;
     z-index: 8;
 }
@@ -384,13 +345,6 @@ hgroup.title h1, hgroup.title h2 {
 hgroup.title h2 {
     font-weight: normal;
     margin-left: 3px;
-}
-
-/* features */
-section.feature {
-    width: 300px;
-    float: left;
-    padding: 10px;
 }
 
 /* ordered list */
@@ -565,20 +519,6 @@ aside {
 
 #logoutForm {
     display: inline;
-}
-
-/* contact */
-.contact h3 {
-    font-size: 1.2em;
-}
-
-.contact p {
-    margin: 5px 0 0 10px;
-}
-
-.contact iframe {
-    border: 1px solid #333;
-    margin: 5px 0 0 10px;
 }
 
 /* forms */
@@ -842,173 +782,5 @@ input.arrowButton {
 
 #secondSelectSize, #firstSelectSize {
     display: block;
-}
-
-/********************
-*   Mobile Styles   *
-********************/
-@media only screen and (max-width: 850px) {
-
-    /* header
-    ----------------------------------------------------------*/
-    header .float-left,
-    header .float-right {
-        float: none;
-    }
-
-    /* logo */
-    header .site-title {
-        margin: 10px;
-        text-align: center;
-    }
-
-    /* login */
-    #login {
-        font-size: .85em;
-        margin: 0 0 12px;
-        text-align: center;
-    }
-
-        #login ul {
-            margin: 5px 0;
-            padding: 0;
-        }
-
-        #login li {
-            display: inline;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        #login a {
-            background: none;
-            color: #999;
-            font-weight: 600;
-            margin: 2px;
-            padding: 0;
-        }
-
-        #login a:hover {
-            color: #333;
-        }
-
-    /* menu */
-    nav {
-        margin-bottom: 5px;
-    }
-
-    ul#menu {
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-        ul#menu li {
-            margin: 0;
-            padding: 0;
-        }
-
-
-    /* main layout
-    ----------------------------------------------------------*/
-    .main-content,
-    .featured + .main-content {
-        background-position: 10px 0;
-    }
-
-    .content-wrapper {
-        padding-right: 10px;
-        padding-left: 10px;
-    }
-
-    .featured .content-wrapper {
-        padding: 10px;
-    }
-
-    /* page content */
-    article, aside {
-        float: none;
-        width: 100%;
-    }
-
-    /* ordered list */
-    ol.round {
-        list-style-type: none;
-        padding-left: 0;
-    }
-
-        ol.round li {
-            padding-left: 10px;
-            margin: 25px 0;
-        }
-
-            ol.round li.zero,
-            ol.round li.one,
-            ol.round li.two,
-            ol.round li.three,
-            ol.round li.four,
-            ol.round li.five,
-            ol.round li.six,
-            ol.round li.seven,
-            ol.round li.eight,
-            ol.round li.nine {
-                background: none;
-            }
-
-     /* features */
-     section.feature {
-        float: none;
-        padding: 10px;
-        width: auto;
-     }
-
-        section.feature img {
-            color: #999;
-            content: attr(alt);
-            font-size: 1.5em;
-            font-weight: 600;
-        }
-
-    /* forms */
-    input {
-        width: 90%;
-    }
-
-    /* login page */
-    #loginForm {
-        border-right: none;
-        float: none;
-        width: auto;
-    }
-
-        #loginForm .validation-error {
-            display: block;
-            margin-left: 15px;
-        }
-
-    #socialLoginForm {
-        margin-left: 0;
-        float: none;
-        width: auto;
-    }
-
-
-    /* footer
-    ----------------------------------------------------------*/
-    footer .float-left,
-    footer .float-right {
-        float: none;
-    }
-
-    footer {
-        text-align: center;
-        height: auto;
-        padding: 10px 0;
-    }
-
-        footer p {
-            margin: 0;
-        }
 }
 
