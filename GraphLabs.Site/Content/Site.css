@@ -87,6 +87,12 @@ hgroup, section {
     width: 100%;
     position: absolute;
 }
+
+.widthSection {
+    display: block;
+    clear: both;
+}
+
 /* --- */
 a {
     color: #333;
@@ -783,4 +789,3 @@ input.arrowButton {
 #secondSelectSize, #firstSelectSize {
     display: block;
 }
-

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
+using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -42,5 +43,31 @@ namespace GraphLabs.Site.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public string Create(string Name, string DateFrom, string DateTo, string JsonArr)
+        {
+            int[] q = JsonConvert.DeserializeObject<int[]>(JsonArr);
+
+            var existlab = (from l in _ctx.LabWorks
+                           where l.Name == Name
+                           select l);
+            if (existlab != null)
+            {
+                return "1";
+            };
+
+            LabWork lab = new LabWork();
+            lab.Name = Name;
+            lab.AcquaintanceFrom = JsonConvert.DeserializeObject<DateTime>(DateFrom);
+            lab.AcquaintanceTill = JsonConvert.DeserializeObject<DateTime>(DateTo);
+            _ctx.LabWorks.Add(lab);
+            _ctx.SaveChanges();
+
+            //TODO
+
+            return "0";
+        }
+
     }
 }
