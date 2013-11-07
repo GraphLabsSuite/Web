@@ -47,8 +47,8 @@ namespace GraphLabs.Site.Controllers
             int[] tasksId = JsonConvert.DeserializeObject<int[]>(JsonArr);
 
             var existlab = (from l in _ctx.LabWorks
-                           where l.Name == Name
-                           select l);
+                            where l.Name == Name
+                            select l).First();
             if (existlab != null)
             {
                 return "1";
