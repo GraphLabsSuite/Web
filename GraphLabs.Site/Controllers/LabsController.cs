@@ -60,21 +60,16 @@ namespace GraphLabs.Site.Controllers
             lab.AcquaintanceTill = JsonConvert.DeserializeObject<DateTime>(DateTo);
             _ctx.LabWorks.Add(lab);
             _ctx.SaveChanges();
-
-            lab = (from l in _ctx.LabWorks
-                   where l.Name == lab.Name
-                   select l).Single();
-
-            LabEntry entry = new LabEntry();
+            
+            /*LabEntry entry = new LabEntry();
             entry.LabWork = lab;
             foreach (var t in tasksId)
             {
                 entry.Tasks.Add(_ctx.Tasks.Find(t));
             };
-
             _ctx.LabEntries.Add(entry);
             _ctx.SaveChanges();
-            
+            */
             return "success";
         }
 
