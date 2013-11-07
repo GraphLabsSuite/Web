@@ -46,13 +46,13 @@ namespace GraphLabs.Site.Controllers
         {
             int[] tasksId = JsonConvert.DeserializeObject<int[]>(JsonArr);
             
-            /*var existlab = (from l in _ctx.LabWorks
+            var existlab = (from l in _ctx.LabWorks
                             where l.Name == Name
                             select l).ToList();
             if (existlab.Count != 0)
             {
                 return "fail";
-            };*/
+            };
 
             LabWork lab = new LabWork();
             lab.Name = Name;
@@ -60,6 +60,10 @@ namespace GraphLabs.Site.Controllers
             lab.AcquaintanceTill = JsonConvert.DeserializeObject<DateTime>(DateTo);
             _ctx.LabWorks.Add(lab);
             _ctx.SaveChanges();
+
+            lab = (from l in _ctx.LabWorks
+                   where l.Name == lab.Name
+                   select l).Single();
 
             LabEntry entry = new LabEntry();
             entry.LabWork = lab;
