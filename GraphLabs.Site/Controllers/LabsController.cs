@@ -30,12 +30,12 @@ namespace GraphLabs.Site.Controllers
 
             var tasks = (from g in _ctx.Tasks
                         select g).ToArray();
-
+            
             CreateLabModel model = new CreateLabModel();
             model.Tasks = new List<KeyValuePair<long, string>>();
             foreach (var t in tasks)
             {                
-                model.Tasks.Add(new KeyValuePair<long, string>(t.Id, t.Name));
+                model.Tasks.Add(new KeyValuePair<long, string>(1, t.Name));
             }
 
             return View(model);
@@ -45,14 +45,14 @@ namespace GraphLabs.Site.Controllers
         public string Create(string Name, string DateFrom, string DateTo, string JsonArr)
         {
             int[] tasksId = JsonConvert.DeserializeObject<int[]>(JsonArr);
-
-            var existlab = (from l in _ctx.LabWorks
+            
+            /*var existlab = (from l in _ctx.LabWorks
                             where l.Name == Name
                             select l).ToList();
             if (existlab.Count != 0)
             {
                 return "fail";
-            };
+            };*/
 
             LabWork lab = new LabWork();
             lab.Name = Name;
@@ -70,7 +70,7 @@ namespace GraphLabs.Site.Controllers
 
             _ctx.LabEntries.Add(entry);
             _ctx.SaveChanges();
-
+            
             return "success";
         }
 
