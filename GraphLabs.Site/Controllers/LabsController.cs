@@ -51,7 +51,7 @@ namespace GraphLabs.Site.Controllers
                             select l).First();
             if (existlab != null)
             {
-                return "1";
+                return "fail";
             };
 
             LabWork lab = new LabWork();
@@ -71,7 +71,7 @@ namespace GraphLabs.Site.Controllers
             _ctx.LabEntries.Add(entry);
             _ctx.SaveChanges();
 
-            return "0";
+            return "success";
         }
 
     }
