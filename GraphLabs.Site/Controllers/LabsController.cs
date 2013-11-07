@@ -48,8 +48,8 @@ namespace GraphLabs.Site.Controllers
 
             var existlab = (from l in _ctx.LabWorks
                             where l.Name == Name
-                            select l).First();
-            if (existlab != null)
+                            select l).ToList();
+            if (existlab.Count != 0)
             {
                 return "fail";
             };
