@@ -28,18 +28,15 @@ namespace GraphLabs.Site.Controllers
         {
             this.AllowAnonymous(_ctx);
 
-            //var tasks = (from g in _ctx.Tasks
-              //          select g).ToArray();
+            var tasks = (from g in _ctx.Tasks
+                        select g).ToArray();
 
             CreateLabModel model = new CreateLabModel();
             model.Tasks = new List<KeyValuePair<long, string>>();
-            //foreach (var t in tasks)
-            //{                
-                //model.Tasks.Add(new KeyValuePair<long, string>(t.Id, t.Name));
-            //}
-            model.Tasks.Add(new KeyValuePair<long, string>(1, "Задание 1"));
-            model.Tasks.Add(new KeyValuePair<long, string>(2, "Задание 2"));
-            model.Tasks.Add(new KeyValuePair<long, string>(3, "Задание 3"));
+            foreach (var t in tasks)
+            {                
+                model.Tasks.Add(new KeyValuePair<long, string>(t.Id, t.Name));
+            }
 
             return View(model);
         }
@@ -47,7 +44,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public string Create(string Name, string DateFrom, string DateTo, string JsonArr)
         {
-            int[] q = JsonConvert.DeserializeObject<int[]>(JsonArr);
+            int[] tasksId = JsonConvert.DeserializeObject<int[]>(JsonArr);
 
             var existlab = (from l in _ctx.LabWorks
                            where l.Name == Name
@@ -64,7 +61,15 @@ namespace GraphLabs.Site.Controllers
             _ctx.LabWorks.Add(lab);
             _ctx.SaveChanges();
 
-            //TODO
+            LabEntry entry = new LabEntry();
+            entry.LabWork = lab;
+            foreach (var t in tasksId)
+            {
+                entry.Tasks.Add(_ctx.Tasks.Find(t));
+            };
+
+            _ctx.LabEntries.Add(entry);
+            _ctx.SaveChanges();
 
             return "0";
         }
