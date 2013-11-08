@@ -28,17 +28,15 @@ namespace GraphLabs.Site.Controllers
         {
             this.AllowAnonymous(_ctx);
 
-            //var tasks = (from g in _ctx.Tasks
-            //            select g).ToArray();
+            var tasks = (from g in _ctx.Tasks
+                        select g).ToArray();
             
             CreateLabModel model = new CreateLabModel();
             model.Tasks = new List<KeyValuePair<long, string>>();
-            /*foreach (var t in tasks)
+            foreach (var t in tasks)
             {                
                 model.Tasks.Add(new KeyValuePair<long, string>(1, t.Name));
-            }*/
-
-            model.Tasks.Add(new KeyValuePair<long, string>(1, "qqq"));
+            }
 
             return View(model);
         }
@@ -50,12 +48,12 @@ namespace GraphLabs.Site.Controllers
 
             int[] tasksId = JsonConvert.DeserializeObject<int[]>(JsonArr);
             
-            /*var existlab = (from l in _ctx.LabWorks
+            var existlab = (from l in _ctx.LabWorks
                             where l.Name == Name
                             select l).ToList();
-            */
+            
             JSONResultCreateLab res = null;
-            /*
+            
             if (existlab.Count != 0)
             {
                 res = new JSONResultCreateLab { Result = 1, LabName = Name };
@@ -64,11 +62,11 @@ namespace GraphLabs.Site.Controllers
             
             LabWork lab = new LabWork();
             lab.Name = Name;
-            lab.AcquaintanceFrom = JsonConvert.DeserializeObject<DateTime>(DateFrom);
-            lab.AcquaintanceTill = JsonConvert.DeserializeObject<DateTime>(DateTo);
+            if (DateFrom != "") { lab.AcquaintanceFrom = JsonConvert.DeserializeObject<DateTime>(DateFrom); }
+            else { lab.AcquaintanceFrom = new DateTime(2014, 1, 1); };
+            if (DateTo != "") { lab.AcquaintanceTill = JsonConvert.DeserializeObject<DateTime>(DateTo); }
+            else { lab.AcquaintanceTill = new DateTime(2014, 1, 2); };
             _ctx.LabWorks.Add(lab);
-            _ctx.SaveChanges();
-            
             LabEntry entry = new LabEntry();
             entry.LabWork = lab;
             foreach (var t in tasksId)
@@ -77,8 +75,8 @@ namespace GraphLabs.Site.Controllers
             };
             _ctx.LabEntries.Add(entry);
             _ctx.SaveChanges();
-            */
-            res = new JSONResultCreateLab { Result = 0, LabId = 17, LabName = Name };
+                        
+            res = new JSONResultCreateLab { Result = 0, LabId = lab.Id, LabName = lab.Name };
             return JsonConvert.SerializeObject(res);
         }
 
@@ -86,9 +84,10 @@ namespace GraphLabs.Site.Controllers
         {
             this.AllowAnonymous(_ctx);
 
+            var lab = _ctx.LabWorks.Find(labId);
+
             CreateLabVariantModel model = new CreateLabVariantModel();
-            model.id = 1;
-            model.Name = "Название";
+            model.Name = lab.Name;
             model.Variant = new Dictionary<string, List<KeyValuePair<long, string>>>();
             model.Variant.Add("задание 1", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1"), new KeyValuePair<long, string>(2, "вариант 2"), new KeyValuePair<long, string>(3, "вариант 3") });
             model.Variant.Add("задание 2", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1"), new KeyValuePair<long, string>(2, "вариант 2") });
