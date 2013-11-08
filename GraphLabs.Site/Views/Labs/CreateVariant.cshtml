@@ -7,14 +7,16 @@
 <h2>@ViewBag.Title "@Model.Name"</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
 
-@Html.HiddenFor(model => model.id)
+<div class="widthSection">
+<span id="error" class="field-validation-error"></span>
+</div>
 
 <p id="instr">Выберите вариант для каждого задания лабораторной работы</p>
 
 <table>
     <tr>
-        <th>Задания</th>
-        <th>Варианты</th>
+        <th class="tableHeader">Задания</th>
+        <th class="tableHeader">Варианты</th>
     </tr>
 @foreach (var item in Model.Variant)
 {
@@ -47,7 +49,52 @@
             if ($("option[value='no']").size() == 0) {
                 $("#save").removeAttr("disabled");
             };
-        });                
+        });
+
+        $("#random").click(function () {
+            $("#save").removeAttr("disabled");
+            $("option[value='no']").detach();
+            $("th").not(".tableHeader").replaceWith(function (index, oldHTML) {
+                return $("<td>").html(oldHTML);
+            });
+
+            $("select").each(function () {
+                var num = $(this).find("option").length;
+                var rand = Math.floor(Math.random() * num);
+                $(this).find("option:eq("+rand+")").attr("selected", "selected");
+            });
+        });
+
+        $("#save").click(function () {
+            $("#error").html("Отправка данных на сервер...");
+            var list = new Array();
+            $("select").each(function () {
+                list.push($(this).val());
+            });
+            var result = "Id=@Model.id&JsonArr=" + JSON.stringify(list);
+            $.ajax({
+                type: "POST",
+                url: "CreateVariant",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                },
+                success: function (data) {
+                    Suc(data);
+                }
+            });
+        });
+
+        function Suc(data) {
+            switch (data) {
+                case "0":
+                    $("#error").html("Вариант был бы сохранен, будь готовы варианты заданий...");                    
+                    break;
+                case "1":
+                    $("#error").html('Невозможно сохранить вариант: лабораторная работа "@Model.Name" отсутствует');
+                    break;
+            };
+        };
 
     </script>
 }

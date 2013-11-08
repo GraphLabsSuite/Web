@@ -62,17 +62,22 @@ namespace GraphLabs.Site.Controllers
             
             LabWork lab = new LabWork();
             lab.Name = Name;
-            if (DateFrom != "") { lab.AcquaintanceFrom = JsonConvert.DeserializeObject<DateTime>(DateFrom); }
-            else { lab.AcquaintanceFrom = new DateTime(2014, 1, 1); };
-            if (DateTo != "") { lab.AcquaintanceTill = JsonConvert.DeserializeObject<DateTime>(DateTo); }
-            else { lab.AcquaintanceTill = new DateTime(2014, 1, 2); };
-            _ctx.LabWorks.Add(lab);
+            if (DateFrom != "")
+            {
+                lab.AcquaintanceFrom = DateTime.Parse(DateFrom);
+            };
+            if (DateTo != "")
+            {
+                lab.AcquaintanceTill = DateTime.Parse(DateTo);
+            };            
             LabEntry entry = new LabEntry();
+            lab.LabEntry = entry;
             entry.LabWork = lab;
             foreach (var t in tasksId)
             {
                 entry.Tasks.Add(_ctx.Tasks.Find(t));
             };
+            _ctx.LabWorks.Add(lab);
             _ctx.LabEntries.Add(entry);
             _ctx.SaveChanges();
                         
@@ -87,6 +92,7 @@ namespace GraphLabs.Site.Controllers
             var lab = _ctx.LabWorks.Find(labId);
 
             CreateLabVariantModel model = new CreateLabVariantModel();
+            model.id = lab.Id;
             model.Name = lab.Name;
             model.Variant = new Dictionary<string, List<KeyValuePair<long, string>>>();
             model.Variant.Add("задание 1", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1"), new KeyValuePair<long, string>(2, "вариант 2"), new KeyValuePair<long, string>(3, "вариант 3") });
@@ -97,5 +103,22 @@ namespace GraphLabs.Site.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public string CreateVariant(int Id, string JsonArr)
+        {
+            this.AllowAnonymous(_ctx);
+
+            int[] varId = JsonConvert.DeserializeObject<int[]>(JsonArr);
+
+            int result = 0;
+
+            var lab = _ctx.LabWorks.Find(Id);
+            if (lab == null)
+            {
+                result = 1;
+            }
+            
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

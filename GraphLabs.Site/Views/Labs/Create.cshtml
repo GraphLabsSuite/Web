@@ -172,7 +172,7 @@
             };
         });
 
-        $("#save").click(function () {            
+        $("#save").click(function () {
             if ($("#labName").attr("value") == "") {
                 $("#error").html("Необходимо ввести название лабораторной работы");
                 wantCreate = 0;
@@ -184,6 +184,8 @@
                 wantCreate = 0;
                 return;
             };
+
+            $("#error").html("Отправка данных на сервер...");
 
             var list = new Array();
             var elems = $("#secondSelect option");
@@ -217,7 +219,7 @@
                     };
                     break;
                 case 1:
-                    $("#error").html("Лабораторная работа с именем " + obj.LabName + " уже сущестует");
+                    $("#error").html('Лабораторная работа "' + obj.LabName + '" уже сущестует');
                     wantCreate = 0;
                     break;
             };

@@ -10,7 +10,7 @@ namespace GraphLabs.Site.Models
     public class CreateLabVariantModel
     {
         [Key]
-        public int id { get; set; }
+        public long id { get; set; }
 
         public string Name { get; set; }
 
