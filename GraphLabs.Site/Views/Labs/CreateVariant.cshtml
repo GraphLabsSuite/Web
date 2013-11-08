@@ -4,7 +4,7 @@
     ViewBag.Title = "Создание варианта лабораторной работы";
 }
 
-<h2>@ViewBag.Title @Model.Name</h2>
+<h2>@ViewBag.Title "@Model.Name"</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
 
 @Html.HiddenFor(model => model.id)
