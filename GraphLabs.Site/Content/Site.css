@@ -712,7 +712,7 @@ th {
     font-size: 1.2em;
     text-align: left;
     border: none 0px;
-    padding-left: 0;
+    padding: 0.25em 2em 0.25em 0em;
 }
 
     th a {
@@ -768,11 +768,6 @@ select.labSelectLeft {
 select.labSelectRight {
     display: block;
     width: 100%;
-}
-
-option.header {
-    background: #c8c8c8;
-    text-align: center;
 }
 
 input.arrowButton {

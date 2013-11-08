@@ -1,0 +1,53 @@
+﻿@model GraphLabs.Site.Models.CreateLabVariantModel
+
+@{
+    ViewBag.Title = "Создание варианта лабораторной работы";
+}
+
+<h2>@ViewBag.Title @Model.Name</h2>
+@Html.ActionLink("Обратно к списку лабораторных работ", "Index")
+
+@Html.HiddenFor(model => model.id)
+
+<p id="instr">Выберите вариант для каждого задания лабораторной работы</p>
+
+<table>
+    <tr>
+        <th>Задания</th>
+        <th>Варианты</th>
+    </tr>
+@foreach (var item in Model.Variant)
+{
+    <tr>
+    <th>@item.Key</th>
+    <td>
+    <select>
+        <option value="no">Не выбрано...</option>
+        @foreach (var elem in item.Value)
+        {
+            <option value ="@elem.Key">@elem.Value</option>
+        }
+    </select>
+    </td>
+    </tr>
+}
+</table>
+<br />
+<input disabled id="save" type="button" value="Сохранить"/>
+<input id="random" type="button" value="Заполнить случайными значениями"/>
+
+@section Scripts
+{
+    <script>
+        $("option").click(function () {
+            $(this).parent().find("option[value='no']").detach();
+            $(this).parent().parent().parent().find("th").replaceWith(function (index, oldHTML) {
+                return $("<td>").html(oldHTML);
+            });
+            if ($("option[value='no']").size() == 0) {
+                $("#save").removeAttr("disabled");
+            };
+        });                
+
+    </script>
+}

@@ -219,7 +219,9 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />
+    <Compile Include="Models\CreateLabVariantModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\JSONResultCreateLab.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\UserCreate.cs" />
@@ -363,6 +365,7 @@
     <Content Include="Views\Test\XAP.cshtml" />
     <Content Include="Views\Labs\Index.cshtml" />
     <Content Include="Views\Labs\Create.cshtml" />
+    <Content Include="Views\Labs\CreateVariant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

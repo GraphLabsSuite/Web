@@ -5,7 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-@Html.ActionLink("Обратно к списку", "Index")
+@Html.ActionLink("Обратно к списку лабораторных работ", "Index")
 
 <div class="widthSection">
     <span id="error" class="field-validation-error"></span>
@@ -64,6 +64,8 @@
 @section Scripts
 {
     <script>
+        var wantCreate = 0;
+
         $(document).ready(function () {
             $("#firstSelect").focus();
         });
@@ -173,11 +175,13 @@
         $("#save").click(function () {            
             if ($("#labName").attr("value") == "") {
                 $("#error").html("Необходимо ввести название лабораторной работы");
+                wantCreate = 0;
                 return;
             };
             var elem = $("#secondSelect option");
             if (elem.length == 0) {
                 $("#error").html("Необходимо выбрать задания для лабораторной работы");
+                wantCreate = 0;
                 return;
             };
 
@@ -194,7 +198,8 @@
                 url: "Create",
                 data: result,
                 error: function() {
-                    alert("Невозможно отправить данные");
+                    $("#error").html("Невозможно отправить данные");
+                    wantCreate = 0;
                 },
                 success: function (data) {
                     Suc(data);
@@ -203,15 +208,25 @@
         });
 
         function Suc(data) {
-            switch (data) {
-                case "success":
-                    $("#error").html("Данные успешно сохранены!");
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("Лабораторная работа " + obj.LabName + " успешно сохранена!");
+                    if (wantCreate == 1) {
+                        location.href = "/Labs/CreateVariant?labId=" + obj.LabId;
+                    };
                     break;
-                case "fail":
-                    $("#error").html("Лабораторная работа с таким именем уже сущестует");
+                case 1:
+                    $("#error").html("Лабораторная работа с именем " + obj.LabName + " уже сущестует");
+                    wantCreate = 0;
                     break;
             };
         };
+
+        $("#saveAndCreate").click(function () {
+            wantCreate = 1;
+            $("#save").click();
+        });
 
     </script>
 }
