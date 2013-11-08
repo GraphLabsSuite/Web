@@ -784,3 +784,40 @@ input.arrowButton {
 #secondSelectSize, #firstSelectSize {
     display: block;
 }
+
+#labViewLeft {
+    width: 25%;
+    float: left;
+    display: inline-block;
+    margin: 10px 0 10px 0;
+}
+
+.labViewTable {
+    margin-top: 0;
+}
+
+    .labViewTable th {
+        min-width: 130px;
+        max-width: 130px;
+        border: solid 1px;
+        padding: 3px;
+    }
+
+    .labViewTable td {
+        min-width: 130px;
+        max-width: 130px;
+        border: solid 1px;
+        padding: 3px;
+    }
+
+#labViewleftTable {
+    width: 100%;
+}
+
+#labViewRight {
+    width: 75%;
+    float: left;
+    display: inline-block;
+    margin: 10px 0 0 0;
+    overflow-x: auto;
+}

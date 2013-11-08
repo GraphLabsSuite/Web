@@ -32,3 +32,87 @@
                 )
             );
 }
+
+<div id="labInfo">
+    <h3>Работа Такая то</h3>
+    <div class="widthSection">
+        <input id="addVar" type="button" value="Добавить варианты" />
+        <input id="modEntry" type="button" value="Изменить содержание" />
+        <input id="modLab" type="button" value="Изменить название/даты" />
+        <input id="delLab" type="button" value="Удалить" />
+    </div>
+
+    <div id="labViewLeft">
+    <table id="labViewleftTable" class="labViewTable">
+        <tr>
+            <th>
+                Заголовок
+            </th>
+        </tr>
+        <tr>
+            <td>
+                задание 1
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div id="labViewRight">
+    <table class="labViewTable">
+        <tr>
+            <th>
+                Заголовок 1
+            </th>
+            <th>
+                Заголовок 2
+            </th>
+            <th>
+                Заголовок 3
+            </th>
+            <th>
+                Заголовок 4
+            </th>
+            <th>
+                Заголовок 5
+            </th>
+            <th>
+                Заголовок 6
+            </th>
+            <th>
+                Заголовок 7
+            </th>
+        </tr>
+        <tr>
+            <td>
+                пункт 1
+            </td>
+            <td>
+                пункт 2
+            </td>
+            <td>
+                пункт 3
+            </td>
+            <td>
+                пункт 4
+            </td>
+            <td>
+                пункт 5
+            </td>
+            <td>
+                пункт 6
+            </td>
+            <td>
+                пункт 7
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('tbody tr').live('click', function() {
+            });
+        });
+    </script>
+}

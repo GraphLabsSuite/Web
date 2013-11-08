@@ -19,8 +19,8 @@ namespace GraphLabs.Site.Controllers
             this.AllowAnonymous(_ctx);
 
             var labs = (from g in _ctx.LabWorks
-                        select g).ToArray();            
-            
+                        select g).ToArray();
+
             return View(labs);
         }
 
