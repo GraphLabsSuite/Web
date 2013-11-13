@@ -24,6 +24,52 @@ namespace GraphLabs.Site.Controllers
             return View(labs);
         }
 
+        [HttpPost]
+        public string GetLabInfo(int Id)
+        {
+            this.AllowAnonymous(_ctx);
+
+            JSONResultLabInfo result = new JSONResultLabInfo();
+            
+            var lab = _ctx.LabWorks.Find(Id);
+            if (lab == null)
+            {
+                result.Result = 1;
+                return JsonConvert.SerializeObject(result);
+            }
+
+            result.Result = 0;
+            result.LabId = Id;
+            result.LabName = lab.Name;
+
+            result.Tasks = new List<KeyValuePair<int, string>>();
+            result.Tasks.Add(new KeyValuePair<int, string>(1, "Задание 1"));
+            result.Tasks.Add(new KeyValuePair<int, string>(2, "Задание 2"));
+            result.Tasks.Add(new KeyValuePair<int, string>(3, "Задание 3"));
+            result.Tasks.Add(new KeyValuePair<int, string>(4, "Задание 4"));
+            result.Variants = new JSONResultVariants[3];
+            result.Variants[0] = new JSONResultVariants();
+            result.Variants[0].VarId = 1;
+            result.Variants[0].VarName = "Вариант 1";
+            result.Variants[0].TasksVar = new List<KeyValuePair<int, string>>();
+            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(1, "Вариант 1"));
+            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(3, "Вариант 1"));
+            result.Variants[1] = new JSONResultVariants();
+            result.Variants[1].VarId = 2;
+            result.Variants[1].VarName = "Вариант 2";
+            result.Variants[1].TasksVar = new List<KeyValuePair<int, string>>();
+            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(1, "Вариант 2"));
+            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(2, "Вариант 2"));
+            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(3, "Вариант 2"));
+            result.Variants[2] = new JSONResultVariants();
+            result.Variants[2].VarId = 3;
+            result.Variants[2].VarName = "Вариант 3";
+            result.Variants[2].TasksVar = new List<KeyValuePair<int, string>>();
+            result.Variants[2].TasksVar.Add(new KeyValuePair<int, string>(3, "Вариант 3"));
+
+            return JsonConvert.SerializeObject(result);
+        }
+
         public ActionResult Create()
         {
             this.AllowAnonymous(_ctx);

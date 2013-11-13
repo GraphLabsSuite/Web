@@ -32,9 +32,12 @@
                 )
             );
 }
+<br />
+<span id="error" class="field-validation-error"></span>
 
-<div id="labInfo">
-    <h3>Работа Такая то</h3>
+<div id="labInfo" style="display:none">
+    <h3></h3>
+    <br />
     <div class="widthSection">
         <input id="addVar" type="button" value="Добавить варианты" />
         <input id="modEntry" type="button" value="Изменить содержание" />
@@ -43,76 +46,83 @@
     </div>
 
     <div id="labViewLeft">
-    <table id="labViewleftTable" class="labViewTable">
-        <tr>
-            <th>
-                Заголовок
-            </th>
-        </tr>
-        <tr>
-            <td>
-                задание 1
-            </td>
-        </tr>
+    <table id="labViewLeftTable" class="labViewTable">
     </table>
     </div>
     <div id="labViewRight">
-    <table class="labViewTable">
-        <tr>
-            <th>
-                Заголовок 1
-            </th>
-            <th>
-                Заголовок 2
-            </th>
-            <th>
-                Заголовок 3
-            </th>
-            <th>
-                Заголовок 4
-            </th>
-            <th>
-                Заголовок 5
-            </th>
-            <th>
-                Заголовок 6
-            </th>
-            <th>
-                Заголовок 7
-            </th>
-        </tr>
-        <tr>
-            <td>
-                пункт 1
-            </td>
-            <td>
-                пункт 2
-            </td>
-            <td>
-                пункт 3
-            </td>
-            <td>
-                пункт 4
-            </td>
-            <td>
-                пункт 5
-            </td>
-            <td>
-                пункт 6
-            </td>
-            <td>
-                пункт 7
-            </td>
-        </tr>
+    <table id="labViewRightTable" class="labViewTable">
     </table>
     </div>
 </div>
 
 @section scripts{
-    <script type="text/javascript">
-        $(function() {
-            $('tbody tr').live('click', function() {
+    <script>
+        var labId = 0;
+
+        $(function() {            
+            $('#datatable tbody tr').live('click', function () {
+                Send($(this).find('td:first').text());
             });
         });
+
+        function Send(id) {
+            $("#error").html("Идет отправка данных...");
+            var result = "Id="+id;
+            $.ajax({
+                type: "POST",
+                url: "labs/GetLabInfo",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                    $("#labInfo").css("display", "none");
+                },
+                success: function (data) {
+                    Suc(data);
+                }
+            });
+        };
+
+        function Suc(data) {
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("");
+                    $("#labInfo").css("display", "block");
+                    labId = obj.LabId;
+                    $("#labInfo h3").html(obj.LabName);
+
+                    $("#labViewLeftTable tr").detach();
+                    $("#labViewRightTable tr").detach();
+
+                    $("#labViewLeftTable").append("<tr><th>Задания</th></tr>");
+                    $("#labViewRightTable").append("<tr id='variantsHeaders'></tr>");
+                    var tableSize = obj.Tasks.length;
+                    for (var i = 0; i < tableSize; i++) {
+                        $("#labViewLeftTable").append("<tr value='" + obj.Tasks[i].Key + "'><td>" + obj.Tasks[i].Value + "</td></tr>");
+                        $("#labViewRightTable").append("<tr value='" + obj.Tasks[i].Key + "'></tr>");
+                    };
+
+                    for (var i = 0; i < obj.Variants.length; i++) {
+                        $("#variantsHeaders").append("<th value='" + obj.Variants[i].VarId + "'>" + obj.Variants[i].VarName + "</th>");
+
+                        $("#labViewRightTable tr:not(#variantsHeaders)").append("<td value='" + obj.Variants[i].VarId + "'></td>");
+
+                        for (var j = 0; j < obj.Variants[i].TasksVar.length; j++) {
+                            $("#labViewRightTable tr[value='" + obj.Variants[i].TasksVar[j].Key + "'] td[value='" + obj.Variants[i].VarId + "']").html(obj.Variants[i].TasksVar[j].Value);
+                        };
+                    };
+
+                    break;
+                case 1:
+                    $("#error").html("Лабораторная работа не найдена");
+                    $("#labInfo").css("display", "none");
+                    break;
+            };
+        };
+
+        $("#addVar").click(function () {
+            location.href = "/Labs/CreateVariant?labId=" + labId;
+        });
+
     </script>
 }

@@ -797,6 +797,7 @@ input.arrowButton {
 }
 
     .labViewTable th {
+        height: 30px;
         min-width: 130px;
         max-width: 130px;
         border: solid 1px;
@@ -804,13 +805,14 @@ input.arrowButton {
     }
 
     .labViewTable td {
+        height: 30px;
         min-width: 130px;
         max-width: 130px;
         border: solid 1px;
         padding: 3px;
     }
 
-#labViewleftTable {
+#labViewLeftTable {
     width: 100%;
 }
 

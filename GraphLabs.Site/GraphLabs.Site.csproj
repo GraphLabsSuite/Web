@@ -222,6 +222,7 @@
     <Compile Include="Models\CreateLabVariantModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\JSONResultCreateLab.cs" />
+    <Compile Include="Models\JSONResultLabInfo.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\UserCreate.cs" />
