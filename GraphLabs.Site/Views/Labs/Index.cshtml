@@ -124,5 +124,41 @@
             location.href = "/Labs/CreateVariant?labId=" + labId;
         });
 
+        $("#delLab").click(function () {
+            if (!confirm('Вы действительно хотите удалить"' + $("#labInfo h3").text() + '"?'))
+            {
+                return;
+            };
+            $("#error").html("Идет отправка данных...");
+            var result = "Id=" + labId;
+            $.ajax({
+                type: "POST",
+                url: "labs/DeleteLab",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                },
+                success: function (data) {
+                    SucDel(data);
+                }
+            });
+        });
+
+        function SucDel(data) {
+            switch (data) {
+                case "0":
+                    $("#error").html('Лабораторная работа "' + $("#labInfo h3").text() + '" удалена!');
+                    alert('Лабораторная работа "' + $("#labInfo h3").text() + '" удалена!');
+                    location.reload();
+                    break;
+                case "1":
+                    $("#error").html("Невозможно удалить работу");
+                    break;
+                case "2":
+                    $("#error").html("Ошибка при работе с базой данных, невозможно удалить работу");
+                    break;
+            };
+        };
+
     </script>
 }

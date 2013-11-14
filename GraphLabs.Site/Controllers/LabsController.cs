@@ -43,31 +43,63 @@ namespace GraphLabs.Site.Controllers
             result.LabName = lab.Name;
 
             result.Tasks = new List<KeyValuePair<int, string>>();
-            result.Tasks.Add(new KeyValuePair<int, string>(1, "Задание 1"));
+            result.Tasks.Add(new KeyValuePair<int, string>(17, "Задание 1"));
             result.Tasks.Add(new KeyValuePair<int, string>(2, "Задание 2"));
-            result.Tasks.Add(new KeyValuePair<int, string>(3, "Задание 3"));
-            result.Tasks.Add(new KeyValuePair<int, string>(4, "Задание 4"));
+            result.Tasks.Add(new KeyValuePair<int, string>(34, "Задание 3"));
+            result.Tasks.Add(new KeyValuePair<int, string>(35, "Задание 4"));
             result.Variants = new JSONResultVariants[3];
             result.Variants[0] = new JSONResultVariants();
             result.Variants[0].VarId = 1;
             result.Variants[0].VarName = "Вариант 1";
             result.Variants[0].TasksVar = new List<KeyValuePair<int, string>>();
-            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(1, "Вариант 1"));
-            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(3, "Вариант 1"));
+            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(17, "Вариант 1"));
+            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(34, "Вариант 1"));
             result.Variants[1] = new JSONResultVariants();
-            result.Variants[1].VarId = 2;
+            result.Variants[1].VarId = 12;
             result.Variants[1].VarName = "Вариант 2";
             result.Variants[1].TasksVar = new List<KeyValuePair<int, string>>();
-            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(1, "Вариант 2"));
-            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(2, "Вариант 2"));
-            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(3, "Вариант 2"));
+            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(17, "Вариант 2"));
+            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(34, "Вариант 2"));
+            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(35, "Вариант 2"));
             result.Variants[2] = new JSONResultVariants();
-            result.Variants[2].VarId = 3;
+            result.Variants[2].VarId = 34;
             result.Variants[2].VarName = "Вариант 3";
             result.Variants[2].TasksVar = new List<KeyValuePair<int, string>>();
-            result.Variants[2].TasksVar.Add(new KeyValuePair<int, string>(3, "Вариант 3"));
+            result.Variants[2].TasksVar.Add(new KeyValuePair<int, string>(35, "Вариант 3"));
 
             return JsonConvert.SerializeObject(result);
+        }
+
+        [HttpPost]
+        public string DeleteLab(int Id)
+        {
+            this.AllowAnonymous(_ctx);
+
+            var lab = _ctx.LabWorks.Find(Id);
+            if (lab == null)
+            {
+                return "1";
+            }
+
+            try
+            {
+                _ctx.LabEntries.Remove(lab.LabEntry);
+                _ctx.LabWorks.Remove(lab);
+            }
+            catch (System.ArgumentNullException)
+            {
+                return "1";
+            }
+            try
+            {
+                _ctx.SaveChanges();
+            }
+            catch(Exception)
+            {
+                return "2";
+            }
+
+            return "0";
         }
 
         public ActionResult Create()
@@ -111,11 +143,19 @@ namespace GraphLabs.Site.Controllers
             if (DateFrom != "")
             {
                 lab.AcquaintanceFrom = DateTime.Parse(DateFrom);
+            }
+            else
+            {
+                lab.AcquaintanceFrom = new DateTime(2000, 01, 01);
             };
             if (DateTo != "")
             {
                 lab.AcquaintanceTill = DateTime.Parse(DateTo);
-            };            
+            }
+            else
+            {
+                lab.AcquaintanceTill = new DateTime(2000, 01, 01);
+            };
             LabEntry entry = new LabEntry();
             lab.LabEntry = entry;
             entry.LabWork = lab;
@@ -126,7 +166,6 @@ namespace GraphLabs.Site.Controllers
             _ctx.LabWorks.Add(lab);
             _ctx.LabEntries.Add(entry);
             _ctx.SaveChanges();
-                        
             res = new JSONResultCreateLab { Result = 0, LabId = lab.Id, LabName = lab.Name };
             return JsonConvert.SerializeObject(res);
         }
