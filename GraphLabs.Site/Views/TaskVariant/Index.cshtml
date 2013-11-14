@@ -1,0 +1,53 @@
+﻿@model GraphLabs.Site.Models.TaskVariantModel[]
+
+@{
+    ViewBag.Title = string.Format("{0}: варианты задания", ViewBag.TaskName);
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p>
+    @Html.ActionLink("Обратно к заданиям", "Index", "Task")
+    @Html.ActionLink("Добавить вариант", "EditVariant")
+</p>
+
+<style type="text/css">
+    .idColumn { width:10%; }
+    .numberColumn { width:40%; }
+    .versionColumn { width:25%; }
+    .generatorVersionColumn { width:25%; }
+</style>
+
+@{
+    var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage:10);
+    grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(tableStyle: "webGrid", 
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            
+            columns: grid.Columns(
+                grid.Column(header: "#", format: item => item.Id, columnName: "Id", style:"idColumn"),
+                grid.Column(header: "Номер", format: item => item.Number, columnName: "Number", style:"numberColumn"),
+                grid.Column(header: "Версия варианта", format: item => item.Version, columnName: "Version", style:"versionColumn"),
+                grid.Column(header: "Версия генератора", format: item => item.GeneratorVersion, columnName: "GeneratorVersion", style:"generatorVersionColumn")
+                )
+            );
+
+
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('tbody tr').live('click', function() {
+                location.href = '/TaskVariant/EditVariant/' + $(this).find('td:first').text();
+            });
+        });
+    </script>
+}

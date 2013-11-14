@@ -7,15 +7,16 @@
 <h2>@ViewBag.Title.</h2>
 
 <p>
-    @Html.ActionLink("Добавить", "Upload")
+    @Html.ActionLink("Добавить задание", "UploadTask")
 </p>
 
 <style type="text/css">
     .idColumn { width:3%; }
-    .nameColumn { width:28%; }
-    .sectionsColumn { width:28%; }
+    .nameColumn { width:27%; }
+    .sectionsColumn { width:27%; }
     .versionColumn { width:8%; }
-    .noteColumn { width:33%; }
+    .noteColumn { width:32%; }
+    .actionsColumn { width: 4% }
 </style>
 
 @{
@@ -32,11 +33,21 @@
             htmlAttributes: new { id = "datatable" },
             
             columns: grid.Columns(
-                grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
-                grid.Column(header: "Название",   format: item => item.Name,     columnName: "Name",     style:"nameColumn"),
-                grid.Column(header: "Темы",   format: item => item.Sections, columnName: "Sections", style:"sectionsColumn"),
-                grid.Column(header: "Версия",     format: item => item.Version,  columnName: "Version",  style:"versionColumn;"),
-                grid.Column(header: "Примечание", format: item => item.Note,     columnName: "Note",     style:"noteColumn;")
+                grid.Column(header: "#", format: item => item.Id, columnName: "Id", style:"idColumn"),
+                grid.Column(header: "Название", format: item => item.Name, columnName: "Name", style:"nameColumn"),
+                grid.Column(header: "Темы", format: item => item.Sections, columnName: "Sections", style:"sectionsColumn"),
+                grid.Column(header: "Версия", format: item => item.Version, columnName: "Version", style:"versionColumn"),
+                grid.Column(header: "Примечание", format: item => item.Note, columnName: "Note", style:"noteColumn"),
+                grid.Column(
+                    header: "Действия", 
+                    format: item => Html.Raw(string.Format(
+                            @"<a href=""/Task/EditTask/{0}"">
+<img src=""{1}"" alt=""Редактировать"" width=""24"" height=""24\"" />
+</a>",
+                            item.Id,
+                            Url.Content("../Images/edit.png"))),     
+                    columnName: "Actions",
+                    style:"actionsColumn")
                 )
             );
 
@@ -47,7 +58,7 @@
     <script type="text/javascript">
         $(function() {
             $('tbody tr').live('click', function() {
-                location.href = '/Task/Edit/' + $(this).find('td:first').text();
+                location.href = '/TaskVariant/' + $(this).find('td:first').text();
             });
         });
     </script>

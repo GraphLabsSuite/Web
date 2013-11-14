@@ -35,10 +35,10 @@ namespace GraphLabs.Site.Controllers
             return View(tasks);
         }
 
-        #region Upload
+        #region UploadTask
 
         /// <summary> Начальная отрисовка формы загрузки </summary>
-        public ActionResult Upload(string message)
+        public ActionResult UploadTask(string message)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
             {
@@ -84,7 +84,7 @@ namespace GraphLabs.Site.Controllers
                 }
                 
 
-                return RedirectToAction("Edit", "Task", new { Id = newTask.Id });
+                return RedirectToAction("EditTask", "Task", new { Id = newTask.Id });
             }
             // redirect back to the index action to show the form once again
             return RedirectToAction("Upload", "Task", new { Message = UserMessages.UPLOAD_FILE_NOT_SPECIFIED }); 
@@ -93,12 +93,12 @@ namespace GraphLabs.Site.Controllers
         #endregion
 
 
-        #region Edit
+        #region EditTask
         
         //
         // GET: /Tasks/Edit
         /// <summary> Начальная отрисовка формы редактирования </summary>
-        public ActionResult Edit(long id, string message)
+        public ActionResult EditTask(long id, string message)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
             {
@@ -119,7 +119,7 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы редактирования </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(TaskModel model)
+        public ActionResult EditTask(TaskModel model)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
             {
@@ -127,7 +127,7 @@ namespace GraphLabs.Site.Controllers
             }
 
             model.SaveToDb(_ctx);
-            return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
+            return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
         }
 
         //
@@ -156,13 +156,13 @@ namespace GraphLabs.Site.Controllers
                         task.VariantGenerator = newGenerator.InputStream.ReadToEnd();
                         _ctx.SaveChanges();
 
-                        return RedirectToAction("Edit", new {Id = model.Id, Message = UserMessages.EDIT_COMPLETE});
+                        return RedirectToAction("EditTask", new {Id = model.Id, Message = UserMessages.EDIT_COMPLETE});
                     }
 
-                    return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.UPLOAD_ERROR });
+                    return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.UPLOAD_ERROR });
                 }
 
-                return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.UPLOAD_FILE_NOT_SPECIFIED });
+                return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.UPLOAD_FILE_NOT_SPECIFIED });
             }
 
             if (!string.IsNullOrEmpty(delete))
@@ -174,7 +174,7 @@ namespace GraphLabs.Site.Controllers
                     _ctx.SaveChanges();
                 }
 
-                return RedirectToAction("Edit", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
+                return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
             }
 
             throw new ArgumentException("Ошибка при обработке запроса на редактирования генератора вариантов - неверный набор входных аргументов.");

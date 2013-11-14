@@ -207,6 +207,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
+    <Compile Include="Controllers\TaskVariantController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LabsController.cs" />
@@ -218,6 +219,7 @@
     </Compile>
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\TaskVariantModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariantModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
@@ -297,6 +299,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\22.gif" />
+    <Content Include="Images\edit.png" />
     <Content Include="Images\top.gif" />
     <Content Include="Images\_.png" />
     <Content Include="Images\_false.png" />
@@ -353,8 +356,8 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
-    <Content Include="Views\Task\Upload.cshtml" />
-    <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Task\UploadTask.cshtml" />
+    <Content Include="Views\Task\EditTask.cshtml" />
     <Content Include="Views\Task\_EditTaskPartial.cshtml" />
     <Content Include="Views\Task\_EditVariantGeneratorPartial.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
@@ -367,6 +370,8 @@
     <Content Include="Views\Labs\Index.cshtml" />
     <Content Include="Views\Labs\Create.cshtml" />
     <Content Include="Views\Labs\CreateVariant.cshtml" />
+    <Content Include="Views\TaskVariant\EditVariant.cshtml" />
+    <Content Include="Views\TaskVariant\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
