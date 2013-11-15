@@ -6,10 +6,15 @@
     <h1>@ViewBag.Title.</h1>
     @Html.ActionLink("Обратно к списку", "Index")
 </hgroup>
-
-<section id="leftPanel">
-    @Html.Partial("_EditTaskPartial")
-</section>
-<section id="rightPanel">
-    @Html.Partial("_EditVariantGeneratorPartial")
-</section>
+<p>
+    <object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="100%" height="500px">
+        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=generator&taskId=@ViewBag.TaskId" />
+        <param name="onerror" value="onSilverlightError" />
+        <param name="background" value="white" />
+        <param name="minRuntimeVersion" value="2.0.31005.0" />
+        <param name="autoUpgrade" value="true" />
+        <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
+            <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
+        </a>
+    </object>
+</p>

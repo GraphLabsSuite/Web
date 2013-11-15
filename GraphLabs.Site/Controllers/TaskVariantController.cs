@@ -43,20 +43,20 @@ namespace GraphLabs.Site.Controllers
         #region EditVariant
         
         /// <summary> Начальная отрисовка формы редактирования </summary>
-        public ActionResult EditVariant(long id, string message)
+        public ActionResult EditVariant(long? variantId, long taskId, string message)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
             {
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
-
-            var variant = _ctx.TaskVariants.Find(id);
-            if (variant == null)
-                return RedirectToAction("Index");
-            
+            if (variantId != null)
+            {
+                var variant = _ctx.TaskVariants.Find(variantId);
+            }
             ViewBag.Message = message;
+            ViewBag.TaskId = taskId;
 
-            return View(new TaskModel());
+            return View();
         }
 
         #endregion
