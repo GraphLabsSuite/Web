@@ -68,41 +68,6 @@ namespace GraphLabs.Site
             }
         }
 
-        ///// <summary> Записывает текст svg в SvgText для дальнейшего отображения на странице. </summary>
-        //private void OutputSvg(XElement root, HttpResponse response)
-        //{
-        //    ChecksHelper.CheckArgumentNotNull(root, "root");
-
-        //    root.SetAttributeValue("width", ConfigurationManager.AppSettings["MapWidth"]);
-        //    root.SetAttributeValue("height", ConfigurationManager.AppSettings["MapHeight"]);
-
-        //    var layersNamespace = root.GetNamespaceOfPrefix("v");
-        //    var properties = root.Descendants(layersNamespace + "documentProperties").FirstOrDefault();
-        //    if (properties != null)
-        //    {
-        //        properties.Remove();
-        //    }
-        //    response.ContentType = "image/svg+xml";
-        //    var xws = new XmlWriterSettings
-        //    {
-        //        CheckCharacters = true,
-        //        CloseOutput = true,
-        //        ConformanceLevel = ConformanceLevel.Document,
-        //        Encoding = Encoding.UTF8,
-        //        Indent = true,
-        //        IndentChars = "    ",
-        //        OmitXmlDeclaration = true,
-        //        NamespaceHandling = NamespaceHandling.OmitDuplicates,
-        //        NewLineChars = "\r\n",
-        //        NewLineHandling = NewLineHandling.Replace,
-        //        NewLineOnAttributes = false,
-        //    };
-        //    using (var xw = XmlWriter.Create(response.Output, xws))
-        //    {
-        //        root.Save(xw);
-        //    }
-        //}
-
         #endregion // Вспомагательные функции
     }
 }
