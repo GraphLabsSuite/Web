@@ -1,12 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.Utils;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -25,7 +21,7 @@ namespace GraphLabs.Site.Controllers
 
             var task = _ctx.Tasks.Find(taskId);
             if (task == null)
-                return RedirectToAction("Index", "Task");
+                return RedirectToAction("Index", "Task", new { Message = UserMessages.Задание_с_полученным_Id_не_найдено_ });
 
             var variants = (from variant in _ctx.TaskVariants
                             where variant.Task.Id == taskId
@@ -49,12 +45,22 @@ namespace GraphLabs.Site.Controllers
             {
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
+
+            var task = _ctx.Tasks.Find(taskId);
+            if (task == null)
+                return RedirectToAction("Index", new { Message = UserMessages.Задание_с_полученным_Id_не_найдено_ });
+
             if (variantId != null)
             {
                 var variant = _ctx.TaskVariants.Find(variantId);
+                if (variant == null)
+                    return RedirectToAction("Index", new {Message = UserMessages.Вариант_с_полученным_Id_не_найден_});
+                ViewBag.VariantNumber = variant.Number;
             }
             ViewBag.Message = message;
+            ViewBag.TaskName = task.Name;
             ViewBag.TaskId = taskId;
+            ViewBag.VariantId = variantId ?? -1;
 
             return View();
         }

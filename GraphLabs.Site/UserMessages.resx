@@ -150,4 +150,10 @@
   <data name="UPLOAD_FILE_NOT_SPECIFIED" xml:space="preserve">
     <value>Файл для загрузки не указан.</value>
   </data>
+  <data name="Задание_с_полученным_Id_не_найдено_" xml:space="preserve">
+    <value>Задание с полученным Id не найдено.</value>
+  </data>
+  <data name="Вариант_с_полученным_Id_не_найден_" xml:space="preserve">
+    <value>Вариант с полученным Id не найден.</value>
+  </data>
 </root>
