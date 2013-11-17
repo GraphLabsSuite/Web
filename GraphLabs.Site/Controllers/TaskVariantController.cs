@@ -31,6 +31,7 @@ namespace GraphLabs.Site.Controllers
 
             ViewBag.Message = message;
             ViewBag.TaskName = task.Name;
+            ViewBag.TaskId = taskId;
 
             return View(variants);
         }

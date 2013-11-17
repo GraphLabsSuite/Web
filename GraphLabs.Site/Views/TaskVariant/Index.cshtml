@@ -46,7 +46,7 @@
     <script type="text/javascript">
         $(function() {
             $('tbody tr').live('click', function() {
-                location.href = '/TaskVariant/EditVariant/' + $(this).find('td:first').text();
+                location.href = '/TaskVariant/@ViewBag.TaskId/EditVariant/' + $(this).find('td:first').text();
             });
         });
     </script>
