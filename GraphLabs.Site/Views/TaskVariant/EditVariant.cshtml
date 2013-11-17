@@ -4,14 +4,14 @@
     if (ViewBag.VariantId >= 0)
     {
         action = "редактирование";
-        variantNumber = ViewBag.VariantNumber;
+        variantNumber = " " + ViewBag.VariantNumber;
     }
     else
     {
         action = "создание";
         variantNumber = string.Empty;
     }
-    ViewBag.Title = string.Format("{0}: {1} варианта {2}", ViewBag.TaskName, action, variantNumber);
+    ViewBag.Title = string.Format("{0}: {1} варианта{2}", ViewBag.TaskName, action, variantNumber);
 }
 
 <hgroup>
@@ -25,7 +25,7 @@
         <param name="background" value="#E8EDEF" />
         <param name="minRuntimeVersion" value="2.0.31005.0" />
         <param name="autoUpgrade" value="true" />
-        <param name="InitParameters" value="taskId=@ViewBag.TaskId,variantId=@ViewBag.VariantId" />
+        <param name="initParams" value="taskId=@ViewBag.TaskId,variantId=@ViewBag.VariantId,afterSave=/TaskVariant/@ViewBag.TaskId" />
         <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
             <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
         </a>
