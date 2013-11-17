@@ -10,14 +10,14 @@
     @Html.ActionLink("Добавить задание", "UploadTask")
 </p>
 
-<style type="text/css">
+<!--<style type="text/css">
     .idColumn { width:3%; }
     .nameColumn { width:27%; }
     .sectionsColumn { width:27%; }
     .versionColumn { width:8%; }
     .noteColumn { width:32%; }
     .actionsColumn { width: 4% }
-</style>
+</style>-->
 
 @{
     var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage:10);
@@ -30,7 +30,7 @@
             selectedRowStyle : "webgrid-selected-row",
             caption: null,
             displayHeader: true,
-            htmlAttributes: new { id = "datatable" },
+            htmlAttributes: new { id = "datatable", width = "100%" },
             
             columns: grid.Columns(
                 grid.Column(header: "#", format: item => item.Id, columnName: "Id", style:"idColumn"),
