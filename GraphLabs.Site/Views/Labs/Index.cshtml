@@ -40,8 +40,7 @@
     <br />
     <div class="widthSection">
         <input id="addVar" type="button" value="Добавить варианты" />
-        <input id="modEntry" type="button" value="Изменить содержание" />
-        <input id="modLab" type="button" value="Изменить название/даты" />
+        <input id="modLab" type="button" value="Изменить лабораторную работу" />
         <input id="delLab" type="button" value="Удалить" />
     </div>
 
@@ -122,6 +121,10 @@
 
         $("#addVar").click(function () {
             location.href = "/Labs/CreateVariant?labId=" + labId;
+        });
+
+        $("#modLab").click(function () {
+            location.href = "/Labs/Create?Id=" + labId;
         });
 
         $("#delLab").click(function () {

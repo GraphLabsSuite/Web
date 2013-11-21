@@ -7,6 +7,8 @@ namespace GraphLabs.Site.Models
 {
     public class CreateLabModel
     {
+        public long Id { get; set; }
+
         public string Name { get; set; }
 
         public DateTime AcquaintanceFrom { get; set; }

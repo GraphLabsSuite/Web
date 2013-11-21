@@ -67,8 +67,48 @@
         var wantCreate = 0;
 
         $(document).ready(function () {
+            if (@Model.Id != 0) {
+                $("title").html("Редактирование лабораторной работы");
+                $("h2").html("Редактирование лабораторной работы");
+                $("#error").html("Лабораторная работа загружается...");
+                $("#save").attr("disabled", "disabled");
+                $("#saveAndCreate").detach();
+                result="Id=@Model.Id";
+                $.ajax({
+                    type: "POST",
+                    url: "EditLab",
+                    data: result,
+                    error: function() {
+                        alert("Невозможно загрузить вариант работы");
+                        location.href = "/Labs";
+                    },
+                    success: function (data) {
+                        SucEditLoad(data);
+                    }
+                });
+            }ж
             $("#firstSelect").focus();
         });
+
+        function SucEditLoad(data) {
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Id) {
+                case "0":
+                    $("#error").html("");
+                    $("#save").removeAttr("disabled");
+                    $("#labName").val(obj.Name);
+                    $("#dateFrom").val(obj.AcquaintanceFrom);
+                    $("#dateTo").val(obj.AcquaintanceTo);
+                    for (var i = 0; i < obj.Tasks.length; ++i) {
+                        $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").click();
+                    };
+                    break;
+                case "1":
+                    alert("Лабораторная работа не найдена!");
+                    location.href = "/Labs";
+                    break;
+            };
+        };
 
         $("#firstSelectSize").change(function () {
             var p = $("#firstSelectSize");
@@ -193,7 +233,7 @@
                 list.push(elems[i].getAttribute("value"));
             };
             var result = $("fieldset").serialize();
-            result = result + "&JsonArr=" + JSON.stringify(list);
+            result = result + "&JsonArr=" + JSON.stringify(list) + "&Id=@Model.Id";
             
             $.ajax({
                 type: "POST",
@@ -221,6 +261,12 @@
                 case 1:
                     $("#error").html('Лабораторная работа "' + obj.LabName + '" уже сущестует');
                     wantCreate = 0;
+                    break;
+                case 3:
+                    $("#error").html('Лабораторная работа "' + obj.LabName + '" не найдена');
+                    break;
+                case 4:
+                    $("#error").html('Лабораторная работа "' + obj.LabName + '" успешно обновлена!');
                     break;
             };
         };
