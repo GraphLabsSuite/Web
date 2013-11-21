@@ -39,33 +39,29 @@ namespace GraphLabs.Site.Controllers
             }
 
             result.Result = 0;
-            result.LabId = Id;
+            result.LabId = lab.Id;
             result.LabName = lab.Name;
 
             result.Tasks = new List<KeyValuePair<int, string>>();
-            result.Tasks.Add(new KeyValuePair<int, string>(17, "Задание 1"));
-            result.Tasks.Add(new KeyValuePair<int, string>(2, "Задание 2"));
-            result.Tasks.Add(new KeyValuePair<int, string>(34, "Задание 3"));
-            result.Tasks.Add(new KeyValuePair<int, string>(35, "Задание 4"));
-            result.Variants = new JSONResultVariants[3];
-            result.Variants[0] = new JSONResultVariants();
-            result.Variants[0].VarId = 1;
-            result.Variants[0].VarName = "Вариант 1";
-            result.Variants[0].TasksVar = new List<KeyValuePair<int, string>>();
-            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(17, "Вариант 1"));
-            result.Variants[0].TasksVar.Add(new KeyValuePair<int, string>(34, "Вариант 1"));
-            result.Variants[1] = new JSONResultVariants();
-            result.Variants[1].VarId = 12;
-            result.Variants[1].VarName = "Вариант 2";
-            result.Variants[1].TasksVar = new List<KeyValuePair<int, string>>();
-            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(17, "Вариант 2"));
-            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(34, "Вариант 2"));
-            result.Variants[1].TasksVar.Add(new KeyValuePair<int, string>(35, "Вариант 2"));
-            result.Variants[2] = new JSONResultVariants();
-            result.Variants[2].VarId = 34;
-            result.Variants[2].VarName = "Вариант 3";
-            result.Variants[2].TasksVar = new List<KeyValuePair<int, string>>();
-            result.Variants[2].TasksVar.Add(new KeyValuePair<int, string>(35, "Вариант 3"));
+            foreach (var t in lab.LabEntry.Tasks)
+            {
+                result.Tasks.Add(new KeyValuePair<int, string>((int)t.Id, t.Name));
+            }
+
+            result.Variants = new JSONResultVariants[lab.LabVariants.Count];
+            int i = 1;
+            foreach (var v in lab.LabVariants)
+            {
+                result.Variants[i-1] = new JSONResultVariants();
+                result.Variants[i-1].VarId = v.Id;
+                result.Variants[i - 1].VarName = v.Number;
+                result.Variants[i - 1].TasksVar = new List<KeyValuePair<int, string>>();
+                foreach (var t in v.TaskVariants)
+                {
+                    result.Variants[i - 1].TasksVar.Add(new KeyValuePair<int, string>((int)t.Task.Id, t.Number));
+                }
+                ++i;
+            }           
 
             return JsonConvert.SerializeObject(result);
         }
@@ -81,25 +77,7 @@ namespace GraphLabs.Site.Controllers
                 return "1";
             }
 
-            try
-            {
-                _ctx.LabEntries.Remove(lab.LabEntry);
-                _ctx.LabWorks.Remove(lab);
-            }
-            catch (System.ArgumentNullException)
-            {
-                return "1";
-            }
-            try
-            {
-                _ctx.SaveChanges();
-            }
-            catch(Exception)
-            {
-                return "2";
-            }
-
-            return "0";
+            return "2";
         }
 
         public ActionResult Create()
@@ -113,7 +91,7 @@ namespace GraphLabs.Site.Controllers
             model.Tasks = new List<KeyValuePair<long, string>>();
             foreach (var t in tasks)
             {                
-                model.Tasks.Add(new KeyValuePair<long, string>(1, t.Name));
+                model.Tasks.Add(new KeyValuePair<long, string>(t.Id, t.Name));
             }
 
             return View(model);
@@ -180,16 +158,22 @@ namespace GraphLabs.Site.Controllers
             model.id = lab.Id;
             model.Name = lab.Name;
             model.Variant = new Dictionary<string, List<KeyValuePair<long, string>>>();
-            model.Variant.Add("задание 1", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1"), new KeyValuePair<long, string>(2, "вариант 2"), new KeyValuePair<long, string>(3, "вариант 3") });
-            model.Variant.Add("задание 2", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1"), new KeyValuePair<long, string>(2, "вариант 2") });
-            model.Variant.Add("задание 3", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1"), new KeyValuePair<long, string>(2, "вариант 2"), new KeyValuePair<long, string>(3, "вариант 3") });
-            model.Variant.Add("задание 4", new List<KeyValuePair<long, string>> { new KeyValuePair<long, string>(1, "вариант 1") });
+
+            foreach (var t in lab.LabEntry.Tasks)
+            {
+                var list = new List<KeyValuePair<long, string>>();
+                foreach (var v in t.TaskVariants)
+                {
+                    list.Add(new KeyValuePair<long, string>(v.Id, v.Number));
+                }
+                model.Variant.Add(t.Name, list);
+            }
 
             return View(model);
         }
 
         [HttpPost]
-        public string CreateVariant(int Id, string JsonArr)
+        public string CreateVariant(int Id, string Number, string JsonArr)
         {
             this.AllowAnonymous(_ctx);
 
@@ -202,7 +186,25 @@ namespace GraphLabs.Site.Controllers
             {
                 result = 1;
             }
-            
+
+            LabVariant labVar = new LabVariant();
+            labVar.LabWork = lab;
+            labVar.Number = Number;
+            for (int i = 0; i < varId.Length; ++i)
+            {
+                labVar.TaskVariants.Add(_ctx.TaskVariants.Find(varId[i]));
+            }
+
+            try
+            {
+                _ctx.LabVariants.Add(labVar);
+                _ctx.SaveChanges();
+            }
+            catch (Exception)
+            {
+                result = 2;
+            }
+
             return JsonConvert.SerializeObject(result);
         }
     }

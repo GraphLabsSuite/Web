@@ -7,10 +7,16 @@
 <h2>@ViewBag.Title "@Model.Name"</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
 
+<br />
+
 <div class="widthSection">
 <span id="error" class="field-validation-error"></span>
 </div>
 
+<div>
+    <label>Номер варианта лабораторной работы</label>
+    <input id="varNum" name="variantNumber" type="text" value="" />
+</div>
 <p id="instr">Выберите вариант для каждого задания лабораторной работы</p>
 
 <table>
@@ -66,12 +72,16 @@
         });
 
         $("#save").click(function () {
+            if ($("#varNum").attr("value") == "") {
+                $("#error").html("Необходимо ввести номер варианта");
+                return;
+            };
             $("#error").html("Отправка данных на сервер...");
             var list = new Array();
             $("select").each(function () {
                 list.push($(this).val());
             });
-            var result = "Id=@Model.id&JsonArr=" + JSON.stringify(list);
+            var result = "Id=@Model.id&Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list);
             $.ajax({
                 type: "POST",
                 url: "CreateVariant",
@@ -88,10 +98,13 @@
         function Suc(data) {
             switch (data) {
                 case "0":
-                    $("#error").html("Вариант был бы сохранен, будь готовы варианты заданий...");                    
+                    $("#error").html("Вариант успешно сохранен!");                    
                     break;
                 case "1":
                     $("#error").html('Невозможно сохранить вариант: лабораторная работа "@Model.Name" отсутствует');
+                    break;
+                case "2":
+                    $("#error").html('Ошибка при сохранении в БД');
                     break;
             };
         };
