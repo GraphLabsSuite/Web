@@ -93,7 +93,7 @@
         function SucEditLoad(data) {
             var obj = jQuery.parseJSON(data);
             switch (obj.Id) {
-                case "0":
+                case 0:
                     $("#error").html("");
                     $("#save").removeAttr("disabled");
                     $("#labName").val(obj.Name);
@@ -103,7 +103,7 @@
                         $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").click();
                     };
                     break;
-                case "1":
+                case 1:
                     alert("Лабораторная работа не найдена!");
                     location.href = "/Labs";
                     break;
