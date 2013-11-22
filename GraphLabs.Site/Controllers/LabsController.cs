@@ -147,9 +147,19 @@ namespace GraphLabs.Site.Controllers
             lab.AcquaintanceFrom = ParseDate(DateFrom);
             lab.AcquaintanceTill = ParseDate(DateTo);
 
-            LabEntry entry = new LabEntry();
-            lab.LabEntry = entry;
-            entry.LabWork = lab;
+            LabEntry entry;
+            if (Id == 0)
+            {
+                entry = new LabEntry();
+                lab.LabEntry = entry;
+                entry.LabWork = lab;
+            }
+            else
+            {
+                entry = _ctx.LabEntries.Find(lab.LabEntry.Id);
+                entry.Tasks.Clear();
+            }
+            
             foreach (var t in tasksId)
             {
                 entry.Tasks.Add(_ctx.Tasks.Find(t));
@@ -165,6 +175,7 @@ namespace GraphLabs.Site.Controllers
                 _ctx.Entry(entry).State = EntityState.Modified;
             }
             _ctx.SaveChanges();
+
             if (Id == 0)
             {
                 res = new JSONResultCreateLab { Result = 0, LabId = lab.Id, LabName = lab.Name };

@@ -100,7 +100,7 @@
                     $("#dateFrom").val(obj.AcquaintanceFrom);
                     $("#dateTo").val(obj.AcquaintanceTo);
                     for (var i = 0; i < obj.Tasks.length; ++i) {
-                        $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").focus().dblclick();
+                        $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
                     };
                     break;
                 case 1:
