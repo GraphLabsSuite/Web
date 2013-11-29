@@ -174,7 +174,9 @@ namespace GraphLabs.Site.Controllers
                 _ctx.Entry(lab).State = EntityState.Modified;
                 _ctx.Entry(entry).State = EntityState.Modified;
             }
-            _ctx.SaveChanges();
+            _ctx.SaveChanges();            
+
+            deleteTasks(entry);
 
             if (Id == 0)
             {
@@ -197,6 +199,26 @@ namespace GraphLabs.Site.Controllers
             {
                 return new DateTime(2000, 01, 01);
             };
+        }
+
+        private void deleteTasks(LabEntry entry)
+        {
+            var variants = (from t in _ctx.LabVariants
+                            select t).ToList();
+            variants = variants.Where(x => x.LabWork == entry.LabWork).ToList();
+            for (int i = 0; i < variants.Count; ++i)
+            {
+                List<TaskVariant> coll = variants[i].TaskVariants.ToList();
+                foreach (var t in coll)
+                {
+                    if (!entry.Tasks.Contains(t.Task))
+                    {
+                        variants[i].TaskVariants.Remove(t);
+                    }
+                }
+                _ctx.Entry(variants[i]).State = EntityState.Modified;
+            }
+            _ctx.SaveChanges();
         }
 
         //В id передается результат запроса
