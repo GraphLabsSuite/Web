@@ -15,6 +15,7 @@ namespace GraphLabs.Site.Controllers
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
 
+        #region Отображение списка лабораторных работ
         public ActionResult Index()
         {
             this.AllowAnonymous(_ctx);
@@ -53,8 +54,8 @@ namespace GraphLabs.Site.Controllers
             int i = 1;
             foreach (var v in lab.LabVariants)
             {
-                result.Variants[i-1] = new JSONResultVariants();
-                result.Variants[i-1].VarId = v.Id;
+                result.Variants[i - 1] = new JSONResultVariants();
+                result.Variants[i - 1].VarId = v.Id;
                 result.Variants[i - 1].VarName = v.Number;
                 result.Variants[i - 1].TasksVar = new List<KeyValuePair<int, string>>();
                 foreach (var t in v.TaskVariants)
@@ -80,7 +81,9 @@ namespace GraphLabs.Site.Controllers
 
             return "2";
         }
+        #endregion
 
+        #region Создание и редактирование оаболаторной работы
         public ActionResult Create(long id = 0)
         {
             this.AllowAnonymous(_ctx);
@@ -226,13 +229,9 @@ namespace GraphLabs.Site.Controllers
         public string EditLab(long Id)
         {
             CreateLabModel res = new CreateLabModel();
-            LabWork lab;
-            try
+            var lab = _ctx.LabWorks.Find(Id);
+            if (lab == null)
             {
-                lab = _ctx.LabWorks.Find(Id);
-            }
-            catch (Exception)
-            {                
                 res.Id = 1;
                 return JsonConvert.SerializeObject(res);
             }
@@ -250,17 +249,23 @@ namespace GraphLabs.Site.Controllers
 
             return JsonConvert.SerializeObject(res);
         }
+        #endregion
 
-        public ActionResult CreateVariant(long labId = 0)
+        public ActionResult CreateVariant(long labId = 0, long varId = 0)
         {
             this.AllowAnonymous(_ctx);
 
             var lab = _ctx.LabWorks.Find(labId);
+            if (lab == null)
+            {
+                return HttpNotFound();
+            }
 
             CreateLabVariantModel model = new CreateLabVariantModel();
             model.id = lab.Id;
+            model.varId = varId;
             model.Name = lab.Name;
-            model.Variant = new Dictionary<string, List<KeyValuePair<long, string>>>();
+            model.Variant = new Dictionary<KeyValuePair<long, string>, List<KeyValuePair<long, string>>>();
 
             foreach (var t in lab.LabEntry.Tasks)
             {
@@ -269,14 +274,14 @@ namespace GraphLabs.Site.Controllers
                 {
                     list.Add(new KeyValuePair<long, string>(v.Id, v.Number));
                 }
-                model.Variant.Add(t.Name, list);
+                model.Variant.Add(new KeyValuePair<long, string>(t.Id, t.Name), list);
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public string CreateVariant(int Id, string Number, string JsonArr)
+        public string CreateVariant(int Id, string Number, string JsonArr, int variantId = 0)
         {
             this.AllowAnonymous(_ctx);
 
@@ -288,27 +293,82 @@ namespace GraphLabs.Site.Controllers
             if (lab == null)
             {
                 result = 1;
+                return JsonConvert.SerializeObject(result);
             }
 
-            LabVariant labVar = new LabVariant();
-            labVar.LabWork = lab;
+            var nameCollision = (from v in _ctx.LabVariants
+                                 where v.Number == Number
+                                 select v).ToList();
+            nameCollision = nameCollision.Where(x => x.LabWork == lab).ToList();
+            if (variantId != 0)
+            {
+                nameCollision = nameCollision.Where(x => x.Id != variantId).ToList();
+            }
+            if (nameCollision.Count != 0)
+            {
+                result = 2;
+                return JsonConvert.SerializeObject(result);
+            }
+
+            LabVariant labVar = null;
+            if (variantId == 0)
+            {
+                labVar = new LabVariant();
+                labVar.LabWork = lab;
+            }
+            else
+            {
+                labVar = _ctx.LabVariants.Find(variantId);
+                if (labVar == null)
+                {
+                    result = 3;
+                    return JsonConvert.SerializeObject(result);
+                }
+            }
+
             labVar.Number = Number;
+            labVar.TaskVariants.Clear();
             for (int i = 0; i < varId.Length; ++i)
             {
                 labVar.TaskVariants.Add(_ctx.TaskVariants.Find(varId[i]));
             }
 
-            try
+            if (variantId == 0)
             {
                 _ctx.LabVariants.Add(labVar);
-                _ctx.SaveChanges();
             }
-            catch (Exception)
+            else
             {
-                result = 2;
+                _ctx.Entry(labVar).State = EntityState.Modified;
+                result = 4;
             }
+            _ctx.SaveChanges();
 
             return JsonConvert.SerializeObject(result);
+        }
+
+        //В id передается результат, в Name - номер варианта
+        [HttpPost]
+        public string EditVariant(long varId)
+        {
+            JSONResultEditVariant res = new JSONResultEditVariant();
+            var variant = _ctx.LabVariants.Find(varId);
+            if (variant == null)
+            {
+                res.Result = 1;
+                return JsonConvert.SerializeObject(res);
+            }
+
+            res.Result = 0;
+            res.Name = variant.Number;
+            res.Variant = new List<KeyValuePair<long, long>>();
+
+            foreach (var t in variant.TaskVariants)
+            {               
+                res.Variant.Add(new KeyValuePair<long, long>(t.Task.Id, t.Id));
+            }
+
+            return JsonConvert.SerializeObject(res);
         }
     }
 }

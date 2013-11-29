@@ -79,7 +79,7 @@
                     url: "EditLab",
                     data: result,
                     error: function() {
-                        alert("Невозможно загрузить вариант работы");
+                        alert("Невозможно загрузить лабораторную работу");
                         location.href = "/Labs";
                     },
                     success: function (data) {
@@ -97,8 +97,7 @@
                     $("#error").html("");
                     $("#save").removeAttr("disabled");
                     $("#labName").val(obj.Name);
-                    var x = obj.AcquaintanceFrom.substring(0, 10)
-                    $("#dateFrom").val(x);
+                    $("#dateFrom").val(obj.AcquaintanceFrom.substring(0, 10));
                     $("#dateTo").val(obj.AcquaintanceTo.substring(0, 10));
                     for (var i = 0; i < obj.Tasks.length; ++i) {
                         $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();

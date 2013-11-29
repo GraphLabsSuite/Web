@@ -95,20 +95,30 @@
 
                     $("#labViewLeftTable").append("<tr><th>Задания</th></tr>");
                     $("#labViewRightTable").append("<tr id='variantsHeaders'></tr>");
-                    var tableSize = obj.Tasks.length;
-                    for (var i = 0; i < tableSize; i++) {
+                    for (var i = 0; i < obj.Tasks.length; i++) {
                         $("#labViewLeftTable").append("<tr value='" + obj.Tasks[i].Key + "'><td>" + obj.Tasks[i].Value + "</td></tr>");
                         $("#labViewRightTable").append("<tr value='" + obj.Tasks[i].Key + "'></tr>");
                     };
 
+                    $("#labViewRightTable").append("<tr id='varButtons'></tr>");
+
                     for (var i = 0; i < obj.Variants.length; i++) {
                         $("#variantsHeaders").append("<th value='" + obj.Variants[i].VarId + "'>" + obj.Variants[i].VarName + "</th>");
 
-                        $("#labViewRightTable tr:not(#variantsHeaders)").append("<td value='" + obj.Variants[i].VarId + "'></td>");
+                        $("#labViewRightTable tr:not(#variantsHeaders, #varButtons)").append("<td value='" + obj.Variants[i].VarId + "'></td>");
 
                         for (var j = 0; j < obj.Variants[i].TasksVar.length; j++) {
                             $("#labViewRightTable tr[value='" + obj.Variants[i].TasksVar[j].Key + "'] td[value='" + obj.Variants[i].VarId + "']").html(obj.Variants[i].TasksVar[j].Value);
                         };
+
+                        var pic;
+                        if (obj.Variants[i].TasksVar.length == obj.Tasks.length) {
+                            pic = '<img src="/Images/_true.png" />';
+                        } else {
+                            pic = '<img src="/Images/_false.png" />';
+                        };
+
+                        $("#varButtons").append('<td>' + pic + '<br /><a href="/Labs/CreateVariant?labId=' + labId + '&varId=' + obj.Variants[i].VarId + '">Редактировать</a></td>');
                     };
 
                     break;

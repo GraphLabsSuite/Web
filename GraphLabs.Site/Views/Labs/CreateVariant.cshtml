@@ -27,9 +27,9 @@
 @foreach (var item in Model.Variant)
 {
     <tr>
-    <th>@item.Key</th>
+    <th>@item.Key.Value</th>
     <td>
-    <select>
+    <select id="@item.Key.Key">
         <option value="no">Не выбрано...</option>
         @foreach (var elem in item.Value)
         {
@@ -47,6 +47,52 @@
 @section Scripts
 {
     <script>
+        $(document).ready(function () {
+            if (@Model.varId != 0)
+            {
+                $("title").html("Редактирование варианта лабораторной работы");
+                $("h2").html('Редактирование варианта лабораторной работы "@Model.Name"');
+                $("#error").html("Вариант загружается...");
+                var result="varId=@Model.varId";
+                $.ajax({
+                    type: "POST",
+                    url: "EditVariant",
+                    data: result,
+                    error: function() {
+                        alert("Невозможно загрузить вариант работы");
+                        location.href = "/Labs";
+                    },
+                    success: function (data) {
+                        SucEditLoad(data);
+                    }
+                });
+            }
+        });
+
+        function SucEditLoad(data) {
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("");
+                    $("#varNum").val(obj.Name);
+                    for (var i = 0; i < obj.Variant.length; ++i) {
+                        $("#" + obj.Variant[i].Key).find("option[value=" + obj.Variant[i].Value + "]").attr("selected", "selected");
+                        $("#" + obj.Variant[i].Key).find("option[value='no']").detach();
+                        $("#" + obj.Variant[i].Key).parent().parent().find("th").replaceWith(function (index, oldHTML) {
+                            return $("<td>").html(oldHTML);
+                        });
+                    };
+                    if ($("option[value='no']").size() == 0) {
+                        $("#save").removeAttr("disabled");
+                    };
+                    break;
+                case 1:
+                    alert("Вариант работы не найден!");
+                    location.href = "/Labs";
+                    break;
+            };
+        };
+
         $("option").click(function () {
             $(this).parent().find("option[value='no']").detach();
             $(this).parent().parent().parent().find("th").replaceWith(function (index, oldHTML) {
@@ -81,7 +127,7 @@
             $("select").each(function () {
                 list.push($(this).val());
             });
-            var result = "Id=@Model.id&Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list);
+            var result = "Id=@Model.id&Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&variantId=@Model.varId";
             $.ajax({
                 type: "POST",
                 url: "CreateVariant",
@@ -104,7 +150,13 @@
                     $("#error").html('Невозможно сохранить вариант: лабораторная работа "@Model.Name" отсутствует');
                     break;
                 case "2":
-                    $("#error").html('Ошибка при сохранении в БД');
+                    $("#error").html('Вариант с таким номером уже существует!');
+                    break;
+                case "3":
+                    $("#error").html('При сохранении потерян вариант лабораторной работы');
+                    break;
+                case "4":
+                    $("#error").html('Вариант успешно обновлен!');
                     break;
             };
         };

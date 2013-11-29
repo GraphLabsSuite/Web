@@ -220,6 +220,7 @@
     </Compile>
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\JSONResultEditVariant.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariantModel.cs" />

@@ -12,8 +12,10 @@ namespace GraphLabs.Site.Models
         [Key]
         public long id { get; set; }
 
+        public long varId { get; set; }
+
         public string Name { get; set; }
 
-        public Dictionary<string, List<KeyValuePair<long, string>>> Variant { get; set; }
+        public Dictionary<KeyValuePair<long, string>, List<KeyValuePair<long, string>>> Variant { get; set; }
     }
 }
