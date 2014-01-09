@@ -84,9 +84,6 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GraphLabs.DomainModel">
-      <HintPath>..\packages\GraphLabs.DataModel\GraphLabs.DomainModel.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -238,6 +235,7 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Content\SilverlightAppsProvider.ashx" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="UserMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -310,7 +308,7 @@
     <Content Include="Images\_.png" />
     <Content Include="Images\_false.png" />
     <Content Include="Images\_true.png" />
-    <Content Include="Properties\AssemblyInfo.cs.template" />
+    <Content Include="Properties\AssemblyVersion.cs.template" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -392,6 +390,12 @@
       <LastGenOutput>UserMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+      <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
+      <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -422,7 +426,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"
-SubWCRev "." "$(ProjectName)\Properties\AssemblyInfo.cs.template" "$(ProjectName)\Properties\AssemblyInfo.cs"</PreBuildEvent>
+SubWCRev "." "$(ProjectName)\Properties\AssemblyVersion.cs.template" "$(ProjectName)\Properties\AssemblyVersion.cs"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

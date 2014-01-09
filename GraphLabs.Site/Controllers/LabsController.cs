@@ -2,6 +2,7 @@
 using System.Data;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ using GraphLabs.DomainModel;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 using Newtonsoft.Json;
+using WebGrease.Css.Extensions;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -46,9 +48,9 @@ namespace GraphLabs.Site.Controllers
             result.LabName = lab.Name;
 
             result.Tasks = new List<KeyValuePair<int, string>>();
-            foreach (var t in lab.LabEntry.Tasks)
+            foreach (var labEntry in lab.LabEntries.OrderBy(e => e.Order))
             {
-                result.Tasks.Add(new KeyValuePair<int, string>((int)t.Id, t.Name));
+                result.Tasks.Add(new KeyValuePair<int, string>((int)labEntry.Task.Id, labEntry.Task.Name));
             }
 
             result.Variants = new JSONResultVariants[lab.LabVariants.Count];
@@ -150,37 +152,32 @@ namespace GraphLabs.Site.Controllers
             lab.Name = Name;
             lab.AcquaintanceFrom = ParseDate(DateFrom);
             lab.AcquaintanceTill = ParseDate(DateTo);
+            lab.LabEntries.Clear();
 
-            LabEntry entry;
-            if (Id == 0)
+            var i = 0;
+            foreach (var task in tasksId.Distinct().Select(id => _ctx.Tasks.Find(id)))
             {
-                entry = new LabEntry();
-                lab.LabEntry = entry;
-                entry.LabWork = lab;
-            }
-            else
-            {
-                entry = _ctx.LabEntries.Find(lab.LabEntry.Id);
-                entry.Tasks.Clear();
-            }
-            
-            foreach (var t in tasksId)
-            {
-                entry.Tasks.Add(_ctx.Tasks.Find(t));
+                Contract.Assert(task != null, "Получен некорректный идентификатор задания");
+
+                // вот интересно, после такого действия надо добавлять entry в _ctx.LabEntries, или и так достаточно??
+                lab.LabEntries.Add(new LabEntry
+                {
+                    LabWork = lab,
+                    Order = ++i,
+                    Task = task
+                });
             }
             if (Id == 0)
             {
                 _ctx.LabWorks.Add(lab);
-                _ctx.LabEntries.Add(entry);
             }
             else
             {
                 _ctx.Entry(lab).State = EntityState.Modified;
-                _ctx.Entry(entry).State = EntityState.Modified;
             }
             _ctx.SaveChanges();            
 
-            deleteTasks(entry);
+            DeleteTasksFromVariants(lab);
 
             if (Id == 0)
             {
@@ -205,22 +202,26 @@ namespace GraphLabs.Site.Controllers
             };
         }
 
-        private void deleteTasks(LabEntry entry)
+        private void DeleteTasksFromVariants(LabWork labWork)
         {
-            var variants = (from t in _ctx.LabVariants
-                            select t).ToList();
-            variants = variants.Where(x => x.LabWork == entry.LabWork).ToList();
-            for (int i = 0; i < variants.Count; ++i)
+            var variants = labWork.LabVariants;
+            var tasksInLab = labWork.LabEntries.Select(e => e.Task).ToArray();
+
+            foreach (var labVariant in variants)
             {
-                List<TaskVariant> coll = variants[i].TaskVariants.ToList();
-                foreach (var t in coll)
+                var tasksInVariant = labVariant.TaskVariants.ToDictionary(v => v.Task);
+                var flag = false;
+                foreach (var taskVariantPair in tasksInVariant)
                 {
-                    if (!entry.Tasks.Contains(t.Task))
+                    if (!tasksInLab.Contains(taskVariantPair.Key))
                     {
-                        variants[i].TaskVariants.Remove(t);
+                        labVariant.TaskVariants.Remove(taskVariantPair.Value);
+                        flag = true;
                     }
                 }
-                _ctx.Entry(variants[i]).State = EntityState.Modified;
+                
+                if (flag)
+                    _ctx.Entry(labVariant).State = EntityState.Modified;
             }
             _ctx.SaveChanges();
         }
@@ -243,7 +244,7 @@ namespace GraphLabs.Site.Controllers
             res.AcquaintanceTo = lab.AcquaintanceTill;
             res.Tasks = new List<KeyValuePair<long, string>>();
 
-            foreach (var t in lab.LabEntry.Tasks)
+            foreach (var t in lab.LabEntries.Select(e => e.Task))
             {
                 res.Tasks.Add(new KeyValuePair<long, string>(t.Id, ""));
             }
@@ -268,7 +269,7 @@ namespace GraphLabs.Site.Controllers
             model.Name = lab.Name;
             model.Variant = new Dictionary<KeyValuePair<long, string>, List<KeyValuePair<long, string>>>();
 
-            foreach (var t in lab.LabEntry.Tasks)
+            foreach (var t in lab.LabEntries.Select(e => e.Task))
             {
                 var list = new List<KeyValuePair<long, string>>();
                 foreach (var v in t.TaskVariants)

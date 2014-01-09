@@ -1,0 +1,1103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="News" EntityType="DataModel.Store.News" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="DataModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="DataModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Results" EntityType="DataModel.Store.Results" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Actions" EntityType="DataModel.Store.Actions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LabWorks" EntityType="DataModel.Store.LabWorks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tasks" EntityType="DataModel.Store.Tasks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LabVariants" EntityType="DataModel.Store.LabVariants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestQuestions" EntityType="DataModel.Store.TestQuestions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnswerVariants" EntityType="DataModel.Store.AnswerVariants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sessions" EntityType="DataModel.Store.Sessions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Settings" EntityType="DataModel.Store.Settings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaskVariants" EntityType="DataModel.Store.TaskVariants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LabEntries" EntityType="DataModel.Store.LabEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users_Student" EntityType="DataModel.Store.Users_Student" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VariantTestQuestion" EntityType="DataModel.Store.VariantTestQuestion" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LabVariantTaskVariant" EntityType="DataModel.Store.LabVariantTaskVariant" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LabWorkGroup" EntityType="DataModel.Store.LabWorkGroup" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserNews" Association="DataModel.Store.UserNews">
+      <End Role="Publisher" EntitySet="Users" />
+      <End Role="News" EntitySet="News" />
+    </AssociationSet>
+    <AssociationSet Name="ResultAction" Association="DataModel.Store.ResultAction">
+      <End Role="Result" EntitySet="Results" />
+      <End Role="Action" EntitySet="Actions" />
+    </AssociationSet>
+    <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.Store.TestQuestionAnswerVariant">
+      <End Role="TestQuestion" EntitySet="TestQuestions" />
+      <End Role="AnswerVariant" EntitySet="AnswerVariants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VariantTestQuestion_LabVariant" Association="DataModel.Store.FK_VariantTestQuestion_LabVariant">
+      <End Role="LabVariant" EntitySet="LabVariants" />
+      <End Role="VariantTestQuestion" EntitySet="VariantTestQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VariantTestQuestion_TestQuestion" Association="DataModel.Store.FK_VariantTestQuestion_TestQuestion">
+      <End Role="TestQuestion" EntitySet="TestQuestions" />
+      <End Role="VariantTestQuestion" EntitySet="VariantTestQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="UserSession" Association="DataModel.Store.UserSession">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Session" EntitySet="Sessions" />
+    </AssociationSet>
+    <AssociationSet Name="GroupStudent" Association="DataModel.Store.GroupStudent">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Student" EntitySet="Users_Student" />
+    </AssociationSet>
+    <AssociationSet Name="StudentResult" Association="DataModel.Store.StudentResult">
+      <End Role="Student" EntitySet="Users_Student" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="TaskTaskVariant" Association="DataModel.Store.TaskTaskVariant">
+      <End Role="Task" EntitySet="Tasks" />
+      <End Role="TaskVariant" EntitySet="TaskVariants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LabVariantTaskVariant_LabVariant" Association="DataModel.Store.FK_LabVariantTaskVariant_LabVariant">
+      <End Role="LabVariant" EntitySet="LabVariants" />
+      <End Role="LabVariantTaskVariant" EntitySet="LabVariantTaskVariant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LabVariantTaskVariant_TaskVariant" Association="DataModel.Store.FK_LabVariantTaskVariant_TaskVariant">
+      <End Role="TaskVariant" EntitySet="TaskVariants" />
+      <End Role="LabVariantTaskVariant" EntitySet="LabVariantTaskVariant" />
+    </AssociationSet>
+    <AssociationSet Name="LabWorkLabVariant" Association="DataModel.Store.LabWorkLabVariant">
+      <End Role="LabWork" EntitySet="LabWorks" />
+      <End Role="LabVariant" EntitySet="LabVariants" />
+    </AssociationSet>
+    <AssociationSet Name="LabVariantResult" Association="DataModel.Store.LabVariantResult">
+      <End Role="LabVariant" EntitySet="LabVariants" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="LabWorkLabEntry" Association="DataModel.Store.LabWorkLabEntry">
+      <End Role="LabWork" EntitySet="LabWorks" />
+      <End Role="LabEntry" EntitySet="LabEntries" />
+    </AssociationSet>
+    <AssociationSet Name="TaskLabEntry" Association="DataModel.Store.TaskLabEntry">
+      <End Role="Task" EntitySet="Tasks" />
+      <End Role="LabEntry" EntitySet="LabEntries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LabWorkGroup_LabWork" Association="DataModel.Store.FK_LabWorkGroup_LabWork">
+      <End Role="LabWork" EntitySet="LabWorks" />
+      <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LabWorkGroup_Group" Association="DataModel.Store.FK_LabWorkGroup_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Student" EntitySet="Users_Student" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="1000" />
+    <Property Name="PublicationTime" Type="datetime" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="LastModificationTime" Type="datetime" Nullable="true" />
+    <Property Name="User_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="FatherName" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="PasswordHash" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="HashSalt" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="int" Nullable="false" />
+    <Property Name="IsOpen" Type="bit" Nullable="false" />
+    <Property Name="FirstYear" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Results">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mode" Type="int" Nullable="false" />
+    <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+    <Property Name="Grade" Type="int" Nullable="true" />
+    <Property Name="Student_Id" Type="bigint" Nullable="false" />
+    <Property Name="LabVariant_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Actions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Penalty" Type="int" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Result_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LabWorks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AcquaintanceFrom" Type="datetime" Nullable="false" />
+    <Property Name="AcquaintanceTill" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tasks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Xap" Type="varbinary(max)" Nullable="false" />
+    <Property Name="VariantGenerator" Type="varbinary(max)" Nullable="true" />
+    <Property Name="Sections" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="Version" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="LabVariants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Version" Type="bigint" Nullable="false" />
+    <Property Name="LabWork_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TestQuestions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TypeOfQuestion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Section" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnswerVariants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Answer" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="IsCorrect" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="TestQuestion_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sessions">
+    <Key>
+      <PropertyRef Name="Guid" />
+    </Key>
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
+    <Property Name="LastAction" Type="datetime" Nullable="false" />
+    <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IP" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CheckSumm" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Settings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="SystemDate" Type="datetime" Nullable="false" />
+    <Property Name="DefaultVariantGenerator" Type="varbinary(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="TaskVariants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="GeneratorVersion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Version" Type="bigint" Nullable="false" />
+    <Property Name="Task_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LabEntries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="LabWork_Id" Type="bigint" Nullable="false" />
+    <Property Name="Task_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users_Student">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="IsVerified" Type="bit" Nullable="false" />
+    <Property Name="IsDismissed" Type="bit" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Group_Id" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="VariantTestQuestion">
+    <Key>
+      <PropertyRef Name="LabVariant_Id" />
+      <PropertyRef Name="TestQuestions_Id" />
+    </Key>
+    <Property Name="LabVariant_Id" Type="bigint" Nullable="false" />
+    <Property Name="TestQuestions_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LabVariantTaskVariant">
+    <Key>
+      <PropertyRef Name="LabVariantTaskVariant_TaskVariant_Id" />
+      <PropertyRef Name="TaskVariants_Id" />
+    </Key>
+    <Property Name="LabVariantTaskVariant_TaskVariant_Id" Type="bigint" Nullable="false" />
+    <Property Name="TaskVariants_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LabWorkGroup">
+    <Key>
+      <PropertyRef Name="LabWorks_Id" />
+      <PropertyRef Name="Groups_Id" />
+    </Key>
+    <Property Name="LabWorks_Id" Type="bigint" Nullable="false" />
+    <Property Name="Groups_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="UserNews">
+    <End Role="Publisher" Type="DataModel.Store.Users" Multiplicity="1" />
+    <End Role="News" Type="DataModel.Store.News" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publisher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="News">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ResultAction">
+    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="1" />
+    <End Role="Action" Type="DataModel.Store.Actions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Result">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Action">
+        <PropertyRef Name="Result_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestQuestionAnswerVariant">
+    <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="1" />
+    <End Role="AnswerVariant" Type="DataModel.Store.AnswerVariants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestQuestion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AnswerVariant">
+        <PropertyRef Name="TestQuestion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserSession">
+    <End Role="User" Type="DataModel.Store.Users" Multiplicity="1" />
+    <End Role="Session" Type="DataModel.Store.Sessions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Session">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupStudent">
+    <End Role="Group" Type="DataModel.Store.Groups" Multiplicity="0..1" />
+    <End Role="Student" Type="DataModel.Store.Users_Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="Group_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StudentResult">
+    <End Role="Student" Type="DataModel.Store.Users_Student" Multiplicity="1" />
+    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="Student_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaskTaskVariant">
+    <End Role="Task" Type="DataModel.Store.Tasks" Multiplicity="1" />
+    <End Role="TaskVariant" Type="DataModel.Store.TaskVariants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TaskVariant">
+        <PropertyRef Name="Task_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LabWorkLabVariant">
+    <End Role="LabWork" Type="DataModel.Store.LabWorks" Multiplicity="1" />
+    <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabWork">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabVariant">
+        <PropertyRef Name="LabWork_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LabVariantResult">
+    <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
+    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabVariant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="LabVariant_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LabWorkLabEntry">
+    <End Role="LabWork" Type="DataModel.Store.LabWorks" Multiplicity="1" />
+    <End Role="LabEntry" Type="DataModel.Store.LabEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabWork">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabEntry">
+        <PropertyRef Name="LabWork_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaskLabEntry">
+    <End Role="Task" Type="DataModel.Store.Tasks" Multiplicity="1" />
+    <End Role="LabEntry" Type="DataModel.Store.LabEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabEntry">
+        <PropertyRef Name="Task_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VariantTestQuestion_LabVariant">
+    <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
+    <End Role="VariantTestQuestion" Type="DataModel.Store.VariantTestQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabVariant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VariantTestQuestion">
+        <PropertyRef Name="LabVariant_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VariantTestQuestion_TestQuestion">
+    <End Role="VariantTestQuestion" Type="DataModel.Store.VariantTestQuestion" Multiplicity="*" />
+    <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TestQuestion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VariantTestQuestion">
+        <PropertyRef Name="TestQuestions_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LabVariantTaskVariant_LabVariant">
+    <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
+    <End Role="LabVariantTaskVariant" Type="DataModel.Store.LabVariantTaskVariant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabVariant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabVariantTaskVariant">
+        <PropertyRef Name="LabVariantTaskVariant_TaskVariant_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LabVariantTaskVariant_TaskVariant">
+    <End Role="LabVariantTaskVariant" Type="DataModel.Store.LabVariantTaskVariant" Multiplicity="*" />
+    <End Role="TaskVariant" Type="DataModel.Store.TaskVariants" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TaskVariant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabVariantTaskVariant">
+        <PropertyRef Name="TaskVariants_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LabWorkGroup_LabWork">
+    <End Role="LabWork" Type="DataModel.Store.LabWorks" Multiplicity="1" />
+    <End Role="LabWorkGroup" Type="DataModel.Store.LabWorkGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabWork">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabWorkGroup">
+        <PropertyRef Name="LabWorks_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LabWorkGroup_Group">
+    <End Role="LabWorkGroup" Type="DataModel.Store.LabWorkGroup" Multiplicity="*" />
+    <End Role="Group" Type="DataModel.Store.Groups" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabWorkGroup">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_inherits_User">
+    <End Role="User" Type="DataModel.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Student" Type="DataModel.Store.Users_Student" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GraphLabsContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="News" EntityType="DataModel.News" />
+          <EntitySet Name="Users" EntityType="DataModel.User" />
+          <AssociationSet Name="UserNews" Association="DataModel.UserNews">
+            <End Role="Publisher" EntitySet="Users" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <EntitySet Name="Groups" EntityType="DataModel.Group" />
+          <EntitySet Name="Results" EntityType="DataModel.Result" />
+          <EntitySet Name="Actions" EntityType="DataModel.Action" />
+          <AssociationSet Name="ResultAction" Association="DataModel.ResultAction">
+            <End Role="Result" EntitySet="Results" />
+            <End Role="Action" EntitySet="Actions" />
+          </AssociationSet>
+          <EntitySet Name="LabWorks" EntityType="DataModel.LabWork" />
+          <EntitySet Name="Tasks" EntityType="DataModel.Task" />
+          <EntitySet Name="LabVariants" EntityType="DataModel.LabVariant" />
+          <EntitySet Name="TestQuestions" EntityType="DataModel.TestQuestion" />
+          <EntitySet Name="AnswerVariants" EntityType="DataModel.AnswerVariant" />
+          <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.TestQuestionAnswerVariant">
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="AnswerVariant" EntitySet="AnswerVariants" />
+          </AssociationSet>
+          <AssociationSet Name="VariantTestQuestion" Association="DataModel.VariantTestQuestion">
+            <End Role="LabVariant" EntitySet="LabVariants" />
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+          </AssociationSet>
+          <EntitySet Name="Sessions" EntityType="DataModel.Session" />
+          <AssociationSet Name="UserSession" Association="DataModel.UserSession">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Session" EntitySet="Sessions" />
+          </AssociationSet>
+          <EntitySet Name="Settings" EntityType="DataModel.Settings" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <AssociationSet Name="GroupStudent" Association="DataModel.GroupStudent">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Student" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="StudentResult" Association="DataModel.StudentResult">
+            <End Role="Student" EntitySet="Users" />
+            <End Role="Result" EntitySet="Results" />
+          </AssociationSet>
+          <EntitySet Name="TaskVariants" EntityType="DataModel.TaskVariant" />
+          <AssociationSet Name="TaskTaskVariant" Association="DataModel.TaskTaskVariant">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="TaskVariant" EntitySet="TaskVariants" />
+          </AssociationSet>
+          <EntitySet Name="LabEntries" EntityType="DataModel.LabEntry" />
+          <AssociationSet Name="LabVariantTaskVariant" Association="DataModel.LabVariantTaskVariant">
+            <End Role="LabVariant" EntitySet="LabVariants" />
+            <End Role="TaskVariant" EntitySet="TaskVariants" />
+          </AssociationSet>
+          <AssociationSet Name="LabWorkLabVariant" Association="DataModel.LabWorkLabVariant">
+            <End Role="LabWork" EntitySet="LabWorks" />
+            <End Role="LabVariant" EntitySet="LabVariants" />
+          </AssociationSet>
+          <AssociationSet Name="LabVariantResult" Association="DataModel.LabVariantResult">
+            <End Role="LabVariant" EntitySet="LabVariants" />
+            <End Role="Result" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="LabWorkLabEntry" Association="DataModel.LabWorkLabEntry">
+            <End Role="LabWork" EntitySet="LabWorks" />
+            <End Role="LabEntry" EntitySet="LabEntries" />
+          </AssociationSet>
+          <AssociationSet Name="TaskLabEntry" Association="DataModel.TaskLabEntry">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="LabEntry" EntitySet="LabEntries" />
+          </AssociationSet>
+          <AssociationSet Name="LabWorkGroup" Association="DataModel.LabWorkGroup">
+            <End Role="LabWork" EntitySet="LabWorks" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" />
+          <Property Name="Text" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" Nullable="false" />
+          <Property Type="DateTime" Name="PublicationTime" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="User" Relationship="DataModel.UserNews" FromRole="News" ToRole="Publisher" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="100" />
+          <Property Name="LastModificationTime" Type="DateTime" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+          <Property Type="String" Name="Surname" Nullable="false" FixedLength="false" MaxLength="30" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" FixedLength="false" MaxLength="30" Unicode="true" />
+          <Property Type="String" Name="FatherName" FixedLength="false" MaxLength="30" Unicode="true" Nullable="true" />
+          <Property Type="String" Name="PasswordHash" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
+          <Property Type="String" Name="Email" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
+          <NavigationProperty Name="News" Relationship="DataModel.UserNews" FromRole="Publisher" ToRole="News" />
+          <NavigationProperty Name="Sessions" Relationship="DataModel.UserSession" FromRole="User" ToRole="Session" />
+          <Property Type="DataModel.UserRole" Name="Role" ConcurrencyMode="None" annotation:StoreGeneratedPattern="None" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" Nullable="false" />
+          <Property Type="String" Name="HashSalt" Nullable="false" />
+        </EntityType>
+        <Association Name="UserNews">
+          <End Type="DataModel.User" Role="Publisher" Multiplicity="1" />
+          <End Type="DataModel.News" Role="News" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Boolean" Name="IsOpen" Nullable="false" />
+          <Property Type="Int32" Name="FirstYear" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="DataModel.GroupStudent" FromRole="Group" ToRole="Student" />
+          <NavigationProperty Name="LabWorks" Relationship="DataModel.LabWorkGroup" FromRole="Group" ToRole="LabWork" />
+        </EntityType>
+        <EntityType Name="Result">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="DataModel.LabExecutionMode" Name="Mode" Nullable="false" />
+          <Property Type="DateTime" Name="StartDateTime" Nullable="false" annotation:StoreGeneratedPattern="None" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="DataModel.Grade" Name="Grade" Nullable="true" />
+          <NavigationProperty Name="Actions" Relationship="DataModel.ResultAction" FromRole="Result" ToRole="Action" />
+          <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
+          <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
+        </EntityType>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
+          <Property Type="Int32" Name="Penalty" Nullable="false" />
+          <Property Type="DateTime" Name="Time" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="Result" Relationship="DataModel.ResultAction" FromRole="Action" ToRole="Result" />
+        </EntityType>
+        <Association Name="ResultAction">
+          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
+          <End Type="DataModel.Action" Role="Action" Multiplicity="*" />
+        </Association>
+        <EntityType Name="LabWork">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="Name" Nullable="false" FixedLength="false" MaxLength="Max" Unicode="true" />
+          <Property Type="DateTime" Name="AcquaintanceFrom" Nullable="false" />
+          <Property Type="DateTime" Name="AcquaintanceTill" Nullable="false" />
+          <NavigationProperty Name="LabVariants" Relationship="DataModel.LabWorkLabVariant" FromRole="LabWork" ToRole="LabVariant" />
+          <NavigationProperty Name="LabEntries" Relationship="DataModel.LabWorkLabEntry" FromRole="LabWork" ToRole="LabEntry" />
+          <NavigationProperty Name="Groups" Relationship="DataModel.LabWorkGroup" FromRole="LabWork" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" Unicode="true" MaxLength="50" FixedLength="false" />
+          <Property Type="Binary" Name="Xap" Nullable="false" />
+          <Property Type="Binary" Name="VariantGenerator" Nullable="true" />
+          <Property Type="String" Name="Sections" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Version" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Note" MaxLength="Max" />
+          <NavigationProperty Name="TaskVariants" Relationship="DataModel.TaskTaskVariant" FromRole="Task" ToRole="TaskVariant" />
+          <NavigationProperty Name="LabEntries" Relationship="DataModel.TaskLabEntry" FromRole="Task" ToRole="LabEntry" />
+        </EntityType>
+        <EntityType Name="LabVariant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="Number" Nullable="false" />
+          <NavigationProperty Name="TestQuestions" Relationship="DataModel.VariantTestQuestion" FromRole="LabVariant" ToRole="TestQuestion" />
+          <Property Type="Int64" Name="Version" Nullable="false" />
+          <NavigationProperty Name="TaskVariants" Relationship="DataModel.LabVariantTaskVariant" FromRole="LabVariant" ToRole="TaskVariant" />
+          <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkLabVariant" FromRole="LabVariant" ToRole="LabWork" />
+          <NavigationProperty Name="Results" Relationship="DataModel.LabVariantResult" FromRole="LabVariant" ToRole="Result" />
+        </EntityType>
+        <EntityType Name="TestQuestion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" />
+          <Property Type="String" Name="TypeOfQuestion" Nullable="false" />
+          <NavigationProperty Name="AnswerVariants" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="TestQuestion" ToRole="AnswerVariant" />
+          <NavigationProperty Name="LabVariant" Relationship="DataModel.VariantTestQuestion" FromRole="TestQuestion" ToRole="LabVariant" />
+          <Property Type="String" Name="Section" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnswerVariant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="Answer" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
+          <Property Type="String" Name="IsCorrect" Nullable="false" FixedLength="false" MaxLength="10" Unicode="true" />
+          <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="AnswerVariant" ToRole="TestQuestion" />
+        </EntityType>
+        <Association Name="TestQuestionAnswerVariant">
+          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
+          <End Type="DataModel.AnswerVariant" Role="AnswerVariant" Multiplicity="*" />
+        </Association>
+        <Association Name="VariantTestQuestion">
+          <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
+          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="DateTime" Name="LastAction" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DataModel.UserSession" FromRole="Session" ToRole="User" />
+          <Property Type="Guid" Name="Guid" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="IP" Nullable="false" />
+          <Property Type="String" Name="CheckSumm" Nullable="false" />
+        </EntityType>
+        <Association Name="UserSession">
+          <End Type="DataModel.User" Role="User" Multiplicity="1" />
+          <End Type="DataModel.Session" Role="Session" Multiplicity="*" />
+        </Association>
+        <EnumType Name="UserRole" IsFlags="false">
+          <Member Name="Student" Value="1" />
+          <Member Name="Teacher" Value="2" />
+          <Member Name="Administrator" Value="4" />
+        </EnumType>
+        <EntityType Name="Settings" a:TypeAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" a:SetterAccess="Private" />
+          <Property Type="DateTime" Name="SystemDate" Nullable="false" />
+          <Property Type="Binary" Name="DefaultVariantGenerator" />
+        </EntityType>
+        <EnumType Name="Term">
+          <Member Name="Autumn" Value="1" />
+          <Member Name="Spring" Value="2" />
+        </EnumType>
+        <EntityType Name="Student" BaseType="DataModel.User" >
+          <NavigationProperty Name="Group" Relationship="DataModel.GroupStudent" FromRole="Student" ToRole="Group" />
+          <NavigationProperty Name="Results" Relationship="DataModel.StudentResult" FromRole="Student" ToRole="Result" />
+          <Property Type="Boolean" Name="IsVerified" Nullable="false" />
+          <Property Type="Boolean" Name="IsDismissed" Nullable="false" />
+        </EntityType>
+        <Association Name="GroupStudent">
+          <End Type="DataModel.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="DataModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <Association Name="StudentResult">
+          <End Type="DataModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="DataModel.Result" Role="Result" Multiplicity="*" />
+        </Association>
+        <EntityType Name="TaskVariant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Task" Relationship="DataModel.TaskTaskVariant" FromRole="TaskVariant" ToRole="Task" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GeneratorVersion" Nullable="false" />
+          <Property Type="Binary" Name="Data" Nullable="false" />
+          <Property Type="Int64" Name="Version" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        </EntityType>
+        <Association Name="TaskTaskVariant">
+          <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
+          <End Type="DataModel.TaskVariant" Role="TaskVariant" Multiplicity="*" />
+        </Association>
+        <EntityType Name="LabEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkLabEntry" FromRole="LabEntry" ToRole="LabWork" />
+          <NavigationProperty Name="Task" Relationship="DataModel.TaskLabEntry" FromRole="LabEntry" ToRole="Task" />
+        </EntityType>
+        <Association Name="LabVariantTaskVariant">
+          <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
+          <End Type="DataModel.TaskVariant" Role="TaskVariant" Multiplicity="*" />
+        </Association>
+        <Association Name="LabWorkLabVariant">
+          <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="1" />
+          <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
+        </Association>
+        <EnumType Name="LabExecutionMode">
+          <Member Name="IntroductoryMode" />
+          <Member Name="TestMode" />
+        </EnumType>
+        <Association Name="LabVariantResult">
+          <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="1" />
+          <End Type="DataModel.Result" Role="Result" Multiplicity="*" />
+        </Association>
+        <Association Name="LabWorkLabEntry">
+          <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="1" />
+          <End Type="DataModel.LabEntry" Role="LabEntry" Multiplicity="*" />
+        </Association>
+        <Association Name="TaskLabEntry">
+          <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
+          <End Type="DataModel.LabEntry" Role="LabEntry" Multiplicity="*" />
+        </Association>
+        <Association Name="LabWorkGroup">
+          <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="*" />
+          <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
+        </Association>
+        <EnumType Name="Grade">
+          <Member Name="Unsatisfactory" Value="2" />
+          <Member Name="Fair" Value="3" />
+          <Member Name="Good" Value="4" />
+          <Member Name="Excellent" Value="5" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="GraphLabsContext">
+    <EntitySetMapping Name="News">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.News)">
+        <MappingFragment StoreEntitySet="News">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="PublicationTime" ColumnName="PublicationTime" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="LastModificationTime" ColumnName="LastModificationTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="HashSalt" ColumnName="HashSalt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Student)">
+        <MappingFragment StoreEntitySet="Users_Student">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+          <ScalarProperty Name="IsDismissed" ColumnName="IsDismissed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
+          <ScalarProperty Name="FirstYear" ColumnName="FirstYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Results">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Result)">
+        <MappingFragment StoreEntitySet="Results">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Mode" ColumnName="Mode" />
+          <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+          <ScalarProperty Name="Grade" ColumnName="Grade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Actions">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Action)">
+        <MappingFragment StoreEntitySet="Actions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Penalty" ColumnName="Penalty" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LabWorks">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.LabWork)">
+        <MappingFragment StoreEntitySet="LabWorks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AcquaintanceFrom" ColumnName="AcquaintanceFrom" />
+          <ScalarProperty Name="AcquaintanceTill" ColumnName="AcquaintanceTill" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Task)">
+        <MappingFragment StoreEntitySet="Tasks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Xap" ColumnName="Xap" />
+          <ScalarProperty Name="VariantGenerator" ColumnName="VariantGenerator" />
+          <ScalarProperty Name="Sections" ColumnName="Sections" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LabVariants">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.LabVariant)">
+        <MappingFragment StoreEntitySet="LabVariants">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestQuestions">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TestQuestion)">
+        <MappingFragment StoreEntitySet="TestQuestions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="TypeOfQuestion" ColumnName="TypeOfQuestion" />
+          <ScalarProperty Name="Section" ColumnName="Section" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AnswerVariants">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.AnswerVariant)">
+        <MappingFragment StoreEntitySet="AnswerVariants">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sessions">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Session)">
+        <MappingFragment StoreEntitySet="Sessions">
+          <ScalarProperty Name="Guid" ColumnName="Guid" />
+          <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+          <ScalarProperty Name="LastAction" ColumnName="LastAction" />
+          <ScalarProperty Name="IP" ColumnName="IP" />
+          <ScalarProperty Name="CheckSumm" ColumnName="CheckSumm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Settings">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Settings)">
+        <MappingFragment StoreEntitySet="Settings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SystemDate" ColumnName="SystemDate" />
+          <ScalarProperty Name="DefaultVariantGenerator" ColumnName="DefaultVariantGenerator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaskVariants">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TaskVariant)">
+        <MappingFragment StoreEntitySet="TaskVariants">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="GeneratorVersion" ColumnName="GeneratorVersion" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LabEntries">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.LabEntry)">
+        <MappingFragment StoreEntitySet="LabEntries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserNews" TypeName="DataModel.UserNews" StoreEntitySet="News">
+      <EndProperty Name="Publisher">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="News">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ResultAction" TypeName="DataModel.ResultAction" StoreEntitySet="Actions">
+      <EndProperty Name="Result">
+        <ScalarProperty Name="Id" ColumnName="Result_Id" />
+      </EndProperty>
+      <EndProperty Name="Action">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestQuestionAnswerVariant" TypeName="DataModel.TestQuestionAnswerVariant" StoreEntitySet="AnswerVariants">
+      <EndProperty Name="TestQuestion">
+        <ScalarProperty Name="Id" ColumnName="TestQuestion_Id" />
+      </EndProperty>
+      <EndProperty Name="AnswerVariant">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VariantTestQuestion" TypeName="DataModel.VariantTestQuestion" StoreEntitySet="VariantTestQuestion">
+      <EndProperty Name="LabVariant">
+        <ScalarProperty Name="Id" ColumnName="LabVariant_Id" />
+      </EndProperty>
+      <EndProperty Name="TestQuestion">
+        <ScalarProperty Name="Id" ColumnName="TestQuestions_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserSession" TypeName="DataModel.UserSession" StoreEntitySet="Sessions">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Session">
+        <ScalarProperty Name="Guid" ColumnName="Guid" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupStudent" TypeName="DataModel.GroupStudent" StoreEntitySet="Users_Student">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Group_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Group_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StudentResult" TypeName="DataModel.StudentResult" StoreEntitySet="Results">
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Student_Id" />
+      </EndProperty>
+      <EndProperty Name="Result">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaskTaskVariant" TypeName="DataModel.TaskTaskVariant" StoreEntitySet="TaskVariants">
+      <EndProperty Name="Task">
+        <ScalarProperty Name="Id" ColumnName="Task_Id" />
+      </EndProperty>
+      <EndProperty Name="TaskVariant">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LabVariantTaskVariant" TypeName="DataModel.LabVariantTaskVariant" StoreEntitySet="LabVariantTaskVariant">
+      <EndProperty Name="LabVariant">
+        <ScalarProperty Name="Id" ColumnName="LabVariantTaskVariant_TaskVariant_Id" />
+      </EndProperty>
+      <EndProperty Name="TaskVariant">
+        <ScalarProperty Name="Id" ColumnName="TaskVariants_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LabWorkLabVariant" TypeName="DataModel.LabWorkLabVariant" StoreEntitySet="LabVariants">
+      <EndProperty Name="LabWork">
+        <ScalarProperty Name="Id" ColumnName="LabWork_Id" />
+      </EndProperty>
+      <EndProperty Name="LabVariant">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LabVariantResult" TypeName="DataModel.LabVariantResult" StoreEntitySet="Results">
+      <EndProperty Name="LabVariant">
+        <ScalarProperty Name="Id" ColumnName="LabVariant_Id" />
+      </EndProperty>
+      <EndProperty Name="Result">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LabWorkLabEntry" TypeName="DataModel.LabWorkLabEntry" StoreEntitySet="LabEntries">
+      <EndProperty Name="LabWork">
+        <ScalarProperty Name="Id" ColumnName="LabWork_Id" />
+      </EndProperty>
+      <EndProperty Name="LabEntry">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaskLabEntry" TypeName="DataModel.TaskLabEntry" StoreEntitySet="LabEntries">
+      <EndProperty Name="Task">
+        <ScalarProperty Name="Id" ColumnName="Task_Id" />
+      </EndProperty>
+      <EndProperty Name="LabEntry">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LabWorkGroup" TypeName="DataModel.LabWorkGroup" StoreEntitySet="LabWorkGroup">
+      <EndProperty Name="LabWork">
+        <ScalarProperty Name="Id" ColumnName="LabWorks_Id" />
+      </EndProperty>
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DDLGenerationTemplate" Value="$(VSEFTools)\DBGen\SSDLToSQL10.tt" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="dbo" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

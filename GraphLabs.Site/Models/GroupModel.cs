@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Models
         {
         }
 
-        public GroupModel(Group group)
+        public GroupModel(Group group, GraphLabsContext ctx)
         {
             Contract.Requires(group != null);
 
@@ -36,7 +36,7 @@ namespace GraphLabs.Site.Models
             Students = group.Students;
             FirstYear = group.FirstYear;
             Number = group.Number;
-            var ds = new SystemDateService();
+            var ds = new SystemDateService(ctx);
             Name = group.GetName(ds);
             //Name = 'K' + SemestrNumber(group.FirstYear) + '-' + group.Number.ToString();
         }

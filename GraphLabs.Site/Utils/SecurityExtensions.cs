@@ -58,10 +58,8 @@ namespace GraphLabs.Site.Utils
             // Впишем новую
             var newSession = new Session
             {
-                CreationTime = DateTime.Now,
                 LastAction = DateTime.Now,
                 User = user,
-                Guid = guid,
                 CheckSumm = controller.Session.CalculateCheckSumm(user),
                 IP = controller.GetClientIP()
             };

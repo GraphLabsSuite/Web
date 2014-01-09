@@ -28,7 +28,7 @@ namespace GraphLabs.Site.Controllers
 
             var groups = (from g in _ctx.Groups
                           select g).ToArray()
-                          .Select(t => new GroupModel(t))
+                          .Select(t => new GroupModel(t, _ctx))
                           .ToArray();
 
             return View(groups);
@@ -86,7 +86,7 @@ namespace GraphLabs.Site.Controllers
             {
                 return HttpNotFound();
             }
-            GroupModel gr = new GroupModel(group);
+            GroupModel gr = new GroupModel(group, _ctx);
 
             return View(gr);
         }
