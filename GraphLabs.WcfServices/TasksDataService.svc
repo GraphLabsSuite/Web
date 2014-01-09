@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GraphLabs.DataService.TasksDataService" CodeBehind="TasksDataService.svc.cs" %>
