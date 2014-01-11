@@ -14,11 +14,6 @@ namespace GraphLabs.WcfServices
         [OperationContract]
         TaskVariantInfo InitialiseTask(long taskId, Guid sessionGuid);
 
-        /// <summary> Регистрирует действия студента </summary>
-        /// <param name="sessionId"> Идентификатор сессии </param>
-        /// <param name="actions"> Действия для регистрации </param>
-        [OperationContract]
-        TaskVariantInfo RegisterUserActions(string sessionId, ActionDescription[] actions);
 
         /// <summary> Регистрирует завершение выполнения задания </summary>
         /// <param name="sessionId"> Идентификатор сессии </param>

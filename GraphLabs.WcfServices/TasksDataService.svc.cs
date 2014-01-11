@@ -55,11 +55,6 @@ namespace GraphLabs.WcfServices
             throw new NotImplementedException();
         }
 
-        public TaskVariantInfo RegisterUserActions(string sessionId, ActionDescription[] actions)
-        {
-            throw new NotImplementedException();
-        }
-
         public TaskVariantInfo FinishTask(string sessionId)
         {
             throw new NotImplementedException();

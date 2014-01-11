@@ -118,14 +118,19 @@
     <Content Include="clientaccesspolicy.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="UserActionsRegistrator.svc" />
     <Content Include="crossdomain.xml" />
     <Content Include="TasksDataService.svc" />
     <Content Include="VariantGenService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserActionsRegistrator.svc.cs">
+      <DependentUpon>UserActionsRegistrator.svc</DependentUpon>
+    </Compile>
     <Compile Include="Data\ActionDescription.cs" />
     <Compile Include="Data\TaskVariantInfo.cs" />
+    <Compile Include="IUserActionsRegistrator.cs" />
     <Compile Include="IVariantGenService.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="TasksDataService.svc.cs">
