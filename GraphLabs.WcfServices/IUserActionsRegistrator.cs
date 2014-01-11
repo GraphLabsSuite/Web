@@ -14,7 +14,7 @@ namespace GraphLabs.WcfServices
         /// <param name="sessionGuid"> Идентификатор сессии </param>
         /// <param name="actions"> Действия для регистрации </param>
         /// <remarks> От этой штуки зависит GraphLabs.Components </remarks>
-        [OperationContract(ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        [OperationContract()]
         TaskVariantInfo RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions);
     }
 }
