@@ -17,7 +17,7 @@ namespace GraphLabs.DomainModel
         public long Id { get; private set; }
         public string Description { get; set; }
         public int Penalty { get; set; }
-        public System.DateTime Time { get; private set; }
+        public System.DateTime Time { get; set; }
     
         public virtual Result Result { get; set; }
     }

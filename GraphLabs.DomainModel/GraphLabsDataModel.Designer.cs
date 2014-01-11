@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\Рабочий стол\datamodel\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'E:\Рабочий стол\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

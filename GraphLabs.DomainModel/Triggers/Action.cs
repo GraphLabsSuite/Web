@@ -8,12 +8,6 @@ namespace GraphLabs.DomainModel
     /// <summary> Действие при выполнении ЛР </summary>
     public partial class Action : AbstractEntity
     {
-        /// <summary> Перед сохранением новой сущности в базу </summary>
-        public override void OnInsert()
-        {
-            Time = DateTime.Now;
-        }
-
         /// <summary> Валидация </summary>
         public override IEnumerable<DbValidationError> OnEntityValidating(DbEntityEntry entityEntry)
         {
