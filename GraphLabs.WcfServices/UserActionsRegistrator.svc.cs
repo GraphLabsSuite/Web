@@ -8,7 +8,7 @@ namespace GraphLabs.WcfServices
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class UserActionsRegistrator : IUserActionsRegistrator
     {
-        public void RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions)
+        public int RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false)
         {
             throw new NotImplementedException();
         }

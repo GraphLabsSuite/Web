@@ -14,7 +14,7 @@ namespace GraphLabs.WcfServices
         /// <param name="taskId"> Идентификатор модуля-задания </param>
         /// <param name="sessionGuid"> Идентификатор сессии </param>
         /// <returns> Данные для задания - как правило, исходный граф, или что-то типа того </returns>
-        public TaskVariantInfo InitialiseTask(long taskId, Guid sessionGuid)
+        public TaskVariantInfo GetVariant(long taskId, Guid sessionGuid)
         {
 #if DEBUG
             Thread.Sleep(3000);
@@ -52,11 +52,6 @@ namespace GraphLabs.WcfServices
             //        Version = 1
             //    };
             //}
-            throw new NotImplementedException();
-        }
-
-        public TaskVariantInfo FinishTask(string sessionId)
-        {
             throw new NotImplementedException();
         }
     }

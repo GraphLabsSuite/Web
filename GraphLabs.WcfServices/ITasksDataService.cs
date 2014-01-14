@@ -11,13 +11,8 @@ namespace GraphLabs.WcfServices
         /// <summary> Регистрирует начало выполнения задания </summary>
         /// <param name="taskId"> Идентификатор модуля-задания </param>
         /// <param name="sessionGuid"> Идентификатор сессии </param>
+        /// <returns> Вариант задания </returns>
         [OperationContract]
-        TaskVariantInfo InitialiseTask(long taskId, Guid sessionGuid);
-
-
-        /// <summary> Регистрирует завершение выполнения задания </summary>
-        /// <param name="sessionId"> Идентификатор сессии </param>
-        [OperationContract]
-        TaskVariantInfo FinishTask(string sessionId);
+        TaskVariantInfo GetVariant(long taskId, Guid sessionGuid);
     }
 }
