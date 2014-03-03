@@ -20,5 +20,6 @@ namespace GraphLabs.DomainModel
         public System.DateTime Time { get; set; }
     
         public virtual Result Result { get; set; }
+        public virtual Task Task { get; set; }
     }
 }

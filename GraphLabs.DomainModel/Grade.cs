@@ -13,9 +13,10 @@ namespace GraphLabs.DomainModel
     
     public enum Grade : int
     {
-        Unsatisfactory = 2,
-        Fair = 3,
-        Good = 4,
-        Excellent = 5
+        Unsatisfactory = 0,
+        Fair = 1,
+        Good = 2,
+        Excellent = 3,
+        Interrupted = 4
     }
 }

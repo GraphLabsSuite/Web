@@ -92,6 +92,10 @@
       <End Role="Group" EntitySet="Groups" />
       <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
     </AssociationSet>
+    <AssociationSet Name="TaskAction" Association="DataModel.Store.TaskAction">
+      <End Role="Task" EntitySet="Tasks" />
+      <End Role="Action" EntitySet="Actions" />
+    </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
       <End Role="Student" EntitySet="Users_Student" />
@@ -150,6 +154,7 @@
     <Property Name="Penalty" Type="int" Nullable="false" />
     <Property Name="Time" Type="datetime" Nullable="false" />
     <Property Name="Result_Id" Type="bigint" Nullable="false" />
+    <Property Name="Task_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="LabWorks">
     <Key>
@@ -404,6 +409,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="TaskAction">
+    <End Role="Task" Type="DataModel.Store.Tasks" Multiplicity="1" />
+    <End Role="Action" Type="DataModel.Store.Actions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Action">
+        <PropertyRef Name="Task_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_VariantTestQuestion_LabVariant">
     <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
     <End Role="VariantTestQuestion" Type="DataModel.Store.VariantTestQuestion" Multiplicity="*" />
@@ -565,6 +582,10 @@
             <End Role="LabWork" EntitySet="LabWorks" />
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
+          <AssociationSet Name="TaskAction" Association="DataModel.TaskAction">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Action" EntitySet="Actions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
           <Key>
@@ -628,6 +649,7 @@
           <Property Type="Int32" Name="Penalty" Nullable="false" />
           <Property Type="DateTime" Name="Time" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <NavigationProperty Name="Result" Relationship="DataModel.ResultAction" FromRole="Action" ToRole="Result" />
+          <NavigationProperty Name="Task" Relationship="DataModel.TaskAction" FromRole="Action" ToRole="Task" />
         </EntityType>
         <Association Name="ResultAction">
           <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
@@ -658,6 +680,7 @@
           <Property Type="String" Name="Note" MaxLength="Max" />
           <NavigationProperty Name="TaskVariants" Relationship="DataModel.TaskTaskVariant" FromRole="Task" ToRole="TaskVariant" />
           <NavigationProperty Name="LabEntries" Relationship="DataModel.TaskLabEntry" FromRole="Task" ToRole="LabEntry" />
+          <NavigationProperty Name="Actions" Relationship="DataModel.TaskAction" FromRole="Task" ToRole="Action" />
         </EntityType>
         <EntityType Name="LabVariant">
           <Key>
@@ -799,11 +822,16 @@
           <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
         </Association>
         <EnumType Name="Grade">
-          <Member Name="Unsatisfactory" Value="2" />
-          <Member Name="Fair" Value="3" />
-          <Member Name="Good" Value="4" />
-          <Member Name="Excellent" Value="5" />
+          <Member Name="Unsatisfactory" />
+          <Member Name="Fair" />
+          <Member Name="Good" />
+          <Member Name="Excellent" />
+          <Member Name="Interrupted" />
         </EnumType>
+        <Association Name="TaskAction">
+          <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
+          <End Type="DataModel.Action" Role="Action" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1074,6 +1102,14 @@
       </EndProperty>
       <EndProperty Name="Group">
         <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaskAction" TypeName="DataModel.TaskAction" StoreEntitySet="Actions">
+      <EndProperty Name="Task">
+        <ScalarProperty Name="Id" ColumnName="Task_Id" />
+      </EndProperty>
+      <EndProperty Name="Action">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
