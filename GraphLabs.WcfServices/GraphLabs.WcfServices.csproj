@@ -125,6 +125,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.General.cs">
+      <Link>Properties\AssemblyInfo.General.cs</Link>
+    </Compile>
     <Compile Include="UserActionsRegistrator.svc.cs">
       <DependentUpon>UserActionsRegistrator.svc</DependentUpon>
     </Compile>
@@ -146,8 +149,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\AssemblyVersion.cs.template" />
     <Content Include="packages.config" />
+    <Content Include="..\AssemblyVersion.cs.template">
+      <Link>Properties\AssemblyVersion.cs.template</Link>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -187,8 +192,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>cd "$(ProjectDir)"
-SubWCRev "." "Properties\AssemblyVersion.cs.template" "Properties\AssemblyVersion.cs"</PreBuildEvent>
+    <PreBuildEvent>cd "$(SolutionDir)"
+SubWCRev "." "AssemblyVersion.cs.template" "$(ProjectDir)Properties\AssemblyVersion.cs"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

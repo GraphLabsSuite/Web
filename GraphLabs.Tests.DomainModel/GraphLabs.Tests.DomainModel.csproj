@@ -109,6 +109,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.General.cs">
+      <Link>Properties\AssemblyInfo.General.cs</Link>
+    </Compile>
     <Compile Include="DataModelTests.cs" />
     <Compile Include="GroupExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

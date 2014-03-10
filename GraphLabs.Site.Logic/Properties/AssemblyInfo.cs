@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GraphLabs.WcfServices")]
-[assembly: AssemblyDescription("WCF-сервисы для связи с модулями-заданиями")]
+[assembly: AssemblyTitle("GraphLabs.Site.Logic")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCulture("")]
 
@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("54593efb-0b57-4dab-8a0c-b62a6cdae9ae")]
+[assembly: Guid("8916fb80-8f7c-4468-bfa6-261005d54be7")]

@@ -5,13 +5,9 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GraphLabs.DataModel")]
+[assembly: AssemblyTitle("GraphLabs.DomainModel")]
 [assembly: AssemblyDescription("Библиотека классов для доступа к данным")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Национальный Исследовательский Ядерный Университет МИФИ")]
-[assembly: AssemblyProduct("GraphLabs")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

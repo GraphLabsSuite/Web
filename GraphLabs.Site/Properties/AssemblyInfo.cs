@@ -7,10 +7,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GraphLabs.Site")]
 [assembly: AssemblyDescription("Сайт лабораторного комплекса")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Национальный Исследовательский Ядерный Университет МИФИ")]
-[assembly: AssemblyProduct("GraphLabs")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Установка значения False в параметре ComVisible делает типы в этой сборке невидимыми 

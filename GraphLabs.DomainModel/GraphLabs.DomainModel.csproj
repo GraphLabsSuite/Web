@@ -129,6 +129,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.General.cs">
+      <Link>Properties\AssemblyInfo.General.cs</Link>
+    </Compile>
     <Compile Include="Action.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -243,6 +246,9 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\AssemblyVersion.cs.template">
+      <Link>Properties\AssemblyVersion.cs.template</Link>
+    </Content>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
@@ -260,7 +266,6 @@
       <LastGenOutput>GraphLabsDataModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\AssemblyVersion.cs.template" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -281,7 +286,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"
-SubWCRev "." "$(ProjectName)\Properties\AssemblyVersion.cs.template" "$(ProjectName)\Properties\AssemblyVersion.cs"</PreBuildEvent>
+SubWCRev "." "AssemblyVersion.cs.template" "$(ProjectDir)Properties\AssemblyVersion.cs"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
