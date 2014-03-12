@@ -33,6 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,7 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="Group\GroupLogic.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,6 +56,12 @@
     <Content Include="..\AssemblyVersion.cs.template">
       <Link>Properties\AssemblyVersion.cs.template</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+      <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
+      <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

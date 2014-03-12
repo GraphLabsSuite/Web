@@ -6,11 +6,14 @@ using GraphLabs.DomainModel;
 using System.Diagnostics.Contracts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Services;
+using GraphLabs.Site.Logic.GroupLogic;
 
 namespace GraphLabs.Site.Models
 {
     public class GroupModel
     {
+        private GroupLogic logic = new GroupLogic();
+
         public long Id { get; set; }
 
         public string Name { get; set; }
@@ -27,7 +30,7 @@ namespace GraphLabs.Site.Models
         {
         }
 
-        public GroupModel(Group group, GraphLabsContext ctx)
+        public GroupModel(Group group)
         {
             Contract.Requires(group != null);
 
@@ -36,35 +39,7 @@ namespace GraphLabs.Site.Models
             Students = group.Students;
             FirstYear = group.FirstYear;
             Number = group.Number;
-            var ds = new SystemDateService(ctx);
-            Name = group.GetName(ds);
-            //Name = 'K' + SemestrNumber(group.FirstYear) + '-' + group.Number.ToString();
-        }
-
-        private string SemestrNumber(int year)
-        {
-            DateTime curDate = DateTime.Today;
-            
-            int semestr = 1 + 2*(curDate.Year - year);
-            //январь относится к семестру предыдущего года
-            if (curDate.Month < 2)
-            {
-                semestr -= 2;
-            }
-            // с февраля по август - четный семестр
-            if (curDate.Month > 1 && curDate.Month < 9)
-            {
-                semestr -= 1;
-            }
-
-            if (semestr < 10)
-            {
-                return '0' + semestr.ToString();
-            }
-            else
-            {
-                return semestr.ToString();
-            }
+            Name = group.GetName(logic.GetSystemDate());
         }
     }
 }

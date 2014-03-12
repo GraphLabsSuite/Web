@@ -8,6 +8,7 @@ using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Utils;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Logic.GroupLogic;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -15,10 +16,9 @@ namespace GraphLabs.Site.Controllers
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
         private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
+        private GroupLogic logic = new GroupLogic();
 
-        //
-        // GET: /Group/
-
+        #region Формирование списка групп
         public ActionResult Index(string message)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
@@ -26,17 +26,14 @@ namespace GraphLabs.Site.Controllers
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
 
-            var groups = (from g in _ctx.Groups
-                          select g).ToArray()
-                          .Select(t => new GroupModel(t, _ctx))
-                          .ToArray();
+            Group[] groups = logic.GetGroupsFromDB();
+            GroupModel[] groupModel = groups.Select(t => new GroupModel(t)).ToArray();
 
-            return View(groups);
+            return View(groupModel);
         }
-        
-        //
-        // GET: /Group/Create
+        #endregion
 
+        #region Создание группы
         public ActionResult Create()
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
@@ -49,10 +46,7 @@ namespace GraphLabs.Site.Controllers
 
             return View(group);
         }
-
-        //
-        // POST: /Group/Create
-
+        
         [HttpPost]
         public ActionResult Create(Group group)
         {
@@ -63,17 +57,15 @@ namespace GraphLabs.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                _ctx.Groups.Add(group);
-                _ctx.SaveChanges();
+                logic.SaveGroupToDB(group);
                 return RedirectToAction("Index");
             }
 
             return View(group);
         }
+        #endregion
 
-        //
-        // GET: /Group/Edit/5
-
+        #region Редактирование группы
         public ActionResult Edit(long id = 0)
         {
             if (!this.IsUserInRole(_ctx, UserRole.Teacher))
@@ -81,18 +73,15 @@ namespace GraphLabs.Site.Controllers
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
 
-            Group group = _ctx.Groups.Find(id);
+            Group group = logic.GetGroupByID(id);
             if (group == null)
             {
                 return HttpNotFound();
             }
-            GroupModel gr = new GroupModel(group, _ctx);
+            GroupModel gr = new GroupModel(group);
 
             return View(gr);
         }
-
-        //
-        // POST: /Group/Edit/5
 
         [HttpPost]
         public ActionResult Edit(GroupModel gr)
@@ -104,25 +93,16 @@ namespace GraphLabs.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                Group group = _ctx.Groups.Find(gr.Id);
+                Group group = logic.GetGroupByID(gr.Id);
                 if (group == null)
                 {
                     return HttpNotFound();
                 }
-                group.Number = gr.Number;
-                group.FirstYear = gr.FirstYear;
-                group.IsOpen = gr.IsOpen;
-                _ctx.Entry(group).State = EntityState.Modified;
-                _ctx.SaveChanges();
+                logic.ModifyGroupInDB(group, gr.Number, gr.FirstYear, gr.IsOpen);
                 return RedirectToAction("Index");
             }
             return View(gr);
         }
-        
-        protected override void Dispose(bool disposing)
-        {
-            _ctx.Dispose();
-            base.Dispose(disposing);
-        }
+        #endregion
     }
 }

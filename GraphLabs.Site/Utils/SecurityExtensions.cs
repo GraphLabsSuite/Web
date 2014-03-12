@@ -125,7 +125,7 @@ namespace GraphLabs.Site.Utils
         #endregion
 
 
-        #region Провеврки в контроллере
+        #region Проверки в контроллере
 
         /// <summary> Помечает, что страница доступна к просмотру неавторизованному пользователю. </summary>
         public static void AllowAnonymous(this Controller controller, GraphLabsContext ctx)
