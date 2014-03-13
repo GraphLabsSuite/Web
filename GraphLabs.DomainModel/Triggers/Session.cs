@@ -23,7 +23,8 @@ namespace GraphLabs.DomainModel
         /// <summary> Валидация </summary>
         public override IEnumerable<DbValidationError> OnEntityValidating(DbEntityEntry entityEntry)
         {
-            if (string.IsNullOrWhiteSpace(CheckSumm))
+            //TODO: добавить проверку для CheckSumSalt
+            if (string.IsNullOrWhiteSpace(CheckSum))
                 yield return new DbValidationError("CheckSumm", ValidationErrors.Session_OnValidating_Должна_быть_указана_контрольная_сумма_);
 
             if (LastAction < CreationTime)

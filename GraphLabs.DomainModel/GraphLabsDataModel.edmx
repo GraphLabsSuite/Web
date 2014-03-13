@@ -213,7 +213,8 @@
     <Property Name="LastAction" Type="datetime" Nullable="false" />
     <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
     <Property Name="IP" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CheckSumm" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CheckSum" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CheckSumSalt" Type="nvarchar(max)" Nullable="false" />
     <Property Name="User_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Settings">
@@ -732,7 +733,8 @@
           <NavigationProperty Name="User" Relationship="DataModel.UserSession" FromRole="Session" ToRole="User" />
           <Property Type="Guid" Name="Guid" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="IP" Nullable="false" />
-          <Property Type="String" Name="CheckSumm" Nullable="false" />
+          <Property Type="String" Name="CheckSum" Nullable="false" />
+          <Property Name="CheckSumSalt" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="UserSession">
           <End Type="DataModel.User" Role="User" Multiplicity="1" />
@@ -959,7 +961,8 @@
           <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
           <ScalarProperty Name="LastAction" ColumnName="LastAction" />
           <ScalarProperty Name="IP" ColumnName="IP" />
-          <ScalarProperty Name="CheckSumm" ColumnName="CheckSumm" />
+          <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+          <ScalarProperty Name="CheckSumSalt" ColumnName="CheckSumSalt" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

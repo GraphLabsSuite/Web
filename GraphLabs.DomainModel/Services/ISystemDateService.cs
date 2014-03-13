@@ -10,5 +10,7 @@ namespace GraphLabs.DomainModel.Services
 
         /// <summary> Устанавливает время системы </summary>
         void SetDate(DateTime newDate);
+
+        DateTime Now();
     }
 }

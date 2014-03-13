@@ -32,5 +32,11 @@ namespace GraphLabs.DomainModel.Services
             settings.SystemDate = newDate;
             _context.SaveChanges();
         }
+
+        /// <summary> Текущий момент времени (не учётный, а реальный) </summary>
+        public DateTime Now()
+        {
+            return DateTime.Now;
+        }
     }
 }

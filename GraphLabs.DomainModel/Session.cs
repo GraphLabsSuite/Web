@@ -18,7 +18,8 @@ namespace GraphLabs.DomainModel
         public System.DateTime LastAction { get; set; }
         public System.Guid Guid { get; private set; }
         public string IP { get; set; }
-        public string CheckSumm { get; set; }
+        public string CheckSum { get; set; }
+        public string CheckSumSalt { get; set; }
     
         public virtual User User { get; set; }
     }
