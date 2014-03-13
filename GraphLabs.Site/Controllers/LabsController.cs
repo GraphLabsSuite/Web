@@ -86,7 +86,7 @@ namespace GraphLabs.Site.Controllers
         }
         #endregion
 
-        #region Создание и редактирование оаболаторной работы
+        #region Создание и редактирование лабораторной работы
         public ActionResult Create(long id = 0)
         {
             this.AllowAnonymous(_ctx);

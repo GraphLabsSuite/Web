@@ -15,7 +15,6 @@ namespace GraphLabs.Site.Controllers
     public class GroupController : Controller
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
-        private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
         private GroupLogic logic = new GroupLogic();
 
         #region Формирование списка групп

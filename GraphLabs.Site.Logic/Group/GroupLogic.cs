@@ -8,7 +8,7 @@ namespace GraphLabs.Site.Logic.GroupLogic
     public class GroupLogic
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
-        private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
+        //private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
 
         public Group[] GetGroupsFromDB()
         {

@@ -1,9 +1,9 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/03/2014 23:03:02
--- Generated from EDMX file: E:\Рабочий стол\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
+-- Date Created: 03/13/2014 13:37:21
+-- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -67,6 +67,9 @@ IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_LabWork]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_Group]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LabWorkGroup] DROP CONSTRAINT [FK_LabWorkGroup_Group];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskAction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Actions] DROP CONSTRAINT [FK_TaskAction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
@@ -405,19 +408,19 @@ GO
 -- Creating primary key on [LabVariant_Id], [TestQuestions_Id] in table 'VariantTestQuestion'
 ALTER TABLE [dbo].[VariantTestQuestion]
 ADD CONSTRAINT [PK_VariantTestQuestion]
-    PRIMARY KEY CLUSTERED ([LabVariant_Id], [TestQuestions_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([LabVariant_Id], [TestQuestions_Id] ASC);
 GO
 
 -- Creating primary key on [LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] in table 'LabVariantTaskVariant'
 ALTER TABLE [dbo].[LabVariantTaskVariant]
 ADD CONSTRAINT [PK_LabVariantTaskVariant]
-    PRIMARY KEY CLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
 GO
 
 -- Creating primary key on [LabWorks_Id], [Groups_Id] in table 'LabWorkGroup'
 ALTER TABLE [dbo].[LabWorkGroup]
 ADD CONSTRAINT [PK_LabWorkGroup]
-    PRIMARY KEY CLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
 GO
 
 -- --------------------------------------------------
