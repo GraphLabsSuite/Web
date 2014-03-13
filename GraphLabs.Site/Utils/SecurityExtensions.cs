@@ -60,7 +60,7 @@ namespace GraphLabs.Site.Utils
             {
                 LastAction = DateTime.Now,
                 User = user,
-                CheckSumm = controller.Session.CalculateCheckSumm(user),
+                CheckSum = controller.Session.CalculateCheckSumm(user),
                 IP = controller.GetClientIP()
             };
             ctx.Sessions.Add(newSession);
@@ -152,7 +152,7 @@ namespace GraphLabs.Site.Utils
                 return false;
 
             // Проверим контрольную сумму
-            if (session.CheckSumm != controller.Session.CalculateCheckSumm(session.User))
+            if (session.CheckSum != controller.Session.CalculateCheckSumm(session.User))
                 return false;
 
             // Всё ОК. Отметим последнее действие

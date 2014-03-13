@@ -1,0 +1,115 @@
+﻿@model GraphLabs.Site.Models.StudentsResultModel[]
+
+@{
+    ViewBag.Title = "Результаты";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<style type="text/css">
+    .idColumn { width: 10%; }
+    .nameColumn { width: 45%; }
+    .dateColumn { width: 15%; }
+    .varColumn { width: 15%; }
+    .resultColumn { width: 15%; }
+</style>
+
+@{
+    var grid = new WebGrid(Model, canPage:false ,canSort:false);
+        @grid.GetHtml(tableStyle: "webGrid", 
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            
+            columns: grid.Columns(
+                grid.Column(header: "",                format: item => item.Id,        columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "Название работы",  format: item => item.Name,      columnName: "Name",     style:"nameColumn"),
+                grid.Column(header: "Дата выполнения",  format: @<text>@item.Date.ToString("dd/MM/yyyy")</text>,      columnName: "Name",     style:"dateColumn"),
+                grid.Column(header: "Вариант",          format: item => item.Variant,      columnName: "Name",     style:"varColumn"),
+                grid.Column(header: "Оценка",           format: item => item.Result,    columnName: "IsOpen",   style:"resultColumn")
+                )
+            );
+}
+
+<br />
+<span id="error" class="field-validation-error"></span>
+
+<div id="labInfo" style="display:none">
+    <h3></h3>
+    
+    <h6></h6>
+    <br />
+
+    <div>
+    <table id="labTable">
+    </table>
+    </div>
+
+    <div>
+    <table id="problemsTable">
+    </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $(function() {            
+            $('#datatable tbody tr').live('click', function () {
+                GetLabDetail($(this).find('td:first').text());
+            });
+        });
+
+        function GetLabDetail(id) {
+            $("#error").html("Идет отправка данных...");
+            var result = "Id=" + id;
+            $.ajax({
+                type: "POST",
+                url: "StudentsResult/GetLabDetail",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                    $("#labInfo").css("display", "none");
+                },
+                success: function (data) {
+                    Suc(data);
+                }
+            });
+        };
+
+        function Suc(data) {
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("");
+                    $("#labInfo").css("display", "block");
+                    $("#labInfo h3").html(obj.LabName);
+                    $("#labInfo h6").html("По результатам выполнения работы Вы на " + obj.Place + " месте из " + obj.StudentsNumber + " среди студентов группы");
+
+                    $("#labTable tr").detach();
+                    $("#labTable").append("<tr><th>Задания</th><th>Вариант</th><th>Результат</th></tr>");
+
+                    for (var i = 0; i < obj.Tasks.length; i++) {
+                        $("#labTable").append("<tr value='" + obj.Tasks[i].Id + "'><td>" + obj.Tasks[i].Name + "</td><td>" + obj.Tasks[i].Variant + "</td><td>" + obj.Tasks[i].Result + "</td></tr>");
+                    };
+
+                    $("#problemsTable tr").detach();
+                    $("#problemsTable").append("<tr><th>Проблемные области</th></tr>");
+
+                    for (var j = 0; j < obj.Problems.length; j++) {
+                        $("#problemsTable").append("<tr><td>" + obj.Problems[j] + "</td></tr>");
+                    };
+
+                    break;
+                case 1:
+                    break;
+            };
+        };
+
+    </script>
+}

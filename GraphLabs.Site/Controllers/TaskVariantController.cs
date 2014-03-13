@@ -14,10 +14,11 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index(string message, long taskId)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             var task = _ctx.Tasks.Find(taskId);
             if (task == null)
@@ -42,10 +43,11 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы редактирования </summary>
         public ActionResult EditVariant(long? variantId, long taskId, string message)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             var task = _ctx.Tasks.Find(taskId);
             if (task == null)

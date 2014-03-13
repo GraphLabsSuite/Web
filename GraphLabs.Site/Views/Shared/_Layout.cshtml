@@ -37,7 +37,7 @@
                             @if (ViewBag.UserRole == UserRole.Student)
                             {
                                 <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
-                                <li>@Html.ActionLink("Мои результаты", "My", "Results")</li>
+                                <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
                             }
                             </ul>
                             </li>

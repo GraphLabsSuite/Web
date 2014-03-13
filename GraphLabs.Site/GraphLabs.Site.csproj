@@ -211,12 +211,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
+    <Compile Include="Controllers\StudentsResultController.cs" />
     <Compile Include="Controllers\TaskVariantController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LabsController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -224,6 +224,8 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\JSONResultEditVariant.cs" />
+    <Compile Include="Models\JSONResultLabResultInfo.cs" />
+    <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariantModel.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="Utils\MultiButtonAttribute.cs" />
     <Compile Include="Utils\SecurityExtensions.cs" />
     <Compile Include="Utils\HashCalculator.cs" />
+    <Content Include="Views\StudentsResult\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

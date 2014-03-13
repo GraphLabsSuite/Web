@@ -20,10 +20,11 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index(string message)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             var tasks = (from task in _ctx.Tasks
                          select task).ToArray()
@@ -40,10 +41,11 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы загрузки </summary>
         public ActionResult UploadTask(string message)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             ViewBag.Message = message;
 
@@ -55,10 +57,11 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upload(HttpPostedFileBase xap)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             // Verify that the user selected a file
             if (xap != null && xap.ContentLength > 0)
@@ -100,10 +103,11 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы редактирования </summary>
         public ActionResult EditTask(long id, string message)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             var task = _ctx.Tasks.Find(id);
             if (task == null)
