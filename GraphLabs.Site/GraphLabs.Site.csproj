@@ -227,6 +227,7 @@
     <Compile Include="Models\JSONResultEditVariant.cs" />
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
+    <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />

@@ -154,19 +154,6 @@ namespace GraphLabs.Site.Controllers
             lab.AcquaintanceTill = ParseDate(DateTo);
             lab.LabEntries.Clear();
 
-            var i = 0;
-            foreach (var task in tasksId.Distinct().Select(id => _ctx.Tasks.Find(id)))
-            {
-                Contract.Assert(task != null, "Получен некорректный идентификатор задания");
-
-                // вот интересно, после такого действия надо добавлять entry в _ctx.LabEntries, или и так достаточно??
-                lab.LabEntries.Add(new LabEntry
-                {
-                    LabWork = lab,
-                    Order = ++i,
-                    Task = task
-                });
-            }
             if (Id == 0)
             {
                 _ctx.LabWorks.Add(lab);
@@ -175,7 +162,24 @@ namespace GraphLabs.Site.Controllers
             {
                 _ctx.Entry(lab).State = EntityState.Modified;
             }
-            _ctx.SaveChanges();            
+
+            _ctx.SaveChanges();
+
+            var i = 0;
+            foreach (var task in tasksId.Distinct().Select(id => _ctx.Tasks.Find(id)))
+            {
+                Contract.Assert(task != null, "Получен некорректный идентификатор задания");
+
+                LabEntry entry = new LabEntry
+                {
+                    LabWork = lab,
+                    Order = ++i,
+                    Task = task
+                };
+                _ctx.LabEntries.Add(entry);
+            }
+
+            _ctx.SaveChanges();
 
             DeleteTasksFromVariants(lab);
 

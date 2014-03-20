@@ -1,4 +1,4 @@
-﻿@model GraphLabs.Site.Models.GroupModel[]
+﻿@model GraphLabs.Site.Models.ResultModel
 
 @{
     ViewBag.Title = "Результаты";
@@ -8,20 +8,37 @@
 
 <span id="error" class="field-validation-error"></span>
 
-<p>
-<select id="multigroup" name="groups[]" size="5" multiple>
-    @for (int i = 0; i < Model.Length; i++)
+<div style="display: block; float: left; width: 100%;">
+<div style="display: block; float: left;">
+    <p>Группы</p>
+<select id="multigroup" size="5" multiple>
+    @for (int i = 0; i < Model.Groups.Length; i++)
     {
-    <option value="@Model[i].Id">@Model[i].Name</option>
+        <option value="@Model.Groups[i].Id">@Model.Groups[i].Name</option>
     }
 </select>
+</div>
+
+<div style="display: block; float: left;">
+    <p>Лабораторные работы</p>
+    <select id="lab" size="5">
+        @for (int i = 0; i < Model.Labs.Length; i++)
+        {
+            <option value="@Model.Labs[i].Id">@Model.Labs[i].Name</option>
+        }
+    </select>
+</div>
+</div>
+
+<p>
+    <input type="button" id="getGroups" value="Показать"/>
 </p>
-
-<input type="button" id="getGroups" value="Показать"/>
-
 <div id="groupsInfo" style="display:none">
+    
+    <h3></h3>
+
     <div>
-    <table id="groupsTable">
+    <table id="groupsTable" class="boardTable">
     </table>
     </div>
 </div>
@@ -35,8 +52,13 @@
                 $("#error").html("Необходимо выбрать группы");
                 return;
             };
+            var lab = $("#lab").val();
+            if (lab == null) {
+                $("#error").html("Необходимо выбрать лабораторную работу");
+                return;
+            };
 
-            var result = "Groups=" + groups;
+            var result = "Groups=" + groups + "&lab=" + lab;
             $.ajax({
                 type: "POST",
                 url: "Result/GetGroupsInfo",
@@ -58,6 +80,8 @@
                     $("#error").html("");
                     $("#groupsInfo").css("display", "block");
                     
+                    $("#groupsInfo h3").html(obj.LabName);
+
                     $("#groupsTable tr").detach();
                     $("#groupsTable").append("<tr><th>Группа</th><th>Кол-во студентов</th><th>Отл.</th><th>Хор.</th><th>Удовл.</th><th>Неуд.</th><th>Не явился</th></tr>");
 

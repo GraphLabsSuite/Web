@@ -18,16 +18,21 @@ namespace GraphLabs.Site.Controllers
         {
             this.AllowAnonymous(_ctx);
 
-            var groups = (from g in _ctx.Groups
+            ResultModel res = new ResultModel();
+
+            res.Groups = (from g in _ctx.Groups
                           select g).ToArray()
                           .Select(t => new GroupModel(t))
                           .ToArray();
 
-            return View(groups);
+            res.Labs = (from l in _ctx.LabWorks
+                        select l).ToArray();
+
+            return View(res);
         }
 
         [HttpPost]
-        public string GetGroupsInfo(string Groups)
+        public string GetGroupsInfo(string Groups, long Lab)
         {
             Groups = "[" + Groups + "]";
             List<long> groupsId = JsonConvert.DeserializeObject<List<long>>(Groups);
@@ -35,6 +40,8 @@ namespace GraphLabs.Site.Controllers
             JSONResultGroupsInfoModel result = new JSONResultGroupsInfoModel();
             result.Result = 0;
             result.Marks = new GroupResult[groupsId.Count];
+
+            result.LabName = _ctx.LabWorks.Find(Lab).Name;
 
             GroupModel group;
             int j = 0;

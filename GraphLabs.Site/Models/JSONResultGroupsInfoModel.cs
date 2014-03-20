@@ -28,6 +28,8 @@ namespace GraphLabs.Site.Models
     {
         public int Result { get; set; }
 
+        public string LabName { get; set; }
+
         public GroupResult[] Marks { get; set; }
     }
 }

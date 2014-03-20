@@ -823,3 +823,18 @@ input.arrowButton {
     margin: 10px 0 0 0;
     overflow-x: auto;
 }
+
+/*Special Tables*/
+table.boardTable {
+    border: solid 1px;
+}
+
+    table.boardTable th {
+        padding-left: 3px;
+        border:solid 1px;
+    }
+
+    table.boardTable td {
+        padding-left: 3px;
+        border:solid 1px;
+    }

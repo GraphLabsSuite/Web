@@ -56,7 +56,6 @@ namespace GraphLabs.Site.Controllers
             result.Problems[0] = "Проблема 1";
             result.Problems[1] = "Проблема 2";
             result.Problems[2] = "Проблема 3";
-
             return JsonConvert.SerializeObject(result);
         }
 
