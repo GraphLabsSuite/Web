@@ -1,0 +1,75 @@
+﻿@model GraphLabs.Site.Models.GroupModel[]
+
+@{
+    ViewBag.Title = "Результаты";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<span id="error" class="field-validation-error"></span>
+
+<p>
+<select id="multigroup" name="groups[]" size="5" multiple>
+    @for (int i = 0; i < Model.Length; i++)
+    {
+    <option value="@Model[i].Id">@Model[i].Name</option>
+    }
+</select>
+</p>
+
+<input type="button" id="getGroups" value="Показать"/>
+
+<div id="groupsInfo" style="display:none">
+    <div>
+    <table id="groupsTable">
+    </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#getGroups").click(function () {
+            $("#error").html("");
+            var groups = $("#multigroup").val();
+            if (groups == null) {
+                $("#error").html("Необходимо выбрать группы");
+                return;
+            };
+
+            var result = "Groups=" + groups;
+            $.ajax({
+                type: "POST",
+                url: "Result/GetGroupsInfo",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                    $("#groupsInfo").css("display", "none");
+                },
+                success: function (data) {
+                    Suc(data);
+                }
+            });
+        });
+
+        function Suc(data) {
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("");
+                    $("#groupsInfo").css("display", "block");
+                    
+                    $("#groupsTable tr").detach();
+                    $("#groupsTable").append("<tr><th>Группа</th><th>Кол-во студентов</th><th>Отл.</th><th>Хор.</th><th>Удовл.</th><th>Неуд.</th><th>Не явился</th></tr>");
+
+                    for (var i = 0; i < obj.Marks.length; i++) {
+                        $("#groupsTable").append("<tr value='" + obj.Marks[i].Id + "'><td>" + obj.Marks[i].Name + "</td><td>" + obj.Marks[i].StudentsCount + "</td><td>" + obj.Marks[i].Count5 + "</td><td>" + obj.Marks[i].Count4 + "</td><td>" + obj.Marks[i].Count3 + "</td><td>" + obj.Marks[i].Count2 + "</td><td>" + obj.Marks[i].Count0 + "</td></tr>");
+                    };
+
+                    break;
+                case 1:
+                    $("#error").html("Ошибка! Попробуйте обновить страницу");
+                    break;
+            };
+        };
+    </script>
+}

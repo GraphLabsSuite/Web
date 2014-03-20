@@ -211,6 +211,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
+    <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\StudentsResultController.cs" />
     <Compile Include="Controllers\TaskVariantController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\JSONResultEditVariant.cs" />
+    <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="Utils\SecurityExtensions.cs" />
     <Compile Include="Utils\HashCalculator.cs" />
     <Content Include="Views\StudentsResult\Index.cshtml" />
+    <Content Include="Views\Result\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
