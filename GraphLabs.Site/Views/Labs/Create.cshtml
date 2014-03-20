@@ -97,8 +97,12 @@
                     $("#error").html("");
                     $("#save").removeAttr("disabled");
                     $("#labName").val(obj.Name);
-                    $("#dateFrom").val(obj.AcquaintanceFrom.substring(0, 10));
-                    $("#dateTo").val(obj.AcquaintanceTo.substring(0, 10));
+                    if (obj.AcquaintanceFrom != null) {
+                        $("#dateFrom").val(obj.AcquaintanceFrom.substring(0, 10));
+                    };
+                    if (obj.AcquaintanceTo != null) {
+                        $("#dateTo").val(obj.AcquaintanceTo.substring(0, 10));
+                    };
                     for (var i = 0; i < obj.Tasks.length; ++i) {
                         $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
                     };

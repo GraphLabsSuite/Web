@@ -11,9 +11,9 @@ namespace GraphLabs.Site.Models
 
         public string Name { get; set; }
 
-        public DateTime AcquaintanceFrom { get; set; }
+        public DateTime? AcquaintanceFrom { get; set; }
 
-        public DateTime AcquaintanceTo { get; set; }
+        public DateTime? AcquaintanceTo { get; set; }
 
         public List<KeyValuePair<long, string>> Tasks { get; set; }
     }

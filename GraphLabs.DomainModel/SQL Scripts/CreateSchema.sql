@@ -1,9 +1,9 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/13/2014 21:43:11
--- Generated from EDMX file: E:\Рабочий стол\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
+-- Date Created: 03/21/2014 00:10:22
+-- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -197,8 +197,8 @@ GO
 CREATE TABLE [dbo].[LabWorks] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [AcquaintanceFrom] datetime  NOT NULL,
-    [AcquaintanceTill] datetime  NOT NULL
+    [AcquaintanceFrom] datetime  NULL,
+    [AcquaintanceTill] datetime  NULL
 );
 GO
 
@@ -409,19 +409,19 @@ GO
 -- Creating primary key on [LabVariant_Id], [TestQuestions_Id] in table 'VariantTestQuestion'
 ALTER TABLE [dbo].[VariantTestQuestion]
 ADD CONSTRAINT [PK_VariantTestQuestion]
-    PRIMARY KEY CLUSTERED ([LabVariant_Id], [TestQuestions_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([LabVariant_Id], [TestQuestions_Id] ASC);
 GO
 
 -- Creating primary key on [LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] in table 'LabVariantTaskVariant'
 ALTER TABLE [dbo].[LabVariantTaskVariant]
 ADD CONSTRAINT [PK_LabVariantTaskVariant]
-    PRIMARY KEY CLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
 GO
 
 -- Creating primary key on [LabWorks_Id], [Groups_Id] in table 'LabWorkGroup'
 ALTER TABLE [dbo].[LabWorkGroup]
 ADD CONSTRAINT [PK_LabWorkGroup]
-    PRIMARY KEY CLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
 GO
 
 -- --------------------------------------------------

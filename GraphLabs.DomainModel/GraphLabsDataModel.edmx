@@ -162,8 +162,8 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AcquaintanceFrom" Type="datetime" Nullable="false" />
-    <Property Name="AcquaintanceTill" Type="datetime" Nullable="false" />
+    <Property Name="AcquaintanceFrom" Type="datetime" Nullable="true" />
+    <Property Name="AcquaintanceTill" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="Tasks">
     <Key>
@@ -662,8 +662,8 @@
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="Name" Nullable="false" FixedLength="false" MaxLength="Max" Unicode="true" />
-          <Property Type="DateTime" Name="AcquaintanceFrom" Nullable="false" />
-          <Property Type="DateTime" Name="AcquaintanceTill" Nullable="false" />
+          <Property Type="DateTime" Name="AcquaintanceFrom" Nullable="true" />
+          <Property Type="DateTime" Name="AcquaintanceTill" Nullable="true" />
           <NavigationProperty Name="LabVariants" Relationship="DataModel.LabWorkLabVariant" FromRole="LabWork" ToRole="LabVariant" />
           <NavigationProperty Name="LabEntries" Relationship="DataModel.LabWorkLabEntry" FromRole="LabWork" ToRole="LabEntry" />
           <NavigationProperty Name="Groups" Relationship="DataModel.LabWorkGroup" FromRole="LabWork" ToRole="Group" />

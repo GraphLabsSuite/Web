@@ -105,27 +105,52 @@ namespace GraphLabs.Site.Controllers
             return View(model);
         }
 
+        private int ExistedLabsCount(long Id, string Name)
+        {
+            var existlab = (from l in _ctx.LabWorks
+                            where l.Name == Name
+                            select l).ToList();
+            if (Id != 0)
+            {
+                existlab = existlab.Where(l => l.Id != Id).ToList();
+            }
+            return existlab.Count();
+        }
+
+        private LabWork DeleteEntries(LabWork lab)
+        {
+            var entries = (from e in _ctx.LabEntries
+                           where e.LabWork.Id == lab.Id
+                           select e).ToList();
+            foreach (var e in entries)
+            {
+                _ctx.LabEntries.Remove(e);
+            }
+            _ctx.SaveChanges();
+
+            lab.LabEntries.Clear();
+            return lab;
+        }
+
+        private void SaveNewLabWork(LabWork lab)
+        {
+            _ctx.LabWorks.Add(lab);
+            _ctx.SaveChanges();
+        }
+
+        private void ModifyExistedLabWork(LabWork lab)
+        {
+            _ctx.Entry(lab).State = EntityState.Modified;
+            _ctx.SaveChanges();
+        }
+
         [HttpPost]
-        public string Create(string Name, string DateFrom, string DateTo, string JsonArr, int Id = 0)
+        public string Create(string Name, string DateFrom, string DateTo, string JsonArr, long Id = 0)
         {
             int[] tasksId = JsonConvert.DeserializeObject<int[]>(JsonArr);
             JSONResultCreateLab res = null;
 
-            List<LabWork> existlab;
-            if (Id == 0)
-            {
-                existlab = (from l in _ctx.LabWorks
-                            where l.Name == Name
-                            select l).ToList();
-            }
-            else
-            {
-                existlab = (from l in _ctx.LabWorks
-                            where l.Name == Name
-                            where l.Id != Id
-                            select l).ToList();
-            }
-            if (existlab.Count != 0)
+            if (ExistedLabsCount(Id, Name) != 0)
             {
                 res = new JSONResultCreateLab { Result = 1, LabName = Name };
                 return JsonConvert.SerializeObject(res);
@@ -152,19 +177,21 @@ namespace GraphLabs.Site.Controllers
             lab.Name = Name;
             lab.AcquaintanceFrom = ParseDate(DateFrom);
             lab.AcquaintanceTill = ParseDate(DateTo);
-            lab.LabEntries.Clear();
+
+            if (Id != 0)
+            {
+                lab = DeleteEntries(lab);
+            }
 
             if (Id == 0)
             {
-                _ctx.LabWorks.Add(lab);
+                SaveNewLabWork(lab);
             }
             else
             {
-                _ctx.Entry(lab).State = EntityState.Modified;
+                ModifyExistedLabWork(lab);
             }
-
-            _ctx.SaveChanges();
-
+                        
             var i = 0;
             foreach (var task in tasksId.Distinct().Select(id => _ctx.Tasks.Find(id)))
             {
@@ -194,7 +221,7 @@ namespace GraphLabs.Site.Controllers
             return JsonConvert.SerializeObject(res);
         }
 
-        private DateTime ParseDate(string date)
+        private DateTime? ParseDate(string date)
         {
             if (date != "")
             {
@@ -202,7 +229,7 @@ namespace GraphLabs.Site.Controllers
             }
             else
             {
-                return new DateTime(2000, 01, 01);
+                return null;
             };
         }
 
