@@ -57,7 +57,7 @@ namespace GraphLabs.Site.Controllers
                 result.Marks[j].Count4 = 6;
                 result.Marks[j].Count3 = 7;
                 result.Marks[j].Count2 = 8;
-                result.Marks[j].Count0 = 2;
+                result.Marks[j].Count0 = group.Students.Count;
                 ++j;
             }
 

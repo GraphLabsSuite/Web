@@ -41,10 +41,56 @@
     <table id="groupsTable" class="boardTable">
     </table>
     </div>
+
+    <br />
+    <input id="changeToNum" type="button" value="Отобразить в числах" style="display:none" />
+    <input id="changeToPercent" type="button" value="Отобразить в процентах" />
+    <span id="propertyBlock">
+        <input id="propertyNumView" type="checkbox" /> Учитывать отсутствующих
+    </span>
 </div>
 
 @section scripts{
     <script>
+        $("#changeToPercent").click(function () {
+            $("#changeToNum").css("display", "inline");
+            $("#changeToPercent").css("display", "none");
+            $("#propertyBlock").css("display", "none");
+            var considerAlone = $("#propertyNumView").prop("checked");
+            var str = $("#groupsTable tr");
+            for (var i = 1; i < str.length; ++i) {
+                studCount = $(str[i]).children("td.studCount").html();
+                if (!considerAlone) {
+                    studCount = studCount - $(str[i]).children("td.count0").html();
+                };
+                for (var j = 2; j < 6; ++j) {
+                    num = $(str[i]).children("td.count" + j).html() * 100 / studCount;
+                    if (studCount == 0) {
+                        $(str[i]).children("td.count" + j).html("-");
+                    } else {
+                        $(str[i]).children("td.count" + j).html(num.toFixed(1) + "%");
+                    };
+                };
+                if (considerAlone) {
+                    num = $(str[i]).children("td.count0").html() * 100 / studCount;
+                    if (studCount == 0) {
+                        $(str[i]).children("td.count0").html("-");
+                    } else {
+                        $(str[i]).children("td.count0").html(num.toFixed(1) + "%");
+                    };
+                } else {
+                    $(str[i]).children("td.count0").html("-");
+                };
+            };
+        });
+
+        $("#changeToNum").click(function () {
+            $("#changeToNum").css("display", "none");
+            $("#changeToPercent").css("display", "inline");
+            $("#propertyBlock").css("display", "inline");
+            RetrieveValue();
+        });
+
         $("#getGroups").click(function () {
             $("#error").html("");
             var groups = $("#multigroup").val();
@@ -86,13 +132,25 @@
                     $("#groupsTable").append("<tr><th>Группа</th><th>Кол-во студентов</th><th>Отл.</th><th>Хор.</th><th>Удовл.</th><th>Неуд.</th><th>Не явился</th></tr>");
 
                     for (var i = 0; i < obj.Marks.length; i++) {
-                        $("#groupsTable").append("<tr value='" + obj.Marks[i].Id + "'><td>" + obj.Marks[i].Name + "</td><td>" + obj.Marks[i].StudentsCount + "</td><td>" + obj.Marks[i].Count5 + "</td><td>" + obj.Marks[i].Count4 + "</td><td>" + obj.Marks[i].Count3 + "</td><td>" + obj.Marks[i].Count2 + "</td><td>" + obj.Marks[i].Count0 + "</td></tr>");
+                        $("#groupsTable").append("<tr value='" + obj.Marks[i].Id + "'><td>" + obj.Marks[i].Name + "</td><td class='studCount'>" + obj.Marks[i].StudentsCount + "</td><td class='count5' value='" + obj.Marks[i].Count5 + "'></td><td class='count4' value='" + obj.Marks[i].Count4 + "'></td><td class='count3' value='" + obj.Marks[i].Count3 + "'></td><td class='count2' value='" + obj.Marks[i].Count2 + "'></td><td class='count0' value='" + obj.Marks[i].Count0 + "'></td></tr>");
                     };
+
+                    RetrieveValue();
 
                     break;
                 case 1:
                     $("#error").html("Ошибка! Попробуйте обновить страницу");
                     break;
+            };
+        };
+
+        function RetrieveValue() {
+            var num = [5, 4, 3, 2, 0];
+            for (var j in num) {
+                el = $("#groupsTable td.count" + num[j]);
+                for (var i = 0; i < el.length; ++i) {
+                    $(el[i]).html($(el[i]).attr("value"));
+                };
             };
         };
     </script>
