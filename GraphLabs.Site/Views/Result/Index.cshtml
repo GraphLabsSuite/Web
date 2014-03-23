@@ -52,6 +52,62 @@
 
 @section scripts{
     <script>
+        var LabId;
+
+        $("#groupsTable tr th").live('click', function () {
+            var sortClass = this.className;
+            var arr = new Array;
+            elem = $("#groupsTable tr");
+            for (var i = 1; i < elem.length; ++i) {
+                arr.push( {key: $(elem[i]).attr("value"), value: $(elem[i]).children("td." + sortClass).html()} );
+            };
+            BubbleSort(arr);
+            DelTriangleImages();
+            if ($(this).children("img").attr("value") == true) {
+                $(this).children("img").attr("value", false);
+                $(this).children("img").attr("src", "/Images/triangleDOWN.png");
+                RetrieveTable(arr, false);
+            } else {
+                $(this).children("img").attr("value", true);
+                $(this).children("img").attr("src", "/Images/triangleUP.png");
+                RetrieveTable(arr, true);
+            };
+        });
+
+        function DelTriangleImages() {
+            $("#groupsTable th img").attr("src", "");
+        };
+
+        function BubbleSort(obj) {
+            for (var i = 0; i < obj.length - 1; ++i) {
+                for (var j = 0; j < obj.length - i - 1; ++j) {
+                    if (obj[j].value > obj[j + 1].value) {
+                        temp = obj[j];
+                        obj[j] = obj[j + 1];
+                        obj[j + 1] = temp;
+                    };
+                };
+            };
+        };
+
+        function RetrieveTable(obj, direction) {
+            if (direction == true) {
+                for (var i = 0; i < obj.length; ++i) {
+                    RetrieveTableBody(obj[i]);
+                };
+            } else {
+                for (var i = obj.length-1; i >= 0; --i) {
+                    RetrieveTableBody(obj[i]);
+                };
+            };
+        };
+
+        function RetrieveTableBody(obj) {
+            str = $("#groupsTable tr[value='" + obj.key + "']");
+            str.detach();
+            $("#groupsTable").append(str);
+        };
+
         $("#changeToPercent").click(function () {
             $("#changeToNum").css("display", "inline");
             $("#changeToPercent").css("display", "none");
@@ -98,13 +154,13 @@
                 $("#error").html("Необходимо выбрать группы");
                 return;
             };
-            var lab = $("#lab").val();
-            if (lab == null) {
+            LabId = $("#lab").val();
+            if (LabId == null) {
                 $("#error").html("Необходимо выбрать лабораторную работу");
                 return;
             };
-
-            var result = "Groups=" + groups + "&lab=" + lab;
+            
+            var result = "Groups=" + groups + "&lab=" + LabId;
             $.ajax({
                 type: "POST",
                 url: "Result/GetGroupsInfo",
@@ -129,10 +185,10 @@
                     $("#groupsInfo h3").html(obj.LabName);
 
                     $("#groupsTable tr").detach();
-                    $("#groupsTable").append("<tr><th>Группа</th><th>Кол-во студентов</th><th>Отл.</th><th>Хор.</th><th>Удовл.</th><th>Неуд.</th><th>Не явился</th></tr>");
+                    $("#groupsTable").append("<tr><th class='group'>Группа <img></th><th class='studCount'>Кол-во студентов <img></th><th class='count5'>Отл. <img></th><th class='count4'>Хор. <img></th><th class='count3'>Удовл. <img></th><th class='count2'>Неуд. <img></th><th class='count0'>Не явился <img></th></tr>");
 
                     for (var i = 0; i < obj.Marks.length; i++) {
-                        $("#groupsTable").append("<tr value='" + obj.Marks[i].Id + "'><td>" + obj.Marks[i].Name + "</td><td class='studCount'>" + obj.Marks[i].StudentsCount + "</td><td class='count5' value='" + obj.Marks[i].Count5 + "'></td><td class='count4' value='" + obj.Marks[i].Count4 + "'></td><td class='count3' value='" + obj.Marks[i].Count3 + "'></td><td class='count2' value='" + obj.Marks[i].Count2 + "'></td><td class='count0' value='" + obj.Marks[i].Count0 + "'></td></tr>");
+                        $("#groupsTable").append("<tr value='" + obj.Marks[i].Id + "'><td class='group'>" + obj.Marks[i].Name + "</td><td class='studCount'>" + obj.Marks[i].StudentsCount + "</td><td class='count5' value='" + obj.Marks[i].Count5 + "'></td><td class='count4' value='" + obj.Marks[i].Count4 + "'></td><td class='count3' value='" + obj.Marks[i].Count3 + "'></td><td class='count2' value='" + obj.Marks[i].Count2 + "'></td><td class='count0' value='" + obj.Marks[i].Count0 + "'></td></tr>");
                     };
 
                     RetrieveValue();

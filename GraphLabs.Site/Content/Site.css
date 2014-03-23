@@ -840,5 +840,9 @@ table.boardTable {
     }
 
     table.boardTable tr:hover td {
-        background-color: #d5b3c5
+        background-color: #908b8b;
+    }
+
+    table.boardTable th:hover {
+        background-color: #908b8b;
     }

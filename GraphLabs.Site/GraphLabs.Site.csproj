@@ -255,6 +255,8 @@
     <Compile Include="Utils\MultiButtonAttribute.cs" />
     <Compile Include="Utils\SecurityExtensions.cs" />
     <Compile Include="Utils\HashCalculator.cs" />
+    <Content Include="Images\triangleDOWN.png" />
+    <Content Include="Images\triangleUP.png" />
     <Content Include="Views\StudentsResult\Index.cshtml" />
     <Content Include="Views\Result\Index.cshtml" />
   </ItemGroup>

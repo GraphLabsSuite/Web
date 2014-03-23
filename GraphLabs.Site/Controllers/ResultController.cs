@@ -53,10 +53,10 @@ namespace GraphLabs.Site.Controllers
                 result.Marks[j].Id = group.Id;
                 result.Marks[j].Name = group.Name;
                 result.Marks[j].StudentsCount = group.Students.Count;
-                result.Marks[j].Count5 = 5;
-                result.Marks[j].Count4 = 6;
-                result.Marks[j].Count3 = 7;
-                result.Marks[j].Count2 = 8;
+                result.Marks[j].Count5 = 0;
+                result.Marks[j].Count4 = 0;
+                result.Marks[j].Count3 = 0;
+                result.Marks[j].Count2 = 0;
                 result.Marks[j].Count0 = group.Students.Count;
                 ++j;
             }
