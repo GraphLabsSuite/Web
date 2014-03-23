@@ -313,6 +313,38 @@ namespace GraphLabs.Site.Controllers
             return View(model);
         }
 
+        private LabWork GetLabById(long Id)
+        {
+            return _ctx.LabWorks.Find(Id);
+        }
+
+        private LabVariant GetLabVariantById(long Id)
+        {
+            return _ctx.LabVariants.Find(Id);
+        }
+
+        private LabVariant GetOrCreateLabVariant(long Id)
+        {
+            if (Id == 0)
+            {
+                return new LabVariant();
+            }
+            return GetLabVariantById(Id);
+        }
+
+        private int NameCollisionsCount(string VarName, long LabId, long VariantId = 0)
+        {
+            var nameCollision = (from v in _ctx.LabVariants
+                                 where v.Number == VarName
+                                 where v.LabWork.Id == LabId
+                                 select v).ToList();
+            if (VariantId != 0)
+            {
+                nameCollision = nameCollision.Where(x => x.Id != VariantId).ToList();
+            }
+            return nameCollision.Count;
+        }
+        
         [HttpPost]
         public string CreateVariant(int Id, string Number, string JsonArr, int variantId = 0)
         {
@@ -320,46 +352,30 @@ namespace GraphLabs.Site.Controllers
 
             int[] varId = JsonConvert.DeserializeObject<int[]>(JsonArr);
 
-            int result = 0;
+            string result = "0";
 
-            var lab = _ctx.LabWorks.Find(Id);
+            var lab = GetLabById(Id);
             if (lab == null)
             {
-                result = 1;
-                return JsonConvert.SerializeObject(result);
+                result = "1";
+                return result;
             }
 
-            var nameCollision = (from v in _ctx.LabVariants
-                                 where v.Number == Number
-                                 select v).ToList();
-            nameCollision = nameCollision.Where(x => x.LabWork == lab).ToList();
-            if (variantId != 0)
+            if (NameCollisionsCount(Number, lab.Id, variantId) != 0)
             {
-                nameCollision = nameCollision.Where(x => x.Id != variantId).ToList();
-            }
-            if (nameCollision.Count != 0)
-            {
-                result = 2;
-                return JsonConvert.SerializeObject(result);
+                return result = "2";
             }
 
-            LabVariant labVar = null;
-            if (variantId == 0)
+            LabVariant labVar = GetOrCreateLabVariant(variantId);
+            if (labVar == null)
             {
-                labVar = new LabVariant();
-                labVar.LabWork = lab;
-            }
-            else
-            {
-                labVar = _ctx.LabVariants.Find(variantId);
-                if (labVar == null)
-                {
-                    result = 3;
-                    return JsonConvert.SerializeObject(result);
-                }
+                result = "3";
+                return result;
             }
 
+            labVar.LabWork = lab;
             labVar.Number = Number;
+            labVar.Version = 1;
             labVar.TaskVariants.Clear();
             for (int i = 0; i < varId.Length; ++i)
             {
@@ -373,11 +389,10 @@ namespace GraphLabs.Site.Controllers
             else
             {
                 _ctx.Entry(labVar).State = EntityState.Modified;
-                result = 4;
+                result = "4";
             }
             _ctx.SaveChanges();
-
-            return JsonConvert.SerializeObject(result);
+            return result;
         }
 
         //В id передается результат, в Name - номер варианта

@@ -93,29 +93,36 @@
             };
         };
 
-        $("option").click(function () {
-            $(this).parent().find("option[value='no']").detach();
-            $(this).parent().parent().parent().find("th").replaceWith(function (index, oldHTML) {
+        $("select").change( function () {
+            $(this).find("option[value='no']").detach();
+            $(this).parent().parent().find("th").replaceWith(function (index, oldHTML) {
                 return $("<td>").html(oldHTML);
             });
-            if ($("option[value='no']").size() == 0) {
-                $("#save").removeAttr("disabled");
-            };
+            CheckChoosingAndUnlockSaveButton();
         });
 
         $("#random").click(function () {
-            $("#save").removeAttr("disabled");
-            $("option[value='no']").detach();
-            $("th").not(".tableHeader").replaceWith(function (index, oldHTML) {
-                return $("<td>").html(oldHTML);
-            });
-
             $("select").each(function () {
+                if ( $(this).find("option").length == 1 && $(this).find("option[value='no']") != null ) {
+                    return;
+                } else {
+                    $(this).find("option[value='no']").detach();
+                };
                 var num = $(this).find("option").length;
+                $(this).parent().parent().find("th").replaceWith(function (index, oldHTML) {
+                    return $("<td>").html(oldHTML);
+                });
                 var rand = Math.floor(Math.random() * num);
                 $(this).find("option:eq("+rand+")").attr("selected", "selected");
             });
+            CheckChoosingAndUnlockSaveButton();
         });
+
+        function CheckChoosingAndUnlockSaveButton () {
+            if ($("option[value='no']").size() == 0) {
+                $("#save").removeAttr("disabled");
+            };
+        };
 
         $("#save").click(function () {
             if ($("#varNum").attr("value") == "") {
