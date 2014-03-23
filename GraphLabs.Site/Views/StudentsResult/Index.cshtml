@@ -7,11 +7,12 @@
 <h2>@ViewBag.Title</h2>
 
 <style type="text/css">
-    .idColumn { width: 10%; }
+    .idColumn { width: 7%; }
     .nameColumn { width: 45%; }
-    .dateColumn { width: 15%; }
-    .varColumn { width: 15%; }
-    .resultColumn { width: 15%; }
+    .dateColumn { width: 12%; }
+    .varColumn { width: 12%; }
+    .resultColumn { width: 12%; }
+    .markColumn { width: 12%; }
 </style>
 
 @{
@@ -27,11 +28,12 @@
             htmlAttributes: new { id = "datatable" },
             
             columns: grid.Columns(
-                grid.Column(header: "",                format: item => item.Id,        columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "",                 format: item => item.Id,        columnName: "Id",       style:"idColumn"),
                 grid.Column(header: "Название работы",  format: item => item.Name,      columnName: "Name",     style:"nameColumn"),
-                grid.Column(header: "Дата выполнения",  format: @<text>@item.Date.ToString("dd/MM/yyyy")</text>,      columnName: "Name",     style:"dateColumn"),
-                grid.Column(header: "Вариант",          format: item => item.Variant,      columnName: "Name",     style:"varColumn"),
-                grid.Column(header: "Оценка",           format: item => item.Result,    columnName: "IsOpen",   style:"resultColumn")
+                grid.Column(header: "Дата выполнения",  format: @<text>@item.Date.ToString("dd/MM/yyyy")</text>,      columnName: "Date",     style:"dateColumn"),
+                grid.Column(header: "Вариант",          format: item => item.Variant,   columnName: "Variant",     style:"varColumn"),
+                grid.Column(header: "Результат",        format: item => item.Result,    columnName: "Result",   style:"resultColumn"),
+                grid.Column(header: "Оценка",           format: item => item.Mark,    columnName: "Mark",   style:"markColumn")
                 )
             );
 }

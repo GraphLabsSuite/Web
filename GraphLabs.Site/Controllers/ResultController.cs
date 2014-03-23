@@ -53,15 +53,35 @@ namespace GraphLabs.Site.Controllers
                 result.Marks[j].Id = group.Id;
                 result.Marks[j].Name = group.Name;
                 result.Marks[j].StudentsCount = group.Students.Count;
-                result.Marks[j].Count5 = 0;
-                result.Marks[j].Count4 = 0;
-                result.Marks[j].Count3 = 0;
-                result.Marks[j].Count2 = 0;
-                result.Marks[j].Count0 = group.Students.Count;
+                Random r = new Random();
+                int x = group.Students.Count;
+                int y = r.Next(0, x+1);
+                x = x-y;
+                result.Marks[j].Count5 = y;
+                y = r.Next(0, x + 1);
+                x = x - y;
+                result.Marks[j].Count4 = y;
+                y = r.Next(0, x + 1);
+                x = x - y;
+                result.Marks[j].Count3 = y;
+                y = r.Next(0, x + 1);
+                x = x - y; 
+                result.Marks[j].Count2 = y;
+                result.Marks[j].Count0 = x;
                 ++j;
             }
 
             return JsonConvert.SerializeObject(result);
+        }
+
+        [HttpPost]
+        public string GetGroupDetail(long GroupId, long LabId)
+        {
+            JSONResultGroupDetail result = new JSONResultGroupDetail();
+            result.Result = 0;
+            result.Name = (new GroupModel(_ctx.Groups.Find(GroupId))).Name;
+
+            return "";
         }
     }
 }

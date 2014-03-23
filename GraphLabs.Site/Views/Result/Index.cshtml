@@ -50,6 +50,9 @@
     </span>
 </div>
 
+<div id="groupDetail" style="display:none">
+</div>
+
 @section scripts{
     <script>
         var LabId;
@@ -159,7 +162,7 @@
                 $("#error").html("Необходимо выбрать лабораторную работу");
                 return;
             };
-            
+            $("#error").html("Идет отправка данных...");
             var result = "Groups=" + groups + "&lab=" + LabId;
             $.ajax({
                 type: "POST",
@@ -176,6 +179,7 @@
         });
 
         function Suc(data) {
+            $("#changeToNum").click();
             var obj = jQuery.parseJSON(data);
             switch (obj.Result) {
                 case 0:
@@ -209,5 +213,22 @@
                 };
             };
         };
+
+        $("#groupsTable tr td").live("click", function () {
+            $("#error").html("Идет отправка данных...");
+            var result = "GroupId=" + $(this).parent("tr").attr("value") + "&LabId=" + LabId;
+            $.ajax({
+                type: "POST",
+                url: "Result/GetGroupDetail",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                    $("#groupDetail").css("display", "none");
+                },
+                success: function (data) {
+                    SucGroupDetail(data);
+                }
+            });
+        });
     </script>
 }

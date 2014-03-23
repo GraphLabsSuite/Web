@@ -16,5 +16,7 @@ namespace GraphLabs.Site.Models
         public string Variant { get; set; }
 
         public int Result { get; set; }
+
+        public int Mark { get; set; }
     }
 }

@@ -19,9 +19,9 @@ namespace GraphLabs.Site.Controllers
             this.AllowAnonymous(_ctx);
 
             StudentsResultModel[] res = new StudentsResultModel[3];
-            res[0] = new StudentsResultModel { Id = 1, Name = "Лаб 1", Date = new DateTime(2014, 3, 11), Variant = "1", Result = 90 };
-            res[1] = new StudentsResultModel { Id = 2, Name = "Лаб 2", Date = new DateTime(2014, 3, 12), Variant = "2", Result = 70 };
-            res[2] = new StudentsResultModel { Id = 3, Name = "Лаб 3", Date = new DateTime(2014, 3, 13), Variant = "1", Result = 95 };
+            res[0] = new StudentsResultModel { Id = 1, Name = "Лаб 1", Date = new DateTime(2014, 3, 11), Variant = "1", Result = 90, Mark = 5 };
+            res[1] = new StudentsResultModel { Id = 2, Name = "Лаб 2", Date = new DateTime(2014, 3, 12), Variant = "2", Result = 70, Mark = 4 };
+            res[2] = new StudentsResultModel { Id = 3, Name = "Лаб 3", Date = new DateTime(2014, 3, 13), Variant = "1", Result = 95, Mark = 5 };
             return View(res);
         }
 

@@ -225,6 +225,7 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\JSONResultEditVariant.cs" />
+    <Compile Include="Models\JSONResultGroupDetail.cs" />
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
     <Compile Include="Models\ResultModel.cs" />

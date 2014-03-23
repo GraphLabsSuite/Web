@@ -125,10 +125,11 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditTask(TaskModel model)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             model.SaveToDb(_ctx);
             return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
@@ -142,10 +143,11 @@ namespace GraphLabs.Site.Controllers
         public ActionResult EditVariantGenerator(HttpPostedFileBase newGenerator, TaskModel model,
             string upload, string delete)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
+            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
+            //}
+            this.AllowAnonymous(_ctx);
 
             if (!string.IsNullOrEmpty(upload))
             {
