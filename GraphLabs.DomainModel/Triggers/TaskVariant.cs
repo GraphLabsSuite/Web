@@ -8,6 +8,14 @@ namespace GraphLabs.DomainModel
     /// <summary> Вариант задания </summary>
     public partial class TaskVariant : AbstractEntity
     {
+        /// <summary> Перед сохранением новой сущности в базу </summary>
+        public override void OnInsert()
+        {
+            base.OnInsert();
+
+            Version = 1;
+        }
+
         /// <summary> Валидация </summary>
         public override IEnumerable<DbValidationError> OnEntityValidating(DbEntityEntry entityEntry)
         {
