@@ -12,5 +12,12 @@ namespace GraphLabs.Site.Models
         public long LabId { get; set; }
 
         public string LabName { get; set; }
+
+        public JSONResultCreateLab(int result, string labName, long labId = 0)
+        {
+            Result = result;
+            LabId = labId;
+            LabName = labName;
+        }
     }
 }
