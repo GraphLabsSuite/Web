@@ -12,19 +12,15 @@ using GraphLabs.Site.Logic.GroupLogic;
 
 namespace GraphLabs.Site.Controllers
 {
-    public class GroupController : Controller
+    [GLAuthorize(UserRole.Administrator | UserRole.Teacher)]
+    public class GroupController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
         private GroupLogic logic = new GroupLogic();
 
         #region Формирование списка групп
+
         public ActionResult Index(string message)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             Group[] groups = logic.GetGroupsFromDB();
             GroupModel[] groupModel = groups.Select(t => new GroupModel(t)).ToArray();
 
@@ -35,11 +31,6 @@ namespace GraphLabs.Site.Controllers
         #region Создание группы
         public ActionResult Create()
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             Group group = new Group();
             group.FirstYear = DateTime.Today.Year;
 
@@ -49,11 +40,6 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(Group group)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             if (ModelState.IsValid)
             {
                 logic.SaveGroupToDB(group);
@@ -67,11 +53,6 @@ namespace GraphLabs.Site.Controllers
         #region Редактирование группы
         public ActionResult Edit(long id = 0)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             Group group = logic.GetGroupByID(id);
             if (group == null)
             {
@@ -85,11 +66,6 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Edit(GroupModel gr)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             if (ModelState.IsValid)
             {
                 Group group = logic.GetGroupByID(gr.Id);

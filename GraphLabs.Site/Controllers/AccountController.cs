@@ -1,29 +1,45 @@
-﻿using System.Data.Entity.Infrastructure;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Services;
-using GraphLabs.Site.Utils;
+using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
     /// <summary> Контроллер учётных записей </summary>
-    public class AccountController : Controller
+    [GLAuthorize]
+    public class AccountController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
+
+        #region Зависимости
+
+        private IMembershipEngine MembershipEngine
+        {
+            get { return DependencyResolver.GetService<IMembershipEngine>(); }
+        }
+
+        private IAuthenticationSavingService AuthSavingService
+        {
+            get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
+        }
+
+        private IGroupRepository GroupRepository
+        {
+            get { return DependencyResolver.GetService<IGroupRepository>(); }
+        }
+
+        #endregion
 
         //
         // GET: /Account/Login
         /// <summary> Начальная отрисовка формы входа </summary>
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (this.IsAuthenticated(_ctx))
-                return RedirectToLocal(returnUrl);
-            this.AllowAnonymous(_ctx);
-
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -31,19 +47,23 @@ namespace GraphLabs.Site.Controllers
         // POST: /Account/Login
         /// <summary> Вход </summary>
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Login(AuthModel model, string returnUrl)
         {
-            if (this.IsAuthenticated(_ctx))
-                return RedirectToLocal(returnUrl);
-            else if (ModelState.IsValid && this.Login(_ctx, model.Email, model.Password))
+            if (ModelState.IsValid)
             {
-                return RedirectToLocal(returnUrl);
+                Guid session;
+                var success = MembershipEngine.TryLogin(model.Email, model.Password, Request.GetClientIP(), out session);
+                if (success)
+                {
+                    AuthSavingService.SignIn(model.Email, session);
+                    return RedirectToLocal(returnUrl);
+                }
             }
 
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", UserMessages.LOGIN_PASSWORD_NOT_FOUND);
-            this.AllowAnonymous(_ctx);
             return View(model);
         }
 
@@ -54,7 +74,9 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            this.Logout(_ctx);
+            var sessionInfo = AuthSavingService.GetSessionInfo();
+            MembershipEngine.Logout(sessionInfo.Email, sessionInfo.SessionGuid, Request.GetClientIP());
+            AuthSavingService.SignOut();
 
             return RedirectToAction("Index", "Home");
         }
@@ -62,80 +84,50 @@ namespace GraphLabs.Site.Controllers
         //
         // GET: /Account/Register
         /// <summary> Начальная отрисовка формы регистрации </summary>
+        [AllowAnonymous]
         public ActionResult Register()
         {
-            if (this.IsAuthenticated(_ctx))
-                return RedirectToAction("Index", "Home");
-            this.AllowAnonymous(_ctx);
-
             FillGroups();
             return View();
+        }
+
+        private void FillGroups(object selectedValue = null)
+        {
+            var groups = GroupRepository.GetOpenGroups()
+                .Select(t => new GroupModel(t))
+                .ToArray();
+            ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
         }
 
         //
         // POST: /Account/Register
         /// <summary> Submit регистрации </summary>
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegistrationModel reg)
         {
-            if (this.IsAuthenticated(_ctx))
-                return RedirectToAction("Index", "Home");
-
             if (ModelState.IsValid)
             {
-                var salt = HashCalculator.GenerateRandomSalt();
-                var student = new Student
-                {
-                    PasswordHash = HashCalculator.GenerateSaltedHash(reg.Password, salt),
-                    HashSalt = salt,
-                    Name = reg.Name,
-                    Surname = reg.Surname,
-                    FatherName = reg.FatherName,
-                    Email = reg.Email,
-                    Role = UserRole.Student,
-                    IsVerified = false
-                };
-                _ctx.Users.Add(student);
-                var group = _ctx.Groups.Single(g => g.Id == reg.ID_Group);
-                group.Students.Add(student);
-                try
-                {
-                    _ctx.SaveChanges();
+                var success = MembershipEngine.RegisterNewStudent(reg.Email, reg.Name, reg.FatherName, reg.Surname, reg.Password, reg.IdGroup);
+                if (success)
                     return RedirectToAction("Index", "Home", new { Message = UserMessages.REGISTRATION_COMPLETE });
-                }
-                catch (DbUpdateException)
+                else
                 {
                     ModelState.AddModelError("", UserMessages.DUPLICATE_LOGIN);
                 }
             }
 
-            this.AllowAnonymous(_ctx);
-            FillGroups(reg.ID_Group);
+            FillGroups(reg.IdGroup);
             return View(reg);
         }
 
-        private void FillGroups(object selectedValue = null)
-        {
-            var groups = (from g in _ctx.Groups
-                          where g.IsOpen
-                          select g).ToList()
-                          .Select(t => new GroupModel(t))
-                          .ToList();
-            ViewBag.ID_Group = new SelectList(groups, "Id", "Name", selectedValue);
-        }
 
         //
         // GET: /Account/Manage
         /// <summary> Управление аккаунтом - смена пароля </summary>
         public ActionResult Manage(string message)
         {
-            if (!this.IsAuthenticated(_ctx))
-            {
-                ViewBag.ReturnUrl = Url.Action("Manage");
-                return RedirectToAction("Login", new { Message = UserMessages.AUTH_REQUIRED });
-            }
-
             ViewBag.StatusMessage = message;
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
@@ -148,56 +140,28 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Manage(ChangePasswordModel model)
         {
-            if (!this.IsAuthenticated(_ctx))
-            {
-                ViewBag.ReturnUrl = Url.Action("Manage");
-                return RedirectToAction("Login", new { Message = UserMessages.AUTH_REQUIRED });
-            }
-
             if (ModelState.IsValid)
             {
-                var user = Session.GetUser(_ctx);
+                throw new NotImplementedException();
+                //var user = Session.GetUser(_ctx);
+                //var HashCalculator = DependencyResolver.GetService<IHashCalculator>();
+                //var oldHash = HashCalculator.Crypt(model.OldPassword);
+                //if (oldHash == user.PasswordHash)
+                //{
+                //    var salt = HashCalculator.GenerateSalt();
+                //    var hash = HashCalculator.Crypt(model.NewPassword);
 
-                var oldHash = HashCalculator.GenerateSaltedHash(model.OldPassword, user.HashSalt);
-                if (oldHash == user.PasswordHash)
-                {
-                    var salt = HashCalculator.GenerateRandomSalt();
-                    var hash = HashCalculator.GenerateSaltedHash(model.NewPassword, salt);
+                //    user.PasswordHash = hash;
+                //    _ctx.SaveChanges();
 
-                    user.HashSalt = salt;
-                    user.PasswordHash = hash;
-                    _ctx.SaveChanges();
-
-                    return RedirectToAction("Manage", new { Message = UserMessages.PASSWORD_CHANGED });
-                }
+                //    return RedirectToAction("Manage", new { Message = UserMessages.PASSWORD_CHANGED });
+                //}
              
                 ModelState.AddModelError("", UserMessages.ILLEGAL_PASSWORD);
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
-
-        #region Helpers
-
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        #endregion
-
-        protected override void Dispose(bool disposing)
-        {
-            _ctx.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

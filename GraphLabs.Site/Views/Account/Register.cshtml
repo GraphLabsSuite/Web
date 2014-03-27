@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.RegistrationModel
+﻿@using System.Collections
+@model GraphLabs.Site.Models.RegistrationModel
 
 @{
     ViewBag.Title = "Создание учётной записи студента";
@@ -72,11 +73,11 @@
         </div>
         
         <div class="editor-label">
-            @Html.LabelFor(model => model.ID_Group, "Group")
+            @Html.LabelFor(model => model.IdGroup)
         </div>
         <div class="editor-field">
-            @Html.DropDownList( "ID_Group" )
-            @Html.ValidationMessageFor(model => model.ID_Group)
+            @Html.DropDownListFor(model => model.IdGroup, (IEnumerable<SelectListItem>)ViewBag.GroupsList)
+            @Html.ValidationMessageFor(model => model.IdGroup)
         </div>
 
         <p>

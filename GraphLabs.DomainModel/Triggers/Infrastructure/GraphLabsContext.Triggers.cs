@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
@@ -24,7 +25,17 @@ namespace GraphLabs.DomainModel
                 item.Entity.OnChange(item);
             }
 
-            return base.SaveChanges();
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessage = string.Join(Environment.NewLine, ex.EntityValidationErrors
+                    .SelectMany(err => err.ValidationErrors.Select(e => e.ErrorMessage)));
+                throw new DbEntityValidationException(errorMessage);
+            }
+            
         }
 
         /// <summary> Extension point allowing the user to customize validation of an entity or filter out validation results. </summary>

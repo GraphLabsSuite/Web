@@ -36,7 +36,6 @@ namespace GraphLabs.Tests.DomainModel
                 Email = "example@example.com",
                 FatherName = "FatherName",
                 PasswordHash = "PasswordHash",
-                HashSalt = "ttt",
                 Surname = "Surname",
             };
             GraphLabsContext.Users.Add(user);
@@ -59,7 +58,6 @@ namespace GraphLabs.Tests.DomainModel
                 Email = EMAIL,
                 FatherName = "FatherName",
                 PasswordHash = "PasswordHash",
-                HashSalt = "ttt",
                 Surname = "Surname"
             };
             GraphLabsContext.Users.Add(user1);
@@ -71,7 +69,6 @@ namespace GraphLabs.Tests.DomainModel
                 Email = EMAIL,
                 FatherName = "FatherName",
                 PasswordHash = "PasswordHash",
-                HashSalt = "ttt",
                 Surname = "Surname"
             };
             GraphLabsContext.Users.Add(user2);

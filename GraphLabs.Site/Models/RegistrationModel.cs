@@ -47,7 +47,8 @@ namespace GraphLabs.Site.Models
         [Display(Name = "Отчество")]
         public string FatherName { get; set; }
 
-        public int ID_Group { get; set; }
-        public GroupModel Group { get; set; }
+        [Required(ErrorMessage = "Необходимо указать группу.")]
+        [Display(Name = "Группа")]
+        public int IdGroup { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             var task = _ctx.Tasks.Find(taskId);
             if (task == null)
@@ -47,7 +47,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             var task = _ctx.Tasks.Find(taskId);
             if (task == null)

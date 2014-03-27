@@ -5,6 +5,7 @@ using GraphLabs.DomainModel.Services;
 
 namespace GraphLabs.Site.Logic.GroupLogic
 {
+    //TODO: добавить комментариев
     public class GroupLogic
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();

@@ -16,7 +16,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Index()
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
 
             ResultModel res = new ResultModel();
 

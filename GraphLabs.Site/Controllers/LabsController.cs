@@ -16,14 +16,14 @@ namespace GraphLabs.Site.Controllers
         #region Отображение списка лабораторных работ
         public ActionResult Index()
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
             return View(logic.GetLabWorks());
         }
 
         [HttpPost]
         public string GetLabInfo(int Id)
         {
-            this.AllowAnonymous(_ctx);            
+            //this.AllowAnonymous();
             var lab = logic.GetLabWorkById(Id);
             if (lab == null)
             {
@@ -35,7 +35,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public string DeleteLab(int Id)
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             var lab = logic.GetLabWorkById(Id);
             if (lab == null)
@@ -50,14 +50,14 @@ namespace GraphLabs.Site.Controllers
         #region Создание и редактирование лабораторной работы
         public ActionResult Create(long id = 0)
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
             return View( new CreateLabModel(id, logic.GetTasks()) );
         }
         
         [HttpPost]
         public string Create(string Name, string DateFrom, string DateTo, string JsonArr, long Id = 0)
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
             if (logic.ExistedLabWorksCount(Name, Id) != 0)
             {
                 return JsonConvert.SerializeObject( new JSONResultCreateLab(1, Name) );
@@ -106,7 +106,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public string EditLab(long Id)
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
             var lab = logic.GetLabWorkById(Id);
             if (lab == null)
             {
@@ -119,7 +119,7 @@ namespace GraphLabs.Site.Controllers
         #region Создание и редактирование варианта лабораторной работы
         public ActionResult CreateVariant(long labId = 0, long varId = 0)
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
             var lab = logic.GetLabWorkById(labId);
             if (lab == null)
             {
@@ -138,7 +138,7 @@ namespace GraphLabs.Site.Controllers
             const string SuccesfulUpdating = "4";
             const string TaskVariantNotFoundError = "5";
             const string UnknownSavingError = "6";
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
 
             LabWork lab = logic.GetLabWorkById(Id);
             if (lab == null)
@@ -209,7 +209,7 @@ namespace GraphLabs.Site.Controllers
         {
             const int VariantNotFoundError = 1;
             const int SuccesfulWork = 0;
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
             var variant = logic.GetLabVariantById(varId);
             if (variant == null)
             {

@@ -120,10 +120,9 @@
     <Property Name="Surname" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="FatherName" Type="nvarchar" Nullable="true" MaxLength="30" />
-    <Property Name="PasswordHash" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PasswordHash" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Role" Type="int" Nullable="false" />
-    <Property Name="HashSalt" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Groups">
     <Key>
@@ -213,8 +212,6 @@
     <Property Name="LastAction" Type="datetime" Nullable="false" />
     <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
     <Property Name="IP" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CheckSum" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CheckSumSalt" Type="nvarchar(max)" Nullable="false" />
     <Property Name="User_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Settings">
@@ -607,12 +604,11 @@
           <Property Type="String" Name="Surname" Nullable="false" FixedLength="false" MaxLength="30" Unicode="true" />
           <Property Type="String" Name="Name" Nullable="false" FixedLength="false" MaxLength="30" Unicode="true" />
           <Property Type="String" Name="FatherName" FixedLength="false" MaxLength="30" Unicode="true" Nullable="true" />
-          <Property Type="String" Name="PasswordHash" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
+          <Property Type="String" Name="PasswordHash" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
           <Property Type="String" Name="Email" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
           <NavigationProperty Name="News" Relationship="DataModel.UserNews" FromRole="Publisher" ToRole="News" />
           <NavigationProperty Name="Sessions" Relationship="DataModel.UserSession" FromRole="User" ToRole="Session" />
           <Property Type="DataModel.UserRole" Name="Role" ConcurrencyMode="None" annotation:StoreGeneratedPattern="None" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" Nullable="false" />
-          <Property Type="String" Name="HashSalt" Nullable="false" />
         </EntityType>
         <Association Name="UserNews">
           <End Type="DataModel.User" Role="Publisher" Multiplicity="1" />
@@ -728,22 +724,21 @@
           <Key>
             <PropertyRef Name="Guid" />
           </Key>
-          <Property Type="DateTime" Name="CreationTime" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="DateTime" Name="LastAction" Nullable="false" />
           <NavigationProperty Name="User" Relationship="DataModel.UserSession" FromRole="Session" ToRole="User" />
           <Property Type="Guid" Name="Guid" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="IP" Nullable="false" />
-          <Property Type="String" Name="CheckSum" Nullable="false" />
-          <Property Name="CheckSumSalt" Type="String" Nullable="false" />
-        </EntityType>
+          </EntityType>
         <Association Name="UserSession">
           <End Type="DataModel.User" Role="User" Multiplicity="1" />
           <End Type="DataModel.Session" Role="Session" Multiplicity="*" />
         </Association>
-        <EnumType Name="UserRole" IsFlags="false">
+        <EnumType Name="UserRole" IsFlags="true">
           <Member Name="Student" Value="1" />
           <Member Name="Teacher" Value="2" />
           <Member Name="Administrator" Value="4" />
+          <Member Name="None" Value="0" />
         </EnumType>
         <EntityType Name="Settings" a:TypeAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
           <Key>
@@ -861,7 +856,6 @@
           <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Role" ColumnName="Role" />
-          <ScalarProperty Name="HashSalt" ColumnName="HashSalt" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(DataModel.Student)">
@@ -961,8 +955,6 @@
           <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
           <ScalarProperty Name="LastAction" ColumnName="LastAction" />
           <ScalarProperty Name="IP" ColumnName="IP" />
-          <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
-          <ScalarProperty Name="CheckSumSalt" ColumnName="CheckSumSalt" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

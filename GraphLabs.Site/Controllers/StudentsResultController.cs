@@ -16,7 +16,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Index()
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             StudentsResultModel[] res = new StudentsResultModel[3];
             res[0] = new StudentsResultModel { Id = 1, Name = "Лаб 1", Date = new DateTime(2014, 3, 11), Variant = "1", Result = 90, Mark = 5 };

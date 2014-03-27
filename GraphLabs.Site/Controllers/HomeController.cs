@@ -4,15 +4,16 @@ using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
 
         public bool IsAuthenticated = true;
 
+        [AllowAnonymous]
         public ActionResult Index(string message)
         {
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             if (!string.IsNullOrWhiteSpace(message))
             {

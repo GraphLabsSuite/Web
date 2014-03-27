@@ -28,6 +28,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Tests.Site.Logic", "GraphLabs.Tests.Site.Logic\GraphLabs.Tests.Site.Logic.csproj", "{BE55A060-0224-4F6A-B05F-B06BEC346CA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Utils", "GraphLabs.Utils\GraphLabs.Utils.csproj", "{BD1F9046-594D-4AEF-882B-E3F08DE56B36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Tests.Utils", "GraphLabs.Tests.Utils\GraphLabs.Tests.Utils.csproj", "{B16B7D30-A083-404C-8298-1C3BBF586D02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +62,14 @@ Global
 		{BE55A060-0224-4F6A-B05F-B06BEC346CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE55A060-0224-4F6A-B05F-B06BEC346CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE55A060-0224-4F6A-B05F-B06BEC346CA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1F9046-594D-4AEF-882B-E3F08DE56B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1F9046-594D-4AEF-882B-E3F08DE56B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1F9046-594D-4AEF-882B-E3F08DE56B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1F9046-594D-4AEF-882B-E3F08DE56B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +77,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EE5BF057-1DB5-44FC-AA1C-967DA88EC2B2} = {4E833B0F-C7CB-425C-913D-13ED833B9F5A}
 		{BE55A060-0224-4F6A-B05F-B06BEC346CA9} = {4E833B0F-C7CB-425C-913D-13ED833B9F5A}
+		{B16B7D30-A083-404C-8298-1C3BBF586D02} = {4E833B0F-C7CB-425C-913D-13ED833B9F5A}
 	EndGlobalSection
 EndGlobal

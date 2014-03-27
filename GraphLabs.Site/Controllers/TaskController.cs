@@ -24,7 +24,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             var tasks = (from task in _ctx.Tasks
                          select task).ToArray()
@@ -45,7 +45,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             ViewBag.Message = message;
 
@@ -61,7 +61,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             // Verify that the user selected a file
             if (xap != null && xap.ContentLength > 0)
@@ -107,7 +107,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous();
 
             var task = _ctx.Tasks.Find(id);
             if (task == null)
@@ -129,7 +129,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
 
             model.SaveToDb(_ctx);
             return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
@@ -147,7 +147,7 @@ namespace GraphLabs.Site.Controllers
             //{
             //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             //}
-            this.AllowAnonymous(_ctx);
+            //this.AllowAnonymous(_ctx);
 
             if (!string.IsNullOrEmpty(upload))
             {

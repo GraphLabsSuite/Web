@@ -114,6 +114,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
@@ -184,6 +187,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="Repositories\GroupRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\RepositoryFactory.cs" />
+    <Compile Include="Repositories\SessionRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Result.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -211,6 +222,7 @@
     <Compile Include="TestQuestion.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TransactionManager.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\Infrastructure\GraphLabsContext.Triggers.cs" />
     <Compile Include="Triggers\Group.cs" />
@@ -271,7 +283,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GraphLabsDataModel.edmx.sql" />
     <Content Include="SQL Scripts\CreateSchema.sql" />
     <Content Include="SQL Scripts\InitScript.sql" />
     <Content Include="SQL Scripts\ClearSchema.sql" />
@@ -282,6 +293,12 @@
       <LastGenOutput>ValidationErrors.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Utils.csproj">
+      <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
+      <Name>GraphLabs.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

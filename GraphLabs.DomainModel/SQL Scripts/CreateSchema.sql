@@ -1,9 +1,9 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/21/2014 00:10:22
--- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
+-- Date Created: 03/27/2014 20:00:23
+-- Generated from EDMX file: E:\Рабочий стол\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -155,10 +155,9 @@ CREATE TABLE [dbo].[Users] (
     [Surname] nvarchar(30)  NOT NULL,
     [Name] nvarchar(30)  NOT NULL,
     [FatherName] nvarchar(30)  NULL,
-    [PasswordHash] nvarchar(50)  NOT NULL,
+    [PasswordHash] nvarchar(100)  NOT NULL,
     [Email] nvarchar(50)  NOT NULL,
-    [Role] int  NOT NULL,
-    [HashSalt] nvarchar(max)  NOT NULL
+    [Role] int  NOT NULL
 );
 GO
 
@@ -248,8 +247,6 @@ CREATE TABLE [dbo].[Sessions] (
     [LastAction] datetime  NOT NULL,
     [Guid] uniqueidentifier  NOT NULL,
     [IP] nvarchar(max)  NOT NULL,
-    [CheckSum] nvarchar(max)  NOT NULL,
-    [CheckSumSalt] nvarchar(max)  NOT NULL,
     [User_Id] bigint  NOT NULL
 );
 GO
@@ -409,19 +406,19 @@ GO
 -- Creating primary key on [LabVariant_Id], [TestQuestions_Id] in table 'VariantTestQuestion'
 ALTER TABLE [dbo].[VariantTestQuestion]
 ADD CONSTRAINT [PK_VariantTestQuestion]
-    PRIMARY KEY NONCLUSTERED ([LabVariant_Id], [TestQuestions_Id] ASC);
+    PRIMARY KEY CLUSTERED ([LabVariant_Id], [TestQuestions_Id] ASC);
 GO
 
 -- Creating primary key on [LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] in table 'LabVariantTaskVariant'
 ALTER TABLE [dbo].[LabVariantTaskVariant]
 ADD CONSTRAINT [PK_LabVariantTaskVariant]
-    PRIMARY KEY NONCLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
+    PRIMARY KEY CLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
 GO
 
 -- Creating primary key on [LabWorks_Id], [Groups_Id] in table 'LabWorkGroup'
 ALTER TABLE [dbo].[LabWorkGroup]
 ADD CONSTRAINT [PK_LabWorkGroup]
-    PRIMARY KEY NONCLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
+    PRIMARY KEY CLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
 GO
 
 -- --------------------------------------------------

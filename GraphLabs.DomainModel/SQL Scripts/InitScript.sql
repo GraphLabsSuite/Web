@@ -35,13 +35,12 @@ GO
 
 -- Учётка администратора
 INSERT INTO [dbo].[Users] 
-	(Surname, Name, FatherName, PasswordHash, Email, Role, HashSalt)
+	(Surname, Name, FatherName, PasswordHash, Email, Role)
 VALUES 
     ('Admin', 'Admin', 'Admin', 
-	'SEaUU07u88ajci2TDkPabqp8V7E59ZxLHq2OtxKcdi4=',
+	'$2a$06$LzfX0oshO/c9C2yKVIBmfOupOcoIfqDrXdteGR1yVQjdKj6BDztZO',
 	'admin@graphlabs.ru', 
-	4, 
-	'Z+g/3IJIHgpr')
+	4)
 GO
 
 -- Табличка с настройками

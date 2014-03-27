@@ -6,13 +6,15 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Services;
+using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
 using PagedList;
 using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
-    public class UserController : Controller
+    [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
+    public class UserController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
         private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
@@ -33,11 +35,6 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]        
         public ActionResult Index(UserIndex ui)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             var user = (from u in _ctx.Users
                         select u).ToList();
 
@@ -80,18 +77,13 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-                        
             var user = _ctx.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
 
-            if (user.Role != UserRole.Student && !this.IsUserInRole(_ctx, UserRole.Administrator))
+            if (user.Role != UserRole.Student && !User.IsInRole(UserRole.Administrator))
             {
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
@@ -111,11 +103,6 @@ namespace GraphLabs.Site.Controllers
         [MultiButton(MatchFormKey = "action", MatchFormValue = "Утвердить")]
         public ActionResult Verify(UserEdit user)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             ModelState.Remove("IsVerified");
             user.IsVerified = true;
             
@@ -139,11 +126,6 @@ namespace GraphLabs.Site.Controllers
         [MultiButton(MatchFormKey = "action", MatchFormValue = "Исключить")]
         public ActionResult Dismiss(UserEdit user)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             ModelState.Remove("IsDismissed");
             user.IsDismissed = true;
 
@@ -167,11 +149,6 @@ namespace GraphLabs.Site.Controllers
         [MultiButton(MatchFormKey = "action", MatchFormValue = "Удалить")]
         public ActionResult Delete(UserEdit user)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Administrator))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             if (user.Role == UserRole.Student)
             {
                 Student stud = (Student)_ctx.Users.Find(user.Id);
@@ -206,7 +183,7 @@ namespace GraphLabs.Site.Controllers
         [MultiButton(MatchFormKey = "action", MatchFormValue = "Сохранить")]
         public ActionResult Save(UserEdit user)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Teacher) || (user.Role != UserRole.Student && !this.IsUserInRole(_ctx, UserRole.Administrator)))
+            if (user.Role != UserRole.Student && !User.IsInRole(UserRole.Administrator))
             {
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
@@ -263,13 +240,9 @@ namespace GraphLabs.Site.Controllers
             return View(user);
         }
 
+        [GLAuthorize(UserRole.Administrator)]
         public ActionResult Create()
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Administrator))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             UserCreate user = new UserCreate();
 
             FillRoleList();
@@ -278,25 +251,21 @@ namespace GraphLabs.Site.Controllers
             return View(user);
         }
 
+        [GLAuthorize(UserRole.Administrator)]
         [HttpPost]
         public ActionResult Create(UserCreate user)
         {
-            if (!this.IsUserInRole(_ctx, UserRole.Administrator))
-            {
-                return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            }
-
             if (ModelState.IsValid)
             {
-                var salt = HashCalculator.GenerateRandomSalt();
+                var HashCalculator = DependencyResolver.GetService<IHashCalculator>();
+                var salt = HashCalculator.GenerateSalt();
                 
                 if (user.Role == UserRole.Student)
                 {
                     Group group = _ctx.Groups.Find(user.GroupID);
                     Student us = new Student
                     {
-                        PasswordHash = HashCalculator.GenerateSaltedHash(user.Pass, salt),
-                        HashSalt = salt,
+                        PasswordHash = HashCalculator.Crypt(user.Pass),
                         Name = user.Name,
                         Surname = user.Surname,
                         FatherName = user.FatherName,
@@ -321,8 +290,7 @@ namespace GraphLabs.Site.Controllers
                 {
                     User us = new User
                     {
-                        PasswordHash = HashCalculator.GenerateSaltedHash(user.Pass, salt),
-                        HashSalt = salt,
+                        PasswordHash = HashCalculator.Crypt(user.Pass),
                         Name = user.Name,
                         Surname = user.Surname,
                         FatherName = user.FatherName,

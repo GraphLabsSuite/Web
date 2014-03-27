@@ -14,9 +14,6 @@ namespace GraphLabs.DomainModel
             if (!IsValidEmail(Email))
                 yield return new DbValidationError("Email", ValidationErrors.User_OnValidating_Указан_неверный_Email_адрес_);
 
-            if (string.IsNullOrWhiteSpace(HashSalt))
-                yield return new DbValidationError("HashSalt", ValidationErrors.User_OnValidating_Должно_быть_указано_значение_HashSalt_);
-
             if (string.IsNullOrWhiteSpace(Name))
                 yield return new DbValidationError("Name", ValidationErrors.User_OnValidating_Необходимо_указать_имя_пользователя_);
 
