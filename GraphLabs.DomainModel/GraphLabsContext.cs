@@ -1,15 +1,20 @@
 ﻿using System;
+using log4net;
 
 namespace GraphLabs.DomainModel
 {
     public partial class GraphLabsContext
     {
+        private static ILog _log = LogManager.GetLogger(typeof(GraphLabsContext));
+
         /// <summary> Для тестов: позволяет подсунуть свою строку подключения </summary>
         /// <param name="connectionStringName">Имя строки подключения в конфиге</param>
         internal GraphLabsContext(string connectionStringName)
             : base(string.Format("name={0}", connectionStringName))
         {
         }
+
+        private bool _isDisposed = false;
 
         /// <summary>
         /// Disposes the context. The underlying <see cref="T:System.Data.Entity.Core.Objects.ObjectContext"/> is also disposed if it was created
@@ -21,12 +26,12 @@ namespace GraphLabs.DomainModel
         ///             </param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && !_isDisposed)
             {
                 if (ChangeTracker.HasChanges())
-                    throw new InvalidOperationException("В уничтожаемом контексте остались несохранённые данные.");
+                    _log.Warn("В уничтожаемом контексте остались несохранённые данные.");
             }
-
+            _isDisposed = true;
             base.Dispose(disposing);
         }
     }

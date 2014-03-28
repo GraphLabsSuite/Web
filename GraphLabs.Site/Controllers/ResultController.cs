@@ -10,22 +10,24 @@ using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Controllers
 {
-    public class ResultController : Controller
+    [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
+    public class ResultController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
+        private GraphLabsContext Context
+        {
+            get { return DependencyResolver.GetService<GraphLabsContext>(); }
+        }
 
         public ActionResult Index()
         {
-            //this.AllowAnonymous(_ctx);
-
             ResultModel res = new ResultModel();
 
-            res.Groups = (from g in _ctx.Groups
+            res.Groups = (from g in Context.Groups
                           select g).ToArray()
                           .Select(t => new GroupModel(t))
                           .ToArray();
 
-            res.Labs = (from l in _ctx.LabWorks
+            res.Labs = (from l in Context.LabWorks
                         select l).ToArray();
 
             return View(res);
@@ -41,14 +43,14 @@ namespace GraphLabs.Site.Controllers
             result.Result = 0;
             result.Marks = new GroupResult[groupsId.Count];
 
-            result.LabName = _ctx.LabWorks.Find(Lab).Name;
+            result.LabName = Context.LabWorks.Find(Lab).Name;
 
             GroupModel group;
             int j = 0;
 
             foreach (long i in groupsId)
             {
-                group = new GroupModel(_ctx.Groups.Find(i));
+                group = new GroupModel(Context.Groups.Find(i));
                 result.Marks[j] = new GroupResult();
                 result.Marks[j].Id = group.Id;
                 result.Marks[j].Name = group.Name;
@@ -79,7 +81,7 @@ namespace GraphLabs.Site.Controllers
         {
             JSONResultGroupDetail result = new JSONResultGroupDetail();
             result.Result = 0;
-            result.Name = (new GroupModel(_ctx.Groups.Find(GroupId))).Name;
+            result.Name = (new GroupModel(Context.Groups.Find(GroupId))).Name;
 
             return "";
         }

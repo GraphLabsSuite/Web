@@ -12,6 +12,12 @@ namespace GraphLabs.DomainModel
 
         /// <summary> Активная транзакция </summary>
         private DbContextTransaction _activeTransaction;
+        
+        /// <summary> Есть активная транзакция? </summary>
+        public bool HasActiveTransaction
+        {
+            get { return _activeTransaction != null; }
+        }
 
         /// <summary> Менеджер транзакций </summary>
         public TransactionManager(GraphLabsContext context)

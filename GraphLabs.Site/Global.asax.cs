@@ -72,8 +72,10 @@ namespace GraphLabs.Site
         /// <summary> Запрос выполнен </summary>
         protected void Application_EndRequest()
         {
-            TransactionManager.Commit();
-
+            if (TransactionManager.HasActiveTransaction)
+            {
+                TransactionManager.Commit();
+            }
             DisposeContextItems();
         }
 
