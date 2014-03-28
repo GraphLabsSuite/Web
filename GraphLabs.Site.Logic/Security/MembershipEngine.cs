@@ -123,6 +123,7 @@ namespace GraphLabs.Site.Logic.Security
             try
             {
                 _userRepository.CreateNotVerifiedStudent(email, name, fatherName, surname, passHash, group);
+                _transactionManager.IntermediateCommit();
             }
             catch (DbUpdateException ex)
             {
