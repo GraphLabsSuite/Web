@@ -17,8 +17,13 @@ namespace GraphLabs.Site.Controllers
     public class UserController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
-        private readonly ISystemDateService _dateService = ServiceLocator.Locator.Get<ISystemDateService>();
-                
+
+        /// <summary> Системное время </summary>
+        protected ISystemDateService DateService 
+        {
+            get { return DependencyResolver.GetService<ISystemDateService>(); }
+        }
+
         public ActionResult Index()
         {
             UserIndex ui = new UserIndex();
@@ -61,7 +66,7 @@ namespace GraphLabs.Site.Controllers
                 userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && ((Student)u).IsDismissed).ToList());
             }
 
-            var us = userList.Select(u => new UserModel(u, _dateService)).ToList();
+            var us = userList.Select(u => new UserModel(u, DateService)).ToList();
 
             ui.Users = us;
 

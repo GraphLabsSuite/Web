@@ -108,7 +108,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\IMembershipEngine.cs" />
     <Compile Include="Security\IHashCalculator.cs" />
-    <Compile Include="Security\UserRoles.cs" />
+    <Compile Include="Security\PrincipalExtensions.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

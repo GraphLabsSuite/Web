@@ -1,4 +1,5 @@
-﻿@using GraphLabs.Site.Logic.Security
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Logic.Security
 @using GraphLabs.Site.Utils
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -23,7 +24,7 @@
                                 <a href="#">Меню</a>
                             <ul>
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            @if (User.IsInRole(UserRoles.Teacher) || User.IsInRole(UserRoles.Administrator))
+                            @if (User.IsInRole(UserRole.Teacher) || User.IsInRole(UserRole.Administrator))
                             {
                                 <li>@Html.ActionLink("Группы", "Index", "Group")</li>
                                 <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
@@ -32,7 +33,7 @@
                                 <li>@Html.ActionLink("Результаты", "All", "Results")</li>
                                 <li>@Html.ActionLink("Система", "Index", "Settings")</li>
                             }
-                            @if (User.IsInRole(UserRoles.Student))
+                            @if (User.IsInRole(UserRole.Student))
                             {
                                 <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
                                 <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
