@@ -1,20 +1,14 @@
 ﻿using System.Web.Mvc;
-using GraphLabs.DomainModel;
-using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
+    /// <summary> Главная </summary>
+    [AllowAnonymous]
     public class HomeController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
-
-        public bool IsAuthenticated = true;
-
-        [AllowAnonymous]
+        /// <summary> Главная: новости </summary>
         public ActionResult Index(string message)
         {
-            //this.AllowAnonymous();
-
             if (!string.IsNullOrWhiteSpace(message))
             {
                 ViewBag.Message = message;

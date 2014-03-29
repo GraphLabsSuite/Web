@@ -34,13 +34,27 @@ namespace GraphLabs.Site.Controllers
 
         #endregion
 
+
+        #region Login
+
         //
         // GET: /Account/Login
         /// <summary> Начальная отрисовка формы входа </summary>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+
+            SetReturnUrl(returnUrl);
             return View();
+        }
+
+        private void SetReturnUrl(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
         }
 
         //
@@ -51,6 +65,11 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(AuthModel model, string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+
             if (ModelState.IsValid)
             {
                 Guid session;
@@ -67,6 +86,8 @@ namespace GraphLabs.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
         //
         // POST: /Account/LogOff
         /// <summary> Выход </summary>
@@ -75,11 +96,17 @@ namespace GraphLabs.Site.Controllers
         public ActionResult LogOff()
         {
             var sessionInfo = AuthSavingService.GetSessionInfo();
-            MembershipEngine.Logout(sessionInfo.Email, sessionInfo.SessionGuid, Request.GetClientIP());
+            if (!sessionInfo.IsEmpty())
+            {
+                MembershipEngine.Logout(sessionInfo.Email, sessionInfo.SessionGuid, Request.GetClientIP());
+            }
             AuthSavingService.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToHome();
         }
+
+
+        #region Register
 
         //
         // GET: /Account/Register
@@ -87,6 +114,11 @@ namespace GraphLabs.Site.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToHome();
+            }
+
             FillGroups();
             return View();
         }
@@ -107,6 +139,11 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegistrationModel reg)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToHome();
+            }
+
             if (ModelState.IsValid)
             {
                 var success = MembershipEngine.RegisterNewStudent(reg.Email, reg.Name, reg.FatherName, reg.Surname, reg.Password, reg.IdGroup);
@@ -122,6 +159,7 @@ namespace GraphLabs.Site.Controllers
             return View(reg);
         }
 
+        #endregion
 
         //
         // GET: /Account/Manage
@@ -162,6 +200,11 @@ namespace GraphLabs.Site.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private RedirectToRouteResult RedirectToHome()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }
