@@ -98,6 +98,12 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Проверяем пользователя </summary>
         public bool TryAuthenticate(string email, Guid sessionGuid, string clientIp)
         {
+            if (string.IsNullOrWhiteSpace(email) && sessionGuid == Guid.Empty)
+            {
+                SetupCurrentPrincipal(null);
+                return false;
+            }
+
             var session = FindSession(email, sessionGuid, clientIp);
             if (session == null)
             {

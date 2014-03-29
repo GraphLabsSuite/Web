@@ -316,6 +316,7 @@
     <Content Include="Images\_.png" />
     <Content Include="Images\_false.png" />
     <Content Include="Images\_true.png" />
+    <Content Include="logging.config" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

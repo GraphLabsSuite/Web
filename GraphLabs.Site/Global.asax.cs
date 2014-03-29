@@ -43,6 +43,8 @@ namespace GraphLabs.Site
         /// <summary> Запуск приложения </summary>
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure();
+            
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
