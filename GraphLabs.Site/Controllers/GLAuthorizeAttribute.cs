@@ -6,24 +6,34 @@ using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Controllers
 {
-    /// <summary> Фильтер авторизации </summary>
+    /// <summary> Фильтр авторизации (принимает роли, для которых открыта доступ, через запятую) </summary>
     public class GLAuthorizeAttribute : AuthorizeAttribute
     {
-        /// <summary> Фильтер авторизации </summary>
+        /// <summary> Фильтр авторизации </summary>
         public GLAuthorizeAttribute()
         {
         }
 
-        /// <summary> Фильтер авторизации </summary>
-        public GLAuthorizeAttribute(UserRole roles)
+        /// <summary> Фильтр авторизации (принимает роли, для которых открыта доступ, через запятую) </summary>
+        public GLAuthorizeAttribute(params UserRole[] allowedRoles)
         {
-            var activeRoles = Enum
-                .GetValues(typeof(UserRole))
-                .Cast<UserRole>()
-                .Where(role => roles.HasFlag(role))
-                .Select(role => role.ToString());
+            Roles = string.Join(",", allowedRoles.Select(r => r.ToString()));
+        }
 
-            Roles = string.Join(",", activeRoles);
+        /// <summary> Обрабатывает HTTP-запрос, не прошедший авторизацию. </summary>
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            Contract.Requires<ArgumentNullException>(filterContext != null);
+
+            var httpContext = filterContext.HttpContext;
+            if (httpContext.User.Identity.IsAuthenticated)
+            {
+                filterContext.Result = new HttpNotFoundResult();
+            }
+            else
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
         }
     }
 }

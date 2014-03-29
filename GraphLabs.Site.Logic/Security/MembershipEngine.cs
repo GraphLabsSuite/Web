@@ -142,7 +142,7 @@ namespace GraphLabs.Site.Logic.Security
         {
             return user == null 
                 ? GraphLabsPrincipal.Anonymous 
-                : new GraphLabsPrincipal(user.GetShortName(), user.Email, user.Role);
+                : new GraphLabsPrincipal(user.Email, user.GetShortName(), user.Role);
         }
 
         private void SetupCurrentPrincipal(User user)

@@ -12,7 +12,7 @@ using GraphLabs.Site.Logic.GroupLogic;
 
 namespace GraphLabs.Site.Controllers
 {
-    [GLAuthorize(UserRole.Administrator | UserRole.Teacher)]
+    [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class GroupController : GraphLabsController
     {
         private GroupLogic logic = new GroupLogic();

@@ -13,7 +13,7 @@ using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
-    [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
+    [GLAuthorize(UserRole.Teacher, UserRole.Administrator)]
     public class UserController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();

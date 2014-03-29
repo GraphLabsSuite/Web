@@ -6,23 +6,6 @@ using log4net;
 
 namespace GraphLabs.Site.Logic.Security
 {
-    /// <summary> <see cref="T:System.Security.Principal.IIdentity"/> для GraphLabs (+email) </summary>
-    public interface IGraphLabsIdentity : IIdentity
-    {
-        /// <summary> Email </summary>
-        string Email { get; }
-    }
-
-    /// <summary> <see cref="T:System.Security.Principal.IPrincipal"/> для GraphLabs (+email) </summary>
-    public interface IGraphLabsPrincipal : IPrincipal
-    {
-        /// <summary> Gets the identity of the current principal. </summary>
-        new IGraphLabsIdentity Identity { get; }
-
-        /// <summary> Determines whether the current principal belongs to the specified role. </summary>
-        bool IsInRole(UserRole role);
-    }
-
     /// <summary> Реализация <see cref="T:System.Security.Principal.IPrincipal"/> для GraphLabs </summary>
     internal sealed class GraphLabsPrincipal : IGraphLabsPrincipal
     {
@@ -32,9 +15,11 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Личность </summary>
         private sealed class GraphLabsIdentity : IGraphLabsIdentity
         {
+            /// <summary> Фактически - email </summary>
             public string Name { get; private set; }
 
-            public string Email { get; private set; }
+            /// <summary> Отображаемое имя, например, Иванов И.И. </summary>
+            public string DisplayName { get; private set; }
 
             /// <summary> Gets the type of authentication used. </summary>
             public string AuthenticationType { get { return AUTHENTICATION_TYPE; } }
@@ -44,7 +29,7 @@ namespace GraphLabs.Site.Logic.Security
             {
                 get
                 {
-                    return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Email);
+                    return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(DisplayName);
                 }
             }
 
@@ -54,16 +39,16 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             /// <summary> Личность </summary>
-            public GraphLabsIdentity(string name, string email)
+            public GraphLabsIdentity(string email, string displayName)
             {
-                Contract.Requires(!string.IsNullOrWhiteSpace(name));
                 Contract.Requires(!string.IsNullOrWhiteSpace(email));
-                Name = name;
-                Email = email;
+                Contract.Requires(!string.IsNullOrWhiteSpace(displayName));
+                Name = email;
+                DisplayName = displayName;
             }
 
             /// <summary> Аноним </summary>
-            public static readonly IGraphLabsIdentity Anonymous = new GraphLabsIdentity { Name = null, Email = null };
+            public static readonly IGraphLabsIdentity Anonymous = new GraphLabsIdentity { Name = null, DisplayName = null };
         }
 
         /// <summary> Determines whether the current principal belongs to the specified role. </summary>
@@ -100,10 +85,10 @@ namespace GraphLabs.Site.Logic.Security
         }
 
         /// <summary> Реализация <see cref="T:System.Security.Principal.IPrincipal"/> для GraphLabs </summary>
-        public GraphLabsPrincipal(string name, string email, UserRole roles)
+        public GraphLabsPrincipal(string email, string displayName, UserRole roles)
             : this(roles)
         {
-            Identity = new GraphLabsIdentity(name, email);
+            Identity = new GraphLabsIdentity(email, displayName);
         }
 
         private readonly UserRole _roles;
