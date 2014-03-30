@@ -48,7 +48,7 @@ hgroup, section {
     left:0;
     width: 100%;
     top: 143px;
-    bottom: 100px;
+    bottom: 40px;
     position: absolute;
 }
 
@@ -81,7 +81,7 @@ hgroup, section {
     clear: both;
     background-color: #5c7e94;
     font-size: .8em;
-    height: 100px;    
+    height: 40px;    
     left:0;
     bottom: 0;
     width: 100%;
