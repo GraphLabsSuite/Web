@@ -3,8 +3,10 @@ using System.Web.Routing;
 
 namespace GraphLabs.Site.App_Start
 {
-    public class RouteConfig
+    /// <summary> Настройка маршрутов </summary>
+    public static class RouteConfig
     {
+        /// <summary> Настройка маршрутов </summary>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

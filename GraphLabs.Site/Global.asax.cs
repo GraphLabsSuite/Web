@@ -52,6 +52,8 @@ namespace GraphLabs.Site
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Bootstrapper.Initialise();
+
+            ControllerBuilder.Current.SetControllerFactory(typeof(GraphLabsControllerFactory));
         }
 
         /// <summary> Аутентификация </summary>

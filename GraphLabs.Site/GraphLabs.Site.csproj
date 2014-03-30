@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
+    <Compile Include="Controllers\KnownErrorController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="App_Code\FormsAuthenticationSavingService.cs" />
     <Compile Include="Controllers\GLAuthorizeAttribute.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GraphLabsControllerFactory.cs" />
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\JSONResultEditVariant.cs" />
@@ -246,6 +248,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\HttpNotFoundException.cs" />
     <Compile Include="Utils\MultiButtonAttribute.cs" />
     <Compile Include="Utils\SecurityExtensions.cs" />
     <Content Include="Images\triangleDOWN.png" />
@@ -361,7 +364,7 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\KnownError\Error404.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />

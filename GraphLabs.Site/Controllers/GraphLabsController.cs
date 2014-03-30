@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using GraphLabs.Site.Logic.Security;
 
 namespace GraphLabs.Site.Controllers
 {
     /// <summary> Базовый контроллер </summary>
+    [HandleError]
     public abstract class GraphLabsController : Controller
     {
         /// <summary> Текущий пользователь </summary>
@@ -59,6 +62,36 @@ namespace GraphLabs.Site.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        #endregion
+
+
+        #region Errors
+
+        /// <summary> Вызывается, когда запрос соответствует этому контроллеру, но в контроллере не найден метод с указанным именем действия. </summary>
+        /// <param name="actionName">Имя действия, которое требовалось выполнить.</param>
+        protected override void HandleUnknownAction(string actionName)
+        {
+            // Если контроллер - KnownErrorController, то не нужно снова вызывать исключение
+            if (GetType() != typeof(KnownErrorController))
+            {
+                InvokeHttp404(HttpContext);
+            }
+        }
+
+        /// <summary> 404 </summary>
+        public ActionResult InvokeHttp404(HttpContextBase httpContext)
+        {
+            var errorController = new KnownErrorController();
+
+            var errorRoute = new RouteData();
+            errorRoute.Values.Add("controller", "KnownError");
+            errorRoute.Values.Add("action", "Error404");
+            errorRoute.Values.Add("url", httpContext.Request.Url != null ? httpContext.Request.Url.OriginalString : string.Empty);
+            errorController.Execute(new RequestContext(httpContext, errorRoute));
+
+            return new EmptyResult();
         }
 
         #endregion

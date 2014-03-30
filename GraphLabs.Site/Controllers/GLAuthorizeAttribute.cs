@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -28,7 +29,8 @@ namespace GraphLabs.Site.Controllers
             var httpContext = filterContext.HttpContext;
             if (httpContext.User.Identity.IsAuthenticated)
             {
-                filterContext.Result = new HttpNotFoundResult();
+                var errorController = new KnownErrorController();
+                filterContext.Result = errorController.InvokeHttp404(filterContext.HttpContext);
             }
             else
             {
