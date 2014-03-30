@@ -1,13 +1,16 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Web.Mvc;
+using GraphLabs.Site.Models.Error;
 
 namespace GraphLabs.Site.Controllers
 {
+    /// <summary> Ошибка </summary>
     [AllowAnonymous]
-    public class KnownErrorController : GraphLabsController
+    public class ErrorController : GraphLabsController
     {
         //
-        // GET: /KnownError/Error404
+        // GET: /Error/Error404
         public ActionResult Error404(string url)
         {
             Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -30,11 +33,20 @@ namespace GraphLabs.Site.Controllers
             return View(model);
         }
 
-    }
+        //
+        // GET: /Error/Oops
+        public ActionResult Oops(Exception exception)
+        {
+            var model = exception != null
+                ? new OopsModel { Exception = exception.ToString(), ShortDescription = exception.Message }
+                : new OopsModel
+                {
+                    Exception = "Подробная информация отсутствует.",
+                    ShortDescription = "Неизвестная ошибка."
+                };
 
-    public class Error404Model
-    {
-        public string RequestedUrl { get; set; }
-        public string ReferrerUrl { get; set; }
+            return View(model);
+        }
+
     }
 }

@@ -69,24 +69,47 @@ namespace GraphLabs.Site.Controllers
 
         #region Errors
 
+        /// <summary> Вызывается, когда в действии происходит необработанное исключение. </summary>
+        /// <param name="filterContext">Сведения о текущем запросе и действии.</param>
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            var errorController = new ErrorController();
+
+            var errorRoute = new RouteData();
+            errorRoute.Values.Add("controller", "Error");
+            errorRoute.Values.Add("action", "Oops");
+            errorRoute.Values.Add("exception", filterContext.Exception);
+            errorController.Execute(new RequestContext(filterContext.HttpContext, errorRoute));
+
+            filterContext.ExceptionHandled = true;
+        }
+
+        /// <summary> Наша обработка NotFound </summary>
+        protected override HttpNotFoundResult HttpNotFound(string statusDescription)
+        {
+            InvokeHttp404(HttpContext);
+            return base.HttpNotFound(statusDescription);
+        }
+
         /// <summary> Вызывается, когда запрос соответствует этому контроллеру, но в контроллере не найден метод с указанным именем действия. </summary>
         /// <param name="actionName">Имя действия, которое требовалось выполнить.</param>
         protected override void HandleUnknownAction(string actionName)
         {
-            // Если контроллер - KnownErrorController, то не нужно снова вызывать исключение
-            if (GetType() != typeof(KnownErrorController))
+            // Если контроллер - ErrorController, то не нужно снова вызывать исключение
+            if (GetType() != typeof(ErrorController))
             {
                 InvokeHttp404(HttpContext);
             }
         }
 
+
         /// <summary> 404 </summary>
         public ActionResult InvokeHttp404(HttpContextBase httpContext)
         {
-            var errorController = new KnownErrorController();
+            var errorController = new ErrorController();
 
             var errorRoute = new RouteData();
-            errorRoute.Values.Add("controller", "KnownError");
+            errorRoute.Values.Add("controller", "Error");
             errorRoute.Values.Add("action", "Error404");
             errorRoute.Values.Add("url", httpContext.Request.Url != null ? httpContext.Request.Url.OriginalString : string.Empty);
             errorController.Execute(new RequestContext(httpContext, errorRoute));

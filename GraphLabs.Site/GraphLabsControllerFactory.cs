@@ -22,7 +22,7 @@ namespace GraphLabs.Site
                 switch (ex.GetHttpCode())
                 {
                     case (int)HttpStatusCode.NotFound:
-                        var errorController = new KnownErrorController();
+                        var errorController = new ErrorController();
                         errorController.InvokeHttp404(requestContext.HttpContext);
                         return errorController;
                     default:
