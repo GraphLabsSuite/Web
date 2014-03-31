@@ -100,6 +100,8 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="Group\GroupLogic.cs" />
+    <Compile Include="Labs\DemoLabEngine.cs" />
+    <Compile Include="Labs\Interfaces\IDemoLabEngine.cs" />
     <Compile Include="Labs\LabsLogic.cs" />
     <Compile Include="Security\GraphLabsPrincipal.cs" />
     <Compile Include="Security\Interfaces\IGraphLabsIdentity.cs" />

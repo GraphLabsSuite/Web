@@ -44,5 +44,14 @@ namespace GraphLabs.DomainModel.Repositories
 
             return new SessionRepository(_context, _systemDateService);
         }
+
+        /// <summary> Получить репозиторий с лабораторными работами </summary>
+        [NotNull]
+        public ILabRepository GetLabRepository()
+        {
+            Contract.Ensures(Contract.Result<ILabRepository>() != null);
+
+            return new LabRepository(_context);
+        }
     }
 }

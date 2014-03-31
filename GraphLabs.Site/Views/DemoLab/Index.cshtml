@@ -1,0 +1,54 @@
+﻿@model List<GraphLabs.Site.Models.DemoLabModel>
+
+@{
+    ViewBag.Title = "Ознакомительные лабораторные работы";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<span id="error" class="field-validation-error"></span>
+
+<table>
+    <tr>
+        <th>Лабораторная работа</th>
+        <th>Варианты</th>
+        <th>Доступна до</th>
+    </tr>
+    @foreach (var m in Model)
+    {
+        <tr data-LabWorkId="@m.LabWorkId">
+            <td>
+                @m.LabWorkName
+            </td>
+            <td>
+                <select>
+                    @foreach (var v in m.LabVariants)
+                    {
+                        <option data-LabVariantId="@v.Key">
+                            @v.Value
+                        </option>
+                    }
+                </select>
+            </td>
+            <td>
+                @m.AcquaintanceTill.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                <input type="button" value="Приступить!"/>
+            </td>
+        </tr>
+    }
+</table>
+
+@section scripts{
+    <script>
+        $("input").click(function () {
+            $("#error").html("");
+            if ((varId = $(this).parent().parent().find("td select").val()) == null) {
+                $("#error").html("Необходимо выбрать вариант!");
+                return;
+            };
+            location.href = "/LabWorkExecution/Index?labId=" + $(this).parent().parent().attr("data-LabWorkId") + "&labVarId=" + varId;
+        });
+    </script>
+}

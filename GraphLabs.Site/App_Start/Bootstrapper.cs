@@ -3,6 +3,7 @@ using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic.Security;
+using GraphLabs.Site.Logic.Labs;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
 
@@ -65,6 +66,9 @@ namespace GraphLabs.Site.App_Start
             container.RegisterType<ISessionRepository>(new PerRequestLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetSessionRepository()));
 
+            container.RegisterType<ILabRepository>(new PerRequestLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetLabRepository()));
+
             // ============================================================
 
             container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager(),
@@ -75,6 +79,11 @@ namespace GraphLabs.Site.App_Start
                     typeof(IUserRepository), 
                     typeof(IGroupRepository),
                     typeof(ISessionRepository)));
+
+            container.RegisterType<IDemoLabEngine, DemoLabEngine>(new PerRequestLifetimeManager(),
+                new InjectionConstructor(
+                    typeof(ISystemDateService),
+                    typeof(ILabRepository)));
 
         }
     }

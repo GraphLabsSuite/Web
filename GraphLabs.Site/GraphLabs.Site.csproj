@@ -199,6 +199,8 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
+    <Compile Include="Controllers\DemoLabController.cs" />
+    <Compile Include="Models\DemoLabModel.cs" />
     <Compile Include="Models\Error\Error404Model.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
@@ -258,6 +260,8 @@
     <Content Include="Views\StudentsResult\Index.cshtml" />
     <Content Include="Views\Result\Index.cshtml" />
     <Content Include="Views\Error\Oops.cshtml" />
+    <Content Include="Views\DemoLab\Index.cshtml" />
+    <Content Include="Views\DemoLab\NoDemoLabs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

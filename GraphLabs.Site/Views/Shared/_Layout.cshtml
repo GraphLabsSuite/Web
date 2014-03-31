@@ -34,7 +34,7 @@
                             }
                             @if (User.IsInRole(UserRole.Student))
                             {
-                                <li>@Html.ActionLink("Лабораторные", "Index", "LabsList")</li>
+                                <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
                                 <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
                             }
                             </ul>

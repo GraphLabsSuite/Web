@@ -1,14 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity;
+﻿using GraphLabs.DomainModel;
+using GraphLabs.Site.Logic.GroupLogic;
+using GraphLabs.Site.Models;
+using System;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Services;
-using GraphLabs.Site.Utils;
-using GraphLabs.Site.Models;
-using GraphLabs.Site.Logic.GroupLogic;
 
 namespace GraphLabs.Site.Controllers
 {
