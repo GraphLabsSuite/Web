@@ -29,7 +29,7 @@ namespace GraphLabs.Site.Logic.Labs
         /// <summary> Получить лабораторные работы, у которых сейчас ознакомительный период </summary>
         public LabWork[] GetDemoLabs()
         {
-            var currentDate = _systemDateService.GetDate();
+            var currentDate = _systemDateService.Now();
             return _labRepository.GetLabWorks()
                 .Where(l => l.AcquaintanceFrom.HasValue && l.AcquaintanceTill.HasValue)
                 .Where(l => currentDate.CompareTo(l.AcquaintanceFrom) >= 0 && currentDate.CompareTo(l.AcquaintanceTill) <= 0)
