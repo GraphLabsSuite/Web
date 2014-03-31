@@ -252,6 +252,7 @@
     </Compile>
     <Compile Include="Utils\MultiButtonAttribute.cs" />
     <Compile Include="Utils\SecurityExtensions.cs" />
+    <Content Include="Images\demo.png" />
     <Content Include="Images\triangleDOWN.png" />
     <Content Include="Images\triangleUP.png" />
     <Content Include="Views\StudentsResult\Index.cshtml" />

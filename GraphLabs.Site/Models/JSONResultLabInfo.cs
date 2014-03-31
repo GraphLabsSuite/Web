@@ -14,11 +14,14 @@ namespace GraphLabs.Site.Models
 
             public List<KeyValuePair<long, string>> TasksVar { get; private set; }
 
+            public bool IntrVar { get; set; }
+
             public ResultVariants(LabVariant variant)
             {
                 VarId = variant.Id;
                 VarName = variant.Number;
                 TasksVar = MakeTasksVariantFromLabVariant(variant.TaskVariants);
+                IntrVar = variant.IntroducingVariant;
             }
 
             private List<KeyValuePair<long, string>> MakeTasksVariantFromLabVariant(ICollection<TaskVariant> taskVariants)

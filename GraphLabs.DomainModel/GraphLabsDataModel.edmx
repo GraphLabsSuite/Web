@@ -183,6 +183,7 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Version" Type="bigint" Nullable="false" />
+    <Property Name="IntroducingVariant" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="LabWork_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="TestQuestions">
@@ -690,6 +691,7 @@
           <NavigationProperty Name="TaskVariants" Relationship="DataModel.LabVariantTaskVariant" FromRole="LabVariant" ToRole="TaskVariant" />
           <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkLabVariant" FromRole="LabVariant" ToRole="LabWork" />
           <NavigationProperty Name="Results" Relationship="DataModel.LabVariantResult" FromRole="LabVariant" ToRole="Result" />
+          <Property Type="Boolean" Name="IntroducingVariant" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="TestQuestion">
           <Key>
@@ -925,6 +927,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="IntroducingVariant" ColumnName="IntroducingVariant" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -14,6 +14,8 @@ namespace GraphLabs.Site.Models
 
         public List<KeyValuePair<long, long>> Variant { get; set; }
 
+        public bool IntroducingVariant { get; set; }
+
         /// <summary> Конструктор для создания объекта, свидетельствующего об ошибке </summary>
         public JSONResultEditVariant(long error)
         {
@@ -25,6 +27,7 @@ namespace GraphLabs.Site.Models
             Result = result;
             Name = variant.Number;
             Variant = MakeVariantFromTasksVariant(variant.TaskVariants);
+            IntroducingVariant = variant.IntroducingVariant;
         }
 
         private List<KeyValuePair<long, long>> MakeVariantFromTasksVariant(ICollection<TaskVariant> taskVariants)

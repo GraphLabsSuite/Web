@@ -41,6 +41,8 @@
 }
 </table>
 <br />
+<input id="IntroducingVariant" type="checkbox"> Доступен в ознакомительной версии<br />
+<br />
 <input disabled id="save" type="button" value="Сохранить"/>
 <input id="random" type="button" value="Заполнить случайными значениями"/>
 
@@ -75,6 +77,9 @@
                 case 0:
                     $("#error").html("");
                     $("#varNum").val(obj.Name);
+                    if (obj.IntroducingVariant) {
+                        $("#IntroducingVariant").prop("checked", true);
+                    };
                     for (var i = 0; i < obj.Variant.length; ++i) {
                         $("#" + obj.Variant[i].Key).find("option[value=" + obj.Variant[i].Value + "]").attr("selected", "selected");
                         $("#" + obj.Variant[i].Key).find("option[value='no']").detach();
@@ -134,7 +139,7 @@
             $("select").each(function () {
                 list.push($(this).val());
             });
-            var result = "Id=@Model.id&Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&variantId=@Model.varId";
+            var result = "Id=@Model.id&Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked") + "&variantId=@Model.varId";
             $.ajax({
                 type: "POST",
                 url: "CreateVariant",

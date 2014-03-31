@@ -129,7 +129,7 @@ namespace GraphLabs.Site.Controllers
         }
         
         [HttpPost]
-        public string CreateVariant(int Id, string Number, string JsonArr, int variantId = 0)
+        public string CreateVariant(int Id, string Number, string JsonArr, bool IntrVar, int variantId = 0)
         {
             const string SuccesfulCreating = "0";
             const string LabWorkNotFoundError = "1";
@@ -159,6 +159,7 @@ namespace GraphLabs.Site.Controllers
 
             labVar.LabWork = lab;
             labVar.Number = Number;
+            labVar.IntroducingVariant = IntrVar;
             if (IsNewLabVar(variantId))
             {
                 labVar.Version = 1;

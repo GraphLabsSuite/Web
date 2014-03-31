@@ -118,6 +118,10 @@
                             pic = '<img src="/Images/_false.png" />';
                         };
 
+                        if (obj.Variants[i].IntrVar == true) {
+                            pic = pic + '  <img src="/Images/demo.png" />';
+                        };
+
                         $("#varButtons").append('<td>' + pic + '<br /><a href="/Labs/CreateVariant?labId=' + labId + '&varId=' + obj.Variants[i].VarId + '">Редактировать</a></td>');
                     };
 
