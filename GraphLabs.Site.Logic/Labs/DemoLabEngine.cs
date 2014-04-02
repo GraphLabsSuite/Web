@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
+﻿using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace GraphLabs.Site.Logic.Labs
 {
@@ -40,6 +35,7 @@ namespace GraphLabs.Site.Logic.Labs
         public LabVariant[] GetDemoLabVariantsByLabWorkId(long id)
         {
             return _labRepository.GetLabVariantsByLabWorkId(id)
+                .Where(lv => _labRepository.IsLabVariantCorrect(lv.Id))
                 .Where(lv => lv.IntroducingVariant == true)
                 .ToArray();
         }

@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
+    <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Models\DemoLabModel.cs" />
     <Compile Include="Models\Error\Error404Model.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Models\JSONResultGroupDetail.cs" />
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
+    <Compile Include="Models\LabWorkExecutionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
@@ -262,6 +264,8 @@
     <Content Include="Views\Error\Oops.cshtml" />
     <Content Include="Views\DemoLab\Index.cshtml" />
     <Content Include="Views\DemoLab\NoDemoLabs.cshtml" />
+    <Content Include="Views\LabWorkExecution\Index.cshtml" />
+    <Content Include="Views\LabWorkExecution\LabWorkNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

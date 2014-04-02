@@ -13,7 +13,7 @@ namespace GraphLabs.DomainModel.Repositories
         LabWork[] GetLabWorks();
 
         /// <summary> Получить лабораторную работу по id </summary>
-        [NotNull]
+        [CanBeNull]
         LabWork GetLabWorkById(long id);
 
         /// <summary> Получить варианты лабораторной работы по id лабораторной работы </summary>
@@ -21,8 +21,11 @@ namespace GraphLabs.DomainModel.Repositories
         LabVariant[] GetLabVariantsByLabWorkId(long id);
 
         /// <summary> Получить вариант лабораторной работы по id </summary>
-        [NotNull]
+        [CanBeNull]
         LabVariant GetLabVariantById(long id);
+
+        /// <summary> Проверяет, соответствует ли вариант содержанию лабораторной работы </summary>
+        bool IsLabVariantCorrect(long labVarId);
     }
 
     /// <summary> Репозиторий с лаораторными работами - контракты </summary>
@@ -46,7 +49,6 @@ namespace GraphLabs.DomainModel.Repositories
         public LabWork GetLabWorkById(long id)
         {
             Contract.Requires(id > 0);
-            Contract.Ensures(Contract.Result<LabWork>() != null);
 
             return default(LabWork);
         }
@@ -64,9 +66,16 @@ namespace GraphLabs.DomainModel.Repositories
         public LabVariant GetLabVariantById(long id)
         {
             Contract.Requires(id > 0);
-            Contract.Ensures(Contract.Result<LabVariant>() != null);
 
             return default(LabVariant);
+        }
+
+        /// <summary> Репозиторий с лабораторными работами </summary>
+        public bool IsLabVariantCorrect(long labVarId)
+        {
+            Contract.Requires(labVarId > 0);
+
+            return false;
         }
     }
 }

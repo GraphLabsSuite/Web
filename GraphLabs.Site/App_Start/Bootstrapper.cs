@@ -85,6 +85,10 @@ namespace GraphLabs.Site.App_Start
                     typeof(ISystemDateService),
                     typeof(ILabRepository)));
 
+            container.RegisterType<ILabExecutionEngine, LabExecutionEngine>(new PerRequestLifetimeManager(),
+                new InjectionConstructor(
+                    typeof(ILabRepository)));
+
         }
     }
 }

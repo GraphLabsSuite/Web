@@ -1,10 +1,8 @@
 ﻿using GraphLabs.DomainModel;
-using GraphLabs.Site.Models;
-using System;
-using System.Linq;
-using System.Web.Mvc;
 using GraphLabs.Site.Logic.Labs;
+using GraphLabs.Site.Models;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -25,6 +23,12 @@ namespace GraphLabs.Site.Controllers
                 model.Add(new DemoLabModel(lab, DemoLabEngine.GetDemoLabVariantsByLabWorkId(lab.Id)));
             }
 
+            return ViewReturn(model);
+        }
+
+        /// <summary> Вспомогательная функция, в зависимости от модели определяющая какой View отобразить  </summary>
+        private ActionResult ViewReturn(List<DemoLabModel> model)
+        {
             if (model.Count == 0)
             {
                 return View("NoDemoLabs");

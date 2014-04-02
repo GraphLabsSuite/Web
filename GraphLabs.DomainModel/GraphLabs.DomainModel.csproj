@@ -245,6 +245,7 @@
     <Compile Include="UserRole.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Utils\XapProcessor.cs" />
     <Compile Include="ValidationErrors.Designer.cs">
