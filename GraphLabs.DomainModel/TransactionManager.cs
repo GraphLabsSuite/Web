@@ -28,44 +28,64 @@ namespace GraphLabs.DomainModel
         }
 
         /// <summary> Начать транзакцию </summary>
-        public void BeginTransaction()
+        public IDisposable BeginTransaction()
+        {
+            StartTransaction();
+            return new UnitOfWork(this);
+        }
+
+        private void StartTransaction()
         {
             CheckActiveTransactionDoesNotExist();
+            CheckHasNoChanges();
 
             _activeTransaction = _context.Database.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
-        /// <summary> Сохранить и зафиксировать изменения </summary>
+        private void CheckHasNoChanges()
+        {
+            if (_context.ChangeTracker.HasChanges())
+                throw new InvalidOperationException("Попытка начать транзакцию, когда есть несохранённые изменения.");
+        }
+
+        /// <summary> Сохранить и зафиксировать изменения. ЗАВЕРШАЕТ ТЕКУЩУЮ ТРАНЗАКЦИЮ, ЕСЛИ ОНА БЫЛА. </summary>
         public void Commit()
         {
-            CheckActiveTransactionExists();
-
             _context.SaveChanges();
-            _activeTransaction.Commit();
-            DisposeActiveTransaction();
+            if (_activeTransaction != null)
+            {
+                _activeTransaction.Commit();
+                DisposeActiveTransaction();
+            }
         }
 
-        /// <summary> Сохранить и зафиксировать изменения, после чего начать новую транзакцию </summary>
+        /// <summary> Сохранить изменения, начать новую транзакцию. Имеет смысл только в контексте BeginTransaction </summary>
         public void IntermediateCommit()
         {
+            CheckActiveTransactionExists();
+
             Commit();
-            BeginTransaction();
+            StartTransaction();
         }
 
-        /// <summary> Откатить все изменения </summary>
+        /// <summary> Откатить все изменения. ЗАВЕРШАЕТ ТЕКУЩУЮ ТРАНЗАКЦИЮ, ЕСЛИ ОНА БЫЛА. </summary>
         public void Rollback()
+        {
+            _context.RollbackChanges();
+            if (_activeTransaction != null)
+            {
+                _activeTransaction.Rollback();
+                DisposeActiveTransaction();
+            }
+        }
+
+        /// <summary> Откатить все изменения и начать новую транзакцию. Имеет смысл только в контексте BeginTransaction </summary>
+        public void IntermediateRollback()
         {
             CheckActiveTransactionExists();
 
-            _activeTransaction.Rollback();
-            DisposeActiveTransaction();
-        }
-
-        /// <summary> Откатить все изменения и начать новую транзакцию </summary>
-        public void IntermediateRollback()
-        {
             Rollback();
-            BeginTransaction();
+            StartTransaction();
         }
 
 
@@ -104,5 +124,44 @@ namespace GraphLabs.DomainModel
         }
 
         #endregion
+
+
+        private class UnitOfWork : IDisposable
+        {
+            private readonly TransactionManager _transactionManager;
+
+            public UnitOfWork(TransactionManager transactionManager)
+            {
+                Contract.Requires<ArgumentNullException>(transactionManager != null);
+
+                _transactionManager = transactionManager;
+            }
+
+            private bool _disposed = false;
+            public void Dispose()
+            {
+                if (_disposed)
+                {
+                    return;
+                }
+
+                var hasChanges = _transactionManager._context.ChangeTracker.HasChanges();
+                var hasTransaction = _transactionManager.HasActiveTransaction;
+                if (hasChanges && hasTransaction)
+                {
+                    _transactionManager.Commit();
+                }
+                else if (hasChanges)
+                {
+                    throw new InvalidOperationException("Выход из контекста BeginTransaction c имеющимися изменениями, но без транзакции. Перепутали Commit и IntermediateCommit?");
+                }
+                else if (hasTransaction)
+                {
+                    _transactionManager.Rollback();
+                }
+
+                _disposed = true;
+            }
+        }
     }
 }

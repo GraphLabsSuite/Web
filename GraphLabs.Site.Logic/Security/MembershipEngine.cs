@@ -48,32 +48,36 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Выполняет вход </summary>
         public bool TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
-            var user = _userRepository.FindActiveUserByEmail(email);
-
-            if (user == null || !UserIsValid(user, password))
-            {
-                _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
-                sessionGuid = Guid.Empty;
-                return false;
-            }
-
             Session session;
-            var lastSession = RemoveOldSessionsExceptLast(user);
-            if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
+            using (_transactionManager.BeginTransaction())
             {
-                if (lastSession != null)
-                    _sessionRepository.Remove(lastSession);
-                session = _sessionRepository.Create(user, clientIp);
-            }
-            else
-            {
-                session = lastSession;
-            }
-            SetLastAction(session);
-            _transactionManager.IntermediateCommit();
-            _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+                var user = _userRepository.FindActiveUserByEmail(email);
 
-            SetupCurrentPrincipal(user);
+                if (user == null || !UserIsValid(user, password))
+                {
+                    _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+                    sessionGuid = Guid.Empty;
+                    return false;
+                }
+
+                var lastSession = RemoveOldSessionsExceptLast(user);
+                if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
+                {
+                    if (lastSession != null)
+                        _sessionRepository.Remove(lastSession);
+                    session = _sessionRepository.Create(user, clientIp);
+                }
+                else
+                {
+                    session = lastSession;
+                }
+                SetLastAction(session);
+                _transactionManager.IntermediateCommit();
+                _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+
+                SetupCurrentPrincipal(user);
+            }
+            
             sessionGuid = session.Guid;
             return true;
         }
@@ -90,12 +94,12 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             _sessionRepository.Remove(session);
-            _transactionManager.IntermediateCommit();
+            _transactionManager.Commit();
             _log.InfoFormat("Успешный выход. e-mail: {0}, ip: {1}", email, clientIp);
             SetupCurrentPrincipal(null);
         }
 
-        /// <summary> Проверяем пользователя </summary>
+        /// <summary> Проверяем пользователя и устанавливаем IPrincipal </summary>
         public bool TryAuthenticate(string email, Guid sessionGuid, string clientIp)
         {
             if (string.IsNullOrWhiteSpace(email) && sessionGuid == Guid.Empty)
@@ -113,7 +117,7 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             SetLastAction(session);
-            _transactionManager.IntermediateCommit();
+            _transactionManager.Commit();
 
             SetupCurrentPrincipal(session.User);
             return true;
@@ -129,10 +133,11 @@ namespace GraphLabs.Site.Logic.Security
             try
             {
                 _userRepository.CreateNotVerifiedStudent(email, name, fatherName, surname, passHash, group);
-                _transactionManager.IntermediateCommit();
+                _transactionManager.Commit();
             }
             catch (DbUpdateException ex)
             {
+                _transactionManager.Rollback();
                 _log.InfoFormat("Не удалось зарегистрировать студента. {0}", ex);
                 return false;
             }
@@ -146,8 +151,8 @@ namespace GraphLabs.Site.Logic.Security
 
         private IPrincipal GetPrincipal(User user)
         {
-            return user == null 
-                ? GraphLabsPrincipal.Anonymous 
+            return user == null
+                ? GraphLabsPrincipal.Anonymous
                 : new GraphLabsPrincipal(user.Email, user.GetShortName(), user.Role);
         }
 

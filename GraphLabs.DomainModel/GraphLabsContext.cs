@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity;
+using GraphLabs.DomainModel.Extensions;
 using log4net;
 
 namespace GraphLabs.DomainModel
@@ -34,5 +36,28 @@ namespace GraphLabs.DomainModel
             _isDisposed = true;
             base.Dispose(disposing);
         }
+
+        /// <summary> Откатывает изменения. </summary>
+        public void RollbackChanges()
+        {
+            ChangeTracker.DetectChanges();
+            var changedEntities = ChangeTracker.Entries();
+            foreach (var changedEntity in changedEntities)
+            {
+                var propertyNames = changedEntity.CurrentValues.PropertyNames;
+                foreach (var propertyName in propertyNames)
+                {
+                    var originalValue = changedEntity.OriginalValues[propertyName];
+                    if (changedEntity.CurrentValues[propertyName] != originalValue)
+                    {
+                        var property = changedEntity.Property(propertyName);
+                        property.CurrentValue = originalValue;
+                        property.IsModified = false;
+                    }
+                }
+                changedEntity.State = EntityState.Unchanged; // а что будет с только что созданными?
+            }
+        }
+
     }
 }

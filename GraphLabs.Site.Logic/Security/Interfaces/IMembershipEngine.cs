@@ -18,7 +18,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <returns> false, если такой пользователь уже есть (с таким email), иначе true </returns>
         bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId);
 
-        /// <summary> Проверяем пользователя </summary>
+        /// <summary> Проверяем пользователя и устанавливаем IPrincipal </summary>
         bool TryAuthenticate(string email, Guid sessionGuid, string clientIp);
     }
 
