@@ -51,8 +51,8 @@ namespace GraphLabs.Site.App_Start
 
             // ============================================================
 
-            container.RegisterType<TransactionManager>(new PerRequestLifetimeManager(),
-                new InjectionFactory(c => new TransactionManager(c.Resolve<GraphLabsContext>())));
+            container.RegisterType<DbContextManager>(new PerRequestLifetimeManager(),
+                new InjectionFactory(c => new DbContextManager(c.Resolve<GraphLabsContext>())));
 
             container.RegisterType<RepositoryFactory>(new PerRequestLifetimeManager(),
                 new InjectionFactory(c => new RepositoryFactory(c.Resolve<GraphLabsContext>(), c.Resolve<ISystemDateService>())));
@@ -73,7 +73,7 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager(),
                 new InjectionConstructor(
-                    typeof(TransactionManager),
+                    typeof(DbContextManager),
                     typeof(IHashCalculator), 
                     typeof(ISystemDateService), 
                     typeof(IUserRepository), 

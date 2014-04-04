@@ -6,7 +6,7 @@ using System.Diagnostics.Contracts;
 namespace GraphLabs.DomainModel
 {
     /// <summary> Менеджер транзакций </summary>
-    public class TransactionManager : IDisposable
+    public class DbContextManager : IDisposable
     {
         private readonly GraphLabsContext _context;
 
@@ -20,7 +20,7 @@ namespace GraphLabs.DomainModel
         }
 
         /// <summary> Менеджер транзакций </summary>
-        public TransactionManager(GraphLabsContext context)
+        public DbContextManager(GraphLabsContext context)
         {
             Contract.Requires(context != null);
 
@@ -42,10 +42,11 @@ namespace GraphLabs.DomainModel
             _activeTransaction = _context.Database.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
-        private void CheckHasNoChanges()
+        /// <summary> Проверяет, что нет несохранённых изменений </summary>
+        public void CheckHasNoChanges()
         {
             if (_context.ChangeTracker.HasChanges())
-                throw new InvalidOperationException("Попытка начать транзакцию, когда есть несохранённые изменения.");
+                throw new InvalidOperationException("Обнаружены несохранённые изменения.");
         }
 
         /// <summary> Сохранить и зафиксировать изменения. ЗАВЕРШАЕТ ТЕКУЩУЮ ТРАНЗАКЦИЮ, ЕСЛИ ОНА БЫЛА. </summary>
@@ -128,13 +129,13 @@ namespace GraphLabs.DomainModel
 
         private class UnitOfWork : IDisposable
         {
-            private readonly TransactionManager _transactionManager;
+            private readonly DbContextManager _dbContextManager;
 
-            public UnitOfWork(TransactionManager transactionManager)
+            public UnitOfWork(DbContextManager dbContextManager)
             {
-                Contract.Requires<ArgumentNullException>(transactionManager != null);
+                Contract.Requires<ArgumentNullException>(dbContextManager != null);
 
-                _transactionManager = transactionManager;
+                _dbContextManager = dbContextManager;
             }
 
             private bool _disposed = false;
@@ -145,11 +146,11 @@ namespace GraphLabs.DomainModel
                     return;
                 }
 
-                var hasChanges = _transactionManager._context.ChangeTracker.HasChanges();
-                var hasTransaction = _transactionManager.HasActiveTransaction;
+                var hasChanges = _dbContextManager._context.ChangeTracker.HasChanges();
+                var hasTransaction = _dbContextManager.HasActiveTransaction;
                 if (hasChanges && hasTransaction)
                 {
-                    _transactionManager.Commit();
+                    _dbContextManager.Commit();
                 }
                 else if (hasChanges)
                 {
@@ -157,7 +158,7 @@ namespace GraphLabs.DomainModel
                 }
                 else if (hasTransaction)
                 {
-                    _transactionManager.Rollback();
+                    _dbContextManager.Rollback();
                 }
 
                 _disposed = true;

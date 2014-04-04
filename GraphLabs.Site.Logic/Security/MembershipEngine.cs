@@ -18,7 +18,7 @@ namespace GraphLabs.Site.Logic.Security
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(MembershipEngine));
 
-        private readonly TransactionManager _transactionManager;
+        private readonly DbContextManager _dbContextManager;
         private readonly IHashCalculator _hashCalculator;
         private readonly ISystemDateService _systemDateService;
         private readonly IUserRepository _userRepository;
@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Logic.Security
 
         /// <summary> Проверяет личность пользователя и тп </summary>
         public MembershipEngine(
-            TransactionManager transactionManager,
+            DbContextManager dbContextManager,
             IHashCalculator hashCalculator, 
             ISystemDateService systemDateService,
             IUserRepository userRepository,
@@ -37,7 +37,7 @@ namespace GraphLabs.Site.Logic.Security
             Contract.Requires(hashCalculator != null);
             Contract.Requires(systemDateService != null);
 
-            _transactionManager = transactionManager;
+            _dbContextManager = dbContextManager;
             _hashCalculator = hashCalculator;
             _systemDateService = systemDateService;
             _userRepository = userRepository;
@@ -48,10 +48,11 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Выполняет вход </summary>
         public bool TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
+            User user;
             Session session;
-            using (_transactionManager.BeginTransaction())
+            using (_dbContextManager.BeginTransaction())
             {
-                var user = _userRepository.FindActiveUserByEmail(email);
+                user = _userRepository.FindActiveUserByEmail(email);
 
                 if (user == null || !UserIsValid(user, password))
                 {
@@ -72,11 +73,11 @@ namespace GraphLabs.Site.Logic.Security
                     session = lastSession;
                 }
                 SetLastAction(session);
-                _transactionManager.IntermediateCommit();
+                _dbContextManager.IntermediateCommit();
                 _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
-
-                SetupCurrentPrincipal(user);
             }
+
+            SetupCurrentPrincipal(user);
             
             sessionGuid = session.Guid;
             return true;
@@ -85,6 +86,8 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Выход </summary>
         public void Logout(string email, Guid sessionGuid, string clientIp)
         {
+            _dbContextManager.CheckHasNoChanges();
+
             var session = FindSession(email, sessionGuid, clientIp);
             if (session == null)
             {
@@ -94,7 +97,7 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             _sessionRepository.Remove(session);
-            _transactionManager.Commit();
+            _dbContextManager.Commit();
             _log.InfoFormat("Успешный выход. e-mail: {0}, ip: {1}", email, clientIp);
             SetupCurrentPrincipal(null);
         }
@@ -102,6 +105,8 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Проверяем пользователя и устанавливаем IPrincipal </summary>
         public bool TryAuthenticate(string email, Guid sessionGuid, string clientIp)
         {
+            _dbContextManager.CheckHasNoChanges();
+
             if (string.IsNullOrWhiteSpace(email) && sessionGuid == Guid.Empty)
             {
                 SetupCurrentPrincipal(null);
@@ -117,7 +122,7 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             SetLastAction(session);
-            _transactionManager.Commit();
+            _dbContextManager.Commit();
 
             SetupCurrentPrincipal(session.User);
             return true;
@@ -127,17 +132,19 @@ namespace GraphLabs.Site.Logic.Security
         /// <returns> false, если такой пользователь уже есть (с таким email), иначе true </returns>
         public bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId)
         {
+            _dbContextManager.CheckHasNoChanges();
+
             var passHash = _hashCalculator.Crypt(password);
 
             var group = _groupRepository.GetGroupById(groupId);
             try
             {
                 _userRepository.CreateNotVerifiedStudent(email, name, fatherName, surname, passHash, group);
-                _transactionManager.Commit();
+                _dbContextManager.Commit();
             }
             catch (DbUpdateException ex)
             {
-                _transactionManager.Rollback();
+                _dbContextManager.Rollback();
                 _log.InfoFormat("Не удалось зарегистрировать студента. {0}", ex);
                 return false;
             }
