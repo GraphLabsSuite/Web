@@ -1,4 +1,6 @@
-﻿using GraphLabs.Utils;
+﻿using System.Diagnostics;
+using GraphLabs.Utils;
+using System.Linq;
 using NUnit.Framework;
 
 namespace GraphLabs.Tests.Utils

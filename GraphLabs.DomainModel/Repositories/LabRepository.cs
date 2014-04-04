@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using GraphLabs.DomainModel.Utils;
+using GraphLabs.Utils;
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -66,7 +67,7 @@ namespace GraphLabs.DomainModel.Repositories
                 tasksIdAlt.Add(t.Task.Id);
             }
 
-            return tasksId.Compare(tasksIdAlt);
+            return tasksId.ContainsSameSet(tasksIdAlt);
         }
     }
 }
