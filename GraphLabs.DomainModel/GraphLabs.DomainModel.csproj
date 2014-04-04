@@ -224,7 +224,7 @@
     <Compile Include="TestQuestion.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TransactionManager.cs" />
+    <Compile Include="DbContextManager.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\Infrastructure\GraphLabsContext.Triggers.cs" />
     <Compile Include="Triggers\Group.cs" />
