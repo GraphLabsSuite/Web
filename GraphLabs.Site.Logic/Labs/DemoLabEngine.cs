@@ -22,7 +22,7 @@ namespace GraphLabs.Site.Logic.Labs
         }
 
         /// <summary> Получить лабораторные работы, у которых сейчас ознакомительный период </summary>
-        public LabWork[] GetDemoLabs()
+        public LabWork[] GetDemoLabs() //TODO: перетащить в репо
         {
             var currentDate = _systemDateService.Now();
             return _labRepository.GetLabWorks()
@@ -32,7 +32,7 @@ namespace GraphLabs.Site.Logic.Labs
         }
 
         /// <summary> Получить варианты лабораторной работы, доступные для ознакомления </summary>
-        public LabVariant[] GetDemoLabVariantsByLabWorkId(long id)
+        public LabVariant[] GetDemoLabVariantsByLabWorkId(long id) //TODO: перетащить в репо
         {
             return _labRepository.GetLabVariantsByLabWorkId(id)
                 .Where(lv => _labRepository.IsLabVariantCorrect(lv.Id))

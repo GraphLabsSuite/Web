@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
-using GraphLabs.DomainModel.Utils;
+using System.Linq.Expressions;
 using GraphLabs.Utils;
 
 namespace GraphLabs.DomainModel.Repositories
@@ -23,7 +24,7 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Получить лабораторную работу по id </summary>
-        public LabWork GetLabWorkById(long id)
+        public LabWork GetLabWorkById(long id) //TODO: называется Get, а ведёт себя как Find
         {
             CheckNotDisposed();
 
@@ -39,7 +40,7 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Получить вариант лабораторной работы по id </summary>
-        public LabVariant GetLabVariantById(long id)
+        public LabVariant GetLabVariantById(long id) // TODO аналогично
         {
             CheckNotDisposed();
 
@@ -47,7 +48,7 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Проверяет, соответствует ли вариант содержанию лабораторной работы </summary>
-        public bool IsLabVariantCorrect(long labVarId)
+        public bool IsLabVariantCorrect(long labVarId) // TODO: это скорее логика. Методы поиска оставить тут, остальное вытащить
         {
             CheckNotDisposed();
 
