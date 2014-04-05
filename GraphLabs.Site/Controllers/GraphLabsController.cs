@@ -42,7 +42,7 @@ namespace GraphLabs.Site.Controllers
             {
 #if DEBUG
                 throw new InvalidOperationException(
-                    string.Format("Для действия {0} не указан способ авторизации.", filterContext.ActionDescriptor.ActionName));
+                    String.Format("Для действия {0} не указан способ авторизации.", filterContext.ActionDescriptor.ActionName));
 #else
                 filterContext.Result = RedirectToAction("index", "home");
 #endif
@@ -111,12 +111,15 @@ namespace GraphLabs.Site.Controllers
             var errorRoute = new RouteData();
             errorRoute.Values.Add("controller", "Error");
             errorRoute.Values.Add("action", "Error404");
-            errorRoute.Values.Add("url", httpContext.Request.Url != null ? httpContext.Request.Url.OriginalString : string.Empty);
+            errorRoute.Values.Add("url", httpContext.Request.Url != null ? httpContext.Request.Url.OriginalString : String.Empty);
             errorController.Execute(new RequestContext(httpContext, errorRoute));
 
             return new EmptyResult();
         }
 
         #endregion
+
+        /// <summary> Ключ стандартного сообщения валидации </summary>
+        public const string STD_VALIDATION_MSG_KEY = "validation";
     }
 }

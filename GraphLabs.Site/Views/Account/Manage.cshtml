@@ -9,7 +9,7 @@
 
 <p class="message-success">@ViewBag.StatusMessage</p>
 
-@Html.Partial("_ChangePasswordPartial")
+@Html.Partial("_ChangePasswordPartial", Model)
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

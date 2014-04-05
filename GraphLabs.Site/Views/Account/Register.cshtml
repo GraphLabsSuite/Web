@@ -1,4 +1,4 @@
-﻿@using System.Collections
+﻿@using GraphLabs.Site.Controllers
 @model GraphLabs.Site.Models.RegistrationModel
 
 @{
@@ -9,12 +9,14 @@
     <h1>@ViewBag.Title.</h1>
 </hgroup>
 
-
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
 
     <fieldset>
         <legend>Данные для регистрации</legend>
+        <p>
+            @Html.ValidationMessage(GraphLabsController.STD_VALIDATION_MSG_KEY)
+        </p>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Email)
@@ -79,7 +81,7 @@
             @Html.DropDownListFor(model => model.IdGroup, (IEnumerable<SelectListItem>)ViewBag.GroupsList)
             @Html.ValidationMessageFor(model => model.IdGroup)
         </div>
-
+        
         <p>
             <input type="submit" value="Регистрация" />
         </p>

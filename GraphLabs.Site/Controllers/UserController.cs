@@ -263,7 +263,6 @@ namespace GraphLabs.Site.Controllers
             if (ModelState.IsValid)
             {
                 var HashCalculator = DependencyResolver.GetService<IHashCalculator>();
-                var salt = HashCalculator.GenerateSalt();
                 
                 if (user.Role == UserRole.Student)
                 {

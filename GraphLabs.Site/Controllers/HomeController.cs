@@ -7,17 +7,10 @@ namespace GraphLabs.Site.Controllers
     public class HomeController : GraphLabsController
     {
         /// <summary> Главная: новости </summary>
-        public ActionResult Index(string message)
+        public ActionResult Index(string statusMessage, string statusDescription)
         {
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                ViewBag.Message = message;
-            }
-            else
-            {
-                ViewBag.Message = "Тут будут новости.";
-            }
-
+            ViewBag.StatusMessage = statusMessage;
+            ViewBag.StatusDescription = statusDescription;
             return View();
         }
     }

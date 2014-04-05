@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
@@ -13,8 +12,6 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize]
     public class AccountController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
-
         #region Зависимости
 
         private IMembershipEngine MembershipEngine
@@ -82,7 +79,7 @@ namespace GraphLabs.Site.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", UserMessages.LOGIN_PASSWORD_NOT_FOUND);
+            ModelState.AddModelError(STD_VALIDATION_MSG_KEY, UserMessages.LOGIN_PASSWORD_NOT_FOUND);
             return View(model);
         }
 
@@ -148,10 +145,14 @@ namespace GraphLabs.Site.Controllers
             {
                 var success = MembershipEngine.RegisterNewStudent(reg.Email, reg.Name, reg.FatherName, reg.Surname, reg.Password, reg.IdGroup);
                 if (success)
-                    return RedirectToAction("Index", "Home", new { Message = UserMessages.REGISTRATION_COMPLETE });
+                    return RedirectToAction("Index", "Home", new
+                        {
+                            StatusMessage = UserMessages.REGISTRATION_COMPLETE,
+                            StatusDescription = UserMessages.AccountController_Register_Вы_сможете_войти_когда_преподаватель_подтвердит_вашу_учётную_запись_о_чём_будет_сообщено_дополнительно_по_e_mail
+                        });
                 else
                 {
-                    ModelState.AddModelError("", UserMessages.DUPLICATE_LOGIN);
+                    ModelState.AddModelError(STD_VALIDATION_MSG_KEY, UserMessages.DUPLICATE_LOGIN);
                 }
             }
 
@@ -167,7 +168,6 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Manage(string message)
         {
             ViewBag.StatusMessage = message;
-            ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
 
@@ -180,22 +180,22 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                throw new NotImplementedException();
-                //var user = Session.GetUser(_ctx);
-                //var HashCalculator = DependencyResolver.GetService<IHashCalculator>();
-                //var oldHash = HashCalculator.Crypt(model.OldPassword);
-                //if (oldHash == user.PasswordHash)
-                //{
-                //    var salt = HashCalculator.GenerateSalt();
-                //    var hash = HashCalculator.Crypt(model.NewPassword);
+                var success = model.ConfirmPassword == model.NewPassword;
+                var sessionInfo = AuthSavingService.GetSessionInfo();
+                
+                success &= MembershipEngine.ChangePassword(
+                    sessionInfo.Email,
+                    sessionInfo.SessionGuid,
+                    Request.GetClientIP(),
+                    model.OldPassword,
+                    model.NewPassword);
 
-                //    user.PasswordHash = hash;
-                //    _ctx.SaveChanges();
+                if (success)
+                {
+                    return RedirectToAction("Manage", new { StatusMessage = UserMessages.PASSWORD_CHANGED });
+                }
 
-                //    return RedirectToAction("Manage", new { Message = UserMessages.PASSWORD_CHANGED });
-                //}
-             
-                ModelState.AddModelError("", UserMessages.ILLEGAL_PASSWORD);
+                ModelState.AddModelError(STD_VALIDATION_MSG_KEY, UserMessages.ILLEGAL_PASSWORD);
             }
 
             // If we got this far, something failed, redisplay form

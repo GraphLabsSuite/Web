@@ -7,12 +7,6 @@ namespace GraphLabs.Site.Logic.Security
     [UsedImplicitly]
     public class BCryptCalculator : IHashCalculator
     {
-        /// <summary> Генерирует соль </summary>
-        public string GenerateSalt()
-        {
-            return Crypter.Blowfish.GenerateSalt();
-        }
-
         /// <summary> Генерирует хеш </summary>
         public string Crypt(string text)
         {

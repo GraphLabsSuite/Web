@@ -130,7 +130,7 @@
     <value>Изменения сохранены.</value>
   </data>
   <data name="ILLEGAL_PASSWORD" xml:space="preserve">
-    <value>Старый пароль введён неверно.</value>
+    <value>Старый пароль введён неверно. Пожалуйста, попробуйте снова.</value>
   </data>
   <data name="LOGIN_PASSWORD_NOT_FOUND" xml:space="preserve">
     <value>Не удалось найти указанную комбинацию e-mail и пароля.</value>
@@ -139,7 +139,7 @@
     <value>Пароль успешно изменён.</value>
   </data>
   <data name="REGISTRATION_COMPLETE" xml:space="preserve">
-    <value>Регистрация успешно выполнена. Вы сможете войти, когда преподаватель подтвердит вашу учётную запись, о чём будет сообщено дополнительно по e-mail.</value>
+    <value>Регистрация успешно выполнена.</value>
   </data>
   <data name="TASK_EXISTS" xml:space="preserve">
     <value>Загрузка не удалась. Задание с таким названием и версией уже существует.</value>
@@ -155,5 +155,8 @@
   </data>
   <data name="Вариант_с_полученным_Id_не_найден_" xml:space="preserve">
     <value>Вариант с полученным Id не найден.</value>
+  </data>
+  <data name="AccountController_Register_Вы_сможете_войти_когда_преподаватель_подтвердит_вашу_учётную_запись_о_чём_будет_сообщено_дополнительно_по_e_mail" xml:space="preserve">
+    <value>Вы сможете войти, когда преподаватель подтвердит вашу учётную запись, о чём будет сообщено дополнительно по e-mail.</value>
   </data>
 </root>

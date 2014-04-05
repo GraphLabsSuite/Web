@@ -128,6 +128,30 @@ namespace GraphLabs.Site.Logic.Security
             return true;
         }
 
+        /// <summary> Поменять пароль </summary>
+        public bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword)
+        {
+            _dbContextManager.CheckHasNoChanges();
+
+            var session = FindSession(email, sessionGuid, clientIp);
+            if (session == null)
+            {
+                _log.WarnFormat("Неудачная попытка смены пароля - сессия не найдена. email: {0}, guid: {1}, ip: {2}", email, sessionGuid, clientIp);
+                return false;
+            }
+
+            var user = session.User;
+            if (!UserIsValid(user, currentPassword))
+            {
+                return false;
+            }
+
+            user.PasswordHash = _hashCalculator.Crypt(newPassword);
+            _dbContextManager.Commit();
+
+            return true;
+        }
+
         /// <summary> Зарегистрировать нового студента</summary>
         /// <returns> false, если такой пользователь уже есть (с таким email), иначе true </returns>
         public bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId)

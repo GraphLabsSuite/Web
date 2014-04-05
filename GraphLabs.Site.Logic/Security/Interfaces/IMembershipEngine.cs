@@ -20,6 +20,9 @@ namespace GraphLabs.Site.Logic.Security
 
         /// <summary> Проверяем пользователя и устанавливаем IPrincipal </summary>
         bool TryAuthenticate(string email, Guid sessionGuid, string clientIp);
+
+        /// <summary> Поменять пароль </summary>
+        bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword);
     }
 
     /// <summary> Контракты для <see cref="MembershipEngine"/> </summary>
@@ -29,7 +32,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Выполняет вход </summary>
         public bool TryLogin(string email, string password, string clientIp, out Guid sessionId)
         {
-            Contract.Requires(IpHelper.CheckIsValidIP(clientIp));
+            Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
             Contract.Ensures(
                 !Contract.Result<bool>() & Contract.ValueAtReturn(out sessionId) == Guid.Empty ||
                 Contract.Result<bool>() & Contract.ValueAtReturn(out sessionId) != Guid.Empty);
@@ -45,11 +48,11 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Зарегистрировать нового студента</summary>
         public bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(email));
-            Contract.Requires(!string.IsNullOrWhiteSpace(name));
-            Contract.Requires(!string.IsNullOrWhiteSpace(surname));
-            Contract.Requires(!string.IsNullOrWhiteSpace(password));
-            Contract.Requires(groupId > 0);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(email));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(surname));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(password));
+            Contract.Requires<ArgumentException>(groupId > 0);
 
             return default(bool);
         }
@@ -57,6 +60,18 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Проверяем пользователя </summary>
         public bool TryAuthenticate(string email, Guid sessionGuid, string clientIp)
         {
+            return default(bool);
+        }
+
+        /// <summary> Поменять пароль </summary>
+        public bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(email));
+            Contract.Requires<ArgumentException>(sessionGuid != Guid.Empty);
+            Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(currentPassword));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newPassword));
+
             return default(bool);
         }
     }

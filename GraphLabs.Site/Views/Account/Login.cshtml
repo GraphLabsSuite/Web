@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.AuthModel
+﻿@using GraphLabs.Site.Controllers
+@model GraphLabs.Site.Models.AuthModel
 
 @{
     ViewBag.Title = "Вход в GraphLabs";
@@ -14,6 +15,9 @@
 
     <fieldset>
         <legend>Данные для входа</legend>
+        <p>
+            @Html.ValidationMessage(GraphLabsController.STD_VALIDATION_MSG_KEY)
+        </p>
         <ol>
             <li>
                 @Html.LabelFor(m => m.Email)

@@ -6,7 +6,7 @@ namespace GraphLabs.DomainModel
 {
     public partial class GraphLabsContext
     {
-        private static ILog _log = LogManager.GetLogger(typeof(GraphLabsContext));
+        private static readonly ILog _log = LogManager.GetLogger(typeof(GraphLabsContext));
 
         /// <summary> Для тестов: позволяет подсунуть свою строку подключения </summary>
         /// <param name="connectionStringName">Имя строки подключения в конфиге</param>
