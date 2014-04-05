@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using GraphLabs.DomainModel.Extensions;
 using log4net;
 
 namespace GraphLabs.DomainModel
@@ -41,21 +40,37 @@ namespace GraphLabs.DomainModel
         public void RollbackChanges()
         {
             ChangeTracker.DetectChanges();
-            var changedEntities = ChangeTracker.Entries();
-            foreach (var changedEntity in changedEntities)
+            var changedEntries = ChangeTracker.Entries();
+            foreach (var changedEntry in changedEntries)
             {
-                var propertyNames = changedEntity.CurrentValues.PropertyNames;
-                foreach (var propertyName in propertyNames)
+                switch (changedEntry.State)
                 {
-                    var originalValue = changedEntity.OriginalValues[propertyName];
-                    if (changedEntity.CurrentValues[propertyName] != originalValue)
-                    {
-                        var property = changedEntity.Property(propertyName);
-                        property.CurrentValue = originalValue;
-                        property.IsModified = false;
-                    }
+                    case EntityState.Added:
+                        changedEntry.State = EntityState.Detached;
+                        break;
+
+                    case EntityState.Deleted:
+                    case EntityState.Modified:
+                        var propertyNames = changedEntry.CurrentValues.PropertyNames;
+                        foreach (var propertyName in propertyNames)
+                        {
+                            var originalValue = changedEntry.OriginalValues[propertyName];
+                            if (changedEntry.CurrentValues[propertyName] != originalValue)
+                            {
+                                var property = changedEntry.Property(propertyName);
+                                property.CurrentValue = originalValue;
+                                property.IsModified = false;
+                            }
+                        }
+                        changedEntry.State = EntityState.Unchanged;
+                        break;
+                    
+                    case EntityState.Unchanged:
+                        break;
+                    
+                    default:
+                        throw new NotSupportedException(string.Format("В списке изменённых оказалась сущность в состоянии {0}.", changedEntry.State));
                 }
-                changedEntity.State = EntityState.Unchanged; // а что будет с только что созданными?
             }
         }
 
