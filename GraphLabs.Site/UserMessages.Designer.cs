@@ -107,6 +107,15 @@ namespace GraphLabs.Site {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Новость успешно опубликована..
+        /// </summary>
+        internal static string HomeController_Edit_Новость_успешно_опубликована_ {
+            get {
+                return ResourceManager.GetString("HomeController_Edit_Новость_успешно_опубликована_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Старый пароль введён неверно. Пожалуйста, попробуйте снова..
         /// </summary>
         internal static string ILLEGAL_PASSWORD {

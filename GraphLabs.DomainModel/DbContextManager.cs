@@ -2,10 +2,12 @@
 using System.Data;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel
 {
     /// <summary> Менеджер транзакций </summary>
+    [UsedImplicitly]
     public class DbContextManager : IDisposable
     {
         private readonly GraphLabsContext _context;

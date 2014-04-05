@@ -188,11 +188,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
+    <Compile Include="Repositories\Interfaces\INewsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILabsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
+    <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="Repositories\SessionRepository.cs" />

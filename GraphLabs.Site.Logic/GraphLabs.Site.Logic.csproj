@@ -100,11 +100,13 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="Group\GroupLogic.cs" />
+    <Compile Include="INewsManager.cs" />
     <Compile Include="Labs\DemoLabEngine.cs" />
     <Compile Include="Labs\Interfaces\IDemoLabEngine.cs" />
     <Compile Include="Labs\Interfaces\ILabExecutionEngine.cs" />
     <Compile Include="Labs\LabExecutionEngine.cs" />
     <Compile Include="Labs\LabsLogic.cs" />
+    <Compile Include="NewsManager.cs" />
     <Compile Include="Security\GraphLabsPrincipal.cs" />
     <Compile Include="Security\Interfaces\IGraphLabsIdentity.cs" />
     <Compile Include="Security\Interfaces\IGraphLabsPrincipal.cs" />

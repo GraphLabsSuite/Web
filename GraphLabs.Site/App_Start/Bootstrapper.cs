@@ -2,6 +2,7 @@ using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
+using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Labs;
 using Microsoft.Practices.Unity;
@@ -13,7 +14,6 @@ namespace GraphLabs.Site.App_Start
     public static class Bootstrapper
     {
         /// <summary> Инициализация. Дёргать на Application_Start в Global.asax </summary>
-        /// <returns></returns>
         public static IUnityContainer Initialise()
         {
             var container = BuildUnityContainer();
@@ -43,21 +43,17 @@ namespace GraphLabs.Site.App_Start
             
             container.RegisterType<IHashCalculator, BCryptCalculator>();
             
-            container.RegisterType<IAuthenticationSavingService, FormsAuthenticationSavingService>(
-                new InjectionConstructor(typeof(ISystemDateService)));
+            container.RegisterType<IAuthenticationSavingService, FormsAuthenticationSavingService>();
 
-            container.RegisterType<GraphLabsContext>(new PerRequestLifetimeManager(),
-                new InjectionFactory(c => new GraphLabsContext()));
+            container.RegisterType<GraphLabsContext>(new PerRequestLifetimeManager());
 
             // ============================================================
 
-            container.RegisterType<DbContextManager>(new PerRequestLifetimeManager(),
-                new InjectionFactory(c => new DbContextManager(c.Resolve<GraphLabsContext>())));
+            container.RegisterType<DbContextManager>(new PerRequestLifetimeManager());
 
-            container.RegisterType<RepositoryFactory>(new PerRequestLifetimeManager(),
-                new InjectionFactory(c => new RepositoryFactory(c.Resolve<GraphLabsContext>(), c.Resolve<ISystemDateService>())));
+            container.RegisterType<RepositoryFactory>(new PerRequestLifetimeManager());
             
-            container.RegisterType<IGroupRepository>(new PerRequestLifetimeManager(), 
+            container.RegisterType<IGroupRepository>(new PerRequestLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetGroupRepository()));
 
             container.RegisterType<IUserRepository>(new PerRequestLifetimeManager(),
@@ -69,25 +65,18 @@ namespace GraphLabs.Site.App_Start
             container.RegisterType<ILabRepository>(new PerRequestLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetLabRepository()));
 
+            container.RegisterType<INewsRepository>(new PerRequestLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
+
             // ============================================================
 
-            container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(DbContextManager),
-                    typeof(IHashCalculator), 
-                    typeof(ISystemDateService), 
-                    typeof(IUserRepository), 
-                    typeof(IGroupRepository),
-                    typeof(ISessionRepository)));
+            container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager());
 
-            container.RegisterType<IDemoLabEngine, DemoLabEngine>(new PerRequestLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(ISystemDateService),
-                    typeof(ILabRepository)));
+            container.RegisterType<IDemoLabEngine, DemoLabEngine>(new PerRequestLifetimeManager());
 
-            container.RegisterType<ILabExecutionEngine, LabExecutionEngine>(new PerRequestLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(ILabRepository)));
+            container.RegisterType<ILabExecutionEngine, LabExecutionEngine>(new PerRequestLifetimeManager());
+            
+            container.RegisterType<INewsManager, NewsManager>(new PerRequestLifetimeManager());
 
         }
     }

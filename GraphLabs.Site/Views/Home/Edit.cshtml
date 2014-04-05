@@ -1,0 +1,48 @@
+﻿@using GraphLabs.Site.Controllers
+@model GraphLabs.Site.Models.NewsModel
+
+@{
+    ViewBag.Title = "Новости";
+    
+    var isNew = Model == null;
+    ViewBag.Subtitle = isNew ? "Добавить запись" : "Редактировать запись";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Subtitle.</h2>
+</hgroup>
+
+<section id="editNewsForm">
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <p>
+        @Html.ValidationMessage(GraphLabsController.STD_VALIDATION_MSG_KEY)
+    </p>
+    
+    <fieldset>
+        <legend>Новость</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Title)
+                @Html.TextBoxFor(m => m.Title)
+                @Html.ValidationMessageFor(m => m.Title)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Text)
+                @Html.TextAreaFor(m => m.Text)
+                @Html.ValidationMessageFor(m => m.Text)
+            </li>
+        </ol>
+        @{
+            var submitCaption = @isNew ? "Добавить" : "Сохранить";
+        }
+        <input type="submit" value="@submitCaption" />
+    </fieldset>
+}
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

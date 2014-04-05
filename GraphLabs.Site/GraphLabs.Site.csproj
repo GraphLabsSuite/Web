@@ -228,6 +228,7 @@
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
     <Compile Include="Models\LabWorkExecutionModel.cs" />
+    <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
@@ -266,6 +267,8 @@
     <Content Include="Views\DemoLab\NoDemoLabs.cshtml" />
     <Content Include="Views\LabWorkExecution\Index.cshtml" />
     <Content Include="Views\LabWorkExecution\LabWorkNotFound.cshtml" />
+    <Content Include="Views\Home\_NewsPartial.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

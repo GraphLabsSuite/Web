@@ -1,13 +1,14 @@
-﻿@{
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Logic.Security
+@model GraphLabs.Site.Models.NewsModel[]
+@{
     ViewBag.Title = "Новости";
 }
 
-<div>
-    <p class="message-success">
-        @ViewBag.StatusMessage
-    </p>
-    <p>
-        @ViewBag.StatusDescription
-    </p>
-</div>
-<p>Тут будут новости.</p>
+
+@if (User.IsInAnyRole(UserRole.Teacher, UserRole.Administrator))
+{
+    @Html.ActionLink("Добавить", "Edit", "Home")
+}
+
+@Html.Partial("_NewsPartial", Model)

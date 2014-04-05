@@ -1,0 +1,28 @@
+﻿@model GraphLabs.Site.Models.NewsModel[]
+
+@if (!Model.Any())
+{
+    <p>Тут будут новости</p>
+}
+else
+{
+    foreach (var entry in Model)
+    {
+        <div>
+            <h3>@entry.Title</h3>
+            <p>
+                @entry.Text
+            </p>
+            <p>
+                @if (!entry.Modificated)
+                {
+                    @String.Format("{0}, {1:d}", entry.Publisher, entry.Date)
+                }
+                else
+                {
+                    @String.Format("!!!{0}, {1:d}", entry.Publisher, entry.Date)
+                }
+            </p>
+        </div>
+    }
+}

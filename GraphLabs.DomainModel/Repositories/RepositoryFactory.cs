@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Фабрика репозиториев </summary>
+    [UsedImplicitly]
     public sealed class RepositoryFactory
     {
         private readonly GraphLabsContext _context;
@@ -52,6 +53,15 @@ namespace GraphLabs.DomainModel.Repositories
             Contract.Ensures(Contract.Result<ILabRepository>() != null);
 
             return new LabRepository(_context);
+        }
+
+        /// <summary> Получить репозиторий с новостями </summary>
+        [NotNull]
+        public INewsRepository GetNewsRepository()
+        {
+            Contract.Ensures(Contract.Result<INewsRepository>() != null);
+
+            return new NewsRepository(_context);
         }
     }
 }
