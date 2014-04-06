@@ -1,6 +1,7 @@
 ﻿using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using JetBrains.Annotations;
+using log4net;
 
 namespace GraphLabs.Site.Logic
 {
@@ -8,6 +9,8 @@ namespace GraphLabs.Site.Logic
     [UsedImplicitly]
     public class NewsManager : INewsManager
     {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(INewsManager));
+
         private readonly IUserRepository _userRepository;
         private readonly INewsRepository _newsRepository;
         private readonly DbContextManager _dbContextManager;
@@ -27,13 +30,16 @@ namespace GraphLabs.Site.Logic
         {
             var user = _userRepository.FindActiveUserByEmail(authorEmail);
             if (user == null)
+            {
+                _log.WarnFormat("Неудачная попытка создания/редактирования новостей. Неизвестный пользователь. Email: \"{0}\".", authorEmail ?? string.Empty);
                 return false;
-
+            }
             if (id == 0)
             {
                 _newsRepository.Create(title, text, user);
 
                 _dbContextManager.Commit();
+                _log.InfoFormat("Новость \"{0}\" создана. Email автора: \"{1}\".", title, authorEmail);
                 return true;
             }
          
@@ -41,6 +47,7 @@ namespace GraphLabs.Site.Logic
 
             if (news.User != user && !user.Role.HasFlag(UserRole.Administrator))
             {
+                _log.WarnFormat("Неудачная попытка создания/редактирования новостей: недостаточно прав. Email: \"{0}\".", authorEmail);
                 return false;
             }
 
@@ -49,6 +56,7 @@ namespace GraphLabs.Site.Logic
             news.User = user;
 
             _dbContextManager.Commit();
+            _log.InfoFormat("Новость \"{0}\" отредактирована. Email автора: \"{1}\".", title, authorEmail);
             return true;
         }
     }
