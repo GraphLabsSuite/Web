@@ -1,4 +1,7 @@
-﻿@model GraphLabs.Site.Models.NewsModel[]
+﻿
+@using GraphLabs.DomainModel
+@using GraphLabs.Site.Logic.Security
+@model GraphLabs.Site.Models.NewsModel[]
 
 @if (!Model.Any())
 {
@@ -8,21 +11,32 @@ else
 {
     foreach (var entry in Model)
     {
-        <div>
-            <h3>@entry.Title</h3>
+        <div class="news-block">
+            <hgroup>
+                <h2>@entry.Title</h2>
+                @if (User.IsInAnyRole(UserRole.Teacher, UserRole.Administrator))
+                {
+                    <h3>
+                        @{
+                            var editImage = string.Format(
+                                @"<a href=""/Home/Edit/{0}""><img src=""{1}"" alt=""Редактировать"" width=""16"" height=""16\"" /></a>",
+                                entry.Id,
+                                Url.Content("../Images/edit.png"));
+                        }
+                        @Html.Raw(editImage)
+                    </h3>
+                }
+            </hgroup>
+
             <p>
                 @entry.Text
             </p>
-            <p>
-                @if (!entry.Modificated)
-                {
-                    @String.Format("{0}, {1:d}", entry.Publisher, entry.Date)
-                }
-                else
-                {
-                    @String.Format("!!!{0}, {1:d}", entry.Publisher, entry.Date)
-                }
-            </p>
+            
+            <div class="news-footer">
+                <hr/>
+                <div class="float-left">@entry.PublishDate</div>
+                <div class="float-right">@entry.Publisher</div>
+            </div>
         </div>
     }
 }

@@ -248,6 +248,7 @@
     <Content Include="..\AssemblyVersion.cs.template">
       <Link>Properties\AssemblyVersion.cs.template</Link>
     </Content>
+    <Content Include="Content\News.css" />
     <None Include="Content\SilverlightAppsProvider.ashx" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="UserMessages.Designer.cs">

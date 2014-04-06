@@ -8,15 +8,17 @@
     ViewBag.Subtitle = isNew ? "Добавить запись" : "Редактировать запись";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
+<hgroup>
     <h2>@ViewBag.Subtitle.</h2>
 </hgroup>
+<p>
+    @Html.ActionLink("Назад", "Index")
+</p>
 
 <section id="editNewsForm">
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+
     <p>
         @Html.ValidationMessage(GraphLabsController.STD_VALIDATION_MSG_KEY)
     </p>

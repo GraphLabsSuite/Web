@@ -29,11 +29,8 @@ namespace GraphLabs.Site.Models
         /// <summary> Опубликовал </summary>
         public string Publisher { get; set; }
 
-        /// <summary> Дата публикации или модификации </summary>
-        public DateTime Date { get; set; }
-
-        /// <summary> Модификация была? </summary>
-        public bool Modificated { get; set; }
+        /// <summary> Дата публикации </summary>
+        public string PublishDate { get; set; }
 
         /// <summary> Модель соответсвует новой (отсутствующей в бд) новости? </summary>
         public bool IsNew { get; set; }
@@ -43,18 +40,19 @@ namespace GraphLabs.Site.Models
         {
             IsNew = true;
         }
-
+        
         /// <summary> Модель новости </summary>
         public NewsModel(News news)
         {
             Contract.Requires<ArgumentNullException>(news != null);
-
+            
             Id = news.Id;
             Title = news.Title;
             Text = news.Text;
             Publisher = news.User.GetShortName();
-            Modificated = news.LastModificationTime.HasValue;
-            Date = news.LastModificationTime ?? news.PublicationTime;
+            PublishDate = !news.LastModificationTime.HasValue 
+                ? news.PublicationTime.ToShortDateString() 
+                : string.Format("Обновлено {0}", news.LastModificationTime.Value.ToShortDateString());
             IsNew = false;
         }
     }

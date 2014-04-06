@@ -8,7 +8,7 @@
 
 @if (User.IsInAnyRole(UserRole.Teacher, UserRole.Administrator))
 {
-    @Html.ActionLink("Добавить", "Edit", "Home")
+    @Html.ActionLink("Добавить запись", "Edit", "Home")
 }
 
 @Html.Partial("_NewsPartial", Model)

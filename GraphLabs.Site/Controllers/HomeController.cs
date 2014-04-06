@@ -38,8 +38,15 @@ namespace GraphLabs.Site.Controllers
         }
 
         /// <summary> Главная: новости - редактировать </summary>
-        public ActionResult Edit()
+        public ActionResult Edit(long? id)
         {
+            if (id.HasValue)
+            {
+                var newsToEdit = NewsRepository.GetById(id.Value);
+                var model = new NewsModel(newsToEdit);
+                return View(model);
+            }
+
             return View();
         }
 
