@@ -16,13 +16,12 @@ namespace GraphLabs.Site.Controllers
             Response.StatusCode = (int)HttpStatusCode.NotFound;
 
             var model = new Error404Model();
-            
+
             model.RequestedUrl =
                 Request.Url != null &&
-                Request.Url.OriginalString.Contains(url) &&
-                Request.Url.OriginalString != url
+                (url == null || Request.Url.OriginalString.Contains(url) && Request.Url.OriginalString != url)
                     ? Request.Url.OriginalString
-                    : url;
+                    : url ?? string.Empty;
 
             model.ReferrerUrl =
                 Request.UrlReferrer != null &&

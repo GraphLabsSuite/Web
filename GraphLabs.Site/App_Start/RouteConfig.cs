@@ -23,6 +23,11 @@ namespace GraphLabs.Site.App_Start
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
             );
+
+            routes.MapRoute(
+                name: "NotFound",
+                url: "{*url}",
+                defaults: new {controller = "Error", action = "Error404"});
         }
     }
 }
