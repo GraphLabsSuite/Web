@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 
 namespace GraphLabs.Site.Controllers

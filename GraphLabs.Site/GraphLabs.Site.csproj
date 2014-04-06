@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
+    <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Models\DemoLabModel.cs" />
@@ -206,7 +207,6 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="App_Code\FormsAuthenticationSavingService.cs" />
-    <Compile Include="Controllers\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\GraphLabsController.cs" />
     <Compile Include="App_Code\IAuthenticationSavingService.cs" />
     <Compile Include="Controllers\StudentsResultController.cs" />

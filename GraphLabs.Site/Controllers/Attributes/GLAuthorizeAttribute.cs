@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 
-namespace GraphLabs.Site.Controllers
+namespace GraphLabs.Site.Controllers.Attributes
 {
     /// <summary> Фильтр авторизации (принимает роли, для которых открыта доступ, через запятую) </summary>
     public class GLAuthorizeAttribute : AuthorizeAttribute
