@@ -24,7 +24,7 @@ namespace GraphLabs.DomainModel.Repositories
         /// <summary> Вытащить новость по id </summary>
         public News GetById(long id)
         {
-            return Context.News.SingleOrDefault(n => n.Id == id);
+            return Context.News.Where(n => n.Id == id).Include(n => n.User).Single();
         }
 
         /// <summary> Получить новости, сортированные по дате публикации </summary>

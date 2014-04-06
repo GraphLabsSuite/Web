@@ -72,7 +72,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Determines whether the current principal belongs to the specified role. </summary>
         public bool IsInRole(UserRole role)
         {
-            return _roles.HasFlag(role);
+            return _roles.HasFlag(UserRole.Administrator) || _roles.HasFlag(role);
         }
 
         /// <summary> Gets the identity of the current principal. </summary>

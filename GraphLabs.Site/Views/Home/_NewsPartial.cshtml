@@ -1,6 +1,4 @@
 ﻿
-@using GraphLabs.DomainModel
-@using GraphLabs.Site.Logic.Security
 @model GraphLabs.Site.Models.NewsModel[]
 
 @if (!Model.Any())
@@ -14,7 +12,7 @@ else
         <div class="news-block">
             <hgroup>
                 <h2>@entry.Title</h2>
-                @if (User.IsInAnyRole(UserRole.Teacher, UserRole.Administrator))
+                @if (entry.CanEdit)
                 {
                     <h3>
                         @{
@@ -29,7 +27,15 @@ else
             </hgroup>
 
             <p>
-                @entry.Text
+                @{
+                    var text = string.Join(
+                        "<br/>",
+                        entry.Text
+                            .Split(new[] {Environment.NewLine}, StringSplitOptions.None)
+                            .Select(HttpUtility.HtmlEncode)
+                        );
+                }
+                @MvcHtmlString.Create(text)
             </p>
             
             <div class="news-footer">

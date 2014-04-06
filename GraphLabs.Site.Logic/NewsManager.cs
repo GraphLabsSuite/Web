@@ -1,9 +1,11 @@
 ﻿using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
+using JetBrains.Annotations;
 
 namespace GraphLabs.Site.Logic
 {
     /// <summary> Менеджер новостей </summary>
+    [UsedImplicitly]
     public class NewsManager : INewsManager
     {
         private readonly IUserRepository _userRepository;
@@ -34,16 +36,20 @@ namespace GraphLabs.Site.Logic
                 _dbContextManager.Commit();
                 return true;
             }
-            else
-            {
-                var news = _newsRepository.GetById(id);
-                news.Text = text;
-                news.Title = title;
-                news.User = user;
+         
+            var news = _newsRepository.GetById(id);
 
-                _dbContextManager.Commit();
-                return true;
+            if (news.User != user && !user.Role.HasFlag(UserRole.Administrator))
+            {
+                return false;
             }
+
+            news.Text = text;
+            news.Title = title;
+            news.User = user;
+
+            _dbContextManager.Commit();
+            return true;
         }
     }
 }

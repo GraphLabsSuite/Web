@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using System.Web;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
+using GraphLabs.Site.Logic.Security;
+using JetBrains.Annotations;
 
 namespace GraphLabs.Site.Models
 {
@@ -32,15 +35,23 @@ namespace GraphLabs.Site.Models
         /// <summary> Дата публикации </summary>
         public string PublishDate { get; set; }
 
-        /// <summary> Модель соответсвует новой (отсутствующей в бд) новости? </summary>
-        public bool IsNew { get; set; }
+        /// <summary> Может редактироваться текущим пользователем? </summary>
+        public bool CanEdit { get; set; }
 
         /// <summary> Модель новости </summary>
+        [UsedImplicitly]
         public NewsModel()
         {
-            IsNew = true;
         }
-        
+
+        private HttpContext HttpContext
+        {
+            get
+            {
+                return HttpContext.Current;
+            }
+        }
+
         /// <summary> Модель новости </summary>
         public NewsModel(News news)
         {
@@ -53,7 +64,9 @@ namespace GraphLabs.Site.Models
             PublishDate = !news.LastModificationTime.HasValue 
                 ? news.PublicationTime.ToShortDateString() 
                 : string.Format("Обновлено {0}", news.LastModificationTime.Value.ToShortDateString());
-            IsNew = false;
+
+            var currentUser = HttpContext.User;
+            CanEdit = currentUser.Identity.Name == news.User.Email || currentUser.IsInRole(UserRole.Administrator);
         }
     }
 }
