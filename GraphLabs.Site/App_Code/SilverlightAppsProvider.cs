@@ -19,13 +19,22 @@ namespace GraphLabs.Site
         {
             var request = context.Request;
             var appKind = request.QueryString["kind"];
+
             long taskId;
             if (!long.TryParse(request.QueryString["taskId"], out taskId))
                 return;
 
-            if (appKind == "generator")
+            switch (appKind)
             {
-                ProvideGenerator(taskId, context.Response);
+                case "generator":                    
+                    ProvideGenerator(taskId, context.Response);
+                    break;
+                case "task":
+                    ProvideTask(taskId, context.Response);
+                    break;
+                default:
+                    return;
+                    break;
             }
         }
 
@@ -65,6 +74,18 @@ namespace GraphLabs.Site
             using (var writer = new BinaryWriter(response.OutputStream))
             {
                 writer.Write(generator);
+            }
+        }
+
+        private void ProvideTask(long taskId, HttpResponse response)
+        {
+            var task = _ctx.Tasks.Find(taskId);
+            if (task == null)
+                return;
+            response.ContentType = "application/x-silverlight-app";
+            using (var writer = new BinaryWriter(response.OutputStream))
+            {
+                writer.Write(task.Xap);
             }
         }
 

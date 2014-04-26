@@ -6,3 +6,28 @@
 
 <h2>@Model.LabName</h2>
 
+<p>
+    <object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="100%" height="500px">
+        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@ViewBag.TaskId" />
+        <param name="onerror" value="onSilverlightError" />
+        <param name="background" value="#E8EDEF" />
+        <param name="minRuntimeVersion" value="2.0.31005.0" />
+        <param name="autoUpgrade" value="true" />
+        <param name="initParams" value="taskId=1,variantId=@ViewBag.VariantId,afterSave=/TaskVariant/@ViewBag.TaskId" />
+        <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
+            <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
+        </a>
+    </object>
+</p>
+
+
+
+@for (int i = 0; i < Model.Tasks.Count; ++i)
+{
+    <input type="button" value="@Model.Tasks[i].TaskId"
+    @if (Model.Tasks[i].IsSolved)
+    {
+        @Html.Raw(" disabled ")
+    }
+    />
+}

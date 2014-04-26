@@ -26,11 +26,14 @@ namespace GraphLabs.Site.Models
 
         public string LabName { get; set; }
 
+        public long LabId { get; set; }
+
         public List<TaskExecutionModel> Tasks { get; set; }
 
-        public LabWorkExecutionModel(string labName)
+        public LabWorkExecutionModel(string labName, long labId)
         {
             LabName = labName;
+            LabId = labId;
             Tasks = new List<TaskExecutionModel>();
         }
 

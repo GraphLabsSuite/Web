@@ -1,8 +1,6 @@
-﻿using System;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using GraphLabs.Utils;
+
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -24,7 +22,7 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Получить лабораторную работу по id </summary>
-        public LabWork GetLabWorkById(long id) //TODO: называется Get, а ведёт себя как Find
+        public LabWork FindLabWorkById(long id)
         {
             CheckNotDisposed();
 
@@ -40,35 +38,55 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Получить вариант лабораторной работы по id </summary>
-        public LabVariant GetLabVariantById(long id) // TODO аналогично
+        public LabVariant FindLabVariantById(long id)
         {
             CheckNotDisposed();
 
             return Context.LabVariants.SingleOrDefault(lv => lv.Id == id);
         }
 
-        /// <summary> Проверяет, соответствует ли вариант содержанию лабораторной работы </summary>
-        public bool IsLabVariantCorrect(long labVarId) // TODO: это скорее логика. Методы поиска оставить тут, остальное вытащить
+        /// <summary> Получить задания лабораторной работы по какому-либо варианту лабораторной работы </summary>
+        public Task[] FindEntryTasksByLabVarId(long labVarId)
         {
             CheckNotDisposed();
 
-            var labVar = Context.LabVariants.SingleOrDefault(lv => lv.Id == labVarId);
-            if (labVar == null)
-            {
-                return false;
-            }
-            List<long> tasksId = new List<long>();
-            foreach (var e in labVar.LabWork.LabEntries)
-            {
-                tasksId.Add(e.Task.Id);
-            }
-            List<long> tasksIdAlt = new List<long>();
-            foreach (var t in labVar.TaskVariants)
-            {
-                tasksIdAlt.Add(t.Task.Id);
-            }
+            long labWorkId = Context
+                .LabVariants
+                .Where(v => v.Id == labVarId)
+                .Select(v => v.LabWork.Id)
+                .Single();
+                
+            return Context
+                .LabEntries
+                .Where(e => e.LabWork.Id == labWorkId)
+                .Select(e => e.Task)
+                .ToArray();
+        }
 
-            return tasksId.ContainsSameSet(tasksIdAlt);
+        /// <summary> Получить задания варианта лабораторной работы </summary>
+        public Task[] FindTasksByLabVarId(long labVarId)
+        {
+            CheckNotDisposed();
+
+            return Context
+                .LabVariants
+                .Where(v => v.Id == labVarId)
+                .SelectMany(v => v.TaskVariants)
+                .Select(v => v.Task)
+                .ToArray();
+        }
+
+        /// <summary> Получить варианты заданий с заданиями варианта лабораторной работы </summary>
+        public TaskVariant[] GetTaskVariantsByLabVarId(long labVarId)
+        {
+            CheckNotDisposed();
+
+            return Context
+                .LabVariants
+                .Where(v => v.Id == labVarId)
+                .SelectMany(v => v.TaskVariants)
+                .Include(v => v.Task)
+                .ToArray();
         }
     }
 }

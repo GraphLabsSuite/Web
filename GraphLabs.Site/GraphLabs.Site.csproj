@@ -267,7 +267,7 @@
     <Content Include="Views\DemoLab\Index.cshtml" />
     <Content Include="Views\DemoLab\NoDemoLabs.cshtml" />
     <Content Include="Views\LabWorkExecution\Index.cshtml" />
-    <Content Include="Views\LabWorkExecution\LabWorkNotFound.cshtml" />
+    <Content Include="Views\LabWorkExecution\LabWorkExecutionError.cshtml" />
     <Content Include="Views\Home\_NewsPartial.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>

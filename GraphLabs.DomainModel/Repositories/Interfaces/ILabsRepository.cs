@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -14,7 +15,7 @@ namespace GraphLabs.DomainModel.Repositories
 
         /// <summary> Получить лабораторную работу по id </summary>
         [CanBeNull]
-        LabWork GetLabWorkById(long id);
+        LabWork FindLabWorkById(long id);
 
         /// <summary> Получить варианты лабораторной работы по id лабораторной работы </summary>
         [NotNull]
@@ -22,10 +23,19 @@ namespace GraphLabs.DomainModel.Repositories
 
         /// <summary> Получить вариант лабораторной работы по id </summary>
         [CanBeNull]
-        LabVariant GetLabVariantById(long id);
+        LabVariant FindLabVariantById(long id);
 
-        /// <summary> Проверяет, соответствует ли вариант содержанию лабораторной работы </summary>
-        bool IsLabVariantCorrect(long labVarId);
+        /// <summary> Получить задания лабораторной работы по какому-либо варианту лабораторной работы </summary>
+        [CanBeNull]
+        Task[] FindEntryTasksByLabVarId(long labVarId);
+
+        /// <summary> Получить задания варианта лабораторной работы </summary>
+        [CanBeNull]
+        Task[] FindTasksByLabVarId(long labVarId);
+
+        /// <summary> Получить варианты заданий с заданиями варианта лабораторной работы </summary>
+        [NotNull]
+        TaskVariant[] GetTaskVariantsByLabVarId(long labVarId);
     }
 
     /// <summary> Репозиторий с лаораторными работами - контракты </summary>
@@ -46,7 +56,7 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Репозиторий с лабораторными работами </summary>
-        public LabWork GetLabWorkById(long id)
+        public LabWork FindLabWorkById(long id)
         {
             Contract.Requires(id > 0);
 
@@ -63,19 +73,33 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Репозиторий с лабораторными работами </summary>
-        public LabVariant GetLabVariantById(long id)
+        public LabVariant FindLabVariantById(long id)
         {
             Contract.Requires(id > 0);
 
             return default(LabVariant);
         }
 
-        /// <summary> Репозиторий с лабораторными работами </summary>
-        public bool IsLabVariantCorrect(long labVarId)
+        public Task[] FindEntryTasksByLabVarId(long labVarId)
         {
             Contract.Requires(labVarId > 0);
 
-            return false;
+            return new Task[0];
+        }
+
+        public Task[] FindTasksByLabVarId(long labVarId)
+        {
+            Contract.Requires(labVarId > 0);
+
+            return new Task[0];
+        }
+
+        public TaskVariant[] GetTaskVariantsByLabVarId(long labVarId)
+        {
+            Contract.Requires(labVarId > 0);
+            Contract.Ensures(Contract.Result<TaskVariant[]>() != null);
+
+            return new TaskVariant[0];
         }
     }
 }

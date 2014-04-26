@@ -35,7 +35,7 @@ namespace GraphLabs.Site.Logic.Labs
         public LabVariant[] GetDemoLabVariantsByLabWorkId(long id) //TODO: перетащить в репо
         {
             return _labRepository.GetLabVariantsByLabWorkId(id)
-                .Where(lv => _labRepository.IsLabVariantCorrect(lv.Id))
+                //.Where(lv => IsLabVariantCorrect(lv.Id))
                 .Where(lv => lv.IntroducingVariant == true)
                 .ToArray();
         }
