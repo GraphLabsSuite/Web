@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System;
 using GraphLabs.DomainModel.Repositories;
+using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -31,14 +32,20 @@ namespace GraphLabs.Site.Controllers
             }
 
             string labName = LabExecutionEngine.GetLabName(labId);
-            var labWork = new LabWorkExecutionModel(labName, labId);
+            var variants = LabRepository.GetTaskVariantsByLabVarId(labVarId);
+            var labWork = new LabWorkExecutionModel(labName, labId, variants);
 
-            foreach (var t in LabRepository.GetTaskVariantsByLabVarId(labVarId))
-            {
-                labWork.AddTask(t.Task, t.Id);
-            }
-
+            labWork.SetCurrent(0);
+            Session["LabWork"] = labWork;
             return View(labWork);
+        }
+
+        public ActionResult ChangeTask(int Task)
+        {
+            LabWorkExecutionModel model = (LabWorkExecutionModel)Session["LabWork"];
+            model.SetCurrent(Task);
+            Session["LabWork"] = model;
+            return View("Index", model);
         }
     }
 }

@@ -22,6 +22,51 @@ hgroup, section {
     display: block;
 }
 
+/* button */
+
+input[type="button"],
+button {
+	background-color:#3d7ae3;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #0414c4;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+    width:auto;
+}
+input[type="button"]:hover,
+button:hover {
+	background-color:#313d8f;
+}
+input[type="button"]:active,
+button:active {
+	position:relative;
+	top:1px;
+}
+
+input[type="button"]:disabled,
+button:disabled {
+    background-color: #c7d1d6;
+    border:1px solid #c7d1d6;
+}
+
+input[type="button"]:hover:disabled,
+button:hover:disabled {
+	background-color:#c7d1d6;
+}
+
+input[type="button"]:active:disabled,
+button:active:disabled {
+	position:relative;
+	top:0px;
+}
+
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {
@@ -588,9 +633,7 @@ textarea {
         width: auto;
     }
 
-    input[type="submit"],
-    input[type="button"],
-    button {
+    input[type="submit"] {
         background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;

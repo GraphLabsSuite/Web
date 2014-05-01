@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GraphLabs.DomainModel;
+using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Models
 {
@@ -28,18 +29,24 @@ namespace GraphLabs.Site.Models
 
         public long LabId { get; set; }
 
-        public List<TaskExecutionModel> Tasks { get; set; }
+        public TaskExecutionModel[] Tasks { get; set; }
 
-        public LabWorkExecutionModel(string labName, long labId)
+        public int currentTask { get; set; }
+
+        public LabWorkExecutionModel(string labName, long labId, TaskVariant[] variants)
         {
             LabName = labName;
             LabId = labId;
-            Tasks = new List<TaskExecutionModel>();
+            Tasks = new TaskExecutionModel[variants.Length];
+            for (int i = 0; i < variants.Length; ++i)
+            {
+                Tasks[i] = new TaskExecutionModel(variants[i].Task, variants[i].Id);
+            }            
         }
 
-        public void AddTask(Task task, long taskVarId)
+        public void SetCurrent(int num)
         {
-            Tasks.Add(new TaskExecutionModel(task, taskVarId));
+            currentTask = num;
         }
     }
 }
