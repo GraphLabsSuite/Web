@@ -6,7 +6,7 @@ using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Controllers.Attributes
 {
-    /// <summary> Фильтр авторизации (принимает роли, для которых открыта доступ, через запятую) </summary>
+    /// <summary> Фильтр авторизации (принимает роли, для которых открыт доступ, через запятую) </summary>
     public class GLAuthorizeAttribute : AuthorizeAttribute
     {
         /// <summary> Фильтр авторизации </summary>

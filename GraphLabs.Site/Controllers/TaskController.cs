@@ -3,15 +3,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GraphLabs.DomainModel.Utils;
+using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
-using GraphLabs.Site.Utils;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 
 namespace GraphLabs.Site.Controllers
 {
     /// <summary> Контроллер для заданий </summary>
-    public class TaskController : Controller
+    [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
+    public class TaskController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
 
@@ -20,12 +21,6 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index(string message)
         {
-            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            //{
-            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            //}
-            //this.AllowAnonymous();
-
             var tasks = (from task in _ctx.Tasks
                          select task).ToArray()
                         .Select(t => new TaskModel(t, true))
@@ -41,12 +36,6 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы загрузки </summary>
         public ActionResult UploadTask(string message)
         {
-            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            //{
-            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            //}
-            //this.AllowAnonymous();
-
             ViewBag.Message = message;
 
             return View();
@@ -57,12 +46,6 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upload(HttpPostedFileBase xap)
         {
-            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            //{
-            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            //}
-            //this.AllowAnonymous();
-
             // Verify that the user selected a file
             if (xap != null && xap.ContentLength > 0)
             {
@@ -103,12 +86,6 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка формы редактирования </summary>
         public ActionResult EditTask(long id, string message)
         {
-            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            //{
-            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            //}
-            //this.AllowAnonymous();
-
             var task = _ctx.Tasks.Find(id);
             if (task == null)
                 return RedirectToAction("Index");
@@ -125,12 +102,6 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditTask(TaskModel model)
         {
-            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            //{
-            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            //}
-            //this.AllowAnonymous(_ctx);
-
             model.SaveToDb(_ctx);
             return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
         }
@@ -143,12 +114,6 @@ namespace GraphLabs.Site.Controllers
         public ActionResult EditVariantGenerator(HttpPostedFileBase newGenerator, TaskModel model,
             string upload, string delete)
         {
-            //if (!this.IsUserInRole(_ctx, UserRole.Teacher))
-            //{
-            //    return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
-            //}
-            //this.AllowAnonymous(_ctx);
-
             if (!string.IsNullOrEmpty(upload))
             {
                 // Проверим, что вообще есть, что загружать

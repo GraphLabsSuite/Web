@@ -23,7 +23,7 @@
                                 <a href="#">Меню</a>
                             <ul>
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            @if (User.IsInAnyRole(UserRole.Teacher, UserRole.Administrator))
+                            @if (User.IsInAnyRole(UserRole.Teacher))
                             {
                                 <li>@Html.ActionLink("Группы", "Index", "Group")</li>
                                 <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
@@ -32,7 +32,8 @@
                                 <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
                                 <li>@Html.ActionLink("Система", "Index", "Settings")</li>
                             }
-                            @if (User.IsInRole(UserRole.Student))
+                            <!-- Админу кнопки студента не показываем -->
+                            @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
                             {
                                 <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
                                 <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
