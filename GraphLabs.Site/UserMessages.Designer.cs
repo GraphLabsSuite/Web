@@ -161,6 +161,15 @@ namespace GraphLabs.Site {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Задание успешно загружено..
+        /// </summary>
+        internal static string TaskController_UploadTask_Задание_успешно_загружено {
+            get {
+                return ResourceManager.GetString("TaskController_UploadTask_Задание_успешно_загружено", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не удалось загрузить указанный файл. Вероятно, он имеет неверный формат..
         /// </summary>
         internal static string UPLOAD_ERROR {

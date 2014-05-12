@@ -145,7 +145,6 @@
     <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />
     <Compile Include="Extensions\SystemDateExtensions.cs" />
-    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Grade.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
@@ -170,6 +169,7 @@
     <Compile Include="Group.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="IDbContextManager.cs" />
     <Compile Include="LabEntry.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -193,11 +193,13 @@
     <Compile Include="Repositories\Interfaces\ILabsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
+    <Compile Include="Repositories\ITaskRepository.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
     <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="Repositories\SessionRepository.cs" />
+    <Compile Include="Repositories\TaskRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Result.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>

@@ -188,6 +188,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Shared\_StatusMessagePartial.cshtml" />
     <Content Include="App_Code\SilverlightAppsProvider.cs" />
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>

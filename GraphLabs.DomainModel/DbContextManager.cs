@@ -2,13 +2,14 @@
 using System.Data;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel
 {
     /// <summary> Менеджер транзакций </summary>
     [UsedImplicitly]
-    public class DbContextManager : IDisposable
+    public class DbContextManager : IDbContextManager
     {
         private readonly GraphLabsContext _context;
 
@@ -89,6 +90,12 @@ namespace GraphLabs.DomainModel
 
             Rollback();
             StartTransaction();
+        }
+
+        /// <summary> Проверяет, привязана ли сущность к текущему контексту </summary>
+        public bool IsEntityAttached(object entity)
+        {
+            return _context.ChangeTracker.Entries().Any(e => e.Entity == entity && e.State != EntityState.Detached);
         }
 
 

@@ -5,6 +5,7 @@ using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Labs;
+using GraphLabs.Site.Logic.Tasks;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
 
@@ -49,7 +50,7 @@ namespace GraphLabs.Site.App_Start
 
             // ============================================================
 
-            container.RegisterType<DbContextManager>(new PerRequestLifetimeManager());
+            container.RegisterType<IDbContextManager, DbContextManager>(new PerRequestLifetimeManager());
 
             container.RegisterType<RepositoryFactory>(new PerRequestLifetimeManager());
             
@@ -67,6 +68,9 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<INewsRepository>(new PerRequestLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
+            
+            container.RegisterType<ITaskRepository>(new PerRequestLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetTaskRepository()));
 
             // ============================================================
 
@@ -77,6 +81,8 @@ namespace GraphLabs.Site.App_Start
             container.RegisterType<ILabExecutionEngine, LabExecutionEngine>(new PerRequestLifetimeManager());
             
             container.RegisterType<INewsManager, NewsManager>(new PerRequestLifetimeManager());
+
+            container.RegisterType<ITaskManager, TaskManager>(new PerRequestLifetimeManager());
 
         }
     }

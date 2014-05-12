@@ -28,18 +28,9 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Получить новости, сортированные по дате публикации </summary>
-        public News Create(string title, string text, User author)
+        public void Insert(News news)
         {
-            var news = new News
-            {
-                Title = title,
-                Text = text,
-                User = author
-            };
-
             Context.News.Add(news);
-
-            return news;
         }
     }
 }

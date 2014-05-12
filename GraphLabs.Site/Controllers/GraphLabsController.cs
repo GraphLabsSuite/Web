@@ -105,6 +105,7 @@ namespace GraphLabs.Site.Controllers
 
 
         /// <summary> 404 </summary>
+        //TODO а нужен ли httpContext как аргумент?
         public ActionResult InvokeHttp404(HttpContextBase httpContext)
         {
             var errorController = new ErrorController();

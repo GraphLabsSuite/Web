@@ -18,7 +18,7 @@ namespace GraphLabs.Site.Logic.Security
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(MembershipEngine));
 
-        private readonly DbContextManager _dbContextManager;
+        private readonly IDbContextManager _dbContextManager;
         private readonly IHashCalculator _hashCalculator;
         private readonly ISystemDateService _systemDateService;
         private readonly IUserRepository _userRepository;
@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Logic.Security
 
         /// <summary> Проверяет личность пользователя и тп </summary>
         public MembershipEngine(
-            DbContextManager dbContextManager,
+            IDbContextManager dbContextManager,
             IHashCalculator hashCalculator, 
             ISystemDateService systemDateService,
             IUserRepository userRepository,

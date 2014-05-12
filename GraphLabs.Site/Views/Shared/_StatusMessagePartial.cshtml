@@ -1,0 +1,8 @@
+﻿@if (!string.IsNullOrWhiteSpace(ViewBag.StatusMessage))
+{
+    <p class="message-success">@ViewBag.StatusMessage</p>
+}
+@if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+{
+    <p class="error">@ViewBag.ErrorMessage</p>
+}

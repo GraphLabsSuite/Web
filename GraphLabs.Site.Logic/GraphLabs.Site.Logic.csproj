@@ -122,6 +122,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\ITaskManager.cs" />
+    <Compile Include="Tasks\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\AssemblyVersion.cs.template">

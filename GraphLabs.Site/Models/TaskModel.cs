@@ -84,23 +84,5 @@ namespace GraphLabs.Site.Models
                 VariantGeneratorVersion = info.Version;
             }
         }
-
-        /// <summary> Вытаскивает из БД соответствующий экземпляр 
-        /// задания, вносит изменения и сохраняет. </summary>
-        public Task SaveToDb(GraphLabsContext ctx)
-        {
-            Contract.Requires(ctx != null);
-            Contract.Ensures(Contract.Result<Task>() != null);
-
-            var task = ctx.Tasks.Single(t => t.Id == Id);
-            
-            if (task.Note != Note)
-            {
-                task.Note = Note;
-                ctx.SaveChanges();
-            }
-
-            return task;
-        }
     }
 }

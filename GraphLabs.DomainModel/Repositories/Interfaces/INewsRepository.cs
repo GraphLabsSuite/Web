@@ -17,8 +17,7 @@ namespace GraphLabs.DomainModel.Repositories
         News GetById(long id);
 
         /// <summary> Получить новости, сортированные по дате публикации </summary>
-        [NotNull]
-        News Create(string title, string text, User author);
+        void Insert([NotNull]News news);
     }
 
 
@@ -46,15 +45,10 @@ namespace GraphLabs.DomainModel.Repositories
             return default(News);
         }
 
-        /// <summary> Получить новости, сортированные по дате публикации </summary>
-        public News Create(string title, string text, User author)
+        /// <summary> Добавить в БД </summary>
+        public void Insert(News news)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(title));
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(text));
-            Contract.Requires<ArgumentNullException>(author != null);
-            Contract.Ensures(Contract.Result<News>() != null);
-
-            return default(News);
+            Contract.Requires<ArgumentNullException>(news != null);
         }
     }
 }

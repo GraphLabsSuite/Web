@@ -9,10 +9,12 @@
     @Html.ActionLink("Обратно к списку", "Index")
 </hgroup>
 
-@using (Html.BeginForm("Upload", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<p class="error">@ViewBag.ErrorMessage</p>
+
+@using (Html.BeginForm("UploadTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
-    <p>Укажите silverlight-приложение (*.xap) для загрузки:</p>
+    <p>Укажите Silverlight-приложение (*.xap) для загрузки:</p>
     <p><input type="file" name="xap" required /></p>
     <p><input type="submit" value="Загрузить" /></p>
 }    

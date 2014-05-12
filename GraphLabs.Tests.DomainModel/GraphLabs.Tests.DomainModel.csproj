@@ -115,13 +115,7 @@
     <Compile Include="DataModelTests.cs" />
     <Compile Include="GroupExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="SystemDateTests.cs" />
-    <Compile Include="TaskExtensionsTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="UserExtensionsTests.cs" />
   </ItemGroup>
@@ -134,15 +128,6 @@
   <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GraphLabs.Tasks.SCC.xap" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\GraphLabs.DomainModel\SQL Scripts\ClearSchema.sql">

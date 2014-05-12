@@ -162,4 +162,7 @@
   <data name="HomeController_Edit_Новость_успешно_опубликована_" xml:space="preserve">
     <value>Новость успешно опубликована.</value>
   </data>
+  <data name="TaskController_UploadTask_Задание_успешно_загружено" xml:space="preserve">
+    <value>Задание успешно загружено.</value>
+  </data>
 </root>

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.Utils;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
+using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -14,66 +14,63 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class TaskController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
+        private ITaskRepository TaskRepository
+        {
+            get { return DependencyResolver.GetService<ITaskRepository>(); }
+        }
+
+        private ITaskManager TaskManager
+        {
+            get { return DependencyResolver.GetService<ITaskManager>(); }
+        }
 
         //
         // GET: /Tasks/
         /// <summary> Начальная отрисовка списка </summary>
-        public ActionResult Index(string message)
+        public ActionResult Index()
         {
-            var tasks = (from task in _ctx.Tasks
-                         select task).ToArray()
-                        .Select(t => new TaskModel(t, true))
-                        .ToArray();
-
-            ViewBag.Message = message;
-
+            var tasks = TaskRepository.GetAllTasks()
+                .Select(t => new TaskModel(t, true))
+                .ToArray();
+            
             return View(tasks);
         }
 
         #region UploadTask
 
         /// <summary> Начальная отрисовка формы загрузки </summary>
-        public ActionResult UploadTask(string message)
+        public ActionResult UploadTask(string errorMessage)
         {
-            ViewBag.Message = message;
-
+            ViewBag.ErrorMessage = errorMessage;
             return View();
         }
 
         /// <summary> Загружаем задание </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(HttpPostedFileBase xap)
+        public ActionResult UploadTask(HttpPostedFileBase xap)
         {
             // Verify that the user selected a file
             if (xap != null && xap.ContentLength > 0)
             {
-                var newTask = _ctx.Tasks.CreateFromXap(xap.InputStream);
-                if (newTask == null)
-                    return RedirectToAction("Upload", "Task", new { Message = UserMessages.UPLOAD_ERROR });
-
-                var sameTasks = _ctx.Tasks.Where(t => t.Name == newTask.Name && t.Version == newTask.Version);
-                if (sameTasks.Any())
-                {
-                    return RedirectToAction("Upload", "Task", new { Message = UserMessages.TASK_EXISTS });
-                }
-
+                Task newTask;
                 try
                 {
-                    _ctx.Tasks.Add(newTask);
-                    _ctx.SaveChanges();
+                    newTask = TaskManager.UploadTask(xap.InputStream);
                 }
                 catch (Exception)
                 {
-                    return RedirectToAction("Index", "Task", new { Message = UserMessages.UPLOAD_ERROR });
+                    return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.UPLOAD_ERROR });
                 }
-                
 
-                return RedirectToAction("EditTask", "Task", new { Id = newTask.Id });
+                if (newTask == null)
+                    return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
+
+                return RedirectToAction("EditTask", "Task", new { Id = newTask.Id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
             }
+
             // redirect back to the index action to show the form once again
-            return RedirectToAction("Upload", "Task", new { Message = UserMessages.UPLOAD_FILE_NOT_SPECIFIED }); 
+            return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.UPLOAD_FILE_NOT_SPECIFIED }); 
         }
 
         #endregion
@@ -84,26 +81,39 @@ namespace GraphLabs.Site.Controllers
         //
         // GET: /Tasks/Edit
         /// <summary> Начальная отрисовка формы редактирования </summary>
-        public ActionResult EditTask(long id, string message)
+        //TODO: объединить statusMessage и errorMessage в одну структуру, и скооперировать с _StatusMessagePartial
+        public ActionResult EditTask(long id, string statusMessage, string errorMessage)
         {
-            var task = _ctx.Tasks.Find(id);
-            if (task == null)
-                return RedirectToAction("Index");
+            var task = TaskRepository.FindById(id);
             
-            ViewBag.Message = message;
+            if (task == null)
+                return InvokeHttp404(HttpContext);
+
+            ViewBag.StatusMessage = statusMessage;
+            ViewBag.ErrorMessage = errorMessage;
 
             return View(new TaskModel(task));
         }
 
         //
         // POST: /Tasks/Edit
-        /// <summary> Начальная отрисовка формы редактирования </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditTask(TaskModel model)
         {
-            model.SaveToDb(_ctx);
-            return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
+            var task = TaskRepository.FindById(model.Id);
+            if (task == null)
+                return InvokeHttp404(HttpContext);
+            try
+            {
+                TaskManager.UpdateNote(task, model.Note);
+                
+                return RedirectToAction("EditTask", new { Id = model.Id, StatusMessage = UserMessages.EDIT_COMPLETE });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         //
@@ -114,38 +124,33 @@ namespace GraphLabs.Site.Controllers
         public ActionResult EditVariantGenerator(HttpPostedFileBase newGenerator, TaskModel model,
             string upload, string delete)
         {
+            var task = TaskRepository.FindById(model.Id);
+                    if (task == null)
+                        return InvokeHttp404(HttpContext);
+
             if (!string.IsNullOrEmpty(upload))
             {
                 // Проверим, что вообще есть, что загружать
                 if (newGenerator != null && newGenerator.ContentLength > 0)
                 {
-                    // Убедимся, что хотя бы формат правильный (xap, и нам удалось вытащить информацию о нём)
-                    if (XapProcessor.Parse(newGenerator.InputStream) != null)
+                    try
                     {
-                        // Наконец, сохраним.
-                        var task = _ctx.Tasks.Find(model.Id);
-                        task.VariantGenerator = newGenerator.InputStream.ReadToEnd();
-                        _ctx.SaveChanges();
-
-                        return RedirectToAction("EditTask", new {Id = model.Id, Message = UserMessages.EDIT_COMPLETE});
+                        TaskManager.SetGenerator(task, newGenerator.InputStream);
+                        return RedirectToAction("EditTask", new { Id = model.Id, StatusMessage = UserMessages.EDIT_COMPLETE });
                     }
-
-                    return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.UPLOAD_ERROR });
+                    catch (Exception)
+                    {
+                        return RedirectToAction("EditTask", new { Id = model.Id, ErrorMessage = UserMessages.UPLOAD_ERROR });
+                    }
                 }
 
-                return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.UPLOAD_FILE_NOT_SPECIFIED });
+                return RedirectToAction("EditTask", new { Id = model.Id, ErrorMessage = UserMessages.UPLOAD_FILE_NOT_SPECIFIED });
             }
 
             if (!string.IsNullOrEmpty(delete))
             {
-                var task = _ctx.Tasks.Find(model.Id);
-                if (task.VariantGenerator != null)
-                {
-                    task.VariantGenerator = null;
-                    _ctx.SaveChanges();
-                }
-
-                return RedirectToAction("EditTask", new { Id = model.Id, Message = UserMessages.EDIT_COMPLETE });
+                TaskManager.RemoveGenerator(task);
+                return RedirectToAction("EditTask", new { Id = model.Id, StatusMessage = UserMessages.EDIT_COMPLETE });
             }
 
             throw new ArgumentException("Ошибка при обработке запроса на редактирования генератора вариантов - неверный набор входных аргументов.");
