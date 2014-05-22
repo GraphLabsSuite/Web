@@ -53,6 +53,10 @@ namespace GraphLabs.WcfServices
             // ============================================================
 
             container.RegisterType<IInitParamsProvider, InitParamsProvider>();
+
+            // ============================================================
+
+            container.RegisterType<ITasksDataService, TasksDataService>();
         }
     }    
 }
