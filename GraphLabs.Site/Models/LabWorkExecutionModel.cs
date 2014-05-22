@@ -1,52 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Models
 {
+    /// <summary> Модель лабы </summary>
     public class LabWorkExecutionModel
     {
-        public class TaskExecutionModel
+        private ITaskExecutionModelFactory TaskExecutionModelFactory
         {
-            public string TaskName { get; set; }
-
-            public long TaskId { get; set; }
-
-            public long TaskVarId { get; set; }
-
-            public bool IsSolved { get; set; }
-
-            public TaskExecutionModel(Task task, long taskVarId)
-            {
-                TaskName = task.Name;
-                TaskId = task.Id;
-                TaskVarId = taskVarId;
-                IsSolved = false;
-            }
+            get { return DependencyResolver.Current.GetService<ITaskExecutionModelFactory>(); }
         }
 
+        /// <summary> Название </summary>
         public string LabName { get; set; }
 
+        /// <summary> Id </summary>
         public long LabId { get; set; }
 
+        /// <summary> Задания </summary>
         public TaskExecutionModel[] Tasks { get; set; }
 
-        public int currentTask { get; set; }
+        /// <summary> Текущее задание </summary>
+        public int CurrentTask { get; set; }
 
-        public LabWorkExecutionModel(string labName, long labId, TaskVariant[] variants)
+        /// <summary> Модель лабы </summary>
+        public LabWorkExecutionModel(Guid sessionGuid, string labName, long labId, IEnumerable<TaskVariant> variants)
         {
             LabName = labName;
             LabId = labId;
-            Tasks = new TaskExecutionModel[variants.Length];
-            for (int i = 0; i < variants.Length; ++i)
-            {
-                Tasks[i] = new TaskExecutionModel(variants[i].Task, variants[i].Id);
-            }            
+            Tasks = variants
+                .Select(v => TaskExecutionModelFactory.CreateForDemoMode(
+                    sessionGuid,
+                    v.Task.Name,
+                    v.Task.Id,
+                    v.Id,
+                    labId))
+                .ToArray();
         }
 
+        /// <summary> Установить текущее задание </summary>
         public void SetCurrent(int num)
         {
-            currentTask = num;
+            CurrentTask = num;
         }
     }
 }

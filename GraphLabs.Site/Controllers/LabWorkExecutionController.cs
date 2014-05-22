@@ -2,17 +2,17 @@
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Labs;
 using GraphLabs.Site.Models;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using System;
 using GraphLabs.DomainModel.Repositories;
-using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher, UserRole.Student)]
     public class LabWorkExecutionController : GraphLabsController
     {
+        private const string LAB_VARIABLE_KEY = "LabWork";
+
         private ILabRepository LabRepository
         {
             get { return DependencyResolver.GetService<ILabRepository>(); }
@@ -23,6 +23,11 @@ namespace GraphLabs.Site.Controllers
             get { return DependencyResolver.GetService<ILabExecutionEngine>(); }
         }
 
+        private IAuthenticationSavingService AuthSavingService
+        {
+            get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
+        }
+
         public ActionResult Index(long labId, long labVarId)
         {
             if (!LabExecutionEngine.IsLabVariantCorrect(labVarId))
@@ -31,20 +36,26 @@ namespace GraphLabs.Site.Controllers
                 return View("LabWorkExecutionError");
             }
 
-            string labName = LabExecutionEngine.GetLabName(labId);
+            var labName = LabExecutionEngine.GetLabName(labId);
             var variants = LabRepository.GetTaskVariantsByLabVarId(labVarId);
-            var labWork = new LabWorkExecutionModel(labName, labId, variants);
+            var labWork = new LabWorkExecutionModel(GetSessionGuid(), labName, labId, variants);
 
             labWork.SetCurrent(0);
-            Session["LabWork"] = labWork;
+            Session[LAB_VARIABLE_KEY] = labWork;
             return View(labWork);
+        }
+
+        private Guid GetSessionGuid()
+        {
+            var sessionInfo = AuthSavingService.GetSessionInfo();
+            return sessionInfo.SessionGuid;
         }
 
         public ActionResult ChangeTask(int Task)
         {
-            LabWorkExecutionModel model = (LabWorkExecutionModel)Session["LabWork"];
+            var model = (LabWorkExecutionModel)Session[LAB_VARIABLE_KEY];
             model.SetCurrent(Task);
-            Session["LabWork"] = model;
+            Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
         }
     }

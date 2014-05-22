@@ -6,18 +6,16 @@
 
 <h2>@Model.LabName</h2>
 
-<h5>@Model.Tasks[Model.currentTask].TaskName</h5>
+<h5>@Model.Tasks[Model.CurrentTask].TaskName</h5>
 
 <p>
     <object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="100%" height="500px">
-        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@Model.Tasks[Model.currentTask].TaskId" />
+        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@Model.Tasks[Model.CurrentTask].TaskId" />
         <param name="onerror" value="onSilverlightError" />
         <param name="background" value="#E8EDEF" />
         <param name="minRuntimeVersion" value="2.0.31005.0" />
         <param name="autoUpgrade" value="true" />
-        <param name="initParams" value="taskId=@Model.Tasks[Model.currentTask].TaskId,
-                                        taskVarId=@Model.Tasks[Model.currentTask].TaskVarId,
-                                        labId=@Model.LabId" />
+        <param name="initParams" value="@Model.Tasks[Model.CurrentTask].InitParams" />
         <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
             <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
         </a>
@@ -33,7 +31,7 @@
     {
         @Html.Raw(" disabled ")
     }
-    @if (i == Model.currentTask)
+    @if (i == Model.CurrentTask)
     {
         @Html.Raw(" disabled ")
     }

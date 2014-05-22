@@ -9,6 +9,8 @@ namespace GraphLabs.DomainModel.Repositories
     [ContractClass(typeof(LabRepositoryContracts))]
     public interface ILabRepository : IDisposable
     {
+        // ReSharper disable ReturnTypeCanBeEnumerable.Global
+
         /// <summary> Получить лабораторные работы </summary>
         [NotNull]
         LabWork[] GetLabWorks();

@@ -6,6 +6,8 @@ using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Labs;
 using GraphLabs.Site.Logic.Tasks;
+using GraphLabs.Site.Models;
+using GraphLabs.Tasks.Contract;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
 
@@ -84,6 +86,10 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<ITaskManager, TaskManager>(new PerRequestLifetimeManager());
 
+            // ============================================================
+
+            container.RegisterType<IInitParamsProvider, InitParamsProvider>();
+            container.RegisterType<ITaskExecutionModelFactory, TaskExecutionModelFactory>();
         }
     }
 }
