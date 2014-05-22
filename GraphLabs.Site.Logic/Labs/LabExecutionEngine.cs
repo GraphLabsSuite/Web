@@ -42,11 +42,13 @@ namespace GraphLabs.Site.Logic.Labs
                 return false;
             }
             List<long> tasksId = new List<long>();
+            //TODO: _labRepository.FindEntryTasksByLabVarId(labVarId) может быть null
             foreach (var e in _labRepository.FindEntryTasksByLabVarId(labVarId))
             {
                 tasksId.Add(e.Id);
             }
             List<long> tasksIdAlt = new List<long>();
+            //TODO: _labRepository.FindTasksByLabVarId(labVarId) может быть null
             foreach (var t in _labRepository.FindTasksByLabVarId(labVarId))
             {
                 tasksIdAlt.Add(t.Id);

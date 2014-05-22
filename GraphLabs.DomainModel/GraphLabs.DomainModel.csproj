@@ -197,10 +197,12 @@
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITaskRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IResultsRepository.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
     <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
+    <Compile Include="Repositories\ResultsRepository.cs" />
     <Compile Include="Repositories\SessionRepository.cs" />
     <Compile Include="Repositories\TaskRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

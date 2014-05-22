@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.WcfServices.Data;
 
 namespace GraphLabs.WcfServices
@@ -13,8 +13,20 @@ namespace GraphLabs.WcfServices
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class TasksDataService : ITasksDataService
     {
-        /// <summary> Предоставляет доступ к данным </summary>
-        protected GraphLabsContext Context { get; private set; }
+        private readonly ITaskRepository _taskRepository;
+        private readonly ISessionRepository _sessionRepository;
+        private readonly IResultsRepository _resultsRepository;
+
+        /// <summary> Сервис предоставления данных модулям заданий </summary>
+        public TasksDataService(
+            ITaskRepository taskRepository,
+            ISessionRepository sessionRepository,
+            IResultsRepository resultsRepository)
+        {
+            _taskRepository = taskRepository;
+            _sessionRepository = sessionRepository;
+            _resultsRepository = resultsRepository;
+        }
 
         /// <summary> Регистрирует начало выполнения задания </summary>
         /// <param name="taskId"> Идентификатор модуля-задания </param>
@@ -53,9 +65,7 @@ namespace GraphLabs.WcfServices
 
         private Result GetCurrentResult(Session session)
         {
-            var activeResults = Context.Results
-                .Where(result => result.Student == session.User && result.Grade == null)
-                .ToArray();
+            var activeResults = _resultsRepository.FindNotFinishedResults((Student)session.User);
 
             if (!activeResults.Any())
             {
@@ -64,24 +74,16 @@ namespace GraphLabs.WcfServices
 
             if (activeResults.Count() > 1)
             {
-                FinishOldResults(activeResults);
+                throw new Exception(string.Format("Данным пользователем выполняется более 1 лабораторной работы. Провалищще."));
             }
 
-            return activeResults.First();
-        }
-
-        private void FinishOldResults(IEnumerable<Result> activeResults)
-        {
-            foreach (var activeResult in activeResults.OrderByDescending(r => r.StartDateTime).Skip(1))
-            {
-                activeResult.Grade = Grade.Interrupted;
-            }
+            return activeResults.Single();
         }
 
         private Session GetSession(Guid sessionGuid)
         {
-            var session = Context.Sessions.Find(sessionGuid);
-            //TODO +проверка контрольной суммы и тп
+            var session = _sessionRepository.FindByGuid(sessionGuid);
+            //TODO +проверка контрольной суммы и тп - всё надо куда-то в Security вытащить
             if (session == null ||
                 session.IP != HttpContext.Current.Request.UserHostAddress)
             {
@@ -95,7 +97,7 @@ namespace GraphLabs.WcfServices
         {
             Contract.Ensures(Contract.Result<Task>() != null);
 
-            var task = Context.Tasks.Find(taskId);
+            var task = _taskRepository.FindById(taskId);
             if (task == null)
             {
                 throw new Exception(string.Format("Задание с id={0} не найдено.", taskId));

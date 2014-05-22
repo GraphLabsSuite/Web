@@ -42,7 +42,7 @@
 {
     <script>
         $("input[type='button']").click(function () {
-            var task = $(this).attr("name") - 1;
+            var task = $(this).attr("value") - 1;
             location.href = "/LabWorkExecution/ChangeTask?&Task=" + task;
         });
     </script>

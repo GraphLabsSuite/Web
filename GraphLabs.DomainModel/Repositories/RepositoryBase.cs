@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Базовый репозиторий </summary>
-    internal abstract class RepositoryBase : IDisposable
+    public abstract class RepositoryBase : IDisposable
     {
         /// <summary> Контекст GraphLabs </summary>
         protected GraphLabsContext Context { get; private set; }

@@ -89,15 +89,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\GraphLabs.Core (временно)\GraphLabs.Core.dll</HintPath>
     </Reference>
+    <Reference Include="GraphLabs.Tasks.Contract">
+      <HintPath>..\packages\GraphLabs.Common\GraphLabs.Tasks.Contract\GraphLabs.Tasks.Contract.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Runtime.Serialization">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -114,11 +127,15 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Unity.Wcf">
+      <HintPath>..\packages\Unity.Wcf.1.0.0\lib\Unity.Wcf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="clientaccesspolicy.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Unity.Wcf.README.txt" />
     <Content Include="UserActionsRegistrator.svc" />
     <Content Include="crossdomain.xml" />
     <Content Include="TasksDataService.svc" />
@@ -145,6 +162,7 @@
     <Compile Include="VariantGenService.svc.cs">
       <DependentUpon>VariantGenService.svc</DependentUpon>
     </Compile>
+    <Compile Include="WcfServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -165,6 +183,10 @@
     <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
       <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.Logic\GraphLabs.Site.Logic.csproj">
+      <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>
+      <Name>GraphLabs.Site.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

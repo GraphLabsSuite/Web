@@ -1,5 +1,6 @@
 ﻿using GraphLabs.DomainModel;
 using GraphLabs.Site.Controllers.Attributes;
+using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Labs;
 using GraphLabs.Site.Models;
 using System.Web.Mvc;
@@ -28,6 +29,11 @@ namespace GraphLabs.Site.Controllers
             get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
         }
 
+        private IResultsManager ResultsManager
+        {
+            get { return DependencyResolver.GetService<IResultsManager>(); }
+        }
+
         public ActionResult Index(long labId, long labVarId)
         {
             if (!LabExecutionEngine.IsLabVariantCorrect(labVarId))
@@ -36,9 +42,12 @@ namespace GraphLabs.Site.Controllers
                 return View("LabWorkExecutionError");
             }
 
+            var session = GetSessionGuid();
+            ResultsManager.StartLabExecution(labVarId, session);
+
             var labName = LabExecutionEngine.GetLabName(labId);
             var variants = LabRepository.GetTaskVariantsByLabVarId(labVarId);
-            var labWork = new LabWorkExecutionModel(GetSessionGuid(), labName, labId, variants);
+            var labWork = new LabWorkExecutionModel(session, labName, labId, variants);
 
             labWork.SetCurrent(0);
             Session[LAB_VARIABLE_KEY] = labWork;
