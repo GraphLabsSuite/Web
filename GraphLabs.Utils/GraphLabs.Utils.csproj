@@ -87,7 +87,6 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="JetBrains.Annotations.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="IpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

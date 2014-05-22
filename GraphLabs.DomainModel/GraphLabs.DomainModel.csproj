@@ -111,6 +111,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GraphLabs.Common.Utils">
+      <HintPath>..\packages\GraphLabs.Common\GraphLabs.Common.Utils\GraphLabs.Common.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -193,7 +196,7 @@
     <Compile Include="Repositories\Interfaces\ILabsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
-    <Compile Include="Repositories\ITaskRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITaskRepository.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
     <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
