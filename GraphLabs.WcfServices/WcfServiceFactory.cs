@@ -1,6 +1,7 @@
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
+using GraphLabs.Site.Logic;
 using GraphLabs.Tasks.Contract;
 using Microsoft.Practices.Unity;
 using Unity.Wcf;
@@ -44,6 +45,10 @@ namespace GraphLabs.WcfServices
 
             container.RegisterType<IResultsRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetResultsRepository()));
+
+            // ============================================================
+
+            container.RegisterType<IResultsManager, ResultsManager>(new HierarchicalLifetimeManager());
 
             // ============================================================
 

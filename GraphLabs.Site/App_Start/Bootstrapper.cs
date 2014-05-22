@@ -89,6 +89,8 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<ITaskManager, TaskManager>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IResultsManager, ResultsManager>(new PerRequestLifetimeManager());
+
             // ============================================================
 
             container.RegisterType<IInitParamsProvider, InitParamsProvider>();
