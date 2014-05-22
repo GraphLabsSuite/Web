@@ -20,7 +20,7 @@ namespace GraphLabs.DomainModel.Repositories
         public Result[] FindNotFinishedResults(Student student)
         {
             return Context.Results
-                .Where(result => result.Student == student && result.Grade == null)
+                .Where(result => result.Student.Id == student.Id && result.Grade == null)
                 .ToArray();
         }
     }
