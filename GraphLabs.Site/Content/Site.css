@@ -27,16 +27,16 @@ hgroup, section {
 input[type="button"],
 button {
 	background-color:#3d7ae3;
-	-moz-border-radius:28px;
-	-webkit-border-radius:28px;
-	border-radius:28px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
 	border:1px solid #0414c4;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:arial;
 	font-size:17px;
-	padding:16px 31px;
+	padding:3px 10px;
 	text-decoration:none;
     width:auto;
 }
