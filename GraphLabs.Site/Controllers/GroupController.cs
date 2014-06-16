@@ -18,7 +18,7 @@ namespace GraphLabs.Site.Controllers
             get { return DependencyResolver.GetService<IGroupRepository>(); }
         }
 
-        protected ISystemDateService DateService
+        private ISystemDateService DateService
         {
             get { return DependencyResolver.GetService<ISystemDateService>(); }
         }
@@ -30,7 +30,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Index(string message)
         {
             Group[] groups = GroupsRepository.GetAllGroups();
-            GroupModel[] groupModel = groups.Select(t => new GroupModel(t)).ToArray();
+            GroupModel[] groupModel = groups.Select(t => new GroupModel(t, DateService)).ToArray();
 
             return View(groupModel);
         }
@@ -68,7 +68,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            GroupModel group = new GroupModel( GroupsRepository.GetGroupById(id) );
+            GroupModel group = new GroupModel( GroupsRepository.GetGroupById(id), DateService );
 
             return View(group);
         }

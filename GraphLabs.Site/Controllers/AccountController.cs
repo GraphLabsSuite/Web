@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
@@ -28,6 +29,11 @@ namespace GraphLabs.Site.Controllers
         private IGroupRepository GroupRepository
         {
             get { return DependencyResolver.GetService<IGroupRepository>(); }
+        }
+
+        private ISystemDateService DateService
+        {
+            get { return DependencyResolver.GetService<ISystemDateService>(); }
         }
 
         #endregion
@@ -123,7 +129,7 @@ namespace GraphLabs.Site.Controllers
         private void FillGroups(object selectedValue = null)
         {
             var groups = GroupRepository.GetOpenGroups()
-                .Select(t => new GroupModel(t))
+                .Select(t => new GroupModel(t, DateService))
                 .ToArray();
             ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Controllers.Attributes;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Models;
 using Newtonsoft.Json;
 
@@ -17,13 +18,18 @@ namespace GraphLabs.Site.Controllers
             get { return DependencyResolver.GetService<GraphLabsContext>(); }
         }
 
+        private ISystemDateService DateService
+        {
+            get { return DependencyResolver.GetService<ISystemDateService>(); }
+        }
+
         public ActionResult Index()
         {
             ResultModel res = new ResultModel();
 
             res.Groups = (from g in Context.Groups
                           select g).ToArray()
-                          .Select(t => new GroupModel(t))
+                          .Select(t => new GroupModel(t, DateService))
                           .ToArray();
 
             res.Labs = (from l in Context.LabWorks
@@ -49,7 +55,7 @@ namespace GraphLabs.Site.Controllers
 
             foreach (long i in groupsId)
             {
-                group = new GroupModel(Context.Groups.Find(i));
+                group = new GroupModel(Context.Groups.Find(i), DateService);
                 result.Marks[j] = new GroupResult();
                 result.Marks[j].Id = group.Id;
                 result.Marks[j].Name = group.Name;
@@ -80,7 +86,7 @@ namespace GraphLabs.Site.Controllers
         {
             JSONResultGroupDetail result = new JSONResultGroupDetail();
             result.Result = 0;
-            result.Name = (new GroupModel(Context.Groups.Find(GroupId))).Name;
+            result.Name = (new GroupModel(Context.Groups.Find(GroupId), DateService)).Name;
 
             return "";
         }

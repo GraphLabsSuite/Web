@@ -345,7 +345,7 @@ namespace GraphLabs.Site.Controllers
             var groups = (from g in _ctx.Groups
                           where g.IsOpen
                           select g).ToList()
-                          .Select(t => new GroupModel(t))
+                          .Select(t => new GroupModel(t, new SystemDateService(_ctx) ))
                           .ToList();
             ViewBag.GroupID = new SelectList(groups, "Id", "Name", selectedValue);
         }

@@ -102,7 +102,6 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="Group\GroupLogic.cs" />
     <Compile Include="INewsManager.cs" />
     <Compile Include="IResultsManager.cs" />
     <Compile Include="Labs\DemoLabEngine.cs" />

@@ -6,6 +6,8 @@ namespace GraphLabs.DomainModel.Extensions
     /// <summary> Методы расширения для групп </summary>
     public static class GroupExtensions
     {
+        
+
         /// <summary> Возвращает имя группы </summary>
         public static string GetName(this Group group, ISystemDateService dateService)
         {

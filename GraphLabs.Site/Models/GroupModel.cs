@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using GraphLabs.DomainModel;
-using System.Diagnostics.Contracts;
+﻿using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Services;
-using GraphLabs.Site.Logic.GroupLogic;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace GraphLabs.Site.Models
 {
     public class GroupModel
     {
-        private GroupLogic logic = new GroupLogic();
-
         public long Id { get; set; }
 
         public string Name { get; set; }
@@ -26,11 +20,13 @@ namespace GraphLabs.Site.Models
 
         public int Number { get; set; }
 
+        /// <summary> Конструктор по умолчанию </summary>
         public GroupModel()
         {
         }
 
-        public GroupModel(Group group)
+        /// <summary> Конструктор, принимающий группу и сервис даты </summary>
+        public GroupModel(Group group, ISystemDateService dateService)
         {
             Contract.Requires(group != null);
 
@@ -39,7 +35,7 @@ namespace GraphLabs.Site.Models
             Students = group.Students;
             FirstYear = group.FirstYear;
             Number = group.Number;
-            Name = group.GetName(logic.GetSystemDate());
+            Name = group.GetName(dateService);
         }
     }
 }
