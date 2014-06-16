@@ -32,7 +32,6 @@ namespace GraphLabs.Site.Controllers
 
         #endregion
 
-
         #region Login
 
         //

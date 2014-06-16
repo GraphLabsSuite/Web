@@ -40,7 +40,7 @@
     <script type="text/javascript">
         $(function() {
             $('tbody tr').live('click', function() {
-                location.href = '/Group/Edit/' + $(this).find('td:first').text();
+                location.href = '/Group/Edit?id=' + $(this).find('td:first').text();
             });
         });
     </script>

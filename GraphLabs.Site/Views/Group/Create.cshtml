@@ -9,6 +9,10 @@
     @Html.ActionLink("Обратно к списку", "Index")
 </hgroup>
 
+<span class="field-validation-error">
+    @ViewBag.Message
+</span>
+
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 

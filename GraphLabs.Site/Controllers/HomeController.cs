@@ -12,6 +12,8 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Teacher, UserRole.Administrator)]
     public class HomeController : GraphLabsController
     {
+        #region Зависимости
+
         private INewsRepository NewsRepository
         {
             get { return DependencyResolver.GetService<INewsRepository>(); }
@@ -26,6 +28,8 @@ namespace GraphLabs.Site.Controllers
         {
             get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
         }
+
+        #endregion
 
         /// <summary> Главная: новости </summary>
         [AllowAnonymous]

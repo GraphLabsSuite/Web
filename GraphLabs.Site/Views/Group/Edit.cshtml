@@ -5,10 +5,14 @@
 }
 
 <hgroup>
-    <h2>@ViewBag.Title.</h2>
+    <h2>@ViewBag.Title</h2>
     @Html.ActionLink("Обратно к списку", "Index")
 </hgroup>
 <br />
+
+<span class="field-validation-error">
+    @ViewBag.Message
+</span>
 
 @using (Html.BeginForm())
 {

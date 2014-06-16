@@ -1,8 +1,8 @@
 ﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Logic.GroupLogic;
 using GraphLabs.Site.Models;
-using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -11,24 +11,38 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class GroupController : GraphLabsController
     {
-        private GroupLogic logic = new GroupLogic();
+        #region Зависимости
+
+        private IGroupRepository GroupsRepository
+        {
+            get { return DependencyResolver.GetService<IGroupRepository>(); }
+        }
+
+        protected ISystemDateService DateService
+        {
+            get { return DependencyResolver.GetService<ISystemDateService>(); }
+        }
+
+        #endregion
 
         #region Формирование списка групп
 
         public ActionResult Index(string message)
         {
-            Group[] groups = logic.GetGroupsFromDB();
+            Group[] groups = GroupsRepository.GetAllGroups();
             GroupModel[] groupModel = groups.Select(t => new GroupModel(t)).ToArray();
 
             return View(groupModel);
         }
+
         #endregion
 
         #region Создание группы
+
         public ActionResult Create()
         {
             Group group = new Group();
-            group.FirstYear = DateTime.Today.Year;
+            group.FirstYear = DateService.GetDate().Year;
 
             return View(group);
         }
@@ -38,25 +52,25 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                logic.SaveGroupToDB(group);
-                return RedirectToAction("Index");
+                if (GroupsRepository.TrySaveGroup(group))
+                {
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Message = "Невозможно сохранить группу";
             }
 
             return View(group);
         }
+
         #endregion
 
         #region Редактирование группы
+
         public ActionResult Edit(long id = 0)
         {
-            Group group = logic.GetGroupByID(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-            GroupModel gr = new GroupModel(group);
+            GroupModel group = new GroupModel( GroupsRepository.GetGroupById(id) );
 
-            return View(gr);
+            return View(group);
         }
 
         [HttpPost]
@@ -64,16 +78,16 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                Group group = logic.GetGroupByID(gr.Id);
-                if (group == null)
+                if (GroupsRepository.TryModifyGroup(gr.Id, gr.Number, gr.FirstYear, gr.IsOpen))
                 {
-                    return HttpNotFound();
+                    return RedirectToAction("Index");
                 }
-                logic.ModifyGroupInDB(group, gr.Number, gr.FirstYear, gr.IsOpen);
-                return RedirectToAction("Index");
+
+                ViewBag.Message = "Невозможно обновить группу";
             }
             return View(gr);
         }
+
         #endregion
     }
 }
