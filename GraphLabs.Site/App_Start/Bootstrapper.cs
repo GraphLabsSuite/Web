@@ -81,8 +81,6 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager());
 
-            container.RegisterType<IDemoLabEngine, DemoLabEngine>(new PerRequestLifetimeManager());
-
             container.RegisterType<ILabExecutionEngine, LabExecutionEngine>(new PerRequestLifetimeManager());
             
             container.RegisterType<INewsManager, NewsManager>(new PerRequestLifetimeManager());

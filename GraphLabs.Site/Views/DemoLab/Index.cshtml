@@ -6,8 +6,12 @@
 
 <h2>@ViewBag.Title</h2>
 
-<span id="error" class="field-validation-error"></span>
-
+@if (Model.Count == 0)
+{
+    <h2 class="field-validation-error">В данный момент нет доступных лабораторных работ</h2>
+}
+else
+{
 <table>
     <tr>
         <th>Лабораторная работа</th>
@@ -21,34 +25,42 @@
                 @m.LabWorkName
             </td>
             <td>
-                <select>
-                    @foreach (var v in m.LabVariants)
-                    {
-                        <option data-LabVariantId="@v.Key">
-                            @v.Value
-                        </option>
-                    }
+                @if (m.LabVariants.Count == 0)
+                {
+                    <span class="field-validation-error">Отсутствуют</span>
+                }
+                else
+                {
+                    <select>
+                        @foreach (var v in m.LabVariants)
+                        {
+                            <option data-LabVariantId="@v.Key">
+                                @v.Value
+                            </option>
+                        }
                 </select>
+                }
             </td>
             <td>
                 @m.AcquaintanceTill.ToString("dd/MM/yyyy")
             </td>
             <td>
-                <input type="button" value="Приступить!"/>
+                @if (m.LabVariants.Count != 0)
+                {
+                    <input type="button" value="Приступить!"/>
+                }
             </td>
         </tr>
     }
 </table>
+}
 
 @section scripts{
     <script>
         $("input").click(function () {
-            $("#error").html("");
-            if ((varId = $(this).parent().parent().find("td select").val()) == null) {
-                $("#error").html("Необходимо выбрать вариант!");
-                return;
-            };
-            location.href = "/LabWorkExecution/Index?labId=" + $(this).parent().parent().attr("data-LabWorkId") + "&labVarId=" + varId;
+            labId = $(this).parent().parent().attr("data-LabWorkId");
+            varId = $(this).parent().parent().find("td select").val();
+            location.href = "/LabWorkExecution/Index?labId=" + labId + "&labVarId=" + varId;
         });
     </script>
 }

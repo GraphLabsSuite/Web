@@ -11,19 +11,39 @@ namespace GraphLabs.DomainModel.Repositories
     {
         // ReSharper disable ReturnTypeCanBeEnumerable.Global
 
+        #region Получение массивов лабораторных работ
+
         /// <summary> Получить лабораторные работы </summary>
         [NotNull]
         LabWork[] GetLabWorks();
 
-        /// <summary> Получить лабораторную работу по id </summary>
+        /// <summary> Получить лабораторные работы, доступные в данный момент в ознакомительном режиме </summary>
+        [NotNull]
+        LabWork[] GetDemoLabs(DateTime currentDate);
+
+        #endregion
+
+        /// <summary> Найти лабораторную работу по id </summary>
         [CanBeNull]
         LabWork FindLabWorkById(long id);
+
+        #region Получение массива вариантов лабораторной работы
 
         /// <summary> Получить варианты лабораторной работы по id лабораторной работы </summary>
         [NotNull]
         LabVariant[] GetLabVariantsByLabWorkId(long id);
 
-        /// <summary> Получить вариант лабораторной работы по id </summary>
+        /// <summary> Получить ознакомительные варианты лабораторной работы по id лабораторной работы </summary>
+        [NotNull]
+        LabVariant[] GetDemoLabVariantsByLabWorkId(long id);
+
+        /// <summary> Получить готовые ознакомительные варианты лабораторной работы по id лабораторной работы </summary>
+        [NotNull]
+        LabVariant[] GetCompleteDemoLabVariantsByLabWorkId(long labId);
+
+        #endregion
+
+        /// <summary> Найти вариант лабораторной работы по id </summary>
         [CanBeNull]
         LabVariant FindLabVariantById(long id);
 
@@ -58,6 +78,15 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         /// <summary> Репозиторий с лабораторными работами </summary>
+        public LabWork[] GetDemoLabs(DateTime currentDate)
+        {
+            Contract.Requires(currentDate != null);
+            Contract.Ensures(Contract.Result<LabWork[]>() != null);
+
+            return new LabWork[0];
+        }
+
+        /// <summary> Репозиторий с лабораторными работами </summary>
         public LabWork FindLabWorkById(long id)
         {
             Contract.Requires(id > 0);
@@ -69,6 +98,24 @@ namespace GraphLabs.DomainModel.Repositories
         public LabVariant[] GetLabVariantsByLabWorkId(long id)
         {
             Contract.Requires(id > 0);
+            Contract.Ensures(Contract.Result<LabVariant[]>() != null);
+
+            return new LabVariant[0];
+        }
+
+        /// <summary> Репозиторий с лабораторными работами </summary>
+        public LabVariant[] GetDemoLabVariantsByLabWorkId(long labId)
+        {
+            Contract.Requires(labId > 0);
+            Contract.Ensures(Contract.Result<LabVariant[]>() != null);
+
+            return new LabVariant[0];
+        }
+
+        /// <summary> Репозиторий с лабораторными работами </summary>
+        public LabVariant[] GetCompleteDemoLabVariantsByLabWorkId(long labId)
+        {
+            Contract.Requires(labId > 0);
             Contract.Ensures(Contract.Result<LabVariant[]>() != null);
 
             return new LabVariant[0];

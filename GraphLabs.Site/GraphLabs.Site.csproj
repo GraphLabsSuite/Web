@@ -275,7 +275,6 @@
     <Content Include="Views\Result\Index.cshtml" />
     <Content Include="Views\Error\Oops.cshtml" />
     <Content Include="Views\DemoLab\Index.cshtml" />
-    <Content Include="Views\DemoLab\NoDemoLabs.cshtml" />
     <Content Include="Views\LabWorkExecution\Index.cshtml" />
     <Content Include="Views\LabWorkExecution\LabWorkExecutionError.cshtml" />
     <Content Include="Views\Home\_NewsPartial.cshtml" />
