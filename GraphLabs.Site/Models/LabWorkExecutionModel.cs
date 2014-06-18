@@ -73,9 +73,19 @@ namespace GraphLabs.Site.Models
         {
             if (Tasks[num].IsSolved)
             {
-                throw new Exception("Задание выпонено");
+                throw new Exception("Задание выполнено");
             }
             CurrentTask = num;
+        }
+
+        /// <summary> Зафиксировать выполнение текущего задания </summary>
+        public void SetCurrentTaskToComplete()
+        {
+            if (Tasks[CurrentTask].IsSolved)
+            {
+                throw new Exception("Задание уже было выполнено");
+            }
+            Tasks[CurrentTask].IsSolved = true;
         }
     }
 }

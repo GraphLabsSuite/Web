@@ -94,5 +94,21 @@ namespace GraphLabs.Site.Controllers
             Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
         }
+
+        public ActionResult TaskComplete()
+        {
+            var model = (LabWorkExecutionModel)Session[LAB_VARIABLE_KEY];
+
+            model.SetCurrentTaskToComplete();
+            if (model.CheckCompleteLab())
+            {
+                ViewBag.Message = "Лабораторная работа выполнена!";
+                return View("LabWorkExecutionError");
+            }
+            model.SetNotSolvedTaskToCurrent();
+
+            Session[LAB_VARIABLE_KEY] = model;
+            return View("Index", model);
+        }
     }
 }
