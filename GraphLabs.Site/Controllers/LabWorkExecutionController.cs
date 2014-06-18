@@ -1,11 +1,10 @@
 ﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic;
-using GraphLabs.Site.Logic.Labs;
 using GraphLabs.Site.Models;
-using System.Web.Mvc;
 using System;
-using GraphLabs.DomainModel.Repositories;
+using System.Web.Mvc;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -14,14 +13,11 @@ namespace GraphLabs.Site.Controllers
     {
         private const string LAB_VARIABLE_KEY = "LabWork";
 
+        #region Зависимости
+
         private ILabRepository LabRepository
         {
             get { return DependencyResolver.GetService<ILabRepository>(); }
-        }
-
-        private ILabExecutionEngine LabExecutionEngine
-        {
-            get { return DependencyResolver.GetService<ILabExecutionEngine>(); }
         }
 
         private IAuthenticationSavingService AuthSavingService
@@ -34,22 +30,45 @@ namespace GraphLabs.Site.Controllers
             get { return DependencyResolver.GetService<IResultsManager>(); }
         }
 
+        #endregion
+
         public ActionResult Index(long labId, long labVarId)
         {
-            if (!LabExecutionEngine.IsLabVariantCorrect(labVarId))
+            #region Проверки корректности GET запроса
+
+            if (!LabRepository.CheckLabWorkExist(labId))
+            {
+                ViewBag.Message = "Запрашиваемая лабораторная работа не существует";
+                return View("LabWorkExecutionError");
+            }
+
+            if (!LabRepository.CheckLabVariantExist(labVarId))
+            {
+                ViewBag.Message = "Запрашиваемый вариант лабораторной работы не существует";
+                return View("LabWorkExecutionError");
+            }
+
+            if (!LabRepository.CheckLabVariantBelongLabWork(labId, labVarId))
+            {
+                ViewBag.Message = "Запрашиваемый вариант принадлежит другой лабораторной работе";
+                return View("LabWorkExecutionError");
+            }
+
+            if (!LabRepository.VerifyCompleteVariant(labVarId))
             {
                 ViewBag.Message = "Вариант лабораторной работы не завершен";
                 return View("LabWorkExecutionError");
             }
 
+            #endregion
+
             var session = GetSessionGuid();
             ResultsManager.StartLabExecution(labVarId, session);
+            LabWork lab = LabRepository.GetLabWorkById(labId);
+            TaskVariant[] variants = LabRepository.GetTaskVariantsByLabVarId(labVarId);
+            var labWork = new LabWorkExecutionModel(session, lab, variants);
 
-            var labName = LabExecutionEngine.GetLabName(labId);
-            var variants = LabRepository.GetTaskVariantsByLabVarId(labVarId);
-            var labWork = new LabWorkExecutionModel(session, labName, labId, variants);
-
-            labWork.SetCurrent(0);
+            labWork.SetNotSolvedTaskToCurrent();
             Session[LAB_VARIABLE_KEY] = labWork;
             return View(labWork);
         }
@@ -63,7 +82,15 @@ namespace GraphLabs.Site.Controllers
         public ActionResult ChangeTask(int Task)
         {
             var model = (LabWorkExecutionModel)Session[LAB_VARIABLE_KEY];
-            model.SetCurrent(Task);
+            try
+            {
+                model.SetCurrentTask(Task);
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "Выбранное задание уже выполнено";
+                return View("LabWorkExecutionError");
+            }
             Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
         }

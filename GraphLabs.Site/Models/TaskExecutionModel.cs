@@ -3,10 +3,10 @@
     /// <summary> Модель задания в лабе </summary>
     public class TaskExecutionModel
     {
-        /// <summary> Id </summary>
+        /// <summary> Id задания </summary>
         public long TaskId { get; set; }
 
-        /// <summary> Название </summary>
+        /// <summary> Название задания </summary>
         public string TaskName { get; set; }
 
         /// <summary> Строка инициализации </summary>

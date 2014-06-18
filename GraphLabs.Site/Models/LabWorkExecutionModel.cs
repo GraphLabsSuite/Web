@@ -14,10 +14,10 @@ namespace GraphLabs.Site.Models
             get { return DependencyResolver.Current.GetService<ITaskExecutionModelFactory>(); }
         }
 
-        /// <summary> Название </summary>
+        /// <summary> Название лабораторной работы </summary>
         public string LabName { get; set; }
 
-        /// <summary> Id </summary>
+        /// <summary> Id лабораторной работы </summary>
         public long LabId { get; set; }
 
         /// <summary> Задания </summary>
@@ -26,24 +26,55 @@ namespace GraphLabs.Site.Models
         /// <summary> Текущее задание </summary>
         public int CurrentTask { get; set; }
 
-        /// <summary> Модель лабы </summary>
-        public LabWorkExecutionModel(Guid sessionGuid, string labName, long labId, IEnumerable<TaskVariant> variants)
+        /// <summary> Конструктор модели </summary>
+        public LabWorkExecutionModel(Guid sessionGuid, LabWork lab, IEnumerable<TaskVariant> variants)
         {
-            LabName = labName;
-            LabId = labId;
+            LabName = lab.Name;
+            LabId = lab.Id;
             Tasks = variants
                 .Select(v => TaskExecutionModelFactory.CreateForDemoMode(
                     sessionGuid,
                     v.Task.Name,
                     v.Task.Id,
                     v.Id,
-                    labId))
+                    LabId))
                 .ToArray();
         }
 
-        /// <summary> Установить текущее задание </summary>
-        public void SetCurrent(int num)
+        /// <summary> Проверка завершенности лабораторной работы </summary>
+        public bool CheckCompleteLab()
         {
+            bool ready = true;
+
+            for (int i = 0; i < Tasks.Length; ++i )
+            {
+                ready = ready && Tasks[i].IsSolved;
+            }
+
+            return ready;
+        }
+
+        /// <summary> Автоматическая установка текущего задания </summary>
+        public void SetNotSolvedTaskToCurrent()
+        {
+            for (int i = 0; i < Tasks.Length; ++i)
+            {
+                if (!Tasks[i].IsSolved)
+                {
+                    CurrentTask = i;
+                    return;
+                }
+            }
+            throw new Exception("Лабораторная работа выполнена");
+        }
+
+        /// <summary> Установить текущее задание </summary>
+        public void SetCurrentTask(int num)
+        {
+            if (Tasks[num].IsSolved)
+            {
+                throw new Exception("Задание выпонено");
+            }
             CurrentTask = num;
         }
     }

@@ -4,7 +4,6 @@ using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
-using GraphLabs.Site.Logic.Labs;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
 using GraphLabs.Tasks.Contract;
@@ -80,9 +79,7 @@ namespace GraphLabs.Site.App_Start
             // ============================================================
 
             container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager());
-
-            container.RegisterType<ILabExecutionEngine, LabExecutionEngine>(new PerRequestLifetimeManager());
-            
+                        
             container.RegisterType<INewsManager, NewsManager>(new PerRequestLifetimeManager());
 
             container.RegisterType<ITaskManager, TaskManager>(new PerRequestLifetimeManager());

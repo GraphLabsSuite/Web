@@ -73,8 +73,40 @@ namespace GraphLabs.DomainModel.Repositories
 
         #endregion
 
+        #region Проверки
+
+        /// <summary> Проверить существование лабораторной работы </summary>
+        public bool CheckLabWorkExist(long id)
+        {
+            CheckNotDisposed();
+
+            LabWork lab = Context.LabWorks.SingleOrDefault(l => l.Id == id);
+
+            return (lab == null ? false : true);
+        }
+
+        /// <summary> Проверить существование варианта лабораторной работы </summary>
+        public bool CheckLabVariantExist(long id)
+        {
+            CheckNotDisposed();
+
+            LabVariant labVariant = Context.LabVariants.SingleOrDefault(l => l.Id == id);
+
+            return (labVariant == null ? false : true);
+        }
+
+        /// <summary> Проверить принадлежность варианта л.р. лабораторной работе </summary>
+        public bool CheckLabVariantBelongLabWork(long labId, long labVarId)
+        {
+            CheckNotDisposed();
+
+            LabVariant labVariant = Context.LabVariants.Where(lv => lv.Id == labVarId).SingleOrDefault(lv => lv.LabWork.Id == labId);
+
+            return (labVariant == null ? false : true);
+        }
+
         /// <summary> Проверка соответствия варианта лабораторной работы содержанию работы </summary>
-        private bool VerifyCompleteVariant(long variantId)
+        public bool VerifyCompleteVariant(long variantId)
         {
             CheckNotDisposed();
 
@@ -97,8 +129,10 @@ namespace GraphLabs.DomainModel.Repositories
             return labEntry.ContainsSameSet(currentVariantEntry);
         }
 
-        /// <summary> Найти лабораторную работу по id </summary>
-        public LabWork FindLabWorkById(long id)
+        #endregion
+
+        /// <summary> Получить лабораторную работу по id </summary>
+        public LabWork GetLabWorkById(long id)
         {
             CheckNotDisposed();
 
@@ -111,34 +145,6 @@ namespace GraphLabs.DomainModel.Repositories
             CheckNotDisposed();
 
             return Context.LabVariants.SingleOrDefault(lv => lv.Id == id);
-        }
-
-        /// <summary> Получить задания лабораторной работы по какому-либо варианту лабораторной работы </summary>
-        public Task[] FindEntryTasksByLabVarId(long labVarId)
-        {
-            CheckNotDisposed();
-
-            long labWorkId = Context.LabVariants
-                .Where(v => v.Id == labVarId)
-                .Select(v => v.LabWork.Id)
-                .Single();
-                
-            return Context.LabEntries
-                .Where(e => e.LabWork.Id == labWorkId)
-                .Select(e => e.Task)
-                .ToArray();
-        }
-
-        /// <summary> Получить задания варианта лабораторной работы </summary>
-        public Task[] FindTasksByLabVarId(long labVarId)
-        {
-            CheckNotDisposed();
-
-            return Context.LabVariants
-                .Where(v => v.Id == labVarId)
-                .SelectMany(v => v.TaskVariants)
-                .Select(v => v.Task)
-                .ToArray();
         }
 
         /// <summary> Получить варианты заданий с заданиями варианта лабораторной работы </summary>
