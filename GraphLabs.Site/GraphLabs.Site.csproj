@@ -231,6 +231,7 @@
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\Error\OopsModel.cs" />
     <Compile Include="Models\ITaskExecutionModelFactory.cs" />
+    <Compile Include="Models\JSONModel.cs" />
     <Compile Include="Models\JSONResultEditVariant.cs" />
     <Compile Include="Models\JSONResultGroupDetail.cs" />
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />

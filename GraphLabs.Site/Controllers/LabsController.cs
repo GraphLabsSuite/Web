@@ -1,35 +1,45 @@
 ﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.LabsLogic;
 using GraphLabs.Site.Models;
-using GraphLabs.Site.Utils;
 using Newtonsoft.Json;
-using System.Web.Mvc;
 using System;
+using System.Web.Mvc;
 
 namespace GraphLabs.Site.Controllers
 {
-    public class LabsController : Controller
+    [GLAuthorize(UserRole.Administrator, UserRole.Teacher, UserRole.Student)]
+    public class LabsController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
         private LabsLogic logic = new LabsLogic();
 
+        #region Зависимости
+
+        private ILabRepository _labRepository
+        {
+            get { return DependencyResolver.GetService<ILabRepository>(); }
+        }
+
+        #endregion
+
         #region Отображение списка лабораторных работ
+
         public ActionResult Index()
         {
-            //this.AllowAnonymous();
-            return View(logic.GetLabWorks());
+            return View(_labRepository.GetLabWorks());
         }
 
         [HttpPost]
-        public string GetLabInfo(int Id)
+        public JsonResult GetLabInfo(int Id)
         {
-            //this.AllowAnonymous();
             var lab = logic.GetLabWorkById(Id);
             if (lab == null)
             {
-                return JsonConvert.SerializeObject( new JSONResultLabInfo(1) );
+                return Json(new JSONModel(1));
             }
-            return JsonConvert.SerializeObject(new JSONResultLabInfo(lab) );
+            return Json(new JSONResultLabInfo(lab));
         }
 
         [HttpPost]
@@ -45,6 +55,7 @@ namespace GraphLabs.Site.Controllers
 
             return "2";
         }
+
         #endregion        
 
         #region Создание и редактирование лабораторной работы

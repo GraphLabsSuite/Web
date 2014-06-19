@@ -81,8 +81,7 @@
             });
         };
 
-        function Suc(data) {
-            var obj = jQuery.parseJSON(data);
+        function Suc(obj) {
             switch (obj.Result) {
                 case 0:
                     $("#error").html("");

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GraphLabs.Site.Models
 {
-    public class JSONResultLabInfo
+    public class JSONResultLabInfo : JSONModel
     {
         public class ResultVariants
         {
@@ -35,8 +35,6 @@ namespace GraphLabs.Site.Models
             }
         }
 
-        public int Result { get; private set; }
-
         public long LabId { get; private set; }
 
         public string LabName { get; private set; }
@@ -45,15 +43,9 @@ namespace GraphLabs.Site.Models
 
         public List<ResultVariants> Variants { get; private set; }
 
-        /// <summary> Конструктор для создания объекта, свидетельствующего об ошибке </summary>
-        public JSONResultLabInfo(int error)
-        {
-            Result = error;
-        }
-
         public JSONResultLabInfo(LabWork lab)
+            : base (0)
         {
-            Result = 0;
             LabId = lab.Id;
             LabName = lab.Name;
             Tasks = MakeTasksFromLabEntry(lab.LabEntries);
