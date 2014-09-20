@@ -1,0 +1,24 @@
+﻿select.labSelectLeft {
+    display: block;
+    width: 100%;
+}
+
+select.labSelectRight {
+    display: block;
+    width: 100%;
+}
+
+input.arrowButton {
+    display: block;
+    width: 5%;
+    float: left;
+    margin: 10% 2.5% 0% 2.5%;
+}
+
+.buttonCenter {
+    text-align: center;
+}
+
+#secondSelectSize, #firstSelectSize {
+    display: block;
+}

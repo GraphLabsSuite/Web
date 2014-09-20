@@ -1,0 +1,31 @@
+﻿#login {
+    position: relative;
+    display: block;
+    font-size: .85em;
+    margin: 0 0 10px;
+    text-align: right;
+    height: 25px;
+}
+
+    #login a {
+        display: inline-block;
+        background-color: #8aa5b7;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 2px 5px;
+        text-decoration: none;
+        height: 25px;
+        font-family:Arial;
+	    font-size:15px;
+	    font-style:normal;
+        color: #050105;
+        text-shadow:1px 1px 0px #287ace;
+	    text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */
+    }
+
+    #login a.username {
+        background: none;
+        margin: 0;
+        padding: 0;
+        text-decoration: underline;
+    }

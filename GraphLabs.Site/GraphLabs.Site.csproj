@@ -194,6 +194,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Button.css" />
+    <Content Include="Content\LabWorkCreate.css" />
+    <Content Include="Content\LabWorkIndex.css" />
+    <Content Include="Content\Login.css" />
+    <Content Include="Content\LoginPage.css" />
+    <Content Include="Content\Menu.css" />
+    <Content Include="Content\OrderedList.css" />
+    <Content Include="Content\ResultBoardTable.css" />
+    <Content Include="Content\Table.css" />
+    <Content Include="Content\ValidationHelpers.css" />
+    <Content Include="Content\Webgrid.css" />
     <Content Include="Views\Shared\_StatusMessagePartial.cshtml" />
     <Content Include="App_Code\SilverlightAppsProvider.cs" />
     <Compile Include="..\AssemblyInfo.General.cs">
