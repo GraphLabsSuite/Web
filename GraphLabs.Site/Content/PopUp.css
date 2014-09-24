@@ -1,0 +1,17 @@
+﻿.pop-up {
+    z-index: 9;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0px;
+}
+
+.pop-up-content {
+    width: 500px;
+    height: 300px;
+    border-radius: 5px;
+    margin: 180px auto 0 auto;
+    background-color: #e8edef;
+}

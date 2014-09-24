@@ -43,6 +43,7 @@
     </div>
 
     <br />
+    <input id="GraphicView" type="button" value="Построить диаграмму" />
     <input id="changeToNum" type="button" value="Отобразить в числах" style="display:none" />
     <input id="changeToPercent" type="button" value="Отобразить в процентах" />
     <span id="propertyBlock">
@@ -54,7 +55,12 @@
 </div>
 
 @section scripts{
+    <script src="~/Scripts/Common/PopUp.js"></script>
     <script>
+        $("#GraphicView").click(function () {
+            createPopUp("qw");
+        });
+
         var LabId;
 
         $("#groupsTable tr th").live('click', function () {

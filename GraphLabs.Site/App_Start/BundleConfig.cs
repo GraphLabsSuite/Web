@@ -34,7 +34,8 @@ namespace GraphLabs.Site.App_Start
                                                                  "~/Content/ResultBoardTable.css",
                                                                  "~/Content/LabWorkIndex.css",
                                                                  "~/Content/LabWorkCreate.css",
-                                                                 "~/Content/ValidationHelpers.css"));
+                                                                 "~/Content/ValidationHelpers.css",
+                                                                 "~/Content/PopUp.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
