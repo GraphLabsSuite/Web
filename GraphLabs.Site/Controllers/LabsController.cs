@@ -34,26 +34,9 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public JsonResult GetLabInfo(int Id)
         {
-            var lab = logic.GetLabWorkById(Id);
-            if (lab == null)
-            {
-                return Json(new JSONModel(1));
-            }
+            var lab = _labRepository.GetLabWorkById(Id);
+
             return Json(new JSONResultLabInfo(lab));
-        }
-
-        [HttpPost]
-        public string DeleteLab(int Id)
-        {
-            //this.AllowAnonymous();
-
-            var lab = logic.GetLabWorkById(Id);
-            if (lab == null)
-            {
-                return "1";
-            }
-
-            return "2";
         }
 
         #endregion        
