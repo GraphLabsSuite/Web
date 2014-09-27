@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace GraphLabs.Site.Controllers
 {
-    [GLAuthorize(UserRole.Administrator, UserRole.Teacher, UserRole.Student)]
+    [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class LabsController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
@@ -20,6 +20,11 @@ namespace GraphLabs.Site.Controllers
         private ILabRepository _labRepository
         {
             get { return DependencyResolver.GetService<ILabRepository>(); }
+        }
+
+        private ITaskRepository _taskRepository
+        {
+            get { return DependencyResolver.GetService<ITaskRepository>(); }
         }
 
         #endregion
@@ -42,16 +47,15 @@ namespace GraphLabs.Site.Controllers
         #endregion        
 
         #region Создание и редактирование лабораторной работы
+
         public ActionResult Create(long id = 0)
         {
-            //this.AllowAnonymous();
-            return View( new CreateLabModel(id, logic.GetTasks()) );
+            return View( new CreateLabModel(id, _taskRepository.GetAllTasks()) );
         }
         
         [HttpPost]
         public string Create(string Name, string DateFrom, string DateTo, string JsonArr, long Id = 0)
         {
-            //this.AllowAnonymous(_ctx);
             if (logic.ExistedLabWorksCount(Name, Id) != 0)
             {
                 return JsonConvert.SerializeObject( new JSONResultCreateLab(1, Name) );
