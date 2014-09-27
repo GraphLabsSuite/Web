@@ -54,7 +54,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Determines whether the current principal belongs to the specified role. </summary>
         bool IPrincipal.IsInRole(string role)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(role));
+            Contract.Assert(!string.IsNullOrWhiteSpace(role));
 
             UserRole actualRole;
             if (!Enum.TryParse(role, false, out actualRole))

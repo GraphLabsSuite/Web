@@ -13,7 +13,7 @@ namespace GraphLabs.Site.Logic
 
     /// <summary> Менеджер новостей - контракты </summary>
     [ContractClassFor(typeof(INewsManager))]
-    internal class NewsManagerContracts : INewsManager
+    internal abstract class NewsManagerContracts : INewsManager
     {
         /// <summary> Создать или редактировать запись </summary>
         public bool CreateOrEditNews(long id, string title, string text, string authorEmail)

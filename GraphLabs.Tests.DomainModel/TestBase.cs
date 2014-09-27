@@ -102,7 +102,7 @@ namespace GraphLabs.Tests.DomainModel
                 var count = (int)cmd.ExecuteScalar();
                 return count == 0;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new Exception("При попытке обращения к таблице dbo.TestTable возникла какая-то ошибка. Быть может, таблица отсутствует?");
             }

@@ -1,11 +1,12 @@
 ﻿using System.Net;
-
+using System.Diagnostics.Contracts;
 namespace GraphLabs.Utils
 {
     /// <summary> Вспомогательные методы для работы с IP-адресами </summary>
     public static class IpHelper
     {
         /// <summary> Поверяет, что переданная строка - корректный IP адрес </summary>
+        [Pure]
         public static bool CheckIsValidIP(string address)
         {
             IPAddress ipAddress;

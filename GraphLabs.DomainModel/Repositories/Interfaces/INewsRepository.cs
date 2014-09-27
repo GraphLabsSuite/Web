@@ -23,7 +23,7 @@ namespace GraphLabs.DomainModel.Repositories
 
     /// <summary> Репозиторий с новостями - контракты </summary>
     [ContractClassFor(typeof(INewsRepository))]
-    internal class NewsRepositoryContracts : INewsRepository
+    internal abstract class NewsRepositoryContracts : INewsRepository
     {
         // ReSharper disable AssignNullToNotNullAttribute
 
