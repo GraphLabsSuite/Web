@@ -97,56 +97,7 @@ namespace GraphLabs.Site.Controllers
 
 			return Json(new JSONResultCreateLab(ResponseConstants.LabWorkSuccessEditSystemName, Name, lab.Id));
         }
-
-		/*
-        [HttpPost]
-        public string Create2(string Name, string DateFrom, string DateTo, string JsonArr, long Id = 0)
-        {
-			if (logic.ExistedLabWorksCount(Name, Id) != 0)
-			{
-				return JsonConvert.SerializeObject(new JSONResultCreateLab(1, Name));
-			};
-
-			LabWork lab = logic.CreateOrGetLabWorkDependingOnId(Id);
-			if (lab == null)
-			{
-				return JsonConvert.SerializeObject(new JSONResultCreateLab(3, Name));
-			}
-
-			lab.Name = Name;
-			lab.AcquaintanceFrom = logic.ParseDate(DateFrom);
-			lab.AcquaintanceTill = logic.ParseDate(DateTo);
-
-			if (IsExistingLab(Id))
-			{
-				lab = logic.DeleteEntries(lab);
-			}
-
-            logic.SaveLabWork(lab, IdNewLab(Id));
-            logic.SaveLabEntries(lab, JsonConvert.DeserializeObject<int[]>(JsonArr));
-            logic.DeleteTasksVariantsFromLabVariants(lab);
-
-            int resultCode = 0;
-            if (IsExistingLab(Id))
-            {
-                resultCode = 4;
-            }
-            return JsonConvert.SerializeObject(new JSONResultCreateLab(resultCode, lab.Name, lab.Id));
-        }        
-		*/
-
-        /// <summary> Проверяет, что обрабатывается существующая лабораторная работа </summary>
-        private bool IsExistingLab(long Id)
-        {
-            return (Id != 0);
-        }
-
-        /// <summary> Проверяет, что обрабатывается новая лабораторная работа </summary>
-        private bool IdNewLab(long Id)
-        {
-            return (Id == 0);
-        }
-
+        
         //В id передается результат запроса
         [HttpPost]
         public string EditLab(long Id)
