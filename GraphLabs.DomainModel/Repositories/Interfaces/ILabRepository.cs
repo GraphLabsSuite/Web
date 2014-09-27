@@ -59,6 +59,8 @@ namespace GraphLabs.DomainModel.Repositories
 
         #endregion
 
+        #region Получение разнородной информации по id
+
         /// <summary> Получить лабораторную работу по id </summary>
         [CanBeNull]
         LabWork GetLabWorkById(long id);
@@ -70,6 +72,8 @@ namespace GraphLabs.DomainModel.Repositories
         /// <summary> Получить варианты заданий с заданиями варианта лабораторной работы </summary>
         [NotNull]
         TaskVariant[] GetTaskVariantsByLabVarId(long labVarId);
+
+        #endregion
     }
 
     /// <summary> Репозиторий с лаораторными работами - контракты </summary>
@@ -161,6 +165,8 @@ namespace GraphLabs.DomainModel.Repositories
 
         #endregion
 
+        #region Получение разнородной информации по id
+
         public LabWork GetLabWorkById(long id)
         {
             Contract.Requires(id > 0);
@@ -183,5 +189,7 @@ namespace GraphLabs.DomainModel.Repositories
 
             return new TaskVariant[0];
         }
+
+        #endregion
     }
 }

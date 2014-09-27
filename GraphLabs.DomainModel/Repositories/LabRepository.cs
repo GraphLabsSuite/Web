@@ -131,6 +131,8 @@ namespace GraphLabs.DomainModel.Repositories
 
         #endregion
 
+        #region Получение разнородной информации по id
+
         /// <summary> Получить лабораторную работу по id </summary>
         public LabWork GetLabWorkById(long id)
         {
@@ -158,5 +160,7 @@ namespace GraphLabs.DomainModel.Repositories
                 .Include(v => v.Task)
                 .ToArray();
         }
+
+        #endregion
     }
 }

@@ -5,17 +5,15 @@ using System.Web;
 
 namespace GraphLabs.Site.Models
 {
-    public class JSONResultCreateLab
+    public class JSONResultCreateLab : JSONModel
     {
-        public int Result { get; set; }
-
         public long LabId { get; set; }
 
         public string LabName { get; set; }
 
         public JSONResultCreateLab(int result, string labName, long labId = 0)
+            : base(result)
         {
-            Result = result;
             LabId = labId;
             LabName = labName;
         }
