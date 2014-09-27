@@ -242,18 +242,18 @@
             
             @if (Model.Id > 0)
             {
-                Html.Raw("result = result + \"&Id=\"" + Model.Id.ToString());
+                @Html.Raw("result = result + \"&Id=" + Model.Id.ToString() + "\"")
             }
             
             $.ajax({
                 type: "POST",
                 url: @if (Model.Id > 0)
                      {
-                         Html.Raw("\"LabWorkEdit\"");
+                         @Html.Raw("\"LabWorkEdit\"")
                      }
                     else
                      {
-                         Html.Raw("\"LabWorkCreate\"");
+                         @Html.Raw("\"LabWorkCreate\"")
                      },
                 data: result,
                 error: function() {
@@ -275,7 +275,7 @@
                     };
                     break;
                 case @ResponseConstants.LabWorkExistErrorSystemName:
-                    $("#error").html('Лабораторная работа "' + obj.LabName + '" уже сущестует');
+                    $("#error").html('Лабораторная работа "' + obj.LabName + '" уже существует');
                     wantCreate = 0;
                     break;
                 case @ResponseConstants.LabWorkSuccessEditSystemName:

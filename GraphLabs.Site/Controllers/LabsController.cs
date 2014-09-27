@@ -78,7 +78,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public JsonResult LabWorkEdit(string Name, string DateFrom, string DateTo, string JsonArr, long id)
         {
-			if (_labRepository.CheckLabWorkExist(Name) && (_labRepository.GetLabWorkIdByName(Name) == id))
+			if (_labRepository.CheckLabWorkExist(Name) && (_labRepository.GetLabWorkIdByName(Name) != id))
 			{
 				return Json(new JSONResultCreateLab(ResponseConstants.LabWorkExistErrorSystemName, Name));
 			};
