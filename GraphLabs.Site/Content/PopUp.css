@@ -14,4 +14,15 @@
     border-radius: 5px;
     margin: 180px auto 0 auto;
     background-color: #e8edef;
+    position: relative;
 }
+
+    .pop-up-content #pop-up-close {
+        width: 20px;
+        height: 20px;
+        background-color: #f00;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        cursor: pointer;
+    }
