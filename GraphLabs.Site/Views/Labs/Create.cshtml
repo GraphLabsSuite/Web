@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.CreateLabModel
+﻿@using GraphLabs.Site.Controllers.LabWorks;
+@model GraphLabs.Site.Models.CreateLabModel
 
 @{
     ViewBag.Title = "Создание лабораторной работы";
@@ -237,11 +238,23 @@
                 list.push(elems[i].getAttribute("value"));
             };
             var result = $("fieldset").serialize();
-            result = result + "&JsonArr=" + JSON.stringify(list) + "&Id=@Model.Id";
+            result = result + "&JsonArr=" + JSON.stringify(list);
+            
+            @if (Model.Id > 0)
+            {
+                Html.Raw("result = result + \"&Id=\"" + Model.Id.ToString());
+            }
             
             $.ajax({
                 type: "POST",
-                url: "Create",
+                url: @if (Model.Id > 0)
+                     {
+                         Html.Raw("\"LabWorkEdit\"");
+                     }
+                    else
+                     {
+                         Html.Raw("\"LabWorkCreate\"");
+                     },
                 data: result,
                 error: function() {
                     $("#error").html("Невозможно отправить данные");
@@ -252,24 +265,20 @@
                 }
             });
         });
-
-        function Suc(data) {
-            var obj = jQuery.parseJSON(data);
+        
+        function Suc(obj) {
             switch (obj.Result) {
-                case 0:
+                case @ResponseConstants.LabWorkSuccessCreateSystemName:
                     $("#error").html("Лабораторная работа " + obj.LabName + " успешно сохранена!");
                     if (wantCreate == 1) {
                         location.href = "/Labs/CreateVariant?labId=" + obj.LabId;
                     };
                     break;
-                case 1:
+                case @ResponseConstants.LabWorkExistErrorSystemName:
                     $("#error").html('Лабораторная работа "' + obj.LabName + '" уже сущестует');
                     wantCreate = 0;
                     break;
-                case 3:
-                    $("#error").html('Лабораторная работа "' + obj.LabName + '" не найдена');
-                    break;
-                case 4:
+                case @ResponseConstants.LabWorkSuccessEditSystemName:
                     $("#error").html('Лабораторная работа "' + obj.LabName + '" успешно обновлена!');
                     break;
             };

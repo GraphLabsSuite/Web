@@ -1,7 +1,8 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System;
+﻿using GraphLabs.DomainModel.Services;
 using GraphLabs.Utils;
+using System;
+using System.Data.Entity;
+using System.Linq;
 
 
 namespace GraphLabs.DomainModel.Repositories
@@ -9,12 +10,15 @@ namespace GraphLabs.DomainModel.Repositories
     /// <summary> Репозиторий с группами </summary>
     internal class LabRepository : RepositoryBase, ILabRepository
     {
+		private readonly ITaskRepository _taskRepository;
+
         /// <summary> Репозиторий с лабораторными работами </summary>
-        public LabRepository(GraphLabsContext context)
+        public LabRepository(GraphLabsContext context, ITaskRepository taskRepository)
             : base(context)
         {
+			_taskRepository = taskRepository;
         }
-
+		
         #region Получение массивов лабораторных работ
 
         /// <summary> Получить лабораторные работы </summary>
@@ -81,6 +85,16 @@ namespace GraphLabs.DomainModel.Repositories
             CheckNotDisposed();
 
             LabWork lab = Context.LabWorks.SingleOrDefault(l => l.Id == id);
+
+            return (lab == null ? false : true);
+        }
+
+        /// <summary> Проверить существование лабораторной работы по имени</summary>
+        public bool CheckLabWorkExist(string name)
+        {
+            CheckNotDisposed();
+
+            LabWork lab = Context.LabWorks.SingleOrDefault(l => l.Name == name);
 
             return (lab == null ? false : true);
         }
@@ -162,5 +176,105 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         #endregion
-    }
+
+		#region Изменение лабораторной работы в БД
+
+		/// <summary> Удаление содержания лабораторной работы </summary>
+		public void DeleteEntries(long labWorkId)
+		{
+			CheckNotDisposed();
+
+			var entries = (from e in Context.LabEntries
+						   where e.LabWork.Id == labWorkId
+						   select e);
+			foreach (var e in entries)
+			{
+				Context.LabEntries.Remove(e);
+			}
+
+			Context.SaveChanges();
+		}
+
+		/// <summary> Сохранение лабораторной работы </summary>
+		public void SaveLabWork(LabWork lab)
+		{
+			CheckNotDisposed();
+
+			Context.LabWorks.Add(lab);
+			Context.SaveChanges();
+		}
+
+		/// <summary> Изменение лабораторной работы </summary>
+		public void ModifyLabWork(LabWork lab)
+		{
+			CheckNotDisposed();
+
+			Context.Entry(lab).State = EntityState.Modified;
+			Context.SaveChanges();
+		}
+
+		/// <summary> Сохранение содержания лабораторной работы </summary>
+		public void SaveLabEntries(long labWorkId, long[] tasksId)
+		{
+			int i = 0;
+			LabWork lab = GetLabWorkById(labWorkId);
+
+			foreach (var task in tasksId.Distinct().Select(id => _taskRepository.FindById(id)))
+			{
+				LabEntry entry = new LabEntry
+				{
+					LabWork = lab,
+					Order = ++i,
+					Task = task
+				};
+
+				Context.LabEntries.Add(entry);
+			}
+
+			Context.SaveChanges();
+		}
+
+		/// <summary> Удаляет лишние варианты заданий из вариантов лабораторной работы для соответствия содержанию </summary>
+		public void DeleteExcessTaskVariantsFromLabVariants(long labWorkId)
+		{
+			bool flag;
+			var labTasks = (from e in Context.LabEntries
+							where e.LabWork.Id == labWorkId
+							select e.Task);
+			var labVariants = (from lv in Context.LabVariants
+							   where lv.LabWork.Id == labWorkId
+							   select lv);
+
+			foreach (var labVar in labVariants)
+			{
+				var varTasks = labVar.TaskVariants.ToDictionary(tv => tv.Task);
+				flag = false;
+				foreach (var tv in varTasks)
+				{
+					if (!labTasks.Contains(tv.Key))
+					{
+						labVar.TaskVariants.Remove(tv.Value);
+						flag = true;
+					}
+				}
+
+				if (flag)
+				{
+					Context.Entry(labVar).State = EntityState.Modified;
+				}
+			}
+
+			Context.SaveChanges();
+		}
+
+		#endregion
+
+		/// <summary> Получить id лабораторной работы по ее имени </summary>
+		public long GetLabWorkIdByName(string name)
+		{
+			CheckNotDisposed();
+
+			return Context.LabWorks.Single(l => l.Name == name).Id;
+		}
+	}
 }

@@ -41,9 +41,13 @@ namespace GraphLabs.DomainModel.Repositories
 
         #region Проверки
 
-        /// <summary> Проверить существование лабораторной работы </summary>
+        /// <summary> Проверить существование лабораторной работы по id</summary>
         [NotNull]
         bool CheckLabWorkExist(long id);
+
+        /// <summary> Проверить существование лабораторной работы по имени</summary>
+        [NotNull]
+        bool CheckLabWorkExist(string name);
 
         /// <summary> Проверить существование варианта лабораторной работы </summary>
         [NotNull]
@@ -74,7 +78,35 @@ namespace GraphLabs.DomainModel.Repositories
         TaskVariant[] GetTaskVariantsByLabVarId(long labVarId);
 
         #endregion
-    }
+
+		#region Изменение лабораторной работы в БД
+
+		/// <summary> Удаление содержания лабораторной работы </summary>
+		[NotNull]
+		void DeleteEntries(long labWorkId);
+
+		/// <summary> Сохранение лабораторной работы </summary>
+		[NotNull]
+		void SaveLabWork(LabWork lab);
+
+		/// <summary> Изменение лабораторной работы </summary>
+		[NotNull]
+		void ModifyLabWork(LabWork lab);
+
+		/// <summary> Сохранение содержания лабораторной работы </summary>
+		[NotNull]
+		void SaveLabEntries(long labWorkId, long[] tasksId);
+
+		/// <summary> Удаляет лишние варианты заданий из вариантов лабораторной работы для соответствия содержанию </summary>
+		[NotNull]
+		void DeleteExcessTaskVariantsFromLabVariants(long labWorkId);
+
+		#endregion
+
+		/// <summary> Получить id лабораторной работы по ее имени </summary>
+		[NotNull]
+		long GetLabWorkIdByName(string name);
+	}
 
     /// <summary> Репозиторий с лаораторными работами - контракты </summary>
     [ContractClassFor(typeof(ILabRepository))]
@@ -141,6 +173,13 @@ namespace GraphLabs.DomainModel.Repositories
             return false;
         }
 
+        public bool CheckLabWorkExist(string name)
+        {
+            Contract.Requires(name != "");
+
+            return false;
+        }
+
         public bool CheckLabVariantExist(long id)
         {
             Contract.Requires(id > 0);
@@ -191,5 +230,48 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         #endregion
-    }
+
+		#region Изменение лабораторной работы в БД
+
+		public void DeleteEntries(long labWorkId)
+		{
+			Contract.Requires(labWorkId > 0);
+		}
+
+		public void SaveLabWork(LabWork lab)
+		{
+			Contract.Requires(lab != null);
+		}
+
+		public void ModifyLabWork(LabWork lab)
+		{
+			Contract.Requires(lab != null);
+			Contract.Requires(lab.Id > 0);
+		}
+
+		public void SaveLabEntries(long labWorkId, long[] tasksId)
+		{
+			Contract.Requires(labWorkId > 0);
+			Contract.Requires(tasksId != null);
+			//foreach (long id in tasksId)
+			//{
+			//	Contract.Requires(id > 0);
+			//}
+		}
+
+		public void DeleteExcessTaskVariantsFromLabVariants(long labWorkId)
+		{
+			Contract.Requires(labWorkId > 0);
+		}
+
+		#endregion
+
+		public long GetLabWorkIdByName(string name)
+		{
+			Contract.Requires(name != "");
+			Contract.Ensures(Contract.Result<long>() != 0);
+
+			return 0;
+		}
+	}
 }

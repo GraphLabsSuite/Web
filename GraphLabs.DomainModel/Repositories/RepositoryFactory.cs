@@ -52,7 +52,7 @@ namespace GraphLabs.DomainModel.Repositories
         {
             Contract.Ensures(Contract.Result<ILabRepository>() != null);
 
-            return new LabRepository(_context);
+            return new LabRepository(_context, GetTaskRepository());
         }
 
         /// <summary> Получить репозиторий с новостями </summary>

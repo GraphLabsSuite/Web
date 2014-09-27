@@ -223,6 +223,7 @@
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
+    <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Models\DemoLabModel.cs" />
     <Compile Include="Models\Error\Error404Model.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -282,6 +283,7 @@
       <DependentUpon>UserMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Utils\MultiButtonAttribute.cs" />
+    <Compile Include="Utils\ParseDate.cs" />
     <Compile Include="Utils\SecurityExtensions.cs" />
     <Content Include="Images\demo.png" />
     <Content Include="Images\triangleDOWN.png" />

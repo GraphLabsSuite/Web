@@ -1,8 +1,10 @@
 ﻿using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
+using GraphLabs.Site.Controllers.LabWorks;
 using GraphLabs.Site.Logic.LabsLogic;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
@@ -52,29 +54,73 @@ namespace GraphLabs.Site.Controllers
         {
             return View( new CreateLabModel(id, _taskRepository.GetAllTasks()) );
         }
-        
+
         [HttpPost]
-        public string Create(string Name, string DateFrom, string DateTo, string JsonArr, long Id = 0)
+        public JsonResult LabWorkCreate(string Name, string DateFrom, string DateTo, string JsonArr)
         {
-            if (logic.ExistedLabWorksCount(Name, Id) != 0)
+            if (_labRepository.CheckLabWorkExist(Name))
             {
-                return JsonConvert.SerializeObject( new JSONResultCreateLab(1, Name) );
-            };
+                return Json(new JSONResultCreateLab( ResponseConstants.LabWorkExistErrorSystemName, Name ));
+			};
 
-            LabWork lab = logic.CreateOrGetLabWorkDependingOnId(Id);
-            if (lab == null)
-            {
-                return JsonConvert.SerializeObject( new JSONResultCreateLab(3, Name));
-            }
-            
-            lab.Name = Name;
-            lab.AcquaintanceFrom = logic.ParseDate(DateFrom);
-            lab.AcquaintanceTill = logic.ParseDate(DateTo);
+			LabWork lab = new LabWork();
+			lab.Name = Name;
+			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom);
+			lab.AcquaintanceTill = ParseDate.Parse(DateTo);
 
-            if (IsExistingLab(Id))
-            {
-                lab = logic.DeleteEntries(lab);
-            }
+			_labRepository.SaveLabWork(lab);
+			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
+			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
+
+			return Json(new JSONResultCreateLab(ResponseConstants.LabWorkSuccessCreateSystemName, Name, lab.Id));
+        }
+
+        [HttpPost]
+        public JsonResult LabWorkEdit(string Name, string DateFrom, string DateTo, string JsonArr, long id)
+        {
+			if (_labRepository.CheckLabWorkExist(Name) && (_labRepository.GetLabWorkIdByName(Name) == id))
+			{
+				return Json(new JSONResultCreateLab(ResponseConstants.LabWorkExistErrorSystemName, Name));
+			};
+
+			LabWork lab = _labRepository.GetLabWorkById(id);
+			lab.Name = Name;
+			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom);
+			lab.AcquaintanceTill = ParseDate.Parse(DateTo);
+
+			_labRepository.DeleteEntries(id);
+			lab.LabEntries.Clear();
+
+			_labRepository.ModifyLabWork(lab);
+			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
+			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
+
+			return Json(new JSONResultCreateLab(ResponseConstants.LabWorkSuccessEditSystemName, Name, lab.Id));
+        }
+
+		/*
+        [HttpPost]
+        public string Create2(string Name, string DateFrom, string DateTo, string JsonArr, long Id = 0)
+        {
+			if (logic.ExistedLabWorksCount(Name, Id) != 0)
+			{
+				return JsonConvert.SerializeObject(new JSONResultCreateLab(1, Name));
+			};
+
+			LabWork lab = logic.CreateOrGetLabWorkDependingOnId(Id);
+			if (lab == null)
+			{
+				return JsonConvert.SerializeObject(new JSONResultCreateLab(3, Name));
+			}
+
+			lab.Name = Name;
+			lab.AcquaintanceFrom = logic.ParseDate(DateFrom);
+			lab.AcquaintanceTill = logic.ParseDate(DateTo);
+
+			if (IsExistingLab(Id))
+			{
+				lab = logic.DeleteEntries(lab);
+			}
 
             logic.SaveLabWork(lab, IdNewLab(Id));
             logic.SaveLabEntries(lab, JsonConvert.DeserializeObject<int[]>(JsonArr));
@@ -87,6 +133,7 @@ namespace GraphLabs.Site.Controllers
             }
             return JsonConvert.SerializeObject(new JSONResultCreateLab(resultCode, lab.Name, lab.Id));
         }        
+		*/
 
         /// <summary> Проверяет, что обрабатывается существующая лабораторная работа </summary>
         private bool IsExistingLab(long Id)
@@ -112,9 +159,11 @@ namespace GraphLabs.Site.Controllers
             }
             return JsonConvert.SerializeObject( new CreateLabModel(0, lab) );
         }
+
         #endregion
 
         #region Создание и редактирование варианта лабораторной работы
+
         public ActionResult CreateVariant(long labId = 0, long varId = 0)
         {
             //this.AllowAnonymous();
@@ -216,6 +265,7 @@ namespace GraphLabs.Site.Controllers
             }
             return JsonConvert.SerializeObject(new JSONResultEditVariant(SuccesfulWork, variant) );
         }
+
         #endregion
     }
 }

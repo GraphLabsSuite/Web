@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GraphLabs.DomainModel.Services;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using GraphLabs.DomainModel.Services;
 
 namespace GraphLabs.DomainModel.Repositories
 {
