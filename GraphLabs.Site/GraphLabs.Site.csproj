@@ -424,8 +424,6 @@
     <Content Include="Views\User\_IndexOptionPartial.cshtml" />
     <Content Include="Views\User\_IndexListPartial.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Test\XAP.cshtml" />
     <Content Include="Views\Labs\Index.cshtml" />
     <Content Include="Views\Labs\Create.cshtml" />
     <Content Include="Views\Labs\CreateVariant.cshtml" />
