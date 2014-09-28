@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.CreateLabVariantModel
+﻿@using GraphLabs.Site.Controllers.LabWorks
+@model GraphLabs.Site.Models.CreateLabVariantModel
 
 @{
     ViewBag.Title = "Создание варианта лабораторной работы";
@@ -139,10 +140,26 @@
             $("select").each(function () {
                 list.push($(this).val());
             });
-            var result = "Id=@Model.id&Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked") + "&variantId=@Model.varId";
+            var result = "";
+            @if ( !(Model.id > 0))
+            {
+                @Html.Raw("result = \"Id=" + @Model.id.ToString() + "&\";")
+            }
+            result = result + "Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
+            @if (Model.id > 0)
+            {
+                @Html.Raw("result = result + \"&variantId=" + @Model.varId.ToString() + "\";")
+            }
             $.ajax({
                 type: "POST",
-                url: "CreateVariant",
+                url: @if (Model.id > 0)
+                     {
+                         @Html.Raw("\"EditVariant\"")
+                     }
+                    else
+                     {
+                         @Html.Raw("\"CreateVariant\"")
+                     },
                 data: result,
                 error: function () {
                     $("#error").html("Невозможно отправить данные");
@@ -155,26 +172,20 @@
 
         function Suc(data) {
             switch (data) {
-                case "0":
+                case @ResponseConstants.LabVariantSaveSuccessSystemName:
                     $("#error").html("Вариант успешно сохранен!");                    
-                    break;
-                case "1":
-                    $("#error").html('Невозможно сохранить вариант: лабораторная работа "@Model.Name" отсутствует');
-                    break;
-                case "2":
-                    $("#error").html('Невозможно сохранить вариант: вариант с таким названием уже существует');
-                    break;
-                case "3":
-                    $("#error").html('Невозможно обновить вариант: вариант лабораторной работы не найден');
-                    break;
-                case "4":
+                    break;                    
+                case @ResponseConstants.LabVariantModifySuccessSystemName:
                     $("#error").html('Вариант успешно обновлен!');
                     break;
-                case "5":
-                    $("#error").html('Невозможно сохранить вариант: не найден один из вариантов заданий');
+                case @ResponseConstants.LabVariantNameCollisionSystemName:
+                    $("#error").html('Невозможно сохранить вариант: вариант с таким названием уже существует');
                     break;
-                case "6":
-                    $("#error").html('Невозможно сохранить вариант: ошибка сохранения в БД');
+                case @ResponseConstants.LabVariantSaveErrorSystemName:
+                    $("#error").html('Невозможно сохранить вариант, попробуйте обновить страницу');
+                    break;
+                case @ResponseConstants.LabVariantModifyErrorSystemName:
+                    $("#error").html('Невозможно обновить вариант, попробуйте обновить страницу');
                     break;
             };
         };

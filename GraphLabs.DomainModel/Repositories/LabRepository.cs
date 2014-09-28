@@ -99,7 +99,7 @@ namespace GraphLabs.DomainModel.Repositories
             return (lab == null ? false : true);
         }
 
-        /// <summary> Проверить существование варианта лабораторной работы </summary>
+        /// <summary> Проверить существование варианта лабораторной работы по Id</summary>
         public bool CheckLabVariantExist(long id)
         {
             CheckNotDisposed();
@@ -108,6 +108,18 @@ namespace GraphLabs.DomainModel.Repositories
 
             return (labVariant == null ? false : true);
         }
+
+		/// <summary> Проверить существование варианта лабораторной работы по имени</summary>
+		public bool CheckLabVariantExist(long labId, string name)
+		{
+			CheckNotDisposed();
+
+			LabVariant labVariant = Context.LabVariants
+										.Where(lv => lv.LabWork.Id == labId)
+										.SingleOrDefault(l => l.Number == name);
+
+			return (labVariant == null ? false : true);
+		}
 
         /// <summary> Проверить принадлежность варианта л.р. лабораторной работе </summary>
         public bool CheckLabVariantBelongLabWork(long labId, long labVarId)
@@ -155,6 +167,16 @@ namespace GraphLabs.DomainModel.Repositories
             return Context.LabWorks.SingleOrDefault(l => l.Id == id);
         }
 
+		/// <summary> Получить вариант л.р. по id </summary>
+		public LabVariant GetLabVariantById(long id)
+		{
+			CheckNotDisposed();
+
+			return Context.LabVariants
+						.Include(lv => lv.LabWork)
+						.SingleOrDefault(lv => lv.Id == id);
+		}
+
         /// <summary> Найти вариант лабораторной работы по id </summary>
         public LabVariant FindLabVariantById(long id)
         {
@@ -177,7 +199,7 @@ namespace GraphLabs.DomainModel.Repositories
 
         #endregion
 
-		#region Изменение лабораторной работы в БД
+		#region Изменение в БД
 
 		/// <summary> Удаление содержания лабораторной работы </summary>
 		public void DeleteEntries(long labWorkId)
@@ -216,6 +238,8 @@ namespace GraphLabs.DomainModel.Repositories
 		/// <summary> Сохранение содержания лабораторной работы </summary>
 		public void SaveLabEntries(long labWorkId, long[] tasksId)
 		{
+			CheckNotDisposed();
+
 			int i = 0;
 			LabWork lab = GetLabWorkById(labWorkId);
 
@@ -237,6 +261,8 @@ namespace GraphLabs.DomainModel.Repositories
 		/// <summary> Удаляет лишние варианты заданий из вариантов лабораторной работы для соответствия содержанию </summary>
 		public void DeleteExcessTaskVariantsFromLabVariants(long labWorkId)
 		{
+			CheckNotDisposed();
+
 			bool flag;
 			var labTasks = (from e in Context.LabEntries
 							where e.LabWork.Id == labWorkId
@@ -267,7 +293,27 @@ namespace GraphLabs.DomainModel.Repositories
 			Context.SaveChanges();
 		}
 
+		/// <summary> Сохранение варианта л.р. </summary>
+		public void SaveLabVariant(LabVariant labVar)
+		{
+			CheckNotDisposed();
+
+			Context.LabVariants.Add(labVar);
+			Context.SaveChanges();
+		}
+
+		/// <summary> Изменение варианта л.р. </summary>
+		public void ModifyLabVariant(LabVariant labVar)
+		{
+			CheckNotDisposed();
+
+			Context.Entry(labVar).State = EntityState.Modified;
+			Context.SaveChanges();
+		}
+
 		#endregion
+
+		#region Получение Id экземпляров
 
 		/// <summary> Получить id лабораторной работы по ее имени </summary>
 		public long GetLabWorkIdByName(string name)
@@ -276,5 +322,18 @@ namespace GraphLabs.DomainModel.Repositories
 
 			return Context.LabWorks.Single(l => l.Name == name).Id;
 		}
+
+		/// <summary> Получить id варианта л.р. по его имени </summary>
+		public long GetLabVariantIdByNumber(long labId, string number)
+		{
+			CheckNotDisposed();
+
+			return Context.LabVariants
+						.Where(lv => lv.LabWork.Id == labId)
+						.Single(lv => lv.Number == number)
+						.Id;
+		}
+
+		#endregion
 	}
 }

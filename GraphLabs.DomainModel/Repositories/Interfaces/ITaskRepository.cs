@@ -13,6 +13,10 @@ namespace GraphLabs.DomainModel.Repositories
         [CanBeNull]
         Task FindById(long id);
 
+		/// <summary> Получить вариант задания по id </summary>
+		[NotNull]
+		TaskVariant GetTaskVariantById(long id);
+
         /// <summary> Есть уже задание с таким же именем и версией? </summary>
         bool IsAnySameTask(string name, string version);
 

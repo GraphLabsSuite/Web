@@ -8,6 +8,8 @@ using GraphLabs.Site.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -111,92 +113,82 @@ namespace GraphLabs.Site.Controllers
 
         #region Создание и редактирование варианта лабораторной работы
 
-        public ActionResult CreateVariant(long labId = 0, long varId = 0)
+        public ActionResult CreateVariant(long labId, long varId = 0)
         {
-            //this.AllowAnonymous();
-            var lab = logic.GetLabWorkById(labId);
-            if (lab == null)
-            {
-                return HttpNotFound();
-            }            
+            var lab = _labRepository.GetLabWorkById(labId);
+
             return View( new CreateLabVariantModel(lab, varId) );
         }
-        
-        [HttpPost]
-        public string CreateVariant(int Id, string Number, string JsonArr, bool IntrVar, int variantId = 0)
-        {
-            const string SuccesfulCreating = "0";
-            const string LabWorkNotFoundError = "1";
-            const string NameCollisionError = "2";
-            const string LabVariantNotFoundError = "3";
-            const string SuccesfulUpdating = "4";
-            const string TaskVariantNotFoundError = "5";
-            const string UnknownSavingError = "6";
-            //this.AllowAnonymous(_ctx);
 
-            LabWork lab = logic.GetLabWorkById(Id);
-            if (lab == null)
-            {
-                return LabWorkNotFoundError;
-            }
+		[HttpPost]
+		public JsonResult CreateVariant(long Id, string Number, string JsonArr, bool IntrVar)
+		{
+			LabWork lab = _labRepository.GetLabWorkById(Id);
 
-            if (logic.ExistedLabVariantsCount(Number, lab.Id, variantId) != 0)
-            {
-                return NameCollisionError;
-            }
+			if (_labRepository.CheckLabVariantExist(Id, Number))
+			{
+				return Json(ResponseConstants.LabVariantNameCollisionSystemName);
+			}
 
-            LabVariant labVar = logic.CreateOrGetLabVariantDependingOnId(variantId);
-            if (labVar == null)
-            {
-                return LabVariantNotFoundError;
-            }
+			LabVariant labVar = new LabVariant();
+			labVar.LabWork = lab;
+			labVar.Number = Number;
+			labVar.IntroducingVariant = IntrVar;
+			labVar.Version = 1;
+			labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
 
-            labVar.LabWork = lab;
-            labVar.Number = Number;
-            labVar.IntroducingVariant = IntrVar;
-            if (IsNewLabVar(variantId))
-            {
-                labVar.Version = 1;
-            }
-            else
-            {
-                ++labVar.Version;
-            }
+			try
+			{
+				_labRepository.SaveLabVariant(labVar);
+			}
+			catch (Exception)
+			{
+				return Json(ResponseConstants.LabVariantSaveErrorSystemName);
+			}
 
-            try
-            {
-                labVar.TaskVariants.Clear();
-                labVar.TaskVariants = logic.MakeTaskVariantsList(JsonConvert.DeserializeObject<int[]>(JsonArr));
-            }
-            catch (Exception)
-            {
-                return TaskVariantNotFoundError;
-            }
+			return Json(ResponseConstants.LabVariantSaveSuccessSystemName);
+		}
 
-            try
-            {
-                logic.SaveLabVariant(labVar, IsNewLabVar(variantId));
-            }
-            catch (Exception)
-            {
-                return UnknownSavingError;
-            }
+		[HttpPost]
+		public JsonResult EditVariant(string Number, string JsonArr, bool IntrVar, long variantId)
+		{
+			LabVariant labVar = _labRepository.GetLabVariantById(variantId);
+			long labId = labVar.LabWork.Id;
 
-            if (IsNewLabVar(variantId))
-            {
-                return SuccesfulCreating;
-            }
-            else
-            {
-                return SuccesfulUpdating;
-            }
-        }
+			if (_labRepository.CheckLabVariantExist(labId, Number) && (_labRepository.GetLabVariantIdByNumber(labId, Number) != variantId))
+			{
+				return Json(ResponseConstants.LabVariantNameCollisionSystemName);
+			}
 
-        /// <summary> Проверяет, что обрабатывается новый вариант лабораторной работы </summary>
-        private bool IsNewLabVar(long Id)
-        {
-            return (Id == 0);
-        }
+			labVar.Number = Number;
+			labVar.IntroducingVariant = IntrVar;
+			labVar.Version += 1;
+			labVar.TaskVariants.Clear();
+			labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
+
+			try
+			{
+				_labRepository.ModifyLabVariant(labVar);
+			}
+			catch (Exception)
+			{
+				return Json(ResponseConstants.LabVariantModifyErrorSystemName);
+			}
+
+			return Json(ResponseConstants.LabVariantModifySuccessSystemName);
+		}
+
+		/// <summary> Создает список вариантов заданий из массива id </summary>
+		private List<TaskVariant> MakeTaskVariantsList(long[] taskIds)
+		{
+			var result = new List<TaskVariant>();
+
+			foreach (var tv in taskIds.Distinct().Select(tId => _taskRepository.GetTaskVariantById(tId)))
+			{
+				result.Add(tv);
+			}
+			return result;
+		}
 
         //В id передается результат, в Name - номер варианта
         [HttpPost]

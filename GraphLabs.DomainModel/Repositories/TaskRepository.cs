@@ -25,6 +25,12 @@ namespace GraphLabs.DomainModel.Repositories
             return Context.Tasks.Find(id);
         }
 
+		/// <summary> Получить вариант задания по id </summary>
+		public TaskVariant GetTaskVariantById(long id)
+		{
+			return Context.TaskVariants.Single(tv => tv.Id == id);
+		}
+
         /// <summary> Есть уже задание с таким же именем и версией? </summary>
         public bool IsAnySameTask(string name, string version)
         {
