@@ -100,15 +100,11 @@ namespace GraphLabs.Site.Controllers
         
         //В id передается результат запроса
         [HttpPost]
-        public string EditLab(long Id)
+        public JsonResult EditLab(long Id)
         {
-            //this.AllowAnonymous(_ctx);
-            var lab = logic.GetLabWorkById(Id);
-            if (lab == null)
-            {
-                return JsonConvert.SerializeObject( new CreateLabModel(1) );
-            }
-            return JsonConvert.SerializeObject( new CreateLabModel(0, lab) );
+            var lab = _labRepository.GetLabWorkById(Id);
+            
+            return Json( new CreateLabModel(lab) );
         }
 
         #endregion

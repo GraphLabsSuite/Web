@@ -17,22 +17,16 @@ namespace GraphLabs.Site.Models
         public DateTime? AcquaintanceTo { get; set; }
 
         public List<KeyValuePair<long, string>> Tasks { get; set; }
-
-        /// <summary> Конструктор для создания объекта, свидетельствующего об ошибке </summary>
-        public CreateLabModel(long error)
-        {
-            Id = error;
-        }
-
+		
         public CreateLabModel(long id, Task[] tasks)
         {
             Id = id;
             Tasks = MakeListFromTasks(tasks);
         }
 
-        public CreateLabModel(long result, LabWork lab)
+        public CreateLabModel(LabWork lab)
         {
-            Id = result;
+            Id = lab.Id;
             Name = lab.Name;
             AcquaintanceFrom = lab.AcquaintanceFrom;
             AcquaintanceTo = lab.AcquaintanceTill;

@@ -91,27 +91,18 @@
             $("#firstSelect").focus();
         });
 
-        function SucEditLoad(data) {
-            var obj = jQuery.parseJSON(data);
-            switch (obj.Id) {
-                case 0:
-                    $("#error").html("");
-                    $("#save").removeAttr("disabled");
-                    $("#labName").val(obj.Name);
-                    if (obj.AcquaintanceFrom != null) {
-                        $("#dateFrom").val(obj.AcquaintanceFrom.substring(0, 10));
-                    };
-                    if (obj.AcquaintanceTo != null) {
-                        $("#dateTo").val(obj.AcquaintanceTo.substring(0, 10));
-                    };
-                    for (var i = 0; i < obj.Tasks.length; ++i) {
-                        $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
-                    };
-                    break;
-                case 1:
-                    alert("Лабораторная работа не найдена!");
-                    location.href = "/Labs";
-                    break;
+        function SucEditLoad(obj) {
+            $("#error").html("");
+            $("#save").removeAttr("disabled");
+            $("#labName").val(obj.Name);
+            if (obj.AcquaintanceFrom != null) {
+                $("#dateFrom").val(obj.AcquaintanceFrom.substring(0, 10));
+            };
+            if (obj.AcquaintanceTo != null) {
+                $("#dateTo").val(obj.AcquaintanceTo.substring(0, 10));
+            };
+            for (var i = 0; i < obj.Tasks.length; ++i) {
+                $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
             };
         };
 
