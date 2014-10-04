@@ -7,34 +7,43 @@ using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Models;
 using Newtonsoft.Json;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
     public class ResultController : GraphLabsController
-    {
-        private GraphLabsContext Context
-        {
-            get { return DependencyResolver.GetService<GraphLabsContext>(); }
-        }
+	{
+		#region Зависимости
 
+		private IGroupRepository _groupsRepository
+		{
+			get { return DependencyResolver.GetService<IGroupRepository>(); }
+		}
+
+		private ILabRepository _labsRepository
+		{
+			get { return DependencyResolver.GetService<ILabRepository>(); }
+		}
+		
         private ISystemDateService DateService
         {
             get { return DependencyResolver.GetService<ISystemDateService>(); }
         }
 
-        public ActionResult Index()
+		#endregion
+
+		public ActionResult Index()
         {
             ResultModel res = new ResultModel();
 
-            res.Groups = (from g in Context.Groups
-                          select g).ToArray()
-                          .Select(t => new GroupModel(t, DateService))
-                          .ToArray();
+			res.Groups = _groupsRepository
+							.GetAllGroups()
+							.Select(g => new GroupModel(g, DateService))
+							.ToArray();
 
-            res.Labs = (from l in Context.LabWorks
-                        select l).ToArray();
-
+			res.Labs = _labsRepository.GetLabWorks();
+			
             return View(res);
         }
 
@@ -48,14 +57,14 @@ namespace GraphLabs.Site.Controllers
             result.Result = 0;
             result.Marks = new GroupResult[groupsId.Count];
 
-            result.LabName = Context.LabWorks.Find(Lab).Name;
+			result.LabName = _labsRepository.GetLabWorkById(Lab).Name;
 
             GroupModel group;
             int j = 0;
 
             foreach (long i in groupsId)
             {
-                group = new GroupModel(Context.Groups.Find(i), DateService);
+                group = new GroupModel(_groupsRepository.GetGroupById(i), DateService);
                 result.Marks[j] = new GroupResult();
                 result.Marks[j].Id = group.Id;
                 result.Marks[j].Name = group.Name;
@@ -86,7 +95,7 @@ namespace GraphLabs.Site.Controllers
         {
             JSONResultGroupDetail result = new JSONResultGroupDetail();
             result.Result = 0;
-            result.Name = (new GroupModel(Context.Groups.Find(GroupId), DateService)).Name;
+            result.Name = (new GroupModel(_groupsRepository.GetGroupById(GroupId), DateService)).Name;
 
             return "";
         }
