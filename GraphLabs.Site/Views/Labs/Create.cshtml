@@ -262,7 +262,7 @@
                 case @ResponseConstants.LabWorkSuccessCreateSystemName:
                     $("#error").html("Лабораторная работа " + obj.LabName + " успешно сохранена!");
                     if (wantCreate == 1) {
-                        location.href = "/Labs/CreateVariant?labId=" + obj.LabId;
+                        location.href = "/Labs/IndexCreateVariant?labId=" + obj.LabId;
                     };
                     break;
                 case @ResponseConstants.LabWorkExistErrorSystemName:

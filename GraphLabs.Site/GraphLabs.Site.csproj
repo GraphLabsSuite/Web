@@ -428,7 +428,7 @@
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Labs\Index.cshtml" />
     <Content Include="Views\Labs\Create.cshtml" />
-    <Content Include="Views\Labs\CreateVariant.cshtml" />
+    <Content Include="Views\Labs\IndexCreateVariant.cshtml" />
     <Content Include="Views\TaskVariant\EditVariant.cshtml" />
     <Content Include="Views\TaskVariant\Index.cshtml" />
   </ItemGroup>

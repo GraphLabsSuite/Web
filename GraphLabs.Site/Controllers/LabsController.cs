@@ -16,9 +16,6 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class LabsController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
-        private LabsLogic logic = new LabsLogic();
-
         #region Зависимости
 
         private ILabRepository _labRepository
@@ -113,7 +110,7 @@ namespace GraphLabs.Site.Controllers
 
         #region Создание и редактирование варианта лабораторной работы
 
-        public ActionResult CreateVariant(long labId, long varId = 0)
+        public ActionResult IndexCreateVariant(long labId, long varId = 0)
         {
             var lab = _labRepository.GetLabWorkById(labId);
 
@@ -192,17 +189,10 @@ namespace GraphLabs.Site.Controllers
 
         //В id передается результат, в Name - номер варианта
         [HttpPost]
-        public string EditVariant(long varId)
+        public JsonResult GetVariantInfo(long varId)
         {
-            const int VariantNotFoundError = 1;
-            const int SuccesfulWork = 0;
-            //this.AllowAnonymous(_ctx);
-            var variant = logic.GetLabVariantById(varId);
-            if (variant == null)
-            {
-                return JsonConvert.SerializeObject( new JSONResultEditVariant(VariantNotFoundError) );
-            }
-            return JsonConvert.SerializeObject(new JSONResultEditVariant(SuccesfulWork, variant) );
+            var variant = _labRepository.GetLabVariantById(varId);
+            return Json(new JSONResultEditVariant(variant) );
         }
 
         #endregion

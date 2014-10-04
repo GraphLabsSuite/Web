@@ -8,23 +8,14 @@ namespace GraphLabs.Site.Models
 {
     public class JSONResultEditVariant
     {
-        public long Result { get; set; }
-
         public string Name { get; set; }
 
         public List<KeyValuePair<long, long>> Variant { get; set; }
 
         public bool IntroducingVariant { get; set; }
 
-        /// <summary> Конструктор для создания объекта, свидетельствующего об ошибке </summary>
-        public JSONResultEditVariant(long error)
+        public JSONResultEditVariant(LabVariant variant)
         {
-            Result = error;
-        }
-
-        public JSONResultEditVariant(long result, LabVariant variant)
-        {
-            Result = result;
             Name = variant.Number;
             Variant = MakeVariantFromTasksVariant(variant.TaskVariants);
             IntroducingVariant = variant.IntroducingVariant;

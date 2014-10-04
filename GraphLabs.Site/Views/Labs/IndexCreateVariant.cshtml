@@ -59,7 +59,7 @@
                 var result="varId=@Model.varId";
                 $.ajax({
                     type: "POST",
-                    url: "EditVariant",
+                    url: "GetVariantInfo",
                     data: result,
                     error: function() {
                         alert("Невозможно загрузить вариант работы");
@@ -72,30 +72,21 @@
             }
         });
 
-        function SucEditLoad(data) {
-            var obj = jQuery.parseJSON(data);
-            switch (obj.Result) {
-                case 0:
-                    $("#error").html("");
-                    $("#varNum").val(obj.Name);
-                    if (obj.IntroducingVariant) {
-                        $("#IntroducingVariant").prop("checked", true);
-                    };
-                    for (var i = 0; i < obj.Variant.length; ++i) {
-                        $("#" + obj.Variant[i].Key).find("option[value=" + obj.Variant[i].Value + "]").attr("selected", "selected");
-                        $("#" + obj.Variant[i].Key).find("option[value='no']").detach();
-                        $("#" + obj.Variant[i].Key).parent().parent().find("th").replaceWith(function (index, oldHTML) {
-                            return $("<td>").html(oldHTML);
-                        });
-                    };
-                    if ($("option[value='no']").size() == 0) {
-                        $("#save").removeAttr("disabled");
-                    };
-                    break;
-                case 1:
-                    alert("Вариант работы не найден!");
-                    location.href = "/Labs";
-                    break;
+        function SucEditLoad(obj) {
+            $("#error").html("");
+            $("#varNum").val(obj.Name);
+            if (obj.IntroducingVariant) {
+                $("#IntroducingVariant").prop("checked", true);
+            };
+            for (var i = 0; i < obj.Variant.length; ++i) {
+                $("#" + obj.Variant[i].Key).find("option[value=" + obj.Variant[i].Value + "]").attr("selected", "selected");
+                $("#" + obj.Variant[i].Key).find("option[value='no']").detach();
+                $("#" + obj.Variant[i].Key).parent().parent().find("th").replaceWith(function (index, oldHTML) {
+                    return $("<td>").html(oldHTML);
+                });
+            };
+            if ($("option[value='no']").size() == 0) {
+                $("#save").removeAttr("disabled");
             };
         };
 
@@ -141,18 +132,18 @@
                 list.push($(this).val());
             });
             var result = "";
-            @if ( !(Model.id > 0))
+            @if ( !(Model.varId > 0))
             {
                 @Html.Raw("result = \"Id=" + @Model.id.ToString() + "&\";")
             }
             result = result + "Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
-            @if (Model.id > 0)
+            @if (Model.varId > 0)
             {
                 @Html.Raw("result = result + \"&variantId=" + @Model.varId.ToString() + "\";")
             }
             $.ajax({
                 type: "POST",
-                url: @if (Model.id > 0)
+                url: @if (Model.varId > 0)
                      {
                          @Html.Raw("\"EditVariant\"")
                      }

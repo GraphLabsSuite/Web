@@ -120,7 +120,7 @@
                             pic = pic + '  <img src="/Images/demo.png" />';
                         };
 
-                        $("#varButtons").append('<td>' + pic + '<br /><a href="/Labs/CreateVariant?labId=' + labId + '&varId=' + obj.Variants[i].VarId + '">Редактировать</a></td>');
+                        $("#varButtons").append('<td>' + pic + '<br /><a href="/Labs/IndexCreateVariant?labId=' + labId + '&varId=' + obj.Variants[i].VarId + '">Редактировать</a></td>');
                     };
 
                     break;
@@ -132,11 +132,11 @@
         };
 
         $("#addVar").click(function () {
-            location.href = "/Labs/CreateVariant?labId=" + labId;
+            location.href = "/Labs/IndexCreateVariant?labId=" + labId;
         });
 
         $("#modLab").click(function () {
-            location.href = "/Labs/LabWorkEdit?Id=" + labId;
+            location.href = "/Labs/Create?Id=" + labId;
         });
     </script>
 }

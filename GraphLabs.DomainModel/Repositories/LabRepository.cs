@@ -266,7 +266,7 @@ namespace GraphLabs.DomainModel.Repositories
 			bool flag;
 			var labTasks = (from e in Context.LabEntries
 							where e.LabWork.Id == labWorkId
-							select e.Task);
+							select e.Task.Id);
 			var labVariants = (from lv in Context.LabVariants
 							   where lv.LabWork.Id == labWorkId
 							   select lv);
@@ -277,7 +277,7 @@ namespace GraphLabs.DomainModel.Repositories
 				flag = false;
 				foreach (var tv in varTasks)
 				{
-					if (!labTasks.Contains(tv.Key))
+					if (!labTasks.Contains(tv.Key.Id))
 					{
 						labVar.TaskVariants.Remove(tv.Value);
 						flag = true;
