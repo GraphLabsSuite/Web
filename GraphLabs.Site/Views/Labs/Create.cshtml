@@ -10,6 +10,7 @@
 
 <div class="widthSection">
     <span id="error" class="field-validation-error"></span>
+    <span id="success" class="field-validation-success"></span>
     <fieldset>
         <legend>Информация о лабораторной работе</legend>
         <ol>
@@ -93,6 +94,7 @@
 
         function SucEditLoad(obj) {
             $("#error").html("");
+            $("#success").html("");
             $("#save").removeAttr("disabled");
             $("#labName").val(obj.Name);
             if (obj.AcquaintanceFrom != null) {
@@ -209,6 +211,7 @@
         });
 
         $("#save").click(function () {
+            $("#success").html("");
             if ($("#labName").attr("value") == "") {
                 $("#error").html("Необходимо ввести название лабораторной работы");
                 wantCreate = 0;
@@ -248,6 +251,7 @@
                      },
                 data: result,
                 error: function() {
+                    $("#success").html("");
                     $("#error").html("Невозможно отправить данные");
                     wantCreate = 0;
                 },
@@ -260,17 +264,20 @@
         function Suc(obj) {
             switch (obj.Result) {
                 case @ResponseConstants.LabWorkSuccessCreateSystemName:
-                    $("#error").html("Лабораторная работа " + obj.LabName + " успешно сохранена!");
+                    $("#error").html("");
+                    $("#success").html("Лабораторная работа " + obj.LabName + " успешно сохранена!");
                     if (wantCreate == 1) {
                         location.href = "/Labs/IndexCreateVariant?labId=" + obj.LabId;
                     };
                     break;
                 case @ResponseConstants.LabWorkExistErrorSystemName:
+                    $("#success").html("");
                     $("#error").html('Лабораторная работа "' + obj.LabName + '" уже существует');
                     wantCreate = 0;
                     break;
                 case @ResponseConstants.LabWorkSuccessEditSystemName:
-                    $("#error").html('Лабораторная работа "' + obj.LabName + '" успешно обновлена!');
+                    $("#error").html("");
+                    $("#success").html('Лабораторная работа "' + obj.LabName + '" успешно обновлена!');
                     break;
             };
         };

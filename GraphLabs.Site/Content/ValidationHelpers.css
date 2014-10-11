@@ -3,6 +3,11 @@
     font-weight: bold;
 }
 
+.field-validation-success {
+    color: #097a0f;
+    font-weight: bold;
+}
+
 .field-validation-valid {
     display: none;
 }

@@ -11,7 +11,8 @@
 <br />
 
 <div class="widthSection">
-<span id="error" class="field-validation-error"></span>
+    <span id="error" class="field-validation-error"></span>
+    <span id="success" class="field-validation-success"></span>
 </div>
 
 <div>
@@ -122,6 +123,7 @@
         };
 
         $("#save").click(function () {
+            $("#success").html("");
             if ($("#varNum").attr("value") == "") {
                 $("#error").html("Необходимо ввести номер варианта");
                 return;
@@ -162,12 +164,14 @@
         });
 
         function Suc(data) {
+            $("#error").html("");
+            $("#success").html("");
             switch (data) {
                 case @ResponseConstants.LabVariantSaveSuccessSystemName:
-                    $("#error").html("Вариант успешно сохранен!");                    
+                    $("#success").html("Вариант успешно сохранен!");                    
                     break;                    
                 case @ResponseConstants.LabVariantModifySuccessSystemName:
-                    $("#error").html('Вариант успешно обновлен!');
+                    $("#success").html('Вариант успешно обновлен!');
                     break;
                 case @ResponseConstants.LabVariantNameCollisionSystemName:
                     $("#error").html('Невозможно сохранить вариант: вариант с таким названием уже существует');
@@ -180,6 +184,5 @@
                     break;
             };
         };
-
     </script>
 }
