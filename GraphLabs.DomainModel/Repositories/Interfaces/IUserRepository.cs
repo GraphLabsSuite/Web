@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -16,15 +17,41 @@ namespace GraphLabs.DomainModel.Repositories
         /// <summary> Создать нового студента </summary>
         [NotNull]
         Student CreateNotVerifiedStudent(string email, string name, string fatherName, string surname, string passwordHash, Group group);
-    }
 
-    /// <summary> Репозиторий с пользователями - контракты </summary>
+		#region Получение массивов пользователей
+
+		/// <summary> Получить массив всех пользователей </summary>
+		User[] GetAllUsers();
+
+		/// <summary> Получить массив пользователей-администраторов </summary>
+		User[] GetAdministrators();
+
+		/// <summary> Получить массив пользователей-преподавателей </summary>
+		User[] GetTeachers();
+
+		/// <summary> Получить массив исключенных студентов </summary>
+		Student[] GetDismissedStudents();
+
+		/// <summary> Получить массив подтвержденных студентов </summary>
+		Student[] GetVerifiedStudents();
+
+		/// <summary> Получить массив неподтвержденных студентов </summary>
+		Student[] GetUnverifiedStudents();
+
+		#endregion
+	}
+
+	#region Контракты
+
+	/// <summary> Репозиторий с пользователями - контракты </summary>
     [ContractClassFor(typeof(IUserRepository))]
     internal abstract class UserRepositoryContracts : IUserRepository
     {
-        // ReSharper disable AssignNullToNotNullAttribute
+		/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
+		public void Dispose()
+		{
+		}
 
-        /// <summary> Получить активного пользователя по email </summary>
         public User FindActiveUserByEmail(string email)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(email));
@@ -32,7 +59,6 @@ namespace GraphLabs.DomainModel.Repositories
             return default(User);
         }
 
-        /// <summary> Создать нового студента </summary>
         public Student CreateNotVerifiedStudent(string email, string name, string fatherName, string surname, string passwordHash, Group group)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(email));
@@ -46,9 +72,52 @@ namespace GraphLabs.DomainModel.Repositories
             return null;
         }
 
-        /// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
-        public void Dispose()
-        {
-        }
-    }
+		#region Получение массивов пользователей
+
+		public User[] GetAllUsers()
+		{
+			Contract.Ensures(Contract.Result<User[]>() != null);
+
+			return new User[0];
+		}
+
+		public User[] GetAdministrators()
+		{
+			Contract.Ensures(Contract.Result<User[]>() != null);
+
+			return new User[0];
+		}
+
+		public User[] GetTeachers()
+		{
+			Contract.Ensures(Contract.Result<User[]>() != null);
+
+			return new User[0];
+		}
+
+		public Student[] GetDismissedStudents()
+		{
+			Contract.Ensures(Contract.Result<Student[]>() != null);
+
+			return new Student[0];
+		}
+
+		public Student[] GetVerifiedStudents()
+		{
+			Contract.Ensures(Contract.Result<Student[]>() != null);
+
+			return new Student[0];
+		}
+
+		public Student[] GetUnverifiedStudents()
+		{
+			Contract.Ensures(Contract.Result<Student[]>() != null);
+
+			return new Student[0];
+		}
+
+		#endregion
+	}
+
+	#endregion
 }

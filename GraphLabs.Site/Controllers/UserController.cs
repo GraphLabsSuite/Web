@@ -11,6 +11,8 @@ using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
 using PagedList;
 using GraphLabs.Site.Utils;
+using GraphLabs.DomainModel.Repositories;
+using System.Collections.Generic;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -19,13 +21,22 @@ namespace GraphLabs.Site.Controllers
     {
         private readonly GraphLabsContext _ctx = new GraphLabsContext();
 
-        /// <summary> Системное время </summary>
-        protected ISystemDateService DateService 
+		#region Зависимости
+
+		private ISystemDateService DateService 
         {
             get { return DependencyResolver.GetService<ISystemDateService>(); }
         }
 
-        public ActionResult Index()
+		private IUserRepository _userRepository
+		{
+			get { return DependencyResolver.GetService<IUserRepository>(); }
+		}
+
+		#endregion
+
+		// TODO: О боже, что это?!
+		public ActionResult Index()
         {
             UserIndex ui = new UserIndex();
 
@@ -41,33 +52,19 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]        
         public ActionResult Index(UserIndex ui)
         {
-            var user = (from u in _ctx.Users
-                        select u).ToList();
+			var adminUsers = ui.Admin ? _userRepository.GetAdministrators() : new User[0];
+			var teacherUsers = ui.Teacher ? _userRepository.GetTeachers() : new User[0];
+			var dismissedStudents = ui.DismissStudent ? _userRepository.GetDismissedStudents() : new User[0];
+			var verStudents = ui.VerStudent ? _userRepository.GetVerifiedStudents() : new User[0];
+			var unverStudents = ui.UnVerStudent ? _userRepository.GetUnverifiedStudents() : new User[0];
 
-            System.Collections.Generic.List<User> userList = new System.Collections.Generic.List<User>();
+			var userList = adminUsers
+							.Concat(teacherUsers)
+							.Concat(dismissedStudents)
+							.Concat(verStudents)
+							.Concat(unverStudents);
 
-            if (ui.Admin)
-            {
-                userList.AddRange(user.Where(u => u.Role == UserRole.Administrator).ToList());
-            }
-            if (ui.Teacher)
-            {
-                userList.AddRange(user.Where(u => u.Role == UserRole.Teacher).ToList());
-            }
-            if (ui.VerStudent)
-            {
-                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && (!((Student)u).IsDismissed) && ((Student)u).IsVerified).ToList());
-            }
-            if (ui.UnVerStudent)
-            {
-                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && (!((Student)u).IsDismissed) && (!((Student)u).IsVerified)).ToList());
-            }
-            if (ui.DismissStudent)
-            {
-                userList.AddRange(user.Where(u => (u.Role == UserRole.Student) && ((Student)u).IsDismissed).ToList());
-            }
-
-            var us = userList.Select(u => new UserModel(u, DateService)).ToList();
+            var us = userList.Select(user => new UserModel(user, DateService)).ToList();
 
             ui.Users = us;
 
@@ -75,12 +72,7 @@ namespace GraphLabs.Site.Controllers
 
             return View(ui);
         }
-
-        
-
-        //
-        // GET: /User/Edit/5
-
+		
         public ActionResult Edit(long id = 0)
         {
             var user = _ctx.Users.Find(id);
