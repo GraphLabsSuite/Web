@@ -3,10 +3,10 @@
 @{
     ViewBag.Title = "Создание теста";
 }
-<h1>12erguifwecgyfwe</h1>
+<h2>Создание вопроса</h2>
 
     <div class="editor-label">
-            Редактирование теста
+            Текст вопроса
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.question)
@@ -17,7 +17,7 @@
                 Варианты ответов
             </th>
             <th>
-                Верность ответа
+                Верность
             </th>
         </tr>
         @foreach (var el in Model.questionOptions)
@@ -30,22 +30,27 @@
                     <input type="checkbox" value="@el.Value" />
                 </td>
                 <td>
+                    <img title="Клонировать ответ" src="/Images/copy.png" class="copyOption" />
+                    <img title="Удалить ответ" src="/Images/_false.png" class="deleteOption" />
                 </td>
             </tr>
         }
     </table>
     <input id="addOption" type="button" value="Добавить вариант ответа" />
 
-
-
 @section Scripts
 {
     <script>
         $("#addOption").click(function () {
-            $("table").append("<tr><td><input type=\"text\" value=\"\" /></td><td><input type=\"checkbox\" value=\"\" /></td><td><img src=\"/Images/_false.png\" class=\"deleteOption\" /></td></tr>");
+            $("table").append("<tr><td><input type=\"text\" value=\"\" /></td><td><input type=\"checkbox\" value=\"\" /></td><td><img title=\"Клонировать ответ\" src=\"/Images/copy.png\" class=\"copyOption\" /><img title=\"Удалить ответ\" src=\"/Images/_false.png\" class=\"deleteOption\" /></td></tr>");
         });
+
         $(".deleteOption").live("click", function () {
             $(this).parent().parent().remove();
+        });
+
+        $(".copyOption").live("click", function () {
+            $(this).parent().parent().clone().appendTo("table");
         });
     </script>
 }
