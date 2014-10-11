@@ -39,6 +39,9 @@ namespace GraphLabs.DomainModel.Repositories
 		Student[] GetUnverifiedStudents();
 
 		#endregion
+
+		/// <summary> Получить пользователя по Id </summary>
+		User GetUserById(long Id);
 	}
 
 	#region Контракты
@@ -117,6 +120,14 @@ namespace GraphLabs.DomainModel.Repositories
 		}
 
 		#endregion
+
+		public User GetUserById(long Id)
+		{
+			Contract.Requires(Id > 0);
+			Contract.Ensures(Contract.Result<User>() != null);
+
+			return default(User);
+		}
 	}
 
 	#endregion

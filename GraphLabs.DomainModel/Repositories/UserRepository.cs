@@ -112,5 +112,11 @@ namespace GraphLabs.DomainModel.Repositories
 		}
 
 		#endregion
+
+		/// <summary> Получить пользователя по Id </summary>
+		public User GetUserById(long Id)
+		{
+			return Context.Users.Find(Id);
+		}
 	}
 }

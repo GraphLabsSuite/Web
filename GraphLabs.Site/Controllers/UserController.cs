@@ -33,6 +33,11 @@ namespace GraphLabs.Site.Controllers
 			get { return DependencyResolver.GetService<IUserRepository>(); }
 		}
 
+		private IGroupRepository _groupRepository
+		{
+			get { return DependencyResolver.GetService<IGroupRepository>(); }
+		}
+
 		#endregion
 
 		// TODO: О боже, что это?!
@@ -75,18 +80,15 @@ namespace GraphLabs.Site.Controllers
 		
         public ActionResult Edit(long id = 0)
         {
-            var user = _ctx.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
+			var user = _userRepository.GetUserById(id);
 
+			// Преподаватели могут редактировать только студентов
             if (user.Role != UserRole.Student && !User.IsInRole(UserRole.Administrator))
             {
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
 
-            UserEdit ue = new UserEdit(user);
+            var ue = new UserEdit(user);
             if (user.Role == UserRole.Student)
             {
                 ue.ChangeToStudent((Student)user);             
@@ -104,13 +106,8 @@ namespace GraphLabs.Site.Controllers
             ModelState.Remove("IsVerified");
             user.IsVerified = true;
             
-            Student us = (Student)_ctx.Users.Find(user.Id);
-
-            if (us == null)
-            {
-                return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
-            }
-            
+            Student us = (Student)_userRepository.GetUserById(user.Id);
+			            
             us.IsVerified = true;
             _ctx.Entry(us).State = EntityState.Modified;
             _ctx.SaveChanges();
@@ -127,13 +124,8 @@ namespace GraphLabs.Site.Controllers
             ModelState.Remove("IsDismissed");
             user.IsDismissed = true;
 
-            Student us = (Student)_ctx.Users.Find(user.Id);
-
-            if (us == null)
-            {
-                return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
-            }
-
+			Student us = (Student)_userRepository.GetUserById(user.Id);
+			
             us.IsDismissed = true;
             _ctx.Entry(us).State = EntityState.Modified;
             _ctx.SaveChanges();
@@ -149,7 +141,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (user.Role == UserRole.Student)
             {
-                Student stud = (Student)_ctx.Users.Find(user.Id);
+				Student stud = (Student)_userRepository.GetUserById(user.Id);
                 try
                 {
                     _ctx.Users.Remove(stud);
@@ -161,7 +153,7 @@ namespace GraphLabs.Site.Controllers
             }
             else
             {
-                User us = _ctx.Users.Find(user.Id);
+                User us = _userRepository.GetUserById(user.Id);
                 try
                 {
                     _ctx.Users.Remove(us);
@@ -190,13 +182,13 @@ namespace GraphLabs.Site.Controllers
             {
                 if (user.Role == UserRole.Student)
                 {
-                    Student stud = (Student)_ctx.Users.Find(user.Id);
+					Student stud = (Student)_userRepository.GetUserById(user.Id);
 
                     if (stud == null)
                     {
                         return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
                     }
-                    
+
                     stud.Group = _ctx.Groups.Find(user.GroupID);
                     stud.FatherName = user.FatherName;
                     stud.Name = user.Name;
@@ -209,7 +201,7 @@ namespace GraphLabs.Site.Controllers
                 }
                 else
                 {
-                    User us = _ctx.Users.Find(user.Id);
+					User us = _userRepository.GetUserById(user.Id);
                     
                     if (us == null)
                     {
@@ -241,7 +233,7 @@ namespace GraphLabs.Site.Controllers
         [GLAuthorize(UserRole.Administrator)]
         public ActionResult Create()
         {
-            UserCreate user = new UserCreate();
+            var user = new UserCreate();
 
             FillRoleList();
             FillGroups();
