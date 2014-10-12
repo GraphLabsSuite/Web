@@ -235,7 +235,6 @@ namespace GraphLabs.Site.Controllers
         {
             var user = new UserCreate();
 
-            FillRoleList();
             FillGroups();
 
             return View(user);
@@ -290,13 +289,12 @@ namespace GraphLabs.Site.Controllers
                     try
                     {
                         _ctx.Users.Add(us);
+						_ctx.SaveChanges();
                     }
-                    catch (System.Data.SqlClient.SqlException)
+                    catch (Exception)
                     {
                         return ReturnCreateWithMessage(user, "Пользователь с таким email уже существует!");
-                    }
-
-                    _ctx.SaveChanges();
+                    }                    
                 }
                 return RedirectToAction("Index");
             }
@@ -308,27 +306,14 @@ namespace GraphLabs.Site.Controllers
         {
             ViewBag.Message = mes;
 
-            FillRoleList();
             FillGroups(user.GroupID);
 
             return View(user);
         }
-
-        private void FillRoleList()
-        {
-            System.Collections.Generic.List<SelectListItem> roles = new System.Collections.Generic.List<SelectListItem>();
-            roles.Add(new SelectListItem() { Text = "Администратор", Value = "4" });
-            roles.Add(new SelectListItem() { Text = "Преподаватель", Value = "2" });
-            roles.Add(new SelectListItem() { Text = "Студент", Value = "1" });
-
-            ViewBag.Role = roles;
-        }
-
+		
         private void FillGroups(object selectedValue = null)
         {
-            var groups = (from g in _ctx.Groups
-                          where g.IsOpen
-                          select g).ToList()
+			var groups = _groupRepository.GetOpenGroups()
                           .Select(t => new GroupModel(t, new SystemDateService(_ctx) ))
                           .ToList();
             ViewBag.GroupID = new SelectList(groups, "Id", "Name", selectedValue);

@@ -149,6 +149,7 @@
     <Compile Include="Extensions\SessionExtensions.cs" />
     <Compile Include="Extensions\SystemDateExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
+    <Compile Include="Extensions\UserRoleExtensions.cs" />
     <Compile Include="Grade.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>

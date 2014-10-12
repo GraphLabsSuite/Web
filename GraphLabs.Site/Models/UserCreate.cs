@@ -5,12 +5,13 @@ using System.Linq;
 using System.Web;
 using GraphLabs.DomainModel;
 using System.Web.Mvc;
+using GraphLabs.DomainModel.Extensions;
 
 namespace GraphLabs.Site.Models
 {
     public class UserCreate
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
         [Display(Name="Фамилия")]
@@ -38,5 +39,16 @@ namespace GraphLabs.Site.Models
         [Display(Name = "Первоначальный пароль")]
         [MinLength(6, ErrorMessage="Минимальная длина 6 символов")]
         public string Pass { get; set; }
+
+		public List<SelectListItem> RoleList {
+			get
+			{
+				var result = new List<SelectListItem>();
+				result.Add(new SelectListItem { Text = "Администратор", Value = UserRole.Administrator.ValueToString() });
+				result.Add(new SelectListItem { Text = "Преподаватель", Value = UserRole.Teacher.ValueToString() });
+				result.Add(new SelectListItem { Text = "Студент", Value = UserRole.Student.ValueToString() });
+				return result;
+			}
+		}
     }
 }

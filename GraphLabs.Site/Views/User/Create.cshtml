@@ -22,7 +22,7 @@
             @Html.LabelFor(model => model.Role)
         </div>
         <div class="editor-field">
-            @Html.DropDownList("Role")
+            @Html.DropDownList("Role", Model.RoleList)
             @Html.ValidationMessageFor(model => model.Role)
         </div>
 
