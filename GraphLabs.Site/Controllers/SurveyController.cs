@@ -2,7 +2,6 @@
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Controllers.LabWorks;
-using GraphLabs.Site.Logic.LabsLogic;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 using Newtonsoft.Json;
