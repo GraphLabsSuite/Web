@@ -4,6 +4,8 @@
     ViewBag.Title = "Создание теста";
 }
 <h2>Создание вопроса</h2>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
 
     <div class="editor-label">
             Текст вопроса
@@ -20,14 +22,14 @@
                 Верность
             </th>
         </tr>
-        @foreach (var el in Model.questionOptions)
+        @for (var i = 0; i < Model.questionOptions.Length; ++i )
         {
             <tr>
                 <td>
-                    <input type="text" value="@el.Key" />
+                    @(Html.EditorFor(model => model.questionOptions[i].Key))
                 </td>
                 <td>
-                    <input type="checkbox" value="@el.Value" />
+                    @(Html.EditorFor(model => model.questionOptions[i].Value))
                 </td>
                 <td>
                     <img title="Клонировать ответ" src="/Images/copy.png" class="copyOption" />
@@ -37,7 +39,10 @@
         }
     </table>
     <input id="addOption" type="button" value="Добавить вариант ответа" />
-
+    <p>
+        <input type="submit" value="Создать" />
+    </p>
+}
 @section Scripts
 {
     <script>

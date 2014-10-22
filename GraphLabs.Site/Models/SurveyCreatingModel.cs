@@ -8,6 +8,6 @@ namespace GraphLabs.Site.Models
     public class SurveyCreatingModel
     {
         public string question { get; set; }
-        public List<KeyValuePair<string, bool>> questionOptions { get; set; }
+        public KeyValuePair<string, bool>[] questionOptions { get; set; }
     }
 }

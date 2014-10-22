@@ -19,11 +19,22 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Create ()
         {
             var result = new SurveyCreatingModel();
-            result.questionOptions = new List<KeyValuePair<string, bool>>();
-            result.questionOptions.Add(new KeyValuePair<string, bool> ("2131231xdcfsdrevf", false));
+            result.questionOptions = new KeyValuePair<string, bool>[3];
+            result.questionOptions[0] = new KeyValuePair<string, bool> ("2131231xdcfsdrevf", false);
+            result.questionOptions[1] = new KeyValuePair<string, bool>("213123fsdrevf", false);
+            result.questionOptions[2] = new KeyValuePair<string, bool>("sfg231xdcfsdrevf", true);
             return View(result);
         }
 
+        [HttpPost]
+        public ActionResult Create(string question, Dictionary<string, bool> questionOptions)
+        {
+            if (true /* тут валидация*/)
+            {
+                //тут сохранение через дергание репозитория
+            }
+            return View();
+        }
 
     }
 }
