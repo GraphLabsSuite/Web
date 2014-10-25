@@ -31,6 +31,12 @@ namespace GraphLabs.DomainModel.Repositories
 			return Context.TaskVariants.Single(tv => tv.Id == id);
 		}
 
+        /// <summary> Under Construction </summary>
+        public TaskVariant CreateOrUpdateVariant(TaskVariant variant)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary> Есть уже задание с таким же именем и версией? </summary>
         public bool IsAnySameTask(string name, string version)
         {
