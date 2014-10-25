@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.UserCreate
+﻿@using GraphLabs.DomainModel
+@model GraphLabs.Site.Models.UserCreate
 
 @{
     ViewBag.Title = "Добавление пользователя";
@@ -31,7 +32,7 @@
             @Html.LabelFor(model => model.GroupID)
         </div>
         <div class="editor-field">
-            @Html.DropDownList("GroupID")
+            @Html.DropDownList("GroupID", Model.GroupList)
             @Html.ValidationMessageFor(model => model.GroupID)
         </div>
         </div>
@@ -86,6 +87,13 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        $().ready(function () {
+            var condition = "@(Model.Role == UserRole.Student)";
+            if (condition == "True") {
+                setEnabled();
+            }
+        });
+
         $('#Role').change(function(){
             checkRole();
         });

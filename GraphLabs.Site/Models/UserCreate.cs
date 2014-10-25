@@ -6,6 +6,9 @@ using System.Web;
 using GraphLabs.DomainModel;
 using System.Web.Mvc;
 using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.Services;
+using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Logic.Security;
 
 namespace GraphLabs.Site.Models
 {
@@ -40,7 +43,8 @@ namespace GraphLabs.Site.Models
         [MinLength(6, ErrorMessage="Минимальная длина 6 символов")]
         public string Pass { get; set; }
 
-		public List<SelectListItem> RoleList {
+		public List<SelectListItem> RoleList
+		{
 			get
 			{
 				var result = new List<SelectListItem>();
@@ -49,6 +53,37 @@ namespace GraphLabs.Site.Models
 				result.Add(new SelectListItem { Text = "Студент", Value = UserRole.Student.ValueToString() });
 				return result;
 			}
+		}
+
+		public List<SelectListItem> GroupList { get; private set; }
+		public void FillGroupList(Group[] groups, ISystemDateService systemDateService)
+		{
+			GroupList = groups
+				.Select(t => new SelectListItem { Text = t.GetName(systemDateService), Value = t.Id.ToString() })
+				.ToList();
+		}
+
+		public User PrepareUserEntity(IGroupRepository groupRepository, IHashCalculator hashCalculator)
+		{
+			User user;
+
+			if (Role == UserRole.Student)
+				user = new Student
+				{
+					Group = groupRepository.GetGroupById(GroupID),
+					IsVerified = true
+				};
+			else
+				user = new User();
+
+			user.Surname = Surname;
+			user.Name = Name;
+			user.FatherName = FatherName;
+			user.Email = Email;
+			user.Role = Role;
+			user.PasswordHash = hashCalculator.Crypt(Pass);
+
+			return user;
 		}
     }
 }

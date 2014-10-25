@@ -34,7 +34,7 @@ namespace GraphLabs.DomainModel.Repositories
         {
             CheckNotDisposed();
 
-            return Context.Groups.Single(g => g.Id == id);
+            return Context.Groups.Where(g => g.Id == id).Single();
         }
 
         /// <summary> Попробовать сохранить новую группу </summary>

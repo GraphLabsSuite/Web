@@ -38,6 +38,11 @@ namespace GraphLabs.Site.Controllers
 			get { return DependencyResolver.GetService<IGroupRepository>(); }
 		}
 
+		private IHashCalculator _hashCalculator
+		{
+			get { return DependencyResolver.GetService<IHashCalculator>(); }
+		}
+
 		#endregion
 
 		// TODO: О боже, что это?!
@@ -233,84 +238,33 @@ namespace GraphLabs.Site.Controllers
         [GLAuthorize(UserRole.Administrator)]
         public ActionResult Create()
         {
-            var user = new UserCreate();
+            var model = new UserCreate();
 
-            FillGroups();
+			model.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
 
-            return View(user);
+            return View(model);
         }
 
         [GLAuthorize(UserRole.Administrator)]
         [HttpPost]
-        public ActionResult Create(UserCreate user)
+        public ActionResult Create(UserCreate model)
         {
             if (ModelState.IsValid)
             {
-                var HashCalculator = DependencyResolver.GetService<IHashCalculator>();
-                
-                if (user.Role == UserRole.Student)
-                {
-                    Group group = _ctx.Groups.Find(user.GroupID);
-                    Student us = new Student
-                    {
-                        PasswordHash = HashCalculator.Crypt(user.Pass),
-                        Name = user.Name,
-                        Surname = user.Surname,
-                        FatherName = user.FatherName,
-                        Email = user.Email,
-                        Role = user.Role,
-                        IsVerified = true,
-                        Group = group
-                    };
+				User user = model.PrepareUserEntity(_groupRepository, _hashCalculator);
 
-                    try
-                    {
-                        _ctx.Users.Add(us);
-                    }
-                    catch (System.Data.SqlClient.SqlException)
-                    {
-                        return ReturnCreateWithMessage(user, "Пользователь с таким email уже существует!");
-                    }
-
-                    _ctx.SaveChanges();
-                }
-                else
-                {
-                    User us = new User
-                    {
-                        PasswordHash = HashCalculator.Crypt(user.Pass),
-                        Name = user.Name,
-                        Surname = user.Surname,
-                        FatherName = user.FatherName,
-                        Email = user.Email,
-                        Role = user.Role
-                    };
-                    
-                    try
-                    {
-                        _ctx.Users.Add(us);
-						_ctx.SaveChanges();
-                    }
-                    catch (Exception)
-                    {
-                        return ReturnCreateWithMessage(user, "Пользователь с таким email уже существует!");
-                    }                    
-                }
-                return RedirectToAction("Index");
+				if (_userRepository.TrySaveUser(user))
+				{
+					return RedirectToAction("Index");
+				}
+				ViewBag.Message = "Пользователь с таким Email существует";
             }
 
-            return ReturnCreateWithMessage(user);
+			model.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
+
+			return View(model);
         }
-
-        private ActionResult ReturnCreateWithMessage(UserCreate user, string mes = "")
-        {
-            ViewBag.Message = mes;
-
-            FillGroups(user.GroupID);
-
-            return View(user);
-        }
-		
+				
         private void FillGroups(object selectedValue = null)
         {
 			var groups = _groupRepository.GetOpenGroups()

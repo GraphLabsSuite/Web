@@ -40,6 +40,9 @@ namespace GraphLabs.DomainModel.Repositories
 
 		#endregion
 
+		/// <summary> Попытка сохранить нового пользователя </summary>
+		bool TrySaveUser(User user);
+
 		/// <summary> Получить пользователя по Id </summary>
 		User GetUserById(long Id);
 	}
@@ -120,6 +123,13 @@ namespace GraphLabs.DomainModel.Repositories
 		}
 
 		#endregion
+
+		public bool TrySaveUser(User user)
+		{
+			Contract.Requires(user != null);
+
+			return false;
+		}
 
 		public User GetUserById(long Id)
 		{

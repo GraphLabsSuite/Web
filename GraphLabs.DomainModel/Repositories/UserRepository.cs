@@ -113,6 +113,24 @@ namespace GraphLabs.DomainModel.Repositories
 
 		#endregion
 
+		/// <summary> Попытка сохранить нового пользователя </summary>
+		public bool TrySaveUser(User user)
+		{
+			CheckNotDisposed();
+
+			try
+			{
+				Context.Users.Add(user);
+				Context.SaveChanges();
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 		/// <summary> Получить пользователя по Id </summary>
 		public User GetUserById(long Id)
 		{
