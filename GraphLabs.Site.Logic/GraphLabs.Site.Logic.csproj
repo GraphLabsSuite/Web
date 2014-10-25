@@ -104,7 +104,6 @@
     </Compile>
     <Compile Include="INewsManager.cs" />
     <Compile Include="IResultsManager.cs" />
-    <Compile Include="Labs\LabsLogic.cs" />
     <Compile Include="NewsManager.cs" />
     <Compile Include="ResultsManager.cs" />
     <Compile Include="Security\GraphLabsPrincipal.cs" />
@@ -151,7 +150,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Labs\Interfaces\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

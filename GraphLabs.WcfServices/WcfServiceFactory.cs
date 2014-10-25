@@ -2,7 +2,8 @@ using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic;
-using GraphLabs.Tasks.Contract;
+using GraphLabs.Utils;
+using GraphLabs.WcfServices.Data;
 using Microsoft.Practices.Unity;
 using Unity.Wcf;
 
@@ -14,7 +15,11 @@ namespace GraphLabs.WcfServices
         /// <summary> Сконфигурировать зависимости </summary>
         protected override void ConfigureContainer(IUnityContainer container)
         {
-			// register all your components with the container here
+            var mapper = CreateMapper();
+
+            container.RegisterInstance(mapper);
+
+            // register all your components with the container here
             container.RegisterType<ISystemDateService, SystemDateService>();
 
             container.RegisterType<GraphLabsContext>(new HierarchicalLifetimeManager());
@@ -52,11 +57,16 @@ namespace GraphLabs.WcfServices
 
             // ============================================================
 
-            container.RegisterType<IInitParamsProvider, InitParamsProvider>();
-
-            // ============================================================
-
             container.RegisterType<ITasksDataService, TasksDataService>();
+        }
+
+        private Mapper CreateMapper()
+        {
+            var mapper = new Mapper();
+
+            // Сюда можно положить специфичные для WCF маппинги
+            mapper.CreateMap<TaskVariant, TaskVariantDto>();
+            return mapper;
         }
     }    
 }

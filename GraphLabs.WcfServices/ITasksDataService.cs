@@ -13,6 +13,6 @@ namespace GraphLabs.WcfServices
         /// <param name="sessionGuid"> Идентификатор сессии </param>
         /// <returns> Вариант задания </returns>
         [OperationContract]
-        TaskVariantInfo GetVariant(long taskId, Guid sessionGuid);
+        TaskVariantDto GetVariant(long taskId, Guid sessionGuid);
     }
 }

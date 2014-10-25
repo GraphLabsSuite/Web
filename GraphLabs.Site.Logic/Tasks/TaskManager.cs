@@ -3,6 +3,7 @@ using System.IO;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Utils;
+using GraphLabs.Utils.XapProcessor;
 
 namespace GraphLabs.Site.Logic.Tasks
 {
@@ -11,14 +12,17 @@ namespace GraphLabs.Site.Logic.Tasks
     {
         private readonly IDbContextManager _dbContextManager;
         private readonly ITaskRepository _taskRepository;
+        private readonly IXapProcessor _xapProcessor;
 
         /// <summary> Менеджер заданий </summary>
         public TaskManager(
             IDbContextManager dbContextManager,
-            ITaskRepository taskRepository)
+            ITaskRepository taskRepository,
+            IXapProcessor xapProcessor)
         {
             _dbContextManager = dbContextManager;
             _taskRepository = taskRepository;
+            _xapProcessor = xapProcessor;
         }
 
         /// <summary> Загрузить задание </summary>
@@ -48,9 +52,9 @@ namespace GraphLabs.Site.Logic.Tasks
         /// <summary> Создаёт экземпляр Task по xap'у </summary>
         /// <param name="stream">xap</param>
         /// <returns>Null, если xap был кривой</returns>
-        private static Task CreateFromXap(Stream stream)
+        private Task CreateFromXap(Stream stream)
         {
-            var info = XapProcessor.Parse(stream);
+            var info = _xapProcessor.Parse(stream);
 
             if (info == null)
                 return null;
@@ -74,7 +78,7 @@ namespace GraphLabs.Site.Logic.Tasks
             CheckTaskIsAttachedToContext(task);
 
             // Убедимся, что хотя бы формат правильный (xap, и нам удалось вытащить информацию о нём)
-            if (XapProcessor.Parse(newGenerator) != null)
+            if (_xapProcessor.Parse(newGenerator) != null)
             {
                 // Наконец, сохраним.
                 using (_dbContextManager.BeginTransaction())

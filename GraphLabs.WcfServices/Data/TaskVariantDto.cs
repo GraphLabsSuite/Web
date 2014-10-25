@@ -4,11 +4,16 @@ namespace GraphLabs.WcfServices.Data
 {
     /// <summary> Вариант задания </summary>
     [DataContract]
-    public class TaskVariantInfo
+    public class TaskVariantDto
     {
         /// <summary> Id. </summary>
         [DataMember]
         public long Id { get; set; }
+
+        /// <summary> Id задания, для которого вариант </summary>
+        /// <remarks> Слегка избыточен, но путь будет. </remarks>
+        [DataMember]
+        public long TaskId { get; set; }
 
         /// <summary> Данные. Как правило, граф. </summary>
         [DataMember]

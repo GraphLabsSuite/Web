@@ -5,13 +5,14 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
+using GraphLabs.DomainModel.Utils;
 using Ionic.Zip;
 using Mono.Cecil;
 
-namespace GraphLabs.DomainModel.Utils
+namespace GraphLabs.Utils.XapProcessor
 {
     /// <summary> Класс для получения информации о Xap </summary>
-    public static class XapProcessor
+    public class XapProcessor : IXapProcessor
     {
         #region Константы
 
@@ -27,7 +28,7 @@ namespace GraphLabs.DomainModel.Utils
 
         #region Вспомагательные методы
 
-        private static string GetCustomAttribute<T>(this AssemblyDefinition definition)
+        private string GetCustomAttribute<T>(AssemblyDefinition definition)
         {
             var nameToSearch = typeof(T).FullName;
             return definition.CustomAttributes
@@ -38,8 +39,9 @@ namespace GraphLabs.DomainModel.Utils
         
         #endregion
 
+
         /// <summary> Информация о файле Xap </summary>
-        public class XapInfo
+        private class XapInfo : IXapInfo
         {
             public string Name { get; internal set; }
             public string Sections { get; internal set; }
@@ -48,7 +50,7 @@ namespace GraphLabs.DomainModel.Utils
 
         /// <summary> По xap-файлу создаёт сущность Task (в базу не пишет) </summary>
         /// <returns> null, если во время обработки произошла ошибка; иначе - новую сущность </returns>
-        public static XapInfo Parse(Stream stream)
+        public IXapInfo Parse(Stream stream)
         {
             Contract.Requires(stream != null);
 
@@ -126,8 +128,8 @@ namespace GraphLabs.DomainModel.Utils
                         stream.Seek(0, SeekOrigin.Begin);
                         var info = new XapInfo
                             {
-                                Name = definition.GetCustomAttribute<AssemblyTitleAttribute>(),
-                                Sections = definition.GetCustomAttribute<AssemblyDescriptionAttribute>(),
+                                Name = GetCustomAttribute<AssemblyTitleAttribute>(definition),
+                                Sections = GetCustomAttribute<AssemblyDescriptionAttribute>(definition),
                                 Version = definition.Name.Version.ToString()
                             };
                         return info;
