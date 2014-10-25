@@ -32,7 +32,7 @@ namespace GraphLabs.WcfServices
         /// <param name="taskId"> Идентификатор модуля-задания </param>
         /// <param name="sessionGuid"> Идентификатор сессии </param>
         /// <returns> Данные для задания - как правило, исходный граф, или что-то типа того </returns>
-        public TaskVariantInfo GetVariant(long taskId, Guid sessionGuid)
+        public TaskVariantDto GetVariant(long taskId, Guid sessionGuid)
         {
             var task = GetTask(taskId);
             var session = GetSession(sessionGuid);
@@ -41,7 +41,7 @@ namespace GraphLabs.WcfServices
             var variant = result.LabVariant;
             var taskVariant = GetTaskVariant(variant, task);
 
-            return new TaskVariantInfo
+            return new TaskVariantDto
             {
                 Data = taskVariant.Data,
                 GeneratorVersion = taskVariant.GeneratorVersion,

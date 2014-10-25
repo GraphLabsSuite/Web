@@ -14,9 +14,9 @@ namespace GraphLabs.WcfServices
 
         /// <summary> Получает вариант задания по Id </summary>
         /// <param name="id"> Id варианта</param>
-        public TaskVariantInfo GetVariant(long id)
+        public TaskVariantDto GetVariant(long id)
         {
-            Contract.Assume(Contract.Result<TaskVariantInfo>() != null);
+            Contract.Assume(Contract.Result<TaskVariantDto>() != null);
 
 #if DEBUG
             Thread.Sleep(3000);
@@ -28,7 +28,7 @@ namespace GraphLabs.WcfServices
                 if (variant == null)
                     throw new ArgumentException("Вариант с указанным Id не найден.");
 
-                return new TaskVariantInfo
+                return new TaskVariantDto
                 {
                     Data = variant.Data,
                     GeneratorVersion = variant.GeneratorVersion,
@@ -44,7 +44,7 @@ namespace GraphLabs.WcfServices
         /// <param name="taskId"> Id задания, для которого вариант. Слегка избыточен, но пусть будет. </param>
         /// <param name="updateExistent"> Обновить существующую версию? </param>
         /// <returns> True, если успешно сохранили. False, если вариант с таким номером уже есть в этом задании. </returns>
-        public void SaveVariant(TaskVariantInfo info, long taskId, bool updateExistent = false)
+        public void SaveVariant(TaskVariantDto info, long taskId, bool updateExistent = false)
         {
             if (info == null)
                 throw new ArgumentException("info");

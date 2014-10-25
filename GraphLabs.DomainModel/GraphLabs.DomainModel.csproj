@@ -256,7 +256,6 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\Helpers.cs" />
-    <Compile Include="Utils\XapProcessor.cs" />
     <Compile Include="ValidationErrors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

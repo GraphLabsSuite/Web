@@ -2,6 +2,7 @@
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Logic.Tasks;
+using GraphLabs.Utils.XapProcessor;
 using Moq;
 using NUnit.Framework;
 
@@ -21,7 +22,7 @@ namespace GraphLabs.Tests.Site.Logic
             var contextManagerMock = Mock.Of<IDbContextManager>();
             var taskRepositoryMock = Mock.Of<ITaskRepository>();
 
-            var taskManager = new TaskManager(contextManagerMock, taskRepositoryMock);
+            var taskManager = new TaskManager(contextManagerMock, taskRepositoryMock, new XapProcessor());
             Task task;
             using (var ms = new MemoryStream(Resources.GraphLabs_Tasks_SCC))
             {

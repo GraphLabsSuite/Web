@@ -17,6 +17,10 @@ namespace GraphLabs.DomainModel.Repositories
 		[NotNull]
 		TaskVariant GetTaskVariantById(long id);
 
+        /// <summary> Создать или обновить вариант </summary>
+        [NotNull]
+        TaskVariant CreateOrUpdateVariant([NotNull]TaskVariant variant);
+
         /// <summary> Есть уже задание с таким же именем и версией? </summary>
         bool IsAnySameTask(string name, string version);
 

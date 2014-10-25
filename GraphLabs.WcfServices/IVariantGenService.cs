@@ -10,7 +10,7 @@ namespace GraphLabs.WcfServices
         /// <summary> Получает вариант задания по Id </summary>
         /// <param name="id"> Id варианта</param>
         [OperationContract]
-        TaskVariantInfo GetVariant(long id);
+        TaskVariantDto GetVariant(long id);
 
         /// <summary> Регистрирует завершение выполнения задания </summary>
         /// <param name="info"> Новый вариант </param>
@@ -18,6 +18,6 @@ namespace GraphLabs.WcfServices
         /// <param name="updateExistent"> Обновить существующую версию? </param>
         /// <returns> True, если успешно сохранили. False, если вариант с таким номером уже есть в этом задании. </returns>
         [OperationContract]
-        void SaveVariant(TaskVariantInfo info, long taskId, bool updateExistent = false);
+        void SaveVariant(TaskVariantDto info, long taskId, bool updateExistent = false);
     }
 }

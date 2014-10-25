@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
+using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Utils;
+using GraphLabs.Utils.XapProcessor;
 
 namespace GraphLabs.Site.Models
 {
@@ -79,7 +79,7 @@ namespace GraphLabs.Site.Models
 
             using (var generator = new MemoryStream(task.VariantGenerator))
             {
-                var info = XapProcessor.Parse(generator);
+                var info = DependencyResolver.Current.GetService<XapProcessor>().Parse(generator);
                 VariantGeneratorName = info.Name;
                 VariantGeneratorVersion = info.Version;
             }
