@@ -16,7 +16,14 @@
     @ViewBag.Message
 </div>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Save", "User", FormMethod.Post,
+    new Dictionary<string, object> {
+        {
+            "id",
+            "UserEditForm"
+        }
+    }))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -59,23 +66,22 @@
         </div>
         
         <div id="Group" style="display: none;">
-        <div class="editor-label">
-            @Html.LabelFor(model => model.GroupID)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("GroupID")
-            @Html.ValidationMessageFor(model => model.GroupID)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.GroupID)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownList("GroupID", Model.GroupList)
+                @Html.ValidationMessageFor(model => model.GroupID)
+            </div>
         </div>
 
         <p>
-            <input id="Verify"  style="display: none;" type="submit" name="action" value="Утвердить" />
-            <input id="Dismiss" style="display: none;" type="submit" name="action" value="Исключить" />
-            <input id="Delete"  style="display: none;" type="submit" name="action" value="Удалить" />
+            <input id="Verify"  style="display: none;" type="button" value="Утвердить" />
+            <input id="Dismiss" style="display: none;" type="button" value="Исключить" />
         </p>
 
         <p>
-            <input type="submit" name="action" value="Сохранить" />
+            <input id="Save" type="button" value="Сохранить" />
         </p>
     </fieldset>
 }
@@ -87,6 +93,24 @@
         $(document).ready(function () {
             checkRole();
             checkAdmin();
+        });
+
+        $('#Verify').click(function () {
+            $('#UserEditForm').attr("action", "/user/verify");
+            $('#UserEditForm').submit();
+            return false;
+        });
+
+        $('#Dismiss').click(function () {
+            $('#UserEditForm').attr("action", "/user/dismiss");
+            $('#UserEditForm').submit();
+            return false;
+        });
+        
+        $('#Save').click(function () {
+            $('#UserEditForm').attr("action", "/user/save");
+            $('#UserEditForm').submit();
+            return false;
         });
 
         function checkRole() {
@@ -106,17 +130,6 @@
             if (isdis == 'False') {
                 $('#Dismiss').attr('style', '');
             }
-        };
-
-        function checkAdmin() {
-            if ('@User.IsInRole(UserRole.Administrator)' == 'true')
-            {
-                openDelete();
-            }
-        };
-
-        function openDelete() {
-            $('#Delete').attr('style', '');
         };
     </script>
 }

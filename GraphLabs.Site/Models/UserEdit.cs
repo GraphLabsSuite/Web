@@ -1,10 +1,10 @@
-﻿using System;
+﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Utils;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace GraphLabs.Site.Models
 {
@@ -32,6 +32,14 @@ namespace GraphLabs.Site.Models
         [Display(Name = "Группа")]
         public long? GroupID { get; set; }
 
+		public List<SelectListItem> GroupList { get; private set; }
+		public void FillGroupList(Group[] groups, ISystemDateService systemDateService)
+		{
+			GroupList = groups
+				.Select(t => new SelectListItem { Text = t.GetName(systemDateService), Value = t.Id.ToString() })
+				.ToList();
+		}
+
         public bool? IsVerified { get; set; }
 
         public bool? IsDismissed { get; set; }
@@ -51,13 +59,14 @@ namespace GraphLabs.Site.Models
             GroupID = null;
             IsVerified = null;
             IsDismissed = null;
-        }
 
-        public void ChangeToStudent(Student stud)
-        {
-            GroupID = stud.Group.Id;
-            IsVerified = stud.IsVerified;
-            IsDismissed = stud.IsDismissed;
+			if (user.Role == UserRole.Student)
+			{
+				var student = (Student)user;
+				GroupID = student.Group.Id;
+				IsVerified = student.IsVerified;
+				IsDismissed = student.IsDismissed;
+			}
         }
     }
 }

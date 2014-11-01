@@ -1,18 +1,12 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web.Mvc;
-using GraphLabs.DomainModel;
+﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
-using PagedList;
-using GraphLabs.Site.Utils;
-using GraphLabs.DomainModel.Repositories;
-using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -82,8 +76,10 @@ namespace GraphLabs.Site.Controllers
 
             return View(ui);
         }
-		
-        public ActionResult Edit(long id = 0)
+
+		#region Редактирование пользователя
+
+		public ActionResult Edit(long id = 0)
         {
 			var user = _userRepository.GetUserById(id);
 
@@ -93,89 +89,41 @@ namespace GraphLabs.Site.Controllers
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
 
-            var ue = new UserEdit(user);
-            if (user.Role == UserRole.Student)
-            {
-                ue.ChangeToStudent((Student)user);             
-            }
+            var model = new UserEdit(user);
 
-            FillGroups(ue.GroupID);
+			model.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
 
-            return View(ue);
+            return View(model);
         }
 
         [HttpPost]
-        [MultiButton(MatchFormKey = "action", MatchFormValue = "Утвердить")]
         public ActionResult Verify(UserEdit user)
         {
             ModelState.Remove("IsVerified");
-            user.IsVerified = true;
-            
-            Student us = (Student)_userRepository.GetUserById(user.Id);
-			            
-            us.IsVerified = true;
-            _ctx.Entry(us).State = EntityState.Modified;
-            _ctx.SaveChanges();
 
-            FillGroups(user.GroupID);
+			_userRepository.VerifyStudent(user.Id);
 
-            return View(user);
+			user.IsVerified = true;
+			user.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
+
+            return View("~/Views/User/Edit.cshtml", user);
         }
 
         [HttpPost]
-        [MultiButton(MatchFormKey = "action", MatchFormValue = "Исключить")]
         public ActionResult Dismiss(UserEdit user)
         {
             ModelState.Remove("IsDismissed");
-            user.IsDismissed = true;
 
-			Student us = (Student)_userRepository.GetUserById(user.Id);
-			
-            us.IsDismissed = true;
-            _ctx.Entry(us).State = EntityState.Modified;
-            _ctx.SaveChanges();
+			_userRepository.DismissStudent(user.Id);
 
-            FillGroups(user.GroupID);
+			user.IsDismissed = true;
+			user.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
 
-            return View(user);
+			return View("~/Views/User/Edit.cshtml", user);
         }
-
+		
+		// TODO не переписан
         [HttpPost]
-        [MultiButton(MatchFormKey = "action", MatchFormValue = "Удалить")]
-        public ActionResult Delete(UserEdit user)
-        {
-            if (user.Role == UserRole.Student)
-            {
-				Student stud = (Student)_userRepository.GetUserById(user.Id);
-                try
-                {
-                    _ctx.Users.Remove(stud);
-                }
-                catch (System.ArgumentNullException)
-                {
-                    return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
-                }
-            }
-            else
-            {
-                User us = _userRepository.GetUserById(user.Id);
-                try
-                {
-                    _ctx.Users.Remove(us);
-                }
-                catch (System.ArgumentNullException)
-                {
-                    return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
-                }
-            }
-
-            _ctx.SaveChanges();
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [MultiButton(MatchFormKey = "action", MatchFormValue = "Сохранить")]
         public ActionResult Save(UserEdit user)
         {
             if (user.Role != UserRole.Student && !User.IsInRole(UserRole.Administrator))
@@ -227,7 +175,9 @@ namespace GraphLabs.Site.Controllers
             return ReturnWithMessage(user);
         }
 
-        private ActionResult ReturnWithMessage(UserEdit user, string mes = "")
+		#endregion
+
+		private ActionResult ReturnWithMessage(UserEdit user, string mes = "")
         {
             ViewBag.Message = mes;
 
@@ -235,7 +185,9 @@ namespace GraphLabs.Site.Controllers
             return View(user);
         }
 
-        [GLAuthorize(UserRole.Administrator)]
+		#region Создание пользователя
+
+		[GLAuthorize(UserRole.Administrator)]
         public ActionResult Create()
         {
             var model = new UserCreate();
@@ -264,8 +216,10 @@ namespace GraphLabs.Site.Controllers
 
 			return View(model);
         }
-				
-        private void FillGroups(object selectedValue = null)
+
+		#endregion
+
+		private void FillGroups(object selectedValue = null)
         {
 			var groups = _groupRepository.GetOpenGroups()
                           .Select(t => new GroupModel(t, new SystemDateService(_ctx) ))

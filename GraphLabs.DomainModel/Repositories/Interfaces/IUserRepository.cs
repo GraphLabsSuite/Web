@@ -45,6 +45,12 @@ namespace GraphLabs.DomainModel.Repositories
 
 		/// <summary> Получить пользователя по Id </summary>
 		User GetUserById(long Id);
+
+		/// <summary> Утвердить аккаунт студента </summary>
+		void VerifyStudent(long Id);
+
+		/// <summary> Исключить студента </summary>
+		void DismissStudent(long Id);
 	}
 
 	#region Контракты
@@ -137,6 +143,18 @@ namespace GraphLabs.DomainModel.Repositories
 			Contract.Ensures(Contract.Result<User>() != null);
 
 			return default(User);
+		}
+
+		public void VerifyStudent(long Id)
+		{
+			Contract.Requires(Id > 0);
+			return;
+		}
+
+		public void DismissStudent(long Id)
+		{
+			Contract.Requires(Id > 0);
+			return;
 		}
 	}
 

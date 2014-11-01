@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Data.Entity;
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -135,6 +136,34 @@ namespace GraphLabs.DomainModel.Repositories
 		public User GetUserById(long Id)
 		{
 			return Context.Users.Find(Id);
+		}
+
+		/// <summary> Утвердить аккаунт студента </summary>
+		public void VerifyStudent(long Id)
+		{
+			CheckNotDisposed();
+
+			var user = Context.Users.Find(Id);
+			if (user.Role != UserRole.Student)
+				throw new InvalidOperationException();
+
+			((Student)user).IsVerified = true;
+			Context.Entry(user).State = EntityState.Modified;
+			Context.SaveChanges();
+		}
+
+		/// <summary> Исключить студента </summary>
+		public void DismissStudent(long Id)
+		{
+			CheckNotDisposed();
+
+			var user = Context.Users.Find(Id);
+			if (user.Role != UserRole.Student)
+				throw new InvalidOperationException();
+
+			((Student)user).IsDismissed = true;
+			Context.Entry(user).State = EntityState.Modified;
+			Context.SaveChanges();
 		}
 	}
 }
