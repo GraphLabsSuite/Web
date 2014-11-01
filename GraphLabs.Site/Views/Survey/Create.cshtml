@@ -26,10 +26,10 @@
         {
             <tr>
                 <td>
-                    @(Html.EditorFor(model => model.questionOptions[i].Key))
+                    @(Html.EditorFor(model => model.questionOptions[i].answer))
                 </td>
                 <td>
-                    @(Html.EditorFor(model => model.questionOptions[i].Value))
+                    @(Html.EditorFor(model => model.questionOptions[i].isCorrect))
                 </td>
                 <td>
                     <img title="Клонировать ответ" src="/Images/copy.png" class="copyOption" />
