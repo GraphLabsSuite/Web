@@ -5,7 +5,6 @@
 }
 <h2>Создание вопроса</h2>
 @using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
 
     <div class="editor-label">
             Текст вопроса
@@ -46,8 +45,21 @@
 @section Scripts
 {
     <script>
+
+        var optionsCount = @(Model.QuestionOptions.Count - 1);
+
+
         $("#addOption").click(function () {
-            $("table").append("<tr><td><input type=\"text\" value=\"\" /></td><td><input type=\"checkbox\" value=\"\" /></td><td><img title=\"Клонировать ответ\" src=\"/Images/copy.png\" class=\"copyOption\" /><img title=\"Удалить ответ\" src=\"/Images/_false.png\" class=\"deleteOption\" /></td></tr>");
+            optionsCount++;
+            $("table").append("<tr><td>" +
+                "<input class=\"text-box single-line\" type=\"text\" value=\"\" id=\"QuestionOptions_" + optionsCount.toString() + "__Key\"" + 
+                "name=\"QuestionOptions[" + optionsCount.toString() + "].Key\" />" +
+                "</td><td>" +
+                "<input class=\"check-box\" data-val=\"true\" data-val-required=\"Требуется поле Value.\" id=\"QuestionOptions_" + optionsCount.toString() + "__Value\" name=\"QuestionOptions[" + optionsCount.toString() + "].Value\" type=\"checkbox\" value=\"true\" />" +
+                "<input name=\"QuestionOptions[" + optionsCount.toString() + "].Value\" type=\"hidden\" value=\"false\">" +
+                "</td><td><img title=\"Клонировать ответ\" src=\"/Images/copy.png\" class=\"copyOption\" />" + "\n" +
+                "<img title=\"Удалить ответ\" src=\"/Images/_false.png\" class=\"deleteOption\" />" +
+                "</td></tr>");
         });
 
         $(".deleteOption").live("click", function () {
