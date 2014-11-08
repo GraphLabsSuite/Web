@@ -6,26 +6,29 @@ using System.Web;
 
 namespace GraphLabs.Site.Models
 {
-    public class QuestionOptions
-    {
-        public string Answer;
-        public bool IsCorrect;
-
-        public QuestionOptions()
-        {
-
-        }
-
-        public QuestionOptions(string ans, bool corr)
-        {
-            this.Answer = ans;
-            this.IsCorrect = corr;
-        }
-    }
-
     public class SurveyCreatingModel
     {
         public string Question { get; set; }
-        public QuestionOptions[] QuestionOptions { get; set; }
+        public List<KeyValuePair<String, bool>> QuestionOptions { get; set; }
+
+		public bool IsValid
+		{
+			get
+			{
+				// TODO валидация
+				return true;
+			}
+		}
+
+		public SurveyCreatingModel()
+		{
+			QuestionOptions = new List<KeyValuePair<String, bool>>();
+		}
+
+		public SurveyCreatingModel(string question, Dictionary<string, bool> questionOptions)
+		{
+			Question = question;
+			QuestionOptions = questionOptions.ToList();
+		}		
     }
 }
