@@ -78,6 +78,7 @@
         <p>
             <input id="Verify"  style="display: none;" type="button" value="Утвердить" />
             <input id="Dismiss" style="display: none;" type="button" value="Исключить" />
+            <input id="Restore" style="display: none;" type="button" value="Восстановить">
         </p>
 
         <p>
@@ -107,6 +108,12 @@
             return false;
         });
         
+        $('#Restore').click(function () {
+            $('#UserEditForm').attr("action", "/user/restore");
+            $('#UserEditForm').submit();
+            return false;
+        });
+
         $('#Save').click(function () {
             $('#UserEditForm').attr("action", "/user/save");
             $('#UserEditForm').submit();
@@ -129,6 +136,9 @@
             var isdis = $('#IsDismissed').val();
             if (isdis == 'False') {
                 $('#Dismiss').attr('style', '');
+            }
+            else {
+                $('#Restore').attr('style', '');
             }
         };
     </script>

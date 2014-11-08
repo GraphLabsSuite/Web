@@ -186,6 +186,20 @@ namespace GraphLabs.DomainModel.Repositories
 			Context.SaveChanges();
 		}
 
+		/// <summary> Восстановить исключенного студента </summary>
+		public void RestoreStudent(long Id)
+		{
+			CheckNotDisposed();
+
+			var user = Context.Users.Find(Id);
+			if (user.Role != UserRole.Student)
+				throw new InvalidOperationException();
+
+			((Student)user).IsDismissed = false;
+			Context.Entry(user).State = EntityState.Modified;
+			Context.SaveChanges();
+		}
+
 		#endregion
 	}
 }

@@ -57,6 +57,9 @@ namespace GraphLabs.DomainModel.Repositories
 		/// <summary> Исключить студента </summary>
 		void DismissStudent(long Id);
 
+		/// <summary> Восстановить исключенного студента </summary>
+		void RestoreStudent(long Id);
+
 		#endregion
 	}
 
@@ -167,6 +170,12 @@ namespace GraphLabs.DomainModel.Repositories
 		}
 
 		public void DismissStudent(long Id)
+		{
+			Contract.Requires(Id > 0);
+			return;
+		}
+
+		public void RestoreStudent(long Id)
 		{
 			Contract.Requires(Id > 0);
 			return;

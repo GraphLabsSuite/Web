@@ -120,6 +120,19 @@ namespace GraphLabs.Site.Controllers
 
 			return View("~/Views/User/Edit.cshtml", user);
         }
+
+		[HttpPost]
+		public ActionResult Restore(UserEdit user)
+		{
+			ModelState.Remove("IsDismissed");
+
+			_userRepository.RestoreStudent(user.Id);
+
+			user.IsDismissed = false;
+			user.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
+
+			return View("~/Views/User/Edit.cshtml", user);
+		}
 		
         [HttpPost]
         public ActionResult Save(UserEdit model)
