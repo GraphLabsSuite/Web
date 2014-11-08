@@ -114,6 +114,14 @@ namespace GraphLabs.DomainModel.Repositories
 
 		#endregion
 
+		/// <summary> Получить пользователя по Id </summary>
+		public User GetUserById(long Id)
+		{
+			return Context.Users.Find(Id);
+		}
+
+		#region Сохранение и редактирование
+
 		/// <summary> Попытка сохранить нового пользователя </summary>
 		public bool TrySaveUser(User user)
 		{
@@ -132,12 +140,24 @@ namespace GraphLabs.DomainModel.Repositories
 			return true;
 		}
 
-		/// <summary> Получить пользователя по Id </summary>
-		public User GetUserById(long Id)
+		/// <summary> Попытка изменить пользователя </summary>
+		public bool TryEditUser(User user)
 		{
-			return Context.Users.Find(Id);
-		}
+			CheckNotDisposed();
 
+			try
+			{
+				Context.Entry(user).State = EntityState.Modified;
+				Context.SaveChanges();
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+
+			return true;
+		}
+		
 		/// <summary> Утвердить аккаунт студента </summary>
 		public void VerifyStudent(long Id)
 		{
@@ -165,5 +185,7 @@ namespace GraphLabs.DomainModel.Repositories
 			Context.Entry(user).State = EntityState.Modified;
 			Context.SaveChanges();
 		}
+
+		#endregion
 	}
 }

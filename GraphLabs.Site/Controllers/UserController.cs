@@ -13,8 +13,6 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Teacher, UserRole.Administrator)]
     public class UserController : GraphLabsController
     {
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
-
 		#region Зависимости
 
 		private ISystemDateService DateService 
@@ -79,6 +77,7 @@ namespace GraphLabs.Site.Controllers
 
 		#region Редактирование пользователя
 
+		[HttpGet]
 		public ActionResult Edit(long id = 0)
         {
 			var user = _userRepository.GetUserById(id);
@@ -122,69 +121,31 @@ namespace GraphLabs.Site.Controllers
 			return View("~/Views/User/Edit.cshtml", user);
         }
 		
-		// TODO не переписан
         [HttpPost]
-        public ActionResult Save(UserEdit user)
+        public ActionResult Save(UserEdit model)
         {
-            if (user.Role != UserRole.Student && !User.IsInRole(UserRole.Administrator))
+            if (model.Role != UserRole.Student && !User.IsInRole(UserRole.Administrator))
             {
                 return RedirectToAction("Index", "Home", new { Message = UserMessages.ACCES_DENIED });
             }
             
             if (ModelState.IsValid)
             {
-                if (user.Role == UserRole.Student)
-                {
-					Student stud = (Student)_userRepository.GetUserById(user.Id);
-
-                    if (stud == null)
-                    {
-                        return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
-                    }
-
-                    stud.Group = _ctx.Groups.Find(user.GroupID);
-                    stud.FatherName = user.FatherName;
-                    stud.Name = user.Name;
-                    stud.Surname = user.Surname;
-
-                    _ctx.Entry(stud).State = EntityState.Modified;
-                    _ctx.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-					User us = _userRepository.GetUserById(user.Id);
-                    
-                    if (us == null)
-                    {
-                        return ReturnWithMessage(user, "Ошибка! Пользователь не найден в БД.");
-                    }
-                    
-                    us.FatherName = user.FatherName;
-                    us.Surname = user.Surname;
-                    us.Name = user.Name;
-
-                    _ctx.Entry(us).State = EntityState.Modified;
-                    _ctx.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
+				User user = _userRepository.GetUserById(model.Id);
+				user = model.PrepareEntity(user, _groupRepository);
+				if (_userRepository.TryEditUser(user))
+				{
+					return RedirectToAction("Index");
+				}
             }
 
-            return ReturnWithMessage(user);
+			model.FillGroupList(_groupRepository.GetOpenGroups(), DateService);
+			ViewBag.Message = "Не удалось сохранить пользователя, попробуйте указать другие данные";
+			return View("~/Views/User/Edit.cshtml", model);
         }
 
 		#endregion
-
-		private ActionResult ReturnWithMessage(UserEdit user, string mes = "")
-        {
-            ViewBag.Message = mes;
-
-            FillGroups(user.GroupID);
-            return View(user);
-        }
-
+		
 		#region Создание пользователя
 
 		[GLAuthorize(UserRole.Administrator)]
@@ -218,19 +179,5 @@ namespace GraphLabs.Site.Controllers
         }
 
 		#endregion
-
-		private void FillGroups(object selectedValue = null)
-        {
-			var groups = _groupRepository.GetOpenGroups()
-                          .Select(t => new GroupModel(t, new SystemDateService(_ctx) ))
-                          .ToList();
-            ViewBag.GroupID = new SelectList(groups, "Id", "Name", selectedValue);
-        }
-        
-        protected override void Dispose(bool disposing)
-        {
-            _ctx.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }

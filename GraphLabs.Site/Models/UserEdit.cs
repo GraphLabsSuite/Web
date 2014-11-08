@@ -1,6 +1,8 @@
 ﻿using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -68,5 +70,25 @@ namespace GraphLabs.Site.Models
 				IsDismissed = student.IsDismissed;
 			}
         }
+
+		public User PrepareEntity(User user, IGroupRepository groupRepository)
+		{
+			user.Name = Name;
+			user.Surname = Surname;
+			user.FatherName = FatherName;
+			user.Role = Role;
+
+			if (user.Role == UserRole.Student)
+			{
+				if (!IsVerified.HasValue || !IsDismissed.HasValue || !GroupID.HasValue)
+					throw new InvalidOperationException();
+
+				((Student)user).IsVerified = IsVerified.Value;
+				((Student)user).IsDismissed = IsDismissed.Value;
+				((Student)user).Group = groupRepository.GetGroupById(GroupID.Value);
+			}
+
+			return user;
+		}
     }
 }

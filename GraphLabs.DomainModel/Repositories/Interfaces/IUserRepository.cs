@@ -40,17 +40,24 @@ namespace GraphLabs.DomainModel.Repositories
 
 		#endregion
 
+		/// <summary> Получить пользователя по Id </summary>
+		User GetUserById(long Id);
+
+		#region Сохранение и редактирование
+
 		/// <summary> Попытка сохранить нового пользователя </summary>
 		bool TrySaveUser(User user);
 
-		/// <summary> Получить пользователя по Id </summary>
-		User GetUserById(long Id);
+		/// <summary> Попытка изменить пользователя </summary>
+		bool TryEditUser(User user);
 
 		/// <summary> Утвердить аккаунт студента </summary>
 		void VerifyStudent(long Id);
 
 		/// <summary> Исключить студента </summary>
 		void DismissStudent(long Id);
+
+		#endregion
 	}
 
 	#region Контракты
@@ -130,6 +137,16 @@ namespace GraphLabs.DomainModel.Repositories
 
 		#endregion
 
+		public User GetUserById(long Id)
+		{
+			Contract.Requires(Id > 0);
+			Contract.Ensures(Contract.Result<User>() != null);
+
+			return default(User);
+		}
+
+		#region Сохранение и редактирование
+
 		public bool TrySaveUser(User user)
 		{
 			Contract.Requires(user != null);
@@ -137,12 +154,10 @@ namespace GraphLabs.DomainModel.Repositories
 			return false;
 		}
 
-		public User GetUserById(long Id)
+		public bool TryEditUser(User user)
 		{
-			Contract.Requires(Id > 0);
-			Contract.Ensures(Contract.Result<User>() != null);
-
-			return default(User);
+			Contract.Requires(user != null);
+			return false;
 		}
 
 		public void VerifyStudent(long Id)
@@ -156,6 +171,8 @@ namespace GraphLabs.DomainModel.Repositories
 			Contract.Requires(Id > 0);
 			return;
 		}
+
+		#endregion
 	}
 
 	#endregion
