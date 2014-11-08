@@ -463,9 +463,9 @@
       <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>
       <Name>GraphLabs.Site.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Utils.csproj">
+    <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
-      <Name>GraphLabs.Utils</Name>
+      <Name>GraphLabs.Site.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -503,7 +503,7 @@ SubWCRev "." "AssemblyVersion.cs.template" "$(ProjectDir)Properties\AssemblyVers
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">
     <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
-  </Target>  
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="AfterBuild">

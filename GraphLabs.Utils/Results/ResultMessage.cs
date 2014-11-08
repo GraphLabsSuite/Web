@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.Contracts;
 
-namespace GraphLabs.Utils.Results
+namespace GraphLabs.Site.Utils.Results
 {
     /// <summary>Сообщение о результате работы метода</summary>
     /// <remarks>

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Site", "GraphLabs.Site\GraphLabs.Site.csproj", "{FDCAC246-E496-43CC-B881-19AC692FE96E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D9DABFED-58AB-43FB-AA08-2C607060C891}"
@@ -28,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Tests.Site.Logic", "GraphLabs.Tests.Site.Logic\GraphLabs.Tests.Site.Logic.csproj", "{BE55A060-0224-4F6A-B05F-B06BEC346CA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Utils", "GraphLabs.Utils\GraphLabs.Utils.csproj", "{BD1F9046-594D-4AEF-882B-E3F08DE56B36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Site.Utils", "GraphLabs.Utils\GraphLabs.Site.Utils.csproj", "{BD1F9046-594D-4AEF-882B-E3F08DE56B36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Tests.Utils", "GraphLabs.Tests.Utils\GraphLabs.Tests.Utils.csproj", "{B16B7D30-A083-404C-8298-1C3BBF586D02}"
 EndProject

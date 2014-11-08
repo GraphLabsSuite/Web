@@ -5,7 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Text.RegularExpressions;
 using GraphLabs.DomainModel.Extensions;
-using GraphLabs.Utils;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.DomainModel
 {

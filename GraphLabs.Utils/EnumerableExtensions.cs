@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace GraphLabs.Utils
+namespace GraphLabs.Site.Utils
 {
     public static class EnumerableExtensions
     {

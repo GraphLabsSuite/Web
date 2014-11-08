@@ -1,7 +1,7 @@
 using System.Web;
 using Microsoft.Practices.Unity;
 
-namespace GraphLabs.Utils
+namespace GraphLabs.Site.Utils
 {
     /// <summary> Сохраняет объекты в текущем HttpContext'е, в результате
     /// чего они доступны строго в рамках одного запроса </summary>

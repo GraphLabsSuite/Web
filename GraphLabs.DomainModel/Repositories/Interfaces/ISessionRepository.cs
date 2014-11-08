@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using GraphLabs.Utils;
+using GraphLabs.Site.Utils;
 using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel.Repositories

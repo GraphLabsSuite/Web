@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace GraphLabs.Utils
+namespace GraphLabs.Site.Utils
 {
     /// <summary> Маппер </summary>
     public class Mapper

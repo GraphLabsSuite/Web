@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Logic.Security;
-using GraphLabs.Utils.Results;
 
 namespace GraphLabs.Site.Utils
 {

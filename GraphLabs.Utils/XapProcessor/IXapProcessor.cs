@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using GraphLabs.DomainModel.Utils;
 using JetBrains.Annotations;
 
-namespace GraphLabs.Utils.XapProcessor
+namespace GraphLabs.Site.Utils.XapProcessor
 {
     /// <summary> Обработчик Xap </summary>
     public interface IXapProcessor

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraphLabs.Utils.Results
+namespace GraphLabs.Site.Utils.Results
 {
     /// <summary>Результат работы метода в виде лога сообщений</summary>
     /// <remarks>

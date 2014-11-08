@@ -1,4 +1,4 @@
-﻿namespace GraphLabs.DomainModel.Utils
+﻿namespace GraphLabs.Site.Utils.XapProcessor
 {
     /// <summary> Информация о Xap </summary>
     public interface IXapInfo

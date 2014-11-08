@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using GraphLabs.DomainModel;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 
@@ -24,6 +25,12 @@ namespace GraphLabs.Site.Controllers
         protected IDependencyResolver DependencyResolver
         {
             get { return System.Web.Mvc.DependencyResolver.Current; }
+        }
+
+        /// <summary> Менеджер транзакций </summary>
+        protected IDbContextManager DbContextManager
+        {
+            get { return DependencyResolver.GetService<IDbContextManager>(); }
         }
 
         /// <summary> Вызывается при выполнении авторизации. </summary>

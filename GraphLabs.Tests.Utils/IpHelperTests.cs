@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using GraphLabs.Utils;
 using System.Linq;
+using GraphLabs.Site.Utils;
 using NUnit.Framework;
 
 namespace GraphLabs.Tests.Utils

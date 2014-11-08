@@ -3,7 +3,7 @@ using System.IO;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Utils;
-using GraphLabs.Utils.XapProcessor;
+using GraphLabs.Site.Utils.XapProcessor;
 
 namespace GraphLabs.Site.Logic.Tasks
 {
@@ -36,10 +36,7 @@ namespace GraphLabs.Site.Logic.Tasks
             var sameTaskExists = _taskRepository.IsAnySameTask(newTask.Name, newTask.Version);
             if (!sameTaskExists)
             {
-                using (_dbContextManager.BeginTransaction())
-                {
-                    _taskRepository.Insert(newTask);
-                }
+                _taskRepository.Insert(newTask);
             }
             else
             {

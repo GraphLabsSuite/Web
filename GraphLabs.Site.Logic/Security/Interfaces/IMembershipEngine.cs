@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using GraphLabs.Utils;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Logic.Security
 {

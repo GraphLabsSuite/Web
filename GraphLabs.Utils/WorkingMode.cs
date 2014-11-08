@@ -1,6 +1,6 @@
 using System.Web.Configuration;
 
-namespace GraphLabs.Utils
+namespace GraphLabs.Site.Utils
 {
     /// <summary> Режим работы приложения </summary>
     public static class WorkingMode

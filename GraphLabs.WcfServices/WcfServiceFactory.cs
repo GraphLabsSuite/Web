@@ -2,7 +2,9 @@ using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic;
-using GraphLabs.Utils;
+using GraphLabs.Site.Logic.Tasks;
+using GraphLabs.Site.Utils;
+using GraphLabs.Site.Utils.XapProcessor;
 using GraphLabs.WcfServices.Data;
 using Microsoft.Practices.Unity;
 using Unity.Wcf;
@@ -27,6 +29,8 @@ namespace GraphLabs.WcfServices
             // ============================================================
 
             container.RegisterType<IDbContextManager, DbContextManager>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITaskManager, TaskManager>(new HierarchicalLifetimeManager());
+            container.RegisterType<IXapProcessor, XapProcessor>(new HierarchicalLifetimeManager());
 
             container.RegisterType<RepositoryFactory>(new HierarchicalLifetimeManager());
 
@@ -58,6 +62,7 @@ namespace GraphLabs.WcfServices
             // ============================================================
 
             container.RegisterType<ITasksDataService, TasksDataService>();
+            container.RegisterType<ITaskDebugHelper, TaskDebugHelper>();
         }
 
         private Mapper CreateMapper()

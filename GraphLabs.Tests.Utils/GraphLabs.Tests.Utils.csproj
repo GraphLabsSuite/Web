@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Utils.csproj">
+    <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
-      <Name>GraphLabs.Utils</Name>
+      <Name>GraphLabs.Site.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

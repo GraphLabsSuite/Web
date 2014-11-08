@@ -5,11 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
-using GraphLabs.DomainModel.Utils;
 using Ionic.Zip;
 using Mono.Cecil;
 
-namespace GraphLabs.Utils.XapProcessor
+namespace GraphLabs.Site.Utils.XapProcessor
 {
     /// <summary> Класс для получения информации о Xap </summary>
     public class XapProcessor : IXapProcessor

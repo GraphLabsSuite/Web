@@ -7,8 +7,8 @@
     <ProjectGuid>{BD1F9046-594D-4AEF-882B-E3F08DE56B36}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphLabs.Utils</RootNamespace>
-    <AssemblyName>GraphLabs.Utils</AssemblyName>
+    <RootNamespace>GraphLabs.Site.Utils</RootNamespace>
+    <AssemblyName>GraphLabs.Site.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
