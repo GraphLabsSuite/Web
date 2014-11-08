@@ -118,6 +118,7 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="WorkingMode.cs" />
     <Compile Include="XapProcessor\IXapInfo.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="PerRequestLifetimeManager.cs" />
