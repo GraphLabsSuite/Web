@@ -33,7 +33,7 @@ namespace GraphLabs.WcfServices
                 throw new InvalidOperationException("Создание тестовых вариантов возможно только при работе в тестовом режиме.");
             }
 
-            using (_contextManager.BeginTransaction())
+            using (_contextManager.BeginTransaction_BUGGED())
             {
                 try
                 {

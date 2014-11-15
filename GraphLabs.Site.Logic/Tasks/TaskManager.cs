@@ -78,7 +78,7 @@ namespace GraphLabs.Site.Logic.Tasks
             if (_xapProcessor.Parse(newGenerator) != null)
             {
                 // Наконец, сохраним.
-                using (_transactionManager.BeginTransaction())
+                using (_transactionManager.BeginTransaction_BUGGED())
                 {
                     task.VariantGenerator = newGenerator.ReadToEnd();
                 }
@@ -95,7 +95,7 @@ namespace GraphLabs.Site.Logic.Tasks
         {
             CheckTaskIsAttachedToContext(task);
 
-            using (_transactionManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction_BUGGED())
             {
                 task.Note = note;
             }
@@ -106,7 +106,7 @@ namespace GraphLabs.Site.Logic.Tasks
         {
             CheckTaskIsAttachedToContext(task);
 
-            using (_transactionManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction_BUGGED())
             {
                 task.VariantGenerator = null;
             }

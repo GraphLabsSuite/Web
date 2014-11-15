@@ -37,7 +37,7 @@ namespace GraphLabs.Site.Logic
             }
             if (id == 0)
             {
-                using (_transactionManager.BeginTransaction())
+                using (_transactionManager.BeginTransaction_BUGGED())
                 {
                     news = new News
                     {
@@ -52,7 +52,7 @@ namespace GraphLabs.Site.Logic
                 return true;
             }
 
-            using (_transactionManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction_BUGGED())
             {
                 news = _newsRepository.GetById(id);
 

@@ -50,7 +50,7 @@ namespace GraphLabs.Site.Logic.Security
         {
             User user;
             Session session;
-            using (_transactionManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction_BUGGED())
             {
                 user = _userRepository.FindActiveUserByEmail(email);
 

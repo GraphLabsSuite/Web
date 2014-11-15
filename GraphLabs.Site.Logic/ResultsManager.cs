@@ -58,7 +58,7 @@ namespace GraphLabs.Site.Logic
             IEnumerable<Result> resultsToInterrupt = _resultsRepository.FindNotFinishedResults(student);
             var variant = GetLabVariant(variantId);
 
-            using (_transactionManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction_BUGGED())
             {
                 // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
                 var currentResults = resultsToInterrupt

@@ -9,7 +9,7 @@ namespace GraphLabs.DomainModel
         bool HasActiveTransaction { get; }
 
         /// <summary> Начать транзакцию </summary>
-        IDisposable BeginTransaction();
+        IDisposable BeginTransaction_BUGGED();
 
         /// <summary> Проверяет, что нет несохранённых изменений </summary>
         void CheckHasNoChanges();

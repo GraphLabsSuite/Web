@@ -30,8 +30,8 @@ namespace GraphLabs.DomainModel
             _context = context;
         }
 
-        /// <summary> Начать транзакцию </summary>
-        public IDisposable BeginTransaction()
+        /// <summary> Начать транзакцию (забагованная версия) </summary>
+        public IDisposable BeginTransaction_BUGGED()
         {
             StartTransaction();
             return new UnitOfWork(this);
