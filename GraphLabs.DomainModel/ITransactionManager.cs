@@ -3,7 +3,7 @@
 namespace GraphLabs.DomainModel
 {
     /// <summary> Менеджер транзакций </summary>
-    public interface IDbContextManager : IDisposable
+    public interface ITransactionManager : IDisposable
     {
         /// <summary> Есть активная транзакция? </summary>
         bool HasActiveTransaction { get; }

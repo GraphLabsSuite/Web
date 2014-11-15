@@ -28,7 +28,7 @@ namespace GraphLabs.WcfServices
 
             // ============================================================
 
-            container.RegisterType<IDbContextManager, DbContextManager>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITransactionManager, TransactionManager>(new HierarchicalLifetimeManager());
             container.RegisterType<ITaskManager, TaskManager>(new HierarchicalLifetimeManager());
             container.RegisterType<IXapProcessor, XapProcessor>(new HierarchicalLifetimeManager());
 

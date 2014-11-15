@@ -56,7 +56,7 @@ namespace GraphLabs.Site.Controllers
                 Task newTask;
                 try
                 {
-                    using (DbContextManager.BeginTransaction())
+                    using (TransactionManager.BeginTransaction())
                     {
                         newTask = TaskManager.UploadTask(xap.InputStream);
                     }

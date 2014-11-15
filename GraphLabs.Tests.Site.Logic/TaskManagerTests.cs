@@ -19,7 +19,7 @@ namespace GraphLabs.Tests.Site.Logic
         [Repeat(2)]
         public void TestCreateFromXap()
         {
-            var contextManagerMock = Mock.Of<IDbContextManager>();
+            var contextManagerMock = Mock.Of<ITransactionManager>();
             var taskRepositoryMock = Mock.Of<ITaskRepository>();
 
             var taskManager = new TaskManager(contextManagerMock, taskRepositoryMock, new XapProcessor());

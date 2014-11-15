@@ -14,19 +14,19 @@ namespace GraphLabs.Site.Logic
         private readonly ILabRepository _labRepository;
         private readonly ISessionRepository _sessionRepository;
         private readonly IResultsRepository _resultsRepository;
-        private readonly IDbContextManager _dbContextManager;
+        private readonly ITransactionManager _transactionManager;
 
         /// <summary> Менеджер результатов </summary>
         public ResultsManager(
             ILabRepository labRepository,
             ISessionRepository sessionRepository,
             IResultsRepository resultsRepository,
-            IDbContextManager dbContextManager)
+            ITransactionManager transactionManager)
         {
             _labRepository = labRepository;
             _sessionRepository = sessionRepository;
             _resultsRepository = resultsRepository;
-            _dbContextManager = dbContextManager;
+            _transactionManager = transactionManager;
         }
 
         private Student GetCurrentStudent(Guid sessionGuid)
@@ -58,7 +58,7 @@ namespace GraphLabs.Site.Logic
             IEnumerable<Result> resultsToInterrupt = _resultsRepository.FindNotFinishedResults(student);
             var variant = GetLabVariant(variantId);
 
-            using (_dbContextManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction())
             {
                 // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
                 var currentResults = resultsToInterrupt

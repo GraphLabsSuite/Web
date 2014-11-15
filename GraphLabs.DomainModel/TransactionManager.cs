@@ -9,7 +9,7 @@ namespace GraphLabs.DomainModel
 {
     /// <summary> Менеджер транзакций </summary>
     [UsedImplicitly]
-    public class DbContextManager : IDbContextManager
+    public class TransactionManager : ITransactionManager
     {
         private readonly GraphLabsContext _context;
 
@@ -23,7 +23,7 @@ namespace GraphLabs.DomainModel
         }
 
         /// <summary> Менеджер транзакций </summary>
-        public DbContextManager(GraphLabsContext context)
+        public TransactionManager(GraphLabsContext context)
         {
             Contract.Requires(context != null);
 
@@ -138,13 +138,13 @@ namespace GraphLabs.DomainModel
 
         private class UnitOfWork : IDisposable
         {
-            private readonly DbContextManager _dbContextManager;
+            private readonly TransactionManager _transactionManager;
 
-            public UnitOfWork(DbContextManager dbContextManager)
+            public UnitOfWork(TransactionManager transactionManager)
             {
-                Contract.Requires<ArgumentNullException>(dbContextManager != null);
+                Contract.Requires<ArgumentNullException>(transactionManager != null);
 
-                _dbContextManager = dbContextManager;
+                _transactionManager = transactionManager;
             }
 
             private bool _disposed = false;
@@ -155,11 +155,11 @@ namespace GraphLabs.DomainModel
                     return;
                 }
 
-                var hasChanges = _dbContextManager._context.ChangeTracker.HasChanges();
-                var hasTransaction = _dbContextManager.HasActiveTransaction;
+                var hasChanges = _transactionManager._context.ChangeTracker.HasChanges();
+                var hasTransaction = _transactionManager.HasActiveTransaction;
                 if (hasChanges && hasTransaction)
                 {
-                    _dbContextManager.Commit();
+                    _transactionManager.Commit();
                 }
                 else if (hasChanges)
                 {
@@ -167,7 +167,7 @@ namespace GraphLabs.DomainModel
                 }
                 else if (hasTransaction)
                 {
-                    _dbContextManager.Rollback();
+                    _transactionManager.Rollback();
                 }
 
                 _disposed = true;

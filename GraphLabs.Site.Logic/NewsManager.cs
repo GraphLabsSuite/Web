@@ -13,16 +13,16 @@ namespace GraphLabs.Site.Logic
 
         private readonly IUserRepository _userRepository;
         private readonly INewsRepository _newsRepository;
-        private readonly IDbContextManager _dbContextManager;
+        private readonly ITransactionManager _transactionManager;
 
         public NewsManager(
             IUserRepository userRepository,
             INewsRepository newsRepository,
-            IDbContextManager dbContextManager)
+            ITransactionManager transactionManager)
         {
             _userRepository = userRepository;
             _newsRepository = newsRepository;
-            _dbContextManager = dbContextManager;
+            _transactionManager = transactionManager;
         }
 
         /// <summary> Создать или редактировать запись </summary>
@@ -37,7 +37,7 @@ namespace GraphLabs.Site.Logic
             }
             if (id == 0)
             {
-                using (_dbContextManager.BeginTransaction())
+                using (_transactionManager.BeginTransaction())
                 {
                     news = new News
                     {
@@ -52,7 +52,7 @@ namespace GraphLabs.Site.Logic
                 return true;
             }
 
-            using (_dbContextManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction())
             {
                 news = _newsRepository.GetById(id);
 

@@ -51,7 +51,7 @@ namespace GraphLabs.Site.App_Start
 
             // ============================================================
 
-            container.RegisterType<IDbContextManager, DbContextManager>(new PerRequestLifetimeManager());
+            container.RegisterType<ITransactionManager, TransactionManager>(new PerRequestLifetimeManager());
 
             container.RegisterType<RepositoryFactory>(new PerRequestLifetimeManager());
             

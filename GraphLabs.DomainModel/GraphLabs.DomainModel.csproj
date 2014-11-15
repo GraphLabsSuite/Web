@@ -173,7 +173,7 @@
     <Compile Include="Group.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="IDbContextManager.cs" />
+    <Compile Include="ITransactionManager.cs" />
     <Compile Include="LabEntry.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -234,7 +234,7 @@
     <Compile Include="TestQuestion.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DbContextManager.cs" />
+    <Compile Include="TransactionManager.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\Infrastructure\GraphLabsContext.Triggers.cs" />
     <Compile Include="Triggers\Group.cs" />

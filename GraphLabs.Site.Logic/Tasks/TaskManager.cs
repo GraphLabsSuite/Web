@@ -10,17 +10,17 @@ namespace GraphLabs.Site.Logic.Tasks
     /// <summary> Менеджер заданий </summary>
     public class TaskManager : ITaskManager
     {
-        private readonly IDbContextManager _dbContextManager;
+        private readonly ITransactionManager _transactionManager;
         private readonly ITaskRepository _taskRepository;
         private readonly IXapProcessor _xapProcessor;
 
         /// <summary> Менеджер заданий </summary>
         public TaskManager(
-            IDbContextManager dbContextManager,
+            ITransactionManager transactionManager,
             ITaskRepository taskRepository,
             IXapProcessor xapProcessor)
         {
-            _dbContextManager = dbContextManager;
+            _transactionManager = transactionManager;
             _taskRepository = taskRepository;
             _xapProcessor = xapProcessor;
         }
@@ -78,7 +78,7 @@ namespace GraphLabs.Site.Logic.Tasks
             if (_xapProcessor.Parse(newGenerator) != null)
             {
                 // Наконец, сохраним.
-                using (_dbContextManager.BeginTransaction())
+                using (_transactionManager.BeginTransaction())
                 {
                     task.VariantGenerator = newGenerator.ReadToEnd();
                 }
@@ -95,7 +95,7 @@ namespace GraphLabs.Site.Logic.Tasks
         {
             CheckTaskIsAttachedToContext(task);
 
-            using (_dbContextManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction())
             {
                 task.Note = note;
             }
@@ -106,7 +106,7 @@ namespace GraphLabs.Site.Logic.Tasks
         {
             CheckTaskIsAttachedToContext(task);
 
-            using (_dbContextManager.BeginTransaction())
+            using (_transactionManager.BeginTransaction())
             {
                 task.VariantGenerator = null;
             }
@@ -114,7 +114,7 @@ namespace GraphLabs.Site.Logic.Tasks
 
         private void CheckTaskIsAttachedToContext(Task task)
         {
-            if (!_dbContextManager.IsEntityAttached(task))
+            if (!_transactionManager.IsEntityAttached(task))
             {
                 throw new ArgumentException("Сущность не прикреплена к текущему контексту.", "task");
             }

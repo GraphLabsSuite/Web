@@ -28,9 +28,9 @@ namespace GraphLabs.Site.Controllers
         }
 
         /// <summary> Менеджер транзакций </summary>
-        protected IDbContextManager DbContextManager
+        protected ITransactionManager TransactionManager
         {
-            get { return DependencyResolver.GetService<IDbContextManager>(); }
+            get { return DependencyResolver.GetService<ITransactionManager>(); }
         }
 
         /// <summary> Вызывается при выполнении авторизации. </summary>

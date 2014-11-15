@@ -13,10 +13,10 @@ namespace GraphLabs.WcfServices
     {
         private readonly ILabRepository _labRepository;
         private readonly ITaskManager _taskManager;
-        private readonly IDbContextManager _contextManager;
+        private readonly ITransactionManager _contextManager;
         private readonly ITaskRepository _taskRepository;
 
-        public TaskDebugHelper(ILabRepository labRepository, ITaskManager taskManager, IDbContextManager contextManager,
+        public TaskDebugHelper(ILabRepository labRepository, ITaskManager taskManager, ITransactionManager contextManager,
             ITaskRepository taskRepository)
         {
             _labRepository = labRepository;
@@ -41,7 +41,7 @@ namespace GraphLabs.WcfServices
                     // Загружаем задание
                     Task task;
                     //using (var stream = new MemoryStream(taskData))
-                    using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.Template.xap"))
+                    using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.SCC - 1.xap"))
                     {
                         task = _taskManager.UploadTask(stream);
                     }
