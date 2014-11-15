@@ -12,12 +12,9 @@ namespace GraphLabs.DomainModel
     using System;
     using System.Collections.Generic;
     
-    public partial class AnswerVariant
+    public partial class Category
     {
-        public long Id { get; private set; }
-        public string Answer { get; set; }
-        public string IsCorrect { get; set; }
-    
-        public virtual TestQuestion TestQuestion { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
     }
 }

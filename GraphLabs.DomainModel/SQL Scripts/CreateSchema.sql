@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/31/2014 21:52:21
--- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
+-- Date Created: 11/15/2014 10:28:59
+-- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -71,6 +71,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_TaskAction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Actions] DROP CONSTRAINT [FK_TaskAction];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CategoryTestQuestion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_CategoryTestQuestion];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
 GO
@@ -120,6 +123,9 @@ IF OBJECT_ID(N'[dbo].[TaskVariants]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[LabEntries]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabEntries];
+GO
+IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Categories];
 GO
 IF OBJECT_ID(N'[dbo].[Users_Student]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users_Student];
@@ -229,7 +235,8 @@ CREATE TABLE [dbo].[TestQuestions] (
     [Description] nvarchar(100)  NOT NULL,
     [Value] nvarchar(max)  NOT NULL,
     [TypeOfQuestion] nvarchar(max)  NOT NULL,
-    [Section] nvarchar(max)  NOT NULL
+    [Section] nvarchar(max)  NOT NULL,
+    [CategoryId] bigint  NOT NULL
 );
 GO
 
@@ -277,6 +284,13 @@ CREATE TABLE [dbo].[LabEntries] (
     [Order] int  NOT NULL,
     [LabWork_Id] bigint  NOT NULL,
     [Task_Id] bigint  NOT NULL
+);
+GO
+
+-- Creating table 'Categories'
+CREATE TABLE [dbo].[Categories] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -395,6 +409,12 @@ GO
 -- Creating primary key on [Id] in table 'LabEntries'
 ALTER TABLE [dbo].[LabEntries]
 ADD CONSTRAINT [PK_LabEntries]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Categories'
+ALTER TABLE [dbo].[Categories]
+ADD CONSTRAINT [PK_Categories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -661,6 +681,20 @@ ADD CONSTRAINT [FK_TaskAction]
 CREATE INDEX [IX_FK_TaskAction]
 ON [dbo].[Actions]
     ([Task_Id]);
+GO
+
+-- Creating foreign key on [CategoryId] in table 'TestQuestions'
+ALTER TABLE [dbo].[TestQuestions]
+ADD CONSTRAINT [FK_CategoryTestQuestion]
+    FOREIGN KEY ([CategoryId])
+    REFERENCES [dbo].[Categories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CategoryTestQuestion'
+CREATE INDEX [IX_FK_CategoryTestQuestion]
+ON [dbo].[TestQuestions]
+    ([CategoryId]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'

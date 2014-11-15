@@ -1,9 +1,9 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/27/2014 20:00:23
--- Generated from EDMX file: E:\Рабочий стол\site\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
+-- Date Created: 11/15/2014 10:28:59
+-- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -71,6 +71,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_TaskAction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Actions] DROP CONSTRAINT [FK_TaskAction];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CategoryTestQuestion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_CategoryTestQuestion];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
 GO
@@ -120,6 +123,9 @@ IF OBJECT_ID(N'[dbo].[TaskVariants]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[LabEntries]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabEntries];
+GO
+IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Categories];
 GO
 IF OBJECT_ID(N'[dbo].[Users_Student]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users_Student];
