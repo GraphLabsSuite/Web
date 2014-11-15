@@ -194,7 +194,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
     <Compile Include="Repositories\Interfaces\INewsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILabRepository.cs" />
@@ -297,7 +299,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GraphLabsDataModel.edmx.sql" />
     <Content Include="SQL Scripts\CreateSchema.sql" />
     <Content Include="SQL Scripts\InitScript.sql" />
     <Content Include="SQL Scripts\ClearSchema.sql" />
