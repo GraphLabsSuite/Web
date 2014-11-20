@@ -1,0 +1,26 @@
+﻿@model GraphLabs.Site.Models.CategoryViewModel
+
+@{
+    ViewBag.Title = "Создание категории";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Обратно к списку", "Index", "Category")
+</hgroup>
+
+@Html.BeginForm("Create", "Category", FormMethod.Post)
+
+@Html.HiddenFor(model => model.Id)
+@Html.ValidationSummary(true)
+
+
+<div class="editor-label">
+    Название категории
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => model.Name)
+    @Html.ValidationMessageFor(model => model.Name)
+</div>
+
+@Html.EndForm()

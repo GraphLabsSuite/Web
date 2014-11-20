@@ -28,9 +28,24 @@ namespace GraphLabs.Site.Controllers
             return View("~/Views/Category/Index.cshtml", model);
 		}
 
+        [HttpGet]
 		public ActionResult Create()
 		{
-			throw new NotImplementedException();
+            var model = new CategoryViewModel();
+
+            return View("~/Views/Category/Create.cshtml", model);
 		}
+
+        [HttpPost]
+        public ActionResult Create(CategoryViewModel request)
+        {
+            if (ModelState.IsValid)
+            {
+                request.Save();
+                return RedirectToAction("Index");
+            }
+
+            return View("~/Views/Category/Create.cshtml", request);
+        }
 	}
 }

@@ -10,6 +10,9 @@ namespace GraphLabs.DomainModel.Repositories
 	{
 		///<summary> Получить все категории </summary>
 		Category[] GetAllCategories();
+
+        ///<summary> Сохранение категории </summary>
+        void SaveCategory(Category category);
 	}
 
 	/// <summary> Репозиторий с группами </summary>
@@ -27,5 +30,10 @@ namespace GraphLabs.DomainModel.Repositories
 
 			return new Category[0];
 		}
+
+        public void SaveCategory(Category category)
+        {
+            Contract.Requires(category != null);
+        }
 	}
 }

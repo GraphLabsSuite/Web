@@ -20,5 +20,13 @@ namespace GraphLabs.DomainModel.Repositories
 
 			return Context.Categories.ToArray();
 		}
+
+        ///<summary> Сохранение категории </summary>
+        public void SaveCategory(Category category)
+        {
+            CheckNotDisposed();
+
+            Context.Categories.Add(category);
+        }
     }
 }

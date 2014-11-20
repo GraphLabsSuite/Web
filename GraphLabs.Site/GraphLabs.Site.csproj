@@ -227,6 +227,7 @@
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
+    <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\CategoryListViewModel.cs" />
     <Compile Include="Models\DemoLabModel.cs" />
     <Compile Include="Models\Error\Error404Model.cs" />
@@ -303,6 +304,7 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
