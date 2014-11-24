@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -11,22 +10,22 @@ using NUnit.Framework;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public abstract class TestBase
+    public abstract class GraphLabsTestBase : TestBaseBase
     {
         protected GraphLabsContext GraphLabsContext { get; private set; }
 
-        private static string GetConnectionString()
+        protected GraphLabsContext CreateDbContext()
         {
-            return ConfigurationManager.ConnectionStrings["DirectConnectionString"].ConnectionString;
+            return new GraphLabsContext("GraphLabsTestContext");
         }
-
 
         #region Скрипты
 
         private const string SQL_SCRIPTS_FOLDER = "SqlScripts";
         private const string CREATION_SCRIPT = "CreateSchema.sql";
         private const string INITIALIZATION_SCRIPT = "InitScript.sql";
-        private const string CLEANING_SCRIPT = "ClearSchema.sql";
+        private const string CLEAR_SCHEMA_SCRIPT = "ClearSchema.sql";
+        private const string CLEAR_TABLES_SCRIPT = "ClearTables.sql";
 
         private static IEnumerable<string> GetSchemaCreationScript()
         {
@@ -40,7 +39,12 @@ namespace GraphLabs.Tests.DomainModel
 
         private static IEnumerable<string> GetSchemaCleaningScript()
         {
-            return GetCommands(File.ReadAllText(Path.Combine(SQL_SCRIPTS_FOLDER, CLEANING_SCRIPT)));
+            return GetCommands(File.ReadAllText(Path.Combine(SQL_SCRIPTS_FOLDER, CLEAR_SCHEMA_SCRIPT)));
+        }
+
+        private static IEnumerable<string> GetTablesCleaningScript()
+        {
+            return GetCommands(File.ReadAllText(Path.Combine(SQL_SCRIPTS_FOLDER, CLEAR_TABLES_SCRIPT)));
         }
 
         private static IEnumerable<string> GetCommands(string sqlText)
@@ -70,7 +74,7 @@ namespace GraphLabs.Tests.DomainModel
             }
         }
 
-        private void ExecuteCommands(IEnumerable<string> commands, SqlConnection connection)
+        private void ExecuteScript(IEnumerable<string> commands, SqlConnection connection)
         {
             foreach (var command in commands)
             {
@@ -78,6 +82,25 @@ namespace GraphLabs.Tests.DomainModel
                 {
                     sqlCommand.ExecuteNonQuery();
                 }
+            }
+        }
+
+        private void ExecuteOnConnection(Action<SqlConnection> action)
+        {
+            var connection = new SqlConnection(GetConnectionString());
+            try
+            {
+                connection.Open();
+
+                action(connection);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Не забудьте почистить dbo.TestTable, т.к. произошла ошибка: {0}", e);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -122,40 +145,25 @@ namespace GraphLabs.Tests.DomainModel
 
         #endregion
 
+        
+        #region SetUp/TearDown
 
         /// <summary> Создаём схему </summary>
         [TestFixtureSetUp]
         public virtual void SetUp()
         {
-            var connection = new SqlConnection(GetConnectionString());
-            try
-            {
-                connection.Open();
-
-                if (!CheckNoTestsRunning(connection))
+            ExecuteOnConnection(
+                c =>
                 {
-                    Assert.Fail("Либо сейчас тесты выполняются где-то ещё, либо кто-то забыл удалить все записи из dbo.TestTable.");
-                }
-                SetTestsAreRunning(connection);
+                    if (!CheckNoTestsRunning(c))
+                    {
+                        Assert.Fail(
+                            "Либо сейчас тесты выполняются где-то ещё, либо кто-то забыл удалить все записи из dbo.TestTable.");
+                    }
+                    SetTestsAreRunning(c);
 
-                ExecuteCommands(GetSchemaCreationScript(), connection);
-                ExecuteCommands(GetSchemaInitializationScript(), connection);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Не забудьте почистить dbo.TestTable, т.к. произошла ошибка: {0}", e);
-            }
-            finally
-            {
-                connection.Close();
-            }
-
-            GraphLabsContext = CreateDbContext();
-        }
-
-        protected GraphLabsContext CreateDbContext()
-        {
-            return new GraphLabsContext("GraphLabsTestContext");
+                    ExecuteScript(GetSchemaCreationScript(), c);
+                });
         }
 
         /// <summary> Чистим схему </summary>
@@ -168,7 +176,7 @@ namespace GraphLabs.Tests.DomainModel
             {
                 connection.Open();
 
-                ExecuteCommands(GetSchemaCleaningScript(), connection);
+                ExecuteScript(GetSchemaCleaningScript(), connection);
                 SetTestsFinished(connection);
             }
         }
@@ -176,13 +184,17 @@ namespace GraphLabs.Tests.DomainModel
         [SetUp]
         public virtual void TestSetUp()
         {
-            
+            ExecuteOnConnection(c => ExecuteScript(GetSchemaInitializationScript(), c));
+            GraphLabsContext = CreateDbContext();
         }
 
         [TearDown]
         public virtual void TestTearDown()
         {
-            
+            GraphLabsContext.Dispose();
+            ExecuteOnConnection(c => ExecuteScript(GetTablesCleaningScript(), c));
         }
+
+        #endregion
     }
 }

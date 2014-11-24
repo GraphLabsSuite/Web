@@ -8,7 +8,7 @@ using System.Linq;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public class DataModelTests : TestBase
+    public class DataModelTests : GraphLabsTestBase
     {
         private void RemoveByCriteria<T>(Expression<Func<T, bool>> predicate) where T : class
         {

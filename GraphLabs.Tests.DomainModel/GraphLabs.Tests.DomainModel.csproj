@@ -116,7 +116,9 @@
     <Compile Include="GroupExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemDateTests.cs" />
-    <Compile Include="TestBase.cs" />
+    <Compile Include="GraphLabsTestBase.cs" />
+    <Compile Include="TestBaseBase.cs" />
+    <Compile Include="TestTableCleaner.cs" />
     <Compile Include="TransactionManagerTests.cs" />
     <Compile Include="UserExtensionsTests.cs" />
   </ItemGroup>
@@ -133,6 +135,10 @@
   <ItemGroup>
     <Content Include="..\GraphLabs.DomainModel\SQL Scripts\ClearSchema.sql">
       <Link>SqlScripts\ClearSchema.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\GraphLabs.DomainModel\SQL Scripts\ClearTables.sql">
+      <Link>SqlScripts\ClearTables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\GraphLabs.DomainModel\SQL Scripts\CreateSchema.sql">

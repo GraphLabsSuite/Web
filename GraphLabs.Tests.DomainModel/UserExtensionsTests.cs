@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public class UserExtensionsTests : TestBase
+    public class UserExtensionsTests : GraphLabsTestBase
     {
         [Test]
         public void ShortNameTest()

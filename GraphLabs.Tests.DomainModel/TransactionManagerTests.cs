@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public class TransactionManagerTests : TestBase
+    public class TransactionManagerTests : GraphLabsTestBase
     {
         [Test]
         public void TestWhenNoCommitThenRollback()

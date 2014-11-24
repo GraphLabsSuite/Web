@@ -8,7 +8,7 @@ using Moq;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public class GroupExtensionsTest : TestBase
+    public class GroupExtensionsTest : GraphLabsTestBase
     {
         [Test]
         public void TestGetName()

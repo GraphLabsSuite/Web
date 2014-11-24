@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public class SystemDateTests : TestBase
+    public class SystemDateTests : GraphLabsTestBase
     {
         [Test]
         public void TestGetTerm()
