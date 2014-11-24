@@ -150,7 +150,12 @@ namespace GraphLabs.Tests.DomainModel
                 connection.Close();
             }
 
-            GraphLabsContext = new GraphLabsContext("GraphLabsTestContext");
+            GraphLabsContext = CreateDbContext();
+        }
+
+        protected GraphLabsContext CreateDbContext()
+        {
+            return new GraphLabsContext("GraphLabsTestContext");
         }
 
         /// <summary> Чистим схему </summary>
@@ -166,6 +171,18 @@ namespace GraphLabs.Tests.DomainModel
                 ExecuteCommands(GetSchemaCleaningScript(), connection);
                 SetTestsFinished(connection);
             }
+        }
+
+        [SetUp]
+        public virtual void TestSetUp()
+        {
+            
+        }
+
+        [TearDown]
+        public virtual void TestTearDown()
+        {
+            
         }
     }
 }

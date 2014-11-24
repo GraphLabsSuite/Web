@@ -117,6 +117,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemDateTests.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="TransactionManagerTests.cs" />
     <Compile Include="UserExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>

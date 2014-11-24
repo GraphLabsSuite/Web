@@ -177,6 +177,7 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ITransactionManager.cs" />
+    <Compile Include="ITransactionScope.cs" />
     <Compile Include="LabEntry.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>

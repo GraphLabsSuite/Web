@@ -34,7 +34,14 @@ namespace GraphLabs.DomainModel
         public IDisposable BeginTransaction_BUGGED()
         {
             StartTransaction();
-            return new UnitOfWork(this);
+            return new UnitOfWork_BUGGED(this);
+        }
+
+        /// <summary> Начать транзакцию </summary>
+        public ITransactionScope BeginTransaction()
+        {
+            StartTransaction();
+            return new TransactionScope(this);
         }
 
         private void StartTransaction()
@@ -135,31 +142,68 @@ namespace GraphLabs.DomainModel
 
         #endregion
 
-
-        private class UnitOfWork : IDisposable
+        private class TransactionScope : UnitOfWork_BUGGED, ITransactionScope
         {
-            private readonly TransactionManager _transactionManager;
-
-            public UnitOfWork(TransactionManager transactionManager)
+            public TransactionScope(TransactionManager transactionManager) : base(transactionManager)
             {
-                Contract.Requires<ArgumentNullException>(transactionManager != null);
-
-                _transactionManager = transactionManager;
             }
 
-            private bool _disposed = false;
-            public void Dispose()
+            public override void Dispose()
             {
-                if (_disposed)
+                if (Disposed)
                 {
                     return;
                 }
 
-                var hasChanges = _transactionManager._context.ChangeTracker.HasChanges();
-                var hasTransaction = _transactionManager.HasActiveTransaction;
+                var hasChanges = TransactionManager._context.ChangeTracker.HasChanges();
+                var hasTransaction = TransactionManager.HasActiveTransaction;
+                if (hasTransaction)
+                {
+                    TransactionManager.Rollback();
+                }
+                else if (hasChanges)
+                {
+                    throw new InvalidOperationException("Выход из контекста BeginTransaction c имеющимися изменениями, но без транзакции. Какая-то лажа.");
+                }
+
+                Disposed = true;
+            }
+
+            public void Commit()
+            {
+                TransactionManager.IntermediateCommit();
+            }
+
+            public void Rollback()
+            {
+                TransactionManager.IntermediateRollback();
+            }
+        }
+
+        private class UnitOfWork_BUGGED : IDisposable
+        {
+            protected readonly TransactionManager TransactionManager;
+
+            public UnitOfWork_BUGGED(TransactionManager transactionManager)
+            {
+                Contract.Requires<ArgumentNullException>(transactionManager != null);
+
+                TransactionManager = transactionManager;
+            }
+
+            protected bool Disposed = false;
+            public virtual void Dispose()
+            {
+                if (Disposed)
+                {
+                    return;
+                }
+
+                var hasChanges = TransactionManager._context.ChangeTracker.HasChanges();
+                var hasTransaction = TransactionManager.HasActiveTransaction;
                 if (hasChanges && hasTransaction)
                 {
-                    _transactionManager.Commit();
+                    TransactionManager.Commit();
                 }
                 else if (hasChanges)
                 {
@@ -167,10 +211,10 @@ namespace GraphLabs.DomainModel
                 }
                 else if (hasTransaction)
                 {
-                    _transactionManager.Rollback();
+                    TransactionManager.Rollback();
                 }
 
-                _disposed = true;
+                Disposed = true;
             }
         }
     }
