@@ -33,57 +33,51 @@ namespace GraphLabs.WcfServices
                 throw new InvalidOperationException("Создание тестовых вариантов возможно только при работе в тестовом режиме.");
             }
 
-            using (_contextManager.BeginTransaction_BUGGED())
+            using (var t = _contextManager.BeginTransaction())
             {
-                try
+                // Загружаем задание
+                Task task;
+                //using (var stream = new MemoryStream(taskData))
+                using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.SCC - 1.xap"))
                 {
-
-                    // Загружаем задание
-                    Task task;
-                    //using (var stream = new MemoryStream(taskData))
-                    using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.SCC - 1.xap"))
-                    {
-                        task = _taskManager.UploadTask(stream);
-                    }
-                    if (task == null)
-                        throw new InvalidOperationException("Провал. Задание с таким именем и версией уже существует.");
-
-                    task.Note = "Загружено автоматически сервисом отладки.";
-
-                    // Загружаем вариант задания
-                    var variantInfo = new TaskVariant
-                    {
-                        Data = DebugGraphGenerator.GetSerializedGraph(), //variantData,
-                        GeneratorVersion = "1",
-                        Number = "Debug",
-                        Task = task
-                    };
-                    _taskRepository.CreateOrUpdateVariant(variantInfo);
-
-                    // Создаём лабу
-                    var now = DateTime.Now;
-                    var lab = new LabWork
-                    {
-                        Name = string.Format("{0:d} Отладка задания \"{1}\" (v.{2})", now, task.Name, task.Version),
-                        AcquaintanceFrom = now,
-                        AcquaintanceTill = now.AddYears(1),
-                    };
-                    _labRepository.SaveLabWork(lab);
-
-                    // Создаём вариант
-                    var labVariant = new LabVariant
-                    {
-                        IntroducingVariant = true,
-                        LabWork = lab,
-                        Number = "Debug",
-                        Version = 1,
-                    };
-                    _labRepository.SaveLabVariant(labVariant);
+                    task = _taskManager.UploadTask(stream);
                 }
-                catch (Exception ex)
+                if (task == null)
+                    throw new InvalidOperationException("Провал. Задание с таким именем и версией уже существует.");
+
+                task.Note = "Загружено автоматически сервисом отладки.";
+
+                // Загружаем вариант задания
+                var variantInfo = new TaskVariant
                 {
-                    _contextManager.Rollback();
-                }
+                    Data = DebugGraphGenerator.GetSerializedGraph(), //variantData,
+                    GeneratorVersion = "1",
+                    Number = "Debug",
+                    Task = task
+                };
+                _taskRepository.CreateOrUpdateVariant(variantInfo);
+
+                // Создаём лабу
+                var now = DateTime.Now;
+                var lab = new LabWork
+                {
+                    Name = string.Format("{0:d} Отладка задания \"{1}\" (v.{2})", now, task.Name, task.Version),
+                    AcquaintanceFrom = now,
+                    AcquaintanceTill = now.AddYears(1),
+                };
+                _labRepository.SaveLabWork(lab);
+
+                // Создаём вариант
+                var labVariant = new LabVariant
+                {
+                    IntroducingVariant = true,
+                    LabWork = lab,
+                    Number = "Debug",
+                    Version = 1,
+                };
+                _labRepository.SaveLabVariant(labVariant);
+
+                t.Commit();
             }
 
             return 0;

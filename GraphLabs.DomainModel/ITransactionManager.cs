@@ -11,6 +11,9 @@ namespace GraphLabs.DomainModel
         /// <summary> Начать транзакцию </summary>
         IDisposable BeginTransaction_BUGGED();
 
+        /// <summary> Начать транзакцию </summary>
+        ITransactionScope BeginTransaction();
+
         /// <summary> Проверяет, что нет несохранённых изменений </summary>
         void CheckHasNoChanges();
 

@@ -50,7 +50,7 @@ namespace GraphLabs.Site.Logic.Security
         {
             User user;
             Session session;
-            using (_transactionManager.BeginTransaction_BUGGED())
+            using (var t = _transactionManager.BeginTransaction())
             {
                 user = _userRepository.FindActiveUserByEmail(email);
 
@@ -73,10 +73,10 @@ namespace GraphLabs.Site.Logic.Security
                     session = lastSession;
                 }
                 SetLastAction(session);
-                _transactionManager.IntermediateCommit();
-                _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+                t.Commit();
             }
 
+            _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
             SetupCurrentPrincipal(user);
             
             sessionGuid = session.Guid;
