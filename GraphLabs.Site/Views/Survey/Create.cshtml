@@ -45,7 +45,7 @@
 @section Scripts
 {
     <script>
-
+        //отсчет от 0
         var optionsCount = @(Model.QuestionOptions.Count - 1);
 
 
@@ -64,14 +64,31 @@
 
         $(".deleteOption").live("click", function () {
             $(this).parent().parent().remove();
-            //optionsCount--;
-            
+            optionsCount--;
+            for(i = 1; i < optionsCount + 3; ++i)
+            {
+                $("table tr:eq(" + i + ") td input:eq(0)").attr("id","QuestionOptions_" + (i - 1).toString() + "__Key");
+                $("table tr:eq(" + i + ") td input:eq(0)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Key");
+
+                $("table tr:eq(" + i + ") td input:eq(1)").attr("id","QuestionOptions_" + (i - 1).toString() + "__Value");
+                $("table tr:eq(" + i + ") td input:eq(1)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Value");
+
+                $("table tr:eq(" + i + ") td input:eq(2)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Value");
+            }
         });
 
         $(".copyOption").live("click", function () {
             $(this).parent().parent().clone().appendTo("table");
-            //optionsCount++;
-            //менять содержимое id и name в первых двух, в последнем только name
+            optionsCount++;
+            
+            $("table tr:last td input:eq(0)").attr("id","QuestionOptions_" + optionsCount.toString() + "__Key");
+            $("table tr:last td input:eq(0)").attr("name","QuestionOptions[" + optionsCount.toString() + "].Key");
+
+            $("table tr:last td input:eq(1)").attr("id","QuestionOptions_" + optionsCount.toString() + "__Value");
+            $("table tr:last td input:eq(1)").attr("name","QuestionOptions[" + optionsCount.toString() + "].Value");
+
+            $("table tr:last td input:eq(2)").attr("name","QuestionOptions[" + optionsCount.toString() + "].Value");
         });
+        
     </script>
 }
