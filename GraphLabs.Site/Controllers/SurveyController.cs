@@ -18,19 +18,19 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create ()
         {
-            var result = new SurveyCreatingModel();
-			result.Question = "question";
-			result.QuestionOptions.Add(new KeyValuePair<string, bool>( "xxx", true ));
-            return View(result);
+            var emptyQuestion = new SurveyCreatingViewModel();
+            emptyQuestion.Question = "Введите текст вопроса";
+            emptyQuestion.QuestionOptions.Add(new KeyValuePair<string, bool>("Введите первый вариант ответа", true));
+            return View(emptyQuestion);
         }
 
         [HttpPost]
         public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions)
         {
-			var model = new SurveyCreatingModel(Question, QuestionOptions);
+			var model = new SurveyCreatingViewModel(Question, QuestionOptions);
             if (model.IsValid)
             {
-                //тут сохранение через дергание репозитория
+                model.Save();
             }
             return View(model);
         }
