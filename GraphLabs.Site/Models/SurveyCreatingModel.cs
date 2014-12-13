@@ -29,6 +29,11 @@ namespace GraphLabs.Site.Models
 		{
 			Question = question;
 			QuestionOptions = questionOptions.ToList();
-		}		
+		}
+
+		public void Save()
+		{
+			throw new NotImplementedException();
+		}
     }
 }

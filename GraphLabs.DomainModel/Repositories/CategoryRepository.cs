@@ -27,6 +27,7 @@ namespace GraphLabs.DomainModel.Repositories
             CheckNotDisposed();
 
             Context.Categories.Add(category);
+			Context.SaveChanges();
         }
     }
 }

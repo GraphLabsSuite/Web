@@ -76,6 +76,9 @@ namespace GraphLabs.Site.App_Start
             container.RegisterType<IResultsRepository>(new PerRequestLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetResultsRepository()));
 
+			container.RegisterType<ICategoryRepository>(new PerRequestLifetimeManager(),
+				new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetCategoryRepository()));
+
             // ============================================================
 
             container.RegisterType<IMembershipEngine, MembershipEngine>(new PerRequestLifetimeManager());

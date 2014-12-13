@@ -81,5 +81,13 @@ namespace GraphLabs.DomainModel.Repositories
 
             return new ResultsRepository(_context);
         }
+
+		[NotNull]
+		public ICategoryRepository GetCategoryRepository()
+		{
+			Contract.Ensures(Contract.Result<ICategoryRepository>() != null);
+
+			return new CategoryRepository(_context);
+		}
     }
 }

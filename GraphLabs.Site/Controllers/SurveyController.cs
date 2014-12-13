@@ -18,7 +18,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create ()
         {
-            var emptyQuestion = new SurveyCreatingViewModel();
+            var emptyQuestion = new SurveyCreatingModel();
             emptyQuestion.Question = "Введите текст вопроса";
             emptyQuestion.QuestionOptions.Add(new KeyValuePair<string, bool>("Введите первый вариант ответа", true));
             return View(emptyQuestion);
@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions)
         {
-			var model = new SurveyCreatingViewModel(Question, QuestionOptions);
+			var model = new SurveyCreatingModel(Question, QuestionOptions);
             if (model.IsValid)
             {
                 model.Save();
