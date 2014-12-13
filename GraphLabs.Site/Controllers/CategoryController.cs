@@ -36,6 +36,14 @@ namespace GraphLabs.Site.Controllers
             return View("~/Views/Category/Create.cshtml", model);
 		}
 
+		[HttpGet]
+		public ActionResult Edit(long Id)
+		{
+			var model = new CategoryViewModel(Id);
+
+			return View("~/Views/Category/Create.cshtml", model);
+		}
+
         [HttpPost]
         public ActionResult Create(CategoryViewModel request)
         {

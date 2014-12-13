@@ -13,6 +13,14 @@ namespace GraphLabs.DomainModel.Repositories
         {
         }
 
+		/// <summary> Получить категорию по id </summary>
+		public Category GetById(long id)
+		{
+			CheckNotDisposed();
+
+			return Context.Categories.Single(c => c.Id == id);
+		}
+
 		///<summary> Получить все категории </summary>
 		public Category[] GetAllCategories()
 		{
@@ -29,5 +37,14 @@ namespace GraphLabs.DomainModel.Repositories
             Context.Categories.Add(category);
 			Context.SaveChanges();
         }
+
+		///<summary> Редактирование категории </summary>
+		public void EditCategory(Category category)
+		{
+			CheckNotDisposed();
+
+			Context.Entry(category).State = EntityState.Modified;
+			Context.SaveChanges();
+		}
     }
 }
