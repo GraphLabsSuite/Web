@@ -5,11 +5,11 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с группами </summary>
-	[ContractClass(typeof(CategoryRepositoryContracts))]
+	[ContractClass(typeof(SurveyRepositoryContracts))]
     public interface ISurveyRepository : IDisposable
 	{
 		///<summary> Получить все категории </summary>
-		Category[] GetAllCategories();
+		//Category[] GetAllCategories();
 
 
 
@@ -20,8 +20,8 @@ namespace GraphLabs.DomainModel.Repositories
 	}
 
 	/// <summary> Репозиторий с группами </summary>
-	[ContractClassFor(typeof(ICategoryRepository))]
-    internal abstract class SurveyRepositoryContracts : ICategoryRepository
+	[ContractClassFor(typeof(ISurveyRepository))]
+    internal abstract class SurveyRepositoryContracts : ISurveyRepository
 	{
 		/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
 		public void Dispose()
