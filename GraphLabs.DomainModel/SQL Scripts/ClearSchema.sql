@@ -1,9 +1,9 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/15/2014 10:28:59
--- Generated from EDMX file: C:\Users\SanCom\Documents\Visual Studio 2012\Projects\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
+-- Date Created: 12/13/2014 11:40:48
+-- Generated from EDMX file: D:\C#\GRAPH\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;

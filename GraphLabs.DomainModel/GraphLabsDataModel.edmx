@@ -97,9 +97,9 @@
       <End Role="Task" EntitySet="Tasks" />
       <End Role="Action" EntitySet="Actions" />
     </AssociationSet>
-    <AssociationSet Name="CategoryTestQuestion" Association="DataModel.Store.CategoryTestQuestion">
-      <End Role="Category" EntitySet="Categories" />
+    <AssociationSet Name="TestQuestionCategory" Association="DataModel.Store.TestQuestionCategory">
       <End Role="TestQuestion" EntitySet="TestQuestions" />
+      <End Role="Category" EntitySet="Categories" />
     </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
@@ -196,11 +196,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TypeOfQuestion" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Section" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CategoryId" Type="bigint" Nullable="false" />
+    <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Category_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="AnswerVariants">
     <Key>
@@ -433,15 +430,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CategoryTestQuestion">
-    <End Role="Category" Type="DataModel.Store.Categories" Multiplicity="1" />
+  <Association Name="TestQuestionCategory">
     <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="*" />
+    <End Role="Category" Type="DataModel.Store.Categories" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Category">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="TestQuestion">
-        <PropertyRef Name="CategoryId" />
+        <PropertyRef Name="Category_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -611,9 +608,9 @@
             <End Role="Action" EntitySet="Actions" />
           </AssociationSet>
           <EntitySet Name="Categories" EntityType="DataModel.Category" />
-          <AssociationSet Name="CategoryTestQuestion" Association="DataModel.CategoryTestQuestion">
-            <End Role="Category" EntitySet="Categories" />
+          <AssociationSet Name="TestQuestionCategory" Association="DataModel.TestQuestionCategory">
             <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="Category" EntitySet="Categories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
@@ -728,14 +725,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
-          <Property Type="String" Name="Value" Nullable="false" />
-          <Property Type="String" Name="TypeOfQuestion" Nullable="false" />
-          <NavigationProperty Name="AnswerVariants" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="TestQuestion" ToRole="AnswerVariant" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.VariantTestQuestion" FromRole="TestQuestion" ToRole="LabVariant" />
-          <Property Type="String" Name="Section" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="DataModel.CategoryTestQuestion" FromRole="TestQuestion" ToRole="Category" />
-          <Property Type="Int64" Name="CategoryId" Nullable="false" />
+          <Property Name="Question" Type="String" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="DataModel.TestQuestionCategory" FromRole="TestQuestion" ToRole="Category" />
         </EntityType>
         <EntityType Name="AnswerVariant">
           <Key>
@@ -870,17 +862,9 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" />
         </EntityType>
-        <Association Name="CategoryTestQuestion">
-          <End Type="DataModel.Category" Role="Category" Multiplicity="1" />
+        <Association Name="TestQuestionCategory">
           <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TestQuestion">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
+          <End Type="DataModel.Category" Role="Category" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -986,11 +970,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(DataModel.TestQuestion)">
         <MappingFragment StoreEntitySet="TestQuestions">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-          <ScalarProperty Name="TypeOfQuestion" ColumnName="TypeOfQuestion" />
-          <ScalarProperty Name="Section" ColumnName="Section" />
-          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1167,6 +1147,14 @@
         <ScalarProperty Name="Id" ColumnName="Task_Id" />
       </EndProperty>
       <EndProperty Name="Action">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestQuestionCategory" TypeName="DataModel.TestQuestionCategory" StoreEntitySet="TestQuestions">
+      <EndProperty Name="Category">
+        <ScalarProperty Name="Id" ColumnName="Category_Id" />
+      </EndProperty>
+      <EndProperty Name="TestQuestion">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

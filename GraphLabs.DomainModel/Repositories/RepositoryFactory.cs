@@ -89,5 +89,13 @@ namespace GraphLabs.DomainModel.Repositories
 
 			return new CategoryRepository(_context);
 		}
+
+        [NotNull]
+        public ISurveyRepository GetSurveyRepository()
+        {
+            Contract.Ensures(Contract.Result<ISurveyRepository>() != null);
+
+            return new SurveyRepository(_context);
+        }
     }
 }

@@ -1,14 +1,23 @@
-﻿using GraphLabs.Site.Controllers;
+﻿using GraphLabs.DomainModel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
 {
-    public class SurveyCreatingModel
+    public class SurveyCreatingModel : BaseViewModel
     {
+        #region Зависимости
+        private ISurveyRepository _surveyRepository
+        {
+            get { return DependencyResolver.GetService<ISurveyRepository>(); }
+        }       
+        #endregion
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Необходимо указать текст вопроса!")]
         [MinLength(3, ErrorMessage = "Текст вопроса слишком короткий!")]
         [MaxLength(3000, ErrorMessage = "Текст вопроса слишком длинный!")]
@@ -63,6 +72,7 @@ namespace GraphLabs.Site.Models
 
 		public void Save()
 		{
+
 			throw new NotImplementedException();
             //TODO сохраНЯШКА
 		}
