@@ -1,9 +1,14 @@
 ﻿@model GraphLabs.Site.Models.SurveyCreatingModel
 
 @{
-    ViewBag.Title = "Создание теста";
+    ViewBag.Title = "Создание тестового вопроса";
 }
-<h2>Создание вопроса</h2>
+
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+<br />
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -14,6 +19,9 @@
     <div class="editor-field">
         @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList)
     </div>
+    
+    <br />
+    
     <div class="editor-label">
             Текст вопроса
     </div>
@@ -21,6 +29,7 @@
         @Html.EditorFor(model => model.Question)
         @Html.ValidationMessageFor(model => model.Question)
     </div>
+    
     <table>
         <tr>
             <th>
@@ -51,6 +60,7 @@
         <input type="submit" value="Создать" />
     </p>
 }
+
 @section Scripts
 {
     <script>

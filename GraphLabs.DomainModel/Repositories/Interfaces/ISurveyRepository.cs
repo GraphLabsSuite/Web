@@ -9,6 +9,16 @@ namespace GraphLabs.DomainModel.Repositories
 	[ContractClass(typeof(SurveyRepositoryContracts))]
     public interface ISurveyRepository : IDisposable
 	{
+		#region Получение массивов вопросов
+
+		/// <summary> Получить все вопросы </summary>
+		TestQuestion[] GetAllQuestions();
+
+		/// <summary> Получить все вопросы в заданной категории </summary>
+		TestQuestion[] GetQuestionByCategory(long CategoryId);
+
+		#endregion
+
 		///<summary> Сохранить вопрос </summary>
 		void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId);
 
@@ -25,6 +35,25 @@ namespace GraphLabs.DomainModel.Repositories
 		public void Dispose()
 		{
 		}
+
+		#region Получение массивов вопросов
+
+		public TestQuestion[] GetAllQuestions()
+		{
+			Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
+
+			return new TestQuestion[0];
+		}
+
+		public TestQuestion[] GetQuestionByCategory(long CategoryId)
+		{
+			Contract.Requires(CategoryId > 0);
+			Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
+
+			return new TestQuestion[0];
+		}
+
+		#endregion
 
         public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
         {

@@ -14,6 +14,26 @@ namespace GraphLabs.DomainModel.Repositories
         {
         }
 
+		#region Получение массивов вопросов
+
+		/// <summary> Получить все вопросы </summary>
+		public TestQuestion[] GetAllQuestions()
+		{
+			CheckNotDisposed();
+
+			return Context.TestQuestions.ToArray();
+		}
+
+		/// <summary> Получить все вопросы в заданной категории </summary>
+		public TestQuestion[] GetQuestionByCategory(long CategoryId)
+		{
+			CheckNotDisposed();
+
+			return Context.TestQuestions.Where(tq => tq.Category.Id == CategoryId).ToArray();
+		}
+
+		#endregion
+
         ///<summary> Сохранение вопроса </summary>
         public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
         {
@@ -35,9 +55,8 @@ namespace GraphLabs.DomainModel.Repositories
                     IsCorrect = answerVar.Value,
                     Answer = answerVar.Key
                 };
+				Context.AnswerVariants.Add(answerVariant);
             }
-
-
 
             Context.SaveChanges();
         }

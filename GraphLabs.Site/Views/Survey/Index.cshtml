@@ -1,0 +1,52 @@
+﻿@model GraphLabs.Site.Models.SurveyIndexViewModel
+
+@{
+    ViewBag.Title = "Тестовые вопросы";
+}
+
+<hgroup>
+    <h2>Тестовые вопросы</h2>
+    @Html.ActionLink("Добавить", "Create")
+</hgroup>
+
+<div class="editor-label">
+    Выберите категорию
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
+</div>
+
+<div id="TestQuestionList">
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            $.ajax({
+                type: "Get",
+                url: "/survey/TestQuestionList",
+                data: {
+                    CategoryId: $('#SelectedCategoryId').val()
+                },
+                success: function (data) {
+                    $('#TestQuestionList').html(data);
+                }
+            });
+        });
+
+        $('#SelectedCategoryId').change(function () {
+            $.ajax({
+                type: "Get",
+                url: "/survey/TestQuestionList",
+                data: {
+                    CategoryId: $('#SelectedCategoryId').val()
+                },
+                success: function (data) {
+                    $('#TestQuestionList').html(data);
+                }
+                });
+        });
+    </script>
+}
