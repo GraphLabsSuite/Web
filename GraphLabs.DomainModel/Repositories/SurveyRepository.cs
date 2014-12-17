@@ -15,7 +15,7 @@ namespace GraphLabs.DomainModel.Repositories
         }
 
         ///<summary> Сохранение вопроса </summary>
-        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId)
+        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
         {
             CheckNotDisposed();
                         

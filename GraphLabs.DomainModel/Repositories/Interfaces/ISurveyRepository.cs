@@ -10,7 +10,7 @@ namespace GraphLabs.DomainModel.Repositories
     public interface ISurveyRepository : IDisposable
 	{
 		///<summary> Сохранить вопрос </summary>
-		void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId);
+		void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId);
         
 	}
 
@@ -23,7 +23,7 @@ namespace GraphLabs.DomainModel.Repositories
 		{
 		}
 
-        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId)
+        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
         {
 
         }

@@ -25,9 +25,9 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions)
+        public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions, string CategoryId)
         {
-			var model = new SurveyCreatingModel(Question, QuestionOptions);
+            var model = new SurveyCreatingModel(Question, QuestionOptions, Convert.ToInt64(CategoryId));
             if (model.IsValid)
             {
                 model.Save();

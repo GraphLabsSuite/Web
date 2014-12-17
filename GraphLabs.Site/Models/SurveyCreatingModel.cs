@@ -16,6 +16,10 @@ namespace GraphLabs.Site.Models
         {
             get { return DependencyResolver.GetService<ISurveyRepository>(); }
         }       
+        private ICategoryRepository _categoryRepository
+        {
+            get { return DependencyResolver.GetService<ICategoryRepository>(); }
+        }
         #endregion
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Необходимо указать текст вопроса!")]
@@ -26,6 +30,23 @@ namespace GraphLabs.Site.Models
         [Required(ErrorMessage = "Укажите варианты ответа")]
         public List<KeyValuePair<String, bool>> QuestionOptions { get; set; }
 
+        public string CategoryId { get; set; }
+
+        private long _categoryId;
+
+        public List<SelectListItem> CategoryList
+        { 
+            get 
+            { 
+            return _categoryRepository.GetAllCategories().Select(
+                cat => new SelectListItem
+                {
+                    Value = cat.Id.ToString(),
+                    Text = cat.Name
+                }
+                ).ToList();
+            }
+        }
 		public bool IsValid
 		{
 			get
@@ -64,19 +85,19 @@ namespace GraphLabs.Site.Models
 			QuestionOptions = new List<KeyValuePair<String, bool>>();
 		}
 
-		public SurveyCreatingModel(string question, Dictionary<string, bool> questionOptions)
+		public SurveyCreatingModel(string question, Dictionary<string, bool> questionOptions, long categoryId)
 		{
 			Question = question;
 			QuestionOptions = questionOptions.ToList();
+            _categoryId = categoryId;
 		}
 
 		public void Save()
 		{
-            var categoryId = 1;
             _surveyRepository.SaveQuestion(
                 this.Question,
                 this.QuestionOptions.ToDictionary(qo => qo.Key, qo => qo.Value),
-                categoryId);
+                _categoryId);
 		}
         //репозиторий если есть такой вопрос, то обновить
         //если нет, то сохранить

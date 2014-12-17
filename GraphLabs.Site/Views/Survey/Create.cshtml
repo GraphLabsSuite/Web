@@ -4,13 +4,22 @@
     ViewBag.Title = "Создание теста";
 }
 <h2>Создание вопроса</h2>
-@using (Html.BeginForm()) {
-
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+    <div class="editor-label">
+        Выберите категорию
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList)
+    </div>
     <div class="editor-label">
             Текст вопроса
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.Question)
+        @Html.ValidationMessageFor(model => model.Question)
     </div>
     <table>
         <tr>
