@@ -72,9 +72,11 @@ namespace GraphLabs.Site.Models
 
 		public void Save()
 		{
-
-			throw new NotImplementedException();
-            //TODO сохраНЯШКА
+            var categoryId = 1;
+            _surveyRepository.SaveQuestion(
+                this.Question,
+                this.QuestionOptions.ToDictionary(qo => qo.Key, qo => qo.Value),
+                categoryId);
 		}
         //репозиторий если есть такой вопрос, то обновить
         //если нет, то сохранить

@@ -5,19 +5,16 @@ using System.Collections.Generic;
 
 namespace GraphLabs.DomainModel.Repositories
 {
-	/// <summary> Репозиторий с группами </summary>
+	/// <summary> Репозиторий с вопросами </summary>
 	[ContractClass(typeof(SurveyRepositoryContracts))]
     public interface ISurveyRepository : IDisposable
 	{
-		///<summary> Получить все категории </summary>
-		//Category[] GetAllCategories();
-
-
-        void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId);
+		///<summary> Сохранить вопрос </summary>
+		void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId);
         
 	}
 
-	/// <summary> Репозиторий с группами </summary>
+    /// <summary> Репозиторий с вопросами </summary>
 	[ContractClassFor(typeof(ISurveyRepository))]
     internal abstract class SurveyRepositoryContracts : ISurveyRepository
 	{
