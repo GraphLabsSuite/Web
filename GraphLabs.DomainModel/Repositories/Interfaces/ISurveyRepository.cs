@@ -11,6 +11,9 @@ namespace GraphLabs.DomainModel.Repositories
 	{
 		///<summary> Сохранить вопрос </summary>
 		void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId);
+
+		/// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
+		int GetCategorizesTestQuestionCount(long CategoryId);
         
 	}
 
@@ -27,5 +30,12 @@ namespace GraphLabs.DomainModel.Repositories
         {
 
         }
+
+		public int GetCategorizesTestQuestionCount(long CategoryId)
+		{
+			Contract.Requires(CategoryId > 0);
+
+			return default(int);
+		}
 	}
 }

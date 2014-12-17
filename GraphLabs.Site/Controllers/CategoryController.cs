@@ -12,23 +12,20 @@ namespace GraphLabs.Site.Controllers
 	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
 	public class CategoryController : GraphLabsController
 	{
-		#region Зависимости
+		#region Просмотр списка
 
-		private ICategoryRepository _categoriesRepository
-		{
-			get { return DependencyResolver.GetService<ICategoryRepository>(); }
-		}
-
-		#endregion
-		
 		public ActionResult Index()
         {
-			var model = new CategoryListViewModel(_categoriesRepository.GetAllCategories());
+			var model = new CategoryListViewModel();
 
             return View("~/Views/Category/Index.cshtml", model);
 		}
 
-        [HttpGet]
+		#endregion
+
+		#region Создание и редактирование
+
+		[HttpGet]
 		public ActionResult Create()
 		{
             var model = new CategoryViewModel();
@@ -54,6 +51,8 @@ namespace GraphLabs.Site.Controllers
             }
 
             return View("~/Views/Category/Create.cshtml", request);
-        }
+		}
+
+		#endregion
 	}
 }

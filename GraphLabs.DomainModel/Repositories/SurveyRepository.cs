@@ -41,5 +41,13 @@ namespace GraphLabs.DomainModel.Repositories
 
             Context.SaveChanges();
         }
+
+		/// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
+		public int GetCategorizesTestQuestionCount(long CategoryId)
+		{
+			CheckNotDisposed();
+
+			return Context.TestQuestions.Count(tq => tq.Category.Id == CategoryId);
+		}
     }
 }

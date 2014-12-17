@@ -9,18 +9,39 @@ using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
 {
-    public class CategoryListViewModel
+	public class CategoryListViewModel : BaseViewModel
 	{
-		public CategoryViewModel[] Items { get; private set; }
+		#region Зависимости
 
-		public CategoryListViewModel(Category[] categories)
+		private ICategoryRepository _categoriesRepository
 		{
-			Items = categories.Select(c => new CategoryViewModel
+			get { return DependencyResolver.GetService<ICategoryRepository>(); }
+		}
+
+		private ISurveyRepository _surveyRepository
+		{
+			get { return DependencyResolver.GetService<ISurveyRepository>(); }
+		}
+
+		#endregion
+
+		public CategoryViewModelDto[] Items { get; private set; }
+
+		public CategoryListViewModel()
+		{
+			Items = _categoriesRepository.GetAllCategories()
+			.Select(c => new CategoryViewModelDto
 			{
 				Id = c.Id,
-				Name = c.Name
+				Name = c.Name,
+				QuestionCount = _surveyRepository.GetCategorizesTestQuestionCount(c.Id)
 			})
 			.ToArray();
 		}
+	}
+
+	public class CategoryViewModelDto : CategoryViewModel
+	{
+		public int QuestionCount { get; set; }
 	}
 }

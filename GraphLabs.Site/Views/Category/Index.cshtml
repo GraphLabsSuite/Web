@@ -20,6 +20,9 @@
                 Название
             </th>
             <th>
+                Кол-во вопросов в категории
+            </th>
+            <th>
             </th>
         </tr>
         @foreach (var category in Model.Items)
@@ -30,6 +33,9 @@
                 </td>
                 <td>
                     @category.Name
+                </td>
+                <td>
+                    @category.QuestionCount
                 </td>
                 <td>
                     <a href="/Category/Edit?Id=@category.Id">
