@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/13/2014 11:40:48
+-- Date Created: 12/17/2014 23:07:17
 -- Generated from EDMX file: D:\C#\GRAPH\trunk\GraphLabs.DomainModel\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -71,8 +71,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_TaskAction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Actions] DROP CONSTRAINT [FK_TaskAction];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CategoryTestQuestion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_CategoryTestQuestion];
+IF OBJECT_ID(N'[dbo].[FK_TestQuestionCategory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_TestQuestionCategory];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];

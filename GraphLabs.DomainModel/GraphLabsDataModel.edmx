@@ -205,7 +205,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Answer" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="IsCorrect" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="IsCorrect" Type="bit" Nullable="false" />
     <Property Name="TestQuestion_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Sessions">
@@ -735,7 +735,7 @@
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="Answer" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
-          <Property Type="String" Name="IsCorrect" Nullable="false" FixedLength="false" MaxLength="10" Unicode="true" />
+          <Property Type="Boolean" Name="IsCorrect" Nullable="false" />
           <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="AnswerVariant" ToRole="TestQuestion" />
         </EntityType>
         <Association Name="TestQuestionAnswerVariant">

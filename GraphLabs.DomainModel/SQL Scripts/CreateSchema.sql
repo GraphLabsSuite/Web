@@ -100,7 +100,7 @@ GO
 CREATE TABLE [dbo].[AnswerVariants] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Answer] nvarchar(50)  NOT NULL,
-    [IsCorrect] nvarchar(10)  NOT NULL,
+    [IsCorrect] bit  NOT NULL,
     [TestQuestion_Id] bigint  NOT NULL
 );
 GO

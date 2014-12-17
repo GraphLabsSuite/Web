@@ -16,7 +16,7 @@ namespace GraphLabs.DomainModel
     {
         public long Id { get; private set; }
         public string Answer { get; set; }
-        public string IsCorrect { get; set; }
+        public bool IsCorrect { get; set; }
     
         public virtual TestQuestion TestQuestion { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -12,11 +13,8 @@ namespace GraphLabs.DomainModel.Repositories
 		//Category[] GetAllCategories();
 
 
-
-        //тут методы
-
-
-
+        void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId);
+        
 	}
 
 	/// <summary> Репозиторий с группами </summary>
@@ -28,5 +26,9 @@ namespace GraphLabs.DomainModel.Repositories
 		{
 		}
 
+        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, int categoryId)
+        {
+
+        }
 	}
 }
