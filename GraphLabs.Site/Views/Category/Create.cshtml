@@ -10,7 +10,7 @@
 </hgroup>
 
 <br />
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Create", "Category", FormMethod.Post)) {
     @Html.ValidationSummary(true)
 
     <fieldset>
