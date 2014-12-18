@@ -24,6 +24,14 @@
 {
     <script>
         $().ready(function () {
+            RenderTable();
+        });
+
+        $('#SelectedCategoryId').change(function () {
+            RenderTable();
+        });
+
+        function RenderTable() {
             $.ajax({
                 type: "Get",
                 url: "/survey/TestQuestionList",
@@ -34,19 +42,6 @@
                     $('#TestQuestionList').html(data);
                 }
             });
-        });
-
-        $('#SelectedCategoryId').change(function () {
-            $.ajax({
-                type: "Get",
-                url: "/survey/TestQuestionList",
-                data: {
-                    CategoryId: $('#SelectedCategoryId').val()
-                },
-                success: function (data) {
-                    $('#TestQuestionList').html(data);
-                }
-                });
-        });
+        }
     </script>
 }
