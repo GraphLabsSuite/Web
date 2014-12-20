@@ -6,6 +6,7 @@ using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Utils.XapProcessor;
 using GraphLabs.Tasks.Contract;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
@@ -46,6 +47,8 @@ namespace GraphLabs.Site.App_Start
             container.RegisterType<IHashCalculator, BCryptCalculator>();
             
             container.RegisterType<IAuthenticationSavingService, FormsAuthenticationSavingService>();
+
+            container.RegisterType<IXapProcessor, XapProcessor>();
 
             container.RegisterType<GraphLabsContext>(new PerRequestLifetimeManager());
 
