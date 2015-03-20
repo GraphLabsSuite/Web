@@ -13,15 +13,7 @@ namespace GraphLabs.Site.Models
     {
         #region Зависимости
 
-        private ISurveyRepository _surveyRepository
-        {
-            get { return DependencyResolver.GetService<ISurveyRepository>(); }
-        }       
-
-        private ICategoryRepository _categoryRepository
-        {
-            get { return DependencyResolver.GetService<ICategoryRepository>(); }
-        }
+        private readonly ISurveyRepository _surveyRepository;
 
         #endregion
 
@@ -29,22 +21,27 @@ namespace GraphLabs.Site.Models
 
 		public List<TestQuestionDto> Items { get; private set; }
 
-		public TestQuestionListViewModel(long CategoryId)
+        public void Load(long CategoryId)
+        {
+            ShowCategory = CategoryId == 0;
+
+            var questions = CategoryId == 0
+                ? _surveyRepository.GetAllQuestions()
+                : _surveyRepository.GetQuestionByCategory(CategoryId);
+
+            Items = questions.Select(q => new TestQuestionDto
+            {
+                QuestionId = q.Id,
+                Question = q.Question,
+                QuestionCategory = q.Category.Name
+            })
+                .ToList();
+        }
+
+		public TestQuestionListViewModel(ISurveyRepository surveyRepository)
 		{
-			ShowCategory = CategoryId == 0;
-
-			var questions = CategoryId == 0
-				? _surveyRepository.GetAllQuestions()
-				: _surveyRepository.GetQuestionByCategory(CategoryId);
-
-			Items = questions.Select(q => new TestQuestionDto
-				{
-					QuestionId = q.Id,
-					Question = q.Question,
-					QuestionCategory = q.Category.Name
-				})
-				.ToList();
-		}		
+		    _surveyRepository = surveyRepository;
+		}
     }
 
 	public class TestQuestionDto

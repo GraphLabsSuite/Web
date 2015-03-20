@@ -14,32 +14,28 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
     public class ResultController : GraphLabsController
 	{
-		#region Зависимости
+        #region Зависимости
 
-		private IGroupRepository _groupsRepository
-		{
-			get { return DependencyResolver.GetService<IGroupRepository>(); }
-		}
-
-		private ILabRepository _labsRepository
-		{
-			get { return DependencyResolver.GetService<ILabRepository>(); }
-		}
-		
-        private ISystemDateService DateService
-        {
-            get { return DependencyResolver.GetService<ISystemDateService>(); }
-        }
+        private readonly IGroupRepository _groupsRepository;
+        private readonly ILabRepository _labsRepository;
+        private readonly ISystemDateService _dateService;
 
 		#endregion
 
-		public ActionResult Index()
+        public ResultController(IGroupRepository groupRepository, ILabRepository labRepository, ISystemDateService dateService)
+        {
+            _groupsRepository = groupRepository;
+            _labsRepository = labRepository;
+            _dateService = dateService;
+        }
+
+        public ActionResult Index()
         {
             ResultModel res = new ResultModel();
 
 			res.Groups = _groupsRepository
 							.GetAllGroups()
-							.Select(g => new GroupModel(g, DateService))
+							.Select(g => new GroupModel(g, _dateService))
 							.ToArray();
 
 			res.Labs = _labsRepository.GetLabWorks();
@@ -64,7 +60,7 @@ namespace GraphLabs.Site.Controllers
 
             foreach (long i in groupsId)
             {
-                group = new GroupModel(_groupsRepository.GetGroupById(i), DateService);
+                group = new GroupModel(_groupsRepository.GetGroupById(i), _dateService);
                 result.Marks[j] = new GroupResult();
                 result.Marks[j].Id = group.Id;
                 result.Marks[j].Name = group.Name;
@@ -95,7 +91,7 @@ namespace GraphLabs.Site.Controllers
         {
             JSONResultGroupDetail result = new JSONResultGroupDetail();
             result.Result = 0;
-            result.Name = (new GroupModel(_groupsRepository.GetGroupById(GroupId), DateService)).Name;
+            result.Name = (new GroupModel(_groupsRepository.GetGroupById(GroupId), _dateService)).Name;
 
             return "";
         }

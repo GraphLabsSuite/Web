@@ -12,15 +12,12 @@ namespace GraphLabs.Site.Models
     public class SurveyCreatingModel : BaseViewModel
     {
         #region Зависимости
-        private ISurveyRepository _surveyRepository
-        {
-            get { return DependencyResolver.GetService<ISurveyRepository>(); }
-        }       
-        private ICategoryRepository _categoryRepository
-        {
-            get { return DependencyResolver.GetService<ICategoryRepository>(); }
-        }
+
+        private readonly ISurveyRepository _surveyRepository;
+        private readonly ICategoryRepository _categoryRepository;
+
         #endregion
+
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Необходимо указать текст вопроса!")]
         [MinLength(3, ErrorMessage = "Текст вопроса слишком короткий!")]
@@ -30,9 +27,7 @@ namespace GraphLabs.Site.Models
         [Required(ErrorMessage = "Укажите варианты ответа")]
         public List<KeyValuePair<String, bool>> QuestionOptions { get; set; }
 
-        public string CategoryId { get; set; }
-
-        private long _categoryId;
+        public long CategoryId { get; set; }
 
         public List<SelectListItem> CategoryList
         { 
@@ -80,24 +75,22 @@ namespace GraphLabs.Site.Models
 			}
 		}
 
-		public SurveyCreatingModel()
+		public SurveyCreatingModel(
+            ISurveyRepository surveyRepository, 
+            ICategoryRepository categoryRepository)
 		{
-			QuestionOptions = new List<KeyValuePair<String, bool>>();
+		    _surveyRepository = surveyRepository;
+		    _categoryRepository = categoryRepository;
+
+		    QuestionOptions = new List<KeyValuePair<String, bool>>();
 		}
 
-		public SurveyCreatingModel(string question, Dictionary<string, bool> questionOptions, long categoryId)
-		{
-			Question = question;
-			QuestionOptions = questionOptions.ToList();
-            _categoryId = categoryId;
-		}
-
-		public void Save()
+        public void Save()
 		{
             _surveyRepository.SaveQuestion(
                 this.Question,
                 this.QuestionOptions.ToDictionary(qo => qo.Key, qo => qo.Value),
-                _categoryId);
+                CategoryId);
 		}
         //репозиторий если есть такой вопрос, то обновить
         //если нет, то сохранить

@@ -14,14 +14,13 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class TaskController : GraphLabsController
     {
-        private ITaskRepository TaskRepository
-        {
-            get { return DependencyResolver.GetService<ITaskRepository>(); }
-        }
+        private readonly ITaskRepository _taskRepository;
+        private readonly ITaskManager _taskManager;
 
-        private ITaskManager TaskManager
+        public TaskController(ITaskRepository taskRepository, ITaskManager taskManager)
         {
-            get { return DependencyResolver.GetService<ITaskManager>(); }
+            _taskRepository = taskRepository;
+            _taskManager = taskManager;
         }
 
         //
@@ -29,7 +28,7 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index()
         {
-            var tasks = TaskRepository.GetAllTasks()
+            var tasks = _taskRepository.GetAllTasks()
                 .Select(t => new TaskModel(t, true))
                 .ToArray();
             
@@ -56,10 +55,7 @@ namespace GraphLabs.Site.Controllers
                 Task newTask;
                 try
                 {
-                    using (TransactionManager.BeginTransaction_BUGGED())
-                    {
-                        newTask = TaskManager.UploadTask(xap.InputStream);
-                    }
+                    newTask = _taskManager.UploadTask(xap.InputStream);
                 }
                 catch (Exception)
                 {
@@ -87,7 +83,7 @@ namespace GraphLabs.Site.Controllers
         //TODO: объединить statusMessage и errorMessage в одну структуру, и скооперировать с _StatusMessagePartial
         public ActionResult EditTask(long id, string statusMessage, string errorMessage)
         {
-            var task = TaskRepository.FindById(id);
+            var task = _taskRepository.FindById(id);
             
             if (task == null)
                 return InvokeHttp404(HttpContext);
@@ -104,12 +100,12 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditTask(TaskModel model)
         {
-            var task = TaskRepository.FindById(model.Id);
+            var task = _taskRepository.FindById(model.Id);
             if (task == null)
                 return InvokeHttp404(HttpContext);
             try
             {
-                TaskManager.UpdateNote(task, model.Note);
+                _taskManager.UpdateNote(task, model.Note);
                 
                 return RedirectToAction("EditTask", new { Id = model.Id, StatusMessage = UserMessages.EDIT_COMPLETE });
             }
@@ -127,7 +123,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult EditVariantGenerator(HttpPostedFileBase newGenerator, TaskModel model,
             string upload, string delete)
         {
-            var task = TaskRepository.FindById(model.Id);
+            var task = _taskRepository.FindById(model.Id);
                     if (task == null)
                         return InvokeHttp404(HttpContext);
 
@@ -138,7 +134,7 @@ namespace GraphLabs.Site.Controllers
                 {
                     try
                     {
-                        TaskManager.SetGenerator(task, newGenerator.InputStream);
+                        _taskManager.SetGenerator(task, newGenerator.InputStream);
                         return RedirectToAction("EditTask", new { Id = model.Id, StatusMessage = UserMessages.EDIT_COMPLETE });
                     }
                     catch (Exception)
@@ -152,7 +148,7 @@ namespace GraphLabs.Site.Controllers
 
             if (!string.IsNullOrEmpty(delete))
             {
-                TaskManager.RemoveGenerator(task);
+                _taskManager.RemoveGenerator(task);
                 return RedirectToAction("EditTask", new { Id = model.Id, StatusMessage = UserMessages.EDIT_COMPLETE });
             }
 

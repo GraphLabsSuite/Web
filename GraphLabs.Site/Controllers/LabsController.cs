@@ -17,17 +17,16 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private ILabRepository _labRepository
-        {
-            get { return DependencyResolver.GetService<ILabRepository>(); }
-        }
-
-        private ITaskRepository _taskRepository
-        {
-            get { return DependencyResolver.GetService<ITaskRepository>(); }
-        }
+        private readonly ILabRepository _labRepository;
+        private readonly ITaskRepository _taskRepository;
 
         #endregion
+
+        public LabsController(ILabRepository labRepository, ITaskRepository taskRepository)
+        {
+            _labRepository = labRepository;
+            _taskRepository = taskRepository;
+        }
 
         #region Отображение списка лабораторных работ
 

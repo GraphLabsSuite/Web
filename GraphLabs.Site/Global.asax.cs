@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using GraphLabs.DomainModel;
 using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Utils;
+using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
@@ -15,19 +16,22 @@ namespace GraphLabs.Site
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        private static IAuthenticationSavingService AuthSavingService
-        {
-            get
-            {
-                return DependencyResolver.Current.GetService<IAuthenticationSavingService>();
-            }
-        }
+        public const string ContainerItemKey = "container";
 
-        private static IMembershipEngine MembershipEngine
+        private IUnityContainer RequestContainer
         {
             get
             {
-                return DependencyResolver.Current.GetService<IMembershipEngine>();
+                if (Context == null)
+                {
+                    return null;
+                }
+
+                return Context.Items[ContainerItemKey] as IUnityContainer;
+            }
+            set
+            {
+                Context.Items[ContainerItemKey] = value;
             }
         }
 
@@ -42,51 +46,56 @@ namespace GraphLabs.Site
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Bootstrapper.Initialise();
+            IoC.Initialise();
 
-            ControllerBuilder.Current.SetControllerFactory(typeof(GraphLabsControllerFactory));
+            ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(ContainerItemKey));
         }
 
         /// <summary> Аутентификация </summary>
         protected void Application_AuthenticateRequest()
         {
-            var sessionInfo = AuthSavingService.GetSessionInfo();
-            var success = MembershipEngine.TryAuthenticate(sessionInfo.Email, sessionInfo.SessionGuid, Context.Request.GetClientIP());
-            if (!success && !sessionInfo.IsEmpty())
+            using (var container = IoC.GetChildContainer())
             {
-                AuthSavingService.SignOut();
+                var authSavingService = container.Resolve<IAuthenticationSavingService>();
+                var membershipEngine = container.Resolve<IMembershipEngine>();
+                
+                var sessionInfo = authSavingService.GetSessionInfo();
+                var success = membershipEngine.TryAuthenticate(sessionInfo.Email, sessionInfo.SessionGuid, Context.Request.GetClientIP());
+                if (!success && !sessionInfo.IsEmpty())
+                {
+                    authSavingService.SignOut();
+                }
             }
         }
 
         /// <summary> Начало запроса </summary>
         protected void Application_BeginRequest()
         {
+            RequestContainer = IoC.GetChildContainer();
         }
 
         /// <summary> Запрос выполнен </summary>
         protected void Application_EndRequest()
         {
-            DisposeContextItems();
+            DisposeContainer(true);
         }
 
         /// <summary> Ошибка </summary>
         protected void Application_Error()
         {
-            DisposeContextItems();
+            DisposeContainer(false);
         }
 
-        private void DisposeContextItems()
+        private void DisposeContainer(bool save)
         {
-            if (Context == null)
+            var container = RequestContainer;
+            if (container != null)
             {
-                return;
-            }
-
-            var disposableItems = Context.Items.Values
-                .OfType<IDisposable>();
-            foreach (var item in disposableItems)
-            {
-                item.Dispose();
+                if (save)
+                {
+                    container.Resolve<IChangesTracker>().SaveChanges();
+                }
+                container.Dispose();
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,19 +13,16 @@ namespace GraphLabs.Site.Logic
         private readonly ILabRepository _labRepository;
         private readonly ISessionRepository _sessionRepository;
         private readonly IResultsRepository _resultsRepository;
-        private readonly ITransactionManager _transactionManager;
 
         /// <summary> Менеджер результатов </summary>
         public ResultsManager(
             ILabRepository labRepository,
             ISessionRepository sessionRepository,
-            IResultsRepository resultsRepository,
-            ITransactionManager transactionManager)
+            IResultsRepository resultsRepository)
         {
             _labRepository = labRepository;
             _sessionRepository = sessionRepository;
             _resultsRepository = resultsRepository;
-            _transactionManager = transactionManager;
         }
 
         private Student GetCurrentStudent(Guid sessionGuid)
@@ -58,43 +54,37 @@ namespace GraphLabs.Site.Logic
             IEnumerable<Result> resultsToInterrupt = _resultsRepository.FindNotFinishedResults(student);
             var variant = GetLabVariant(variantId);
 
-            using (var t = _transactionManager.BeginTransaction())
+            // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
+            var currentResults = resultsToInterrupt
+                .Where(res => res.LabVariant == variant)
+                .OrderByDescending(res => res.StartDateTime)
+                .ToArray();
+
+            // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
+            var latestCurrentResult = currentResults.FirstOrDefault();
+            // Если есть, то вместо начала нового выполнения, продолжим старое.
+            if (latestCurrentResult != null)
             {
-                // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
-                var currentResults = resultsToInterrupt
-                    .Where(res => res.LabVariant == variant)
-                    .OrderByDescending(res => res.StartDateTime)
-                    .ToArray();
+                resultsToInterrupt = resultsToInterrupt.Except(new[] {latestCurrentResult});
+            }
 
-                // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
-                var latestCurrentResult = currentResults.FirstOrDefault();
-                // Если есть, то вместо начала нового выполнения, продолжим старое.
-                if (latestCurrentResult != null)
+            foreach (var oldResult in resultsToInterrupt)
+            {
+                oldResult.Grade = Grade.Interrupted;
+            }
+
+            if (latestCurrentResult == null)
+            {
+                // Если не нашли, то заводим новый
+                var result = new Result
                 {
-                    resultsToInterrupt = resultsToInterrupt.Except(new [] { latestCurrentResult });
-                }
-
-                foreach (var oldResult in resultsToInterrupt)
-                {
-                    oldResult.Grade = Grade.Interrupted;
-                }
-
-                if (latestCurrentResult == null)
-                {
-                    // Если не нашли, то заводим новый
-                    var result = new Result
-                    {
-                        LabVariant = variant,
-                        Mode =
-                            variant.IntroducingVariant ? LabExecutionMode.IntroductoryMode : LabExecutionMode.TestMode,
-                        Student = student
-                    };
-                    _resultsRepository.Insert(result);
-                }
-
-                t.Commit();
+                    LabVariant = variant,
+                    Mode =
+                        variant.IntroducingVariant ? LabExecutionMode.IntroductoryMode : LabExecutionMode.TestMode,
+                    Student = student
+                };
+                _resultsRepository.Insert(result);
             }
         }
-
     }
 }

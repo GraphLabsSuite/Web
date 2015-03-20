@@ -13,15 +13,13 @@ namespace GraphLabs.WcfServices
     {
         private readonly ILabRepository _labRepository;
         private readonly ITaskManager _taskManager;
-        private readonly ITransactionManager _contextManager;
         private readonly ITaskRepository _taskRepository;
 
-        public TaskDebugHelper(ILabRepository labRepository, ITaskManager taskManager, ITransactionManager contextManager,
+        public TaskDebugHelper(ILabRepository labRepository, ITaskManager taskManager, IChangesTracker changesTracker,
             ITaskRepository taskRepository)
         {
             _labRepository = labRepository;
             _taskManager = taskManager;
-            _contextManager = contextManager;
             _taskRepository = taskRepository;
         }
 
@@ -33,8 +31,6 @@ namespace GraphLabs.WcfServices
                 throw new InvalidOperationException("Создание тестовых вариантов возможно только при работе в тестовом режиме.");
             }
 
-            using (var t = _contextManager.BeginTransaction())
-            {
                 // Загружаем задание
                 Task task;
                 //using (var stream = new MemoryStream(taskData))
@@ -77,8 +73,6 @@ namespace GraphLabs.WcfServices
                 };
                 _labRepository.SaveLabVariant(labVariant);
 
-                t.Commit();
-            }
 
             return 0;
         }

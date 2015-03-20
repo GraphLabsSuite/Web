@@ -17,12 +17,22 @@ namespace GraphLabs.Site.Controllers
 	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class SurveyController : GraphLabsController
 	{
-		#region Просмотр списка
+	    private readonly ISurveyRepository _surveyRepository;
+	    private readonly ICategoryRepository _categoryRepository;
+
+	    public SurveyController(ISurveyRepository surveyRepository, ICategoryRepository categoryRepository)
+	    {
+	        _surveyRepository = surveyRepository;
+	        _categoryRepository = categoryRepository;
+	    }
+
+	    #region Просмотр списка
 
 		[HttpGet]
 		public ActionResult Index(long CategoryId = 0)
 		{
-			var model = new SurveyIndexViewModel(CategoryId);
+            var model = new SurveyIndexViewModel(_surveyRepository, _categoryRepository);
+            model.Load(CategoryId);
 
 			return View("~/Views/Survey/Index.cshtml", model);
 		}
@@ -30,7 +40,8 @@ namespace GraphLabs.Site.Controllers
 		[HttpGet]
 		public ActionResult TestQuestionList(long CategoryId)
 		{
-			var model = new TestQuestionListViewModel(CategoryId);
+			var model = new TestQuestionListViewModel(_surveyRepository);
+            model.Load(CategoryId);
 
 			return new JsonResult
 			{
@@ -46,7 +57,7 @@ namespace GraphLabs.Site.Controllers
 		[HttpGet]
 		public ActionResult Create()
         {
-            var emptyQuestion = new SurveyCreatingModel();
+            var emptyQuestion = new SurveyCreatingModel(_surveyRepository, _categoryRepository);
             emptyQuestion.Question = "";
             emptyQuestion.QuestionOptions.Add(new KeyValuePair<string, bool>("", true));
 
@@ -56,7 +67,13 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
         {
-            var model = new SurveyCreatingModel(Question, QuestionOptions, CategoryId);
+            //Question, QuestionOptions, CategoryId
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                CategoryId = CategoryId,
+                QuestionOptions = QuestionOptions.ToList(),
+                Question = Question
+            };
 
             if (model.IsValid)
             {

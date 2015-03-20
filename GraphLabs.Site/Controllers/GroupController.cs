@@ -13,24 +13,24 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private IGroupRepository GroupsRepository
-        {
-            get { return DependencyResolver.GetService<IGroupRepository>(); }
-        }
+        private readonly IGroupRepository _groupRepository;
 
-        private ISystemDateService DateService
-        {
-            get { return DependencyResolver.GetService<ISystemDateService>(); }
-        }
+        private readonly ISystemDateService _dateService;
 
         #endregion
+
+        public GroupController(IGroupRepository groupRepository, ISystemDateService dateService)
+        {
+            _groupRepository = groupRepository;
+            _dateService = dateService;
+        }
 
         #region Формирование списка групп
 
         public ActionResult Index(string message)
         {
-            Group[] groups = GroupsRepository.GetAllGroups();
-            GroupModel[] groupModel = groups.Select(t => new GroupModel(t, DateService)).ToArray();
+            Group[] groups = _groupRepository.GetAllGroups();
+            GroupModel[] groupModel = groups.Select(t => new GroupModel(t, _dateService)).ToArray();
 
             return View(groupModel);
         }
@@ -42,7 +42,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Create()
         {
             Group group = new Group();
-            group.FirstYear = DateService.GetDate().Year;
+            group.FirstYear = _dateService.GetDate().Year;
 
             return View(group);
         }
@@ -52,7 +52,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (GroupsRepository.TrySaveGroup(group))
+                if (_groupRepository.TrySaveGroup(group))
                 {
                     return RedirectToAction("Index");
                 }
@@ -68,7 +68,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            GroupModel group = new GroupModel( GroupsRepository.GetGroupById(id), DateService );
+            GroupModel group = new GroupModel( _groupRepository.GetGroupById(id), _dateService );
 
             return View(group);
         }
@@ -78,7 +78,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (GroupsRepository.TryModifyGroup(gr.Id, gr.Number, gr.FirstYear, gr.IsOpen))
+                if (_groupRepository.TryModifyGroup(gr.Id, gr.Number, gr.FirstYear, gr.IsOpen))
                 {
                     return RedirectToAction("Index");
                 }

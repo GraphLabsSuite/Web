@@ -14,22 +14,23 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private INewsRepository NewsRepository
-        {
-            get { return DependencyResolver.GetService<INewsRepository>(); }
-        }
-
-        private INewsManager NewsManager
-        {
-            get { return DependencyResolver.GetService<INewsManager>(); }
-        }
-
-        private IAuthenticationSavingService AuthService
-        {
-            get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
-        }
+        private readonly INewsRepository _newsRepository;
+        private readonly INewsManager _newsManager;
+        private readonly IAuthenticationSavingService _authSavingService;
 
         #endregion
+
+        /// <summary> Главная </summary>
+        public HomeController(
+            INewsRepository newsRepository,
+            INewsManager newsManager,
+            IAuthenticationSavingService authSavingService
+            )
+        {
+            _newsRepository = newsRepository;
+            _newsManager = newsManager;
+            _authSavingService = authSavingService;
+        }
 
         /// <summary> Главная: новости </summary>
         [AllowAnonymous]
@@ -38,7 +39,7 @@ namespace GraphLabs.Site.Controllers
             ViewBag.StatusMessage = statusMessage;
             ViewBag.StatusDescription = statusDescription;
 
-            var news = NewsRepository.GetNewsSortedByDate(10).Select(n => new NewsModel(n));
+            var news = _newsRepository.GetNewsSortedByDate(10).Select(n => new NewsModel(n));
             return View(news.ToArray());
         }
 
@@ -47,7 +48,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (id.HasValue)
             {
-                var newsToEdit = NewsRepository.GetById(id.Value);
+                var newsToEdit = _newsRepository.GetById(id.Value);
                 var model = new NewsModel(newsToEdit);
                 return View(model);
             }
@@ -62,8 +63,8 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sessionInfo = AuthService.GetSessionInfo();
-                var success = NewsManager.CreateOrEditNews(model.Id, model.Title, model.Text, sessionInfo.Email);
+                var sessionInfo = _authSavingService.GetSessionInfo();
+                var success = _newsManager.CreateOrEditNews(model.Id, model.Title, model.Text, sessionInfo.Email);
                 if (success)
                 {
                     return RedirectToAction("Index", new { StatusMessage = UserMessages.HomeController_Edit_Новость_успешно_опубликована_ });

@@ -121,7 +121,6 @@
     <Compile Include="WorkingMode.cs" />
     <Compile Include="XapProcessor\IXapInfo.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="PerRequestLifetimeManager.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="IpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

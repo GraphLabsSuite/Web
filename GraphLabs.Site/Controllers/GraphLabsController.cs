@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using GraphLabs.DomainModel;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 
@@ -19,18 +18,6 @@ namespace GraphLabs.Site.Controllers
             {
                 return (IGraphLabsPrincipal)base.User;
             }
-        }
-
-        /// <summary> IOC-контейнер </summary>
-        protected IDependencyResolver DependencyResolver
-        {
-            get { return System.Web.Mvc.DependencyResolver.Current; }
-        }
-
-        /// <summary> Менеджер транзакций </summary>
-        protected ITransactionManager TransactionManager
-        {
-            get { return DependencyResolver.GetService<ITransactionManager>(); }
         }
 
         /// <summary> Вызывается при выполнении авторизации. </summary>

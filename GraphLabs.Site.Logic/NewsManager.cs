@@ -13,16 +13,13 @@ namespace GraphLabs.Site.Logic
 
         private readonly IUserRepository _userRepository;
         private readonly INewsRepository _newsRepository;
-        private readonly ITransactionManager _transactionManager;
 
         public NewsManager(
             IUserRepository userRepository,
-            INewsRepository newsRepository,
-            ITransactionManager transactionManager)
+            INewsRepository newsRepository)
         {
             _userRepository = userRepository;
             _newsRepository = newsRepository;
-            _transactionManager = transactionManager;
         }
 
         /// <summary> Создать или редактировать запись </summary>
@@ -37,22 +34,18 @@ namespace GraphLabs.Site.Logic
             }
             if (id == 0)
             {
-                using (_transactionManager.BeginTransaction_BUGGED())
+                news = new News
                 {
-                    news = new News
-                    {
-                        Title = title,
-                        Text = text,
-                        User = user
-                    };
-                    _newsRepository.Insert(news);
-                }
+                    Title = title,
+                    Text = text,
+                    User = user
+                };
+                _newsRepository.Insert(news);
 
                 _log.InfoFormat("Новость \"{0}\" создана. Email автора: \"{1}\".", title, authorEmail);
                 return true;
             }
-
-            using (_transactionManager.BeginTransaction_BUGGED())
+            else
             {
                 news = _newsRepository.GetById(id);
 
@@ -67,10 +60,10 @@ namespace GraphLabs.Site.Logic
                 news.Text = text;
                 news.Title = title;
                 news.User = user;
-            }
 
-            _log.InfoFormat("Новость \"{0}\" отредактирована. Email автора: \"{1}\".", title, authorEmail);
-            return true;
+                _log.InfoFormat("Новость \"{0}\" отредактирована. Email автора: \"{1}\".", title, authorEmail);
+                return true;
+            }
         }
     }
 }

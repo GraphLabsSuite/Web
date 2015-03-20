@@ -8,10 +8,5 @@ namespace GraphLabs.Site.Models
 {
     public class BaseViewModel
     {
-        /// <summary> IOC-контейнер </summary>
-        protected IDependencyResolver DependencyResolver
-        {
-            get { return System.Web.Mvc.DependencyResolver.Current; }
-        }
     }
 }

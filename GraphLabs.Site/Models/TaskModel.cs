@@ -79,7 +79,7 @@ namespace GraphLabs.Site.Models
 
             using (var generator = new MemoryStream(task.VariantGenerator))
             {
-                var info = DependencyResolver.Current.GetService<XapProcessor>().Parse(generator);
+                var info = new XapProcessor().Parse(generator);
                 VariantGeneratorName = info.Name;
                 VariantGeneratorVersion = info.Version;
             }

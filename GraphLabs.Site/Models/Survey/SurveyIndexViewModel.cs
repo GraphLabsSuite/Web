@@ -1,10 +1,7 @@
-﻿using GraphLabs.DomainModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
@@ -13,15 +10,8 @@ namespace GraphLabs.Site.Models
     {
         #region Зависимости
 
-        private ISurveyRepository _surveyRepository
-        {
-            get { return DependencyResolver.GetService<ISurveyRepository>(); }
-        }       
-
-        private ICategoryRepository _categoryRepository
-        {
-            get { return DependencyResolver.GetService<ICategoryRepository>(); }
-        }
+        private readonly ISurveyRepository _surveyRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
         #endregion
 
@@ -37,25 +27,31 @@ namespace GraphLabs.Site.Models
 			}
 		}
 
-		public SurveyIndexViewModel(long CategoryId = 0)
+        public void Load(long CategoryId = 0)
+        {
+            _categoryList = _categoryRepository.GetAllCategories()
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name,
+                    Selected = CategoryId == c.Id
+                })
+                .Concat(new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Value = "0",
+                        Text = "Все категории",
+                        Selected = CategoryId == 0
+                    }
+                })
+                .ToList();
+        }
+
+		public SurveyIndexViewModel(ISurveyRepository surveyRepository, ICategoryRepository categoryRepository)
 		{
-			_categoryList = _categoryRepository.GetAllCategories()
-					.Select(c => new SelectListItem
-					{
-						Value = c.Id.ToString(),
-						Text = c.Name,
-						Selected = CategoryId == c.Id
-					})
-					.Concat(new List<SelectListItem>
-					{
-						new SelectListItem
-						{
-							Value = "0",
-							Text = "Все категории",
-							Selected = CategoryId == 0
-						}
-					})
-					.ToList();
+		    _surveyRepository = surveyRepository;
+		    _categoryRepository = categoryRepository;
 		}
     }
 }

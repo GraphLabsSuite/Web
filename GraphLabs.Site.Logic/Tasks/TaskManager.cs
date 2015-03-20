@@ -10,17 +10,14 @@ namespace GraphLabs.Site.Logic.Tasks
     /// <summary> Менеджер заданий </summary>
     public class TaskManager : ITaskManager
     {
-        private readonly ITransactionManager _transactionManager;
         private readonly ITaskRepository _taskRepository;
         private readonly IXapProcessor _xapProcessor;
 
         /// <summary> Менеджер заданий </summary>
         public TaskManager(
-            ITransactionManager transactionManager,
             ITaskRepository taskRepository,
             IXapProcessor xapProcessor)
         {
-            _transactionManager = transactionManager;
             _taskRepository = taskRepository;
             _xapProcessor = xapProcessor;
         }
@@ -72,16 +69,11 @@ namespace GraphLabs.Site.Logic.Tasks
         /// <summary> Установить заданию генератор </summary>
         public void SetGenerator(Task task, Stream newGenerator)
         {
-            CheckTaskIsAttachedToContext(task);
-
             // Убедимся, что хотя бы формат правильный (xap, и нам удалось вытащить информацию о нём)
             if (_xapProcessor.Parse(newGenerator) != null)
             {
                 // Наконец, сохраним.
-                using (_transactionManager.BeginTransaction_BUGGED())
-                {
-                    task.VariantGenerator = newGenerator.ReadToEnd();
-                }
+                task.VariantGenerator = newGenerator.ReadToEnd();
             }
             else
             {
@@ -93,31 +85,13 @@ namespace GraphLabs.Site.Logic.Tasks
         //TODO: а как же темы?
         public void UpdateNote(Task task, string note)
         {
-            CheckTaskIsAttachedToContext(task);
-
-            using (_transactionManager.BeginTransaction_BUGGED())
-            {
-                task.Note = note;
-            }
+            task.Note = note;
         }
         
         /// <summary> Удалить генератор </summary>
         public void RemoveGenerator(Task task)
         {
-            CheckTaskIsAttachedToContext(task);
-
-            using (_transactionManager.BeginTransaction_BUGGED())
-            {
-                task.VariantGenerator = null;
-            }
-        }
-
-        private void CheckTaskIsAttachedToContext(Task task)
-        {
-            if (!_transactionManager.IsEntityAttached(task))
-            {
-                throw new ArgumentException("Сущность не прикреплена к текущему контексту.", "task");
-            }
+            task.VariantGenerator = null;
         }
     }
 }

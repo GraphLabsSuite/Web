@@ -13,12 +13,13 @@ using log4net;
 
 namespace GraphLabs.Site.Logic.Security
 {
+    // TODO разделить на часть, отвечающую за непосредственно создание новых пользователей и редактирование старых и на часть, отвечающую за аутентификацию
     /// <summary> Работа с пользователями </summary>
     public sealed class MembershipEngine : IMembershipEngine
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(MembershipEngine));
 
-        private readonly ITransactionManager _transactionManager;
+        private readonly IChangesTracker _changesTracker;
         private readonly IHashCalculator _hashCalculator;
         private readonly ISystemDateService _systemDateService;
         private readonly IUserRepository _userRepository;
@@ -27,7 +28,7 @@ namespace GraphLabs.Site.Logic.Security
 
         /// <summary> Проверяет личность пользователя и тп </summary>
         public MembershipEngine(
-            ITransactionManager transactionManager,
+            IChangesTracker changesTracker,
             IHashCalculator hashCalculator, 
             ISystemDateService systemDateService,
             IUserRepository userRepository,
@@ -37,7 +38,7 @@ namespace GraphLabs.Site.Logic.Security
             Contract.Requires(hashCalculator != null);
             Contract.Requires(systemDateService != null);
 
-            _transactionManager = transactionManager;
+            _changesTracker = changesTracker;
             _hashCalculator = hashCalculator;
             _systemDateService = systemDateService;
             _userRepository = userRepository;
@@ -48,33 +49,31 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Выполняет вход </summary>
         public bool TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
-            User user;
-            Session session;
-            using (var t = _transactionManager.BeginTransaction())
+            _changesTracker.CheckHasNoChanges();
+
+            var user = _userRepository.FindActiveUserByEmail(email);
+
+            if (user == null || !UserIsValid(user, password))
             {
-                user = _userRepository.FindActiveUserByEmail(email);
-
-                if (user == null || !UserIsValid(user, password))
-                {
-                    _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
-                    sessionGuid = Guid.Empty;
-                    return false;
-                }
-
-                var lastSession = RemoveOldSessionsExceptLast(user);
-                if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
-                {
-                    if (lastSession != null)
-                        _sessionRepository.Remove(lastSession);
-                    session = _sessionRepository.Create(user, clientIp);
-                }
-                else
-                {
-                    session = lastSession;
-                }
-                SetLastAction(session);
-                t.Commit();
+                _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+                sessionGuid = Guid.Empty;
+                return false;
             }
+
+            var lastSession = RemoveOldSessionsExceptLast(user);
+            Session session;
+            if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
+            {
+                if (lastSession != null)
+                    _sessionRepository.Remove(lastSession);
+                session = _sessionRepository.Create(user, clientIp);
+            }
+            else
+            {
+                session = lastSession;
+            }
+            SetLastAction(session);
+            _changesTracker.SaveChanges();
 
             _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
             SetupCurrentPrincipal(user);
@@ -86,7 +85,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Выход </summary>
         public void Logout(string email, Guid sessionGuid, string clientIp)
         {
-            _transactionManager.CheckHasNoChanges();
+            _changesTracker.CheckHasNoChanges();
 
             var session = FindSession(email, sessionGuid, clientIp);
             if (session == null)
@@ -97,7 +96,7 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             _sessionRepository.Remove(session);
-            _transactionManager.Commit();
+            _changesTracker.SaveChanges();
             _log.InfoFormat("Успешный выход. e-mail: {0}, ip: {1}", email, clientIp);
             SetupCurrentPrincipal(null);
         }
@@ -105,7 +104,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Проверяем пользователя и устанавливаем IPrincipal </summary>
         public bool TryAuthenticate(string email, Guid sessionGuid, string clientIp)
         {
-            _transactionManager.CheckHasNoChanges();
+            _changesTracker.CheckHasNoChanges();
 
             if (string.IsNullOrWhiteSpace(email) && sessionGuid == Guid.Empty)
             {
@@ -122,7 +121,7 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             SetLastAction(session);
-            _transactionManager.Commit();
+            _changesTracker.SaveChanges();
 
             SetupCurrentPrincipal(session.User);
             return true;
@@ -131,7 +130,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Поменять пароль </summary>
         public bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword)
         {
-            _transactionManager.CheckHasNoChanges();
+            _changesTracker.CheckHasNoChanges();
 
             var session = FindSession(email, sessionGuid, clientIp);
             if (session == null)
@@ -147,7 +146,7 @@ namespace GraphLabs.Site.Logic.Security
             }
 
             user.PasswordHash = _hashCalculator.Crypt(newPassword);
-            _transactionManager.Commit();
+            _changesTracker.SaveChanges();
 
             return true;
         }
@@ -156,7 +155,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <returns> false, если такой пользователь уже есть (с таким email), иначе true </returns>
         public bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId)
         {
-            _transactionManager.CheckHasNoChanges();
+            _changesTracker.CheckHasNoChanges();
 
             var passHash = _hashCalculator.Crypt(password);
 
@@ -164,11 +163,11 @@ namespace GraphLabs.Site.Logic.Security
             try
             {
                 _userRepository.CreateNotVerifiedStudent(email, name, fatherName, surname, passHash, group);
-                _transactionManager.Commit();
+                _changesTracker.SaveChanges();
             }
             catch (DbUpdateException ex)
             {
-                _transactionManager.Rollback();
+                _changesTracker.DiscardChanges();
                 _log.InfoFormat("Не удалось зарегистрировать студента. {0}", ex);
                 return false;
             }

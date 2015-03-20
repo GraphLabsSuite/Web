@@ -16,27 +16,26 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private IMembershipEngine MembershipEngine
-        {
-            get { return DependencyResolver.GetService<IMembershipEngine>(); }
-        }
-
-        private IAuthenticationSavingService AuthSavingService
-        {
-            get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
-        }
-
-        private IGroupRepository GroupRepository
-        {
-            get { return DependencyResolver.GetService<IGroupRepository>(); }
-        }
-
-        private ISystemDateService DateService
-        {
-            get { return DependencyResolver.GetService<ISystemDateService>(); }
-        }
+        private readonly IMembershipEngine _membershipEngine;
+        private readonly IAuthenticationSavingService _authSavingService;
+        private readonly IGroupRepository _groupRepository;
+        private readonly ISystemDateService _dateService;
 
         #endregion
+
+        /// <summary> Контроллер учётных записей </summary>
+        public AccountController(
+            IMembershipEngine membershipEngine,
+            IAuthenticationSavingService authSavingService,
+            IGroupRepository groupRepository,
+            ISystemDateService dateService)
+        {
+            _membershipEngine = membershipEngine;
+            _authSavingService = authSavingService;
+            _groupRepository = groupRepository;
+            _dateService = dateService;
+        }
+
 
         #region Login
 
@@ -76,10 +75,10 @@ namespace GraphLabs.Site.Controllers
             if (ModelState.IsValid)
             {
                 Guid session;
-                var success = MembershipEngine.TryLogin(model.Email, model.Password, Request.GetClientIP(), out session);
+                var success = _membershipEngine.TryLogin(model.Email, model.Password, Request.GetClientIP(), out session);
                 if (success)
                 {
-                    AuthSavingService.SignIn(model.Email, session);
+                    _authSavingService.SignIn(model.Email, session);
                     return RedirectToLocal(returnUrl);
                 }
             }
@@ -98,12 +97,12 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            var sessionInfo = AuthSavingService.GetSessionInfo();
+            var sessionInfo = _authSavingService.GetSessionInfo();
             if (!sessionInfo.IsEmpty())
             {
-                MembershipEngine.Logout(sessionInfo.Email, sessionInfo.SessionGuid, Request.GetClientIP());
+                _membershipEngine.Logout(sessionInfo.Email, sessionInfo.SessionGuid, Request.GetClientIP());
             }
-            AuthSavingService.SignOut();
+            _authSavingService.SignOut();
 
             return RedirectToHome();
         }
@@ -128,8 +127,8 @@ namespace GraphLabs.Site.Controllers
 
         private void FillGroups(object selectedValue = null)
         {
-            var groups = GroupRepository.GetOpenGroups()
-                .Select(t => new GroupModel(t, DateService))
+            var groups = _groupRepository.GetOpenGroups()
+                .Select(t => new GroupModel(t, _dateService))
                 .ToArray();
             ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
         }
@@ -149,7 +148,7 @@ namespace GraphLabs.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                var success = MembershipEngine.RegisterNewStudent(reg.Email, reg.Name, reg.FatherName, reg.Surname, reg.Password, reg.IdGroup);
+                var success = _membershipEngine.RegisterNewStudent(reg.Email, reg.Name, reg.FatherName, reg.Surname, reg.Password, reg.IdGroup);
                 if (success)
                     return RedirectToAction("Index", "Home", new
                         {
@@ -187,9 +186,9 @@ namespace GraphLabs.Site.Controllers
             if (ModelState.IsValid)
             {
                 var success = model.ConfirmPassword == model.NewPassword;
-                var sessionInfo = AuthSavingService.GetSessionInfo();
+                var sessionInfo = _authSavingService.GetSessionInfo();
                 
-                success &= MembershipEngine.ChangePassword(
+                success &= _membershipEngine.ChangePassword(
                     sessionInfo.Email,
                     sessionInfo.SessionGuid,
                     Request.GetClientIP(),

@@ -11,27 +11,30 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher, UserRole.Student)]
     public class DemoLabController : GraphLabsController
     {
+
         #region Зависимости
 
-        private ILabRepository _LabsRepository
-        {
-            get { return DependencyResolver.GetService<ILabRepository>(); }
-        }
+        private readonly ILabRepository _labsRepository;
 
-        private ISystemDateService _DateService
-        {
-            get { return DependencyResolver.GetService<ISystemDateService>(); }
-        }
+        private readonly ISystemDateService _dateService;
 
         #endregion
+
+        public DemoLabController(
+            ILabRepository labsRepository,
+            ISystemDateService dateService)
+        {
+            _labsRepository = labsRepository;
+            _dateService = dateService;
+        }
 
         public ActionResult Index()
         {
             var model = new List<DemoLabModel>();
 
-            foreach (var lab in _LabsRepository.GetDemoLabs(_DateService.Now()))
+            foreach (var lab in _labsRepository.GetDemoLabs(_dateService.Now()))
             {
-                model.Add(new DemoLabModel(lab, _LabsRepository.GetCompleteDemoLabVariantsByLabWorkId(lab.Id)));
+                model.Add(new DemoLabModel(lab, _labsRepository.GetCompleteDemoLabVariantsByLabWorkId(lab.Id)));
             }
 
             return View(model);

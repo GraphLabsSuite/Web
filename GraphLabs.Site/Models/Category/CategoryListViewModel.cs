@@ -1,36 +1,30 @@
-﻿using GraphLabs.DomainModel;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
 {
 	public class CategoryListViewModel : BaseViewModel
 	{
-		#region Зависимости
+        #region Зависимости
 
-		private ICategoryRepository _categoriesRepository
-		{
-			get { return DependencyResolver.GetService<ICategoryRepository>(); }
-		}
-
-		private ISurveyRepository _surveyRepository
-		{
-			get { return DependencyResolver.GetService<ISurveyRepository>(); }
-		}
+        private readonly ICategoryRepository _categoriesRepository;
+	    private readonly ISurveyRepository _surveyRepository;
 
 		#endregion
 
-		public CategoryViewModelDto[] Items { get; private set; }
+        public CategoryListViewModel(ICategoryRepository categoriesRepository, ISurveyRepository surveyRepository)
+        {
+            _categoriesRepository = categoriesRepository;
+            _surveyRepository = surveyRepository;
+        }
+
+	    public CategoryViewModelDto[] Items { get; private set; }
 
 		public CategoryListViewModel()
 		{
 			Items = _categoriesRepository.GetAllCategories()
-			.Select(c => new CategoryViewModelDto
+			.Select(c => new CategoryViewModelDto(_categoriesRepository)
 			{
 				Id = c.Id,
 				Name = c.Name,
@@ -42,6 +36,10 @@ namespace GraphLabs.Site.Models
 
 	public class CategoryViewModelDto : CategoryViewModel
 	{
-		public int QuestionCount { get; set; }
+	    public CategoryViewModelDto(ICategoryRepository categoryRepository) : base(categoryRepository)
+	    {
+	    }
+
+	    public int QuestionCount { get; set; }
 	}
 }

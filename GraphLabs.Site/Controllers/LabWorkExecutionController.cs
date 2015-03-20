@@ -1,4 +1,5 @@
-﻿using GraphLabs.DomainModel;
+﻿using System.Linq;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic;
@@ -15,46 +16,48 @@ namespace GraphLabs.Site.Controllers
 
         #region Зависимости
 
-        private ILabRepository LabRepository
-        {
-            get { return DependencyResolver.GetService<ILabRepository>(); }
-        }
-
-        private IAuthenticationSavingService AuthSavingService
-        {
-            get { return DependencyResolver.GetService<IAuthenticationSavingService>(); }
-        }
-
-        private IResultsManager ResultsManager
-        {
-            get { return DependencyResolver.GetService<IResultsManager>(); }
-        }
+        private readonly ILabRepository _labRepository;
+        private readonly IAuthenticationSavingService _authSavingService;
+        private readonly IResultsManager _resultsManager;
+        private readonly ITaskExecutionModelFactory _taskExecutionModelFactory;
 
         #endregion
+
+        public LabWorkExecutionController(
+            ILabRepository labRepository, 
+            IAuthenticationSavingService authSavingService, 
+            IResultsManager resultsManager, 
+            ITaskExecutionModelFactory taskExecutionModelFactory)
+        {
+            _labRepository = labRepository;
+            _authSavingService = authSavingService;
+            _resultsManager = resultsManager;
+            _taskExecutionModelFactory = taskExecutionModelFactory;
+        }
 
         public ActionResult Index(long labId, long labVarId)
         {
             #region Проверки корректности GET запроса
 
-            if (!LabRepository.CheckLabWorkExist(labId))
+            if (!_labRepository.CheckLabWorkExist(labId))
             {
                 ViewBag.Message = "Запрашиваемая лабораторная работа не существует";
                 return View("LabWorkExecutionError");
             }
 
-            if (!LabRepository.CheckLabVariantExist(labVarId))
+            if (!_labRepository.CheckLabVariantExist(labVarId))
             {
                 ViewBag.Message = "Запрашиваемый вариант лабораторной работы не существует";
                 return View("LabWorkExecutionError");
             }
 
-            if (!LabRepository.CheckLabVariantBelongLabWork(labId, labVarId))
+            if (!_labRepository.CheckLabVariantBelongLabWork(labId, labVarId))
             {
                 ViewBag.Message = "Запрашиваемый вариант принадлежит другой лабораторной работе";
                 return View("LabWorkExecutionError");
             }
 
-            if (!LabRepository.VerifyCompleteVariant(labVarId))
+            if (!_labRepository.VerifyCompleteVariant(labVarId))
             {
                 ViewBag.Message = "Вариант лабораторной работы не завершен";
                 return View("LabWorkExecutionError");
@@ -63,10 +66,17 @@ namespace GraphLabs.Site.Controllers
             #endregion
 
             var session = GetSessionGuid();
-            ResultsManager.StartLabExecution(labVarId, session);
-            LabWork lab = LabRepository.GetLabWorkById(labId);
-            TaskVariant[] variants = LabRepository.GetTaskVariantsByLabVarId(labVarId);
-            var labWork = new LabWorkExecutionModel(session, lab, variants);
+            _resultsManager.StartLabExecution(labVarId, session);
+            LabWork lab = _labRepository.GetLabWorkById(labId);
+            TaskVariant[] variants = _labRepository.GetTaskVariantsByLabVarId(labVarId);
+            var labWork = new LabWorkExecutionModel(session, lab, variants
+                .Select(v => _taskExecutionModelFactory.CreateForDemoMode(
+                    session,
+                    v.Task.Name,
+                    v.Task.Id,
+                    v.Id,
+                    lab.Id))
+                .ToArray());
 
             labWork.SetNotSolvedTaskToCurrent();
             Session[LAB_VARIABLE_KEY] = labWork;
@@ -75,7 +85,7 @@ namespace GraphLabs.Site.Controllers
 
         private Guid GetSessionGuid()
         {
-            var sessionInfo = AuthSavingService.GetSessionInfo();
+            var sessionInfo = _authSavingService.GetSessionInfo();
             return sessionInfo.SessionGuid;
         }
 

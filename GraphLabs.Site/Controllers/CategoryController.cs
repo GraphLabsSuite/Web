@@ -12,7 +12,14 @@ namespace GraphLabs.Site.Controllers
 	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
 	public class CategoryController : GraphLabsController
 	{
-		#region Просмотр списка
+	    private readonly ICategoryRepository _categoryRepository;
+
+	    public CategoryController(ICategoryRepository categoryRepository)
+	    {
+	        _categoryRepository = categoryRepository;
+	    }
+
+	    #region Просмотр списка
 
 		public ActionResult Index()
         {
@@ -28,7 +35,7 @@ namespace GraphLabs.Site.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-            var model = new CategoryViewModel();
+            var model = new CategoryViewModel(_categoryRepository);
 
             return View("~/Views/Category/Create.cshtml", model);
 		}
@@ -36,7 +43,8 @@ namespace GraphLabs.Site.Controllers
 		[HttpGet]
 		public ActionResult Edit(long Id)
 		{
-			var model = new CategoryViewModel(Id);
+            var model = new CategoryViewModel(_categoryRepository);
+            model.Load(Id);
 
 			return View("~/Views/Category/Create.cshtml", model);
 		}

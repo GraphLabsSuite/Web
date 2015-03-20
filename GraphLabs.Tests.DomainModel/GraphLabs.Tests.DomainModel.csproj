@@ -119,7 +119,6 @@
     <Compile Include="GraphLabsTestBase.cs" />
     <Compile Include="TestBaseBase.cs" />
     <Compile Include="TestTableCleaner.cs" />
-    <Compile Include="TransactionManagerTests.cs" />
     <Compile Include="UserExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>

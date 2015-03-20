@@ -9,11 +9,6 @@ namespace GraphLabs.Site.Models
     /// <summary> Модель лабы </summary>
     public class LabWorkExecutionModel
     {
-        private ITaskExecutionModelFactory TaskExecutionModelFactory
-        {
-            get { return DependencyResolver.Current.GetService<ITaskExecutionModelFactory>(); }
-        }
-
         /// <summary> Название лабораторной работы </summary>
         public string LabName { get; set; }
 
@@ -27,18 +22,11 @@ namespace GraphLabs.Site.Models
         public int CurrentTask { get; set; }
 
         /// <summary> Конструктор модели </summary>
-        public LabWorkExecutionModel(Guid sessionGuid, LabWork lab, IEnumerable<TaskVariant> variants)
+        public LabWorkExecutionModel(Guid sessionGuid, LabWork lab, IEnumerable<TaskExecutionModel> variants)
         {
             LabName = lab.Name;
             LabId = lab.Id;
-            Tasks = variants
-                .Select(v => TaskExecutionModelFactory.CreateForDemoMode(
-                    sessionGuid,
-                    v.Task.Name,
-                    v.Task.Id,
-                    v.Id,
-                    LabId))
-                .ToArray();
+            Tasks = variants.ToArray();
         }
 
         /// <summary> Проверка завершенности лабораторной работы </summary>

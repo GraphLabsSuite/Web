@@ -176,8 +176,7 @@
     <Compile Include="Group.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ITransactionManager.cs" />
-    <Compile Include="ITransactionScope.cs" />
+    <Compile Include="IChangesTracker.cs" />
     <Compile Include="LabEntry.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -242,7 +241,7 @@
     <Compile Include="TestQuestion.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TransactionManager.cs" />
+    <Compile Include="ChangesTracker.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\Infrastructure\GraphLabsContext.Triggers.cs" />
     <Compile Include="Triggers\Group.cs" />

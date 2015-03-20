@@ -13,10 +13,7 @@ namespace GraphLabs.Site.Models
 	{
         #region Зависимости
 
-        private ICategoryRepository _categoriesRepository
-        {
-            get { return DependencyResolver.GetService<ICategoryRepository>(); }
-        }
+        private readonly ICategoryRepository _categoriesRepository;
 
         #endregion
 
@@ -25,16 +22,17 @@ namespace GraphLabs.Site.Models
         [Required(ErrorMessage = "Укажите категорию")]
 		public string Name { get; set; }
 
-		public CategoryViewModel()
+		public CategoryViewModel(ICategoryRepository categoryRepository)
 		{
+		    _categoriesRepository = categoryRepository;
 		}
 
-		public CategoryViewModel(long id)
-		{
-			var category = _categoriesRepository.GetById(id);
-			Id = category.Id;
-			Name = category.Name;
-		}
+        public void Load(long id)
+        {
+            var category = _categoriesRepository.GetById(id);
+            Id = category.Id;
+            Name = category.Name;
+        }
 
         public void Save()
         {
