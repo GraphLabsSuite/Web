@@ -147,6 +147,7 @@
     <Compile Include="Category.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Contexts\GraphLabsContext.cs" />
     <Compile Include="Extensions\DbEntityEntryExtensions.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />
@@ -177,6 +178,14 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="IChangesTracker.cs" />
+    <Compile Include="Contexts\ISystemContext.cs" />
+    <Compile Include="Contexts\INewsContext.cs" />
+    <Compile Include="Contexts\ILabWorksContext.cs" />
+    <Compile Include="Contexts\IReportsContext.cs" />
+    <Compile Include="Contexts\ISessionsContext.cs" />
+    <Compile Include="Contexts\ITasksContext.cs" />
+    <Compile Include="Contexts\ITestsContext.cs" />
+    <Compile Include="Contexts\IUsersContext.cs" />
     <Compile Include="LabEntry.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
