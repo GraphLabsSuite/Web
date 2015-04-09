@@ -7,5 +7,8 @@ namespace GraphLabs.DomainModel.Contexts
     {
         /// <summary> Новости </summary>
         DbSet<News> News { get; }
+
+        /// <summary> Пользователи </summary>
+        DbSet<User> Users { get; }
     }
 }

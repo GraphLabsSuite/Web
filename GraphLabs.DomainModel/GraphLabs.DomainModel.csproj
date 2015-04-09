@@ -120,6 +120,12 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
@@ -148,6 +154,7 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Contexts\GraphLabsContext.cs" />
+    <Compile Include="DomainServicesConfigurator.cs" />
     <Compile Include="Extensions\DbEntityEntryExtensions.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />
@@ -208,7 +215,6 @@
     <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISurveyRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
-    <Compile Include="Repositories\Interfaces\INewsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILabRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
@@ -216,7 +222,6 @@
     <Compile Include="Repositories\Interfaces\ITaskRepository.cs" />
     <Compile Include="Repositories\Interfaces\IResultsRepository.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
-    <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="Repositories\ResultsRepository.cs" />

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Logic;
-using GraphLabs.Site.Models;
+using GraphLabs.Site.Models.News;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -14,22 +14,18 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private readonly INewsRepository _newsRepository;
-        private readonly INewsManager _newsManager;
-        private readonly IAuthenticationSavingService _authSavingService;
+        private readonly INewsContext _newsContext;
+        private readonly ISystemDateService _syatemDate;
 
         #endregion
 
         /// <summary> Главная </summary>
         public HomeController(
-            INewsRepository newsRepository,
-            INewsManager newsManager,
-            IAuthenticationSavingService authSavingService
-            )
+            INewsContext newsContext,
+            ISystemDateService syatemDate)
         {
-            _newsRepository = newsRepository;
-            _newsManager = newsManager;
-            _authSavingService = authSavingService;
+            _newsContext = newsContext;
+            _syatemDate = syatemDate;
         }
 
         /// <summary> Главная: новости </summary>
@@ -39,8 +35,13 @@ namespace GraphLabs.Site.Controllers
             ViewBag.StatusMessage = statusMessage;
             ViewBag.StatusDescription = statusDescription;
 
-            var news = _newsRepository.GetNewsSortedByDate(10).Select(n => new NewsModel(n));
-            return View(news.ToArray());
+            var model = new NewsListModel(_newsContext)
+            {
+                NewsToShow = 10
+            };
+            model.Load();
+
+            return View(model);
         }
 
         /// <summary> Главная: новости - редактировать </summary>
@@ -48,8 +49,9 @@ namespace GraphLabs.Site.Controllers
         {
             if (id.HasValue)
             {
-                var newsToEdit = _newsRepository.GetById(id.Value);
-                var model = new NewsModel(newsToEdit);
+                var model = new NewsModel(_newsContext, _syatemDate);
+                model.Load(id.Value);
+
                 return View(model);
             }
 
@@ -63,8 +65,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sessionInfo = _authSavingService.GetSessionInfo();
-                var success = _newsManager.CreateOrEditNews(model.Id, model.Title, model.Text, sessionInfo.Email);
+                var success = model.Save(User.Identity.Name);
                 if (success)
                 {
                     return RedirectToAction("Index", new { StatusMessage = UserMessages.HomeController_Edit_Новость_успешно_опубликована_ });

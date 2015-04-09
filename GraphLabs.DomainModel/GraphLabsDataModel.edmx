@@ -619,10 +619,10 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" />
           <Property Name="Text" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" Nullable="false" />
-          <Property Type="DateTime" Name="PublicationTime" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="DateTime" Name="PublicationTime" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <NavigationProperty Name="User" Relationship="DataModel.UserNews" FromRole="News" ToRole="Publisher" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="100" />
-          <Property Name="LastModificationTime" Type="DateTime" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Name="LastModificationTime" Type="DateTime" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
         </EntityType>
         <EntityType Name="User">
           <Key>

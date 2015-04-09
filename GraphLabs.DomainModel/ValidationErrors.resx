@@ -176,4 +176,7 @@
   <data name="Action_OnEntityValidating_Штрафной_балл_может_находиться_только_в_диапазоне_от_0_до_100_" xml:space="preserve">
     <value>Штрафной балл может находиться только в диапазоне от 0 до 100.</value>
   </data>
+  <data name="News_OnEntityValidating_Дата_изменения_не_может_быть_меньше_даты_публикации_" xml:space="preserve">
+    <value>Дата изменения не может быть меньше даты публикации.</value>
+  </data>
 </root>

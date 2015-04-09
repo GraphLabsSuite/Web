@@ -102,9 +102,7 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="INewsManager.cs" />
     <Compile Include="IResultsManager.cs" />
-    <Compile Include="NewsManager.cs" />
     <Compile Include="ResultsManager.cs" />
     <Compile Include="Security\GraphLabsPrincipal.cs" />
     <Compile Include="Security\Interfaces\IGraphLabsIdentity.cs" />

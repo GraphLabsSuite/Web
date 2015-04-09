@@ -5,6 +5,7 @@ using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Models.News;
 using GraphLabs.Site.Utils.XapProcessor;
 using GraphLabs.Tasks.Contract;
 using Microsoft.Practices.Unity;
@@ -33,8 +34,9 @@ namespace GraphLabs.Site.App_Start
         private static IUnityContainer BuildUnityContainer()
         {
             var container = new UnityContainer();
-
+            
             RegisterTypes(container);
+            new DomainServicesConfigurator().Configure(container);
             return container;
         }
 
@@ -55,8 +57,6 @@ namespace GraphLabs.Site.App_Start
 
             // ============================================================
 
-            container.RegisterType<GraphLabsContext>(new HierarchicalLifetimeManager());
-
             container.RegisterType<IChangesTracker, ChangesTracker>(new HierarchicalLifetimeManager());
 
             container.RegisterType<RepositoryFactory>(new HierarchicalLifetimeManager());
@@ -72,9 +72,6 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<ILabRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetLabRepository()));
-
-            container.RegisterType<INewsRepository>(new HierarchicalLifetimeManager(),
-                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
 
             container.RegisterType<ITaskRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetTaskRepository()));
@@ -92,13 +89,12 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<IMembershipEngine, MembershipEngine>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<INewsManager, NewsManager>(new HierarchicalLifetimeManager());
-
             container.RegisterType<ITaskManager, TaskManager>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IResultsManager, ResultsManager>(new HierarchicalLifetimeManager());
 
             // ============================================================
+
         }
     }
 }

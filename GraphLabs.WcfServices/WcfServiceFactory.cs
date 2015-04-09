@@ -46,9 +46,6 @@ namespace GraphLabs.WcfServices
             container.RegisterType<ILabRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetLabRepository()));
 
-            container.RegisterType<INewsRepository>(new HierarchicalLifetimeManager(),
-                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
-
             container.RegisterType<ITaskRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetTaskRepository()));
 
