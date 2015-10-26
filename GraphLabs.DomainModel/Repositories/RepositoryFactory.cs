@@ -57,6 +57,15 @@ namespace GraphLabs.DomainModel.Repositories
 
         /// <summary> Получить репозиторий с новостями </summary>
         [NotNull]
+        public INewsRepository GetNewsRepository()
+        {
+            Contract.Ensures(Contract.Result<INewsRepository>() != null);
+
+            return new NewsRepository(_context);
+        }
+
+        /// <summary> Получить репозиторий с новостями </summary>
+        [NotNull]
         public ITaskRepository GetTaskRepository()
         {
             Contract.Ensures(Contract.Result<ITaskRepository>() != null);

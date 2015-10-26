@@ -23,6 +23,12 @@
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -220,15 +226,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\IoC.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
-    <Compile Include="Models\GraphLabsModel.cs" />
-    <Compile Include="GraphLabsModelBinder.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
-    <Compile Include="Models\News\NewsListModel.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
     <Compile Include="Utils\RenderHelper.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
@@ -252,8 +256,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GraphLabsControllerFactory.cs" />
-    <Compile Include="Models\AuthModel.cs" />
-    <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\Account\AuthModel.cs" />
+    <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Models\Error\OopsModel.cs" />
     <Compile Include="Models\ITaskExecutionModelFactory.cs" />
     <Compile Include="Models\JSONModel.cs" />
@@ -262,7 +266,7 @@
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
     <Compile Include="Models\LabWorkExecutionModel.cs" />
-    <Compile Include="Models\News\NewsModel.cs" />
+    <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\Survey\SurveyIndexViewModel.cs" />
@@ -277,8 +281,8 @@
     <Compile Include="Models\JSONResultLabInfo.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
-    <Compile Include="Models\UserCreate.cs" />
-    <Compile Include="Models\UserEdit.cs" />
+    <Compile Include="Models\Account\UserCreate.cs" />
+    <Compile Include="Models\Account\UserEdit.cs" />
     <Compile Include="Models\UserIndex.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

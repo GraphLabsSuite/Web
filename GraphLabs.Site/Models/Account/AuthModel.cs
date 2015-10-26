@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.Account
 {
     /// <summary> Данные для авторизации </summary>
     public class AuthModel

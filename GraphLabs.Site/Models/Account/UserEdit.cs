@@ -1,14 +1,14 @@
-﻿using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Repositories;
-using GraphLabs.DomainModel.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Services;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.Account
 {
     public class UserEdit
     {

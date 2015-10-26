@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
-using GraphLabs.DomainModel;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Services;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic.Security;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.Account
 {
     public class UserCreate
     {

@@ -6,6 +6,7 @@ using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Models.Account;
 using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers

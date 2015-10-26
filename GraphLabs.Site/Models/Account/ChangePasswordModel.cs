@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using GraphLabs.Site.Utils;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.Account
 {
     /// <summary> Модель для смены пароля </summary>
     public class ChangePasswordModel

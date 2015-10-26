@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -7,7 +6,6 @@ using System.Web.Routing;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Logic.Security;
-using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
 using Microsoft.Practices.Unity;
 
@@ -51,19 +49,6 @@ namespace GraphLabs.Site
             IoC.Initialise();
 
             ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(ContainerItemKey));
-            SetupModelBinders();
-        }
-
-        private void SetupModelBinders()
-        {
-            var modelTypes = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .Where(t => typeof(GraphLabsModel).IsAssignableFrom(t) && !t.IsAbstract);
-            foreach (var modelType in modelTypes)
-            {
-                ModelBinders.Binders.Add(modelType, new GraphLabsModelBinder(ContainerItemKey));
-            }
         }
 
         /// <summary> Аутентификация </summary>
