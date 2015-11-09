@@ -2,7 +2,6 @@
 using System.IO;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.Graphs.Helpers;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 
@@ -39,8 +38,7 @@ namespace GraphLabs.WcfServices
 
             // Загружаем задание
             Task task;
-            //using (var stream = new MemoryStream(taskData))
-            using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.Template.xap"))
+            using (var stream = new MemoryStream(taskData))
             {
                 task = _taskManager.UploadTaskWithTimestamp(stream);
             }
@@ -52,7 +50,7 @@ namespace GraphLabs.WcfServices
             // Загружаем вариант задания
             var taskVariant = new TaskVariant
             {
-                Data = DebugGraphGenerator.GetSerializedGraph(), //variantData,
+                Data = variantData,
                 GeneratorVersion = "1",
                 Number = "Debug",
                 Task = task
