@@ -144,7 +144,7 @@
     <Content Include="clientaccesspolicy.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="TaskDebugHelper.svc" />
+    <Content Include="DebugTaskUploader.svc" />
     <Content Include="UserActionsRegistrator.svc" />
     <Content Include="crossdomain.xml" />
     <Content Include="TasksDataService.svc" />
@@ -159,8 +159,8 @@
     </Compile>
     <Compile Include="IDebugTaskUploader.cs" />
     <Compile Include="Infrastructure\IoC.cs" />
-    <Compile Include="TaskDebugHelper.svc.cs">
-      <DependentUpon>TaskDebugHelper.svc</DependentUpon>
+    <Compile Include="DebugTaskUploader.svc.cs">
+      <DependentUpon>DebugTaskUploader.svc</DependentUpon>
     </Compile>
     <Compile Include="UserActionsRegistrator.svc.cs">
       <DependentUpon>UserActionsRegistrator.svc</DependentUpon>
