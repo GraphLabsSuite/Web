@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils.XapProcessor;
@@ -19,7 +20,7 @@ namespace GraphLabs.Tests.Site.Logic
         [Repeat(2)]
         public void TestCreateFromXap()
         {
-            var taskRepositoryMock = Mock.Of<ITaskRepository>();
+            var taskRepositoryMock = Mock.Of<ITasksContext>();
 
             var taskManager = new TaskManager(taskRepositoryMock, new XapProcessor());
             Task task;

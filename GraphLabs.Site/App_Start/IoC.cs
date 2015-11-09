@@ -1,4 +1,5 @@
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic;
@@ -57,6 +58,25 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<GraphLabsContext>(new HierarchicalLifetimeManager());
 
+            container.RegisterType<INewsContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<IUsersContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ISessionsContext>(new HierarchicalLifetimeManager(), 
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<IReportsContext>(new HierarchicalLifetimeManager(), 
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ITestsContext>(new HierarchicalLifetimeManager(), 
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ILabWorksContext>(new HierarchicalLifetimeManager(), 
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ITasksContext>(new HierarchicalLifetimeManager(), 
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ISystemContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+
+            // ============================================================
+
             container.RegisterType<IChangesTracker, ChangesTracker>(new HierarchicalLifetimeManager());
 
             container.RegisterType<RepositoryFactory>(new HierarchicalLifetimeManager());
@@ -75,9 +95,6 @@ namespace GraphLabs.Site.App_Start
 
             container.RegisterType<INewsRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
-
-            container.RegisterType<ITaskRepository>(new HierarchicalLifetimeManager(),
-                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetTaskRepository()));
 
             container.RegisterType<IResultsRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetResultsRepository()));

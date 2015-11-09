@@ -23,6 +23,7 @@
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -156,7 +157,8 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="ITaskDebugHelper.cs" />
+    <Compile Include="IDebugTaskUploader.cs" />
+    <Compile Include="Infrastructure\IoC.cs" />
     <Compile Include="TaskDebugHelper.svc.cs">
       <DependentUpon>TaskDebugHelper.svc</DependentUpon>
     </Compile>
@@ -176,7 +178,7 @@
     <Compile Include="VariantGenService.svc.cs">
       <DependentUpon>VariantGenService.svc</DependentUpon>
     </Compile>
-    <Compile Include="WcfServiceFactory.cs" />
+    <Compile Include="Infrastructure\WcfServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -197,17 +199,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLabs.Configuration\GraphLabs.Configuration.csproj">
-      <Project>{05719117-2fbf-4feb-ad97-ebf3cc2cfb3f}</Project>
-      <Name>GraphLabs.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
       <Name>GraphLabs.DomainModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphLabs.Domain\GraphLabs.Domain.csproj">
-      <Project>{7eb65504-fc2d-4e1c-8f00-89c58d07460a}</Project>
-      <Name>GraphLabs.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Site.Logic\GraphLabs.Site.Logic.csproj">
       <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>

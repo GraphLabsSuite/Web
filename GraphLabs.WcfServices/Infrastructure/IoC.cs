@@ -1,4 +1,6 @@
+п»їusing System;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.DomainModel.Services;
 using GraphLabs.Site.Logic;
@@ -7,15 +9,13 @@ using GraphLabs.Site.Utils;
 using GraphLabs.Site.Utils.XapProcessor;
 using GraphLabs.WcfServices.Data;
 using Microsoft.Practices.Unity;
-using Unity.Wcf;
 
-namespace GraphLabs.WcfServices
+namespace GraphLabs.WcfServices.Infrastructure
 {
-    /// <summary> Фабрика сервисов с поддержкой Unity </summary>
-	public class WcfServiceFactory : UnityServiceHostFactory
+    static class IoC
     {
-        /// <summary> Сконфигурировать зависимости </summary>
-        protected override void ConfigureContainer(IUnityContainer container)
+        /// <summary> РЎРєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°С‚СЊ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё </summary>
+        public static void Configure(IUnityContainer container)
         {
             var mapper = CreateMapper();
 
@@ -25,6 +25,23 @@ namespace GraphLabs.WcfServices
             container.RegisterType<ISystemDateService, SystemDateService>();
 
             container.RegisterType<GraphLabsContext>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<INewsContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<IUsersContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ISessionsContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<IReportsContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ITestsContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ILabWorksContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ITasksContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
+            container.RegisterType<ISystemContext>(new HierarchicalLifetimeManager(),
+                new InjectionFactory(c => c.Resolve<GraphLabsContext>()));
 
             // ============================================================
 
@@ -49,9 +66,6 @@ namespace GraphLabs.WcfServices
             container.RegisterType<INewsRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
 
-            container.RegisterType<ITaskRepository>(new HierarchicalLifetimeManager(),
-                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetTaskRepository()));
-
             container.RegisterType<IResultsRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetResultsRepository()));
 
@@ -62,16 +76,16 @@ namespace GraphLabs.WcfServices
             // ============================================================
 
             container.RegisterType<ITasksDataService, TasksDataService>();
-            container.RegisterType<ITaskDebugHelper, TaskDebugHelper>();
+            container.RegisterType<IDebugTaskUploader, DebugTaskUploader>();
         }
 
-        private Mapper CreateMapper()
+        private static Mapper CreateMapper()
         {
             var mapper = new Mapper();
 
-            // Сюда можно положить специфичные для WCF маппинги
+            // РЎСЋРґР° РјРѕР¶РЅРѕ РїРѕР»РѕР¶РёС‚СЊ СЃРїРµС†РёС„РёС‡РЅС‹Рµ РґР»СЏ WCF РјР°РїРїРёРЅРіРё
             mapper.CreateMap<TaskVariant, TaskVariantDto>();
             return mapper;
         }
-    }    
+    }
 }

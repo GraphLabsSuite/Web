@@ -9,6 +9,7 @@ using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using GraphLabs.DomainModel.Contexts;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -18,14 +19,14 @@ namespace GraphLabs.Site.Controllers
         #region Зависимости
 
         private readonly ILabRepository _labRepository;
-        private readonly ITaskRepository _taskRepository;
+        private readonly ITasksContext _tasksContext;
 
         #endregion
 
-        public LabsController(ILabRepository labRepository, ITaskRepository taskRepository)
+        public LabsController(ILabRepository labRepository, ITasksContext tasksContext)
         {
             _labRepository = labRepository;
-            _taskRepository = taskRepository;
+            _tasksContext = tasksContext;
         }
 
         #region Отображение списка лабораторных работ
@@ -49,7 +50,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create(long id = 0)
         {
-            return View( new CreateLabModel(id, _taskRepository.GetAllTasks()) );
+            return View( new CreateLabModel(id, _tasksContext.Tasks.ToArray()) );
         }
 
         [HttpPost]
@@ -178,7 +179,7 @@ namespace GraphLabs.Site.Controllers
 		{
 			var result = new List<TaskVariant>();
 
-			foreach (var tv in taskIds.Distinct().Select(tId => _taskRepository.GetTaskVariantById(tId)))
+			foreach (var tv in taskIds.Distinct().Select(tId => _tasksContext.TaskVariants.Single(tv => tv.Id == tId)))
 			{
 				result.Add(tv);
 			}

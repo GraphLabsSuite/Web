@@ -51,7 +51,7 @@ namespace GraphLabs.Site.Utils.XapProcessor
         /// <returns> null, если во время обработки произошла ошибка; иначе - новую сущность </returns>
         public IXapInfo Parse(Stream stream)
         {
-            Contract.Requires(stream != null);
+            Contract.Assert(stream != null);
 
             // Парсим примерно следующее (AppManifest.xaml):
             /*

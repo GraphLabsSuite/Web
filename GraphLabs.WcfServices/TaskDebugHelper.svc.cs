@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Graphs.Helpers;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
@@ -9,72 +9,89 @@ using GraphLabs.Site.Utils;
 namespace GraphLabs.WcfServices
 {
     /// <summary> Вспомогательный сервис для отладки заданий на сайте </summary>
-    public class TaskDebugHelper : ITaskDebugHelper
+    public class DebugTaskUploader : IDebugTaskUploader
     {
-        private readonly ILabRepository _labRepository;
+        private readonly ILabWorksContext _labsCtx;
+        private readonly ITasksContext _tasksCtx;
         private readonly ITaskManager _taskManager;
-        private readonly ITaskRepository _taskRepository;
+        private readonly IChangesTracker _changesTracker;
 
-        public TaskDebugHelper(ILabRepository labRepository, ITaskManager taskManager, IChangesTracker changesTracker,
-            ITaskRepository taskRepository)
+        public DebugTaskUploader(
+            ILabWorksContext labsCtx,
+            ITasksContext tasksCtx,
+            ITaskManager taskManager,
+            IChangesTracker changesTracker)
         {
-            _labRepository = labRepository;
+            _labsCtx = labsCtx;
+            _tasksCtx = tasksCtx;
             _taskManager = taskManager;
-            _taskRepository = taskRepository;
+            _changesTracker = changesTracker;
         }
 
         /// <summary> Загрузить задание для отладки </summary>
-        public int UploadDebugTask(byte[] taskData, byte[] variantData)
+        public long UploadDebugTask(byte[] taskData, byte[] variantData)
         {
             if (!WorkingMode.IsDebug())
             {
-                throw new InvalidOperationException("Создание тестовых вариантов возможно только при работе в тестовом режиме.");
+                throw new InvalidOperationException(
+                    "Создание тестовых вариантов возможно только при работе в тестовом режиме.");
             }
 
-                // Загружаем задание
-                Task task;
-                //using (var stream = new MemoryStream(taskData))
-                using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.SCC - 1.xap"))
-                {
-                    task = _taskManager.UploadTask(stream);
-                }
-                if (task == null)
-                    throw new InvalidOperationException("Провал. Задание с таким именем и версией уже существует.");
+            // Загружаем задание
+            Task task;
+            //using (var stream = new MemoryStream(taskData))
+            using (var stream = File.OpenRead("c:\\GraphLabs.Tasks.Template.xap"))
+            {
+                task = _taskManager.UploadTaskWithTimestamp(stream);
+            }
+            if (task == null)
+                throw new InvalidOperationException("Провал. Задание с таким именем и версией уже существует.");
 
-                task.Note = "Загружено автоматически сервисом отладки.";
+            task.Note = "Загружено автоматически сервисом отладки.";
 
-                // Загружаем вариант задания
-                var variantInfo = new TaskVariant
-                {
-                    Data = DebugGraphGenerator.GetSerializedGraph(), //variantData,
-                    GeneratorVersion = "1",
-                    Number = "Debug",
-                    Task = task
-                };
-                _taskRepository.CreateOrUpdateVariant(variantInfo);
+            // Загружаем вариант задания
+            var taskVariant = new TaskVariant
+            {
+                Data = DebugGraphGenerator.GetSerializedGraph(), //variantData,
+                GeneratorVersion = "1",
+                Number = "Debug",
+                Task = task
+            };
+            _tasksCtx.TaskVariants.Add(taskVariant);
 
-                // Создаём лабу
-                var now = DateTime.Now;
-                var lab = new LabWork
-                {
-                    Name = string.Format("{0:d} Отладка задания \"{1}\" (v.{2})", now, task.Name, task.Version),
-                    AcquaintanceFrom = now,
-                    AcquaintanceTill = now.AddYears(1),
-                };
-                _labRepository.SaveLabWork(lab);
+            // Создаём лабу
+            var now = DateTime.Now;
+            var lab = new LabWork
+            {
+                Name = $"Отладка модуля \"{task.Name}\"",
+                AcquaintanceFrom = now.Date,
+                AcquaintanceTill = now.Date.AddDays(7),
+            };
+            _labsCtx.LabWorks.Add(lab);
 
-                // Создаём вариант
-                var labVariant = new LabVariant
-                {
-                    IntroducingVariant = true,
-                    LabWork = lab,
-                    Number = "Debug",
-                    Version = 1,
-                };
-                _labRepository.SaveLabVariant(labVariant);
+            // Добавляем задание в лабу
+            var labEntry = new LabEntry()
+            {
+                LabWork = lab,
+                Order = 0,
+                Task = task
+            };
+            _labsCtx.LabEntries.Add(labEntry);
 
+            // Создаём вариант
+            var labVariant = new LabVariant
+            {
+                IntroducingVariant = true,
+                LabWork = lab,
+                Number = "Debug",
+                Version = 1,
+                TaskVariants = new [] { taskVariant }
+            };
+            _labsCtx.LabVariants.Add(labVariant);
 
-            return 0;
+            _changesTracker.SaveChanges();
+
+            return lab.Id;
         }
     }
 }

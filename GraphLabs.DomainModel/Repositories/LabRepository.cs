@@ -2,6 +2,7 @@
 using System;
 using System.Data.Entity;
 using System.Linq;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Utils;
 
 
@@ -10,10 +11,10 @@ namespace GraphLabs.DomainModel.Repositories
     /// <summary> Репозиторий с группами </summary>
     internal class LabRepository : RepositoryBase, ILabRepository
     {
-		private readonly ITaskRepository _taskRepository;
+		private readonly ITasksContext _taskRepository;
 
         /// <summary> Репозиторий с лабораторными работами </summary>
-        public LabRepository(GraphLabsContext context, ITaskRepository taskRepository)
+        public LabRepository(GraphLabsContext context, ITasksContext taskRepository)
             : base(context)
         {
 			_taskRepository = taskRepository;
@@ -243,7 +244,7 @@ namespace GraphLabs.DomainModel.Repositories
 			int i = 0;
 			LabWork lab = GetLabWorkById(labWorkId);
 
-			foreach (var task in tasksId.Distinct().Select(id => _taskRepository.FindById(id)))
+			foreach (var task in tasksId.Distinct().Select(id => _taskRepository.Tasks.Find(id)))
 			{
 				LabEntry entry = new LabEntry
 				{

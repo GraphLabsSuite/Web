@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -14,12 +14,12 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class TaskController : GraphLabsController
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly ITasksContext _taskContext;
         private readonly ITaskManager _taskManager;
 
-        public TaskController(ITaskRepository taskRepository, ITaskManager taskManager)
+        public TaskController(ITasksContext taskContext, ITaskManager taskManager)
         {
-            _taskRepository = taskRepository;
+            _taskContext = taskContext;
             _taskManager = taskManager;
         }
 
@@ -28,7 +28,7 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index()
         {
-            var tasks = _taskRepository.GetAllTasks()
+            var tasks = _taskContext.Tasks.ToArray()
                 .Select(t => new TaskModel(t, true))
                 .ToArray();
             
@@ -83,7 +83,7 @@ namespace GraphLabs.Site.Controllers
         //TODO: объединить statusMessage и errorMessage в одну структуру, и скооперировать с _StatusMessagePartial
         public ActionResult EditTask(long id, string statusMessage, string errorMessage)
         {
-            var task = _taskRepository.FindById(id);
+            var task = _taskContext.Tasks.Find(id);
             
             if (task == null)
                 return InvokeHttp404(HttpContext);
@@ -100,7 +100,7 @@ namespace GraphLabs.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditTask(TaskModel model)
         {
-            var task = _taskRepository.FindById(model.Id);
+            var task = _taskContext.Tasks.Find(model.Id);
             if (task == null)
                 return InvokeHttp404(HttpContext);
             try
@@ -123,7 +123,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult EditVariantGenerator(HttpPostedFileBase newGenerator, TaskModel model,
             string upload, string delete)
         {
-            var task = _taskRepository.FindById(model.Id);
+            var task = _taskContext.Tasks.Find(model.Id);
                     if (task == null)
                         return InvokeHttp404(HttpContext);
 

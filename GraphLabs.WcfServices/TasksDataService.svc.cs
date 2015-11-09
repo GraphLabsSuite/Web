@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.WcfServices.Data;
 
@@ -13,17 +14,17 @@ namespace GraphLabs.WcfServices
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class TasksDataService : ITasksDataService
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly ITasksContext _tasksContext;
         private readonly ISessionRepository _sessionRepository;
         private readonly IResultsRepository _resultsRepository;
 
         /// <summary> Сервис предоставления данных модулям заданий </summary>
         public TasksDataService(
-            ITaskRepository taskRepository,
+            ITasksContext tasksContext,
             ISessionRepository sessionRepository,
             IResultsRepository resultsRepository)
         {
-            _taskRepository = taskRepository;
+            _tasksContext = tasksContext;
             _sessionRepository = sessionRepository;
             _resultsRepository = resultsRepository;
         }
@@ -97,7 +98,7 @@ namespace GraphLabs.WcfServices
         {
             Contract.Ensures(Contract.Result<Task>() != null);
 
-            var task = _taskRepository.FindById(taskId);
+            var task = _tasksContext.Tasks.Find(taskId);
             if (task == null)
             {
                 throw new Exception(string.Format("Задание с id={0} не найдено.", taskId));

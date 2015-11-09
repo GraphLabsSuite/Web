@@ -34,7 +34,6 @@ namespace GraphLabs.Site
                     break;
                 default:
                     return;
-                    break;
             }
         }
 

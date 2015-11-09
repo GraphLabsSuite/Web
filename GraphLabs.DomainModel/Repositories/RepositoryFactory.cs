@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Services;
 using JetBrains.Annotations;
 
@@ -10,13 +11,15 @@ namespace GraphLabs.DomainModel.Repositories
     {
         private readonly GraphLabsContext _context;
         private readonly ISystemDateService _systemDateService;
+        private readonly ITasksContext _tasksContext;
 
         /// <summary> Фабрика репозиториев </summary>
-        public RepositoryFactory(GraphLabsContext context, ISystemDateService systemDateService)
+        public RepositoryFactory(GraphLabsContext context, ISystemDateService systemDateService, ITasksContext tasksContext)
         {
             Contract.Requires(context != null);
             _context = context;
             _systemDateService = systemDateService;
+            _tasksContext = tasksContext;
         }
 
         /// <summary> Получить репозиторий с группами </summary>
@@ -52,7 +55,7 @@ namespace GraphLabs.DomainModel.Repositories
         {
             Contract.Ensures(Contract.Result<ILabRepository>() != null);
 
-            return new LabRepository(_context, GetTaskRepository());
+            return new LabRepository(_context, _tasksContext);
         }
 
         /// <summary> Получить репозиторий с новостями </summary>
@@ -62,15 +65,6 @@ namespace GraphLabs.DomainModel.Repositories
             Contract.Ensures(Contract.Result<INewsRepository>() != null);
 
             return new NewsRepository(_context);
-        }
-
-        /// <summary> Получить репозиторий с новостями </summary>
-        [NotNull]
-        public ITaskRepository GetTaskRepository()
-        {
-            Contract.Ensures(Contract.Result<ITaskRepository>() != null);
-
-            return new TaskRepository(_context);
         }
 
         /// <summary> Получить репозиторий с новостями </summary>

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Utils;
 using GraphLabs.Site.Utils.XapProcessor;
 
@@ -10,30 +11,47 @@ namespace GraphLabs.Site.Logic.Tasks
     /// <summary> Менеджер заданий </summary>
     public class TaskManager : ITaskManager
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly ITasksContext _tasksCtx;
         private readonly IXapProcessor _xapProcessor;
 
         /// <summary> Менеджер заданий </summary>
         public TaskManager(
-            ITaskRepository taskRepository,
+            ITasksContext tasksCtx,
             IXapProcessor xapProcessor)
         {
-            _taskRepository = taskRepository;
+            _tasksCtx = tasksCtx;
             _xapProcessor = xapProcessor;
         }
 
         /// <summary> Загрузить задание </summary>
         public Task UploadTask(Stream stream)
         {
+            return UploadTaskInternal(stream, false);
+        }
 
+        /// <summary> Загрузить задание и прописать в название время загрузки </summary>
+        /// <remarks> Для отладочных целей </remarks>
+        public Task UploadTaskWithTimestamp(Stream stream)
+        {
+            return UploadTaskInternal(stream, true);
+        }
+
+        /// <summary> Загрузить задание </summary>
+        private Task UploadTaskInternal(Stream stream, bool appendTimestamp)
+        {
             var newTask = CreateFromXap(stream);
             if (newTask == null)
                 throw new ArgumentException("Не удалось распознать модуль-задание.");
 
-            var sameTaskExists = _taskRepository.IsAnySameTask(newTask.Name, newTask.Version);
+            if (appendTimestamp)
+            {
+                newTask.Name = $"{newTask.Name} ({DateTime.Now:u})";
+            }
+
+            var sameTaskExists = _tasksCtx.Tasks.Any(t => t.Name == newTask.Name && t.Version == newTask.Version);
             if (!sameTaskExists)
             {
-                _taskRepository.Insert(newTask);
+                _tasksCtx.Tasks.Add(newTask);
             }
             else
             {
