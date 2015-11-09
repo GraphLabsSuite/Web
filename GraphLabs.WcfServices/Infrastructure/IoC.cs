@@ -8,6 +8,7 @@ using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 using GraphLabs.Site.Utils.XapProcessor;
 using GraphLabs.WcfServices.Data;
+using GraphLabs.WcfServices.DebugTaskUploader;
 using Microsoft.Practices.Unity;
 
 namespace GraphLabs.WcfServices.Infrastructure
@@ -76,7 +77,7 @@ namespace GraphLabs.WcfServices.Infrastructure
             // ============================================================
 
             container.RegisterType<ITasksDataService, TasksDataService>();
-            container.RegisterType<IDebugTaskUploader, DebugTaskUploader>();
+            container.RegisterType<IDebugTaskUploader, DebugTaskUploader.DebugTaskUploader>();
         }
 
         private static Mapper CreateMapper()

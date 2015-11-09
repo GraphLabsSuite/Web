@@ -5,7 +5,7 @@ using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 
-namespace GraphLabs.WcfServices
+namespace GraphLabs.WcfServices.DebugTaskUploader
 {
     /// <summary> Вспомогательный сервис для отладки заданий на сайте </summary>
     public class DebugTaskUploader : IDebugTaskUploader
@@ -28,7 +28,7 @@ namespace GraphLabs.WcfServices
         }
 
         /// <summary> Загрузить задание для отладки </summary>
-        public long UploadDebugTask(byte[] taskData, byte[] variantData)
+        public DebugTaskData UploadDebugTask(byte[] taskData, byte[] variantData)
         {
             if (!WorkingMode.IsDebug())
             {
@@ -89,7 +89,11 @@ namespace GraphLabs.WcfServices
 
             _changesTracker.SaveChanges();
 
-            return lab.Id;
+            return new DebugTaskData
+            {
+                LabWorkId = lab.Id,
+                LabVariantId = labVariant.Id
+            };
         }
     }
 }

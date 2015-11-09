@@ -1,7 +1,6 @@
-﻿using System.IO;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
-namespace GraphLabs.WcfServices
+namespace GraphLabs.WcfServices.DebugTaskUploader
 {
     /// <summary> Вспомогательный сервис для отладки заданий на сайте </summary>
     [ServiceContract]
@@ -9,6 +8,6 @@ namespace GraphLabs.WcfServices
     {
         /// <summary> Загрузить задание для отладки </summary>
         [OperationContract]
-        long UploadDebugTask(byte[] taskData, byte[] variantData);
+        DebugTaskData UploadDebugTask(byte[] taskData, byte[] variantData);
     }
 }
