@@ -130,9 +130,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+    <ProjectReference Include="..\GraphLabs.DomainModel.EF\GraphLabs.DomainModel.EF.csproj">
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
-      <Name>GraphLabs.DomainModel</Name>
+      <Name>GraphLabs.DomainModel.EF</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>

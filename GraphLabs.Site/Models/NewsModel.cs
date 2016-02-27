@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Web;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Extensions;
 using GraphLabs.Site.Logic.Security;
 using JetBrains.Annotations;
 

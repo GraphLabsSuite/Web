@@ -88,9 +88,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -122,9 +122,9 @@
     <Compile Include="UserExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+    <ProjectReference Include="..\GraphLabs.DomainModel.EF\GraphLabs.DomainModel.EF.csproj">
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
-      <Name>GraphLabs.DomainModel</Name>
+      <Name>GraphLabs.DomainModel.EF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -132,19 +132,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\GraphLabs.DomainModel\SQL Scripts\ClearSchema.sql">
+    <Content Include="..\GraphLabs.DomainModel.EF\SQL Scripts\ClearSchema.sql">
       <Link>SqlScripts\ClearSchema.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\GraphLabs.DomainModel\SQL Scripts\ClearTables.sql">
+    <Content Include="..\GraphLabs.DomainModel.EF\SQL Scripts\ClearTables.sql">
       <Link>SqlScripts\ClearTables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\GraphLabs.DomainModel\SQL Scripts\CreateSchema.sql">
+    <Content Include="..\GraphLabs.DomainModel.EF\SQL Scripts\CreateSchema.sql">
       <Link>SqlScripts\CreateSchema.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\GraphLabs.DomainModel\SQL Scripts\InitScript.sql">
+    <Content Include="..\GraphLabs.DomainModel.EF\SQL Scripts\InitScript.sql">
       <Link>SqlScripts\InitScript.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

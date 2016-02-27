@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 using System.Linq;
 
 namespace GraphLabs.Site.Models

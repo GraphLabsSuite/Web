@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.EF.Repositories;
 
 namespace GraphLabs.Site.Models
 {

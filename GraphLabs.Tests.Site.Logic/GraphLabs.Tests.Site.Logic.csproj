@@ -74,9 +74,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+    <ProjectReference Include="..\GraphLabs.DomainModel.EF\GraphLabs.DomainModel.EF.csproj">
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
-      <Name>GraphLabs.DomainModel</Name>
+      <Name>GraphLabs.DomainModel.EF</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Site.Logic\GraphLabs.Site.Logic.csproj">
       <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>

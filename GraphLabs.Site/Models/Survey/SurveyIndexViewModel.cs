@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.EF.Repositories;
 
 namespace GraphLabs.Site.Models
 {

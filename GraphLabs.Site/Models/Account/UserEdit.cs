@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Repositories;
-using GraphLabs.DomainModel.Services;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Extensions;
+using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.DomainModel.EF.Services;
 
 namespace GraphLabs.Site.Models.Account
 {

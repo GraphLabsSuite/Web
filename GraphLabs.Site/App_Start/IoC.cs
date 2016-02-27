@@ -1,7 +1,7 @@
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.Repositories;
-using GraphLabs.DomainModel.Services;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.DomainModel.EF.Services;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Tasks;

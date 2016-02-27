@@ -2,7 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 
 namespace GraphLabs.Site.Controllers.Attributes
 {

@@ -4,9 +4,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
-using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 using GraphLabs.WcfServices.Data;
-using Action = GraphLabs.DomainModel.Action;
+using Action = GraphLabs.DomainModel.EF.Action;
 
 namespace GraphLabs.WcfServices
 {

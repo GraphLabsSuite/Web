@@ -2,7 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Web;
 using System.Web.Security;
-using GraphLabs.DomainModel.Services;
+using GraphLabs.DomainModel.EF.Services;
 using JetBrains.Annotations;
 using log4net.Util;
 

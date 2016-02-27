@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.Utils;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.EF.Utils;
 using GraphLabs.Site.Utils.XapProcessor;
 
 namespace GraphLabs.Site.Logic.Tasks

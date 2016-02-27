@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 using JetBrains.Annotations;
 
 namespace GraphLabs.Site.Logic.Tasks

@@ -1,6 +1,6 @@
-﻿using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Repositories;
-using GraphLabs.DomainModel.Services;
+﻿using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.DomainModel.EF.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
 using System.Linq;

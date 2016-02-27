@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.Repositories;
-using GraphLabs.DomainModel.Services;
+using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.DomainModel.EF.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;

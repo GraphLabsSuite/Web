@@ -1,7 +1,7 @@
 ﻿using System;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Services;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Extensions;
+using GraphLabs.DomainModel.EF.Services;
 using NUnit.Framework;
 using Moq;
 

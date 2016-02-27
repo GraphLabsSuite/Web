@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
-using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 using NUnit.Framework;
 using System.Linq;
 

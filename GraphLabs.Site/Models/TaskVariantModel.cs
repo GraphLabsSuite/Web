@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
-using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 
 namespace GraphLabs.Site.Models
 {

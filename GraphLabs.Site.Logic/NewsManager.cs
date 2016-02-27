@@ -1,5 +1,5 @@
-﻿using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Repositories;
+﻿using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Repositories;
 using JetBrains.Annotations;
 using log4net;
 

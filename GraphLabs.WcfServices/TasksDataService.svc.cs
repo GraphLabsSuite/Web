@@ -3,9 +3,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.EF.Repositories;
 using GraphLabs.WcfServices.Data;
 
 namespace GraphLabs.WcfServices
