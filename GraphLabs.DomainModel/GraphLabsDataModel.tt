@@ -2,7 +2,7 @@
 <#@ include file="EF.Utility.CS.ttinclude"#><#@ 
  output extension=".cs"#><#
 
-const string inputFile = @"GraphLabsDataModel.edmx";
+const string inputFile = @"..\GraphLabs.DomainModel.EF\GraphLabsDataModel.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);
 var ef = new MetadataTools(this);
@@ -24,6 +24,9 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     BeginNamespace(code);
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
+
+<# WriteLine("#pragma warning disable 1591"); #>
+
 <#=codeStringGenerator.EntityClassOpening(entity)#>
 {
 <#
@@ -102,6 +105,9 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     }
 #>
 }
+
+<# WriteLine("#pragma warning restore 1591"); #>
+
 <#
     EndNamespace(code);
 }

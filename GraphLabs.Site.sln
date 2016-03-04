@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D9DABFED-58AB-43FB-AA08-2C607060C891}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,6 +33,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Site.Utils", "GraphLabs.Utils\GraphLabs.Site.Utils.csproj", "{BD1F9046-594D-4AEF-882B-E3F08DE56B36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Tests.Utils", "GraphLabs.Tests.Utils\GraphLabs.Tests.Utils.csproj", "{B16B7D30-A083-404C-8298-1C3BBF586D02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.DomainModel", "GraphLabs.DomainModel\GraphLabs.DomainModel.csproj", "{3E515720-D0A1-4B01-A3E0-C82412B2D663}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B16B7D30-A083-404C-8298-1C3BBF586D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E515720-D0A1-4B01-A3E0-C82412B2D663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E515720-D0A1-4B01-A3E0-C82412B2D663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E515720-D0A1-4B01-A3E0-C82412B2D663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E515720-D0A1-4B01-A3E0-C82412B2D663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
