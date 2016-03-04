@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.ServiceModel.Activation;
 using System.Web;
 using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.WcfServices.Data;
 using Action = GraphLabs.DomainModel.EF.Action;
 
@@ -12,18 +14,24 @@ namespace GraphLabs.WcfServices
 {
     /// <summary> Сервис предоставления данных модулям заданий </summary>
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
-    public class UserActionsRegistrator : IUserActionsRegistrator, IDisposable
+    public class UserActionsRegistrator : IUserActionsRegistrator
     {
+        private readonly IReportsContext _reportsCtx;
+        private readonly ISessionsContext _sessionsCtx;
+        private readonly IChangesTracker _changesTracker;
+
         /// <summary> Начальный балл </summary>
         public const int StartingScore = 100;
 
-        /// <summary> Предоставляет доступ к данным </summary>
-        protected GraphLabsContext Context { get; private set; }
-
         /// <summary> Сервис предоставления данных модулям заданий </summary>
-        public UserActionsRegistrator()
+        public UserActionsRegistrator(IReportsContext reportsCtx,
+            ISessionsContext sessionsCtx,
+            IChangesTracker changesTracker)
         {
-            Context = new GraphLabsContext();
+            _reportsCtx = reportsCtx;
+            _sessionsCtx = sessionsCtx;
+            _changesTracker = changesTracker;
+//            Context = new GraphLabsContext();
         }
 
         /// <summary> Регистрирует действия студента </summary>
@@ -49,9 +57,9 @@ namespace GraphLabs.WcfServices
                     Time = actionDescription.TimeStamp,
                     Task = task
                 };
-                Context.Actions.Attach(newAction);
+                _reportsCtx.Actions.Add(newAction);
             }
-            Context.SaveChanges();
+            _changesTracker.SaveChanges();
             return CalculateCurrentScore(result);
         }
 
@@ -62,7 +70,7 @@ namespace GraphLabs.WcfServices
 
         private Result GetCurrentResult(Session session)
         {
-            var activeResults = Context.Results
+            var activeResults = _reportsCtx.Results
                 .Where(result => result.Student == session.User && result.Grade == null)
                 .ToArray();
 
@@ -89,7 +97,7 @@ namespace GraphLabs.WcfServices
 
         private Session GetSession(Guid sessionGuid)
         {
-            var session = Context.Sessions.Find(sessionGuid);
+            var session = _sessionsCtx.Sessions.Find(sessionGuid);
             //TODO +проверка контрольной суммы и тп
             if (session == null ||
                 session.IP != HttpContext.Current.Request.UserHostAddress)
@@ -111,16 +119,6 @@ namespace GraphLabs.WcfServices
             }
 
             return task;
-        }
-
-        /// <summary> Деструктор </summary>
-        public void Dispose()
-        {
-            if (Context != null)
-            {
-                Context.Dispose();
-                Context = null;
-            }
         }
     }
 }

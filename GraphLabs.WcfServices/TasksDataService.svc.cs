@@ -56,7 +56,7 @@ namespace GraphLabs.WcfServices
         {
             var candidates = variant.TaskVariants.Where(v => v.Task == task).ToArray();
 
-            if (candidates.Count() != 1)
+            if (candidates.Length != 1)
             {
                 throw new Exception(string.Format("Не удалось найти вариант для задания {0}", task.Name));
             }
@@ -73,7 +73,7 @@ namespace GraphLabs.WcfServices
                 throw new Exception(string.Format("Выполнение лабораторной работы не было начато текущим пользователем."));
             }
 
-            if (activeResults.Count() > 1)
+            if (activeResults.Length > 1)
             {
                 throw new Exception(string.Format("Данным пользователем выполняется более 1 лабораторной работы. Провалищще."));
             }
