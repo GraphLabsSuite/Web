@@ -3,6 +3,7 @@
 namespace GraphLabs.DomainModel.EF
 {
     /// <summary> Менеджер изменение </summary>
+    [Obsolete("Заменить на TransactionScope")]
     public interface IChangesTracker
     {
         /// <summary> Сохранить все изменения </summary>

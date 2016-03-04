@@ -1,10 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Linq;
+using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.Infrastructure;
 using log4net;
 
 namespace GraphLabs.DomainModel.EF
 {
-    public partial class GraphLabsContext
+    internal partial class GraphLabsContext :
+        INewsContext,
+        IUsersContext,
+        ISessionsContext,
+        IReportsContext,
+        ITestsContext,
+        ILabWorksContext,
+        ITasksContext,
+        ISystemContext
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(GraphLabsContext));
 
@@ -74,5 +88,49 @@ namespace GraphLabs.DomainModel.EF
             }
         }
 
+        #region Triggers
+
+        /// <summary> Saves all changes made in this context to the underlying database. </summary>
+        public override int SaveChanges()
+        {
+            var trackables = ChangeTracker.Entries<ITrackableEntity>().ToArray();
+
+            // added
+            foreach (var item in trackables.Where(t => t.State == EntityState.Added))
+            {
+                item.Entity.OnInsert();
+            }
+            // modified
+            foreach (var item in trackables.Where(t => t.State == EntityState.Modified))
+            {
+                item.Entity.OnChange(item);
+            }
+
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessage = string.Join(Environment.NewLine, ex.EntityValidationErrors
+                    .SelectMany(err => err.ValidationErrors.Select(e => e.ErrorMessage)));
+                throw new GraphLabsValidationException(ex, errorMessage);
+            }
+
+        }
+
+        /// <summary> Extension point allowing the user to customize validation of an entity or filter out validation results. </summary>
+        protected override DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
+        {
+            var trackableEntity = entityEntry.Entity as ITrackableEntity;
+            if (trackableEntity != null)
+            {
+                return new DbEntityValidationResult(entityEntry, trackableEntity.OnValidating(entityEntry));
+            }
+
+            return new DbEntityValidationResult(entityEntry, Enumerable.Empty<DbValidationError>());
+        }
+
+        #endregion
     }
 }

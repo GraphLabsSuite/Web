@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.Infrastructure;
 
-namespace GraphLabs.DomainModel.EF
+namespace GraphLabs.DomainModel
 {
     /// <summary> Результат выполнения работы </summary>
     public partial class Result : AbstractEntity
@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel.EF
         }
 
         /// <summary> Валидация </summary>
-        public override IEnumerable<DbValidationError> OnEntityValidating(DbEntityEntry entityEntry)
+        public override IEnumerable<EntityValidationError> OnEntityValidating()
         {
             yield break;
         }

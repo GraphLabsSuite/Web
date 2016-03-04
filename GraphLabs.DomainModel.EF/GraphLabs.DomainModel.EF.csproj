@@ -140,43 +140,29 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="Contexts\GraphLabsContext.cs" />
     <Compile Include="Extensions\DbEntityEntryExtensions.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />
     <Compile Include="Extensions\SystemDateExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\UserRoleExtensions.cs" />
-    
     <Compile Include="GraphLabsContext.cs" />
     <Compile Include="GraphLabsDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GraphLabsDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="AbstractEntity.cs" />
-    <Compile Include="IChangesTracker.cs" />
-    <Compile Include="Contexts\ISystemContext.cs" />
-    <Compile Include="Contexts\INewsContext.cs" />
-    <Compile Include="Contexts\ILabWorksContext.cs" />
-    <Compile Include="Contexts\IReportsContext.cs" />
-    <Compile Include="Contexts\ISessionsContext.cs" />
-    <Compile Include="Contexts\ITasksContext.cs" />
-    <Compile Include="Contexts\ITestsContext.cs" />
-    <Compile Include="Contexts\IUsersContext.cs" />
+    <Compile Include="GraphLabsDataModel.cs" />
+    <Compile Include="GraphLabsDataModel.Designer.cs">
+      <DependentUpon>GraphLabsDataModel.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Repositories\SurveyRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ISurveyRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
-    <Compile Include="Repositories\Interfaces\INewsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ILabRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IResultsRepository.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
     <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
@@ -185,29 +171,9 @@
     <Compile Include="Repositories\SessionRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\ISystemDateService.cs" />
-    <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Services\SystemDateService.cs" />
     <Compile Include="ChangesTracker.cs" />
-    <Compile Include="Triggers\Action.cs" />
-    <Compile Include="Triggers\Infrastructure\GraphLabsContext.Triggers.cs" />
-    <Compile Include="Triggers\Group.cs" />
-    <Compile Include="Triggers\Infrastructure\ITrackableEntity.cs" />
-    <Compile Include="Triggers\LabEntry.cs" />
-    <Compile Include="Triggers\LabVariant.cs" />
-    <Compile Include="Triggers\LabWork.cs" />
-    <Compile Include="Triggers\News.cs" />
-    <Compile Include="Triggers\Result.cs" />
-    <Compile Include="Triggers\Session.cs" />
-    <Compile Include="Triggers\Settings.cs" />
-    <Compile Include="Triggers\Task.cs" />
-    <Compile Include="Triggers\TaskVariant.cs" />
-    <Compile Include="Triggers\User.cs" />
     <Compile Include="Utils\Helpers.cs" />
-    <Compile Include="ValidationErrors.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ValidationErrors.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="GraphLabsDataModel.edmx">
@@ -242,13 +208,14 @@
     <Content Include="SQL Scripts\ClearSchema.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ValidationErrors.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ValidationErrors.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+      <Project>{3e515720-d0a1-4b01-a3e0-c82412b2d663}</Project>
+      <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
+      <Project>{d62cc3f4-3ea1-44ff-b9e2-492582788b3b}</Project>
+      <Name>GraphLabs.Site.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
       <Name>GraphLabs.Site.Utils</Name>

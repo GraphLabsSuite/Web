@@ -8,6 +8,7 @@ namespace GraphLabs.DomainModel.EF
 {
     /// <summary> Менеджер изменений </summary>
     [UsedImplicitly]
+    [Obsolete("Не использовать")]
     public class ChangesTracker : IChangesTracker
     {
         private readonly GraphLabsContext _context;

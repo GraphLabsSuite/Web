@@ -13,7 +13,7 @@ namespace GraphLabs.DomainModel.EF
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class GraphLabsContext : DbContext
+    internal partial class GraphLabsContext : DbContext
     {
         public GraphLabsContext()
             : base("name=GraphLabsContext")

@@ -41,6 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contexts\ILabWorksContext.cs" />
+    <Compile Include="Contexts\INewsContext.cs" />
+    <Compile Include="Contexts\IReportsContext.cs" />
+    <Compile Include="Contexts\ISessionsContext.cs" />
+    <Compile Include="Contexts\ISystemContext.cs" />
+    <Compile Include="Contexts\ITasksContext.cs" />
+    <Compile Include="Contexts\ITestsContext.cs" />
+    <Compile Include="Contexts\IUsersContext.cs" />
+    <Compile Include="Infrastructure\AbstractEntity.cs" />
     <Compile Include="Action.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -50,12 +59,15 @@
     <Compile Include="Category.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\EntityValidationError.cs" />
     <Compile Include="Grade.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\GraphLabsValidationException.cs" />
     <Compile Include="Group.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IEntityChange.cs" />
     <Compile Include="LabEntry.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -71,6 +83,14 @@
     <Compile Include="News.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ILabRepository.cs" />
+    <Compile Include="Repositories\Interfaces\INewsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IResultsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ISurveyRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Result.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -95,11 +115,29 @@
     <Compile Include="TestQuestion.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Triggers\Action.cs" />
+    <Compile Include="Triggers\Group.cs" />
+    <Compile Include="Infrastructure\ITrackableEntity.cs" />
+    <Compile Include="Triggers\LabEntry.cs" />
+    <Compile Include="Triggers\LabVariant.cs" />
+    <Compile Include="Triggers\LabWork.cs" />
+    <Compile Include="Triggers\News.cs" />
+    <Compile Include="Triggers\Result.cs" />
+    <Compile Include="Triggers\Session.cs" />
+    <Compile Include="Triggers\Settings.cs" />
+    <Compile Include="Triggers\Task.cs" />
+    <Compile Include="Triggers\TaskVariant.cs" />
+    <Compile Include="Triggers\User.cs" />
     <Compile Include="User.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UserRole.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ValidationErrors.Designer.cs">
+      <DependentUpon>ValidationErrors.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="GraphLabsDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -114,6 +152,23 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ValidationErrors.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationErrors.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
+      <Project>{d62cc3f4-3ea1-44ff-b9e2-492582788b3b}</Project>
+      <Name>GraphLabs.Site.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
+      <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
+      <Name>GraphLabs.Site.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

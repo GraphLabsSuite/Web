@@ -532,7 +532,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="GraphLabsContext" p1:LazyLoadingEnabled="true">
+        <EntityContainer Name="GraphLabsContext" p1:LazyLoadingEnabled="true" a:TypeAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
           <EntitySet Name="News" EntityType="DataModel.News" />
           <EntitySet Name="Users" EntityType="DataModel.User" />
           <AssociationSet Name="UserNews" Association="DataModel.UserNews">

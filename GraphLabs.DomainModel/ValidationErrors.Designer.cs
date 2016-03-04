@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GraphLabs.DomainModel.EF {
+namespace GraphLabs.DomainModel {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GraphLabs.DomainModel.EF {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GraphLabs.DomainModel.EF.ValidationErrors", typeof(ValidationErrors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GraphLabs.DomainModel.ValidationErrors", typeof(ValidationErrors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -76,6 +76,24 @@ namespace GraphLabs.DomainModel.EF {
             get {
                 return ResourceManager.GetString("Action_OnEntityValidating_Штрафной_балл_может_находиться_только_в_диапазоне_от_0_" +
                         "до_100_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка валидации: {0}.
+        /// </summary>
+        internal static string GraphLabsValidationException_Ошибка_валидации_0 {
+            get {
+                return ResourceManager.GetString("GraphLabsValidationException_Ошибка_валидации_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка валидации значения [{0}]. {1}.
+        /// </summary>
+        internal static string GraphLabsValidationException_Ошибка_валидации_значения_0_1 {
+            get {
+                return ResourceManager.GetString("GraphLabsValidationException_Ошибка_валидации_значения_0_1", resourceCulture);
             }
         }
         

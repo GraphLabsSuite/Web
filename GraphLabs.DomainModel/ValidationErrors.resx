@@ -176,4 +176,10 @@
   <data name="Action_OnEntityValidating_Штрафной_балл_может_находиться_только_в_диапазоне_от_0_до_100_" xml:space="preserve">
     <value>Штрафной балл может находиться только в диапазоне от 0 до 100.</value>
   </data>
+  <data name="GraphLabsValidationException_Ошибка_валидации_значения_0_1" xml:space="preserve">
+    <value>Ошибка валидации значения [{0}]. {1}</value>
+  </data>
+  <data name="GraphLabsValidationException_Ошибка_валидации_0" xml:space="preserve">
+    <value>Ошибка валидации: {0}</value>
+  </data>
 </root>

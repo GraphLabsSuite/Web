@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
+using System.Linq;
 
-namespace GraphLabs.DomainModel.EF
+namespace GraphLabs.DomainModel.Infrastructure
 {
     /// <summary> Абстрактная сущность </summary>
     public abstract class AbstractEntity : ITrackableEntity
@@ -13,18 +12,21 @@ namespace GraphLabs.DomainModel.EF
         }
 
         /// <summary> Перед сохранением изменённой сущности в базу </summary>
-        public virtual void OnChange(DbEntityEntry entry)
+        public virtual void OnChange(IEntityChange change)
         {
         }
 
         /// <summary> Валидация </summary>
         /// <remarks> Для переопределения валидации конеретных сущностей перекрывайте OnEntityValidating</remarks>
-        public IEnumerable<DbValidationError> OnValidating(DbEntityEntry entityEntry)
+        public IEnumerable<EntityValidationError> OnValidating()
         {
-            return OnEntityValidating(entityEntry);
+            return OnEntityValidating();
         }
 
         /// <summary> Валидация </summary>
-        public abstract IEnumerable<DbValidationError> OnEntityValidating(DbEntityEntry entityEntry);
+        public virtual IEnumerable<EntityValidationError> OnEntityValidating()
+        {
+            return Enumerable.Empty<EntityValidationError>();
+        }
     }
 }

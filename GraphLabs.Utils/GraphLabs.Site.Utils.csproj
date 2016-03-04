@@ -118,11 +118,11 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="IpHelper.cs" />
     <Compile Include="WorkingMode.cs" />
     <Compile Include="XapProcessor\IXapInfo.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
-    <Compile Include="IpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ResultMessage.cs" />
     <Compile Include="Results\ResultMessagesLog.cs" />

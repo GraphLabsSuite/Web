@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
+using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.Infrastructure;
 
-namespace GraphLabs.DomainModel.EF
+namespace GraphLabs.DomainModel
 {
     /// <summary> Новости </summary>
     public partial class News : AbstractEntity
@@ -18,21 +18,21 @@ namespace GraphLabs.DomainModel.EF
         }
 
         /// <summary> Перед сохранением изменённой сущности в базу </summary>
-        public override void OnChange(DbEntityEntry entry)
+        public override void OnChange(IEntityChange change)
         {
-            base.OnChange(entry);
+            base.OnChange(change);
 
             LastModificationTime = DateTime.Now;
         }
 
         /// <summary> Валидация </summary>
-        public override IEnumerable<DbValidationError> OnEntityValidating(DbEntityEntry entityEntry)
+        public override IEnumerable<EntityValidationError> OnEntityValidating()
         {
             if (string.IsNullOrWhiteSpace(Title))
-                yield return new DbValidationError("Title", ValidationErrors.News_OnValidating_Заголовок_новости_не_может_быть_пустым_);
+                yield return new EntityValidationError("Title", ValidationErrors.News_OnValidating_Заголовок_новости_не_может_быть_пустым_);
 
             if (string.IsNullOrWhiteSpace(Text))
-                yield return new DbValidationError("Text", ValidationErrors.News_OnValidating_Текст_новости_не_может_быть_пустым_);
+                yield return new EntityValidationError("Text", ValidationErrors.News_OnValidating_Текст_новости_не_может_быть_пустым_);
         }
     }
 }
