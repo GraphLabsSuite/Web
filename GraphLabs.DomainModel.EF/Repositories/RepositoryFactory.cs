@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
-using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.DomainModel.Repositories;
 using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel.EF.Repositories

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.DomainModel.EF.Repositories
 {

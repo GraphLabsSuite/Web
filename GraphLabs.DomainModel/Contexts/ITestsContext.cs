@@ -1,17 +1,15 @@
-﻿using System.Data.Entity;
-
-namespace GraphLabs.DomainModel.EF.Contexts
+﻿namespace GraphLabs.DomainModel.Contexts
 {
     /// <summary> Тесты </summary>
     public interface ITestsContext
     {
         /// <summary> Тестовые вопросы </summary>
-        DbSet<TestQuestion> TestQuestions { get; }
+        IEntitySet<TestQuestion> TestQuestions { get; }
 
         /// <summary> Варианты ответов </summary>
-        DbSet<AnswerVariant> AnswerVariants { get; }
+        IEntitySet<AnswerVariant> AnswerVariants { get; }
 
         /// <summary> Категории вопросов </summary>
-        DbSet<Category> Categories { get; }
+        IEntitySet<Category> Categories { get; }
     }
 }

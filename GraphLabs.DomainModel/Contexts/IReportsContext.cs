@@ -1,14 +1,12 @@
-﻿using System.Data.Entity;
-
-namespace GraphLabs.DomainModel.EF.Contexts
+﻿namespace GraphLabs.DomainModel.Contexts
 {
     /// <summary> Журнал выполнения заданий </summary>
     public interface IReportsContext
     {
         /// <summary> Результаты </summary>
-        DbSet<Result> Results { get; }
+        IEntitySet<Result> Results { get; }
 
         /// <summary> Журнал действий </summary>
-        DbSet<Action> Actions { get; }
+        IEntitySet<Action> Actions { get; }
     }
 }

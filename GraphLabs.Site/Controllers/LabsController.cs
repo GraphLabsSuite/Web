@@ -1,5 +1,4 @@
 ﻿using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Controllers.LabWorks;
 using GraphLabs.Site.Models;
@@ -9,7 +8,8 @@ using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {

@@ -1,14 +1,12 @@
-﻿using System.Data.Entity;
-
-namespace GraphLabs.DomainModel.EF.Contexts
+﻿namespace GraphLabs.DomainModel.Contexts
 {
     /// <summary> Задания </summary>
     public interface ITasksContext
     {
         /// <summary> Задания </summary>
-        DbSet<Task> Tasks { get; set; }
+        IEntitySet<Task> Tasks { get; set; }
 
         /// <summary> Варианты заданий </summary>
-        DbSet<TaskVariant> TaskVariants { get; set; }
+        IEntitySet<TaskVariant> TaskVariants { get; set; }
     }
 }

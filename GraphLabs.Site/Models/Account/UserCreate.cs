@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.DomainModel.EF.Extensions;
-using GraphLabs.DomainModel.EF.Repositories;
 using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Logic.Security;
 
 namespace GraphLabs.Site.Models.Account

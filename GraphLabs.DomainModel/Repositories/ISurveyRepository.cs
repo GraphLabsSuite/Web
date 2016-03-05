@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
-using JetBrains.Annotations;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
-namespace GraphLabs.DomainModel.EF.Repositories
+namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с вопросами </summary>
 	[ContractClass(typeof(SurveyRepositoryContracts))]

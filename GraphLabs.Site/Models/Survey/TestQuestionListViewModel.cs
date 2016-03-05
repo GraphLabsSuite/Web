@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
-using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
 {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.DomainModel.EF.Repositories
 {

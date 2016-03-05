@@ -10,6 +10,7 @@
 namespace GraphLabs.DomainModel
 {
     using System;
+    using GraphLabs.DomainModel.Infrastructure;
     
     public enum Term : int
     {

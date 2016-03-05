@@ -5,9 +5,9 @@ using System.Web.Mvc;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models;
 using Newtonsoft.Json;
-using GraphLabs.DomainModel.EF.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {

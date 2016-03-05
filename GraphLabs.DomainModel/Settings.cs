@@ -11,11 +11,12 @@ namespace GraphLabs.DomainModel
 {
     using System;
     using System.Collections.Generic;
+    using GraphLabs.DomainModel.Infrastructure;
     
     
     #pragma warning disable 1591
     
-    public partial class Settings
+    public partial class Settings : AbstractEntity
     {
         public long Id { get; private set; }
         public System.DateTime SystemDate { get; set; }

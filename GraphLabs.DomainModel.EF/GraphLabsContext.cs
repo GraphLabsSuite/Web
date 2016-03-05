@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
-using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Infrastructure;
 using log4net;
 

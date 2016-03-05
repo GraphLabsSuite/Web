@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GraphLabs.Common.Utils">
+      <HintPath>..\packages\GraphLabs.Common\GraphLabs.Common.Utils\GraphLabs.Common.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +52,7 @@
     <Compile Include="Contexts\ITasksContext.cs" />
     <Compile Include="Contexts\ITestsContext.cs" />
     <Compile Include="Contexts\IUsersContext.cs" />
+    <Compile Include="IEntitySet.cs" />
     <Compile Include="Infrastructure\AbstractEntity.cs" />
     <Compile Include="Action.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
@@ -83,14 +87,14 @@
     <Compile Include="News.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IGroupsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ILabRepository.cs" />
-    <Compile Include="Repositories\Interfaces\INewsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IResultsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ISessionRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ISurveyRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
+    <Compile Include="Repositories\ICategoryRepository.cs" />
+    <Compile Include="Repositories\IGroupsRepository.cs" />
+    <Compile Include="Repositories\ILabRepository.cs" />
+    <Compile Include="Repositories\INewsRepository.cs" />
+    <Compile Include="Repositories\IResultsRepository.cs" />
+    <Compile Include="Repositories\ISessionRepository.cs" />
+    <Compile Include="Repositories\ISurveyRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Result.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>

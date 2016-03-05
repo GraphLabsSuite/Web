@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using JetBrains.Annotations;
 
-namespace GraphLabs.DomainModel.EF.Repositories
+namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с группами </summary>
 	[ContractClass(typeof(CategoryRepositoryContracts))]

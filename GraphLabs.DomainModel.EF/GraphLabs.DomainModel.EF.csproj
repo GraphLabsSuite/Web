@@ -140,6 +140,7 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="EntitySet.cs" />
     <Compile Include="Extensions\DbEntityEntryExtensions.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />

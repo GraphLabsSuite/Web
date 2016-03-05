@@ -11,11 +11,12 @@ namespace GraphLabs.DomainModel
 {
     using System;
     using System.Collections.Generic;
+    using GraphLabs.DomainModel.Infrastructure;
     
     
     #pragma warning disable 1591
     
-    public partial class Result
+    public partial class Result : AbstractEntity
     {
         public Result()
         {

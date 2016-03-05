@@ -3,8 +3,8 @@ using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.EF.Repositories;
 using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {

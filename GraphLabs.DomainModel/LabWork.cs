@@ -11,11 +11,12 @@ namespace GraphLabs.DomainModel
 {
     using System;
     using System.Collections.Generic;
+    using GraphLabs.DomainModel.Infrastructure;
     
     
     #pragma warning disable 1591
     
-    public partial class LabWork
+    public partial class LabWork : AbstractEntity
     {
         public LabWork()
         {

@@ -11,11 +11,12 @@ namespace GraphLabs.DomainModel
 {
     using System;
     using System.Collections.Generic;
+    using GraphLabs.DomainModel.Infrastructure;
     
     
     #pragma warning disable 1591
     
-    public partial class LabEntry
+    public partial class LabEntry : AbstractEntity
     {
         public long Id { get; private set; }
         public int Order { get; set; }

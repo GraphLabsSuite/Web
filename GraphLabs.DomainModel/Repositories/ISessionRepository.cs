@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using GraphLabs.Site.Utils;
-using JetBrains.Annotations;
 
-namespace GraphLabs.DomainModel.EF.Repositories
+namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с сессиями </summary>
     [ContractClass(typeof(SessionRepositoryContracts))]

@@ -2,7 +2,8 @@
 using System;
 using System.Data.Entity;
 using System.Linq;
-using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Utils;
 
 
