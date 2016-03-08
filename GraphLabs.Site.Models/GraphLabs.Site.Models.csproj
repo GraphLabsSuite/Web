@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IoC\ModelsConfigurator.cs" />
+    <Compile Include="IoC\ModelsConfiguration.cs" />
     <Compile Include="ITaskExecutionModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskExecutionModel.cs" />

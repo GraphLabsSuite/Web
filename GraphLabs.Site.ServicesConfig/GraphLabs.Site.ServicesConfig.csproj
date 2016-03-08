@@ -69,6 +69,10 @@
       <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>
       <Name>GraphLabs.Site.Logic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.Models\GraphLabs.Site.Models.csproj">
+      <Project>{5ef6b998-6a5a-468b-be25-40278d32c890}</Project>
+      <Name>GraphLabs.Site.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
       <Name>GraphLabs.Site.Utils</Name>

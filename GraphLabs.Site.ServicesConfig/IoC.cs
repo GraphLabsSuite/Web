@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GraphLabs.DomainModel.EF.IoC;
 using GraphLabs.Site.Logic.IoC;
+using GraphLabs.Site.Models.IoC;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
@@ -38,6 +39,7 @@ namespace GraphLabs.Site.ServicesConfig
         {
             yield return new DomainModelEfConfiguration();
             yield return new SiteLogicConfiguration();
+            yield return new ModelsConfiguration();
         }
 
         /// <summary> Регистрируем компоненты </summary>

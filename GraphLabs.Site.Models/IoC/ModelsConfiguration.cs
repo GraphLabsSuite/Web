@@ -5,7 +5,7 @@ using Microsoft.Practices.Unity;
 namespace GraphLabs.Site.Models.IoC
 {
     /// <summary> Конфигуратор моделей </summary>
-    public class ModelsConfigurator : IUnityRegistry
+    public class ModelsConfiguration : IUnityRegistry
     {
         public void ConfigureContainer(IUnityContainer container)
         {
