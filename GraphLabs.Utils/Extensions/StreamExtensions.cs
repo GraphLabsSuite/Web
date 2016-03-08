@@ -1,17 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
-namespace GraphLabs.DomainModel.EF.Utils
+namespace GraphLabs.Site.Utils.Extensions
 {
-    /// <summary> Класс со всякой вспомогательной мелочью </summary>
-    /// <remarks> Быть может, потом перерастёт во что-то более конкретное </remarks>
-    public static class Helpers
+    /// <summary> Расширения для потоков </summary>
+    public static class StreamExtensions
     {
         /// <summary> Читает входной поток до самого конца </summary>
         public static byte[] ReadToEnd(this Stream input)
         {
-            const int BUFFER_SIZE = 16 * 1024;
+            const int bufferSize = 16 * 1024;
 
-            var buffer = new byte[BUFFER_SIZE];
+            var buffer = new byte[bufferSize];
             using (var ms = new MemoryStream())
             {
                 int read;

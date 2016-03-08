@@ -2,7 +2,7 @@
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Logic.Tasks;
-using GraphLabs.Site.Utils.XapProcessor;
+using GraphLabs.Site.Logic.XapParsing;
 using Moq;
 using NUnit.Framework;
 

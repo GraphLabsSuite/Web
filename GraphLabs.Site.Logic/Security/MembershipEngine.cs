@@ -7,8 +7,8 @@ using System.Threading;
 using System.Web;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Extensions;
 using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Repositories;
 using log4net;
 

@@ -1,4 +1,4 @@
-﻿namespace GraphLabs.Site.Utils.XapProcessor
+﻿namespace GraphLabs.Site.Logic.XapParsing
 {
     /// <summary> Информация о Xap </summary>
     public interface IXapInfo

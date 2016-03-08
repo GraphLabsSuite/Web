@@ -52,6 +52,7 @@
     <Compile Include="Contexts\ITasksContext.cs" />
     <Compile Include="Contexts\ITestsContext.cs" />
     <Compile Include="Contexts\IUsersContext.cs" />
+    <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="IEntitySet.cs" />
     <Compile Include="Infrastructure\AbstractEntity.cs" />
     <Compile Include="AnswerVariant.cs">

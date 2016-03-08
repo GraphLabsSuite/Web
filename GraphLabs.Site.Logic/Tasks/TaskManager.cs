@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.EF.Utils;
-using GraphLabs.Site.Utils.XapProcessor;
+using GraphLabs.Site.Logic.XapParsing;
+using GraphLabs.Site.Utils.Extensions;
 
 namespace GraphLabs.Site.Logic.Tasks
 {

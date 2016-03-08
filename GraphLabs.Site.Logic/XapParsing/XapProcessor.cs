@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using Ionic.Zip;
 using Mono.Cecil;
 
-namespace GraphLabs.Site.Utils.XapProcessor
+namespace GraphLabs.Site.Logic.XapParsing
 {
     /// <summary> Класс для получения информации о Xap </summary>
     public class XapProcessor : IXapProcessor

@@ -10,7 +10,7 @@ namespace GraphLabs.Site
 {
     /// <summary> Сервис фиксации результата аутентификации </summary>
     [UsedImplicitly]
-    public class FormsAuthenticationSavingService : IAuthenticationSavingService
+    internal class FormsAuthenticationSavingService : IAuthenticationSavingService
     {
         private readonly ISystemDateService _systemDateService;
         private const string AUTH_COOKIE_NAME = "__ticket";

@@ -6,6 +6,7 @@ using System.Web.Routing;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Logic.Security;
+using GraphLabs.Site.ServicesConfig;
 using GraphLabs.Site.Utils;
 using Microsoft.Practices.Unity;
 

@@ -1,12 +1,12 @@
-п»їusing System;
+using System;
 using GraphLabs.Tasks.Contract;
 using JetBrains.Annotations;
 
 namespace GraphLabs.Site.Models
 {
-    /// <summary> Р¤Р°Р±СЂРёРєР° РјРѕРґРµР»РµР№ Р·Р°РґР°РЅРёР№ РІ Р»Р°Р±Рµ </summary>
+    /// <summary> Фабрика моделей заданий в лабе </summary>
     [UsedImplicitly]
-    public class TaskExecutionModelFactory : ITaskExecutionModelFactory
+    internal class TaskExecutionModelFactory : ITaskExecutionModelFactory
     {
         private readonly IInitParamsProvider _initParamsProvider;
 
@@ -15,7 +15,7 @@ namespace GraphLabs.Site.Models
             _initParamsProvider = initParamsProvider;
         }
 
-        /// <summary> Р”Р»СЏ РѕР·РЅР°РєРѕРјРёС‚РµР»СЊРЅРѕРіРѕ СЂРµР¶РёРјР° </summary>
+        /// <summary> Для ознакомительного режима </summary>
         public TaskExecutionModel CreateForDemoMode(Guid sessionGuid, string taskName, long taskId, long variantId, long labWorkId)
         {
             var initParams = InitParams.ForDemoMode(sessionGuid, taskId, variantId, labWorkId);
@@ -31,7 +31,7 @@ namespace GraphLabs.Site.Models
             return model;
         }
 
-        /// <summary> Р”Р»СЏ РєРѕРЅС‚СЂРѕР»СЊРЅРѕРіРѕ СЂРµР¶РёРјР° </summary>
+        /// <summary> Для контрольного режима </summary>
         public TaskExecutionModel CreateForControlMode(Guid sessionGuid, string taskName, long taskId, long labWorkId)
         {
             var initParams = InitParams.ForControlMode(sessionGuid, taskId, labWorkId);

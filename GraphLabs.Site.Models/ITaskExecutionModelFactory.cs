@@ -1,14 +1,14 @@
-п»їusing System;
+using System;
 
 namespace GraphLabs.Site.Models
 {
-    /// <summary> Р¤Р°Р±СЂРёРєР° РјРѕРґРµР»РµР№ Р·Р°РґР°РЅРёР№ РІ Р»Р°Р±Рµ </summary>
+    /// <summary> Фабрика моделей заданий в лабе </summary>
     public interface ITaskExecutionModelFactory
     {
-        /// <summary> Р”Р»СЏ РѕР·РЅР°РєРѕРјРёС‚РµР»СЊРЅРѕРіРѕ СЂРµР¶РёРјР° </summary>
+        /// <summary> Для ознакомительного режима </summary>
         TaskExecutionModel CreateForDemoMode(Guid sessionGuid, string taskName, long taskId, long variantId, long labWorkId);
 
-        /// <summary> Р”Р»СЏ РєРѕРЅС‚СЂРѕР»СЊРЅРѕРіРѕ СЂРµР¶РёРјР° </summary>
+        /// <summary> Для контрольного режима </summary>
         TaskExecutionModel CreateForControlMode(Guid sessionGuid, string taskName, long taskId, long labWorkId);
     }
 }

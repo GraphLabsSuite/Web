@@ -225,7 +225,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="App_Start\IoC.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
@@ -243,9 +242,7 @@
     <Compile Include="Models\Error\Error404Model.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
-    <Compile Include="App_Code\FormsAuthenticationSavingService.cs" />
     <Compile Include="Controllers\GraphLabsController.cs" />
-    <Compile Include="App_Code\IAuthenticationSavingService.cs" />
     <Compile Include="Controllers\StudentsResultController.cs" />
     <Compile Include="Controllers\TaskVariantController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -260,7 +257,6 @@
     <Compile Include="Models\Account\AuthModel.cs" />
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Models\Error\OopsModel.cs" />
-    <Compile Include="Models\ITaskExecutionModelFactory.cs" />
     <Compile Include="Models\JSONModel.cs" />
     <Compile Include="Models\JSONResultEditVariant.cs" />
     <Compile Include="Models\JSONResultGroupDetail.cs" />
@@ -272,8 +268,6 @@
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\Survey\SurveyIndexViewModel.cs" />
     <Compile Include="Models\Survey\SurveyCreatingModel.cs" />
-    <Compile Include="Models\TaskExecutionModel.cs" />
-    <Compile Include="Models\TaskExecutionModelFactory.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariantModel.cs" />
@@ -487,6 +481,14 @@
     <ProjectReference Include="..\GraphLabs.Site.Logic\GraphLabs.Site.Logic.csproj">
       <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>
       <Name>GraphLabs.Site.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.Models\GraphLabs.Site.Models.csproj">
+      <Project>{5ef6b998-6a5a-468b-be25-40278d32c890}</Project>
+      <Name>GraphLabs.Site.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.ServicesConfig\GraphLabs.Site.ServicesConfig.csproj">
+      <Project>{406b1579-80a6-4c94-ac1d-3dad87a12404}</Project>
+      <Name>GraphLabs.Site.ServicesConfig</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>

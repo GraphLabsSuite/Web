@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Web;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Core;
+using GraphLabs.Site.ServicesConfig;
 using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
