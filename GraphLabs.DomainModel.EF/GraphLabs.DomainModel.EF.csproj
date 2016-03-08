@@ -58,7 +58,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\GraphLabs.DomainModel.EF.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -140,14 +140,15 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="EntitySet.cs" />
-    <Compile Include="Extensions\DbEntityEntryExtensions.cs" />
+    <Compile Include="Infrastructure\EntityChange.cs" />
+    <Compile Include="Infrastructure\EntitySet.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />
     <Compile Include="Extensions\SystemDateExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\UserRoleExtensions.cs" />
     <Compile Include="GraphLabsContext.cs" />
+    <Compile Include="GraphLabsContextWrapper.cs" />
     <Compile Include="GraphLabsDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,10 +172,10 @@
     <Compile Include="Repositories\ResultsRepository.cs" />
     <Compile Include="Repositories\SessionRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Services\ISystemDateService.cs" />
+    <Compile Include="Infrastructure\ChangesTracker.cs" />
     <Compile Include="Services\SystemDateService.cs" />
-    <Compile Include="ChangesTracker.cs" />
     <Compile Include="Utils\Helpers.cs" />
+    <Compile Include="Infrastructure\ValuesDictionaty.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="GraphLabsDataModel.edmx">

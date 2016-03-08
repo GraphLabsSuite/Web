@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GraphLabs.DomainModel.Infrastructure;
+using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel
 {
@@ -11,6 +12,10 @@ namespace GraphLabs.DomainModel
     {
         /// <summary> Поиск необходимых сущностей </summary>
         IQueryable<TEntity> Query { get; }
+
+        /// <summary> Ищет сущность по ключу </summary>
+        [CanBeNull]
+        TEntity Find(params object[] keyValue);
 
         /// <summary> Добавление сущности </summary>
         void Add(TEntity entity);

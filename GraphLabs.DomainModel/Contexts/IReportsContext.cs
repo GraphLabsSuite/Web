@@ -7,6 +7,6 @@
         IEntitySet<Result> Results { get; }
 
         /// <summary> Журнал действий </summary>
-        IEntitySet<Action> Actions { get; }
+        IEntitySet<StudentAction> Actions { get; }
     }
 }

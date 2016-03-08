@@ -20,7 +20,7 @@ namespace GraphLabs.DomainModel
     {
         public Result()
         {
-            this.Actions = new HashSet<Action>();
+            this.Actions = new HashSet<StudentAction>();
         }
     
         public long Id { get; private set; }
@@ -28,7 +28,7 @@ namespace GraphLabs.DomainModel
         public System.DateTime StartDateTime { get; private set; }
         public Nullable<Grade> Grade { get; set; }
     
-        public virtual ICollection<Action> Actions { get; set; }
+        public virtual ICollection<StudentAction> Actions { get; set; }
         public virtual Student Student { get; set; }
         public virtual LabVariant LabVariant { get; set; }
     }

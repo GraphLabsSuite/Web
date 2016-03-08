@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.EF.Utils;
 using GraphLabs.Site.Utils.XapProcessor;
 
@@ -48,7 +48,7 @@ namespace GraphLabs.Site.Logic.Tasks
                 newTask.Name = $"{newTask.Name} ({DateTime.Now:u})";
             }
 
-            var sameTaskExists = _tasksCtx.Tasks.Any(t => t.Name == newTask.Name && t.Version == newTask.Version);
+            var sameTaskExists = _tasksCtx.Tasks.Query.Any(t => t.Name == newTask.Name && t.Version == newTask.Version);
             if (!sameTaskExists)
             {
                 _tasksCtx.Tasks.Add(newTask);

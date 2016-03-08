@@ -10,15 +10,9 @@ using log4net;
 
 namespace GraphLabs.DomainModel.EF
 {
-    internal partial class GraphLabsContext :
-        INewsContext,
-        IUsersContext,
-        ISessionsContext,
-        IReportsContext,
-        ITestsContext,
-        ILabWorksContext,
-        ITasksContext,
-        ISystemContext
+    /// <summary> EF-контекст </summary>
+    public partial class GraphLabsContext
+
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(GraphLabsContext));
 
@@ -103,7 +97,7 @@ namespace GraphLabs.DomainModel.EF
             // modified
             foreach (var item in trackables.Where(t => t.State == EntityState.Modified))
             {
-                item.Entity.OnChange(item);
+                item.Entity.OnChange(new EntityChange(item));
             }
 
             try
@@ -125,7 +119,11 @@ namespace GraphLabs.DomainModel.EF
             var trackableEntity = entityEntry.Entity as ITrackableEntity;
             if (trackableEntity != null)
             {
-                return new DbEntityValidationResult(entityEntry, trackableEntity.OnValidating(entityEntry));
+                var errors = trackableEntity
+                    .OnValidating()
+                    .Select(err => new DbValidationError(err.Property, err.Error));
+
+                return new DbEntityValidationResult(entityEntry, errors);
             }
 
             return new DbEntityValidationResult(entityEntry, Enumerable.Empty<DbValidationError>());

@@ -134,6 +134,14 @@
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
       <Name>GraphLabs.DomainModel.EF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+      <Project>{3e515720-d0a1-4b01-a3e0-c82412b2d663}</Project>
+      <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
+      <Project>{d62cc3f4-3ea1-44ff-b9e2-492582788b3b}</Project>
+      <Name>GraphLabs.Site.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
       <Name>GraphLabs.Site.Utils</Name>

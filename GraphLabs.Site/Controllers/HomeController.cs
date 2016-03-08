@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;

@@ -5,6 +5,7 @@ using GraphLabs.Site.Logic;
 using GraphLabs.Site.Models;
 using System;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers

@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using GraphLabs.DomainModel.EF;
 using NUnit.Framework;
 using System.Linq;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Tests.DomainModel
 {

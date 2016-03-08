@@ -20,7 +20,7 @@
     <DefineConstants>TRACE;DEBUG;CONTRACTS_FULL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,9 +54,6 @@
     <Compile Include="Contexts\IUsersContext.cs" />
     <Compile Include="IEntitySet.cs" />
     <Compile Include="Infrastructure\AbstractEntity.cs" />
-    <Compile Include="Action.cs">
-      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="AnswerVariant.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -105,6 +102,9 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Student.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAction.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Task.cs">

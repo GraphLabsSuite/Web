@@ -4,9 +4,9 @@
     public interface ITasksContext
     {
         /// <summary> Задания </summary>
-        IEntitySet<Task> Tasks { get; set; }
+        IEntitySet<Task> Tasks { get; }
 
         /// <summary> Варианты заданий </summary>
-        IEntitySet<TaskVariant> TaskVariants { get; set; }
+        IEntitySet<TaskVariant> TaskVariants { get; }
     }
 }

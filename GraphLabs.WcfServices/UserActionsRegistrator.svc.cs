@@ -4,9 +4,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.WcfServices.Data;
-using Action = GraphLabs.DomainModel.EF.Action;
 
 namespace GraphLabs.WcfServices
 {
@@ -41,7 +41,7 @@ namespace GraphLabs.WcfServices
 
             foreach (var actionDescription in actions)
             {
-                var newAction = new Action
+                var newAction = new StudentAction
                 {
                     Description = actionDescription.Description,
                     Penalty = actionDescription.Penalty,
@@ -49,7 +49,7 @@ namespace GraphLabs.WcfServices
                     Time = actionDescription.TimeStamp,
                     Task = task
                 };
-                Context.Actions.Attach(newAction);
+                Context.StudentActions.Add(newAction);
             }
             Context.SaveChanges();
             return CalculateCurrentScore(result);

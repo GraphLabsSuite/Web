@@ -16,7 +16,7 @@ namespace GraphLabs.DomainModel
     
     #pragma warning disable 1591
     
-    public partial class Action : AbstractEntity
+    public partial class StudentAction : AbstractEntity
     {
         public long Id { get; private set; }
         public string Description { get; set; }

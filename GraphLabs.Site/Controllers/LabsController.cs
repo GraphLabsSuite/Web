@@ -8,6 +8,7 @@ using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 
@@ -50,7 +51,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create(long id = 0)
         {
-            return View( new CreateLabModel(id, _tasksContext.Tasks.ToArray()) );
+            return View( new CreateLabModel(id, _tasksContext.Tasks.Query.ToArray()) );
         }
 
         [HttpPost]
@@ -179,7 +180,7 @@ namespace GraphLabs.Site.Controllers
 		{
 			var result = new List<TaskVariant>();
 
-			foreach (var tv in taskIds.Distinct().Select(tId => _tasksContext.TaskVariants.Single(tv => tv.Id == tId)))
+			foreach (var tv in taskIds.Distinct().Select(tId => _tasksContext.TaskVariants.Query.Single(tv => tv.Id == tId)))
 			{
 				result.Add(tv);
 			}

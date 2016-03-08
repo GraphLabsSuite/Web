@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Security.Principal;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel;
 using log4net;
 
 namespace GraphLabs.Site.Logic.Security

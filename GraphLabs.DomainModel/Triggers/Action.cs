@@ -5,7 +5,7 @@ using GraphLabs.DomainModel.Infrastructure;
 namespace GraphLabs.DomainModel
 {
     /// <summary> Действие при выполнении ЛР </summary>
-    public partial class Action : AbstractEntity
+    public partial class StudentAction : AbstractEntity
     {
         /// <summary> Валидация </summary>
         public override IEnumerable<EntityValidationError> OnEntityValidating()

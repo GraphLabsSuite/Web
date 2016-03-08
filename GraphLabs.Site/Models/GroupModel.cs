@@ -3,6 +3,7 @@ using GraphLabs.DomainModel.EF.Extensions;
 using GraphLabs.DomainModel.EF.Services;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {

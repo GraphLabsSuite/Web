@@ -6,6 +6,7 @@ using GraphLabs.Site.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models.Account;
 

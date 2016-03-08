@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GraphLabs.DomainModel.EF;
 using System.Linq;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {

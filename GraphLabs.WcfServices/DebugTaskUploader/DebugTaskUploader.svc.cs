@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Contexts;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 

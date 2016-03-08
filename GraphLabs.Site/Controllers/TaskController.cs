@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Tasks;
@@ -28,7 +29,7 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Начальная отрисовка списка </summary>
         public ActionResult Index()
         {
-            var tasks = _taskContext.Tasks.ToArray()
+            var tasks = _taskContext.Tasks.Query.ToArray()
                 .Select(t => new TaskModel(t, true))
                 .ToArray();
             

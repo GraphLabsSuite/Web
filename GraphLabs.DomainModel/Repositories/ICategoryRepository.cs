@@ -5,7 +5,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с группами </summary>
 	[ContractClass(typeof(CategoryRepositoryContracts))]
-	public interface ICategoryRepository : IDisposable
+    public interface ICategoryRepository : IDisposable
 	{
 		/// <summary> Получить категорию по id </summary>
 		Category GetById(long id);

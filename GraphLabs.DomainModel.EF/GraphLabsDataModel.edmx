@@ -532,7 +532,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="GraphLabsContext" p1:LazyLoadingEnabled="true" a:TypeAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+        <EntityContainer Name="GraphLabsContext" p1:LazyLoadingEnabled="true" a:TypeAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
           <EntitySet Name="News" EntityType="DataModel.News" />
           <EntitySet Name="Users" EntityType="DataModel.User" />
           <AssociationSet Name="UserNews" Association="DataModel.UserNews">
@@ -541,10 +541,10 @@
           </AssociationSet>
           <EntitySet Name="Groups" EntityType="DataModel.Group" />
           <EntitySet Name="Results" EntityType="DataModel.Result" />
-          <EntitySet Name="Actions" EntityType="DataModel.Action" />
+          <EntitySet Name="StudentActions" EntityType="DataModel.StudentAction" />
           <AssociationSet Name="ResultAction" Association="DataModel.ResultAction">
             <End Role="Result" EntitySet="Results" />
-            <End Role="Action" EntitySet="Actions" />
+            <End Role="Action" EntitySet="StudentActions" />
           </AssociationSet>
           <EntitySet Name="LabWorks" EntityType="DataModel.LabWork" />
           <EntitySet Name="Tasks" EntityType="DataModel.Task" />
@@ -605,7 +605,7 @@
           </AssociationSet>
           <AssociationSet Name="TaskAction" Association="DataModel.TaskAction">
             <End Role="Task" EntitySet="Tasks" />
-            <End Role="Action" EntitySet="Actions" />
+            <End Role="Action" EntitySet="StudentActions" />
           </AssociationSet>
           <EntitySet Name="Categories" EntityType="DataModel.Category" />
           <AssociationSet Name="TestQuestionCategory" Association="DataModel.TestQuestionCategory">
@@ -665,7 +665,7 @@
           <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
         </EntityType>
-        <EntityType Name="Action">
+        <EntityType Name="StudentAction">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -678,7 +678,7 @@
         </EntityType>
         <Association Name="ResultAction">
           <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
-          <End Type="DataModel.Action" Role="Action" Multiplicity="*" />
+          <End Type="DataModel.StudentAction" Role="Action" Multiplicity="*" />
         </Association>
         <EntityType Name="LabWork">
           <Key>
@@ -853,7 +853,7 @@
         </EnumType>
         <Association Name="TaskAction">
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
-          <End Type="DataModel.Action" Role="Action" Multiplicity="*" />
+          <End Type="DataModel.StudentAction" Role="Action" Multiplicity="*" />
         </Association>
         <EntityType Name="Category">
           <Key>
@@ -923,8 +923,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Actions">
-      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Action)">
+    <EntitySetMapping Name="StudentActions">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.StudentAction)">
         <MappingFragment StoreEntitySet="Actions">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />

@@ -4,6 +4,6 @@
     public interface ISystemContext
     {
         /// <summary> Системные настройки </summary>
-        IEntitySet<Settings> Settings { get; set; }
+        IEntitySet<Settings> Settings { get; }
     }
 }

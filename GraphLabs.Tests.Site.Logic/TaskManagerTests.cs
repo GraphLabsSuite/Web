@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Contexts;
-using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils.XapProcessor;
 using Moq;

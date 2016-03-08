@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="GraphLabsException.cs" />
     <Compile Include="IChangesTracker.cs" />
+    <Compile Include="ISystemDateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

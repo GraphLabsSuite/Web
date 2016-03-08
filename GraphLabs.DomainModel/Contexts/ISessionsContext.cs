@@ -7,6 +7,6 @@
         IEntitySet<User> Users { get; }
 
         /// <summary> Сессии пользователей </summary>
-        IEntitySet<Session> Sessions { get; set; }
+        IEntitySet<Session> Sessions { get; }
     }
 }
