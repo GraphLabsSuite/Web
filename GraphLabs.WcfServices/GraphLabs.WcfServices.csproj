@@ -150,9 +150,6 @@
     <Reference Include="GraphLabs.Graphs">
       <HintPath>..\packages\GraphLabs.Core (временно)\GraphLabs.Graphs.dll</HintPath>
     </Reference>
-    <Reference Include="GraphLabs.Tasks.Contract">
-      <HintPath>..\packages\GraphLabs.Common\GraphLabs.Tasks.Contract\GraphLabs.Tasks.Contract.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
