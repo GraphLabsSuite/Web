@@ -22,7 +22,6 @@
     <IISExpressUseClassicPipelineMode />
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -296,7 +295,6 @@
     <PreBuildEvent>cd "$(SolutionDir)"
 SubWCRev "." "AssemblyVersion.cs.template" "$(ProjectDir)Properties\AssemblyVersion.cs"</PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">
     <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
