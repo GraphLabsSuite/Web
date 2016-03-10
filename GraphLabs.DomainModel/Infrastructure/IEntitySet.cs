@@ -19,6 +19,11 @@ namespace GraphLabs.DomainModel
         [CanBeNull]
         TEntity Find(params object[] keyValue);
 
+        /// <summary> Ищет сущность по ключу </summary>
+        /// <exception cref="EntityNotFoundException">Не удалось найти сущность с заданным ключом</exception>
+        [NotNull]
+        TEntity Get(params object[] keyValues);
+
         /// <summary> Создаёт новый экземпляр сущности </summary>
         [NotNull]
         TDerivedEntity CreateNew<TDerivedEntity>() where TDerivedEntity : TEntity;
@@ -40,6 +45,15 @@ namespace GraphLabs.DomainModel
                 Contract.Ensures(Contract.Result<IQueryable<TEntity>>() != null);
                 return default(IQueryable<TEntity>);
             }
+        }
+
+        /// <summary> Ищет сущность по ключу </summary>
+        /// <exception cref="EntityNotFoundException">Не удалось найти сущность с заданным ключом</exception>
+        public TEntity Get(params object[] keyValues)
+        {
+            Contract.Requires<ArgumentException>(keyValues.Length > 0);
+            Contract.Ensures(Contract.Result<TEntity>() != null);
+            return default(TEntity);
         }
 
         /// <summary> Создаёт новый экземпляр сущности </summary>

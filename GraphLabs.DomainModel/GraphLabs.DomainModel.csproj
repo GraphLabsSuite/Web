@@ -141,6 +141,7 @@
     <Compile Include="Contexts\ITestsContext.cs" />
     <Compile Include="Contexts\IUsersContext.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
+    <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="Infrastructure\IEntitySet.cs" />
     <Compile Include="Infrastructure\AbstractEntity.cs" />
     <Compile Include="AnswerVariant.cs">

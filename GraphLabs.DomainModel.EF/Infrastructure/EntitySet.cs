@@ -25,6 +25,17 @@ namespace GraphLabs.DomainModel.EF
             return _ctx.Set<TEntity>().Find(keyValues);
         }
 
+        /// <summary> Ищет сущность по ключу </summary>
+        /// <exception cref="EntityNotFoundException">Не удалось найти сущность с заданным ключом</exception>
+        public TEntity Get(params object[] keyValues)
+        {
+            var entity = _ctx.Set<TEntity>().Find(keyValues);
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TEntity), keyValues);
+
+            return entity;
+        }
+
         /// <summary> Создаёт новый экземпляр сущности </summary>
         public TDerivedEntity CreateNew<TDerivedEntity>() where TDerivedEntity : TEntity
         {
