@@ -17,6 +17,7 @@ namespace GraphLabs.WcfServices
     public class UserActionsRegistrator : IUserActionsRegistrator
     {
         private readonly IReportsContext _reportsCtx;
+        private readonly ITasksContext _tasksCtx;
         private readonly ISessionsContext _sessionsCtx;
         private readonly IChangesTracker _changesTracker;
 
@@ -24,11 +25,14 @@ namespace GraphLabs.WcfServices
         public const int StartingScore = 100;
 
         /// <summary> Сервис предоставления данных модулям заданий </summary>
-        public UserActionsRegistrator(IReportsContext reportsCtx,
+        public UserActionsRegistrator(
+            IReportsContext reportsCtx,
+            ITasksContext tasksCtx,
             ISessionsContext sessionsCtx,
             IChangesTracker changesTracker)
         {
             _reportsCtx = reportsCtx;
+            _tasksCtx = tasksCtx;
             _sessionsCtx = sessionsCtx;
             _changesTracker = changesTracker;
 //            Context = new GraphLabsContext();
@@ -49,7 +53,7 @@ namespace GraphLabs.WcfServices
 
             foreach (var actionDescription in actions)
             {
-                var newAction = Context.StudentActions.Create();
+                var newAction = _reportsCtx.Actions.CreateNew();
                 newAction.Description = actionDescription.Description;
                 newAction.Penalty = actionDescription.Penalty;
                 newAction.Result = result;
@@ -68,6 +72,7 @@ namespace GraphLabs.WcfServices
         private Result GetCurrentResult(Session session)
         {
             var activeResults = _reportsCtx.Results
+                .Query
                 .Where(result => result.Student == session.User && result.Grade == null)
                 .ToArray();
 
@@ -109,7 +114,7 @@ namespace GraphLabs.WcfServices
         {
             Contract.Ensures(Contract.Result<Task>() != null);
 
-            var task = Context.Tasks.Find(taskId);
+            var task = _tasksCtx.Tasks.Find(taskId);
             if (task == null)
             {
                 throw new Exception(string.Format("Задание с id={0} не найдено.", taskId));
