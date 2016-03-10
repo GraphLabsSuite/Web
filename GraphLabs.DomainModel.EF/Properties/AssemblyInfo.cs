@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GraphLabs.DomainModel.EF")]
-[assembly: AssemblyDescription("Библиотека классов для доступа к данным")]
+[assembly: AssemblyDescription("Слой доступа к данным GraphLabs")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCulture("")]
 
