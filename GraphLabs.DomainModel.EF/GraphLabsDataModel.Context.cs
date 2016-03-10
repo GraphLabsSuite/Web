@@ -29,7 +29,7 @@ namespace GraphLabs.DomainModel.EF
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Result> Results { get; set; }
-        public DbSet<Action> Actions { get; set; }
+        public DbSet<StudentAction> StudentActions { get; set; }
         public DbSet<LabWork> LabWorks { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<LabVariant> LabVariants { get; set; }

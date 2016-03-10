@@ -19,7 +19,6 @@
     <TargetFrameworkProfile />
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -126,6 +125,14 @@
       <Project>{26eda5f7-25a8-4c27-acc2-19bd238df672}</Project>
       <Name>GraphLabs.DomainModel.EF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+      <Project>{3e515720-d0a1-4b01-a3e0-c82412b2d663}</Project>
+      <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
+      <Project>{d62cc3f4-3ea1-44ff-b9e2-492582788b3b}</Project>
+      <Name>GraphLabs.Site.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -171,7 +178,6 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

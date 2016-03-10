@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Contexts;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 
@@ -48,44 +49,32 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
             task.Note = "Загружено автоматически сервисом отладки.";
 
             // Загружаем вариант задания
-            var taskVariant = new TaskVariant
-            {
-                Data = variantData,
-                GeneratorVersion = "1",
-                Number = "Debug",
-                Task = task
-            };
-            _tasksCtx.TaskVariants.Add(taskVariant);
+            var taskVariant = _tasksCtx.TaskVariants.CreateNew();
+            taskVariant.Data = variantData;
+            taskVariant.GeneratorVersion = "1";
+            taskVariant.Number = "Debug";
+            taskVariant.Task = task;
 
             // Создаём лабу
             var now = DateTime.Now;
-            var lab = new LabWork
-            {
-                Name = $"Отладка модуля \"{task.Name}\"",
-                AcquaintanceFrom = now.Date,
-                AcquaintanceTill = now.Date.AddDays(7),
-            };
-            _labsCtx.LabWorks.Add(lab);
+            var lab = _labsCtx.LabWorks.CreateNew();
+            lab.Name = $"Отладка модуля \"{task.Name}\"";
+            lab.AcquaintanceFrom = now.Date;
+            lab.AcquaintanceTill = now.Date.AddDays(7);
 
             // Добавляем задание в лабу
-            var labEntry = new LabEntry()
-            {
-                LabWork = lab,
-                Order = 0,
-                Task = task
-            };
-            _labsCtx.LabEntries.Add(labEntry);
+            var labEntry = _labsCtx.LabEntries.CreateNew();
+            labEntry.LabWork = lab;
+            labEntry.Order = 0;
+            labEntry.Task = task;
 
             // Создаём вариант
-            var labVariant = new LabVariant
-            {
-                IntroducingVariant = true,
-                LabWork = lab,
-                Number = "Debug",
-                Version = 1,
-                TaskVariants = new [] { taskVariant }
-            };
-            _labsCtx.LabVariants.Add(labVariant);
+            var labVariant = _labsCtx.LabVariants.CreateNew();
+            labVariant.IntroducingVariant = true;
+            labVariant.LabWork = lab;
+            labVariant.Number = "Debug";
+            labVariant.Version = 1;
+            labVariant.TaskVariants = new[] {taskVariant};
 
             _changesTracker.SaveChanges();
 

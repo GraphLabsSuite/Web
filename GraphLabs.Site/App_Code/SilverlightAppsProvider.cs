@@ -1,15 +1,16 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Web;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.Site.Core;
+using GraphLabs.Site.ServicesConfig;
+using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
     public class SilverlightAppsProvider : IHttpHandler
     {
         #region Реализация IHttpHandler
-
-        private readonly GraphLabsContext _ctx = new GraphLabsContext();
 
         /// <summary>
         /// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
@@ -55,36 +56,47 @@ namespace GraphLabs.Site
 
         private void ProvideGenerator(long taskId, HttpResponse response)
         {
-            var task = _ctx.Tasks.Find(taskId);
-            if (task == null)
-                return;
-
-            response.ContentType = "application/x-silverlight-app";
-            var generator = task.VariantGenerator;
-            if (generator == null)
+            using (var container = IoC.GetChildContainer())
             {
-                generator = _ctx.Settings.Single().DefaultVariantGenerator;
+                var ctx = container.Resolve<ITasksContext>();
+                var system = container.Resolve<ISystemContext>();
+
+                var task = ctx.Tasks.Find(taskId);
+                if (task == null)
+                    return;
+
+                response.ContentType = "application/x-silverlight-app";
+                var generator = task.VariantGenerator;
                 if (generator == null)
                 {
-                    return;
+                    generator = system.Settings.Query.Single().DefaultVariantGenerator;
+                    if (generator == null)
+                    {
+                        throw new GraphLabsException("Отсутствует генератор по-умолчанию.");
+                    }
                 }
-            }
 
-            using (var writer = new BinaryWriter(response.OutputStream))
-            {
-                writer.Write(generator);
+                using (var writer = new BinaryWriter(response.OutputStream))
+                {
+                    writer.Write(generator);
+                }
             }
         }
 
         private void ProvideTask(long taskId, HttpResponse response)
         {
-            var task = _ctx.Tasks.Find(taskId);
-            if (task == null)
-                return;
-            response.ContentType = "application/x-silverlight-app";
-            using (var writer = new BinaryWriter(response.OutputStream))
+            using (var container = IoC.GetChildContainer())
             {
-                writer.Write(task.Xap);
+                var ctx = container.Resolve<ITasksContext>();
+
+                var task = ctx.Tasks.Find(taskId);
+                if (task == null)
+                    return;
+                response.ContentType = "application/x-silverlight-app";
+                using (var writer = new BinaryWriter(response.OutputStream))
+                {
+                    writer.Write(task.Xap);
+                }
             }
         }
 

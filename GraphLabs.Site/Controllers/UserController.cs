@@ -1,5 +1,4 @@
 ﻿using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Repositories;
 using GraphLabs.DomainModel.EF.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
@@ -7,6 +6,9 @@ using GraphLabs.Site.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models.Account;
 
 namespace GraphLabs.Site.Controllers
@@ -20,6 +22,7 @@ namespace GraphLabs.Site.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IGroupRepository _groupRepository;
         private readonly IHashCalculator _hashCalculator;
+        private readonly IUsersContext _usersContext;
 
         #endregion
 
@@ -27,12 +30,14 @@ namespace GraphLabs.Site.Controllers
             ISystemDateService dateService, 
             IUserRepository userRepository, 
             IGroupRepository groupRepository, 
-            IHashCalculator hashCalculator)
+            IHashCalculator hashCalculator,
+            IUsersContext usersContext)
         {
             _dateService = dateService;
             _userRepository = userRepository;
             _groupRepository = groupRepository;
             _hashCalculator = hashCalculator;
+            _usersContext = usersContext;
         }
 
 
@@ -176,7 +181,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-				User user = model.PrepareUserEntity(_groupRepository, _hashCalculator);
+				User user = model.PrepareUserEntity(_usersContext, _groupRepository, _hashCalculator);
 
 				if (_userRepository.TrySaveUser(user))
 				{

@@ -6,17 +6,16 @@ using System.Web.Routing;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Logic.Security;
+using GraphLabs.Site.ServicesConfig;
 using GraphLabs.Site.Utils;
 using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
-    // Примечание: Инструкции по включению классического режима IIS6 или IIS7 
-    // см. по ссылке http://go.microsoft.com/?LinkId=9394801
-
-    public class MvcApplication : System.Web.HttpApplication
+    /// <summary> Приложение GraphLabs - точка входа </summary>
+    public class GraphLabsApplication : System.Web.HttpApplication
     {
-        public const string ContainerItemKey = "container";
+        private const string ContainerItemKey = "container";
 
         private IUnityContainer RequestContainer
         {
@@ -46,7 +45,7 @@ namespace GraphLabs.Site
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            IoC.Initialise();
+            IoC.BuildUp();
 
             ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(ContainerItemKey));
         }

@@ -1,5 +1,6 @@
-﻿using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Repositories;
+﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Repositories;
 using JetBrains.Annotations;
 using log4net;
 
@@ -11,13 +12,16 @@ namespace GraphLabs.Site.Logic
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(INewsManager));
 
+        private readonly INewsContext _newsContext;
         private readonly IUserRepository _userRepository;
         private readonly INewsRepository _newsRepository;
 
         public NewsManager(
+            INewsContext newsContext,
             IUserRepository userRepository,
             INewsRepository newsRepository)
         {
+            _newsContext = newsContext;
             _userRepository = userRepository;
             _newsRepository = newsRepository;
         }
@@ -34,13 +38,10 @@ namespace GraphLabs.Site.Logic
             }
             if (id == 0)
             {
-                news = new News
-                {
-                    Title = title,
-                    Text = text,
-                    User = user
-                };
-                _newsRepository.Insert(news);
+                news = _newsContext.News.CreateNew();
+                news.Title = title;
+                news.Text = text;
+                news.User = user;
 
                 _log.InfoFormat("Новость \"{0}\" создана. Email автора: \"{1}\".", title, authorEmail);
                 return true;

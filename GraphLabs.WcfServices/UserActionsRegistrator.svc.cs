@@ -5,10 +5,10 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.ServiceModel.Activation;
 using System.Web;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.WcfServices.Data;
-using Action = GraphLabs.DomainModel.EF.Action;
 
 namespace GraphLabs.WcfServices
 {
@@ -49,15 +49,12 @@ namespace GraphLabs.WcfServices
 
             foreach (var actionDescription in actions)
             {
-                var newAction = new Action
-                {
-                    Description = actionDescription.Description,
-                    Penalty = actionDescription.Penalty,
-                    Result = result,
-                    Time = actionDescription.TimeStamp,
-                    Task = task
-                };
-                _reportsCtx.Actions.Add(newAction);
+                var newAction = Context.StudentActions.Create();
+                newAction.Description = actionDescription.Description;
+                newAction.Penalty = actionDescription.Penalty;
+                newAction.Result = result;
+                newAction.Time = actionDescription.TimeStamp;
+                newAction.Task = task;
             }
             _changesTracker.SaveChanges();
             return CalculateCurrentScore(result);

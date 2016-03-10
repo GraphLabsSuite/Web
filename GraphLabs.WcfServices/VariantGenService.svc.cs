@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.WcfServices.Data;
 
@@ -83,14 +84,12 @@ namespace GraphLabs.WcfServices
                     if (ctx.TaskVariants.Any(v => v.Number == info.Number))
                         throw new Exception(string.Format("Не удалось сохранить вариант: номер \"{0}\" уже занят.", info.Number));
 
-                    var newVariant = new TaskVariant()
-                    {
-                        Number = info.Number,
-                        GeneratorVersion = info.GeneratorVersion,
-                        Data = info.Data,
-                        Task = task,
-                    };
-                    ctx.TaskVariants.Add(newVariant);
+                    var newVariant = ctx.TaskVariants.Create();
+                    newVariant.Number = info.Number;
+                    newVariant.GeneratorVersion = info.GeneratorVersion;
+                    newVariant.Data = info.Data;
+                    newVariant.Task = task;
+
                     ctx.SaveChanges();
                 }
             }

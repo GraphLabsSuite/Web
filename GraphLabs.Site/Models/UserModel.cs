@@ -1,4 +1,5 @@
-﻿using GraphLabs.DomainModel.EF;
+﻿using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.EF;
 using GraphLabs.DomainModel.EF.Extensions;
 using GraphLabs.DomainModel.EF.Services;
 

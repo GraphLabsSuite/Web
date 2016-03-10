@@ -1,5 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.DomainModel.EF.Repositories
 {

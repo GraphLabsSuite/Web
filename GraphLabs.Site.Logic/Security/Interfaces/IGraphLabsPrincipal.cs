@@ -1,5 +1,5 @@
 ﻿using System.Security.Principal;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Logic.Security
 {

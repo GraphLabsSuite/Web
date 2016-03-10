@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace GraphLabs.DomainModel.EF.Extensions
 {
+    /// <summary> Расширения для пользовательских ролей </summary>
 	public static class UserRoleExtensions
 	{
+        /// <summary> Значение -> строка </summary>
 		public static string ValueToString(this UserRole role)
 		{
 			switch (role)

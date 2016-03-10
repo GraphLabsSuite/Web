@@ -1,5 +1,4 @@
 ﻿using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Controllers.LabWorks;
 using GraphLabs.Site.Models;
@@ -9,7 +8,9 @@ using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using GraphLabs.DomainModel.EF.Contexts;
+using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -18,13 +19,15 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
+        private readonly ILabWorksContext _labWorksContext;
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
 
         #endregion
 
-        public LabsController(ILabRepository labRepository, ITasksContext tasksContext)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext)
         {
+            _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
         }
@@ -50,7 +53,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create(long id = 0)
         {
-            return View( new CreateLabModel(id, _tasksContext.Tasks.ToArray()) );
+            return View( new CreateLabModel(id, _tasksContext.Tasks.Query.ToArray()) );
         }
 
         [HttpPost]
@@ -61,12 +64,11 @@ namespace GraphLabs.Site.Controllers
                 return Json(new JSONResultCreateLab( ResponseConstants.LabWorkExistErrorSystemName, Name ));
 			};
 
-			LabWork lab = new LabWork();
+			LabWork lab = _labWorksContext.LabWorks.CreateNew();
 			lab.Name = Name;
 			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom);
 			lab.AcquaintanceTill = ParseDate.Parse(DateTo);
 
-			_labRepository.SaveLabWork(lab);
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
 
@@ -126,7 +128,7 @@ namespace GraphLabs.Site.Controllers
 				return Json(ResponseConstants.LabVariantNameCollisionSystemName);
 			}
 
-			LabVariant labVar = new LabVariant();
+		    LabVariant labVar = _labWorksContext.LabVariants.CreateNew();
 			labVar.LabWork = lab;
 			labVar.Number = Number;
 			labVar.IntroducingVariant = IntrVar;
@@ -135,7 +137,7 @@ namespace GraphLabs.Site.Controllers
 
 			try
 			{
-				_labRepository.SaveLabVariant(labVar);
+				// тут было сохранение, которое теперь автоматическое...
 			}
 			catch (Exception)
 			{
@@ -179,7 +181,7 @@ namespace GraphLabs.Site.Controllers
 		{
 			var result = new List<TaskVariant>();
 
-			foreach (var tv in taskIds.Distinct().Select(tId => _tasksContext.TaskVariants.Single(tv => tv.Id == tId)))
+			foreach (var tv in taskIds.Distinct().Select(tId => _tasksContext.TaskVariants.Query.Single(tv => tv.Id == tId)))
 			{
 				result.Add(tv);
 			}
