@@ -12,8 +12,8 @@ namespace GraphLabs.Site.ServicesConfig
     {
         private static IUnityContainer _container;
 
-        /// <summary> Инициализация. Дёргать на Application_Start в Global.asax </summary>
-        public static void Initialise()
+        /// <summary> Построение корневого контейнера. Дёргать на Application_Start в Global.asax </summary>
+        public static void BuildUp()
         {
             if (_container == null)
             {
