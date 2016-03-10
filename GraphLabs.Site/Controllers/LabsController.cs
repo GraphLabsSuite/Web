@@ -19,13 +19,15 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
+        private readonly ILabWorksContext _labWorksContext;
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
 
         #endregion
 
-        public LabsController(ILabRepository labRepository, ITasksContext tasksContext)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext)
         {
+            _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
         }
@@ -62,12 +64,11 @@ namespace GraphLabs.Site.Controllers
                 return Json(new JSONResultCreateLab( ResponseConstants.LabWorkExistErrorSystemName, Name ));
 			};
 
-			LabWork lab = new LabWork();
+			LabWork lab = _labWorksContext.LabWorks.CreateNew();
 			lab.Name = Name;
 			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom);
 			lab.AcquaintanceTill = ParseDate.Parse(DateTo);
 
-			_labRepository.SaveLabWork(lab);
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
 
@@ -127,7 +128,7 @@ namespace GraphLabs.Site.Controllers
 				return Json(ResponseConstants.LabVariantNameCollisionSystemName);
 			}
 
-			LabVariant labVar = new LabVariant();
+		    LabVariant labVar = _labWorksContext.LabVariants.CreateNew();
 			labVar.LabWork = lab;
 			labVar.Number = Number;
 			labVar.IntroducingVariant = IntrVar;
@@ -136,7 +137,7 @@ namespace GraphLabs.Site.Controllers
 
 			try
 			{
-				_labRepository.SaveLabVariant(labVar);
+				// тут было сохранение, которое теперь автоматическое...
 			}
 			catch (Exception)
 			{

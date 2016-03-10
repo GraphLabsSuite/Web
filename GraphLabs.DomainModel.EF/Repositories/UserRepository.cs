@@ -29,18 +29,16 @@ namespace GraphLabs.DomainModel.EF.Repositories
         {
             CheckNotDisposed();
 
-            var student = new Student
-            {
-                PasswordHash = passwordHash,
-                Name = name,
-                Surname = surname,
-                FatherName = fatherName,
-                Email = email,
-                IsDismissed = false,
-                IsVerified = false,
-                Role = UserRole.Student,
-                Group = group
-            };
+            var student = Context.Users.Create<Student>();
+            student.PasswordHash = passwordHash;
+            student.Name = name;
+            student.Surname = surname;
+            student.FatherName = fatherName;
+            student.Email = email;
+            student.IsDismissed = false;
+            student.IsVerified = false;
+            student.Role = UserRole.Student;
+            student.Group = group;
             Context.Users.Add(student);
 
             return student;

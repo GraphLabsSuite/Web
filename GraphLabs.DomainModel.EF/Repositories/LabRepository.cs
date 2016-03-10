@@ -247,14 +247,12 @@ namespace GraphLabs.DomainModel.EF.Repositories
 
 			foreach (var task in tasksId.Distinct().Select(id => _taskRepository.Tasks.Find(id)))
 			{
-				LabEntry entry = new LabEntry
-				{
-					LabWork = lab,
-					Order = ++i,
-					Task = task
-				};
-
-				Context.LabEntries.Add(entry);
+				LabEntry entry = Context.LabEntries.Create();
+			    entry.LabWork = lab;
+			    entry.Order = ++i;
+			    entry.Task = task;
+			    
+                Context.LabEntries.Add(entry);
 			}
 
 			Context.SaveChanges();

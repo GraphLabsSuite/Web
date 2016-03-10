@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Logic
@@ -10,16 +11,19 @@ namespace GraphLabs.Site.Logic
     /// <summary> Менеджер результатов </summary>
     public class ResultsManager : IResultsManager
     {
+        private readonly IReportsContext _reportsContext;
         private readonly ILabRepository _labRepository;
         private readonly ISessionRepository _sessionRepository;
         private readonly IResultsRepository _resultsRepository;
 
         /// <summary> Менеджер результатов </summary>
         public ResultsManager(
+            IReportsContext reportsContext,
             ILabRepository labRepository,
             ISessionRepository sessionRepository,
             IResultsRepository resultsRepository)
         {
+            _reportsContext = reportsContext;
             _labRepository = labRepository;
             _sessionRepository = sessionRepository;
             _resultsRepository = resultsRepository;
@@ -76,14 +80,12 @@ namespace GraphLabs.Site.Logic
             if (latestCurrentResult == null)
             {
                 // Если не нашли, то заводим новый
-                var result = new Result
-                {
-                    LabVariant = variant,
-                    Mode =
-                        variant.IntroducingVariant ? LabExecutionMode.IntroductoryMode : LabExecutionMode.TestMode,
-                    Student = student
-                };
-                _resultsRepository.Insert(result);
+                var result = _reportsContext.Results.CreateNew();
+                result.LabVariant = variant;
+                result.Mode = variant.IntroducingVariant
+                    ? LabExecutionMode.IntroductoryMode
+                    : LabExecutionMode.TestMode;
+                result.Student = student;
             }
         }
     }

@@ -44,13 +44,11 @@ namespace GraphLabs.DomainModel.EF.Repositories
             CheckNotDisposed();
 
             var now = _systemDateService.Now();
-            var session = new Session
-            {
-                User = user,
-                IP = ip,
-                CreationTime = now,
-                LastAction = now
-            };
+            var session = Context.Sessions.Create();
+            session.User = user;
+            session.IP = ip;
+            session.CreationTime = now;
+            session.LastAction = now;
             Context.Sessions.Add(session);
 
             return session;

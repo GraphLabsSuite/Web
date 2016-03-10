@@ -39,49 +39,33 @@ namespace GraphLabs.Site.Logic.Tasks
         /// <summary> Загрузить задание </summary>
         private Task UploadTaskInternal(Stream stream, bool appendTimestamp)
         {
-            var newTask = CreateFromXap(stream);
-            if (newTask == null)
+            var info = _xapProcessor.Parse(stream);
+            if (info == null)
                 throw new ArgumentException("Не удалось распознать модуль-задание.");
 
-            if (appendTimestamp)
-            {
-                newTask.Name = $"{newTask.Name} ({DateTime.Now:u})";
-            }
+            var name = appendTimestamp
+                ? $"{info.Name} ({DateTime.Now:u})"
+                : info.Name;
 
-            var sameTaskExists = _tasksCtx.Tasks.Query.Any(t => t.Name == newTask.Name && t.Version == newTask.Version);
+            var sameTaskExists = _tasksCtx.Tasks.Query.Any(t => t.Name == name && t.Version == info.Version);
+
             if (!sameTaskExists)
             {
-                _tasksCtx.Tasks.Add(newTask);
+                var newTask = _tasksCtx.Tasks.CreateNew();
+                newTask.Name = name;
+                newTask.Sections = info.Sections;
+                newTask.VariantGenerator = null;
+                newTask.Note = null;
+                newTask.Version = info.Version;
+                newTask.Xap = stream.ReadToEnd();
+
+                return newTask;
             }
             else
             {
                 //TODO: здесь кидать исключение о дубликате (лучше ResultOrError)
                 return null;
             }
-            return newTask;
-        }
-
-        /// <summary> Создаёт экземпляр Task по xap'у </summary>
-        /// <param name="stream">xap</param>
-        /// <returns>Null, если xap был кривой</returns>
-        private Task CreateFromXap(Stream stream)
-        {
-            var info = _xapProcessor.Parse(stream);
-
-            if (info == null)
-                return null;
-
-            var newTask = new Task
-            {
-                Name = info.Name,
-                Sections = info.Sections,
-                VariantGenerator = null,
-                Note = null,
-                Version = info.Version,
-                Xap = stream.ReadToEnd()
-            };
-
-            return newTask;
         }
 
         /// <summary> Установить заданию генератор </summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using GraphLabs.DomainModel.Infrastructure;
@@ -13,17 +12,20 @@ namespace GraphLabs.DomainModel
         where TEntity: AbstractEntity
     {
         /// <summary> Поиск необходимых сущностей </summary>
+        [NotNull]
         IQueryable<TEntity> Query { get; }
 
         /// <summary> Ищет сущность по ключу </summary>
         [CanBeNull]
         TEntity Find(params object[] keyValue);
 
-        /// <summary> Добавление сущности </summary>
-        void Add(TEntity entity);
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        [NotNull]
+        TDerivedEntity CreateNew<TDerivedEntity>() where TDerivedEntity : TEntity;
 
-        /// <summary> Массовое добавление сущностей </summary>
-        void AddRange(IEnumerable<TEntity> entities);
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        [NotNull]
+        TEntity CreateNew();
     }
 
     /// <summary> Контракты <see cref="IEntitySet{TEntity}"/> </summary>
@@ -40,16 +42,18 @@ namespace GraphLabs.DomainModel
             }
         }
 
-        /// <summary> Добавление сущности </summary>
-        public void Add(TEntity entity)
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public TDerivedEntity CreateNew<TDerivedEntity>() where TDerivedEntity : TEntity
         {
-            Contract.Requires<ArgumentNullException>(entity != null);
+            Contract.Ensures(Contract.Result<TDerivedEntity>() != null);
+            return default(TDerivedEntity);
         }
 
-        /// <summary> Массовое добавление сущностей </summary>
-        public void AddRange(IEnumerable<TEntity> entities)
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public TEntity CreateNew()
         {
-            Contract.Requires<ArgumentNullException>(entities != null);
+            Contract.Ensures(Contract.Result<TEntity>() != null);
+            return default(TEntity);
         }
 
         /// <summary> Ищет сущность по ключу </summary>

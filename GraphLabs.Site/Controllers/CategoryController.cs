@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
@@ -14,10 +15,12 @@ namespace GraphLabs.Site.Controllers
 	public class CategoryController : GraphLabsController
 	{
 	    private readonly ICategoryRepository _categoryRepository;
+	    private readonly ITestsContext _testsContext;
 
-	    public CategoryController(ICategoryRepository categoryRepository)
+	    public CategoryController(ICategoryRepository categoryRepository, ITestsContext testsContext)
 	    {
 	        _categoryRepository = categoryRepository;
+	        _testsContext = testsContext;
 	    }
 
 	    #region Просмотр списка
@@ -36,7 +39,7 @@ namespace GraphLabs.Site.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-            var model = new CategoryViewModel(_categoryRepository);
+            var model = new CategoryViewModel(_testsContext, _categoryRepository);
 
             return View("~/Views/Category/Create.cshtml", model);
 		}
@@ -44,7 +47,7 @@ namespace GraphLabs.Site.Controllers
 		[HttpGet]
 		public ActionResult Edit(long Id)
 		{
-            var model = new CategoryViewModel(_categoryRepository);
+            var model = new CategoryViewModel(_testsContext, _categoryRepository);
             model.Load(Id);
 
 			return View("~/Views/Category/Create.cshtml", model);

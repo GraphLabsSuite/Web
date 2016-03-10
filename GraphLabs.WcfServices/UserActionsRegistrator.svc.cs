@@ -41,15 +41,12 @@ namespace GraphLabs.WcfServices
 
             foreach (var actionDescription in actions)
             {
-                var newAction = new StudentAction
-                {
-                    Description = actionDescription.Description,
-                    Penalty = actionDescription.Penalty,
-                    Result = result,
-                    Time = actionDescription.TimeStamp,
-                    Task = task
-                };
-                Context.StudentActions.Add(newAction);
+                var newAction = Context.StudentActions.Create();
+                newAction.Description = actionDescription.Description;
+                newAction.Penalty = actionDescription.Penalty;
+                newAction.Result = result;
+                newAction.Time = actionDescription.TimeStamp;
+                newAction.Task = task;
             }
             Context.SaveChanges();
             return CalculateCurrentScore(result);

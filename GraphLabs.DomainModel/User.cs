@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel
     
     public partial class User : AbstractEntity
     {
-        public User()
+        protected User()
         {
             this.News = new HashSet<News>();
             this.Sessions = new HashSet<Session>();

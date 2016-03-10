@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.EF;
 using GraphLabs.DomainModel.EF.Extensions;
 using GraphLabs.DomainModel.EF.Services;
@@ -62,20 +63,22 @@ namespace GraphLabs.Site.Models.Account
 				.ToList();
 		}
 
-		public User PrepareUserEntity(IGroupRepository groupRepository, IHashCalculator hashCalculator)
+		public User PrepareUserEntity(IUsersContext usersContext, IGroupRepository groupRepository, IHashCalculator hashCalculator)
 		{
 			User user;
 
-			if (Role == UserRole.Student)
-				user = new Student
-				{
-					Group = groupRepository.GetGroupById(GroupID),
-					IsVerified = true
-				};
-			else
-				user = new User();
+		    if (Role == UserRole.Student)
+		    {
+		        var student = usersContext.Users.CreateNew<Student>();
+                student.Group = groupRepository.GetGroupById(GroupID);
+                student.IsVerified = true;
 
-			user.Surname = Surname;
+		        user = student;
+		    }
+		    else
+		        user = usersContext.Users.CreateNew();
+
+		    user.Surname = Surname;
 			user.Name = Name;
 			user.FatherName = FatherName;
 			user.Email = Email;

@@ -18,6 +18,10 @@ namespace GraphLabs.DomainModel
     
     public partial class Category : AbstractEntity
     {
+        protected Category()
+        {
+        }
+    
         public long Id { get; set; }
         public string Name { get; set; }
     }

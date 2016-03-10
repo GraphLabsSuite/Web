@@ -5,6 +5,7 @@ using GraphLabs.Site.Models;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
@@ -14,14 +15,18 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
+        private readonly IUsersContext _usersContext;
         private readonly IGroupRepository _groupRepository;
 
         private readonly ISystemDateService _dateService;
 
         #endregion
 
-        public GroupController(IGroupRepository groupRepository, ISystemDateService dateService)
+        public GroupController(
+            IUsersContext usersContext,
+            IGroupRepository groupRepository, ISystemDateService dateService)
         {
+            _usersContext = usersContext;
             _groupRepository = groupRepository;
             _dateService = dateService;
         }
@@ -42,7 +47,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create()
         {
-            Group group = new Group();
+            var group = _usersContext.Groups.CreateNew();
             group.FirstYear = _dateService.GetDate().Year;
 
             return View(group);

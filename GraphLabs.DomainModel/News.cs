@@ -18,6 +18,10 @@ namespace GraphLabs.DomainModel
     
     public partial class News : AbstractEntity
     {
+        protected News()
+        {
+        }
+    
         public long Id { get; private set; }
         public string Text { get; set; }
         public System.DateTime PublicationTime { get; private set; }

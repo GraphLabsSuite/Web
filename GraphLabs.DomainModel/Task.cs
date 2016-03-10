@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel
     
     public partial class Task : AbstractEntity
     {
-        public Task()
+        protected Task()
         {
             this.TaskVariants = new HashSet<TaskVariant>();
             this.LabEntries = new HashSet<LabEntry>();

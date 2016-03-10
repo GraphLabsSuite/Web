@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
@@ -14,6 +15,7 @@ namespace GraphLabs.Site.Models
 	{
         #region Зависимости
 
+        private readonly ITestsContext _testsContext;
         private readonly ICategoryRepository _categoriesRepository;
 
         #endregion
@@ -23,8 +25,9 @@ namespace GraphLabs.Site.Models
         [Required(ErrorMessage = "Укажите категорию")]
 		public string Name { get; set; }
 
-		public CategoryViewModel(ICategoryRepository categoryRepository)
+		public CategoryViewModel(ITestsContext testsContext, ICategoryRepository categoryRepository)
 		{
+		    _testsContext = testsContext;
 		    _categoriesRepository = categoryRepository;
 		}
 
@@ -39,11 +42,8 @@ namespace GraphLabs.Site.Models
         {
 			if (Id == default(int))
 			{
-				var category = new Category
-				{
-					Name = this.Name
-				};
-				_categoriesRepository.SaveCategory(category);
+			    var category = _testsContext.Categories.CreateNew();
+			    category.Name = this.Name;
 			}
 			else
 			{

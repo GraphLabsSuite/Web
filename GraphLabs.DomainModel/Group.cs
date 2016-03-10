@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel
     
     public partial class Group : AbstractEntity
     {
-        public Group()
+        protected Group()
         {
             this.Students = new HashSet<Student>();
             this.LabWorks = new HashSet<LabWork>();

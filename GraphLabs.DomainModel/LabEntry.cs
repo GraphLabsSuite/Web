@@ -18,6 +18,10 @@ namespace GraphLabs.DomainModel
     
     public partial class LabEntry : AbstractEntity
     {
+        protected LabEntry()
+        {
+        }
+    
         public long Id { get; private set; }
         public int Order { get; set; }
     

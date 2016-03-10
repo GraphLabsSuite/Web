@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using GraphLabs.DomainModel.Infrastructure;
-using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel.EF
 {
@@ -19,7 +17,6 @@ namespace GraphLabs.DomainModel.EF
         }
 
         /// <summary> Поиск необходимых сущностей </summary>
-        [NotNull]
         public IQueryable<TEntity> Query => _ctx.Set<TEntity>();
 
         /// <summary> Ищет сущность по ключу </summary>
@@ -28,16 +25,24 @@ namespace GraphLabs.DomainModel.EF
             return _ctx.Set<TEntity>().Find(keyValues);
         }
 
-        /// <summary> Добавление сущности </summary>
-        public void Add([NotNull]TEntity entity)
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public TDerivedEntity CreateNew<TDerivedEntity>() where TDerivedEntity : TEntity
         {
-            _ctx.Set<TEntity>().Add(entity);
+            var set = _ctx.Set<TEntity>();
+            var entity = set.Create<TDerivedEntity>();
+            set.Add(entity);
+
+            return entity;
         }
 
-        /// <summary> Массовое добавление сущностей </summary>
-        public void AddRange([NotNull]IEnumerable<TEntity> entities)
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public TEntity CreateNew()
         {
-            _ctx.Set<TEntity>().AddRange(entities);
+            var set = _ctx.Set<TEntity>();
+            var entity = set.Create();
+            set.Add(entity);
+
+            return entity;
         }
     }
 }

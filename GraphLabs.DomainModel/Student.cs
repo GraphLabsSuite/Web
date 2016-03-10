@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel
     
     public partial class Student : User
     {
-        public Student()
+        protected Student()
         {
             this.Results = new HashSet<Result>();
         }

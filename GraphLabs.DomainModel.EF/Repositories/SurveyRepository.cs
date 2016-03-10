@@ -39,23 +39,19 @@ namespace GraphLabs.DomainModel.EF.Repositories
         public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
         {
             CheckNotDisposed();
-                        
-            var quest = new TestQuestion
-            {
-                Question = question,
-                Category = Context.Categories.Single(c => c.Id == categoryId)
-            };
+
+            var quest = Context.TestQuestions.Create();
+            quest.Question = question;
+            quest.Category = Context.Categories.Single(c => c.Id == categoryId);
 
             Context.TestQuestions.Add(quest);
 
             foreach (var answerVar in questionOptions)
             {
-                var answerVariant = new AnswerVariant
-                {
-                    TestQuestion = quest,
-                    IsCorrect = answerVar.Value,
-                    Answer = answerVar.Key
-                };
+                var answerVariant = Context.AnswerVariants.Create();
+                answerVariant.TestQuestion = quest;
+                answerVariant.IsCorrect = answerVar.Value;
+                answerVariant.Answer = answerVar.Key;
 				Context.AnswerVariants.Add(answerVariant);
             }
 

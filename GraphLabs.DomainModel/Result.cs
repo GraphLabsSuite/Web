@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel
     
     public partial class Result : AbstractEntity
     {
-        public Result()
+        protected Result()
         {
             this.Actions = new HashSet<StudentAction>();
         }

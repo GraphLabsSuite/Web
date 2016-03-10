@@ -18,6 +18,10 @@ namespace GraphLabs.DomainModel
     
     public partial class StudentAction : AbstractEntity
     {
+        protected StudentAction()
+        {
+        }
+    
         public long Id { get; private set; }
         public string Description { get; set; }
         public int Penalty { get; set; }

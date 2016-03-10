@@ -18,11 +18,9 @@ namespace GraphLabs.Tests.DomainModel
             const string SHORTNAME = "Фамилия И.О.";
             const string SHORT_WO_FATHERNAME = "Фамилия И.";
 
-            var user = new User
-                           {
-                               Name = NAME,
-                               Surname = SURNAME,
-                           };
+            var user = GraphLabsContext.Users.Create();
+            user.Name = NAME;
+            user.Surname = SURNAME;
             Assert.AreEqual(SHORT_WO_FATHERNAME, user.GetShortName());
 
             user.FatherName = FATHERNAME;

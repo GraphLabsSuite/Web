@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
@@ -8,13 +9,15 @@ namespace GraphLabs.Site.Models
 	{
         #region Зависимости
 
-        private readonly ICategoryRepository _categoriesRepository;
+	    private readonly ITestsContext _testsContext;
+	    private readonly ICategoryRepository _categoriesRepository;
 	    private readonly ISurveyRepository _surveyRepository;
 
 		#endregion
 
-        public CategoryListViewModel(ICategoryRepository categoriesRepository, ISurveyRepository surveyRepository)
+        public CategoryListViewModel(ITestsContext testsContext, ICategoryRepository categoriesRepository, ISurveyRepository surveyRepository)
         {
+            _testsContext = testsContext;
             _categoriesRepository = categoriesRepository;
             _surveyRepository = surveyRepository;
         }
@@ -24,7 +27,7 @@ namespace GraphLabs.Site.Models
 		public CategoryListViewModel()
 		{
 			Items = _categoriesRepository.GetAllCategories()
-			.Select(c => new CategoryViewModelDto(_categoriesRepository)
+			.Select(c => new CategoryViewModelDto(_testsContext, _categoriesRepository)
 			{
 				Id = c.Id,
 				Name = c.Name,
@@ -36,7 +39,7 @@ namespace GraphLabs.Site.Models
 
 	public class CategoryViewModelDto : CategoryViewModel
 	{
-	    public CategoryViewModelDto(ICategoryRepository categoryRepository) : base(categoryRepository)
+	    public CategoryViewModelDto(ITestsContext testsContext, ICategoryRepository categoryRepository) : base(testsContext, categoryRepository)
 	    {
 	    }
 

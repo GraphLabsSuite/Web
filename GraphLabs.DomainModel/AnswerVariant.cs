@@ -18,6 +18,10 @@ namespace GraphLabs.DomainModel
     
     public partial class AnswerVariant : AbstractEntity
     {
+        protected AnswerVariant()
+        {
+        }
+    
         public long Id { get; private set; }
         public string Answer { get; set; }
         public bool IsCorrect { get; set; }

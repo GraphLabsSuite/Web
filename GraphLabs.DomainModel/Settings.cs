@@ -18,6 +18,10 @@ namespace GraphLabs.DomainModel
     
     public partial class Settings : AbstractEntity
     {
+        protected Settings()
+        {
+        }
+    
         public long Id { get; private set; }
         public System.DateTime SystemDate { get; set; }
         public byte[] DefaultVariantGenerator { get; set; }

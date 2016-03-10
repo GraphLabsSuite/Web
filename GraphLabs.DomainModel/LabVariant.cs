@@ -18,7 +18,7 @@ namespace GraphLabs.DomainModel
     
     public partial class LabVariant : AbstractEntity
     {
-        public LabVariant()
+        protected LabVariant()
         {
             this.IntroducingVariant = false;
             this.TestQuestions = new HashSet<TestQuestion>();

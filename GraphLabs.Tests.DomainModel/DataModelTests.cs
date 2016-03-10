@@ -31,19 +31,16 @@ namespace GraphLabs.Tests.DomainModel
 
             Assert.AreEqual(0, GraphLabsContext.Users.Count(u => u.Name == TEST_NAME));
 
-            var user = new User
-            {
-                Name = TEST_NAME,
-                Email = "example@example.com",
-                FatherName = "FatherName",
-                PasswordHash = "PasswordHash",
-                Surname = "Surname",
-            };
-            GraphLabsContext.Users.Add(user);
+            var user = GraphLabsContext.Users.Create();
+            user.Name = TEST_NAME;
+            user.Email = "example@example.com";
+            user.FatherName = "FatherName";
+            user.PasswordHash = "PasswordHash";
+            user.Surname = "Surname";
+
             GraphLabsContext.SaveChanges();
 
             Assert.AreEqual(1, GraphLabsContext.Users.Count(u => u.Name == TEST_NAME));
-
         }
 
         [Test]
@@ -53,28 +50,24 @@ namespace GraphLabs.Tests.DomainModel
 
             RemoveByCriteria<User>(u => u.Email == EMAIL);
 
-            var user1 = new User
-            {
-                Name = TEST_NAME,
-                Email = EMAIL,
-                FatherName = "FatherName",
-                PasswordHash = "PasswordHash",
-                Surname = "Surname"
-            };
+            var user1 = GraphLabsContext.Users.Create();
+            user1.Name = TEST_NAME;
+            user1.Email = EMAIL;
+            user1.FatherName = "FatherName";
+            user1.PasswordHash = "PasswordHash";
+            user1.Surname = "Surname";
             GraphLabsContext.Users.Add(user1);
             GraphLabsContext.SaveChanges();
 
-            var user2 = new User
-            {
-                Name = TEST_NAME,
-                Email = EMAIL,
-                FatherName = "FatherName",
-                PasswordHash = "PasswordHash",
-                Surname = "Surname"
-            };
+            var user2 = GraphLabsContext.Users.Create();
+            user2.Name = TEST_NAME;
+            user2.Email = EMAIL;
+            user2.FatherName = "FatherName";
+            user2.PasswordHash = "PasswordHash";
+            user2.Surname = "Surname";
             GraphLabsContext.Users.Add(user2);
-            Assert.Throws<DbUpdateException>(() => GraphLabsContext.SaveChanges());
 
+            Assert.Throws<DbUpdateException>(() => GraphLabsContext.SaveChanges());
         }
     }
 }
