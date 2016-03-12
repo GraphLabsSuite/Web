@@ -135,6 +135,8 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="Contexts\GraphLabsContextExtensions.cs" />
+    <Compile Include="Contexts\IGraphLabsContext.cs" />
     <Compile Include="Contexts\ILabWorksContext.cs" />
     <Compile Include="Contexts\INewsContext.cs" />
     <Compile Include="Contexts\IReportsContext.cs" />

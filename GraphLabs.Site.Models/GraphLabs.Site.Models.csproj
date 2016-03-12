@@ -150,6 +150,10 @@
     <Compile Include="TaskExecutionModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.DomainModel\GraphLabs.DomainModel.csproj">
+      <Project>{3e515720-d0a1-4b01-a3e0-c82412b2d663}</Project>
+      <Name>GraphLabs.DomainModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
       <Project>{d62cc3f4-3ea1-44ff-b9e2-492582788b3b}</Project>
       <Name>GraphLabs.Site.Core</Name>
