@@ -6,7 +6,7 @@ using System.Runtime.Remoting.Contexts;
 using System.ServiceModel.Activation;
 using System.Web;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.WcfServices.Data;
 

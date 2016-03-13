@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Extensions;
+using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Logic.Security;
 
 namespace GraphLabs.Site.Utils

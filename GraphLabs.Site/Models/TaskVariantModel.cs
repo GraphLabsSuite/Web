@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 
 namespace GraphLabs.Site.Models
 {

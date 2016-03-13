@@ -7,7 +7,7 @@ using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 
 namespace GraphLabs.Site.Controllers
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using GraphLabs.DomainModel.EF.IoC;
+using GraphLabs.Dal.Ef.IoC;
 using GraphLabs.Site.Logic.IoC;
 using GraphLabs.Site.Models.IoC;
 using GraphLabs.Site.Utils.IoC;

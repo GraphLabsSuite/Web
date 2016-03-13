@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Logic.XapParsing;
 
 namespace GraphLabs.Site.Models

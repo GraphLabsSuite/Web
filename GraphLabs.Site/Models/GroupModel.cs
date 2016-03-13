@@ -1,8 +1,8 @@
-﻿using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Extensions;
-using GraphLabs.DomainModel.EF.Services;
+﻿using GraphLabs.Dal.Ef;
+using GraphLabs.Dal.Ef.Services;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models

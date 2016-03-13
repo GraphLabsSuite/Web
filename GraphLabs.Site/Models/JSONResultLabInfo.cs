@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using System.Linq;
 using GraphLabs.DomainModel;
 

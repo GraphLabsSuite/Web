@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel.Infrastructure;
 
 namespace GraphLabs.DomainModel

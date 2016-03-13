@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphLabs.DomainModel.EF
+namespace GraphLabs.Dal.Ef
 {
     /// <summary> Менеджер изменение </summary>
     [Obsolete("Заменить на TransactionScope")]

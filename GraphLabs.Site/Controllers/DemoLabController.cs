@@ -1,10 +1,10 @@
-﻿using GraphLabs.DomainModel.EF;
+﻿using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers

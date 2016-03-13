@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Models;

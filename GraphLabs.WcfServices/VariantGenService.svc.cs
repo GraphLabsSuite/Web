@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using GraphLabs.WcfServices.Data;
 
 namespace GraphLabs.WcfServices

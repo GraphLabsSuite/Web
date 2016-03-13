@@ -1,5 +1,5 @@
-﻿using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Services;
+﻿using GraphLabs.Dal.Ef;
+using GraphLabs.Dal.Ef.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;

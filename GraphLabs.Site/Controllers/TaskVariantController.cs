@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Utils;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 
 namespace GraphLabs.Site.Controllers
 {

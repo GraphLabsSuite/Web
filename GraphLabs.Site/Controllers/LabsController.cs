@@ -1,4 +1,4 @@
-﻿using GraphLabs.DomainModel.EF;
+﻿using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Controllers.LabWorks;
 using GraphLabs.Site.Models;

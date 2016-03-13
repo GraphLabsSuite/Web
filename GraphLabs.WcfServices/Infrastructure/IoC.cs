@@ -1,9 +1,11 @@
 ﻿using System;
+using GraphLabs.Dal.Ef.Infrastructure;
+using GraphLabs.Dal.Ef.Repositories;
+using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Repositories;
-using GraphLabs.DomainModel.EF.Services;
+using GraphLabs.Dal.Ef;
+using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Tasks;

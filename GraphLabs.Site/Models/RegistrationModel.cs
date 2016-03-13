@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Models

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphLabs.DomainModel.EF.Services
+namespace GraphLabs.Dal.Ef.Services
 {
     /// <summary> Время системы </summary>
     public interface ISystemDateService

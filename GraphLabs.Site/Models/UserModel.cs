@@ -1,7 +1,7 @@
-﻿using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Extensions;
-using GraphLabs.DomainModel.EF.Services;
+﻿using GraphLabs.Dal.Ef.Extensions;
+using GraphLabs.DomainModel;
+using GraphLabs.Dal.Ef;
+using GraphLabs.Dal.Ef.Services;
 
 namespace GraphLabs.Site.Models
 {

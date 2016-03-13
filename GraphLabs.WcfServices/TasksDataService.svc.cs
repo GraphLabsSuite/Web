@@ -5,8 +5,7 @@ using System.ServiceModel.Activation;
 using System.Web;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.EF;
-using GraphLabs.DomainModel.EF.Repositories;
+using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.WcfServices.Data;
 

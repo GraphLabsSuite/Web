@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
-using GraphLabs.DomainModel.EF;
+using GraphLabs.Dal.Ef;
 using NUnit.Framework;
 
 namespace GraphLabs.Tests.DomainModel
