@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using GraphLabs.Dal.Ef.Infrastructure;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Infrastructure;
+using JetBrains.Annotations;
 
 namespace GraphLabs.Dal.Ef
 {
     /// <summary> Обёртка EF-контекста </summary>
-    class GraphLabsContextWrapper :
+    [UsedImplicitly]
+    sealed class GraphLabsContextWrapper :
         INewsContext,
         IUsersContext,
         ISessionsContext,
@@ -14,7 +19,9 @@ namespace GraphLabs.Dal.Ef
         ITestsContext,
         ILabWorksContext,
         ITasksContext,
-        ISystemContext
+        ISystemContext,
+
+        IGraphLabsContext
     {
         private readonly GraphLabsContext _ctx;
 
@@ -100,5 +107,51 @@ namespace GraphLabs.Dal.Ef
 
         /// <summary> Системные настройки </summary>
         public IEntitySet<Settings> Settings => _settings.Value;
+
+
+
+        #region IGraphLabsContext
+
+        private Type GetEntityTypeFor(Type type)
+        {
+            Contract.Assert(typeof(AbstractEntity).IsAssignableFrom(type));
+
+            var baseType = type.BaseType;
+            if (baseType == typeof(AbstractEntity))
+            {
+                return type;
+            }
+
+            return GetEntityTypeFor(baseType);
+        }
+
+        /// <summary> Запрос сущностей </summary>
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : AbstractEntity
+        {
+            var baseEntityType = GetEntityTypeFor(typeof(TEntity));
+            return baseEntityType == typeof(TEntity) 
+                ? _ctx.Set<TEntity>() 
+                : _ctx.Set(baseEntityType).OfType<TEntity>();
+        }
+
+        /// <summary> Поиск сущности (может не найти) </summary>
+        public TEntity Find<TEntity>(params object[] keyValues) where TEntity : AbstractEntity
+        {
+            var baseEntityType = GetEntityTypeFor(typeof(TEntity));
+            return baseEntityType == typeof(TEntity)
+                ? _ctx.Set<TEntity>().Find(keyValues)
+                : (TEntity)_ctx.Set(baseEntityType).Find(keyValues);
+        }
+
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public TEntity Create<TEntity>() where TEntity : AbstractEntity
+        {
+            var baseEntityType = GetEntityTypeFor(typeof(TEntity));
+            return baseEntityType == typeof(TEntity)
+                ? _ctx.Set<TEntity>().Create()
+                : (TEntity)_ctx.Set(baseEntityType).Create(typeof(TEntity));
+        }
+
+        #endregion IGraphLabsContext
     }
 }
