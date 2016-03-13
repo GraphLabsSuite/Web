@@ -6,6 +6,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с пользователями </summary>
     [ContractClass(typeof(UserRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface IUserRepository : IDisposable
     {
         /// <summary> Получить активного пользователя по email </summary>

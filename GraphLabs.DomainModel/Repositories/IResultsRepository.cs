@@ -6,6 +6,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий результатов </summary>
     [ContractClass(typeof(ResultsRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface IResultsRepository
     {
         /// <summary> Записать результат в БД </summary>

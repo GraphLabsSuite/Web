@@ -6,6 +6,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с лабораторными работами </summary>
     [ContractClass(typeof(LabRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ILabRepository : IDisposable
     {
         // ReSharper disable ReturnTypeCanBeEnumerable.Global

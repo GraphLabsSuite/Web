@@ -8,6 +8,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с сессиями </summary>
     [ContractClass(typeof(SessionRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ISessionRepository
     {
         /// <summary> Найти сессию по идентификатору </summary>

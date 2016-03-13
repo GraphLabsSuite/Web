@@ -2,8 +2,6 @@
 using GraphLabs.Dal.Ef.Repositories;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.Dal.Ef;
-using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
@@ -24,8 +22,10 @@ namespace GraphLabs.Dal.Ef.IoC
             container.RegisterType<IChangesTracker, ChangesTracker>(new HierarchicalLifetimeManager());
             container.RegisterType<ISystemDateService, SystemDateService>(new PerResolveLifetimeManager());
 
-
             // Контексты предметной области
+            container.RegisterType<IGraphLabsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
+
+            // устаревшие
             container.RegisterType<INewsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IUsersContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
             container.RegisterType<ISessionsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());

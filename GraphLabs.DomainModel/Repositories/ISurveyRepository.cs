@@ -6,6 +6,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с вопросами </summary>
 	[ContractClass(typeof(SurveyRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ISurveyRepository : IDisposable
 	{
 		#region Получение массивов вопросов

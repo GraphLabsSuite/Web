@@ -1,6 +1,9 @@
-﻿namespace GraphLabs.DomainModel.Contexts
+﻿using System;
+
+namespace GraphLabs.DomainModel.Contexts
 {
     /// <summary> Лабораторные </summary>
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ILabWorksContext
     {
         /// <summary> Лабораторные работы </summary>

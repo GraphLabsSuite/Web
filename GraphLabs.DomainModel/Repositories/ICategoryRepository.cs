@@ -5,6 +5,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с группами </summary>
 	[ContractClass(typeof(CategoryRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ICategoryRepository : IDisposable
 	{
 		/// <summary> Получить категорию по id </summary>

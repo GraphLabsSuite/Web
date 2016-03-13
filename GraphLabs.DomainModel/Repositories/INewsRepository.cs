@@ -6,6 +6,7 @@ namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с новостями </summary>
     [ContractClass(typeof(NewsRepositoryContracts))]
+    [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface INewsRepository
     {
         /// <summary> Получить новости, сортированные по дате публикации </summary>
