@@ -258,6 +258,7 @@
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
+    <Compile Include="RequestTransactionManager.cs" />
     <Compile Include="Utils\RenderHelper.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Category\CategoryListViewModel.cs" />

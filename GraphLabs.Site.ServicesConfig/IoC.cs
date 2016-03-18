@@ -22,9 +22,9 @@ namespace GraphLabs.Site.ServicesConfig
         }
 
         /// <summary> Создать дочерний контейнер </summary>
-        public static IUnityContainer GetChildContainer()
+        public static IDependencyResolver GetChildContainer()
         {
-            return _container.CreateChildContainer();
+            return new DependencyResolver(_container.CreateChildContainer());
         }
 
         private static IUnityContainer BuildUnityContainer()

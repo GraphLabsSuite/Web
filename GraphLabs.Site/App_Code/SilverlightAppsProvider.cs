@@ -5,6 +5,7 @@ using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core;
 using GraphLabs.Site.ServicesConfig;
 using Microsoft.Practices.Unity;
+using GraphLabs.Site.Utils.Extensions;
 
 namespace GraphLabs.Site
 {

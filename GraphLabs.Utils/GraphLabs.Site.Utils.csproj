@@ -154,8 +154,10 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="Extensions\DependencyResolverExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="IoC\IDependencyResolver.cs" />
     <Compile Include="IoC\IUnityRegistry.cs" />
     <Compile Include="IpHelper.cs" />
     <Compile Include="WorkingMode.cs" />

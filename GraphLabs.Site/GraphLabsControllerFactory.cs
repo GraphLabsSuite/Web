@@ -4,23 +4,19 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using GraphLabs.Site.Controllers;
-using Microsoft.Practices.Unity;
+using GraphLabs.Site.Utils.Extensions;
+using IDependencyResolver = GraphLabs.Site.Utils.IoC.IDependencyResolver;
 
 namespace GraphLabs.Site
 {
     /// <summary> Фабрика контроллеров </summary>
     public class GraphLabsControllerFactory : DefaultControllerFactory
     {
-        private readonly string _containerKey;
+        private readonly Func<IDependencyResolver> _getContainer;
 
-        public GraphLabsControllerFactory(string containerKey)
+        public GraphLabsControllerFactory(Func<IDependencyResolver> containerFactory)
         {
-            _containerKey = containerKey;
-        }
-
-        private IUnityContainer RequestContainer
-        {
-            get { return HttpContext.Current.Items[_containerKey] as IUnityContainer; }
+            _getContainer = containerFactory;
         }
 
         /// <summary> Извлекает экземпляр контроллера для заданного контекста запроса и типа контроллера. </summary>
@@ -30,7 +26,7 @@ namespace GraphLabs.Site
             {
                 if (controllerType != null)
                 {
-                    return RequestContainer.Resolve(controllerType) as IController;
+                    return _getContainer().Resolve(controllerType) as IController;
                 }
 
                 return base.GetControllerInstance(requestContext, null);
@@ -40,7 +36,7 @@ namespace GraphLabs.Site
                 switch (ex.GetHttpCode())
                 {
                     case (int)HttpStatusCode.NotFound:
-                        var errorController = new ErrorController();
+                        var errorController = _getContainer().Resolve<ErrorController>();
                         errorController.InvokeHttp404(requestContext.HttpContext);
                         return errorController;
                     default:

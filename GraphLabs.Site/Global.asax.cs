@@ -1,38 +1,38 @@
-﻿using System;
+﻿using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using GraphLabs.Dal.Ef;
 using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.ServicesConfig;
 using GraphLabs.Site.Utils;
-using Microsoft.Practices.Unity;
+using GraphLabs.Site.Utils.Extensions;
 
 namespace GraphLabs.Site
 {
     /// <summary> Приложение GraphLabs - точка входа </summary>
-    public class GraphLabsApplication : System.Web.HttpApplication
+    public class GraphLabsApplication : HttpApplication
     {
-        private const string ContainerItemKey = "container";
+        private static readonly string _requestTransactionManagerKey = "transactionManager";
 
-        private IUnityContainer RequestContainer
+        private static HttpContext CurrentContext => HttpContext.Current;
+
+        private static RequestTransactionManager GetRequestTransaction()
         {
-            get
-            {
-                if (Context == null)
-                {
-                    return null;
-                }
+            if (CurrentContext == null)
+                return null;
 
-                return Context.Items[ContainerItemKey] as IUnityContainer;
-            }
-            set
+            var mgr = (RequestTransactionManager)CurrentContext.Items[_requestTransactionManagerKey];
+            if (mgr == null)
             {
-                Context.Items[ContainerItemKey] = value;
+                mgr = new RequestTransactionManager();
+                CurrentContext.Items[_requestTransactionManagerKey] = mgr;
             }
+
+            return mgr;
         }
+
 
         /// <summary> Запуск приложения </summary>
         protected void Application_Start()
@@ -47,8 +47,9 @@ namespace GraphLabs.Site
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IoC.BuildUp();
 
-            ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(ContainerItemKey));
+            ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(() => GetRequestTransaction().Container));
         }
+
 
         /// <summary> Аутентификация </summary>
         protected void Application_AuthenticateRequest()
@@ -70,32 +71,19 @@ namespace GraphLabs.Site
         /// <summary> Начало запроса </summary>
         protected void Application_BeginRequest()
         {
-            RequestContainer = IoC.GetChildContainer();
+            GetRequestTransaction().OnRequestBeginning();
         }
 
         /// <summary> Запрос выполнен </summary>
         protected void Application_EndRequest()
         {
-            DisposeContainer(true);
+            GetRequestTransaction().OnRequestSuccess();
         }
 
         /// <summary> Ошибка </summary>
         protected void Application_Error()
         {
-            DisposeContainer(false);
-        }
-
-        private void DisposeContainer(bool save)
-        {
-            var container = RequestContainer;
-            if (container != null)
-            {
-                if (save)
-                {
-                    container.Resolve<IChangesTracker>().SaveChanges();
-                }
-                container.Dispose();
-            }
+            GetRequestTransaction().OnRequestFailure();
         }
     }
 }

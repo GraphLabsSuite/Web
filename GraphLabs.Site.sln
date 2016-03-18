@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4E833B0F-C7CB-425C-913D-13ED833B9F5A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4EA85125-3AB6-469B-968D-7F7CC9EE310E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonItems", "CommonItems", "{4EA85125-3AB6-469B-968D-7F7CC9EE310E}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.General.cs = AssemblyInfo.General.cs
 		AssemblyVersion.cs.template = AssemblyVersion.cs.template
@@ -34,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Site.ServicesConfig", "GraphLabs.Site.ServicesConfig\GraphLabs.Site.ServicesConfig.csproj", "{406B1579-80A6-4C94-AC1D-3DAD87A12404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Site.Models", "GraphLabs.Site.Models\GraphLabs.Site.Models.csproj", "{5EF6B998-6A5A-468B-BE25-40278D32C890}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B67F78D5-C980-4F1E-8AD0-DD98594D2530}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -244,8 +246,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{26EDA5F7-25A8-4C27-ACC2-19BD238DF672} = {B67F78D5-C980-4F1E-8AD0-DD98594D2530}
 		{EE5BF057-1DB5-44FC-AA1C-967DA88EC2B2} = {4E833B0F-C7CB-425C-913D-13ED833B9F5A}
 		{BE55A060-0224-4F6A-B05F-B06BEC346CA9} = {4E833B0F-C7CB-425C-913D-13ED833B9F5A}
+		{BD1F9046-594D-4AEF-882B-E3F08DE56B36} = {B67F78D5-C980-4F1E-8AD0-DD98594D2530}
 		{B16B7D30-A083-404C-8298-1C3BBF586D02} = {4E833B0F-C7CB-425C-913D-13ED833B9F5A}
+		{406B1579-80A6-4C94-AC1D-3DAD87A12404} = {B67F78D5-C980-4F1E-8AD0-DD98594D2530}
 	EndGlobalSection
 EndGlobal
