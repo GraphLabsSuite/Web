@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.Dal.Ef;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Models;
@@ -15,7 +13,7 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private readonly INewsRepository _newsRepository;
+        private readonly IGraphLabsContext _newsContext;
         private readonly INewsManager _newsManager;
         private readonly IAuthenticationSavingService _authSavingService;
 
@@ -23,12 +21,12 @@ namespace GraphLabs.Site.Controllers
 
         /// <summary> Главная </summary>
         public HomeController(
-            INewsRepository newsRepository,
+            IGraphLabsContext newsContext,
             INewsManager newsManager,
             IAuthenticationSavingService authSavingService
             )
         {
-            _newsRepository = newsRepository;
+            _newsContext = newsContext;
             _newsManager = newsManager;
             _authSavingService = authSavingService;
         }
@@ -40,8 +38,7 @@ namespace GraphLabs.Site.Controllers
             ViewBag.StatusMessage = statusMessage;
             ViewBag.StatusDescription = statusDescription;
 
-            var news = _newsRepository.GetNewsSortedByDate(10).Select(n => new NewsModel(n));
-            return View(news.ToArray());
+            return View(new NewsListModel(_newsContext).GetNewsSortedByDate(10));
         }
 
         /// <summary> Главная: новости - редактировать </summary>
@@ -49,9 +46,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (id.HasValue)
             {
-                var newsToEdit = _newsRepository.GetById(id.Value);
-                var model = new NewsModel(newsToEdit);
-                return View(model);
+                return View(new NewsModel(_newsContext).GetById(id.Value));
             }
 
             return View();
