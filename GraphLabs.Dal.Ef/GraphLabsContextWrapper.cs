@@ -147,9 +147,18 @@ namespace GraphLabs.Dal.Ef
         public TEntity Create<TEntity>() where TEntity : AbstractEntity
         {
             var baseEntityType = GetEntityTypeFor(typeof(TEntity));
-            return baseEntityType == typeof(TEntity)
-                ? _ctx.Set<TEntity>().Create()
-                : (TEntity)_ctx.Set(baseEntityType).Create(typeof(TEntity));
+            TEntity newEntity;
+            if (baseEntityType == typeof (TEntity))
+            {
+                newEntity = _ctx.Set<TEntity>().Create();
+                _ctx.Set<TEntity>().Add(newEntity);
+            }
+            else
+            {
+                newEntity = (TEntity)_ctx.Set(baseEntityType).Create(typeof(TEntity));
+                _ctx.Set(baseEntityType).Add(newEntity);
+            }
+            return newEntity;
         }
 
         #endregion IGraphLabsContext

@@ -2,7 +2,6 @@
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Logic;
 using GraphLabs.Site.Models;
 
 namespace GraphLabs.Site.Controllers
@@ -14,7 +13,6 @@ namespace GraphLabs.Site.Controllers
         #region Зависимости
 
         private readonly IGraphLabsContext _newsContext;
-        private readonly INewsManager _newsManager;
         private readonly IAuthenticationSavingService _authSavingService;
 
         #endregion
@@ -22,12 +20,10 @@ namespace GraphLabs.Site.Controllers
         /// <summary> Главная </summary>
         public HomeController(
             IGraphLabsContext newsContext,
-            INewsManager newsManager,
             IAuthenticationSavingService authSavingService
             )
         {
             _newsContext = newsContext;
-            _newsManager = newsManager;
             _authSavingService = authSavingService;
         }
 
@@ -46,7 +42,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (id.HasValue)
             {
-                return View(new NewsModel(_newsContext).GetById(id.Value));
+                return View(new NewsListModel(_newsContext).GetById(id.Value));
             }
 
             return View();
@@ -60,7 +56,7 @@ namespace GraphLabs.Site.Controllers
             if (ModelState.IsValid)
             {
                 var sessionInfo = _authSavingService.GetSessionInfo();
-                var success = _newsManager.CreateOrEditNews(model.Id, model.Title, model.Text, sessionInfo.Email);
+                var success = new NewsListModel(_newsContext).CreateOrEditNews(model.Id, model.Title, model.Text, sessionInfo.Email);
                 if (success)
                 {
                     return RedirectToAction("Index", new { StatusMessage = UserMessages.HomeController_Edit_Новость_успешно_опубликована_ });

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Web;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Logic.Security;
 using JetBrains.Annotations;
@@ -14,7 +12,6 @@ namespace GraphLabs.Site.Models
     /// <summary> Модель новости </summary>
     public class NewsModel
     {
-        private readonly IGraphLabsContext _newsContext;
 
         /// <summary> Id </summary>
         public long Id { get; set; }
@@ -54,19 +51,6 @@ namespace GraphLabs.Site.Models
             {
                 return HttpContext.Current;
             }
-        }
-
-        public NewsModel(IGraphLabsContext context)
-        {
-            _newsContext = context;
-        }
-
-        public NewsModel GetById(long id)
-        {
-            Contract.Requires<ArgumentException>(id > 0);
-            Contract.Ensures(Contract.Result<NewsModel>() != null);
-
-            return _newsContext.Query<News>().ToArray().Select(n => new NewsModel(n)).Single(n => n.Id == id);
         }
 
         /// <summary> Модель новости </summary>
