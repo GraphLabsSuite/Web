@@ -260,6 +260,7 @@
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
+    <Compile Include="Models\GroupListModel.cs" />
     <Compile Include="Models\NewsListModel.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
     <Compile Include="RequestTransactionManager.cs" />

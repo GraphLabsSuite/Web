@@ -1,12 +1,9 @@
-﻿using GraphLabs.Dal.Ef;
-using GraphLabs.Dal.Ef.Services;
+﻿using GraphLabs.Dal.Ef.Services;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
-using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -15,19 +12,17 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private readonly IUsersContext _usersContext;
-        private readonly IGroupRepository _groupRepository;
+        private readonly IGraphLabsContext _context;
 
         private readonly ISystemDateService _dateService;
 
         #endregion
 
         public GroupController(
-            IUsersContext usersContext,
-            IGroupRepository groupRepository, ISystemDateService dateService)
+            IGraphLabsContext context,
+            ISystemDateService dateService)
         {
-            _usersContext = usersContext;
-            _groupRepository = groupRepository;
+            _context = context;
             _dateService = dateService;
         }
 
@@ -35,10 +30,7 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Index(string message)
         {
-            Group[] groups = _groupRepository.GetAllGroups();
-            GroupModel[] groupModel = groups.Select(t => new GroupModel(t, _dateService)).ToArray();
-
-            return View(groupModel);
+            return View(new GroupListModel(_context, _dateService).GetGroupList());
         }
 
         #endregion
@@ -47,24 +39,19 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Create()
         {
-            var group = _usersContext.Groups.CreateNew();
-            group.FirstYear = _dateService.GetDate().Year;
-
-            return View(group);
+            return View();
         }
         
         [HttpPost]
-        public ActionResult Create(Group group)
+        public ActionResult Create(GroupModel group)
         {
             if (ModelState.IsValid)
             {
-                if (_groupRepository.TrySaveGroup(group))
-                {
-                    return RedirectToAction("Index");
-                }
-                ViewBag.Message = "Невозможно сохранить группу";
+                new GroupListModel(_context, _dateService).CreateNew(group);
+                return RedirectToAction("Index");
             }
 
+            ViewBag.Message = "Невозможно сохранить группу";
             return View(group);
         }
 
@@ -74,24 +61,21 @@ namespace GraphLabs.Site.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            GroupModel group = new GroupModel( _groupRepository.GetGroupById(id), _dateService );
+            GroupModel group = new GroupListModel(_context, _dateService).GetById(id);
 
             return View(group);
         }
 
         [HttpPost]
-        public ActionResult Edit(GroupModel gr)
+        public ActionResult Edit(GroupModel group)
         {
             if (ModelState.IsValid)
             {
-                if (_groupRepository.TryModifyGroup(gr.Id, gr.Number, gr.FirstYear, gr.IsOpen))
-                {
-                    return RedirectToAction("Index");
-                }
-
-                ViewBag.Message = "Невозможно обновить группу";
+                new GroupListModel(_context, _dateService).Edit(group);
+                return RedirectToAction("Index");
             }
-            return View(gr);
+            ViewBag.Message = "Невозможно обновить группу";
+            return View(group);
         }
 
         #endregion

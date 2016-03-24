@@ -1,5 +1,4 @@
-﻿using GraphLabs.Dal.Ef;
-using GraphLabs.Dal.Ef.Services;
+﻿using GraphLabs.Dal.Ef.Services;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using GraphLabs.Dal.Ef.Extensions;
