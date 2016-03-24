@@ -37,6 +37,7 @@ namespace GraphLabs.Tests.DomainModel
             user.FatherName = "FatherName";
             user.PasswordHash = "PasswordHash";
             user.Surname = "Surname";
+            GraphLabsContext.Users.Add(user);
 
             GraphLabsContext.SaveChanges();
 
