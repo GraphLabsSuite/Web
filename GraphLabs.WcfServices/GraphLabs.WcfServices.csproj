@@ -204,10 +204,13 @@
     </Compile>
     <Compile Include="DebugTaskUploader\DebugTaskData.cs" />
     <Compile Include="DebugTaskUploader\IDebugTaskUploader.cs" />
-    <Compile Include="Infrastructure\IoC.cs" />
     <Compile Include="DebugTaskUploader\DebugTaskUploader.svc.cs">
       <DependentUpon>DebugTaskUploader.svc</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\CommitterBehavior.cs" />
+    <Compile Include="Infrastructure\CommitterOperationBehavior.cs" />
+    <Compile Include="Infrastructure\SuccessComitterInvokerDecorator.cs" />
+    <Compile Include="Infrastructure\WcfRegistry.cs" />
     <Compile Include="UserActionsRegistrator.svc.cs">
       <DependentUpon>UserActionsRegistrator.svc</DependentUpon>
     </Compile>
@@ -226,9 +229,7 @@
     </Compile>
     <Compile Include="Infrastructure\WcfServiceFactory.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="..\AssemblyVersion.cs.template">
@@ -260,6 +261,10 @@
     <ProjectReference Include="..\GraphLabs.Site.Logic\GraphLabs.Site.Logic.csproj">
       <Project>{10122bc1-5aad-4278-8803-b4b8d1449410}</Project>
       <Name>GraphLabs.Site.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Site.ServicesConfig\GraphLabs.Site.ServicesConfig.csproj">
+      <Project>{406b1579-80a6-4c94-ac1d-3dad87a12404}</Project>
+      <Name>GraphLabs.Site.ServicesConfig</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>

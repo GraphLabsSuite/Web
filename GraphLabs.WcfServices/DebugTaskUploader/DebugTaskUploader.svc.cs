@@ -1,31 +1,26 @@
 ﻿using System;
 using System.IO;
+using System.ServiceModel;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
-using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 
 namespace GraphLabs.WcfServices.DebugTaskUploader
 {
     /// <summary> Вспомогательный сервис для отладки заданий на сайте </summary>
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)] 
     public class DebugTaskUploader : IDebugTaskUploader
     {
-        private readonly ILabWorksContext _labsCtx;
-        private readonly ITasksContext _tasksCtx;
+        private readonly IGraphLabsContext _context;
         private readonly ITaskManager _taskManager;
-        private readonly IChangesTracker _changesTracker;
 
         public DebugTaskUploader(
-            ILabWorksContext labsCtx,
-            ITasksContext tasksCtx,
-            ITaskManager taskManager,
-            IChangesTracker changesTracker)
+            IGraphLabsContext graphLabsContext,
+            ITaskManager taskManager)
         {
-            _labsCtx = labsCtx;
-            _tasksCtx = tasksCtx;
+            _context = graphLabsContext;
             _taskManager = taskManager;
-            _changesTracker = changesTracker;
         }
 
         /// <summary> Загрузить задание для отладки </summary>
@@ -49,7 +44,7 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
             task.Note = "Загружено автоматически сервисом отладки.";
 
             // Загружаем вариант задания
-            var taskVariant = _tasksCtx.TaskVariants.CreateNew();
+            var taskVariant = _context.Create<TaskVariant>();
             taskVariant.Data = variantData;
             taskVariant.GeneratorVersion = "1";
             taskVariant.Number = "Debug";
@@ -57,26 +52,24 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
 
             // Создаём лабу
             var now = DateTime.Now;
-            var lab = _labsCtx.LabWorks.CreateNew();
+            var lab = _context.Create<LabWork>();
             lab.Name = $"Отладка модуля \"{task.Name}\"";
             lab.AcquaintanceFrom = now.Date;
             lab.AcquaintanceTill = now.Date.AddDays(7);
 
             // Добавляем задание в лабу
-            var labEntry = _labsCtx.LabEntries.CreateNew();
+            var labEntry = _context.Create<LabEntry>();
             labEntry.LabWork = lab;
             labEntry.Order = 0;
             labEntry.Task = task;
 
             // Создаём вариант
-            var labVariant = _labsCtx.LabVariants.CreateNew();
+            var labVariant = _context.Create<LabVariant>();
             labVariant.IntroducingVariant = true;
             labVariant.LabWork = lab;
             labVariant.Number = "Debug";
             labVariant.Version = 1;
             labVariant.TaskVariants = new[] {taskVariant};
-
-            _changesTracker.SaveChanges();
 
             return new DebugTaskData
             {

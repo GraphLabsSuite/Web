@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using GraphLabs.Dal.Ef.IoC;
-using GraphLabs.Site.Logic.IoC;
-using GraphLabs.Site.Models.IoC;
+using System.Linq;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
@@ -10,45 +8,50 @@ namespace GraphLabs.Site.ServicesConfig
     /// <summary> Unity-контейнер </summary>
     public static class IoC
     {
+        private static readonly object _containerLock = new object();
+
         private static IUnityContainer _container;
 
-        /// <summary> Построение корневого контейнера. Дёргать на Application_Start в Global.asax </summary>
-        public static void BuildUp()
+        /// <summary> Построение корневого контейнера </summary>
+        /// <remarks> Применяет блокировку с двойной проверкой, т.к. может быть вызван вразнобой втч из разных потоков </remarks>
+        public static void BuildUp(IEnumerable<IUnityRegistry> registies)
         {
-            if (_container == null)
+            if (_container != null)
             {
-                _container = BuildUnityContainer();
+                return;
             }
+
+            lock (_containerLock)
+            {
+                if (_container != null) return;
+
+                var allRegistries = registies.Concat(CommonServicesConfiguration.Registries);
+                _container = BuildUnityContainer(allRegistries);
+            }
+        }
+
+        /// <summary> Построение корневого контейнера </summary>
+        public static void BuildUp(IUnityRegistry registry)
+        {
+            BuildUp(new [] {registry});
         }
 
         /// <summary> Создать дочерний контейнер </summary>
-        public static IDependencyResolver GetChildContainer()
+        public static IUnityContainer GetChildContainer()
         {
-            return new DependencyResolver(_container.CreateChildContainer());
+            return _container.CreateChildContainer();
         }
 
-        private static IUnityContainer BuildUnityContainer()
+        private static IUnityContainer BuildUnityContainer(IEnumerable<IUnityRegistry> registies)
         {
             var container = new UnityContainer();
 
-            RegisterTypes(container);
-            return container;
-        }
-
-        private static IEnumerable<IUnityRegistry> GetRegistries()
-        {
-            yield return new DomainModelEfConfiguration();
-            yield return new SiteLogicConfiguration();
-            yield return new ModelsConfiguration();
-        }
-
-        /// <summary> Регистрируем компоненты </summary>
-        private static void RegisterTypes(IUnityContainer container)
-        {
-            foreach (var unityRegistry in GetRegistries())
+            foreach (var unityRegistry in registies)
             {
                 unityRegistry.ConfigureContainer(container);
             }
+
+            return container;
         }
     }
 }

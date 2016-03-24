@@ -7,7 +7,7 @@ using GraphLabs.Site.App_Start;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.ServicesConfig;
 using GraphLabs.Site.Utils;
-using GraphLabs.Site.Utils.Extensions;
+using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
@@ -45,7 +45,7 @@ namespace GraphLabs.Site
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            IoC.BuildUp();
+            IoC.BuildUp(SiteServicesConfiguration.Registries);
 
             ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(() => GetRequestUnitOfWork().Container));
         }

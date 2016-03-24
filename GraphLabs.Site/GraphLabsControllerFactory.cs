@@ -4,17 +4,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using GraphLabs.Site.Controllers;
-using GraphLabs.Site.Utils.Extensions;
-using IDependencyResolver = GraphLabs.Site.Utils.IoC.IDependencyResolver;
+using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
     /// <summary> Фабрика контроллеров </summary>
     public class GraphLabsControllerFactory : DefaultControllerFactory
     {
-        private readonly Func<IDependencyResolver> _getContainer;
+        private readonly Func<IUnityContainer> _getContainer;
 
-        public GraphLabsControllerFactory(Func<IDependencyResolver> containerFactory)
+        public GraphLabsControllerFactory(Func<IUnityContainer> containerFactory)
         {
             _getContainer = containerFactory;
         }

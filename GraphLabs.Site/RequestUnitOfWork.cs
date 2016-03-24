@@ -2,8 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using GraphLabs.Dal.Ef;
 using GraphLabs.Site.ServicesConfig;
-using GraphLabs.Site.Utils.Extensions;
-using GraphLabs.Site.Utils.IoC;
+using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
@@ -11,7 +10,7 @@ namespace GraphLabs.Site
     internal sealed class RequestUnitOfWork
     {
         /// <summary> Контейнер </summary>
-        public IDependencyResolver Container { get; private set; }
+        public IUnityContainer Container { get; private set; }
 
 
         /// <summary> Начало запроса </summary>

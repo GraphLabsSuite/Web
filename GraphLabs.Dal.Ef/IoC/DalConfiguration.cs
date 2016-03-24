@@ -9,7 +9,7 @@ using Microsoft.Practices.Unity;
 namespace GraphLabs.Dal.Ef.IoC
 {
     /// <summary> Конфигурация Unity </summary>
-    public class DomainModelEfConfiguration : IUnityRegistry
+    public class DalConfiguration : IUnityRegistry
     {
         /// <summary> Сконфигурировать </summary>
         public void ConfigureContainer(IUnityContainer container)
