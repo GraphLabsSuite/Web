@@ -14,20 +14,20 @@ namespace GraphLabs.Site
     /// <summary> Приложение GraphLabs - точка входа </summary>
     public class GraphLabsApplication : HttpApplication
     {
-        private static readonly string _requestTransactionManagerKey = "transactionManager";
+        private static readonly string _requestUnitOfWork = "transactionManager";
 
         private static HttpContext CurrentContext => HttpContext.Current;
 
-        private static RequestTransactionManager GetRequestTransaction()
+        private static RequestUnitOfWork GetRequestUnitOfWork()
         {
             if (CurrentContext == null)
                 return null;
 
-            var mgr = (RequestTransactionManager)CurrentContext.Items[_requestTransactionManagerKey];
+            var mgr = (RequestUnitOfWork)CurrentContext.Items[_requestUnitOfWork];
             if (mgr == null)
             {
-                mgr = new RequestTransactionManager();
-                CurrentContext.Items[_requestTransactionManagerKey] = mgr;
+                mgr = new RequestUnitOfWork();
+                CurrentContext.Items[_requestUnitOfWork] = mgr;
             }
 
             return mgr;
@@ -47,43 +47,43 @@ namespace GraphLabs.Site
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IoC.BuildUp();
 
-            ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(() => GetRequestTransaction().Container));
+            ControllerBuilder.Current.SetControllerFactory(new GraphLabsControllerFactory(() => GetRequestUnitOfWork().Container));
         }
 
 
         /// <summary> Аутентификация </summary>
         protected void Application_AuthenticateRequest()
         {
-            using (var container = IoC.GetChildContainer())
+            var container = GetRequestUnitOfWork().Container;
+
+            var authSavingService = container.Resolve<IAuthenticationSavingService>();
+            var membershipEngine = container.Resolve<IMembershipEngine>();
+
+            var sessionInfo = authSavingService.GetSessionInfo();
+            var success = membershipEngine.TryAuthenticate(sessionInfo.Email, sessionInfo.SessionGuid,
+                Context.Request.GetClientIP());
+            if (!success && !sessionInfo.IsEmpty())
             {
-                var authSavingService = container.Resolve<IAuthenticationSavingService>();
-                var membershipEngine = container.Resolve<IMembershipEngine>();
-                
-                var sessionInfo = authSavingService.GetSessionInfo();
-                var success = membershipEngine.TryAuthenticate(sessionInfo.Email, sessionInfo.SessionGuid, Context.Request.GetClientIP());
-                if (!success && !sessionInfo.IsEmpty())
-                {
-                    authSavingService.SignOut();
-                }
+                authSavingService.SignOut();
             }
         }
 
         /// <summary> Начало запроса </summary>
         protected void Application_BeginRequest()
         {
-            GetRequestTransaction().OnRequestBeginning();
+            GetRequestUnitOfWork().OnRequestBeginning();
         }
 
         /// <summary> Запрос выполнен </summary>
         protected void Application_EndRequest()
         {
-            GetRequestTransaction().OnRequestSuccess();
+            GetRequestUnitOfWork().OnRequestSuccess();
         }
 
         /// <summary> Ошибка </summary>
         protected void Application_Error()
         {
-            GetRequestTransaction().OnRequestFailure();
+            GetRequestUnitOfWork().OnRequestFailure();
         }
     }
 }

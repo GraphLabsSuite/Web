@@ -1,6 +1,6 @@
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [gltst];
+USE [gl_unit_tests];
 GO
 
 -- --------------------------------------------------

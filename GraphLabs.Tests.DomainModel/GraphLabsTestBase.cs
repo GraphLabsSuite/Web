@@ -14,7 +14,7 @@ namespace GraphLabs.Tests.DomainModel
     {
         protected GraphLabsContext GraphLabsContext { get; private set; }
 
-        protected GraphLabsContext CreateDbContext()
+        private GraphLabsContext CreateDbContext()
         {
             return new GraphLabsContext("GraphLabsTestContext");
         }

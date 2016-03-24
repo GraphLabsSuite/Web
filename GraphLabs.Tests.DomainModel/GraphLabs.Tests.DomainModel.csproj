@@ -87,8 +87,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -141,18 +141,26 @@
   <ItemGroup>
     <Content Include="..\GraphLabs.Dal.Ef\SQL Scripts\ClearSchema.sql">
       <Link>SqlScripts\ClearSchema.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\GraphLabs.Dal.Ef\SQL Scripts\ClearTables.sql">
       <Link>SqlScripts\ClearTables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\GraphLabs.Dal.Ef\SQL Scripts\CreateSchema.sql">
       <Link>SqlScripts\CreateSchema.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\GraphLabs.Dal.Ef\SQL Scripts\InitScript.sql">
       <Link>SqlScripts\InitScript.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SqlScripts\ClearTestTable.sql" />
-    <Content Include="SqlScripts\CreateTestTable.sql" />
+    <Content Include="SqlScripts\ClearTestTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlScripts\CreateTestTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

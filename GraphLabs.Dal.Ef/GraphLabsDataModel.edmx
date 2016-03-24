@@ -753,7 +753,7 @@
           <Property Type="DateTime" Name="CreationTime" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="DateTime" Name="LastAction" Nullable="false" />
           <NavigationProperty Name="User" Relationship="DataModel.UserSession" FromRole="Session" ToRole="User" />
-          <Property Type="Guid" Name="Guid" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="Guid" Name="Guid" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="IP" Nullable="false" />
           </EntityType>
         <Association Name="UserSession">

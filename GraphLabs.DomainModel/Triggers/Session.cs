@@ -9,14 +9,6 @@ namespace GraphLabs.DomainModel
     /// <summary> Сессия пользователя </summary>
     public partial class Session : AbstractEntity
     {
-        /// <summary> Перед сохранением новой сущности в базу </summary>
-        public override void OnInsert()
-        {
-            base.OnInsert();
-
-            Guid = Guid.NewGuid();
-        }
-
         /// <summary> Перед сохранением изменённой сущности в базу </summary>
         public override void OnChange(IEntityChange change)
         {

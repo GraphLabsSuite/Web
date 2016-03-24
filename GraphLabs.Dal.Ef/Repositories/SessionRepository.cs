@@ -46,6 +46,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 
             var now = _systemDateService.Now();
             var session = Context.Sessions.Create();
+            session.Guid = Guid.NewGuid();
             session.User = user;
             session.IP = ip;
             session.CreationTime = now;

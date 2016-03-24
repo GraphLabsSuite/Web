@@ -3,7 +3,6 @@ using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.Dal.Ef;
-using GraphLabs.Dal.Ef.Services;
 using Moq;
 using NUnit.Framework;
 

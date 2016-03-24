@@ -24,7 +24,7 @@ namespace GraphLabs.DomainModel
     
         public System.DateTime CreationTime { get; set; }
         public System.DateTime LastAction { get; set; }
-        public System.Guid Guid { get; private set; }
+        public System.Guid Guid { get; set; }
         public string IP { get; set; }
     
         public virtual User User { get; set; }

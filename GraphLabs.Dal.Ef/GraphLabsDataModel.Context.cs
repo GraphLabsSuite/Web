@@ -7,13 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using GraphLabs.DomainModel;
-
 namespace GraphLabs.Dal.Ef
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using GraphLabs.DomainModel;
     
     public partial class GraphLabsContext : DbContext
     {
