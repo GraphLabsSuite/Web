@@ -6,7 +6,7 @@ using GraphLabs.Dal.Ef;
 namespace GraphLabs.WcfServices.Infrastructure
 {
     /// <summary> Поведение операции - коммитить, если не было ошибок </summary>
-    internal class CommitterOperationBehavior : IOperationBehavior
+    internal sealed class CommitterOperationBehavior : IOperationBehavior
     {
         private readonly IChangesTracker _tracker;
 

@@ -7,7 +7,7 @@ using Unity.Wcf;
 namespace GraphLabs.WcfServices.Infrastructure
 {
     /// <summary> Фабрика сервисов с поддержкой Unity </summary>
-	public class WcfServiceFactory : ServiceHostFactory
+	public sealed class WcfServiceFactory : ServiceHostFactory
     {
         /// <summary> Фабрика сервисов с поддержкой Unity </summary>
         public WcfServiceFactory()
