@@ -35,8 +35,7 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
 
             // Загружаем задание
             Task taskPoco;
-            //using (var stream = new MemoryStream(taskData))
-            using (var stream = new FileInfo("c:\\GraphLabs.Tasks.Template.xap").OpenRead())
+            using (var stream = new MemoryStream(taskData))
             {
                 taskPoco = _taskManager.UploadTaskWithTimestamp(stream);
             }
