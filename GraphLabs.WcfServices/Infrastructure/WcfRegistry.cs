@@ -18,8 +18,6 @@ namespace GraphLabs.WcfServices.Infrastructure
             container.RegisterInstance(CreateMapper());
             container.RegisterType<ITasksDataService, TasksDataService>();
             container.RegisterType<IDebugTaskUploader, DebugTaskUploader.DebugTaskUploader>();
-
-            container.RegisterType<IContractBehavior, CommitterBehavior>("--", new ContainerControlledLifetimeManager());
         }
 
         private static Mapper CreateMapper()

@@ -207,9 +207,6 @@
     <Compile Include="DebugTaskUploader\DebugTaskUploader.svc.cs">
       <DependentUpon>DebugTaskUploader.svc</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\CommitterBehavior.cs" />
-    <Compile Include="Infrastructure\CommitterOperationBehavior.cs" />
-    <Compile Include="Infrastructure\SuccessComitterInvokerDecorator.cs" />
     <Compile Include="Infrastructure\WcfRegistry.cs" />
     <Compile Include="UserActionsRegistrator.svc.cs">
       <DependentUpon>UserActionsRegistrator.svc</DependentUpon>

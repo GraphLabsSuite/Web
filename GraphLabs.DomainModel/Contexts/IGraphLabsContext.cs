@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using GraphLabs.DomainModel.Infrastructure;
 using JetBrains.Annotations;
@@ -6,7 +7,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Contexts
 {
     /// <summary> Контекст GraphLabs </summary>
-    //TODO Пока только интерфейс, реализацию сделать не успел
+    [ContractClass(typeof(GraphLabsContextContracts))]
     public interface IGraphLabsContext
     {
         /// <summary> Запрос сущностей </summary>
@@ -18,6 +19,37 @@ namespace GraphLabs.DomainModel.Contexts
         TEntity Find<TEntity>(params object[] keyValues) where TEntity : AbstractEntity;
 
         /// <summary> Создаёт новый экземпляр сущности </summary>
+        [NotNull]
         TEntity Create<TEntity>() where TEntity : AbstractEntity;
+    }
+
+    /// <summary> Контракты для <see cref="IGraphLabsContext"/> </summary>
+    [ContractClassFor(typeof(IGraphLabsContext))]
+    abstract class GraphLabsContextContracts : IGraphLabsContext
+    {
+        /// <summary> Запрос сущностей </summary>
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : AbstractEntity
+        {
+            Contract.Ensures(Contract.Result<IQueryable<TEntity>>() != null);
+            return default(IQueryable<TEntity>);
+        }
+
+        /// <summary> Запрос сущностей </summary>
+        public TEntity Find<TEntity>(params object[] keyValues) where TEntity : AbstractEntity
+        {
+            Contract.Requires<ArgumentNullException>(keyValues != null);
+            Contract.Requires<ArgumentException>(keyValues.Any());
+            Contract.Requires<ArgumentException>(keyValues.All(v => v != null));
+
+            return default(TEntity);
+        }
+
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public TEntity Create<TEntity>() where TEntity : AbstractEntity
+        {
+            Contract.Ensures(Contract.Result<TEntity>() != null);
+
+            return default(TEntity);
+        }
     }
 }
