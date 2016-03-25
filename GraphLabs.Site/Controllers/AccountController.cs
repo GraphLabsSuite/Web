@@ -7,6 +7,7 @@ using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Models.Account;
+using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
@@ -128,10 +129,11 @@ namespace GraphLabs.Site.Controllers
 
         private void FillGroups(object selectedValue = null)
         {
-            var groups = _groupRepository.GetOpenGroups()
-                .Select(t => new GroupModel(t, _dateService))
-                .ToArray();
-            ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
+            throw new NotImplementedException();
+            //var groups = _groupRepository.GetOpenGroups()
+            //    .Select(t => new GroupModel(t, _dateService))
+            //    .ToArray();
+            //ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
         }
 
         //

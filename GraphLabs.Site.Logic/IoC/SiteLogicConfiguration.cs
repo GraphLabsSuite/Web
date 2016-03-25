@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Logic.XapParsing;
@@ -21,7 +24,8 @@ namespace GraphLabs.Site.Logic.IoC
             container.RegisterType<IInitParamsProvider, InitParamsProvider>(new PerResolveLifetimeManager());
             container.RegisterType<IAuthenticationSavingService, FormsAuthenticationSavingService>(new PerResolveLifetimeManager());
             container.RegisterType<IMembershipEngine, MembershipEngine>(new HierarchicalLifetimeManager());
-            container.RegisterType<IXapProcessor, XapParsing.XapProcessor>(new PerResolveLifetimeManager());
+            container.RegisterType<IXapProcessor, XapProcessor>(new PerResolveLifetimeManager());
+            container.RegisterType<IGraphLabsPrincipal>(new InjectionFactory(c => HttpContext.Current.User as IGraphLabsPrincipal));
 
             // Доменные сервисы, которые из этой сборки надо убирать (логика -> в толстые модели)
             container.RegisterType<INewsManager, NewsManager>(new HierarchicalLifetimeManager());

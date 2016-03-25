@@ -2,24 +2,27 @@
 using System.IO;
 using System.Linq;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Logic.XapParsing;
 using GraphLabs.Site.Utils.Extensions;
 
 namespace GraphLabs.Site.Logic.Tasks
 {
+    /// <summary> plain-old-clr-object для Task,т.к. лень ночью писать dto - тут ещё будут переделки </summary>
+    class TaskPoco : Task
+    {
+    }
+
+
     /// <summary> Менеджер заданий </summary>
     public class TaskManager : ITaskManager
     {
-        private readonly ITasksContext _tasksCtx;
+        private readonly IEntityQuery _query;
         private readonly IXapProcessor _xapProcessor;
 
         /// <summary> Менеджер заданий </summary>
-        public TaskManager(
-            ITasksContext tasksCtx,
-            IXapProcessor xapProcessor)
+        public TaskManager(IEntityQuery query, IXapProcessor xapProcessor)
         {
-            _tasksCtx = tasksCtx;
+            _query = query;
             _xapProcessor = xapProcessor;
         }
 
@@ -47,17 +50,19 @@ namespace GraphLabs.Site.Logic.Tasks
                 ? $"{info.Name} ({DateTime.Now:u})"
                 : info.Name;
 
-            var sameTaskExists = _tasksCtx.Tasks.Query.Any(t => t.Name == name && t.Version == info.Version);
+            var sameTaskExists = _query.OfEntities<Task>().Any(t => t.Name == name && t.Version == info.Version);
 
             if (!sameTaskExists)
             {
-                var newTask = _tasksCtx.Tasks.CreateNew();
-                newTask.Name = name;
-                newTask.Sections = info.Sections;
-                newTask.VariantGenerator = null;
-                newTask.Note = null;
-                newTask.Version = info.Version;
-                newTask.Xap = stream.ReadToEnd();
+                var newTask = new TaskPoco
+                {
+                    Name = name,
+                    Sections = info.Sections,
+                    VariantGenerator = null,
+                    Note = null,
+                    Version = info.Version,
+                    Xap = stream.ReadToEnd()
+                };
 
                 return newTask;
             }

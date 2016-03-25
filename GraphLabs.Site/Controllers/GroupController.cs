@@ -1,41 +1,35 @@
-﻿using GraphLabs.Dal.Ef.Services;
-using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Models;
+﻿using GraphLabs.Site.Controllers.Attributes;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
+using GraphLabs.Site.Models.Groups;
+using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class GroupController : GraphLabsController
     {
-        #region Зависимости
-
-        private readonly IGraphLabsContext _context;
-
-        private readonly ISystemDateService _dateService;
-
-        #endregion
+        private readonly IListModelLoader _listModelLoader;
+        private readonly IEntityBasedModelSaver<GroupModel, Group> _modelSaver;
+        private readonly IEntityBasedModelLoader<GroupModel, Group> _modelLoader;
 
         public GroupController(
-            IGraphLabsContext context,
-            ISystemDateService dateService)
+            IListModelLoader listModelLoader,
+            IEntityBasedModelSaver<GroupModel, Group> modelSaver,
+            IEntityBasedModelLoader<GroupModel, Group> modelLoader)
         {
-            _context = context;
-            _dateService = dateService;
+            _listModelLoader = listModelLoader;
+            _modelSaver = modelSaver;
+            _modelLoader = modelLoader;
         }
-
-        #region Формирование списка групп
 
         public ActionResult Index(string message)
         {
-            return View(new GroupListModel(_context, _dateService).GetGroupList());
+            ViewBag.Message = message;
+
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>();
+            return View(model);
         }
-
-        #endregion
-
-        #region Создание группы
 
         public ActionResult Create()
         {
@@ -47,7 +41,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                new GroupListModel(_context, _dateService).CreateNew(group);
+                _modelSaver.CreateOrUpdate(group);
                 return RedirectToAction("Index");
             }
 
@@ -55,15 +49,9 @@ namespace GraphLabs.Site.Controllers
             return View(group);
         }
 
-        #endregion
-
-        #region Редактирование группы
-
         public ActionResult Edit(long id = 0)
         {
-            GroupModel group = new GroupListModel(_context, _dateService).GetById(id);
-
-            return View(group);
+            return View(_modelLoader.Load(id));
         }
 
         [HttpPost]
@@ -71,13 +59,12 @@ namespace GraphLabs.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                new GroupListModel(_context, _dateService).Edit(group);
+                _modelSaver.CreateOrUpdate(group);
                 return RedirectToAction("Index");
             }
+
             ViewBag.Message = "Невозможно обновить группу";
             return View(group);
         }
-
-        #endregion
     }
 }

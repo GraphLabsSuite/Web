@@ -27,6 +27,7 @@ namespace GraphLabs.Site.ServicesConfig
 
                 var allRegistries = registies.Concat(CommonServicesConfiguration.Registries);
                 _container = BuildUnityContainer(allRegistries);
+                _container.RegisterInstance(_container, new ExternallyControlledLifetimeManager());
             }
         }
 
@@ -39,7 +40,10 @@ namespace GraphLabs.Site.ServicesConfig
         /// <summary> Создать дочерний контейнер </summary>
         public static IUnityContainer GetChildContainer()
         {
-            return _container.CreateChildContainer();
+            var child = _container.CreateChildContainer();
+            child.RegisterInstance(child, new ExternallyControlledLifetimeManager());
+
+            return child;
         }
 
         private static IUnityContainer BuildUnityContainer(IEnumerable<IUnityRegistry> registies)

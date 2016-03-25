@@ -190,6 +190,7 @@
     <Compile Include="IoC\SiteLogicConfiguration.cs" />
     <Compile Include="IResultsManager.cs" />
     <Compile Include="NewsManager.cs" />
+    <Compile Include="OperationContextExtensions.cs" />
     <Compile Include="ResultsManager.cs" />
     <Compile Include="Security\FormsAuthenticationSavingService.cs" />
     <Compile Include="Security\GraphLabsPrincipal.cs" />

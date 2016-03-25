@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -6,10 +7,10 @@ using System.Security.Principal;
 using System.Threading;
 using System.Web;
 using GraphLabs.DomainModel;
-using GraphLabs.Dal.Ef;
 using GraphLabs.Dal.Ef.Services;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
-using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Core.OperationContext;
 using log4net;
 
 namespace GraphLabs.Site.Logic.Security
@@ -22,75 +23,98 @@ namespace GraphLabs.Site.Logic.Security
 
         private readonly IHashCalculator _hashCalculator;
         private readonly ISystemDateService _systemDateService;
-        private readonly IUserRepository _userRepository;
-        private readonly IGroupRepository _groupRepository;
-        private readonly ISessionRepository _sessionRepository;
+        private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
 
         /// <summary> Проверяет личность пользователя и тп </summary>
         public MembershipEngine(
             IHashCalculator hashCalculator, 
             ISystemDateService systemDateService,
-            IUserRepository userRepository,
-            IGroupRepository groupRepository,
-            ISessionRepository sessionRepository)
+            IOperationContextFactory<IGraphLabsContext> operationFactory) 
         {
             Contract.Requires(hashCalculator != null);
             Contract.Requires(systemDateService != null);
 
             _hashCalculator = hashCalculator;
             _systemDateService = systemDateService;
-            _userRepository = userRepository;
-            _groupRepository = groupRepository;
-            _sessionRepository = sessionRepository;
+            _operationFactory = operationFactory;
         }
 
         /// <summary> Выполняет вход </summary>
         public bool TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
-            var user = _userRepository.FindActiveUserByEmail(email);
-
-            if (user == null || !UserIsValid(user, password))
+            using (var operation = _operationFactory.Create())
             {
-                _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
-                sessionGuid = Guid.Empty;
-                return false;
+                var user = operation.QueryOf<User>()
+                    .SingleOrDefault(u => u.Email == email &&
+                                          (!(u is Student) || ((u as Student).IsVerified && !(u as Student).IsDismissed)));
+
+                if (user == null || !UserIsValid(user, password))
+                {
+                    _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+                    sessionGuid = Guid.Empty;
+                    return false;
+                }
+
+                var lastSession = RemoveOldSessionsExceptLast(operation.DataContext, user);
+                Session session;
+                if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
+                {
+                    if (lastSession != null)
+                        operation.DataContext.Factory.Delete(lastSession);
+
+                    session = CreateSession(operation.DataContext.Factory, user, clientIp);
+                }
+                else
+                {
+                    session = lastSession;
+                }
+                SetLastAction(session);
+
+                _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+                SetupCurrentPrincipal(user);
+
+                sessionGuid = session.Guid;
+
+                operation.Complete();
             }
 
-            var lastSession = RemoveOldSessionsExceptLast(user);
-            Session session;
-            if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
-            {
-                if (lastSession != null)
-                    _sessionRepository.Remove(lastSession);
-                session = _sessionRepository.Create(user, clientIp);
-            }
-            else
-            {
-                session = lastSession;
-            }
-            SetLastAction(session);
-
-            _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
-            SetupCurrentPrincipal(user);
-            
-            sessionGuid = session.Guid;
             return true;
+        }
+
+        private Session CreateSession(IEntityFactory factory, User user, string ip)
+        {
+            var now = _systemDateService.Now();
+            var session = factory.Create<Session>();
+
+            session.Guid = Guid.NewGuid();
+            session.User = user;
+            session.IP = ip;
+            session.CreationTime = now;
+            session.LastAction = now;
+
+            return session;
         }
 
         /// <summary> Выход </summary>
         public void Logout(string email, Guid sessionGuid, string clientIp)
         {
-            var session = FindSession(email, sessionGuid, clientIp);
-            if (session == null)
+            using (var operation = _operationFactory.Create())
             {
-                _log.InfoFormat("Неудачная попытка выхода - сессия не найдена. email: {0}, guid: {1}, ip: {2}", email, sessionGuid, clientIp);
-                SetupCurrentPrincipal(null);
-                return;
-            }
+                var session = FindSession(operation.DataContext.Query, email, sessionGuid, clientIp);
+                if (session == null)
+                {
+                    _log.InfoFormat("Неудачная попытка выхода - сессия не найдена. email: {0}, guid: {1}, ip: {2}",
+                        email, sessionGuid, clientIp);
+                    SetupCurrentPrincipal(null);
+                    return;
+                }
 
-            _sessionRepository.Remove(session);
-            _log.InfoFormat("Успешный выход. e-mail: {0}, ip: {1}", email, clientIp);
-            SetupCurrentPrincipal(null);
+                operation.DataContext.Factory.Delete(session);
+                SetupCurrentPrincipal(null);
+
+                operation.Complete();
+                _log.InfoFormat("Успешный выход. e-mail: {0}, ip: {1}", email, clientIp);
+            }
         }
 
         /// <summary> Проверяем пользователя и устанавливаем IPrincipal </summary>
@@ -102,37 +126,50 @@ namespace GraphLabs.Site.Logic.Security
                 return false;
             }
 
-            var session = FindSession(email, sessionGuid, clientIp);
-            if (session == null)
+            using (var operation = _operationFactory.Create())
             {
-                _log.InfoFormat("Неудачная проверка пользователя - сессия не найдена или некорректна. email: {0}, guid: {1}, ip: {2}", email, sessionGuid, clientIp);
-                SetupCurrentPrincipal(null);
-                return false;
+                var session = FindSession(operation.DataContext.Query, email, sessionGuid, clientIp);
+                if (session == null)
+                {
+                    _log.InfoFormat(
+                        "Неудачная проверка пользователя - сессия не найдена или некорректна. email: {0}, guid: {1}, ip: {2}",
+                        email, sessionGuid, clientIp);
+                    SetupCurrentPrincipal(null);
+                    return false;
+                }
+
+                SetLastAction(session);
+                SetupCurrentPrincipal(session.User);
+
+                operation.Complete();
             }
 
-            SetLastAction(session);
-
-            SetupCurrentPrincipal(session.User);
             return true;
         }
 
         /// <summary> Поменять пароль </summary>
         public bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword)
         {
-            var session = FindSession(email, sessionGuid, clientIp);
-            if (session == null)
+            using (var operation = _operationFactory.Create())
             {
-                _log.WarnFormat("Неудачная попытка смены пароля - сессия не найдена. email: {0}, guid: {1}, ip: {2}", email, sessionGuid, clientIp);
-                return false;
-            }
+                var session = FindSession(operation.DataContext.Query, email, sessionGuid, clientIp);
+                if (session == null)
+                {
+                    _log.WarnFormat(
+                        "Неудачная попытка смены пароля - сессия не найдена. email: {0}, guid: {1}, ip: {2}", email,
+                        sessionGuid, clientIp);
+                    return false;
+                }
 
-            var user = session.User;
-            if (!UserIsValid(user, currentPassword))
-            {
-                return false;
-            }
+                var user = session.User;
+                if (!UserIsValid(user, currentPassword))
+                {
+                    return false;
+                }
 
-            user.PasswordHash = _hashCalculator.Crypt(newPassword);
+                user.PasswordHash = _hashCalculator.Crypt(newPassword);
+                operation.Complete();
+            }
 
             return true;
         }
@@ -143,18 +180,34 @@ namespace GraphLabs.Site.Logic.Security
         {
             var passHash = _hashCalculator.Crypt(password);
 
-            var group = _groupRepository.GetGroupById(groupId);
-            try
+            using (var operation = _operationFactory.Create())
             {
-                _userRepository.CreateNotVerifiedStudent(email, name, fatherName, surname, passHash, group);
+                var group = operation.DataContext.Query.Get<Group>(groupId);
+
+                var student = operation.DataContext.Factory.Create<Student>();
+                student.PasswordHash = passHash;
+                student.Name = name;
+                student.Surname = surname;
+                student.FatherName = fatherName;
+                student.Email = email;
+                student.IsDismissed = false;
+                student.IsVerified = false;
+                student.Role = UserRole.Student;
+                student.Group = group;
+
+                try
+                {
+                    operation.Complete();
+                }
+                catch (DbUpdateException ex)
+                {
+                    _log.InfoFormat("Не удалось зарегистрировать студента. {0}", ex);
+                    return false;
+                }
+
+                _log.InfoFormat("Студент зарегистрирован. email: {0}", email);
             }
-            catch (DbUpdateException ex)
-            {
-                _log.InfoFormat("Не удалось зарегистрировать студента. {0}", ex);
-                return false;
-            }
-            
-            _log.InfoFormat("Студент зарегистрирован. email: {0}", email);
+
             return true;
         }
 
@@ -184,13 +237,19 @@ namespace GraphLabs.Site.Logic.Security
 
         #region Вспомогательное
 
-        private Session FindSession(string email, Guid sessionGuid, string clientIp)
+        private Session FindSession(IEntityQuery query, string email, Guid sessionGuid, string clientIp)
         {
-            var session = _sessionRepository.FindByGuid(sessionGuid);
+            var session = query
+                .OfEntities<Session>()
+                .Where(s => s.Guid == sessionGuid)
+                .Include(s => s.User)
+                .SingleOrDefault();
+
             if (session != null && SessionIsValid(session, email, clientIp))
             {
                 return session;
             }
+
             return null;
         }
 
@@ -213,10 +272,18 @@ namespace GraphLabs.Site.Logic.Security
 
         /// <summary> Удаляет все старые сессии, кроме последней</summary>
         /// <returns> Возвращает последнюю по времени сессию, если таковая вообще есть </returns>
-        private Session RemoveOldSessionsExceptLast(User user)
+        private Session RemoveOldSessionsExceptLast(IGraphLabsContext ctx, User user)
         {
-            var oldSessions = _sessionRepository.FindByUser(user).OrderByDescending(s => s.CreationTime);
-            _sessionRepository.RemoveRange(oldSessions.Skip(1));
+            var oldSessions = ctx.Query
+                .OfEntities<Session>()
+                .Where(s => s.User.Id == user.Id)
+                .OrderByDescending(s => s.CreationTime)
+                .ToArray();
+
+            foreach (var session in oldSessions.Skip(1))
+            {
+                ctx.Factory.Delete(session);
+            }
 
             return oldSessions.FirstOrDefault();
         }

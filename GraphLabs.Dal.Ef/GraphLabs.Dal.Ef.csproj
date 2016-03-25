@@ -160,6 +160,7 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="GraphLabsContextImpl.cs" />
     <Compile Include="Infrastructure\EntityChange.cs" />
     <Compile Include="Infrastructure\EntitySet.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
@@ -167,7 +168,7 @@
     <Compile Include="Extensions\SystemDateExtensions.cs" />
     <Compile Include="Extensions\UserRoleExtensions.cs" />
     <Compile Include="GraphLabsContext.cs" />
-    <Compile Include="GraphLabsContextWrapper.cs" />
+    <Compile Include="GraphLabsContextsAggregator.cs" />
     <Compile Include="GraphLabsDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -179,7 +180,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="OperationContext\OperationContext.cs" />
     <Compile Include="IoC\DalConfiguration.cs" />
+    <Compile Include="OperationContext\OperationContextFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Repositories\SurveyRepository.cs" />

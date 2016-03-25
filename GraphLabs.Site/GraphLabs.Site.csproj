@@ -261,8 +261,6 @@
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
-    <Compile Include="Models\GroupListModel.cs" />
-    <Compile Include="Models\NewsListModel.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
     <Compile Include="RequestUnitOfWork.cs" />
     <Compile Include="Utils\RenderHelper.cs" />
@@ -294,7 +292,6 @@
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
     <Compile Include="Models\LabWorkExecutionModel.cs" />
-    <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\Survey\SurveyIndexViewModel.cs" />
@@ -302,7 +299,6 @@
     <Compile Include="Models\TaskVariantModel.cs" />
     <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariantModel.cs" />
-    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\JSONResultCreateLab.cs" />
     <Compile Include="Models\JSONResultLabInfo.cs" />
     <Compile Include="Models\RegistrationModel.cs" />

@@ -1,20 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using System.Security.Principal;
 using System.Web;
-using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Extensions;
-using GraphLabs.Site.Logic.Security;
+using GraphLabs.Site.Models.Infrastructure;
 using JetBrains.Annotations;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.News
 {
     /// <summary> Модель новости </summary>
-    public class NewsModel
+    public class NewsModel : IEntityBasedModel<DomainModel.News>
     {
-
         /// <summary> Id </summary>
-        public long Id { get; set; }
+        public long Id { get; internal set; }
 
         /// <summary> Заголовок </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Необходимо указать заголовок новости")]
@@ -51,23 +49,6 @@ namespace GraphLabs.Site.Models
             {
                 return HttpContext.Current;
             }
-        }
-
-        /// <summary> Модель новости </summary>
-        public NewsModel(News news)
-        {
-            Contract.Requires<ArgumentNullException>(news != null);
-            
-            Id = news.Id;
-            Title = news.Title;
-            Text = news.Text;
-            Publisher = news.User.GetShortName();
-            PublishDate = !news.LastModificationTime.HasValue 
-                ? news.PublicationTime.ToShortDateString() 
-                : string.Format("Обновлено {0}", news.LastModificationTime.Value.ToShortDateString());
-
-            var currentUser = HttpContext.User;
-            CanEdit = currentUser.Identity.Name == news.User.Email || currentUser.IsInRole(UserRole.Administrator);
         }
     }
 }

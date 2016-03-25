@@ -21,7 +21,6 @@ namespace GraphLabs.Site
 
         private void OnRequestEnding()
         {
-            // уничтожаем контейнер и скоуп - в порядке, обратном их созданию (хотя кажись не важно)
             Container.Dispose();
             Container = null;
         }
@@ -31,7 +30,6 @@ namespace GraphLabs.Site
         {
             Contract.Assert(Container != null, "Один из методов завершения запроса уже был вызван.");
 
-            // Сохраняем изменения и коммитим
             Container.Resolve<IChangesTracker>().SaveChanges();
 
             OnRequestEnding();

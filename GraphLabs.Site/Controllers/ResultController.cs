@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models;
+using GraphLabs.Site.Models.Groups;
 using Newtonsoft.Json;
 
 namespace GraphLabs.Site.Controllers
@@ -33,11 +33,11 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Index()
         {
             ResultModel res = new ResultModel();
-
-			res.Groups = _groupsRepository
-							.GetAllGroups()
-							.Select(g => new GroupModel(g, _dateService))
-							.ToArray();
+            throw new NotImplementedException();
+			//res.Groups = _groupsRepository
+			//				.GetAllGroups()
+			//				.Select(g => new GroupModel(g, _dateService))
+			//				.ToArray();
 
 			res.Labs = _labsRepository.GetLabWorks();
 			
@@ -61,27 +61,29 @@ namespace GraphLabs.Site.Controllers
 
             foreach (long i in groupsId)
             {
-                group = new GroupModel(_groupsRepository.GetGroupById(i), _dateService);
-                result.Marks[j] = new GroupResult();
-                result.Marks[j].Id = group.Id;
-                result.Marks[j].Name = group.Name;
-                result.Marks[j].StudentsCount = group.Students.Count;
-                Random r = new Random();
-                int x = group.Students.Count;
-                int y = r.Next(0, x+1);
-                x = x-y;
-                result.Marks[j].Count5 = y;
-                y = r.Next(0, x + 1);
-                x = x - y;
-                result.Marks[j].Count4 = y;
-                y = r.Next(0, x + 1);
-                x = x - y;
-                result.Marks[j].Count3 = y;
-                y = r.Next(0, x + 1);
-                x = x - y; 
-                result.Marks[j].Count2 = y;
-                result.Marks[j].Count0 = x;
-                ++j;
+                throw new NotImplementedException();
+
+                //group = new GroupModel(_groupsRepository.GetGroupById(i), _dateService);
+                //result.Marks[j] = new GroupResult();
+                //result.Marks[j].Id = group.Id;
+                //result.Marks[j].Name = group.Name;
+                //result.Marks[j].StudentsCount = group.Students.Count;
+                //Random r = new Random();
+                //int x = group.Students.Count;
+                //int y = r.Next(0, x+1);
+                //x = x-y;
+                //result.Marks[j].Count5 = y;
+                //y = r.Next(0, x + 1);
+                //x = x - y;
+                //result.Marks[j].Count4 = y;
+                //y = r.Next(0, x + 1);
+                //x = x - y;
+                //result.Marks[j].Count3 = y;
+                //y = r.Next(0, x + 1);
+                //x = x - y; 
+                //result.Marks[j].Count2 = y;
+                //result.Marks[j].Count0 = x;
+                //++j;
             }
 
             return JsonConvert.SerializeObject(result);
@@ -90,9 +92,12 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public string GetGroupDetail(long GroupId, long LabId)
         {
-            JSONResultGroupDetail result = new JSONResultGroupDetail();
-            result.Result = 0;
-            result.Name = (new GroupModel(_groupsRepository.GetGroupById(GroupId), _dateService)).Name;
+            throw new NotImplementedException();
+
+
+            //JSONResultGroupDetail result = new JSONResultGroupDetail();
+            //result.Result = 0;
+            //result.Name = (new GroupModel(_groupsRepository.GetGroupById(GroupId), _dateService)).Name;
 
             return "";
         }

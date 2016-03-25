@@ -135,7 +135,8 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="Contexts\GraphLabsContextExtensions.cs" />
+    <Compile Include="Extensions\EntityQueryExtensions.cs" />
+    <Compile Include="IEntityFactory.cs" />
     <Compile Include="Contexts\IGraphLabsContext.cs" />
     <Compile Include="Contexts\ILabWorksContext.cs" />
     <Compile Include="Contexts\INewsContext.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Contexts\IUsersContext.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="EntityNotFoundException.cs" />
+    <Compile Include="IEntityQuery.cs" />
     <Compile Include="Infrastructure\IEntitySet.cs" />
     <Compile Include="Infrastructure\AbstractEntity.cs" />
     <Compile Include="AnswerVariant.cs">

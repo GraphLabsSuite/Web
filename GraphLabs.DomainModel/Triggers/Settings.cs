@@ -1,5 +1,4 @@
 ﻿using System;
-using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel.Infrastructure;
 
 namespace GraphLabs.DomainModel
@@ -12,15 +11,7 @@ namespace GraphLabs.DomainModel
         {
             base.OnInsert();
 
-            Id = 0; // таким образом гарантируем, что в таблице лежит ровно одна запись.
+            Id = 1; // таким образом гарантируем, что в таблице лежит ровно одна запись.
         }
-
-        public override void OnChange(IEntityChange change)
-        {
-            base.OnChange(change);
-
-            if ((DateTime)change.OriginalValues["SystemDate"] < (DateTime)change.CurrentValues["SystemDate"])
-                throw new GraphLabsValidationException("SystemDate", ValidationErrors.Settings_OnValidating_Новое_значение_системного_времени_не_может_быть_меньше_старого_);
-        }
-    }
+    } 
 }

@@ -1,8 +1,11 @@
 ﻿using GraphLabs.Dal.Ef.Infrastructure;
+using GraphLabs.Dal.Ef.OperationContext;
 using GraphLabs.Dal.Ef.Repositories;
 using GraphLabs.Dal.Ef.Services;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
@@ -23,17 +26,18 @@ namespace GraphLabs.Dal.Ef.IoC
             container.RegisterType<ISystemDateService, SystemDateService>(new PerResolveLifetimeManager());
 
             // Контексты предметной области
-            container.RegisterType<IGraphLabsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
+            container.RegisterInstance<IOperationContextFactory<IGraphLabsContext>>(new OperationContextFactory());
+            container.RegisterType<IEntityQuery, GraphLabsContextImpl>();
 
             // устаревшие
-            container.RegisterType<INewsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<IUsersContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISessionsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<IReportsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<ITestsContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILabWorksContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<ITasksContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISystemContext, GraphLabsContextWrapper>(new HierarchicalLifetimeManager());
+            container.RegisterType<INewsContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUsersContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISessionsContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<IReportsContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITestsContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILabWorksContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITasksContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISystemContext, GraphLabsContextsAggregator>(new HierarchicalLifetimeManager());
 
 
             // Старые репозитории

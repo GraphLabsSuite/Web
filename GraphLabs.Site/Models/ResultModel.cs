@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using GraphLabs.DomainModel;
 using GraphLabs.Dal.Ef;
+using GraphLabs.Site.Models.Groups;
 
 namespace GraphLabs.Site.Models
 {
