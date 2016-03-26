@@ -12,7 +12,7 @@ namespace GraphLabs.DomainModel.Contexts
         public static TEntity Get<TEntity>(this IEntityQuery query, params object[] keyValues)
             where TEntity : AbstractEntity
         {
-            var entity = query.Find<TEntity>();
+            var entity = query.Find<TEntity>(keyValues);
             if (entity == null)
                 throw new EntityNotFoundException(typeof(TEntity), keyValues);
 

@@ -12,7 +12,7 @@ namespace GraphLabs.Site.Models.News
     public class NewsModel : IEntityBasedModel<DomainModel.News>
     {
         /// <summary> Id </summary>
-        public long Id { get; internal set; }
+        public long Id { get; set; }
 
         /// <summary> Заголовок </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Необходимо указать заголовок новости")]

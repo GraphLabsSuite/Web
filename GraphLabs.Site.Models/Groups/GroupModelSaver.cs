@@ -21,7 +21,7 @@ namespace GraphLabs.Site.Models.Groups
             {
                 g.FirstYear = model.FirstYear;
                 g.Number = model.Number;
-                g.IsOpen = model.IsOpen; //TODO СТУДЕНТЫ!
+                g.IsOpen = model.IsOpen;
             };
         }
 
@@ -29,7 +29,7 @@ namespace GraphLabs.Site.Models.Groups
         /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
         protected override bool ExistsInDatabase(GroupModel model)
         {
-            return model.Id == 0;
+            return model.Id != 0;
         }
 
         /// <summary> При реализации возвращает массив первичных ключей сущности </summary>
