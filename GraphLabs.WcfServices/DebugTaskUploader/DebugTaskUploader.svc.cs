@@ -55,7 +55,7 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
                 // Загружаем вариант задания
                 var taskVariant = operation.DataContext.Factory.Create<TaskVariant>();
                 taskVariant.Data = variantData;
-                taskVariant.GeneratorVersion = "1";
+                taskVariant.GeneratorVersion = "1.0";
                 taskVariant.Number = "Debug";
                 taskVariant.Task = task;
 
