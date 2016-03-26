@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Security;
@@ -20,7 +22,7 @@ namespace GraphLabs.Site.Controllers
 
         private readonly IMembershipEngine _membershipEngine;
         private readonly IAuthenticationSavingService _authSavingService;
-        private readonly IGroupRepository _groupRepository;
+        private readonly IEntityQuery _query;
         private readonly ISystemDateService _dateService;
 
         #endregion
@@ -29,12 +31,12 @@ namespace GraphLabs.Site.Controllers
         public AccountController(
             IMembershipEngine membershipEngine,
             IAuthenticationSavingService authSavingService,
-            IGroupRepository groupRepository,
+            IEntityQuery query,
             ISystemDateService dateService)
         {
             _membershipEngine = membershipEngine;
             _authSavingService = authSavingService;
-            _groupRepository = groupRepository;
+            _query = query;
             _dateService = dateService;
         }
 
@@ -127,13 +129,28 @@ namespace GraphLabs.Site.Controllers
             return View();
         }
 
+        public sealed class NameValueModel
+        {
+            public long Id { get; set; }
+
+            public string Name { get; set; }
+
+            public NameValueModel(long id, string name)
+            {
+                Id = id;
+                Name = name;
+            }
+        }
+
         private void FillGroups(object selectedValue = null)
         {
-            throw new NotImplementedException();
-            //var groups = _groupRepository.GetOpenGroups()
-            //    .Select(t => new GroupModel(t, _dateService))
-            //    .ToArray();
-            //ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
+            var groups = _query.OfEntities<Group>()
+                .Where(g => g.IsOpen)
+                .ToArray()
+                .Select(t => new NameValueModel(t.Id, t.GetName(_dateService)))
+                .ToArray();
+
+            ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);
         }
 
         //
