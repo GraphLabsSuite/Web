@@ -22,20 +22,7 @@ namespace GraphLabs.Site.App_Start
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css",
-                                                                 "~/Content/news.css",
-                                                                 "~/Content/Button.css",
-                                                                 "~/Content/Menu.css",
-                                                                 "~/Content/Webgrid.css",
-                                                                 "~/Content/Table.css",
-                                                                 "~/Content/OrderedList.css",
-                                                                 "~/Content/LoginPage.css",
-                                                                 "~/Content/Login.css",
-                                                                 "~/Content/ResultBoardTable.css",
-                                                                 "~/Content/LabWorkIndex.css",
-                                                                 "~/Content/LabWorkCreate.css",
-                                                                 "~/Content/ValidationHelpers.css",
-                                                                 "~/Content/PopUp.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/css/*.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

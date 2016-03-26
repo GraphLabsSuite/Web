@@ -228,18 +228,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Button.css" />
-    <Content Include="Content\LabWorkCreate.css" />
-    <Content Include="Content\LabWorkIndex.css" />
-    <Content Include="Content\Login.css" />
-    <Content Include="Content\LoginPage.css" />
-    <Content Include="Content\Menu.css" />
-    <Content Include="Content\OrderedList.css" />
-    <Content Include="Content\PopUp.css" />
-    <Content Include="Content\ResultBoardTable.css" />
-    <Content Include="Content\Table.css" />
-    <Content Include="Content\ValidationHelpers.css" />
-    <Content Include="Content\Webgrid.css" />
+    <Content Include="Content\css\Button.css" />
+    <Content Include="Content\css\LabWorkCreate.css" />
+    <Content Include="Content\css\LabWorkIndex.css" />
+    <Content Include="Content\css\Login.css" />
+    <Content Include="Content\css\LoginPage.css" />
+    <Content Include="Content\css\Menu.css" />
+    <Content Include="Content\css\OrderedList.css" />
+    <Content Include="Content\css\PopUp.css" />
+    <Content Include="Content\css\ResultBoardTable.css" />
+    <Content Include="Content\css\Table.css" />
+    <Content Include="Content\css\ValidationHelpers.css" />
+    <Content Include="Content\css\Webgrid.css" />
     <Content Include="Images\copy.png" />
     <Content Include="Images\PopUp\cross.png" />
     <Content Include="Scripts\Common\PopUp.js" />
@@ -311,7 +311,7 @@
     <Content Include="..\AssemblyVersion.cs.template">
       <Link>Properties\AssemblyVersion.cs.template</Link>
     </Content>
-    <Content Include="Content\News.css" />
+    <Content Include="Content\css\News.css" />
     <None Include="Content\SilverlightAppsProvider.ashx" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="UserMessages.Designer.cs">
@@ -434,7 +434,7 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\css\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />

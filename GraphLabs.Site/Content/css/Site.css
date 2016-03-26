@@ -31,7 +31,7 @@ hgroup, section {
 }
 
 #header {
-    background: url(../Images/top.gif) left top no-repeat, url(../Images/22.gif) right top no-repeat;
+    background: url(../../Images/top.gif) left top no-repeat, url(../../Images/22.gif) right top no-repeat;
     clear: both;
     background-color: #5c7e94;
     font-size: .8em;
@@ -69,7 +69,7 @@ hgroup, section {
     }
 
     .featured + .main-content {
-        background: url("../Images/heroAccent.png") no-repeat;
+        background: url("../../Images/heroAccent.png") no-repeat;
     }
 
 #header .content-wrapper {
@@ -239,7 +239,7 @@ aside {
     }
 
         aside ul li {
-            background: url("../Images/bullet.png") no-repeat 0 50%;
+            background: url("../../Images/bullet.png") no-repeat 0 50%;
             padding: 2px 0 2px 20px;
         }
 
