@@ -14,7 +14,10 @@ body {
     padding: 0;
     min-height: 100%;
     position: relative;
-    max-width: 1024px;
+    -moz-min-width: 800px;
+    -ms-min-width: 800px;
+    -o-min-width: 800px;
+    -webkit-min-width: 800px;
     min-width: 800px;
 }
 
@@ -26,7 +29,7 @@ hgroup, section {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 80%;
     clear: both;
 }
 
@@ -39,7 +42,7 @@ hgroup, section {
     top: 0;
     left:0;
     width: 100%;
-    position: absolute;
+   position: absolute;
 }
 
 #body {
@@ -55,7 +58,7 @@ hgroup, section {
 #main {
     background-color: #e8edef;
     clear: both;
-    left:0;
+    left: 0;
     width: 100%;
     top: 25px;
     bottom: 0;
@@ -81,7 +84,7 @@ hgroup, section {
     clear: both;
     background-color: #5c7e94;
     font-size: .8em;
-    height: 40px;    
+    height: 40px;
     left:0;
     bottom: 0;
     width: 100%;
