@@ -29,7 +29,7 @@ hgroup, section {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 80%;
+    max-width: 1600px;
     clear: both;
 }
 

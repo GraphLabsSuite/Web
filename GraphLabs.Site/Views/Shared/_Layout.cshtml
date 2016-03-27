@@ -3,25 +3,26 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="ru">
-    <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - GraphLabs</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <div id="header">            
-        </div>
-        <div id="body">
-            <div class="float-left">                    
-                    <nav>
-                        <ul id="menu">
-                            <li>
-                                <a href="#">Меню</a>
-                            <ul>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <title>@ViewBag.Title - GraphLabs</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width"/>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+<div id="header">
+</div>
+<div id="body">
+    <div class="content-wrapper">
+        <div class="float-left">
+            <nav>
+                <ul id="menu">
+                    <li>
+                        <a href="#">Меню</a>
+                        <ul>
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
                             @if (User.IsInAnyRole(UserRole.Teacher))
                             {
@@ -40,41 +41,44 @@
                                 <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
                                 <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
                             }
-                            </ul>
-                            </li>
                         </ul>
-                    </nav>
-                </div>
-            <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-            </div>
-            <div id="main">
-                <section class="content-wrapper main-content clear-fix">
-                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
-                    {
-                        <div class="error">
-                            <p>@ViewBag.Message</p>
-                        </div>
-                    }
-                    @RenderBody()
-                </section>
-            </div>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <div id="footer">
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; 2012 - @DateTime.Now.Year &nbsp;&nbsp; Национальный Исследовательский Ядерный Университет «МИФИ»</p>
-                </div>
-                <div class="float-right">
-                    <p><a href="http://bugs.svtz.ru">Сообщить об ошибке</a></p>
-                </div>
-            </div>
+        <div class="float-right">
+            <section id="login">
+                @Html.Partial("_LoginPartial")
+            </section>
         </div>
-        
+    </div>
+    <div id="main">
+        <section class="content-wrapper main-content clear-fix">
+            @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+            {
+                <div class="error">
+                    <p>@ViewBag.Message</p>
+                </div>
+            }
+            @RenderBody()
+        </section>
+    </div>
+</div>
+<div id="footer">
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p>&copy; 2012 - @DateTime.Now.Year &nbsp;&nbsp; Национальный Исследовательский Ядерный Университет «МИФИ»</p>
+        </div>
+        <div class="float-right">
+            <p>
+                <a href="http://bugs.svtz.ru">Сообщить об ошибке</a>
+            </p>
+        </div>
+    </div>
+</div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+
+@Scripts.Render("~/bundles/jquery")
+@RenderSection("scripts", required: false)
+</body>
 </html>
