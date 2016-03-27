@@ -8,29 +8,33 @@
 
 <h5>@Model.Tasks[Model.CurrentTask].TaskName</h5>
 
-<div>
-    <object width="800" height="500" data="data:application/x-silverlight-2," type="application/x-silverlight-2" >
-        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@Model.Tasks[Model.CurrentTask].TaskId" />
-        <param name="onerror" value="onSilverlightError" />
-        <param name="background" value="#E8EDEF" />
-        <param name="minRuntimeVersion" value="2.0.31005.0" />
-        <param name="autoUpgrade" value="true" />
-        <param name="initParams" value="@Model.Tasks[Model.CurrentTask].InitParams" />
+<div id="task-module-wrapper" class="ui-resizable">
+    <div id="loading-please-wait">
+        <img src="../../Images/graphlabs.png" alt=""/>
+        <p>Задание загружается. Пожалуйста, подождите.</p>
+    </div>
+    <object id="task-module-object" data="data:application/x-silverlight-2," type="application/x-silverlight-2">
+        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@Model.Tasks[Model.CurrentTask].TaskId"/>
+        <param name="onerror" value="onSilverlightError"/>
+        <param name="background" value="#E8EDEF"/>
+        <param name="minRuntimeVersion" value="2.0.31005.0"/>
+        <param name="autoUpgrade" value="true"/>
+        <param name="initParams" value="@Model.Tasks[Model.CurrentTask].InitParams"/>
+        <param name="onload" value="onTaskModuleLoaded"/>
+        <param name="onerror" value="onTaskModuleLoaded" />
         <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
-            <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
+            <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none"/>
         </a>
     </object>
 </div>
 
-
 @for (int i = 0; i < Model.Tasks.Length; ++i)
 {
-    <input type="button" class="TaskNavigation" value="@(i+1)"
-    @if (Model.Tasks[i].IsSolved || i == Model.CurrentTask)
-    {
-        @Html.Raw(" disabled ")
-    }
-    />
+    <input type="button" class="TaskNavigation" value="@(i + 1)"
+           @if (Model.Tasks[i].IsSolved || i == Model.CurrentTask)
+           {
+               @Html.Raw(" disabled ")
+           }/>
 }
 
 <div>
@@ -40,8 +44,11 @@
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jquery/plugins/attrchange")
+
     <script>
-        $("input.TaskNavigation").click(function () {
+        $("input.TaskNavigation").click(function() {
             if (confirm("Будет потерян прогресс текущего задания! Продолжить?")) {
                 var task = $(this).attr("value") - 1;
                 location.href = "/LabWorkExecution/ChangeTask?&Task=" + task;
@@ -50,6 +57,17 @@
 
         function TaskComplete() {
             location.href = "/LabWorkExecution/TaskComplete";
+        };
+
+        function onTaskModuleLoaded() {
+            // делаем размер изменимым
+            $("#task-module-wrapper").resizable();
+            // убираем надпись о загрузке
+            $("loading-please-wait").remove();
+
+            // хак, чтобы объект после загрузки принял нужную форму
+            $("#task-module-object").css("height", "100%");
+            $("#task-module-object").css("min-height", 400);
         };
     </script>
 }
