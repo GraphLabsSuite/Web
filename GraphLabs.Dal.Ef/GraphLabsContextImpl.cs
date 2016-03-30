@@ -46,7 +46,7 @@ namespace GraphLabs.Dal.Ef
         }
 
         /// <summary> Поиск сущности (может не найти) </summary>
-        public TEntity Find<TEntity>(params object[] keyValues) where TEntity : AbstractEntity
+        public TEntity Find<TEntity>(object[] keyValues) where TEntity : AbstractEntity
         {
             var baseEntityType = GetEntityTypeFor(typeof(TEntity));
             return baseEntityType == typeof(TEntity)

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models.Infrastructure;

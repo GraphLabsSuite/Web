@@ -16,7 +16,7 @@ namespace GraphLabs.WcfServices.Infrastructure
         public void ConfigureContainer(IUnityContainer container)
         {
             container.RegisterInstance(CreateMapper());
-            container.RegisterType<ITasksDataService, TasksDataService>();
+            container.RegisterType<IVariantProviderService, VariantProviderService>();
             container.RegisterType<IDebugTaskUploader, DebugTaskUploader.DebugTaskUploader>();
         }
 

@@ -13,6 +13,6 @@ namespace GraphLabs.DomainModel
 
         /// <summary> Поиск сущности (может не найти) </summary>
         [CanBeNull]
-        TEntity Find<TEntity>(params object[] keyValues) where TEntity : AbstractEntity;
+        TEntity Find<TEntity>(object[] keyValues) where TEntity : AbstractEntity;
     }
 }

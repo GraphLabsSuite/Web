@@ -1,5 +1,6 @@
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Infrastructure;
 
 namespace GraphLabs.Site.Models.Infrastructure

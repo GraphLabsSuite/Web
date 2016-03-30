@@ -2,9 +2,11 @@
 using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
+using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
+using GraphLabs.Site.Core;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.WcfServices.Data;
 
@@ -12,27 +14,25 @@ namespace GraphLabs.WcfServices
 {
     /// <summary> Сервис предоставления данных модулям заданий </summary>
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
-    public class UserActionsRegistrator : IUserActionsRegistrator
+    public class VariantProviderService : IVariantProviderService
     {
         private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
-
-        /// <summary> Начальный балл </summary>
-        private const int StartingScore = 100;
+        private readonly ISystemDateService _systemDate;
 
         /// <summary> Сервис предоставления данных модулям заданий </summary>
-        public UserActionsRegistrator(IOperationContextFactory<IGraphLabsContext> operationFactory)
+        public VariantProviderService(
+            IOperationContextFactory<IGraphLabsContext> operationFactory,
+            ISystemDateService systemDate)
         {
             _operationFactory = operationFactory;
+            _systemDate = systemDate;
         }
 
-        /// <summary> Регистрирует действия студента </summary>
+        /// <summary> Регистрирует начало выполнения задания </summary>
         /// <param name="taskId"> Идентификатор модуля-задания </param>
         /// <param name="sessionGuid"> Идентификатор сессии </param>
-        /// <param name="actions"> Действия для регистрации </param>
-        /// <param name="isTaskFinished"> Задание завершено? </param>
-        /// <returns> Количество баллов студента </returns>
-        /// <remarks> От этой штуки зависит GraphLabs.Components </remarks>
-        public int RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false)
+        /// <returns> Данные для задания - как правило, исходный граф, или что-то типа того </returns>
+        public TaskVariantDto GetVariant(long taskId, Guid sessionGuid)
         {
             using (var op = _operationFactory.Create())
             {
@@ -40,27 +40,28 @@ namespace GraphLabs.WcfServices
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
 
-                foreach (var actionDescription in actions)
-                {
-                    var newAction = op.DataContext.Factory.Create<StudentAction>();
-                    newAction.Description = actionDescription.Description;
-                    newAction.Penalty = actionDescription.Penalty;
-                    newAction.Result = resultLog;
-                    newAction.Time = actionDescription.TimeStamp;
-                    newAction.Task = task;
-                }
+                var variant = resultLog.LabVariant;
+                var taskVariant = variant.TaskVariants.Single(v => v.Task == task);
 
-                var currentScore = CalculateCurrentScore(resultLog);
+                var action = op.DataContext.Factory.Create<StudentAction>();
+                action.Task = task;
+                action.Result = resultLog;
+                action.Time = _systemDate.Now();
+                action.Description = $"[Сервис выдачи вариантов: для задания '{task.Id}' выдан вариант {taskVariant.Number}.]";
+                action.Penalty = 0;
+                resultLog.Actions.Add(action);
 
                 op.Complete();
 
-                return currentScore;
+                return new TaskVariantDto
+                {
+                    Data = taskVariant.Data,
+                    GeneratorVersion = taskVariant.GeneratorVersion,
+                    Id = taskVariant.Id,
+                    Number = taskVariant.Number,
+                    Version = taskVariant.Version
+                };
             }
-        }
-
-        private int CalculateCurrentScore(Result result)
-        {
-            return StartingScore - result.Actions.Sum(a => a.Penalty);
         }
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
@@ -84,7 +85,7 @@ namespace GraphLabs.WcfServices
             //TODO +проверка контрольной суммы и тп - всё надо куда-то в Security вытащить
             if (session.IP != HttpContext.Current.Request.UserHostAddress)
             {
-                throw new EntityNotFoundException(typeof(Session), new object[] { sessionGuid });
+                throw new EntityNotFoundException(typeof(Session), new object[] {sessionGuid});
             }
 
             return session;

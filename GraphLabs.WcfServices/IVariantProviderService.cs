@@ -6,7 +6,7 @@ namespace GraphLabs.WcfServices
 {
     /// <summary> Сервис предоставления данных модулям заданий </summary>
     [ServiceContract]
-    public interface ITasksDataService
+    public interface IVariantProviderService
     {
         /// <summary> Регистрирует начало выполнения задания </summary>
         /// <param name="taskId"> Идентификатор модуля-задания </param>
