@@ -6,7 +6,6 @@ using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
-using GraphLabs.Site.Core;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.WcfServices.Data;
 

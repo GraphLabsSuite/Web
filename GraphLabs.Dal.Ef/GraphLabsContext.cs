@@ -21,6 +21,7 @@ namespace GraphLabs.Dal.Ef
         internal GraphLabsContext(string connectionStringName)
             : base(string.Format("name={0}", connectionStringName))
         {
+            Configuration.LazyLoadingEnabled = true;
         }
 
         private bool _isDisposed = false;
