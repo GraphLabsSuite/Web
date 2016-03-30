@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
@@ -15,18 +16,21 @@ namespace GraphLabs.Site.Logic
         private readonly ILabRepository _labRepository;
         private readonly ISessionRepository _sessionRepository;
         private readonly IResultsRepository _resultsRepository;
+        private readonly IChangesTracker _changesTracker;
 
         /// <summary> Менеджер результатов </summary>
         public ResultsManager(
             IReportsContext reportsContext,
             ILabRepository labRepository,
             ISessionRepository sessionRepository,
-            IResultsRepository resultsRepository)
+            IResultsRepository resultsRepository,
+            IChangesTracker changesTracker)
         {
             _reportsContext = reportsContext;
             _labRepository = labRepository;
             _sessionRepository = sessionRepository;
             _resultsRepository = resultsRepository;
+            _changesTracker = changesTracker;
         }
 
         private Student GetCurrentStudent(Guid sessionGuid)
@@ -87,6 +91,8 @@ namespace GraphLabs.Site.Logic
                     : LabExecutionMode.TestMode;
                 result.Student = student;
             }
+
+            _changesTracker.SaveChanges();
         }
     }
 }

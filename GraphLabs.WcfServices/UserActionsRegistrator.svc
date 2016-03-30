@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="GraphLabs.WcfServices.UserActionsRegistrator" CodeBehind="UserActionsRegistrator.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GraphLabs.WcfServices.UserActionsRegistrator" Factory="GraphLabs.WcfServices.Infrastructure.WcfServiceFactory" %>

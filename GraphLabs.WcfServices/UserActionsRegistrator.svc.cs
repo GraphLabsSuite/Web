@@ -48,6 +48,7 @@ namespace GraphLabs.WcfServices
                     newAction.Result = resultLog;
                     newAction.Time = actionDescription.TimeStamp;
                     newAction.Task = task;
+                    resultLog.Actions.Add(newAction);
                 }
 
                 var currentScore = CalculateCurrentScore(resultLog);
