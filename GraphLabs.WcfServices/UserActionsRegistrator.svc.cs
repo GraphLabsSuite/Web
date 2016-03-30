@@ -2,6 +2,7 @@
 using System.Linq;
 using System.ServiceModel.Activation;
 using System.Web;
+using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
@@ -15,14 +16,17 @@ namespace GraphLabs.WcfServices
     public class UserActionsRegistrator : IUserActionsRegistrator
     {
         private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
+        private readonly ISystemDateService _systemDate;
 
         /// <summary> Начальный балл </summary>
         private const int StartingScore = 100;
 
         /// <summary> Сервис предоставления данных модулям заданий </summary>
-        public UserActionsRegistrator(IOperationContextFactory<IGraphLabsContext> operationFactory)
+        public UserActionsRegistrator(IOperationContextFactory<IGraphLabsContext> operationFactory,
+            ISystemDateService systemDate)
         {
             _operationFactory = operationFactory;
+            _systemDate = systemDate;
         }
 
         /// <summary> Регистрирует действия студента </summary>
@@ -47,6 +51,17 @@ namespace GraphLabs.WcfServices
                     newAction.Penalty = actionDescription.Penalty;
                     newAction.Result = resultLog;
                     newAction.Time = actionDescription.TimeStamp;
+                    newAction.Task = task;
+                    resultLog.Actions.Add(newAction);
+                }
+
+                if (isTaskFinished)
+                {
+                    var newAction = op.DataContext.Factory.Create<StudentAction>();
+                    newAction.Description = $"Задание {task.Name} выполнено.";
+                    newAction.Penalty = 0;
+                    newAction.Result = resultLog;
+                    newAction.Time = _systemDate.Now();
                     newAction.Task = task;
                     resultLog.Actions.Add(newAction);
                 }

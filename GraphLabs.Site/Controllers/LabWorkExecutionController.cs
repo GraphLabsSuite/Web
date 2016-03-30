@@ -36,6 +36,16 @@ namespace GraphLabs.Site.Controllers
             _taskExecutionModelFactory = taskExecutionModelFactory;
         }
 
+        private Uri GetNextTaskUri()
+        {
+            return new Uri(Url.Action(
+                nameof(NextUnsolvedTask),
+                (string)RouteData.Values["controller"],
+                null,
+                Request.Url.Scheme
+                ));
+        }
+
         public ActionResult Index(long labId, long labVarId)
         {
             #region Проверки корректности GET запроса
@@ -67,6 +77,7 @@ namespace GraphLabs.Site.Controllers
             #endregion
 
             var session = GetSessionGuid();
+            var nextTaskLink = GetNextTaskUri();
             _resultsManager.StartLabExecution(labVarId, session);
             LabWork lab = _labRepository.GetLabWorkById(labId);
             TaskVariant[] variants = _labRepository.GetTaskVariantsByLabVarId(labVarId);
@@ -76,7 +87,8 @@ namespace GraphLabs.Site.Controllers
                     v.Task.Name,
                     v.Task.Id,
                     v.Id,
-                    lab.Id))
+                    lab.Id,
+                    nextTaskLink))
                 .ToArray());
 
             labWork.SetNotSolvedTaskToCurrent();
@@ -120,6 +132,12 @@ namespace GraphLabs.Site.Controllers
 
             Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
+        }
+
+        public ActionResult NextUnsolvedTask()
+        {
+            ViewBag.Message = "Когда-нибудь здесь будет переход.";
+            return View("LabWorkExecutionError");
         }
     }
 }

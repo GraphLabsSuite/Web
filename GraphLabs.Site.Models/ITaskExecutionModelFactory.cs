@@ -6,9 +6,9 @@ namespace GraphLabs.Site.Models
     public interface ITaskExecutionModelFactory
     {
         /// <summary> Для ознакомительного режима </summary>
-        TaskExecutionModel CreateForDemoMode(Guid sessionGuid, string taskName, long taskId, long variantId, long labWorkId);
+        TaskExecutionModel CreateForDemoMode(Guid sessionGuid, string taskName, long taskId, long variantId, long labWorkId, Uri taskCompleteRedirect);
 
         /// <summary> Для контрольного режима </summary>
-        TaskExecutionModel CreateForControlMode(Guid sessionGuid, string taskName, long taskId, long labWorkId);
+        TaskExecutionModel CreateForControlMode(Guid sessionGuid, string taskName, long taskId, long labWorkId, Uri taskCompleteRedirect);
     }
 }

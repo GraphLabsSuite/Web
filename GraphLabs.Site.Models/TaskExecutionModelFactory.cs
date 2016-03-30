@@ -16,9 +16,9 @@ namespace GraphLabs.Site.Models
         }
 
         /// <summary> Для ознакомительного режима </summary>
-        public TaskExecutionModel CreateForDemoMode(Guid sessionGuid, string taskName, long taskId, long variantId, long labWorkId)
+        public TaskExecutionModel CreateForDemoMode(Guid sessionGuid, string taskName, long taskId, long variantId, long labWorkId, Uri taskCompleteRedirect)
         {
-            var initParams = InitParams.ForDemoMode(sessionGuid, taskId, variantId, labWorkId);
+            var initParams = InitParams.ForDemoMode(sessionGuid, taskId, variantId, labWorkId, taskCompleteRedirect);
 
             var model = new TaskExecutionModel
             {
@@ -32,9 +32,9 @@ namespace GraphLabs.Site.Models
         }
 
         /// <summary> Для контрольного режима </summary>
-        public TaskExecutionModel CreateForControlMode(Guid sessionGuid, string taskName, long taskId, long labWorkId)
+        public TaskExecutionModel CreateForControlMode(Guid sessionGuid, string taskName, long taskId, long labWorkId, Uri taskCompleteRedirect)
         {
-            var initParams = InitParams.ForControlMode(sessionGuid, taskId, labWorkId);
+            var initParams = InitParams.ForControlMode(sessionGuid, taskId, labWorkId, taskCompleteRedirect);
 
             var model = new TaskExecutionModel
             {
