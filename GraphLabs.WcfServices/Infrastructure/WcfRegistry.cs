@@ -18,6 +18,7 @@ namespace GraphLabs.WcfServices.Infrastructure
             container.RegisterInstance(CreateMapper());
             container.RegisterType<IVariantProviderService, VariantProviderService>();
             container.RegisterType<IUserActionsRegistrator, UserActionsRegistrator>();
+            container.RegisterType<IVariantGenService, VariantGenService>();
             container.RegisterType<IDebugTaskUploader, DebugTaskUploader.DebugTaskUploader>();
         }
 
