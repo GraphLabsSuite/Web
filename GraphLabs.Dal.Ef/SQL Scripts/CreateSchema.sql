@@ -1,3 +1,11 @@
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [gl_unit_tests];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
+
+
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------

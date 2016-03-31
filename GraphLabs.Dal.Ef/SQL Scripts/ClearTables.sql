@@ -13,7 +13,7 @@ DELETE FROM [dbo].[Sessions];
 GO
 DELETE FROM [dbo].[Settings];
 GO
-DELETE FROM [dbo].[Actions];
+DELETE FROM [dbo].[StudentActions];
 GO
 DELETE FROM [dbo].[Results];
 GO
@@ -31,7 +31,8 @@ DELETE FROM [dbo].[LabVariantTaskVariant];
 GO
 DELETE FROM [dbo].[TaskVariants];
 GO
-DELETE FROM [dbo].[TasksDatas];
+DELETE FROM [dbo].[TaskDatas];
+GO
 DELETE FROM [dbo].[Tasks];
 GO
 DELETE FROM [dbo].[LabVariants];
