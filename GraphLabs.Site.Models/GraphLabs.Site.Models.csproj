@@ -144,6 +144,8 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="DemoLab\DemoLabModel.cs" />
+    <Compile Include="DemoLab\DemoLabListModel.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
     <Compile Include="Groups\GroupListModel.cs" />

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using GraphLabs.DomainModel;
-using GraphLabs.Dal.Ef;
+using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.DemoLab
 {
     public class DemoLabModel
     {
