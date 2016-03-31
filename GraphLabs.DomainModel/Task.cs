@@ -27,7 +27,6 @@ namespace GraphLabs.DomainModel
     
         public long Id { get; private set; }
         public string Name { get; set; }
-        public byte[] Xap { get; set; }
         public byte[] VariantGenerator { get; set; }
         public string Sections { get; set; }
         public string Version { get; set; }
@@ -36,6 +35,7 @@ namespace GraphLabs.DomainModel
         public virtual ICollection<TaskVariant> TaskVariants { get; set; }
         public virtual ICollection<LabEntry> LabEntries { get; set; }
         public virtual ICollection<StudentAction> Actions { get; set; }
+        public virtual TaskData TaskData { get; set; }
     }
     
     #pragma warning restore 1591

@@ -46,8 +46,8 @@ CREATE TABLE [dbo].[Results] (
 );
 GO
 
--- Creating table 'Actions'
-CREATE TABLE [dbo].[Actions] (
+-- Creating table 'StudentActions'
+CREATE TABLE [dbo].[StudentActions] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(100)  NOT NULL,
     [Penalty] int  NOT NULL,
@@ -70,11 +70,11 @@ GO
 CREATE TABLE [dbo].[Tasks] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(50)  NOT NULL,
-    [Xap] varbinary(max)  NOT NULL,
     [VariantGenerator] varbinary(max)  NULL,
     [Sections] nvarchar(100)  NULL,
     [Version] nvarchar(20)  NOT NULL,
-    [Note] nvarchar(max)  NULL
+    [Note] nvarchar(max)  NULL,
+    [TaskData_Id] int  NOT NULL
 );
 GO
 
@@ -150,6 +150,13 @@ CREATE TABLE [dbo].[Categories] (
 );
 GO
 
+-- Creating table 'TaskDatas'
+CREATE TABLE [dbo].[TaskDatas] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Xap] varbinary(max)  NOT NULL
+);
+GO
+
 -- Creating table 'Users_Student'
 CREATE TABLE [dbo].[Users_Student] (
     [IsVerified] bit  NOT NULL,
@@ -208,9 +215,9 @@ ADD CONSTRAINT [PK_Results]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Actions'
-ALTER TABLE [dbo].[Actions]
-ADD CONSTRAINT [PK_Actions]
+-- Creating primary key on [Id] in table 'StudentActions'
+ALTER TABLE [dbo].[StudentActions]
+ADD CONSTRAINT [PK_StudentActions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -274,6 +281,12 @@ ADD CONSTRAINT [PK_Categories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'TaskDatas'
+ALTER TABLE [dbo].[TaskDatas]
+ADD CONSTRAINT [PK_TaskDatas]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'Users_Student'
 ALTER TABLE [dbo].[Users_Student]
 ADD CONSTRAINT [PK_Users_Student]
@@ -317,8 +330,8 @@ ON [dbo].[News]
     ([User_Id]);
 GO
 
--- Creating foreign key on [Result_Id] in table 'Actions'
-ALTER TABLE [dbo].[Actions]
+-- Creating foreign key on [Result_Id] in table 'StudentActions'
+ALTER TABLE [dbo].[StudentActions]
 ADD CONSTRAINT [FK_ResultAction]
     FOREIGN KEY ([Result_Id])
     REFERENCES [dbo].[Results]
@@ -328,7 +341,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ResultAction'
 CREATE INDEX [IX_FK_ResultAction]
-ON [dbo].[Actions]
+ON [dbo].[StudentActions]
     ([Result_Id]);
 GO
 
@@ -539,8 +552,8 @@ ON [dbo].[LabWorkGroup]
     ([Groups_Id]);
 GO
 
--- Creating foreign key on [Task_Id] in table 'Actions'
-ALTER TABLE [dbo].[Actions]
+-- Creating foreign key on [Task_Id] in table 'StudentActions'
+ALTER TABLE [dbo].[StudentActions]
 ADD CONSTRAINT [FK_TaskAction]
     FOREIGN KEY ([Task_Id])
     REFERENCES [dbo].[Tasks]
@@ -550,7 +563,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TaskAction'
 CREATE INDEX [IX_FK_TaskAction]
-ON [dbo].[Actions]
+ON [dbo].[StudentActions]
     ([Task_Id]);
 GO
 
@@ -567,6 +580,21 @@ GO
 CREATE INDEX [IX_FK_TestQuestionCategory]
 ON [dbo].[TestQuestions]
     ([Category_Id]);
+GO
+
+-- Creating foreign key on [TaskData_Id] in table 'Tasks'
+ALTER TABLE [dbo].[Tasks]
+ADD CONSTRAINT [FK_TaskTaskData]
+    FOREIGN KEY ([TaskData_Id])
+    REFERENCES [dbo].[TaskDatas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TaskTaskData'
+CREATE INDEX [IX_FK_TaskTaskData]
+ON [dbo].[Tasks]
+    ([TaskData_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'

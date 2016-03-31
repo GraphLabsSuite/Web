@@ -34,7 +34,7 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
             }
 
             // Загружаем задание
-            Task taskPoco;
+            TaskPoco taskPoco;
             using (var stream = new MemoryStream(taskData))
             {
                 taskPoco = _taskManager.UploadTaskWithTimestamp(stream);
@@ -45,11 +45,14 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
             using (var operation = _operationFactory.Create())
             {
                 var task = operation.DataContext.Factory.Create<Task>();
+                var data = operation.DataContext.Factory.Create<TaskData>();
+                data.Xap = taskPoco.Xap;
+
                 task.Name = taskPoco.Name;
                 task.VariantGenerator = null;
                 task.Sections = taskPoco.Sections;
                 task.Version = taskPoco.Version;
-                task.Xap = taskPoco.Xap;
+                task.TaskData = data;
                 task.Note = "Загружено автоматически сервисом отладки.";
 
                 // Загружаем вариант задания

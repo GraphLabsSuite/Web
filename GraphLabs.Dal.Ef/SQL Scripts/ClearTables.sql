@@ -32,6 +32,7 @@ GO
 DELETE FROM [dbo].[TaskVariants];
 GO
 DELETE FROM [dbo].[Tasks];
+DELETE FROM [dbo].[TasksDatas];
 GO
 DELETE FROM [dbo].[LabVariants];
 GO

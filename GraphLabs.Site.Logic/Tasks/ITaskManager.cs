@@ -9,12 +9,12 @@ namespace GraphLabs.Site.Logic.Tasks
     {
         /// <summary> Загрузить задание </summary>
         [CanBeNull]
-        Task UploadTask([NotNull]Stream stream);
+        TaskPoco UploadTask([NotNull]Stream stream);
 
         /// <summary> Загрузить задание и прописать в название время загрузки </summary>
         /// <remarks> Для отладочных целей </remarks>
         [CanBeNull]
-        Task UploadTaskWithTimestamp(Stream stream);
+        TaskPoco UploadTaskWithTimestamp(Stream stream);
 
         /// <summary> Установить заданию генератор </summary>
         void SetGenerator([NotNull]Task task, [NotNull]Stream newGenerator);

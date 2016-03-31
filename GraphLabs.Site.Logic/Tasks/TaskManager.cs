@@ -8,8 +8,9 @@ using GraphLabs.Site.Utils.Extensions;
 namespace GraphLabs.Site.Logic.Tasks
 {
     /// <summary> plain-old-clr-object для Task,т.к. лень ночью писать dto - тут ещё будут переделки </summary>
-    class TaskPoco : Task
+    public class TaskPoco : Task
     {
+        public byte[] Xap { get; set; }
     }
 
 
@@ -27,20 +28,20 @@ namespace GraphLabs.Site.Logic.Tasks
         }
 
         /// <summary> Загрузить задание </summary>
-        public Task UploadTask(Stream stream)
+        public TaskPoco UploadTask(Stream stream)
         {
             return UploadTaskInternal(stream, false);
         }
 
         /// <summary> Загрузить задание и прописать в название время загрузки </summary>
         /// <remarks> Для отладочных целей </remarks>
-        public Task UploadTaskWithTimestamp(Stream stream)
+        public TaskPoco UploadTaskWithTimestamp(Stream stream)
         {
             return UploadTaskInternal(stream, true);
         }
 
         /// <summary> Загрузить задание </summary>
-        private Task UploadTaskInternal(Stream stream, bool appendTimestamp)
+        private TaskPoco UploadTaskInternal(Stream stream, bool appendTimestamp)
         {
             var info = _xapProcessor.Parse(stream);
             if (info == null)

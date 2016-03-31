@@ -96,7 +96,7 @@ namespace GraphLabs.Site
                 response.ContentType = "application/x-silverlight-app";
                 using (var writer = new BinaryWriter(response.OutputStream))
                 {
-                    writer.Write(task.Xap);
+                    writer.Write(task.TaskData.Xap);
                 }
             }
         }

@@ -7,7 +7,7 @@ using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
-using GraphLabs.Dal.Ef;
+using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -17,11 +17,13 @@ namespace GraphLabs.Site.Controllers
     {
         private readonly ITasksContext _taskContext;
         private readonly ITaskManager _taskManager;
+        private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
 
-        public TaskController(ITasksContext taskContext, ITaskManager taskManager)
+        public TaskController(ITasksContext taskContext, ITaskManager taskManager, IOperationContextFactory<IGraphLabsContext> operationFactory)
         {
             _taskContext = taskContext;
             _taskManager = taskManager;
+            _operationFactory = operationFactory;
         }
 
         //
@@ -53,7 +55,7 @@ namespace GraphLabs.Site.Controllers
             // Verify that the user selected a file
             if (xap != null && xap.ContentLength > 0)
             {
-                Task newTask;
+                TaskPoco newTask;
                 try
                 {
                     newTask = _taskManager.UploadTask(xap.InputStream);
@@ -65,6 +67,20 @@ namespace GraphLabs.Site.Controllers
 
                 if (newTask == null)
                     return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
+
+                using (var op = _operationFactory.Create())
+                {
+                    var task = op.DataContext.Factory.Create<Task>();
+                    var data = op.DataContext.Factory.Create<TaskData>();
+                    data.Xap = newTask.Xap;
+
+                    task.Name = newTask.Name;
+                    task.VariantGenerator = null;
+                    task.Sections = newTask.Sections;
+                    task.Version = newTask.Version;
+                    task.TaskData = data;
+                    task.Note = "";
+                }
 
                 return RedirectToAction("EditTask", "Task", new { Id = newTask.Id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
             }
