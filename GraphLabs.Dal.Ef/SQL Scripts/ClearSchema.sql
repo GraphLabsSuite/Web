@@ -21,7 +21,7 @@ IF OBJECT_ID(N'[dbo].[FK_UserNews]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[News] DROP CONSTRAINT [FK_UserNews];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ResultAction]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Actions] DROP CONSTRAINT [FK_ResultAction];
+    ALTER TABLE [dbo].[StudentActions] DROP CONSTRAINT [FK_ResultAction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TestQuestionAnswerVariant]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AnswerVariants] DROP CONSTRAINT [FK_TestQuestionAnswerVariant];
@@ -69,10 +69,13 @@ IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_Group]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LabWorkGroup] DROP CONSTRAINT [FK_LabWorkGroup_Group];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TaskAction]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Actions] DROP CONSTRAINT [FK_TaskAction];
+    ALTER TABLE [dbo].[StudentActions] DROP CONSTRAINT [FK_TaskAction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TestQuestionCategory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_TestQuestionCategory];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskTaskData]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tasks] DROP CONSTRAINT [FK_TaskTaskData];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
@@ -94,8 +97,8 @@ GO
 IF OBJECT_ID(N'[dbo].[Results]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Results];
 GO
-IF OBJECT_ID(N'[dbo].[Actions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Actions];
+IF OBJECT_ID(N'[dbo].[StudentActions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[StudentActions];
 GO
 IF OBJECT_ID(N'[dbo].[LabWorks]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabWorks];
@@ -126,6 +129,9 @@ IF OBJECT_ID(N'[dbo].[LabEntries]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Categories];
+GO
+IF OBJECT_ID(N'[dbo].[TaskDatas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TaskDatas];
 GO
 IF OBJECT_ID(N'[dbo].[Users_Student]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users_Student];
