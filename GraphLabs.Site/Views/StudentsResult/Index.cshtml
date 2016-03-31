@@ -62,7 +62,7 @@
     <script>
 
         $(function() {            
-            $('#datatable tbody tr').live('click', function () {
+            $('#datatable tbody tr').click(function () {
                 GetLabDetail($(this).find('td:first').text());
             });
         });

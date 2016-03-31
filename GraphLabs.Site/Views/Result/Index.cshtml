@@ -63,7 +63,7 @@
 
         var LabId;
 
-        $("#groupsTable tr th").live('click', function () {
+        $("#groupsTable tr th").click(function () {
             var sortClass = this.className;
             var arr = new Array;
             elem = $("#groupsTable tr");
@@ -220,7 +220,7 @@
             };
         };
 
-        $("#groupsTable tr td").live("click", function () {
+        $("#groupsTable tr td").click(function () {
             $("#error").html("Идет отправка данных...");
             var result = "GroupId=" + $(this).parent("tr").attr("value") + "&LabId=" + LabId;
             $.ajax({

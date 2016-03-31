@@ -81,7 +81,7 @@
                 "</td></tr>");
         });
 
-        $(".deleteOption").live("click", function () {
+        $(".deleteOption").click(function () {
             $(this).parent().parent().remove();
             optionsCount--;
             for(i = 1; i < optionsCount + 3; ++i)
@@ -96,7 +96,7 @@
             }
         });
 
-        $(".copyOption").live("click", function () {
+        $(".copyOption").click(function () {
             $(this).parent().parent().clone().appendTo("table");
             optionsCount++;
             

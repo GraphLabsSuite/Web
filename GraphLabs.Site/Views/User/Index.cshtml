@@ -17,7 +17,7 @@
 @section scripts{
     <script type="text/javascript">
         $(function() {
-            $('tbody tr').live('click', function() {
+            $('tbody tr').click(function () {
                 location.href = '/User/Edit/' + $(this).find('td:first').text();
             });
         });
@@ -29,6 +29,6 @@
             document.getElementById('UnVerStudent').checked = value;
             document.getElementById('DismissStudent').checked = value;
         }
-                
+
     </script>
 }

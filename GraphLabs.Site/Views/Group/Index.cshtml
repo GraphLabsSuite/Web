@@ -39,7 +39,7 @@
 @section scripts{
     <script type="text/javascript">
         $(function() {
-            $('tbody tr').live('click', function() {
+            $('tbody tr').click(function () {
                 location.href = '/Group/Edit?id=' + $(this).find('td:first').text();
             });
         });

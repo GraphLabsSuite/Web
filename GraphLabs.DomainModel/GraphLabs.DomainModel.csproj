@@ -207,6 +207,9 @@
     <Compile Include="Task.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TaskData.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TaskVariant.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -227,6 +230,7 @@
     <Compile Include="Triggers\Session.cs" />
     <Compile Include="Triggers\Settings.cs" />
     <Compile Include="Triggers\Task.cs" />
+    <Compile Include="Triggers\TaskData.cs" />
     <Compile Include="Triggers\TaskVariant.cs" />
     <Compile Include="Triggers\User.cs" />
     <Compile Include="User.cs">
