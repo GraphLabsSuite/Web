@@ -39,7 +39,7 @@ namespace GraphLabs.Site.Controllers
         private Uri GetNextTaskUri()
         {
             return new Uri(Url.Action(
-                nameof(NextUnsolvedTask),
+                nameof(TaskComplete),
                 (string)RouteData.Values["controller"],
                 null,
                 Request.Url.Scheme
@@ -132,12 +132,6 @@ namespace GraphLabs.Site.Controllers
 
             Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
-        }
-
-        public ActionResult NextUnsolvedTask()
-        {
-            ViewBag.Message = "Когда-нибудь здесь будет переход.";
-            return View("LabWorkExecutionError");
         }
     }
 }
