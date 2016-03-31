@@ -185,7 +185,6 @@
     <Compile Include="Repositories\ICategoryRepository.cs" />
     <Compile Include="Repositories\IGroupsRepository.cs" />
     <Compile Include="Repositories\ILabRepository.cs" />
-    <Compile Include="Repositories\INewsRepository.cs" />
     <Compile Include="Repositories\IResultsRepository.cs" />
     <Compile Include="Repositories\ISessionRepository.cs" />
     <Compile Include="Repositories\ISurveyRepository.cs" />

@@ -61,15 +61,6 @@ namespace GraphLabs.Dal.Ef.Repositories
 
         /// <summary> Получить репозиторий с новостями </summary>
         [NotNull]
-        public INewsRepository GetNewsRepository()
-        {
-            Contract.Ensures(Contract.Result<INewsRepository>() != null);
-
-            return new NewsRepository(_context);
-        }
-
-        /// <summary> Получить репозиторий с новостями </summary>
-        [NotNull]
         public IResultsRepository GetResultsRepository()
         {
             Contract.Ensures(Contract.Result<IResultsRepository>() != null);

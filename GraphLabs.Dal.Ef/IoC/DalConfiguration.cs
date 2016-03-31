@@ -51,8 +51,6 @@ namespace GraphLabs.Dal.Ef.IoC
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetSessionRepository()));
             container.RegisterType<ILabRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetLabRepository()));
-            container.RegisterType<INewsRepository>(new HierarchicalLifetimeManager(),
-                new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetNewsRepository()));
             container.RegisterType<IResultsRepository>(new HierarchicalLifetimeManager(),
                 new InjectionFactory(c => c.Resolve<RepositoryFactory>().GetResultsRepository()));
             container.RegisterType<ICategoryRepository>(new HierarchicalLifetimeManager(),

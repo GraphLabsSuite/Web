@@ -28,7 +28,6 @@ namespace GraphLabs.Site.Logic.IoC
             container.RegisterType<IGraphLabsPrincipal>(new InjectionFactory(c => HttpContext.Current.User as IGraphLabsPrincipal));
 
             // Доменные сервисы, которые из этой сборки надо убирать (логика -> в толстые модели)
-            container.RegisterType<INewsManager, NewsManager>(new HierarchicalLifetimeManager());
             container.RegisterType<ITaskManager, TaskManager>(new HierarchicalLifetimeManager());
             container.RegisterType<IResultsManager, ResultsManager>(new HierarchicalLifetimeManager());
         }
