@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading;
 using GraphLabs.DomainModel;
 using GraphLabs.Dal.Ef;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.DomainModel.Extensions;
+using GraphLabs.Site.Core.OperationContext;
+using GraphLabs.Site.Logic;
 using GraphLabs.WcfServices.Data;
 
 namespace GraphLabs.WcfServices
@@ -11,7 +15,14 @@ namespace GraphLabs.WcfServices
     /// <summary> Сервис для генераторов вариантов </summary>
     public class VariantGenService : IVariantGenService
     {
+        private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
         private const int INITIAL_VERSION = 1;
+
+        /// <summary> Сервис для генераторов вариантов </summary>
+        public VariantGenService(IOperationContextFactory<IGraphLabsContext> operationFactory)
+        {
+            _operationFactory = operationFactory;
+        }
 
         /// <summary> Получает вариант задания по Id </summary>
         /// <param name="id"> Id варианта</param>
@@ -19,13 +30,9 @@ namespace GraphLabs.WcfServices
         {
             Contract.Assume(Contract.Result<TaskVariantDto>() != null);
 
-#if DEBUG
-            Thread.Sleep(3000);
-#endif
-
-            using (var ctx = new GraphLabsContext())
+            using (var op = _operationFactory.Create())
             {
-                var variant = ctx.TaskVariants.Find(id);
+                var variant = op.DataContext.Query.Find<TaskVariant>(id);
                 if (variant == null)
                     throw new ArgumentException("Вариант с указанным Id не найден.");
 
@@ -52,18 +59,14 @@ namespace GraphLabs.WcfServices
             if (info.Version.HasValue)
                 throw new ArgumentException("info.Version");
 
-#if DEBUG
-            Thread.Sleep(3000);
-#endif
-
-            using (var ctx = new GraphLabsContext())
+            using (var op = _operationFactory.Create())
             {
-                var task = ctx.Tasks.Find(taskId);
+                var task = op.DataContext.Query.Find<Task>(taskId);
                 if (task == null)
                     throw new Exception("Не удалось сохранить вариант: не найдено задание с полученным Id.");
                 if (updateExistent)
                 {
-                    var existVariant = ctx.TaskVariants.Find(info.Id);
+                    var existVariant = op.DataContext.Query.Find<TaskVariant>(info.Id);
 
                     if (existVariant == null)
                         throw new Exception("Не удалось сохранить вариант: не найден вариант с полученным Id.");
@@ -73,7 +76,6 @@ namespace GraphLabs.WcfServices
                         throw new Exception("Не удалось сохранить вариант: не совпал номер задания.");
 
                     existVariant.Data = info.Data;
-                    ctx.SaveChanges();
                 }
                 else
                 {
@@ -81,17 +83,17 @@ namespace GraphLabs.WcfServices
                         throw new Exception("Не удалось сохранить вариант: не указан номер задания.");
                     if (info.Data == null || !info.Data.Any())
                         throw new Exception("Не удалось сохранить вариант: отсутствуют данные для сохранения.");
-                    if (ctx.TaskVariants.Any(v => v.Number == info.Number))
+                    if (op.QueryOf<TaskVariant>().Any(v => v.Number == info.Number))
                         throw new Exception(string.Format("Не удалось сохранить вариант: номер \"{0}\" уже занят.", info.Number));
 
-                    var newVariant = ctx.TaskVariants.Create();
+                    var newVariant = op.DataContext.Factory.Create<TaskVariant>();
                     newVariant.Number = info.Number;
                     newVariant.GeneratorVersion = info.GeneratorVersion;
                     newVariant.Data = info.Data;
                     newVariant.Task = task;
-
-                    ctx.SaveChanges();
                 }
+
+                op.Complete();
             }
         }
     }

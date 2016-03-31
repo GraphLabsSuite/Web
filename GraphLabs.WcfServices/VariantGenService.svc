@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="GraphLabs.WcfServices.VariantGenService" CodeBehind="VariantGenService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GraphLabs.WcfServices.VariantGenService" Factory="GraphLabs.WcfServices.Infrastructure.WcfServiceFactory" %>
