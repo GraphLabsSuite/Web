@@ -1,12 +1,13 @@
 ﻿using System.Linq;
-using GraphLabs.Dal.Ef;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic;
 using GraphLabs.Site.Models;
 using System;
+using System.Data.Entity;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -17,20 +18,20 @@ namespace GraphLabs.Site.Controllers
 
         #region Зависимости
 
-        private readonly ILabRepository _labRepository;
         private readonly IAuthenticationSavingService _authSavingService;
         private readonly IResultsManager _resultsManager;
         private readonly ITaskExecutionModelFactory _taskExecutionModelFactory;
+        private readonly IEntityQuery _query;
 
         #endregion
 
         public LabWorkExecutionController(
-            ILabRepository labRepository, 
+            IEntityQuery query,
             IAuthenticationSavingService authSavingService, 
             IResultsManager resultsManager, 
             ITaskExecutionModelFactory taskExecutionModelFactory)
         {
-            _labRepository = labRepository;
+            _query = query;
             _authSavingService = authSavingService;
             _resultsManager = resultsManager;
             _taskExecutionModelFactory = taskExecutionModelFactory;
@@ -46,29 +47,80 @@ namespace GraphLabs.Site.Controllers
                 ));
         }
 
+        //TODO: Придумать что-то с LabModel
+        private bool CheckLabWorkExist(long labId)
+        {
+            return _query.OfEntities<LabWork>().SingleOrDefault(l => l.Id == labId) != null;
+        }
+
+        private bool CheckLabVariantExist(long labVarId)
+        {
+            return _query.OfEntities<LabVariant>().SingleOrDefault(l => l.Id == labVarId) != null;
+        }
+
+        private bool CheckLabVariantBelongLabWork(long labId, long labVarId)
+        {
+            return _query.OfEntities<LabVariant>().Where(lv => lv.Id == labVarId).SingleOrDefault(lv => lv.LabWork.Id == labId) != null;
+        }
+
+        public bool VerifyCompleteVariant(long variantId)
+        {
+            long labWorkId = _query.OfEntities<LabVariant>()
+                .Where(v => v.Id == variantId)
+                .Select(v => v.LabWork.Id)
+                .Single();
+
+            long[] labEntry = _query.OfEntities<LabEntry>()
+                .Where(e => e.LabWork.Id == labWorkId)
+                .Select(e => e.Task.Id)
+                .ToArray();
+
+            long[] currentVariantEntry = _query.OfEntities<LabVariant>()
+                .Where(l => l.Id == variantId)
+                .SelectMany(t => t.TaskVariants)
+                .Select(t => t.Task.Id)
+                .ToArray();
+
+            return labEntry.ContainsSameSet(currentVariantEntry);
+        }
+
+        private LabWork GetLabWorkById(long labId)
+        {
+            return _query.OfEntities<LabWork>().SingleOrDefault(l => l.Id == labId);
+        }
+
+        private TaskVariant[] GetTaskVariantsByLabVarId(long labVarId)
+        {
+            return _query.OfEntities<LabVariant>()
+                .Where(v => v.Id == labVarId)
+                .SelectMany(v => v.TaskVariants)
+                .Include(v => v.Task)
+                .ToArray();
+        }
+
         public ActionResult Index(long labId, long labVarId)
         {
             #region Проверки корректности GET запроса
 
-            if (!_labRepository.CheckLabWorkExist(labId))
+            if (!CheckLabWorkExist(labId))
             {
                 ViewBag.Message = "Запрашиваемая лабораторная работа не существует";
                 return View("LabWorkExecutionError");
             }
 
-            if (!_labRepository.CheckLabVariantExist(labVarId))
+            if (!CheckLabVariantExist(labVarId))
             {
                 ViewBag.Message = "Запрашиваемый вариант лабораторной работы не существует";
                 return View("LabWorkExecutionError");
             }
 
-            if (!_labRepository.CheckLabVariantBelongLabWork(labId, labVarId))
+            if (!CheckLabVariantBelongLabWork(labId, labVarId))
             {
                 ViewBag.Message = "Запрашиваемый вариант принадлежит другой лабораторной работе";
                 return View("LabWorkExecutionError");
             }
 
-            if (!_labRepository.VerifyCompleteVariant(labVarId))
+            if (!VerifyCompleteVariant(labVarId))
             {
                 ViewBag.Message = "Вариант лабораторной работы не завершен";
                 return View("LabWorkExecutionError");
@@ -79,8 +131,8 @@ namespace GraphLabs.Site.Controllers
             var session = GetSessionGuid();
             var nextTaskLink = GetNextTaskUri();
             _resultsManager.StartLabExecution(labVarId, session);
-            LabWork lab = _labRepository.GetLabWorkById(labId);
-            TaskVariant[] variants = _labRepository.GetTaskVariantsByLabVarId(labVarId);
+            LabWork lab = GetLabWorkById(labId);
+            TaskVariant[] variants = GetTaskVariantsByLabVarId(labVarId);
             var labWork = new LabWorkExecutionModel(session, lab, variants
                 .Select(v => _taskExecutionModelFactory.CreateForDemoMode(
                     session,

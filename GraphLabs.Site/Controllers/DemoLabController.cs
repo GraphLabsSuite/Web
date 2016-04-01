@@ -41,6 +41,8 @@ namespace GraphLabs.Site.Controllers
             return View(model);
         }
 
+
+        //TODO: Придумать что-то с LabModel
         /// <summary> Получить лабораторные работы, доступные в данный момент в ознакомительном режиме </summary>
         private LabWork[] GetDemoLabs()
         {
