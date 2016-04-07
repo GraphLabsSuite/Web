@@ -161,6 +161,10 @@
     <Compile Include="Infrastructure\ListModelFactory.cs" />
     <Compile Include="IoC\ModelsConfiguration.cs" />
     <Compile Include="ITaskExecutionModelFactory.cs" />
+    <Compile Include="LabWorks\LabWorkListModel.cs" />
+    <Compile Include="LabWorks\LabWorkModel.cs" />
+    <Compile Include="LabWorks\LabWorkModelLoader.cs" />
+    <Compile Include="LabWorks\LabWorkModelSaver.cs" />
     <Compile Include="News\NewsListModel.cs" />
     <Compile Include="News\NewsModel.cs" />
     <Compile Include="News\NewsModelLoader.cs" />
