@@ -161,6 +161,10 @@
     <Compile Include="Infrastructure\ListModelFactory.cs" />
     <Compile Include="IoC\ModelsConfiguration.cs" />
     <Compile Include="ITaskExecutionModelFactory.cs" />
+    <Compile Include="LabVariants\LabVariantListModel.cs" />
+    <Compile Include="LabVariants\LabVariantModel.cs" />
+    <Compile Include="LabVariants\LabVariantModelLoader.cs" />
+    <Compile Include="LabVariants\LabVariantModelSaver.cs" />
     <Compile Include="LabWorks\LabWorkListModel.cs" />
     <Compile Include="LabWorks\LabWorkModel.cs" />
     <Compile Include="LabWorks\LabWorkModelLoader.cs" />

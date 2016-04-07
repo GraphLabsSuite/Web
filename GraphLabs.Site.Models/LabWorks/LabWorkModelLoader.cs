@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
+using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
@@ -22,7 +22,9 @@ namespace GraphLabs.Site.Models.LabWorks
                 Name = labWork.Name,
                 AcquaintanceFrom = labWork.AcquaintanceFrom,
                 AcquaintanceTill = labWork.AcquaintanceTill,
-                LabVariants = labWork.LabVariants
+                LabVariantIds = labWork.LabVariants.Select(v => v.Id).ToArray(),
+                Groups = labWork.Groups,
+                LabEntries = labWork.LabEntries
             };
 
             return model;

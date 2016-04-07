@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core.OperationContext;
@@ -22,7 +23,9 @@ namespace GraphLabs.Site.Models.LabWorks
                 l.Name = model.Name;
                 l.AcquaintanceFrom = model.AcquaintanceFrom;
                 l.AcquaintanceTill = model.AcquaintanceTill;
-                l.LabVariants = model.LabVariants;
+                l.LabVariants = query.OfEntities<LabVariant>().Where(v => model.LabVariantIds.Contains(v.Id)).ToArray();
+                l.Groups = model.Groups;
+                l.LabEntries = model.LabEntries;
             };
         }
 

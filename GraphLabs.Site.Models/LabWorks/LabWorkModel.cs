@@ -12,6 +12,8 @@ namespace GraphLabs.Site.Models.LabWorks
         public DateTime? AcquaintanceFrom { get; set; }
         public DateTime? AcquaintanceTill { get; set; }
 
-        public virtual ICollection<LabVariant> LabVariants { get; set; }
+        public ICollection<long> LabVariantIds { get; set; }
+        public ICollection<LabEntry> LabEntries { get; set; }
+        public ICollection<Group> Groups { get; set; }
     }
 }
