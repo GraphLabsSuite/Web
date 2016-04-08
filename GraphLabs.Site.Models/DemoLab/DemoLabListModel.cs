@@ -1,29 +1,36 @@
-﻿//using System.Linq;
-//using GraphLabs.DomainModel;
-//using GraphLabs.Site.Models.Infrastructure;
+﻿using System.Linq;
+using GraphLabs.Dal.Ef.Services;
+using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.Infrastructure;
 
-//namespace GraphLabs.Site.Models.DemoLab
-//{
-//    /// <summary> Модель списка групп </summary>
-//    public sealed class DemoLabListModel
-//    {
-//        private readonly IEntityQuery _query;
-//        private readonly IEntityBasedModelLoader<DemoLabModel, Group> _modelLoader;
+namespace GraphLabs.Site.Models.DemoLab
+{
+    /// <summary> Модель списка демонстрационных лабораторных работ </summary>
+    public class DemoLabListModel : ListModelBase<DemoLabModel>
+    {
+        private readonly IEntityQuery _query;
+        private readonly IEntityBasedModelLoader<DemoLabModel, LabWork> _modelLoader;
+        private readonly ISystemDateService _dateService;
 
-//        /// <summary> Модель списка групп </summary>
-//        public GroupListModel(IEntityQuery query, IEntityBasedModelLoader<DemoLabModel, Group> modelLoader)
-//        {
-//            _query = query;
-//            _modelLoader = modelLoader;
-//        }
+        /// <summary> Модель списка демонстрационных лабораторных работ </summary>
+        public DemoLabListModel(IEntityQuery query, IEntityBasedModelLoader<DemoLabModel, LabWork> modelLoader, ISystemDateService dateService)
+        {
+            _query = query;
+            _modelLoader = modelLoader;
+            _dateService = dateService;
+        }
 
-//        /// <summary> Загружает группы </summary>
-//        protected override GroupModel[] LoadItems()
-//        {
-//            return _query.OfEntities<Group>()
-//                .ToArray()
-//                .Select(_modelLoader.Load)
-//                .ToArray();
-//        }
-//    }
-//}
+        /// <summary> Загружает демонстрационные лабораторные работы </summary>
+        protected override DemoLabModel[] LoadItems()
+        {
+            var currentTime = _dateService.Now();
+            return _query.OfEntities<LabWork>()
+                .ToArray()
+                .Where(l => l.AcquaintanceFrom.HasValue && l.AcquaintanceTill.HasValue)
+                .Where(l => currentTime.CompareTo(l.AcquaintanceFrom) >= 0 && 
+                            currentTime.CompareTo(l.AcquaintanceTill) <= 0)
+                .Select(l => _modelLoader.Load(l))
+                .ToArray();
+        }
+    }
+}       

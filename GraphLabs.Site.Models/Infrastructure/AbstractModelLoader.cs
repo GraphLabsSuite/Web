@@ -12,7 +12,7 @@ namespace GraphLabs.Site.Models.Infrastructure
         where TModel : IEntityBasedModel<TEntity>
         where TEntity : AbstractEntity 
     {
-        private readonly IEntityQuery _query;
+        protected readonly IEntityQuery _query;
 
         /// <summary> Базовый загрузчик модели по сущности </summary>
         protected AbstractModelLoader(IEntityQuery query)

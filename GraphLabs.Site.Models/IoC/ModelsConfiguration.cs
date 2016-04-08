@@ -1,5 +1,6 @@
 ﻿using System;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.DemoLab;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.News;
@@ -24,6 +25,9 @@ namespace GraphLabs.Site.Models.IoC
             // новости
             container.RegisterType<IEntityBasedModelSaver<NewsModel, DomainModel.News>, NewsModelSaver>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<NewsModel, DomainModel.News>, NewsModelLoader>(new PerResolveLifetimeManager());
+
+            // демолабы
+            container.RegisterType<IEntityBasedModelLoader<DemoLabModel, DomainModel.LabWork>, DemoLabModelLoader>(new PerResolveLifetimeManager());
         }
     }
 }

@@ -5,27 +5,14 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.DemoLab
 {
-    public class DemoLabModel
+    public class DemoLabModel : IEntityBasedModel<LabWork>
     {
-        public long LabWorkId { get; set; }
+        public long Id { get; set; }
 
-        public string LabWorkName { get; set; }
+        public string Name { get; set; }
 
-        public List<KeyValuePair<long, string>> LabVariants { get; set; }
+        public ICollection<KeyValuePair<long, string>> Variants { get; set; }
 
         public DateTime AcquaintanceTill { get; set; }
-
-        /// <summary> Конструктор </summary>
-        public DemoLabModel(LabWork lab, LabVariant[] variants)
-        {
-            LabWorkId = lab.Id;
-            LabWorkName = lab.Name;
-            LabVariants = new List<KeyValuePair<long, string>>();
-            foreach (var lv in variants)
-            {
-                LabVariants.Add(new KeyValuePair<long, string>(lv.Id, lv.Number));
-            }
-            AcquaintanceTill = (DateTime)lab.AcquaintanceTill;
-        }
     }
 }

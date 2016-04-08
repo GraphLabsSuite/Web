@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="DemoLab\DemoLabModel.cs" />
     <Compile Include="DemoLab\DemoLabListModel.cs" />
+    <Compile Include="DemoLab\DemoLabModelLoader.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
     <Compile Include="Groups\GroupListModel.cs" />
