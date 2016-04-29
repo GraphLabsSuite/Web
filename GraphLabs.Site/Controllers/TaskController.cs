@@ -68,6 +68,7 @@ namespace GraphLabs.Site.Controllers
                 if (newTask == null)
                     return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
 
+                long id;
                 using (var op = _operationFactory.Create())
                 {
                     var task = op.DataContext.Factory.Create<Task>();
@@ -80,9 +81,13 @@ namespace GraphLabs.Site.Controllers
                     task.Version = newTask.Version;
                     task.TaskData = data;
                     task.Note = "";
+
+                    op.Complete();
+
+                    id = task.Id;
                 }
 
-                return RedirectToAction("EditTask", "Task", new { Id = newTask.Id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
+                return RedirectToAction("EditTask", "Task", new { Id = id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
             }
 
             // redirect back to the index action to show the form once again
