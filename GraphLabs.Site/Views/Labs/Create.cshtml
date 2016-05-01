@@ -212,7 +212,7 @@
 
         $("#save").click(function () {
             $("#success").html("");
-            if ($("#labName").attr("value") == "") {
+            if (document.getElementById("labName").value == "") {
                 $("#error").html("Необходимо ввести название лабораторной работы");
                 wantCreate = 0;
                 return;
