@@ -66,8 +66,8 @@ namespace GraphLabs.Site.Controllers
 
 			LabWork lab = _labWorksContext.LabWorks.CreateNew();
 			lab.Name = Name;
-			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom);
-			lab.AcquaintanceTill = ParseDate.Parse(DateTo);
+            lab.AcquaintanceFrom = DateTime.Parse(DateFrom); // ParseDate.Parse(DateFrom);
+			lab.AcquaintanceTill = DateTime.Parse(DateTo);
 
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
@@ -85,8 +85,8 @@ namespace GraphLabs.Site.Controllers
 
 			LabWork lab = _labRepository.GetLabWorkById(id);
 			lab.Name = Name;
-			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom);
-			lab.AcquaintanceTill = ParseDate.Parse(DateTo);
+			lab.AcquaintanceFrom = DateTime.Parse(DateFrom);
+			lab.AcquaintanceTill = DateTime.Parse(DateTo);
 
 			_labRepository.DeleteEntries(id);
 			lab.LabEntries.Clear();

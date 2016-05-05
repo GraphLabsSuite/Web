@@ -98,15 +98,22 @@
             $("#save").removeAttr("disabled");
             $("#labName").val(obj.Name);
             if (obj.AcquaintanceFrom != null) {
-                $("#dateFrom").val(obj.AcquaintanceFrom.substring(0, 10));
+                $("#dateFrom").val(ToJavaScriptDate(obj.AcquaintanceFrom));
             };
             if (obj.AcquaintanceTo != null) {
-                $("#dateTo").val(obj.AcquaintanceTo.substring(0, 10));
+                $("#dateTo").val(ToJavaScriptDate(obj.AcquaintanceTo));
             };
             for (var i = 0; i < obj.Tasks.length; ++i) {
                 $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
             };
         };
+
+        function ToJavaScriptDate(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return (dt.getMonth() + 1) + "." + dt.getDate() + "." + dt.getFullYear();
+        }
 
         $("#firstSelectSize").change(function () {
             var p = $("#firstSelectSize");
@@ -241,14 +248,7 @@
             
             $.ajax({
                 type: "POST",
-                url: @if (Model.Id > 0)
-                     {
-                         @Html.Raw("\"LabWorkEdit\"")
-                     }
-                    else
-                     {
-                         @Html.Raw("\"LabWorkCreate\"")
-                     },
+                url: @(Model.Id > 0 ? Html.Raw("\"LabWorkEdit\"") : Html.Raw("\"LabWorkCreate\"")),
                 data: result,
                 error: function() {
                     $("#success").html("");
