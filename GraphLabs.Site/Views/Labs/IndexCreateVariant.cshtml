@@ -124,7 +124,7 @@
 
         $("#save").click(function () {
             $("#success").html("");
-            if ($("#varNum").attr("value") == "") {
+            if (document.getElementById("varNum").value == "") {
                 $("#error").html("Необходимо ввести номер варианта");
                 return;
             };
@@ -138,21 +138,14 @@
             {
                 @Html.Raw("result = \"Id=" + @Model.id.ToString() + "&\";")
             }
-            result = result + "Number=" + $("#varNum").attr("value") + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
+            result = result + "Number=" + document.getElementById("varNum").value + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
             @if (Model.varId > 0)
             {
                 @Html.Raw("result = result + \"&variantId=" + @Model.varId.ToString() + "\";")
             }
             $.ajax({
                 type: "POST",
-                url: @if (Model.varId > 0)
-                     {
-                         @Html.Raw("\"EditVariant\"")
-                     }
-                    else
-                     {
-                         @Html.Raw("\"CreateVariant\"")
-                     },
+                url: @(Model.varId > 0 ? Html.Raw("\"EditVariant\"") : Html.Raw("\"CreateVariant\"")),
                 data: result,
                 error: function () {
                     $("#error").html("Невозможно отправить данные");
