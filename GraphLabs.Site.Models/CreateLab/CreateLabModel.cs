@@ -1,37 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using GraphLabs.DomainModel;
-using GraphLabs.Dal.Ef;
+using GraphLabs.Site.Models.Lab;
 
-namespace GraphLabs.Site.Models
+namespace GraphLabs.Site.Models.CreateLab
 {
-    public class CreateLabModel
+    public class CreateLabModel : LabModel
     {
-        public long Id { get; set; }
-
-        public string Name { get; set; }
-
         public DateTime? AcquaintanceFrom { get; set; }
 
-        public DateTime? AcquaintanceTo { get; set; }
+        public DateTime? AcquaintanceTill { get; set; }
 
         public List<KeyValuePair<long, string>> Tasks { get; set; }
-		
+
+        public CreateLabModel() { }
+
         public CreateLabModel(long id, Task[] tasks)
         {
             Id = id;
             Tasks = MakeListFromTasks(tasks);
-        }
-
-        public CreateLabModel(LabWork lab)
-        {
-            Id = lab.Id;
-            Name = lab.Name;
-            AcquaintanceFrom = lab.AcquaintanceFrom;
-            AcquaintanceTo = lab.AcquaintanceTill;
-            Tasks = MakeListFromTasks( lab.LabEntries.Select(e => e.Task).ToArray() );
         }
 
         private List<KeyValuePair<long, string>> MakeListFromTasks(Task[] tasks)

@@ -363,7 +363,6 @@
     <Compile Include="Models\Survey\SurveyIndexViewModel.cs" />
     <Compile Include="Models\Survey\SurveyCreatingModel.cs" />
     <Compile Include="Models\TaskVariantModel.cs" />
-    <Compile Include="Models\CreateLabModel.cs" />
     <Compile Include="Models\CreateLabVariantModel.cs" />
     <Compile Include="Models\JSONResultCreateLab.cs" />
     <Compile Include="Models\JSONResultLabInfo.cs" />

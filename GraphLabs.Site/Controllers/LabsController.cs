@@ -9,6 +9,7 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Models.CreateLab;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
 
@@ -23,15 +24,17 @@ namespace GraphLabs.Site.Controllers
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
         private readonly IListModelLoader _listModelLoader;
+        private readonly IEntityBasedModelLoader<CreateLabModel, LabWork> _modelLoader;
 
         #endregion
 
-        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, IListModelLoader listModelLoader)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, IListModelLoader listModelLoader, IEntityBasedModelLoader<CreateLabModel, LabWork> modelLoader)
         {
             _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
             _listModelLoader = listModelLoader;
+            _modelLoader = modelLoader;
         }
 
         #region Отображение списка лабораторных работ
@@ -45,7 +48,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public JsonResult GetLabInfo(int Id)
         {
-            var lab = _labRepository.GetLabWorkById(Id);
+            var lab = _labRepository.GetLabWorkById(Id); // var lab = _modelLoader.Load(Id);
 
             return Json(new JSONResultLabInfo(lab));
         }
@@ -60,7 +63,7 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public JsonResult LabWorkCreate(string Name, string DateFrom, string DateTo, string JsonArr)
+        public JsonResult LabWorkCreate(string Name, string DateFrom, string DateTill, string JsonArr)
         {
             if (_labRepository.CheckLabWorkExist(Name))
             {
@@ -70,7 +73,7 @@ namespace GraphLabs.Site.Controllers
 			LabWork lab = _labWorksContext.LabWorks.CreateNew();
 			lab.Name = Name;
             lab.AcquaintanceFrom = DateTime.Parse(DateFrom); // ParseDate.Parse(DateFrom);
-			lab.AcquaintanceTill = DateTime.Parse(DateTo);
+			lab.AcquaintanceTill = DateTime.Parse(DateTill);
 
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
@@ -79,7 +82,7 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public JsonResult LabWorkEdit(string Name, string DateFrom, string DateTo, string JsonArr, long id)
+        public JsonResult LabWorkEdit(string Name, string DateFrom, string DateTill, string JsonArr, long id)
         {
 			if (_labRepository.CheckLabWorkExist(Name) && (_labRepository.GetLabWorkIdByName(Name) != id))
 			{
@@ -89,7 +92,7 @@ namespace GraphLabs.Site.Controllers
 			LabWork lab = _labRepository.GetLabWorkById(id);
 			lab.Name = Name;
 			lab.AcquaintanceFrom = DateTime.Parse(DateFrom);
-			lab.AcquaintanceTill = DateTime.Parse(DateTo);
+			lab.AcquaintanceTill = DateTime.Parse(DateTill);
 
 			_labRepository.DeleteEntries(id);
 			lab.LabEntries.Clear();
@@ -105,9 +108,9 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public JsonResult EditLab(long Id)
         {
-            var lab = _labRepository.GetLabWorkById(Id);
+            var lab = _modelLoader.Load(Id);
             
-            return Json( new CreateLabModel(lab) );
+            return Json(lab);
         }
 
         #endregion

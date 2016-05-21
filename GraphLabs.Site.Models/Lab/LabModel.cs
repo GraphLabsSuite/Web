@@ -8,7 +8,6 @@ namespace GraphLabs.Site.Models.Lab
     public class LabModel : IEntityBasedModel<LabWork>
     {
         public long Id { get; set; }
-
         public string Name { get; set; }
     }
 }

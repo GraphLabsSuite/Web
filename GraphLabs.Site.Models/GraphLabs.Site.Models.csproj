@@ -144,6 +144,8 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="CreateLab\CreateLabModelLoader.cs" />
+    <Compile Include="CreateLab\CreateLabModel.cs" />
     <Compile Include="DemoLab\DemoLabModel.cs" />
     <Compile Include="DemoLab\DemoLabListModel.cs" />
     <Compile Include="DemoLab\DemoLabModelLoader.cs" />
@@ -162,14 +164,6 @@
     <Compile Include="Infrastructure\ListModelFactory.cs" />
     <Compile Include="IoC\ModelsConfiguration.cs" />
     <Compile Include="ITaskExecutionModelFactory.cs" />
-    <Compile Include="LabVariants\LabVariantListModel.cs" />
-    <Compile Include="LabVariants\LabVariantModel.cs" />
-    <Compile Include="LabVariants\LabVariantModelLoader.cs" />
-    <Compile Include="LabVariants\LabVariantModelSaver.cs" />
-    <Compile Include="LabWorks\LabWorkListModel.cs" />
-    <Compile Include="LabWorks\LabWorkModel.cs" />
-    <Compile Include="LabWorks\LabWorkModelLoader.cs" />
-    <Compile Include="LabWorks\LabWorkModelSaver.cs" />
     <Compile Include="Lab\LabListModel.cs" />
     <Compile Include="Lab\LabModel.cs" />
     <Compile Include="Lab\LabModelLoader.cs" />

@@ -1,5 +1,5 @@
 ﻿@using GraphLabs.Site.Controllers.LabWorks
-@model GraphLabs.Site.Models.CreateLabModel
+@model GraphLabs.Site.Models.CreateLab.CreateLabModel
 
 @{
     ViewBag.Title = "Создание лабораторной работы";
@@ -24,7 +24,7 @@
             </li>
             <li>
                 <label>Дата окончания доступности работы</label>
-                <input id="dateTo" name="DateTo" type="date" />
+                <input id="dateTill" name="DateTill" type="date" />
             </li>
         </ol>
     </fieldset>
@@ -100,8 +100,8 @@
             if (obj.AcquaintanceFrom != null) {
                 $("#dateFrom").val(ToJavaScriptDate(obj.AcquaintanceFrom));
             };
-            if (obj.AcquaintanceTo != null) {
-                $("#dateTo").val(ToJavaScriptDate(obj.AcquaintanceTo));
+            if (obj.AcquaintanceTill != null) {
+                $("#dateTill").val(ToJavaScriptDate(obj.AcquaintanceTill));
             };
             for (var i = 0; i < obj.Tasks.length; ++i) {
                 $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
