@@ -1,8 +1,6 @@
-﻿using GraphLabs.Dal.Ef;
-using GraphLabs.Site.Controllers.Attributes;
+﻿using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Controllers.LabWorks;
 using GraphLabs.Site.Models;
-using GraphLabs.Site.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
@@ -11,6 +9,8 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Models.Infrastructure;
+using GraphLabs.Site.Models.Lab;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -22,21 +22,24 @@ namespace GraphLabs.Site.Controllers
         private readonly ILabWorksContext _labWorksContext;
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
+        private readonly IListModelLoader _listModelLoader;
 
         #endregion
 
-        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, IListModelLoader listModelLoader)
         {
             _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
+            _listModelLoader = listModelLoader;
         }
 
         #region Отображение списка лабораторных работ
 
         public ActionResult Index()
         {
-            return View(_labRepository.GetLabWorks());
+            var model = _listModelLoader.LoadListModel<LabListModel, LabModel>();
+            return View(model);
         }
 
         [HttpPost]
