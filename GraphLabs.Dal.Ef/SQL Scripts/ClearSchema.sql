@@ -1,147 +1,180 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
--- --------------------------------------------------
--- Date Created: 12/17/2014 23:07:17
--- Generated from EDMX file: D:\C#\GRAPH\trunk\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- Скрипт очистки тестовой базы
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
 USE [gl_unit_tests];
 GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+
+/* Drop all non-system stored procs */
+DECLARE @name VARCHAR(128)
+DECLARE @schema VARCHAR(128)
+DECLARE @SQL VARCHAR(254)
+
+SELECT TOP 1 
+  @name = sys.objects.[name], 
+  @schema = sys.schemas.[name]
+FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+WHERE sys.objects.[type] = N'P'
+ORDER BY sys.objects.[name]
+
+WHILE @name is not null
+BEGIN
+    SELECT @SQL = 'DROP PROCEDURE [' + RTRIM(@schema) + '].[' + RTRIM(@name) +']'
+    EXEC (@SQL)
+    PRINT 'Dropped Procedure: ' + @schema + '.' + @name
+	SELECT @name = null
+    SELECT TOP 1 
+      @name = sys.objects.[name], 
+      @schema = sys.schemas.[name]
+    FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+    WHERE sys.objects.[type] = N'P'
+    ORDER BY sys.objects.[name]
+END
 GO
 
--- --------------------------------------------------
--- Dropping existing FOREIGN KEY constraints
--- --------------------------------------------------
+/* Drop all views */
+DECLARE @name VARCHAR(128)
+DECLARE @schema VARCHAR(128)
+DECLARE @SQL VARCHAR(254)
 
-IF OBJECT_ID(N'[dbo].[FK_UserNews]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[News] DROP CONSTRAINT [FK_UserNews];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ResultAction]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[StudentActions] DROP CONSTRAINT [FK_ResultAction];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TestQuestionAnswerVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AnswerVariants] DROP CONSTRAINT [FK_TestQuestionAnswerVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_VariantTestQuestion_LabVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[VariantTestQuestion] DROP CONSTRAINT [FK_VariantTestQuestion_LabVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_VariantTestQuestion_TestQuestion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[VariantTestQuestion] DROP CONSTRAINT [FK_VariantTestQuestion_TestQuestion];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserSession]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Sessions] DROP CONSTRAINT [FK_UserSession];
-GO
-IF OBJECT_ID(N'[dbo].[FK_GroupStudent]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_GroupStudent];
-GO
-IF OBJECT_ID(N'[dbo].[FK_StudentResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Results] DROP CONSTRAINT [FK_StudentResult];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TaskTaskVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TaskVariants] DROP CONSTRAINT [FK_TaskTaskVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabVariantTaskVariant_LabVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabVariantTaskVariant] DROP CONSTRAINT [FK_LabVariantTaskVariant_LabVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabVariantTaskVariant_TaskVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabVariantTaskVariant] DROP CONSTRAINT [FK_LabVariantTaskVariant_TaskVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabWorkLabVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabVariants] DROP CONSTRAINT [FK_LabWorkLabVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabVariantResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Results] DROP CONSTRAINT [FK_LabVariantResult];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabWorkLabEntry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabEntries] DROP CONSTRAINT [FK_LabWorkLabEntry];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TaskLabEntry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabEntries] DROP CONSTRAINT [FK_TaskLabEntry];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_LabWork]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabWorkGroup] DROP CONSTRAINT [FK_LabWorkGroup_LabWork];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_Group]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LabWorkGroup] DROP CONSTRAINT [FK_LabWorkGroup_Group];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TaskAction]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[StudentActions] DROP CONSTRAINT [FK_TaskAction];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TestQuestionCategory]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_TestQuestionCategory];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TaskTaskData]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Tasks] DROP CONSTRAINT [FK_TaskTaskData];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
+SELECT TOP 1 
+  @name = sys.objects.[name], 
+  @schema = sys.schemas.[name]
+FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+WHERE sys.objects.[type] = N'V'
+ORDER BY sys.objects.[name]
+
+
+WHILE @name IS NOT NULL
+BEGIN
+    SELECT @SQL = 'DROP VIEW [' + RTRIM(@schema) + '].[' + RTRIM(@name) +']'
+    EXEC (@SQL)
+    PRINT 'Dropped View: ' + @schema + '.' + @name
+	SELECT @name = null
+    SELECT TOP 1 
+      @name = sys.objects.[name], 
+      @schema = sys.schemas.[name]
+    FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+    WHERE sys.objects.[type] = N'V'
+    ORDER BY sys.objects.[name]
+END
 GO
 
--- --------------------------------------------------
--- Dropping existing tables
--- --------------------------------------------------
+/* Drop all functions */
+DECLARE @name VARCHAR(128)
+DECLARE @schema VARCHAR(128)
+DECLARE @SQL VARCHAR(254)
 
-IF OBJECT_ID(N'[dbo].[News]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[News];
+SELECT TOP 1 
+  @name = sys.objects.[name], 
+  @schema = sys.schemas.[name]
+FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+WHERE sys.objects.[type] IN (N'FN', N'IF', N'TF', N'FS', N'FT')
+ORDER BY sys.objects.[name]
+
+WHILE @name IS NOT NULL
+BEGIN
+    SELECT @SQL = 'DROP FUNCTION [' + RTRIM(@schema) + '].[' + RTRIM(@name) +']'
+    EXEC (@SQL)
+    PRINT 'Dropped Function: ' + @schema + '.' + @name
+	SELECT @name = null
+    SELECT TOP 1 
+      @name = sys.objects.[name], 
+      @schema = sys.schemas.[name]
+    FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+    WHERE sys.objects.[type] IN (N'FN', N'IF', N'TF', N'FS', N'FT')
+    ORDER BY sys.objects.[name]
+END
 GO
-IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users];
+
+/* Drop all Foreign Key constraints */
+DECLARE @tableName VARCHAR(128)
+DECLARE @tableSchema VARCHAR(128)
+DECLARE @constraintName VARCHAR(254)
+DECLARE @SQL VARCHAR(254)
+
+SELECT TOP 1 
+  @tableName = TABLE_NAME,
+  @tableSchema = TABLE_SCHEMA,
+  @constraintName = CONSTRAINT_NAME
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = N'FOREIGN KEY'
+ORDER BY TABLE_NAME
+
+WHILE @constraintName is not null
+BEGIN
+  SELECT @SQL = 'ALTER TABLE [' + RTRIM(@tableSchema) + '].[' + RTRIM(@tableName) +'] DROP CONSTRAINT [' + RTRIM(@constraintName) +']'
+  EXEC (@SQL)
+  PRINT 'Dropped FK Constraint: ' + @constraintName + ' on ' + @tableSchema + '.' + @tableName
+  SELECT @constraintName = null
+  SELECT TOP 1 
+    @tableName = TABLE_NAME,
+    @tableSchema = TABLE_SCHEMA,
+    @constraintName = CONSTRAINT_NAME
+  FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+  WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = N'FOREIGN KEY'
+  ORDER BY TABLE_NAME
+END
 GO
-IF OBJECT_ID(N'[dbo].[Groups]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Groups];
+
+/* Drop all Primary Key constraints */
+DECLARE @tableName VARCHAR(128)
+DECLARE @tableSchema VARCHAR(128)
+DECLARE @constraintName VARCHAR(254)
+DECLARE @SQL VARCHAR(254)
+
+SELECT TOP 1 
+  @tableName = TABLE_NAME,
+  @tableSchema = TABLE_SCHEMA,
+  @constraintName = CONSTRAINT_NAME
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = N'PRIMARY KEY'
+ORDER BY TABLE_NAME
+
+WHILE @constraintName is not null
+BEGIN
+  SELECT @SQL = 'ALTER TABLE [' + RTRIM(@tableSchema) + '].[' + RTRIM(@tableName) +'] DROP CONSTRAINT [' + RTRIM(@constraintName) +']'
+  EXEC (@SQL)
+  PRINT 'Dropped FK Constraint: ' + @constraintName + ' on ' + @tableSchema + '.' + @tableName
+  SELECT @constraintName = null
+  SELECT TOP 1 
+    @tableName = TABLE_NAME,
+    @tableSchema = TABLE_SCHEMA,
+    @constraintName = CONSTRAINT_NAME
+  FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+  WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = N'PRIMARY KEY'
+  ORDER BY TABLE_NAME
+END
 GO
-IF OBJECT_ID(N'[dbo].[Results]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Results];
-GO
-IF OBJECT_ID(N'[dbo].[StudentActions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[StudentActions];
-GO
-IF OBJECT_ID(N'[dbo].[LabWorks]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LabWorks];
-GO
-IF OBJECT_ID(N'[dbo].[Tasks]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Tasks];
-GO
-IF OBJECT_ID(N'[dbo].[LabVariants]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LabVariants];
-GO
-IF OBJECT_ID(N'[dbo].[TestQuestions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TestQuestions];
-GO
-IF OBJECT_ID(N'[dbo].[AnswerVariants]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AnswerVariants];
-GO
-IF OBJECT_ID(N'[dbo].[Sessions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Sessions];
-GO
-IF OBJECT_ID(N'[dbo].[Settings]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Settings];
-GO
-IF OBJECT_ID(N'[dbo].[TaskVariants]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TaskVariants];
-GO
-IF OBJECT_ID(N'[dbo].[LabEntries]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LabEntries];
-GO
-IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Categories];
-GO
-IF OBJECT_ID(N'[dbo].[TaskDatas]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TaskDatas];
-GO
-IF OBJECT_ID(N'[dbo].[Users_Student]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users_Student];
-GO
-IF OBJECT_ID(N'[dbo].[VariantTestQuestion]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[VariantTestQuestion];
-GO
-IF OBJECT_ID(N'[dbo].[LabVariantTaskVariant]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LabVariantTaskVariant];
-GO
-IF OBJECT_ID(N'[dbo].[LabWorkGroup]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LabWorkGroup];
+
+
+/* Drop all tables */
+DECLARE @name VARCHAR(128)
+DECLARE @schema VARCHAR(128)
+DECLARE @SQL VARCHAR(254)
+
+SELECT TOP 1 
+  @name = sys.objects.[name], 
+  @schema = sys.schemas.[name]
+FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+WHERE sys.objects.[type] = N'U' AND sys.schemas.[name] != N'dbo' AND sys.objects.[name] != N'TestTable'
+ORDER BY sys.objects.[name]
+
+
+WHILE @name IS NOT NULL
+BEGIN
+    SELECT @SQL = 'DROP TABLE [' + RTRIM(@schema) + '].[' + RTRIM(@name) +']'
+    EXEC (@SQL)
+    PRINT 'Dropped Table: ' + @schema + '.' + @name
+	SELECT @name = null
+    SELECT TOP 1 
+      @name = sys.objects.[name], 
+      @schema = sys.schemas.[name]
+    FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
+    WHERE sys.objects.[type] = N'U' AND sys.schemas.[name] != N'dbo' AND sys.objects.[name] != N'TestTable'
+    ORDER BY sys.objects.[name]
+END
 GO
