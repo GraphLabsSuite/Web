@@ -27,8 +27,8 @@ namespace GraphLabs.DomainModel
         public int Penalty { get; set; }
         public System.DateTime Time { get; set; }
     
-        public virtual Result Result { get; set; }
         public virtual Task Task { get; set; }
+        public virtual TaskResult TaskResult { get; set; }
     }
     
     #pragma warning restore 1591

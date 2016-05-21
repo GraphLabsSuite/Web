@@ -566,10 +566,6 @@
           <EntitySet Name="Groups" EntityType="DataModel.Group" />
           <EntitySet Name="Results" EntityType="DataModel.Result" />
           <EntitySet Name="StudentActions" EntityType="DataModel.StudentAction" />
-          <AssociationSet Name="ResultAction" Association="DataModel.ResultAction">
-            <End Role="Result" EntitySet="Results" />
-            <End Role="Action" EntitySet="StudentActions" />
-          </AssociationSet>
           <EntitySet Name="LabWorks" EntityType="DataModel.LabWork" />
           <EntitySet Name="Tasks" EntityType="DataModel.Task" />
           <EntitySet Name="LabVariants" EntityType="DataModel.LabVariant" />
@@ -641,6 +637,19 @@
             <End Role="Task" EntitySet="Tasks" />
             <End Role="TaskData" EntitySet="TaskDatas" />
           </AssociationSet>
+          <EntitySet Name="TaskResults" EntityType="DataModel.TaskResult" />
+          <AssociationSet Name="ResultTaskResult" Association="DataModel.ResultTaskResult">
+            <End Role="Result" EntitySet="Results" />
+            <End Role="TaskResult" EntitySet="TaskResults" />
+          </AssociationSet>
+          <AssociationSet Name="TaskResultStudentAction" Association="DataModel.TaskResultStudentAction">
+            <End Role="TaskResult" EntitySet="TaskResults" />
+            <End Role="StudentAction" EntitySet="StudentActions" />
+          </AssociationSet>
+          <AssociationSet Name="LabEntryTaskResult" Association="DataModel.LabEntryTaskResult">
+            <End Role="LabEntry" EntitySet="LabEntries" />
+            <End Role="TaskResult" EntitySet="TaskResults" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
           <Key>
@@ -690,9 +699,9 @@
           <Property Type="DataModel.LabExecutionMode" Name="Mode" Nullable="false" />
           <Property Type="DateTime" Name="StartDateTime" Nullable="false" annotation:StoreGeneratedPattern="None" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="DataModel.Grade" Name="Grade" Nullable="true" />
-          <NavigationProperty Name="Actions" Relationship="DataModel.ResultAction" FromRole="Result" ToRole="Action" />
           <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
+          <NavigationProperty Name="TaskResults" Relationship="DataModel.ResultTaskResult" FromRole="Result" ToRole="TaskResult" />
         </EntityType>
         <EntityType Name="StudentAction">
           <Key>
@@ -702,13 +711,9 @@
           <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
           <Property Type="Int32" Name="Penalty" Nullable="false" />
           <Property Type="DateTime" Name="Time" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <NavigationProperty Name="Result" Relationship="DataModel.ResultAction" FromRole="Action" ToRole="Result" />
           <NavigationProperty Name="Task" Relationship="DataModel.TaskAction" FromRole="Action" ToRole="Task" />
+          <NavigationProperty Name="TaskResult" Relationship="DataModel.TaskResultStudentAction" FromRole="StudentAction" ToRole="TaskResult" />
         </EntityType>
-        <Association Name="ResultAction">
-          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
-          <End Type="DataModel.StudentAction" Role="Action" Multiplicity="*" />
-        </Association>
         <EntityType Name="LabWork">
           <Key>
             <PropertyRef Name="Id" />
@@ -907,6 +912,33 @@
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
           <End Type="DataModel.TaskData" Role="TaskData" Multiplicity="1" />
         </Association>
+        <EntityType Name="TaskResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Result" Relationship="DataModel.ResultTaskResult" FromRole="TaskResult" ToRole="Result" />
+          <NavigationProperty Name="StudentActions" Relationship="DataModel.TaskResultStudentAction" FromRole="TaskResult" ToRole="StudentAction" />
+          <NavigationProperty Name="LabEntry" Relationship="DataModel.LabEntryTaskResult" FromRole="TaskResult" ToRole="LabEntry" />
+          <Property Name="Status" Type="DataModel.TaskResultState" Nullable="false" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <Association Name="ResultTaskResult">
+          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
+          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
+        </Association>
+        <Association Name="TaskResultStudentAction">
+          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="1" />
+          <End Type="DataModel.StudentAction" Role="StudentAction" Multiplicity="*" />
+        </Association>
+        <Association Name="LabEntryTaskResult">
+          <End Type="DataModel.LabEntry" Role="LabEntry" Multiplicity="1" />
+          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
+        </Association>
+        <EnumType Name="TaskResultState">
+          <Member Name="Complete" />
+          <Member Name="Executing" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1082,14 +1114,6 @@
         <ScalarProperty Name="Id" ColumnName="User_Id" />
       </EndProperty>
       <EndProperty Name="News">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ResultAction" TypeName="DataModel.ResultAction" StoreEntitySet="StudentActions">
-      <EndProperty Name="Result">
-        <ScalarProperty Name="Id" ColumnName="Result_Id" />
-      </EndProperty>
-      <EndProperty Name="Action">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

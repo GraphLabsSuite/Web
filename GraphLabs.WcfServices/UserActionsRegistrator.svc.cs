@@ -43,16 +43,17 @@ namespace GraphLabs.WcfServices
                 var task = op.DataContext.Query.Get<Task>(taskId);
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
+                var taskResultLog = GetCurrentTaskResultLog(resultLog);
 
                 foreach (var actionDescription in actions)
                 {
                     var newAction = op.DataContext.Factory.Create<StudentAction>();
                     newAction.Description = actionDescription.Description;
                     newAction.Penalty = actionDescription.Penalty;
-                    newAction.Result = resultLog;
+                    newAction.TaskResult = taskResultLog;
                     newAction.Time = actionDescription.TimeStamp;
                     newAction.Task = task;
-                    resultLog.Actions.Add(newAction);
+                    taskResultLog.StudentActions.Add(newAction);
                 }
 
                 if (isTaskFinished)
@@ -60,10 +61,10 @@ namespace GraphLabs.WcfServices
                     var newAction = op.DataContext.Factory.Create<StudentAction>();
                     newAction.Description = $"Задание {task.Name} выполнено.";
                     newAction.Penalty = 0;
-                    newAction.Result = resultLog;
+                    newAction.TaskResult = taskResultLog;
                     newAction.Time = _systemDate.Now();
                     newAction.Task = task;
-                    resultLog.Actions.Add(newAction);
+                    taskResultLog.StudentActions.Add(newAction);
                 }
 
                 var currentScore = CalculateCurrentScore(resultLog);
@@ -76,7 +77,7 @@ namespace GraphLabs.WcfServices
 
         private int CalculateCurrentScore(Result result)
         {
-            return StartingScore - result.Actions.Sum(a => a.Penalty);
+            return StartingScore - result.TaskResults.SelectMany(tr => tr.StudentActions).Sum(a => a.Penalty);
         }
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
@@ -91,6 +92,11 @@ namespace GraphLabs.WcfServices
             }
 
             return activeResults.First();
+        }
+
+        private TaskResult GetCurrentTaskResultLog(Result resultLog)
+        {
+            return resultLog.TaskResults.Single(tr => tr.LabEntry.Task == task);
         }
 
         private Session GetSessionWithChecks(IEntityQuery query, Guid sessionGuid)

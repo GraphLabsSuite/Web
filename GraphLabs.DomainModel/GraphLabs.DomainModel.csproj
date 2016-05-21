@@ -210,6 +210,12 @@
     <Compile Include="TaskData.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TaskResult.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskResultState.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TaskVariant.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>

@@ -42,5 +42,6 @@ namespace GraphLabs.Dal.Ef
         public DbSet<LabEntry> LabEntries { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TaskData> TaskDatas { get; set; }
+        public DbSet<TaskResult> TaskResults { get; set; }
     }
 }
