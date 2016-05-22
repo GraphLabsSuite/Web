@@ -921,7 +921,6 @@
           <NavigationProperty Name="StudentActions" Relationship="DataModel.TaskResultStudentAction" FromRole="TaskResult" ToRole="StudentAction" />
           <NavigationProperty Name="LabEntry" Relationship="DataModel.LabEntryTaskResult" FromRole="TaskResult" ToRole="LabEntry" />
           <Property Name="Status" Type="DataModel.TaskResultState" Nullable="false" />
-          <Property Name="StartDateTime" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="ResultTaskResult">
           <End Type="DataModel.Result" Role="Result" Multiplicity="1" />

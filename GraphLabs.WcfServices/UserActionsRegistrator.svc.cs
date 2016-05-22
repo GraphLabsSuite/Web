@@ -64,6 +64,7 @@ namespace GraphLabs.WcfServices
                     newAction.TaskResult = taskResultLog;
                     newAction.Time = _systemDate.Now();
                     newAction.Task = task;
+                    taskResultLog.Status = TaskResultState.Complete;
                     taskResultLog.StudentActions.Add(newAction);
                 }
 

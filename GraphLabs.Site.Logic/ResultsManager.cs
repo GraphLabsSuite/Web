@@ -6,6 +6,7 @@ using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Logic
 {
@@ -90,6 +91,17 @@ namespace GraphLabs.Site.Logic
                     ? LabExecutionMode.IntroductoryMode
                     : LabExecutionMode.TestMode;
                 result.Student = student;
+
+                foreach (var labEntry in variant.LabWork.LabEntries)
+                {
+                    var taskResult = _reportsContext.TaskResults.CreateNew();
+                    taskResult.Status = TaskResultState.Executing;
+                    taskResult.StudentActions = new List<StudentAction>();
+                    taskResult.LabEntry = labEntry;
+                    taskResult.Result = result;
+
+                    result.TaskResults.Add(taskResult);
+                }
             }
 
             _changesTracker.SaveChanges();
