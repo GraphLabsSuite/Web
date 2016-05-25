@@ -43,7 +43,7 @@ namespace GraphLabs.WcfServices
                 var task = op.DataContext.Query.Get<Task>(taskId);
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
-                var taskResultLog = GetCurrentTaskResultLog(resultLog);
+                var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
 
                 foreach (var actionDescription in actions)
                 {
@@ -95,7 +95,7 @@ namespace GraphLabs.WcfServices
             return activeResults.First();
         }
 
-        private TaskResult GetCurrentTaskResultLog(Result resultLog)
+        private TaskResult GetCurrentTaskResultLog(Result resultLog, Task task)
         {
             return resultLog.TaskResults.Single(tr => tr.LabEntry.Task == task);
         }
