@@ -27,7 +27,6 @@ namespace GraphLabs.DomainModel
         public int Penalty { get; set; }
         public System.DateTime Time { get; set; }
     
-        public virtual Task Task { get; set; }
         public virtual TaskResult TaskResult { get; set; }
     }
     

@@ -52,7 +52,6 @@ namespace GraphLabs.WcfServices
                     newAction.Penalty = actionDescription.Penalty;
                     newAction.TaskResult = taskResultLog;
                     newAction.Time = actionDescription.TimeStamp;
-                    newAction.Task = task;
                     taskResultLog.StudentActions.Add(newAction);
                 }
 
@@ -63,7 +62,6 @@ namespace GraphLabs.WcfServices
                     newAction.Penalty = 0;
                     newAction.TaskResult = taskResultLog;
                     newAction.Time = _systemDate.Now();
-                    newAction.Task = task;
                     taskResultLog.Status = TaskResultState.Complete;
                     taskResultLog.StudentActions.Add(newAction);
                 }

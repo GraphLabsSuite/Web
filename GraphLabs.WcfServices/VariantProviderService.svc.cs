@@ -44,7 +44,6 @@ namespace GraphLabs.WcfServices
                 var taskVariant = variant.TaskVariants.Single(v => v.Task == task);
 
                 var action = op.DataContext.Factory.Create<StudentAction>();
-                action.Task = task;
                 action.TaskResult = taskResultLog;
                 action.Time = _systemDate.Now();
                 action.Description = $"[Сервис выдачи вариантов: для задания '{task.Id}' выдан вариант {taskVariant.Number}.]";
