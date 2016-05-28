@@ -83,13 +83,15 @@ namespace GraphLabs.WcfServices
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
         {
+            //TODO: Заменить Score
             var activeResults = query.OfEntities<Result>()
-                .Where(result => result.Student.Id == session.User.Id && result.Grade == null)
+                .Where(result => result.Student.Id == session.User.Id && result.Score == null)
                 .ToArray();
 
             foreach (var activeResult in activeResults.OrderByDescending(r => r.StartDateTime).Skip(1))
             {
-                activeResult.Grade = Grade.Interrupted;
+                //TODO: Заменить Score
+                activeResult.Score = -1;
             }
 
             return activeResults.First();

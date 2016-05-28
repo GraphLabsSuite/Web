@@ -26,7 +26,7 @@ namespace GraphLabs.DomainModel
         public long Id { get; private set; }
         public LabExecutionMode Mode { get; set; }
         public System.DateTime StartDateTime { get; private set; }
-        public Nullable<Grade> Grade { get; set; }
+        public Nullable<short> Score { get; set; }
     
         public virtual Student Student { get; set; }
         public virtual LabVariant LabVariant { get; set; }

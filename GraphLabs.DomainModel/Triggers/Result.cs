@@ -14,7 +14,7 @@ namespace GraphLabs.DomainModel
             base.OnInsert();
 
             StartDateTime = DateTime.Now;
-            Grade = null;
+            Score = -1;
         }
 
         /// <summary> Валидация </summary>

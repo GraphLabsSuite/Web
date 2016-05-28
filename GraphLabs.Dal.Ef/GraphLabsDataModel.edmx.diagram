@@ -43,7 +43,7 @@
         <AssociationConnector Association="DataModel.TestQuestionCategory" />
         <EntityTypeShape EntityType="DataModel.TaskData" Width="1.125" PointX="4.75" PointY="10.5" IsExpanded="true" FillColor="0, 192, 192" />
         <AssociationConnector Association="DataModel.TaskTaskData" />
-        <EntityTypeShape EntityType="DataModel.TaskResult" Width="1.5" PointX="0.625" PointY="3.125" />
+        <EntityTypeShape EntityType="DataModel.TaskResult" Width="1.5" PointX="0.625" PointY="3.125" FillColor="Maroon" />
         <AssociationConnector Association="DataModel.ResultTaskResult" />
         <AssociationConnector Association="DataModel.TaskResultStudentAction" />
         <AssociationConnector Association="DataModel.LabEntryTaskResult" ManuallyRouted="false" >

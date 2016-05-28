@@ -158,9 +158,6 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\EntityValidationError.cs" />
-    <Compile Include="Grade.cs">
-      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Infrastructure\GraphLabsValidationException.cs" />
     <Compile Include="Group.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>

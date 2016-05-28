@@ -698,7 +698,7 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="DataModel.LabExecutionMode" Name="Mode" Nullable="false" />
           <Property Type="DateTime" Name="StartDateTime" Nullable="false" annotation:StoreGeneratedPattern="None" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <Property Type="DataModel.Grade" Name="Grade" Nullable="true" />
+          <Property Type="Int16" Name="Score" Nullable="true" />
           <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
           <NavigationProperty Name="TaskResults" Relationship="DataModel.ResultTaskResult" FromRole="Result" ToRole="TaskResult" />
@@ -878,13 +878,6 @@
           <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="*" />
           <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
         </Association>
-        <EnumType Name="Grade">
-          <Member Name="Unsatisfactory" />
-          <Member Name="Fair" />
-          <Member Name="Good" />
-          <Member Name="Excellent" />
-          <Member Name="Interrupted" />
-        </EnumType>
         <Association Name="TaskAction">
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
           <End Type="DataModel.StudentAction" Role="Action" Multiplicity="*" />
@@ -991,7 +984,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Mode" ColumnName="Mode" />
           <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
-          <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <ScalarProperty Name="Score" ColumnName="Grade" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

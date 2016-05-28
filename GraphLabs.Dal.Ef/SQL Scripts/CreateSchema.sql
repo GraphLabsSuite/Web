@@ -1,10 +1,17 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 05/28/2016 12:13:49
+-- Generated from EDMX file: C:\Users\Илья\Desktop\taskResults\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- --------------------------------------------------
+
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [gl_unit_tests];
+USE [gltst];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
-
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -47,7 +54,7 @@ CREATE TABLE [dbo].[Results] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Mode] int  NOT NULL,
     [StartDateTime] datetime  NOT NULL,
-    [Grade] int  NULL,
+    [Score] smallint  NULL,
     [Student_Id] bigint  NOT NULL,
     [LabVariant_Id] bigint  NOT NULL
 );
@@ -59,8 +66,8 @@ CREATE TABLE [dbo].[StudentActions] (
     [Description] nvarchar(100)  NOT NULL,
     [Penalty] int  NOT NULL,
     [Time] datetime  NOT NULL,
-    [Result_Id] bigint  NOT NULL,
-    [Task_Id] bigint  NOT NULL
+    [Task_Id] bigint  NOT NULL,
+    [TaskResult_Id] int  NOT NULL
 );
 GO
 
@@ -161,6 +168,15 @@ GO
 CREATE TABLE [dbo].[TaskDatas] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Xap] varbinary(max)  NOT NULL
+);
+GO
+
+-- Creating table 'TaskResults'
+CREATE TABLE [dbo].[TaskResults] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] int  NOT NULL,
+    [Result_Id] bigint  NOT NULL,
+    [LabEntry_Id] bigint  NOT NULL
 );
 GO
 
@@ -294,6 +310,12 @@ ADD CONSTRAINT [PK_TaskDatas]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'TaskResults'
+ALTER TABLE [dbo].[TaskResults]
+ADD CONSTRAINT [PK_TaskResults]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'Users_Student'
 ALTER TABLE [dbo].[Users_Student]
 ADD CONSTRAINT [PK_Users_Student]
@@ -335,21 +357,6 @@ GO
 CREATE INDEX [IX_FK_UserNews]
 ON [dbo].[News]
     ([User_Id]);
-GO
-
--- Creating foreign key on [Result_Id] in table 'StudentActions'
-ALTER TABLE [dbo].[StudentActions]
-ADD CONSTRAINT [FK_ResultAction]
-    FOREIGN KEY ([Result_Id])
-    REFERENCES [dbo].[Results]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ResultAction'
-CREATE INDEX [IX_FK_ResultAction]
-ON [dbo].[StudentActions]
-    ([Result_Id]);
 GO
 
 -- Creating foreign key on [TestQuestion_Id] in table 'AnswerVariants'
@@ -602,6 +609,51 @@ GO
 CREATE INDEX [IX_FK_TaskTaskData]
 ON [dbo].[Tasks]
     ([TaskData_Id]);
+GO
+
+-- Creating foreign key on [Result_Id] in table 'TaskResults'
+ALTER TABLE [dbo].[TaskResults]
+ADD CONSTRAINT [FK_ResultTaskResult]
+    FOREIGN KEY ([Result_Id])
+    REFERENCES [dbo].[Results]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ResultTaskResult'
+CREATE INDEX [IX_FK_ResultTaskResult]
+ON [dbo].[TaskResults]
+    ([Result_Id]);
+GO
+
+-- Creating foreign key on [TaskResult_Id] in table 'StudentActions'
+ALTER TABLE [dbo].[StudentActions]
+ADD CONSTRAINT [FK_TaskResultStudentAction]
+    FOREIGN KEY ([TaskResult_Id])
+    REFERENCES [dbo].[TaskResults]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TaskResultStudentAction'
+CREATE INDEX [IX_FK_TaskResultStudentAction]
+ON [dbo].[StudentActions]
+    ([TaskResult_Id]);
+GO
+
+-- Creating foreign key on [LabEntry_Id] in table 'TaskResults'
+ALTER TABLE [dbo].[TaskResults]
+ADD CONSTRAINT [FK_LabEntryTaskResult]
+    FOREIGN KEY ([LabEntry_Id])
+    REFERENCES [dbo].[LabEntries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LabEntryTaskResult'
+CREATE INDEX [IX_FK_LabEntryTaskResult]
+ON [dbo].[TaskResults]
+    ([LabEntry_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'

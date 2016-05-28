@@ -79,7 +79,8 @@ namespace GraphLabs.Site.Logic
 
             foreach (var oldResult in resultsToInterrupt)
             {
-                oldResult.Grade = Grade.Interrupted;
+                //TODO: Заменить Score
+                oldResult.Score = -1;
             }
 
             if (latestCurrentResult == null)
