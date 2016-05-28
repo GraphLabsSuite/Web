@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq.Expressions;
 using GraphLabs.Dal.Ef;
 using NUnit.Framework;
@@ -68,7 +69,7 @@ namespace GraphLabs.Tests.DomainModel
             user2.Surname = "Surname";
             GraphLabsContext.Users.Add(user2);
 
-            Assert.Throws<DbUpdateException>(() => GraphLabsContext.SaveChanges());
+            Assert.Throws<SqlException>(() => GraphLabsContext.SaveChanges());
         }
     }
 }

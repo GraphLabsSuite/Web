@@ -2,7 +2,7 @@
 
 namespace GraphLabs.Tests.DomainModel
 {
-    public abstract class TestBaseBase
+    public abstract class TestBase
     {
         protected static string GetConnectionString()
         {

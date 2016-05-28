@@ -160,9 +160,8 @@ SELECT TOP 1
   @name = sys.objects.[name], 
   @schema = sys.schemas.[name]
 FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
-WHERE sys.objects.[type] = N'U' AND sys.schemas.[name] != N'dbo' AND sys.objects.[name] != N'TestTable'
+WHERE sys.objects.[type] = N'U' AND NOT (sys.schemas.[name] = N'dbo' AND sys.objects.[name] = N'TestTable')
 ORDER BY sys.objects.[name]
-
 
 WHILE @name IS NOT NULL
 BEGIN
@@ -174,7 +173,7 @@ BEGIN
       @name = sys.objects.[name], 
       @schema = sys.schemas.[name]
     FROM sys.objects INNER JOIN sys.schemas ON sys.objects.[schema_id] = sys.schemas.[schema_id]
-    WHERE sys.objects.[type] = N'U' AND sys.schemas.[name] != N'dbo' AND sys.objects.[name] != N'TestTable'
+    WHERE sys.objects.[type] = N'U' AND NOT (sys.schemas.[name] = N'dbo' AND sys.objects.[name] = N'TestTable')
     ORDER BY sys.objects.[name]
 END
 GO

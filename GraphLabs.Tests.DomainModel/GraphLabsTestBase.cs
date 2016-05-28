@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace GraphLabs.Tests.DomainModel
 {
     [TestFixture]
-    public abstract class GraphLabsTestBase : TestBaseBase
+    public abstract class GraphLabsTestBase : TestBase
     {
         protected GraphLabsContext GraphLabsContext { get; private set; }
 
@@ -162,6 +162,7 @@ namespace GraphLabs.Tests.DomainModel
                     }
                     SetTestsAreRunning(c);
 
+                    ExecuteScript(GetSchemaCleaningScript(), c);
                     ExecuteScript(GetSchemaCreationScript(), c);
                 });
         }
