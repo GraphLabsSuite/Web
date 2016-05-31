@@ -80,8 +80,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LabEntryTaskResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_LabEntryTaskResult];
+IF OBJECT_ID(N'[dbo].[FK_TaskVariantTaskResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_TaskVariantTaskResult];
 GO
 
 -- --------------------------------------------------

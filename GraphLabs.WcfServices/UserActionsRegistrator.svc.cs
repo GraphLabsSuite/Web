@@ -62,7 +62,7 @@ namespace GraphLabs.WcfServices
                     newAction.Penalty = 0;
                     newAction.TaskResult = taskResultLog;
                     newAction.Time = _systemDate.Now();
-                    taskResultLog.Status = TaskResultState.Complete;
+                    taskResultLog.Status = ExecutionStatus.Complete;
                     taskResultLog.StudentActions.Add(newAction);
                 }
 
@@ -97,7 +97,7 @@ namespace GraphLabs.WcfServices
 
         private TaskResult GetCurrentTaskResultLog(Result resultLog, Task task)
         {
-            return resultLog.TaskResults.Single(tr => tr.LabEntry.Task == task);
+            return resultLog.TaskResults.Single(tr => tr.TaskVariant.Task == task);
         }
 
         private Session GetSessionWithChecks(IEntityQuery query, Guid sessionGuid)

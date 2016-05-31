@@ -93,12 +93,12 @@ namespace GraphLabs.Site.Logic
                     : LabExecutionMode.TestMode;
                 result.Student = student;
 
-                foreach (var labEntry in variant.LabWork.LabEntries)
+                foreach (var taskVariant in variant.TaskVariants)
                 {
                     var taskResult = _reportsContext.TaskResults.CreateNew();
-                    taskResult.Status = TaskResultState.Executing;
+                    taskResult.Status = ExecutionStatus.Executing;;
                     taskResult.StudentActions = new List<StudentAction>();
-                    taskResult.LabEntry = labEntry;
+                    taskResult.TaskVariant = taskVariant;
                     taskResult.Result = result;
 
                     result.TaskResults.Add(taskResult);

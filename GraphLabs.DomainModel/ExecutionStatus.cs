@@ -12,9 +12,9 @@ namespace GraphLabs.DomainModel
     using System;
     using GraphLabs.DomainModel.Infrastructure;
     
-    public enum TaskResultState : int
+    public enum ExecutionStatus : byte
     {
-        Complete = 0,
-        Executing = 1
+        Complete = 1,
+        Executing = 0
     }
 }

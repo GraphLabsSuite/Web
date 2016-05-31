@@ -22,14 +22,16 @@ namespace GraphLabs.Site.Controllers
         private readonly ILabWorksContext _labWorksContext;
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
+        private readonly IChangesTracker _changesTracker;
 
         #endregion
 
-        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, IChangesTracker changesTracker)
         {
             _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
+            _changesTracker = changesTracker;
         }
 
         #region Отображение списка лабораторных работ
@@ -68,7 +70,7 @@ namespace GraphLabs.Site.Controllers
 			lab.Name = Name;
             lab.AcquaintanceFrom = DateTime.Parse(DateFrom); // ParseDate.Parse(DateFrom);
 			lab.AcquaintanceTill = DateTime.Parse(DateTo);
-
+            _changesTracker.SaveChanges();
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
 

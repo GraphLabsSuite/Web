@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/28/2016 12:47:10
--- Generated from EDMX file: C:\Users\svtz\Desktop\graphlabs\graphlabs.site\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- Date Created: 05/31/2016 21:35:38
+-- Generated from EDMX file: C:\Users\Илья\Desktop\taskresults2\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -55,6 +55,7 @@ CREATE TABLE [dbo].[Results] (
     [Mode] int  NOT NULL,
     [StartDateTime] datetime  NOT NULL,
     [Score] smallint  NULL,
+    [Status] tinyint  NOT NULL,
     [Student_Id] bigint  NOT NULL,
     [LabVariant_Id] bigint  NOT NULL
 );
@@ -66,7 +67,7 @@ CREATE TABLE [dbo].[StudentActions] (
     [Description] nvarchar(100)  NOT NULL,
     [Penalty] int  NOT NULL,
     [Time] datetime  NOT NULL,
-    [TaskResult_Id] int  NOT NULL
+    [TaskResult_Id] bigint  NOT NULL
 );
 GO
 
@@ -172,10 +173,10 @@ GO
 
 -- Creating table 'TaskResults'
 CREATE TABLE [dbo].[TaskResults] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Status] int  NOT NULL,
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Status] tinyint  NOT NULL,
     [Result_Id] bigint  NOT NULL,
-    [LabEntry_Id] bigint  NOT NULL
+    [TaskVariant_Id] bigint  NOT NULL
 );
 GO
 
@@ -625,19 +626,19 @@ ON [dbo].[StudentActions]
     ([TaskResult_Id]);
 GO
 
--- Creating foreign key on [LabEntry_Id] in table 'TaskResults'
+-- Creating foreign key on [TaskVariant_Id] in table 'TaskResults'
 ALTER TABLE [dbo].[TaskResults]
-ADD CONSTRAINT [FK_LabEntryTaskResult]
-    FOREIGN KEY ([LabEntry_Id])
-    REFERENCES [dbo].[LabEntries]
+ADD CONSTRAINT [FK_TaskResultTaskVariant]
+    FOREIGN KEY ([TaskVariant_Id])
+    REFERENCES [dbo].[TaskVariants]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LabEntryTaskResult'
-CREATE INDEX [IX_FK_LabEntryTaskResult]
+-- Creating non-clustered index for FOREIGN KEY 'FK_TaskResultTaskVariant'
+CREATE INDEX [IX_FK_TaskResultTaskVariant]
 ON [dbo].[TaskResults]
-    ([LabEntry_Id]);
+    ([TaskVariant_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'
