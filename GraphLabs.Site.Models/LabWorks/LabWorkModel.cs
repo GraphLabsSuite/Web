@@ -5,7 +5,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.LabWorks
 {
-    public class LabWorkModel : IEntityBasedModel<LabWork>
+    public class LabWorkModel : IEntityBasedModel<DomainModel.LabWork>
     {
         public long Id { get; set; }
         public string Name { get; set; }

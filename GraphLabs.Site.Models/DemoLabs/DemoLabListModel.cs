@@ -3,17 +3,17 @@ using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.DemoLabs
 {
     /// <summary> Модель списка демонстрационных лабораторных работ </summary>
     public class DemoLabListModel : ListModelBase<DemoLabModel>
     {
         private readonly IEntityQuery _query;
-        private readonly IEntityBasedModelLoader<DemoLabModel, LabWork> _modelLoader;
+        private readonly IEntityBasedModelLoader<DemoLabModel, DomainModel.LabWork> _modelLoader;
         private readonly ISystemDateService _dateService;
 
         /// <summary> Модель списка демонстрационных лабораторных работ </summary>
-        public DemoLabListModel(IEntityQuery query, IEntityBasedModelLoader<DemoLabModel, LabWork> modelLoader, ISystemDateService dateService)
+        public DemoLabListModel(IEntityQuery query, IEntityBasedModelLoader<DemoLabModel, DomainModel.LabWork> modelLoader, ISystemDateService dateService)
         {
             _query = query;
             _modelLoader = modelLoader;
@@ -24,7 +24,7 @@ namespace GraphLabs.Site.Models.DemoLab
         protected override DemoLabModel[] LoadItems()
         {
             var currentTime = _dateService.Now();
-            return _query.OfEntities<LabWork>()
+            return _query.OfEntities<DomainModel.LabWork>()
                 .ToArray()
                 .Where(l => l.AcquaintanceFrom.HasValue && l.AcquaintanceTill.HasValue)
                 .Where(l => currentTime.CompareTo(l.AcquaintanceFrom) >= 0 && 

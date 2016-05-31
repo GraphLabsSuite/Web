@@ -6,13 +6,13 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.LabVariants
 {
     /// <summary> Загрузчик моделей вариантов лабораторных работ </summary>
-    sealed class LabVariantModelLoader : AbstractModelLoader<LabVariantModel, LabVariant>
+    sealed class LabVariantModelLoader : AbstractModelLoader<LabVariantModel, DomainModel.LabVariant>
     {
         /// <summary> Загрузчик моделей вариантов лабораторных работ </summary>
         public LabVariantModelLoader(IEntityQuery query) : base(query) { }
 
         /// <summary> Загрузить по сущности-прототипу </summary>
-        public override LabVariantModel Load(LabVariant labVariant)
+        public override LabVariantModel Load(DomainModel.LabVariant labVariant)
         {
             Contract.Requires(labVariant != null);
 

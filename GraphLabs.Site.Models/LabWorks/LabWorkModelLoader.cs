@@ -6,13 +6,13 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.LabWorks
 {
     /// <summary> Загрузчик моделей лабораторных работ </summary>
-    sealed class LabWorkModelLoader : AbstractModelLoader<LabWorkModel, LabWork>
+    sealed class LabWorkModelLoader : AbstractModelLoader<LabWorkModel, DomainModel.LabWork>
     {
         /// <summary> Загрузчик моделей лабораторных работ </summary>
         public LabWorkModelLoader(IEntityQuery query) : base(query) { }
 
         /// <summary> Загрузить по сущности-прототипу </summary>
-        public override LabWorkModel Load(LabWork labWork)
+        public override LabWorkModel Load(DomainModel.LabWork labWork)
         {
             Contract.Requires(labWork != null);
 

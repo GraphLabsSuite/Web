@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.DemoLabs
 {
-    public class DemoLabModel : IEntityBasedModel<LabWork>
+    public class DemoLabModel : IEntityBasedModel<DomainModel.LabWork>
     {
         public long Id { get; set; }
 

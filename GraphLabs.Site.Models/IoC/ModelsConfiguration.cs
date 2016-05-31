@@ -1,9 +1,11 @@
-﻿using System;
-using GraphLabs.DomainModel;
-using GraphLabs.Site.Models.DemoLab;
+﻿using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.DemoLabs;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.News;
+using GraphLabs.Site.Models.Results;
+using GraphLabs.Site.Models.StudentActions;
+using GraphLabs.Site.Models.TaskResults;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
@@ -27,7 +29,16 @@ namespace GraphLabs.Site.Models.IoC
             container.RegisterType<IEntityBasedModelLoader<NewsModel, DomainModel.News>, NewsModelLoader>(new PerResolveLifetimeManager());
 
             // демолабы
-            container.RegisterType<IEntityBasedModelLoader<DemoLabModel, DomainModel.LabWork>, DemoLabModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelLoader<DemoLabModel, LabWork>, DemoLabModelLoader>(new PerResolveLifetimeManager());
+
+            // результаты лаб
+            container.RegisterType<IEntityBasedModelLoader<ResultModel, Result>, ResultModelLoader>(new PerResolveLifetimeManager());
+
+            // результаты заданий
+            container.RegisterType<IEntityBasedModelLoader<TaskResultModel, TaskResult>, TaskResultModelLoader>(new PerResolveLifetimeManager());
+
+            // действия студентов
+            container.RegisterType<IEntityBasedModelLoader<StudentActionModel, StudentAction>, StudentActionModelLoader>(new PerResolveLifetimeManager());
         }
     }
 }

@@ -8,7 +8,7 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.LabWorks
 {
     /// <summary> Сервис сохранения лабораторных работ </summary>
-    sealed class LabWorkModelSaver : AbstractModelSaver<LabWorkModel, LabWork>
+    sealed class LabWorkModelSaver : AbstractModelSaver<LabWorkModel, DomainModel.LabWork>
     {
         /// <summary> Сервис сохранения лабораторных работ </summary>
         public LabWorkModelSaver(IOperationContextFactory<IGraphLabsContext> operationContextFactory)
@@ -16,14 +16,14 @@ namespace GraphLabs.Site.Models.LabWorks
         {
         }
 
-        protected override Action<LabWork> GetEntityInitializer(LabWorkModel model, IEntityQuery query)
+        protected override Action<DomainModel.LabWork> GetEntityInitializer(LabWorkModel model, IEntityQuery query)
         {
             return l =>
             {
                 l.Name = model.Name;
                 l.AcquaintanceFrom = model.AcquaintanceFrom;
                 l.AcquaintanceTill = model.AcquaintanceTill;
-                l.LabVariants = query.OfEntities<LabVariant>().Where(v => model.LabVariantIds.Contains(v.Id)).ToArray();
+                l.LabVariants = query.OfEntities<DomainModel.LabVariant>().Where(v => model.LabVariantIds.Contains(v.Id)).ToArray();
                 l.Groups = model.Groups;
                 l.LabEntries = model.LabEntries;
             };

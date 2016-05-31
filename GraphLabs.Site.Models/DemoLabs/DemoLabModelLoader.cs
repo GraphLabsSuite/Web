@@ -6,16 +6,16 @@ using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Utils;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.DemoLabs
 {
     /// <summary> Загрузчик моделей демонстрационных лабораторных работ </summary>
-    sealed class DemoLabModelLoader : AbstractModelLoader<DemoLabModel, LabWork>
+    sealed class DemoLabModelLoader : AbstractModelLoader<DemoLabModel, DomainModel.LabWork>
     {
         /// <summary> Загрузчик моделей демонстрационных лабораторных работ </summary>
         public DemoLabModelLoader(IEntityQuery query) : base(query) { }
 
         /// <summary> Загрузить по сущности-прототипу </summary>
-        public override DemoLabModel Load(LabWork labWork)
+        public override DemoLabModel Load(DomainModel.LabWork labWork)
         {
             Contract.Requires(labWork != null);
 
@@ -39,7 +39,7 @@ namespace GraphLabs.Site.Models.DemoLab
         /// <summary> Проверка соответствия варианта лабораторной работы содержанию работы </summary>
         private bool VerifyCompleteVariant(long variantId)
         {
-            long labWorkId = _query.OfEntities<LabVariant>()
+            long labWorkId = _query.OfEntities<DomainModel.LabVariant>()
                 .Where(v => v.Id == variantId)
                 .Select(v => v.LabWork.Id)
                 .Single();
@@ -49,7 +49,7 @@ namespace GraphLabs.Site.Models.DemoLab
                 .Select(e => e.Task.Id)
                 .ToArray();
 
-            long[] currentVariantEntry = _query.OfEntities<LabVariant>()
+            long[] currentVariantEntry = _query.OfEntities<DomainModel.LabVariant>()
                 .Where(l => l.Id == variantId)
                 .SelectMany(t => t.TaskVariants)
                 .Select(t => t.Task.Id)

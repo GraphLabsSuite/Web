@@ -144,9 +144,9 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
-    <Compile Include="DemoLab\DemoLabModel.cs" />
-    <Compile Include="DemoLab\DemoLabListModel.cs" />
-    <Compile Include="DemoLab\DemoLabModelLoader.cs" />
+    <Compile Include="DemoLabs\DemoLabModel.cs" />
+    <Compile Include="DemoLabs\DemoLabListModel.cs" />
+    <Compile Include="DemoLabs\DemoLabModelLoader.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
     <Compile Include="Groups\GroupListModel.cs" />
@@ -176,8 +176,14 @@
     <Compile Include="News\NewsModelSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="Results\ResultModel.cs" />
+    <Compile Include="Results\ResultModelLoader.cs" />
+    <Compile Include="StudentActions\StudentActionModel.cs" />
+    <Compile Include="StudentActions\StudentActionModelLoader.cs" />
     <Compile Include="TaskExecutionModel.cs" />
     <Compile Include="TaskExecutionModelFactory.cs" />
+    <Compile Include="TaskResults\TaskResultModel.cs" />
+    <Compile Include="TaskResults\TaskResultModelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphLabs.Dal.Ef\GraphLabs.Dal.Ef.csproj">

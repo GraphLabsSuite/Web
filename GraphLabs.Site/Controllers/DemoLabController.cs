@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.Site.Models.DemoLab;
+using GraphLabs.Site.Models.DemoLabs;
 using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Controllers

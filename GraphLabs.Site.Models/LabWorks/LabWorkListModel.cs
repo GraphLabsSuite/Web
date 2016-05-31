@@ -8,10 +8,10 @@ namespace GraphLabs.Site.Models.LabWorks
     public sealed class LabWorkListModel : ListModelBase<LabWorkModel>
     {
         private readonly IEntityQuery _query;
-        private readonly IEntityBasedModelLoader<LabWorkModel, LabWork> _modelLoader;
+        private readonly IEntityBasedModelLoader<LabWorkModel, DomainModel.LabWork> _modelLoader;
 
         /// <summary> Модель списка дабораторных работ </summary>
-        public LabWorkListModel(IEntityQuery query, IEntityBasedModelLoader<LabWorkModel, LabWork> modelLoader)
+        public LabWorkListModel(IEntityQuery query, IEntityBasedModelLoader<LabWorkModel, DomainModel.LabWork> modelLoader)
         {
             _query = query;
             _modelLoader = modelLoader;
@@ -20,7 +20,7 @@ namespace GraphLabs.Site.Models.LabWorks
         /// <summary> Загружает лабораторные работы </summary>
         protected override LabWorkModel[] LoadItems()
         {
-            return _query.OfEntities<LabWork>()
+            return _query.OfEntities<DomainModel.LabWork>()
                 .ToArray()
                 .Select(_modelLoader.Load)
                 .ToArray();
