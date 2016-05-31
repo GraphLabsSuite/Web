@@ -47,3 +47,5 @@ DELETE FROM [dbo].[Users];
 GO
 DELETE FROM [dbo].[Groups];
 GO
+DELETE FROM [dbo].[TaskResults];
+GO

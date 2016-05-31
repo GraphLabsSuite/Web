@@ -80,6 +80,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
 GO
+IF OBJECT_ID(N'[dbo].[FK_LabEntryTaskResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_LabEntryTaskResult];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -144,4 +147,7 @@ IF OBJECT_ID(N'[dbo].[LabVariantTaskVariant]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[LabWorkGroup]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabWorkGroup];
+GO
+IF OBJECT_ID(N'[dbo].[TaskResults]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TaskResults];
 GO
