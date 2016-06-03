@@ -5,11 +5,11 @@ using GraphLabs.Site.Models.StudentActions;
 
 namespace GraphLabs.Site.Models.TaskResults
 {
-    class TaskResultModel : IEntityBasedModel<TaskResult>
+    public class TaskResultModel : IEntityBasedModel<TaskResult>
     {
         public long Id { get; set; }
-        public IEnumerable<StudentActionModel> StudentActions { get; set; }
+        public string TaskName { get; set; }
         public string TaskVariantNumber { get; set; }
-        public ExecutionStatus Status { get; set; }
+        public string Status { get; set; }
     }
 }

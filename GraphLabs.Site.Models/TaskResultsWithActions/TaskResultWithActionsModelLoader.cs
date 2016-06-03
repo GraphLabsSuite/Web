@@ -4,22 +4,30 @@ using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.StudentActions;
 
-namespace GraphLabs.Site.Models.TaskResults
+namespace GraphLabs.Site.Models.TaskResultsWithActions
 {
-    class TaskResultModelLoader : AbstractModelLoader<TaskResultModel, TaskResult>
+    class TaskResultWithActionsModelLoader : AbstractModelLoader<TaskResultWithActionsModel, TaskResult>
     {
-        public TaskResultModelLoader(IEntityQuery query) : base(query) { }
+        private readonly IEntityBasedModelLoader<StudentActionModel, StudentAction> _modelLoader;
 
-        public override TaskResultModel Load(TaskResult taskResult)
+        public TaskResultWithActionsModelLoader(IEntityQuery query,
+            IEntityBasedModelLoader<StudentActionModel, StudentAction> modelLoader) : base(query)
+        {
+            _modelLoader = modelLoader;
+        }
+
+        public override TaskResultWithActionsModel Load(TaskResult taskResult)
         {
             Contract.Requires(taskResult != null);
 
-            var model = new TaskResultModel()
+            var model = new TaskResultWithActionsModel()
             {
                 Id = taskResult.Id,
                 TaskName = taskResult.TaskVariant.Task.Name,
                 Status = ExecutionStatusToString(taskResult.Status),
-                TaskVariantNumber = taskResult.TaskVariant.Number
+                TaskVariantNumber = taskResult.TaskVariant.Number,
+                StudentActions = taskResult.StudentActions.Select(x => _modelLoader.Load(x)).ToArray(),
+                ResultId = taskResult.Result.Id
             };
 
             return model;

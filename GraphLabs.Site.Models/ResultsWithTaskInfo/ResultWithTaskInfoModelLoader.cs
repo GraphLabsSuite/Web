@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.TaskResults;
 
-namespace GraphLabs.Site.Models.Results
+namespace GraphLabs.Site.Models.ResultsWithTaskInfo
 {
-    class ResultModelLoader : AbstractModelLoader<ResultModel, Result>
+    class ResultWithTaskInfoModelLoader : AbstractModelLoader<ResultWithTaskInfoModel, Result>
     {
-        public ResultModelLoader(IEntityQuery query): base(query) { }
+        private readonly IEntityBasedModelLoader<TaskResultModel, TaskResult> _modelLoader;
 
-        public override ResultModel Load(Result result)
+        public ResultWithTaskInfoModelLoader(IEntityQuery query,
+            IEntityBasedModelLoader<TaskResultModel, TaskResult> modelLoader) : base(query)
+        {
+            _modelLoader = modelLoader;
+        }
+
+        public override ResultWithTaskInfoModel Load(Result result)
         {
             Contract.Requires(result != null);
 
-            var model = new ResultModel()
+            var model = new ResultWithTaskInfoModel()
             {
                 Id = result.Id,
                 LabVariantNumber = result.LabVariant.Number,
@@ -26,7 +28,9 @@ namespace GraphLabs.Site.Models.Results
                 Score = result.Score,
                 Status = ExecutionStatusToString(result.Status),
                 StartDateTime = result.StartDateTime,
-                LabWorkName = result.LabVariant.LabWork.Name
+                LabWorkName = result.LabVariant.LabWork.Name,
+                TaskResults = result.TaskResults.Select(x => _modelLoader.Load(x)).ToArray(),
+                StudentId = result.Student.Id
             };
 
             return model;

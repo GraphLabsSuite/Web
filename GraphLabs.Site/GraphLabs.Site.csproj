@@ -358,7 +358,6 @@
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
     <Compile Include="Models\LabWorkExecutionModel.cs" />
-    <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\Survey\SurveyIndexViewModel.cs" />
     <Compile Include="Models\Survey\SurveyCreatingModel.cs" />
@@ -404,6 +403,10 @@
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Views\Survey\TestQuestionListPartial.cshtml" />
+    <Content Include="Views\Result\LabWorkResult.cshtml" />
+    <Content Include="Views\Result\StudentList.cshtml" />
+    <Content Include="Views\Result\StudentResult.cshtml" />
+    <Content Include="Views\Result\TaskResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

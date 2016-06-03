@@ -1,105 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
-using GraphLabs.Site.Models;
+using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models.Groups;
-using Newtonsoft.Json;
+using GraphLabs.Site.Models.Infrastructure;
+using GraphLabs.Site.Models.Results;
+using GraphLabs.Site.Models.ResultsWithTaskInfo;
+using GraphLabs.Site.Models.TaskResultsWithActions;
+
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
     public class ResultController : GraphLabsController
 	{
+        // TODO: избавиться от UserRepository
         #region Зависимости
 
-        private readonly IGroupRepository _groupsRepository;
-        private readonly ILabRepository _labsRepository;
-        private readonly ISystemDateService _dateService;
+        private readonly IUserRepository _userRepository;
+        private readonly IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult> _taskResultWithActionsModelLoader;
+        private readonly IEntityBasedModelLoader<ResultModel, Result> _resultModelLoader;
+        private readonly IEntityBasedModelLoader<ResultWithTaskInfoModel, Result> _resultWithTaskInfoModelLoader;
+        private readonly IEntityBasedModelLoader<GroupModel, Group> _groupModelLoader;
+        private readonly IListModelLoader _listModelLoader;
 
-		#endregion
+        #endregion
 
-        public ResultController(IGroupRepository groupRepository, ILabRepository labRepository, ISystemDateService dateService)
+        public ResultController(IUserRepository userRepository, IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult> taskResultWithActionsModelLoader, IEntityBasedModelLoader<ResultWithTaskInfoModel, Result> resultWithTaskInfoModelLoader, IListModelLoader listModelLoader, IEntityBasedModelLoader<GroupModel, Group> groupModelLoader, IEntityBasedModelLoader<ResultModel, Result> resultModelLoader)
         {
-            _groupsRepository = groupRepository;
-            _labsRepository = labRepository;
-            _dateService = dateService;
+            _userRepository = userRepository;
+            _taskResultWithActionsModelLoader = taskResultWithActionsModelLoader;
+            _resultWithTaskInfoModelLoader = resultWithTaskInfoModelLoader;
+            _groupModelLoader = groupModelLoader;
+            _listModelLoader = listModelLoader;
+            _resultModelLoader = resultModelLoader;
         }
 
         public ActionResult Index()
         {
-            ResultModel res = new ResultModel();
-            throw new NotImplementedException();
-			//res.Groups = _groupsRepository
-			//				.GetAllGroups()
-			//				.Select(g => new GroupModel(g, _dateService))
-			//				.ToArray();
-
-			res.Labs = _labsRepository.GetLabWorks();
-			
-            return View(res);
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>();
+            return View(model);
         }
 
-        [HttpPost]
-        public string GetGroupsInfo(string Groups, long Lab)
+        public ActionResult StudentList(long id = 0)
         {
-            Groups = "[" + Groups + "]";
-            List<long> groupsId = JsonConvert.DeserializeObject<List<long>>(Groups);
-
-            JSONResultGroupsInfoModel result = new JSONResultGroupsInfoModel();
-            result.Result = 0;
-            result.Marks = new GroupResult[groupsId.Count];
-
-			result.LabName = _labsRepository.GetLabWorkById(Lab).Name;
-
-            GroupModel group;
-            int j = 0;
-
-            foreach (long i in groupsId)
-            {
-                throw new NotImplementedException();
-
-                //group = new GroupModel(_groupsRepository.GetGroupById(i), _dateService);
-                //result.Marks[j] = new GroupResult();
-                //result.Marks[j].Id = group.Id;
-                //result.Marks[j].Name = group.Name;
-                //result.Marks[j].StudentsCount = group.Students.Count;
-                //Random r = new Random();
-                //int x = group.Students.Count;
-                //int y = r.Next(0, x+1);
-                //x = x-y;
-                //result.Marks[j].Count5 = y;
-                //y = r.Next(0, x + 1);
-                //x = x - y;
-                //result.Marks[j].Count4 = y;
-                //y = r.Next(0, x + 1);
-                //x = x - y;
-                //result.Marks[j].Count3 = y;
-                //y = r.Next(0, x + 1);
-                //x = x - y; 
-                //result.Marks[j].Count2 = y;
-                //result.Marks[j].Count0 = x;
-                //++j;
-            }
-
-            return JsonConvert.SerializeObject(result);
+            return View(_groupModelLoader.Load(id));
         }
 
-        [HttpPost]
-        public string GetGroupDetail(long GroupId, long LabId)
+        public ActionResult StudentResult(long id = 0)
         {
-            throw new NotImplementedException();
+            var student = (Student)_userRepository.GetUserById(id);
+            var model = student.Results.Select(x => _resultModelLoader.Load(x)).ToArray();
+            ViewBag.GroupId = student.Group.Id;
+            return View(model);
+        }
 
+        public ActionResult LabWorkResult(long id = 0)
+        {
+            var model = _resultWithTaskInfoModelLoader.Load(id);
+            return View(model);
+        }
 
-            //JSONResultGroupDetail result = new JSONResultGroupDetail();
-            //result.Result = 0;
-            //result.Name = (new GroupModel(_groupsRepository.GetGroupById(GroupId), _dateService)).Name;
-
-            return "";
+        public ActionResult TaskResult(long id = 0)
+        {
+            var model = _taskResultWithActionsModelLoader.Load(id);
+            return View(model);
         }
     }
 }

@@ -4,8 +4,10 @@ using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.News;
 using GraphLabs.Site.Models.Results;
+using GraphLabs.Site.Models.ResultsWithTaskInfo;
 using GraphLabs.Site.Models.StudentActions;
 using GraphLabs.Site.Models.TaskResults;
+using GraphLabs.Site.Models.TaskResultsWithActions;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
@@ -34,8 +36,14 @@ namespace GraphLabs.Site.Models.IoC
             // результаты лаб
             container.RegisterType<IEntityBasedModelLoader<ResultModel, Result>, ResultModelLoader>(new PerResolveLifetimeManager());
 
+            // результаты лаб с инфой о заданиях
+            container.RegisterType<IEntityBasedModelLoader<ResultWithTaskInfoModel, Result>, ResultWithTaskInfoModelLoader>(new PerResolveLifetimeManager());
+
             // результаты заданий
             container.RegisterType<IEntityBasedModelLoader<TaskResultModel, TaskResult>, TaskResultModelLoader>(new PerResolveLifetimeManager());
+
+            // результаты заданий с инфой о действиях
+            container.RegisterType<IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult>, TaskResultWithActionsModelLoader>(new PerResolveLifetimeManager());
 
             // действия студентов
             container.RegisterType<IEntityBasedModelLoader<StudentActionModel, StudentAction>, StudentActionModelLoader>(new PerResolveLifetimeManager());

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;

@@ -4,7 +4,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.StudentActions
 {
-    class StudentActionModel : IEntityBasedModel<StudentAction>
+    public class StudentActionModel : IEntityBasedModel<StudentAction>
     {
         public long Id { get; set; }
         public string Description { get; set; }
