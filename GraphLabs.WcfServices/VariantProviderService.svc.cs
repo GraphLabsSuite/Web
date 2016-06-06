@@ -46,7 +46,7 @@ namespace GraphLabs.WcfServices
                 var action = op.DataContext.Factory.Create<StudentAction>();
                 action.TaskResult = taskResultLog;
                 action.Time = _systemDate.Now();
-                action.Description = $"[Сервис выдачи вариантов: для задания '{task.Id}' выдан вариант {taskVariant.Number}.]";
+                action.Description = $"['Task {task.Id}' -> Variant {taskVariant.Number}]";
                 action.Penalty = 0;
                 taskResultLog.StudentActions.Add(action);
 
@@ -65,18 +65,9 @@ namespace GraphLabs.WcfServices
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
         {
-            //TODO: Заменить Score
-            var activeResults = query.OfEntities<Result>()
+            return query.OfEntities<Result>()
                 .Where(result => result.Student.Id == session.User.Id && result.Score == null)
-                .ToArray();
-
-            foreach (var activeResult in activeResults.OrderByDescending(r => r.StartDateTime).Skip(1))
-            {
-                //TODO: Заменить Score
-                activeResult.Score = -1;
-            }
-
-            return activeResults.First();
+                .ToArray().First();
         }
 
         private TaskResult GetCurrentTaskResultLog(Result resultLog, Task task)
