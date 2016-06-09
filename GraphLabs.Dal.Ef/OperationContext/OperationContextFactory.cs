@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using GraphLabs.Dal.Ef.Infrastructure;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core;
@@ -12,6 +13,7 @@ namespace GraphLabs.Dal.Ef.OperationContext
         public IOperationContext<IGraphLabsContext> Create()
         {
             var ctx = new GraphLabsContext();
+            ctx.Database.Log = s => Debug.WriteLine(s);
             return new OperationContextImpl(new GraphLabsContextImpl(ctx), new ChangesTracker(ctx));
         }
     }

@@ -52,8 +52,11 @@ namespace GraphLabs.WcfServices
                     newAction.Penalty = actionDescription.Penalty;
                     newAction.TaskResult = taskResultLog;
                     newAction.Time = actionDescription.TimeStamp;
+                    
                     taskResultLog.StudentActions.Add(newAction);
                 }
+
+                taskResultLog.Score -= actions.Last().Penalty;
 
                 if (isTaskFinished)
                 {
@@ -66,17 +69,10 @@ namespace GraphLabs.WcfServices
                     taskResultLog.StudentActions.Add(newAction);
                 }
 
-                var currentScore = CalculateCurrentScore(resultLog);
-
                 op.Complete();
 
-                return currentScore;
+                return taskResultLog.Score;
             }
-        }
-
-        private int CalculateCurrentScore(Result result)
-        {
-            return StartingScore - result.TaskResults.SelectMany(tr => tr.StudentActions).Sum(a => a.Penalty);
         }
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
