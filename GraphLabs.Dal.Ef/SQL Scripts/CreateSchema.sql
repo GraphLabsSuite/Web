@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/31/2016 21:35:38
+-- Date Created: 06/09/2016 23:02:20
 -- Generated from EDMX file: C:\Users\Илья\Desktop\taskresults2\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -65,7 +65,7 @@ GO
 CREATE TABLE [dbo].[StudentActions] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(100)  NOT NULL,
-    [Penalty] int  NOT NULL,
+    [Penalty] smallint  NOT NULL,
     [Time] datetime  NOT NULL,
     [TaskResult_Id] bigint  NOT NULL
 );
@@ -175,6 +175,7 @@ GO
 CREATE TABLE [dbo].[TaskResults] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Status] tinyint  NOT NULL,
+    [Score] smallint  NOT NULL,
     [Result_Id] bigint  NOT NULL,
     [TaskVariant_Id] bigint  NOT NULL
 );
