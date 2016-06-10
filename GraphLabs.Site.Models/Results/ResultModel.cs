@@ -9,7 +9,7 @@ namespace GraphLabs.Site.Models.Results
         public long Id { get; set; }
         public string Mode { get; set; }
         public DateTime StartDateTime { get; set; }
-        public short? Score { get; set; }
+        public int? Score { get; set; }
         public string Status { get; set; }
         public string LabWorkName { get; set; }
         public string LabVariantNumber { get; set; }

@@ -155,7 +155,7 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Mode" Type="int" Nullable="false" />
     <Property Name="StartDateTime" Type="datetime" Nullable="false" />
-    <Property Name="Score" Type="smallint" Nullable="true" />
+    <Property Name="Score" Type="int" Nullable="true" />
     <Property Name="Status" Type="tinyint" Nullable="false" />
     <Property Name="Student_Id" Type="bigint" Nullable="false" />
     <Property Name="LabVariant_Id" Type="bigint" Nullable="false" />
@@ -166,7 +166,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Penalty" Type="smallint" Nullable="false" />
+    <Property Name="Penalty" Type="int" Nullable="false" />
     <Property Name="Time" Type="datetime" Nullable="false" />
     <Property Name="TaskResult_Id" Type="bigint" Nullable="false" />
   </EntityType>
@@ -276,7 +276,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="tinyint" Nullable="false" />
-    <Property Name="Score" Type="smallint" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
     <Property Name="Result_Id" Type="bigint" Nullable="false" />
     <Property Name="TaskVariant_Id" Type="bigint" Nullable="false" />
   </EntityType>
@@ -721,7 +721,7 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="DataModel.LabExecutionMode" Name="Mode" Nullable="false" />
           <Property Type="DateTime" Name="StartDateTime" Nullable="false" annotation:StoreGeneratedPattern="None" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <Property Type="Int16" Name="Score" Nullable="true" />
+          <Property Type="Int32" Name="Score" Nullable="true" />
           <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
           <NavigationProperty Name="TaskResults" Relationship="DataModel.ResultTaskResult" FromRole="Result" ToRole="TaskResult" />
@@ -733,7 +733,7 @@
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
-          <Property Type="Int16" Name="Penalty" Nullable="false" />
+          <Property Type="Int32" Name="Penalty" Nullable="false" />
           <Property Type="DateTime" Name="Time" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <NavigationProperty Name="TaskResult" Relationship="DataModel.TaskResultStudentAction" FromRole="StudentAction" ToRole="TaskResult" />
         </EntityType>
@@ -932,7 +932,7 @@
           <NavigationProperty Name="StudentActions" Relationship="DataModel.TaskResultStudentAction" FromRole="TaskResult" ToRole="StudentAction" />
           <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
           <NavigationProperty Name="TaskVariant" Relationship="DataModel.TaskResultTaskVariant" FromRole="TaskResult" ToRole="TaskVariant" />
-          <Property Name="Score" Type="Int16" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="ResultTaskResult">
           <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
