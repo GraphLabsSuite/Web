@@ -5,6 +5,11 @@ using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
 using GraphLabs.Site.Models.News;
+using GraphLabs.Site.Models.Results;
+using GraphLabs.Site.Models.ResultsWithTaskInfo;
+using GraphLabs.Site.Models.StudentActions;
+using GraphLabs.Site.Models.TaskResults;
+using GraphLabs.Site.Models.TaskResultsWithActions;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 

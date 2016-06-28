@@ -1,239 +1,43 @@
-﻿@model GraphLabs.Site.Models.ResultModel
+﻿@model GraphLabs.Site.Models.Groups.GroupListModel
 
 @{
-    ViewBag.Title = "Результаты";
+    ViewBag.Title = "Результаты - Список групп";
 }
 
-<h2>@ViewBag.Title</h2>
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+</hgroup>
 
-<span id="error" class="field-validation-error"></span>
+<style type="text/css">
+    .idColumn { width: 10%; }
+    .nameColumn { width: 70%; }
+</style>
 
-<div style="display: block; float: left; width: 100%;">
-<div style="display: block; float: left;">
-    <p>Группы</p>
-<select id="multigroup" size="5" multiple>
-    @for (int i = 0; i < Model.Groups.Length; i++)
-    {
-        <option value="@Model.Groups[i].Id">@Model.Groups[i].Name</option>
-    }
-</select>
-</div>
+@{
+    var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10);
+    grid.Pager(WebGridPagerModes.All);
+    @grid.GetHtml(tableStyle: "webGrid",
+            headerStyle: "webgrid-header",
+            footerStyle: "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle: "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
 
-<div style="display: block; float: left;">
-    <p>Лабораторные работы</p>
-    <select id="lab" size="5">
-        @for (int i = 0; i < Model.Labs.Length; i++)
-        {
-            <option value="@Model.Labs[i].Id">@Model.Labs[i].Name</option>
-        }
-    </select>
-</div>
-</div>
-
-<p>
-    <input type="button" id="getGroups" value="Показать"/>
-</p>
-<div id="groupsInfo" style="display:none">
-    
-    <h3></h3>
-
-    <div>
-    <table id="groupsTable" class="boardTable">
-    </table>
-    </div>
-
-    <br />
-    <input id="GraphicView" type="button" value="Построить диаграмму" />
-    <input id="changeToNum" type="button" value="Отобразить в числах" style="display:none" />
-    <input id="changeToPercent" type="button" value="Отобразить в процентах" />
-    <span id="propertyBlock">
-        <input id="propertyNumView" type="checkbox" /> Учитывать отсутствующих
-    </span>
-</div>
-
-<div id="groupDetail" style="display:none">
-</div>
+            columns: grid.Columns(
+                grid.Column(header: "#", format: item => item.Id, columnName: "Id", style: "idColumn"),
+                grid.Column(header: "Название", format: item => item.Name, columnName: "Name", style: "nameColumn")
+                )
+            );
+}
 
 @section scripts{
-    <script src="~/Scripts/Common/PopUp.js"></script>
-    <script>
-        $("#GraphicView").click(function () {
-            createPopUp("qw");
-        });
-
-        var LabId;
-
-        $("#groupsTable tr th").click(function () {
-            var sortClass = this.className;
-            var arr = new Array;
-            elem = $("#groupsTable tr");
-            for (var i = 1; i < elem.length; ++i) {
-                arr.push( {key: $(elem[i]).attr("value"), value: $(elem[i]).children("td." + sortClass).html()} );
-            };
-            BubbleSort(arr);
-            DelTriangleImages();
-            if ($(this).children("img").attr("value") == true) {
-                $(this).children("img").attr("value", false);
-                $(this).children("img").attr("src", "/Images/triangleDOWN.png");
-                RetrieveTable(arr, false);
-            } else {
-                $(this).children("img").attr("value", true);
-                $(this).children("img").attr("src", "/Images/triangleUP.png");
-                RetrieveTable(arr, true);
-            };
-        });
-
-        function DelTriangleImages() {
-            $("#groupsTable th img").attr("src", "");
-        };
-
-        function BubbleSort(obj) {
-            for (var i = 0; i < obj.length - 1; ++i) {
-                for (var j = 0; j < obj.length - i - 1; ++j) {
-                    if (obj[j].value > obj[j + 1].value) {
-                        temp = obj[j];
-                        obj[j] = obj[j + 1];
-                        obj[j + 1] = temp;
-                    };
-                };
-            };
-        };
-
-        function RetrieveTable(obj, direction) {
-            if (direction == true) {
-                for (var i = 0; i < obj.length; ++i) {
-                    RetrieveTableBody(obj[i]);
-                };
-            } else {
-                for (var i = obj.length-1; i >= 0; --i) {
-                    RetrieveTableBody(obj[i]);
-                };
-            };
-        };
-
-        function RetrieveTableBody(obj) {
-            str = $("#groupsTable tr[value='" + obj.key + "']");
-            str.detach();
-            $("#groupsTable").append(str);
-        };
-
-        $("#changeToPercent").click(function () {
-            $("#changeToNum").css("display", "inline");
-            $("#changeToPercent").css("display", "none");
-            $("#propertyBlock").css("display", "none");
-            var considerAlone = $("#propertyNumView").prop("checked");
-            var str = $("#groupsTable tr");
-            for (var i = 1; i < str.length; ++i) {
-                studCount = $(str[i]).children("td.studCount").html();
-                if (!considerAlone) {
-                    studCount = studCount - $(str[i]).children("td.count0").html();
-                };
-                for (var j = 2; j < 6; ++j) {
-                    num = $(str[i]).children("td.count" + j).html() * 100 / studCount;
-                    if (studCount == 0) {
-                        $(str[i]).children("td.count" + j).html("-");
-                    } else {
-                        $(str[i]).children("td.count" + j).html(num.toFixed(1) + "%");
-                    };
-                };
-                if (considerAlone) {
-                    num = $(str[i]).children("td.count0").html() * 100 / studCount;
-                    if (studCount == 0) {
-                        $(str[i]).children("td.count0").html("-");
-                    } else {
-                        $(str[i]).children("td.count0").html(num.toFixed(1) + "%");
-                    };
-                } else {
-                    $(str[i]).children("td.count0").html("-");
-                };
-            };
-        });
-
-        $("#changeToNum").click(function () {
-            $("#changeToNum").css("display", "none");
-            $("#changeToPercent").css("display", "inline");
-            $("#propertyBlock").css("display", "inline");
-            RetrieveValue();
-        });
-
-        $("#getGroups").click(function () {
-            $("#error").html("");
-            var groups = $("#multigroup").val();
-            if (groups == null) {
-                $("#error").html("Необходимо выбрать группы");
-                return;
-            };
-            LabId = $("#lab").val();
-            if (LabId == null) {
-                $("#error").html("Необходимо выбрать лабораторную работу");
-                return;
-            };
-            $("#error").html("Идет отправка данных...");
-            var result = "Groups=" + groups + "&lab=" + LabId;
-            $.ajax({
-                type: "POST",
-                url: "Result/GetGroupsInfo",
-                data: result,
-                error: function () {
-                    $("#error").html("Невозможно отправить данные");
-                    $("#groupsInfo").css("display", "none");
-                },
-                success: function (data) {
-                    Suc(data);
-                }
-            });
-        });
-
-        function Suc(data) {
-            $("#changeToNum").click();
-            var obj = jQuery.parseJSON(data);
-            switch (obj.Result) {
-                case 0:
-                    $("#error").html("");
-                    $("#groupsInfo").css("display", "block");
-                    
-                    $("#groupsInfo h3").html(obj.LabName);
-
-                    $("#groupsTable tr").detach();
-                    $("#groupsTable").append("<tr><th class='group'>Группа <img></th><th class='studCount'>Кол-во студентов <img></th><th class='count5'>Отл. <img></th><th class='count4'>Хор. <img></th><th class='count3'>Удовл. <img></th><th class='count2'>Неуд. <img></th><th class='count0'>Не явился <img></th></tr>");
-
-                    for (var i = 0; i < obj.Marks.length; i++) {
-                        $("#groupsTable").append("<tr value='" + obj.Marks[i].Id + "'><td class='group'>" + obj.Marks[i].Name + "</td><td class='studCount'>" + obj.Marks[i].StudentsCount + "</td><td class='count5' value='" + obj.Marks[i].Count5 + "'></td><td class='count4' value='" + obj.Marks[i].Count4 + "'></td><td class='count3' value='" + obj.Marks[i].Count3 + "'></td><td class='count2' value='" + obj.Marks[i].Count2 + "'></td><td class='count0' value='" + obj.Marks[i].Count0 + "'></td></tr>");
-                    };
-
-                    RetrieveValue();
-
-                    break;
-                case 1:
-                    $("#error").html("Ошибка! Попробуйте обновить страницу");
-                    break;
-            };
-        };
-
-        function RetrieveValue() {
-            var num = [5, 4, 3, 2, 0];
-            for (var j in num) {
-                el = $("#groupsTable td.count" + num[j]);
-                for (var i = 0; i < el.length; ++i) {
-                    $(el[i]).html($(el[i]).attr("value"));
-                };
-            };
-        };
-
-        $("#groupsTable tr td").click(function () {
-            $("#error").html("Идет отправка данных...");
-            var result = "GroupId=" + $(this).parent("tr").attr("value") + "&LabId=" + LabId;
-            $.ajax({
-                type: "POST",
-                url: "Result/GetGroupDetail",
-                data: result,
-                error: function () {
-                    $("#error").html("Невозможно отправить данные");
-                    $("#groupDetail").css("display", "none");
-                },
-                success: function (data) {
-                    SucGroupDetail(data);
-                }
+    <script type="text/javascript">
+        $(function() {
+            $('tbody tr').click(function () {
+                location.href = '/Result/StudentList?id=' + $(this).find('td:first').text();
             });
         });
     </script>

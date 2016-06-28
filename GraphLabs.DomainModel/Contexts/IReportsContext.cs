@@ -9,7 +9,10 @@ namespace GraphLabs.DomainModel.Contexts
         /// <summary> Результаты </summary>
         IEntitySet<Result> Results { get; }
 
-        /// <summary> Журнал действий </summary>
+        /// <summary> Результаты заданий </summary>
+        IEntitySet<TaskResult> TaskResults { get; }
+
+            /// <summary> Журнал действий </summary>
         IEntitySet<StudentAction> Actions { get; }
     }
 }

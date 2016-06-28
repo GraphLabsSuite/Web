@@ -12,12 +12,9 @@ namespace GraphLabs.DomainModel
     using System;
     using GraphLabs.DomainModel.Infrastructure;
     
-    public enum Grade : int
+    public enum ExecutionStatus : byte
     {
-        Unsatisfactory = 0,
-        Fair = 1,
-        Good = 2,
-        Excellent = 3,
-        Interrupted = 4
+        Complete = 1,
+        Executing = 0
     }
 }

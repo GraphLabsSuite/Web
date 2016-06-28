@@ -49,3 +49,5 @@ BEGIN
     ORDER BY #tablesToClear.[name]
 END
 GO
+DELETE FROM [dbo].[TaskResults];
+GO

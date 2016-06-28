@@ -74,7 +74,7 @@ namespace GraphLabs.Site.Controllers
 			lab.Name = Name;
             lab.AcquaintanceFrom = DateTime.Parse(DateFrom); // ParseDate.Parse(DateFrom);
 			lab.AcquaintanceTill = DateTime.Parse(DateTill);
-
+            //_changesTracker.SaveChanges();
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
 

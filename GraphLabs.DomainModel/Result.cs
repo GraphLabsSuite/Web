@@ -20,17 +20,18 @@ namespace GraphLabs.DomainModel
     {
         protected Result()
         {
-            this.Actions = new HashSet<StudentAction>();
+            this.TaskResults = new HashSet<TaskResult>();
         }
     
         public long Id { get; private set; }
         public LabExecutionMode Mode { get; set; }
         public System.DateTime StartDateTime { get; private set; }
-        public Nullable<Grade> Grade { get; set; }
+        public Nullable<int> Score { get; set; }
+        public ExecutionStatus Status { get; set; }
     
-        public virtual ICollection<StudentAction> Actions { get; set; }
         public virtual Student Student { get; set; }
         public virtual LabVariant LabVariant { get; set; }
+        public virtual ICollection<TaskResult> TaskResults { get; set; }
     }
     
     #pragma warning restore 1591

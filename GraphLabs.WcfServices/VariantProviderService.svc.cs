@@ -38,17 +38,17 @@ namespace GraphLabs.WcfServices
                 var task = op.DataContext.Query.Get<Task>(taskId);
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
+                var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
 
                 var variant = resultLog.LabVariant;
                 var taskVariant = variant.TaskVariants.Single(v => v.Task == task);
 
                 var action = op.DataContext.Factory.Create<StudentAction>();
-                action.Task = task;
-                action.Result = resultLog;
+                action.TaskResult = taskResultLog;
                 action.Time = _systemDate.Now();
-                action.Description = $"[Сервис выдачи вариантов: для задания '{task.Id}' выдан вариант {taskVariant.Number}.]";
+                action.Description = $"['Task {task.Id}' -> Variant {taskVariant.Number}]";
                 action.Penalty = 0;
-                resultLog.Actions.Add(action);
+                taskResultLog.StudentActions.Add(action);
 
                 op.Complete();
 
@@ -65,16 +65,14 @@ namespace GraphLabs.WcfServices
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
         {
-            var activeResults = query.OfEntities<Result>()
-                .Where(result => result.Student.Id == session.User.Id && result.Grade == null)
-                .ToArray();
+            return query.OfEntities<Result>()
+                .Where(result => result.Student.Id == session.User.Id && result.Score == null)
+                .ToArray().First();
+        }
 
-            foreach (var activeResult in activeResults.OrderByDescending(r => r.StartDateTime).Skip(1))
-            {
-                activeResult.Grade = Grade.Interrupted;
-            }
-
-            return activeResults.First();
+        private TaskResult GetCurrentTaskResultLog(Result resultLog, Task task)
+        {
+            return resultLog.TaskResults.Single(tr => tr.TaskVariant.Task == task);
         }
 
         private Session GetSessionWithChecks(IEntityQuery query, Guid sessionGuid)

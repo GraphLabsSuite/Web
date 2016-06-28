@@ -22,6 +22,7 @@
     <EntitySet Name="LabEntries" EntityType="DataModel.Store.LabEntries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Categories" EntityType="DataModel.Store.Categories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaskDatas" EntityType="DataModel.Store.TaskDatas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaskResults" EntityType="DataModel.Store.TaskResults" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Student" EntityType="DataModel.Store.Users_Student" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VariantTestQuestion" EntityType="DataModel.Store.VariantTestQuestion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabVariantTaskVariant" EntityType="DataModel.Store.LabVariantTaskVariant" store:Type="Tables" Schema="dbo" />
@@ -29,10 +30,6 @@
     <AssociationSet Name="UserNews" Association="DataModel.Store.UserNews">
       <End Role="Publisher" EntitySet="Users" />
       <End Role="News" EntitySet="News" />
-    </AssociationSet>
-    <AssociationSet Name="ResultAction" Association="DataModel.Store.ResultAction">
-      <End Role="Result" EntitySet="Results" />
-      <End Role="Action" EntitySet="StudentActions" />
     </AssociationSet>
     <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.Store.TestQuestionAnswerVariant">
       <End Role="TestQuestion" EntitySet="TestQuestions" />
@@ -94,10 +91,6 @@
       <End Role="Group" EntitySet="Groups" />
       <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
     </AssociationSet>
-    <AssociationSet Name="TaskAction" Association="DataModel.Store.TaskAction">
-      <End Role="Task" EntitySet="Tasks" />
-      <End Role="Action" EntitySet="StudentActions" />
-    </AssociationSet>
     <AssociationSet Name="TestQuestionCategory" Association="DataModel.Store.TestQuestionCategory">
       <End Role="TestQuestion" EntitySet="TestQuestions" />
       <End Role="Category" EntitySet="Categories" />
@@ -105,6 +98,18 @@
     <AssociationSet Name="TaskTaskData" Association="DataModel.Store.TaskTaskData">
       <End Role="Task" EntitySet="Tasks" />
       <End Role="TaskData" EntitySet="TaskDatas" />
+    </AssociationSet>
+    <AssociationSet Name="ResultTaskResult" Association="DataModel.Store.ResultTaskResult">
+      <End Role="Result" EntitySet="Results" />
+      <End Role="TaskResult" EntitySet="TaskResults" />
+    </AssociationSet>
+    <AssociationSet Name="TaskResultStudentAction" Association="DataModel.Store.TaskResultStudentAction">
+      <End Role="TaskResult" EntitySet="TaskResults" />
+      <End Role="StudentAction" EntitySet="StudentActions" />
+    </AssociationSet>
+    <AssociationSet Name="TaskResultTaskVariant" Association="DataModel.Store.TaskResultTaskVariant">
+      <End Role="TaskResult" EntitySet="TaskResults" />
+      <End Role="TaskVariant" EntitySet="TaskVariants" />
     </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
@@ -150,7 +155,8 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Mode" Type="int" Nullable="false" />
     <Property Name="StartDateTime" Type="datetime" Nullable="false" />
-    <Property Name="Grade" Type="int" Nullable="true" />
+    <Property Name="Score" Type="int" Nullable="true" />
+    <Property Name="Status" Type="tinyint" Nullable="false" />
     <Property Name="Student_Id" Type="bigint" Nullable="false" />
     <Property Name="LabVariant_Id" Type="bigint" Nullable="false" />
   </EntityType>
@@ -162,8 +168,7 @@
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="Penalty" Type="int" Nullable="false" />
     <Property Name="Time" Type="datetime" Nullable="false" />
-    <Property Name="Result_Id" Type="bigint" Nullable="false" />
-    <Property Name="Task_Id" Type="bigint" Nullable="false" />
+    <Property Name="TaskResult_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="LabWorks">
     <Key>
@@ -265,6 +270,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Xap" Type="varbinary(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="TaskResults">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="tinyint" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="Result_Id" Type="bigint" Nullable="false" />
+    <Property Name="TaskVariant_Id" Type="bigint" Nullable="false" />
+  </EntityType>
   <EntityType Name="Users_Student">
     <Key>
       <PropertyRef Name="Id" />
@@ -307,18 +322,6 @@
       </Principal>
       <Dependent Role="News">
         <PropertyRef Name="User_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ResultAction">
-    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="1" />
-    <End Role="Action" Type="DataModel.Store.StudentActions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Result">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Action">
-        <PropertyRef Name="Result_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -430,18 +433,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TaskAction">
-    <End Role="Task" Type="DataModel.Store.Tasks" Multiplicity="1" />
-    <End Role="Action" Type="DataModel.Store.StudentActions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Task">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Action">
-        <PropertyRef Name="Task_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="TestQuestionCategory">
     <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="*" />
     <End Role="Category" Type="DataModel.Store.Categories" Multiplicity="1" />
@@ -463,6 +454,42 @@
       </Principal>
       <Dependent Role="Task">
         <PropertyRef Name="TaskData_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ResultTaskResult">
+    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="1" />
+    <End Role="TaskResult" Type="DataModel.Store.TaskResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Result">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TaskResult">
+        <PropertyRef Name="Result_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaskResultStudentAction">
+    <End Role="TaskResult" Type="DataModel.Store.TaskResults" Multiplicity="1" />
+    <End Role="StudentAction" Type="DataModel.Store.StudentActions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaskResult">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentAction">
+        <PropertyRef Name="TaskResult_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaskResultTaskVariant">
+    <End Role="TaskResult" Type="DataModel.Store.TaskResults" Multiplicity="*" />
+    <End Role="TaskVariant" Type="DataModel.Store.TaskVariants" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TaskVariant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TaskResult">
+        <PropertyRef Name="TaskVariant_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -566,10 +593,6 @@
           <EntitySet Name="Groups" EntityType="DataModel.Group" />
           <EntitySet Name="Results" EntityType="DataModel.Result" />
           <EntitySet Name="StudentActions" EntityType="DataModel.StudentAction" />
-          <AssociationSet Name="ResultAction" Association="DataModel.ResultAction">
-            <End Role="Result" EntitySet="Results" />
-            <End Role="Action" EntitySet="StudentActions" />
-          </AssociationSet>
           <EntitySet Name="LabWorks" EntityType="DataModel.LabWork" />
           <EntitySet Name="Tasks" EntityType="DataModel.Task" />
           <EntitySet Name="LabVariants" EntityType="DataModel.LabVariant" />
@@ -627,10 +650,6 @@
             <End Role="LabWork" EntitySet="LabWorks" />
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
-          <AssociationSet Name="TaskAction" Association="DataModel.TaskAction">
-            <End Role="Task" EntitySet="Tasks" />
-            <End Role="Action" EntitySet="StudentActions" />
-          </AssociationSet>
           <EntitySet Name="Categories" EntityType="DataModel.Category" />
           <AssociationSet Name="TestQuestionCategory" Association="DataModel.TestQuestionCategory">
             <End Role="TestQuestion" EntitySet="TestQuestions" />
@@ -640,6 +659,19 @@
           <AssociationSet Name="TaskTaskData" Association="DataModel.TaskTaskData">
             <End Role="Task" EntitySet="Tasks" />
             <End Role="TaskData" EntitySet="TaskDatas" />
+          </AssociationSet>
+          <EntitySet Name="TaskResults" EntityType="DataModel.TaskResult" />
+          <AssociationSet Name="ResultTaskResult" Association="DataModel.ResultTaskResult">
+            <End Role="Result" EntitySet="Results" />
+            <End Role="TaskResult" EntitySet="TaskResults" />
+          </AssociationSet>
+          <AssociationSet Name="TaskResultStudentAction" Association="DataModel.TaskResultStudentAction">
+            <End Role="TaskResult" EntitySet="TaskResults" />
+            <End Role="StudentAction" EntitySet="StudentActions" />
+          </AssociationSet>
+          <AssociationSet Name="TaskResultTaskVariant" Association="DataModel.TaskResultTaskVariant">
+            <End Role="TaskResult" EntitySet="TaskResults" />
+            <End Role="TaskVariant" EntitySet="TaskVariants" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
@@ -689,10 +721,11 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="DataModel.LabExecutionMode" Name="Mode" Nullable="false" />
           <Property Type="DateTime" Name="StartDateTime" Nullable="false" annotation:StoreGeneratedPattern="None" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <Property Type="DataModel.Grade" Name="Grade" Nullable="true" />
-          <NavigationProperty Name="Actions" Relationship="DataModel.ResultAction" FromRole="Result" ToRole="Action" />
+          <Property Type="Int32" Name="Score" Nullable="true" />
           <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
+          <NavigationProperty Name="TaskResults" Relationship="DataModel.ResultTaskResult" FromRole="Result" ToRole="TaskResult" />
+          <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
         </EntityType>
         <EntityType Name="StudentAction">
           <Key>
@@ -702,13 +735,8 @@
           <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
           <Property Type="Int32" Name="Penalty" Nullable="false" />
           <Property Type="DateTime" Name="Time" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <NavigationProperty Name="Result" Relationship="DataModel.ResultAction" FromRole="Action" ToRole="Result" />
-          <NavigationProperty Name="Task" Relationship="DataModel.TaskAction" FromRole="Action" ToRole="Task" />
+          <NavigationProperty Name="TaskResult" Relationship="DataModel.TaskResultStudentAction" FromRole="StudentAction" ToRole="TaskResult" />
         </EntityType>
-        <Association Name="ResultAction">
-          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
-          <End Type="DataModel.StudentAction" Role="Action" Multiplicity="*" />
-        </Association>
         <EntityType Name="LabWork">
           <Key>
             <PropertyRef Name="Id" />
@@ -733,7 +761,6 @@
           <Property Type="String" Name="Note" MaxLength="Max" />
           <NavigationProperty Name="TaskVariants" Relationship="DataModel.TaskTaskVariant" FromRole="Task" ToRole="TaskVariant" />
           <NavigationProperty Name="LabEntries" Relationship="DataModel.TaskLabEntry" FromRole="Task" ToRole="LabEntry" />
-          <NavigationProperty Name="Actions" Relationship="DataModel.TaskAction" FromRole="Task" ToRole="Action" />
           <NavigationProperty Name="TaskData" Relationship="DataModel.TaskTaskData" FromRole="Task" ToRole="TaskData" />
         </EntityType>
         <EntityType Name="LabVariant">
@@ -873,17 +900,6 @@
           <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="*" />
           <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
         </Association>
-        <EnumType Name="Grade">
-          <Member Name="Unsatisfactory" />
-          <Member Name="Fair" />
-          <Member Name="Good" />
-          <Member Name="Excellent" />
-          <Member Name="Interrupted" />
-        </EnumType>
-        <Association Name="TaskAction">
-          <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
-          <End Type="DataModel.StudentAction" Role="Action" Multiplicity="*" />
-        </Association>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
@@ -906,6 +922,33 @@
         <Association Name="TaskTaskData">
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
           <End Type="DataModel.TaskData" Role="TaskData" Multiplicity="1" />
+        </Association>
+        <EntityType Name="TaskResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Result" Relationship="DataModel.ResultTaskResult" FromRole="TaskResult" ToRole="Result" />
+          <NavigationProperty Name="StudentActions" Relationship="DataModel.TaskResultStudentAction" FromRole="TaskResult" ToRole="StudentAction" />
+          <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
+          <NavigationProperty Name="TaskVariant" Relationship="DataModel.TaskResultTaskVariant" FromRole="TaskResult" ToRole="TaskVariant" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="ResultTaskResult">
+          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
+          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
+        </Association>
+        <Association Name="TaskResultStudentAction">
+          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="1" />
+          <End Type="DataModel.StudentAction" Role="StudentAction" Multiplicity="*" />
+        </Association>
+        <EnumType Name="ExecutionStatus" UnderlyingType="Byte">
+          <Member Name="Complete" Value="1" />
+          <Member Name="Executing" Value="0" />
+        </EnumType>
+        <Association Name="TaskResultTaskVariant">
+          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
+          <End Type="DataModel.TaskVariant" Role="TaskVariant" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -960,7 +1003,8 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Mode" ColumnName="Mode" />
           <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
-          <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1077,19 +1121,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TaskResults">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TaskResult)">
+        <MappingFragment StoreEntitySet="TaskResults">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="UserNews" TypeName="DataModel.UserNews" StoreEntitySet="News">
       <EndProperty Name="Publisher">
         <ScalarProperty Name="Id" ColumnName="User_Id" />
       </EndProperty>
       <EndProperty Name="News">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ResultAction" TypeName="DataModel.ResultAction" StoreEntitySet="StudentActions">
-      <EndProperty Name="Result">
-        <ScalarProperty Name="Id" ColumnName="Result_Id" />
-      </EndProperty>
-      <EndProperty Name="Action">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -1190,14 +1235,6 @@
         <ScalarProperty Name="Id" ColumnName="Groups_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="TaskAction" TypeName="DataModel.TaskAction" StoreEntitySet="StudentActions">
-      <EndProperty Name="Task">
-        <ScalarProperty Name="Id" ColumnName="Task_Id" />
-      </EndProperty>
-      <EndProperty Name="Action">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="TestQuestionCategory" TypeName="DataModel.TestQuestionCategory" StoreEntitySet="TestQuestions">
       <EndProperty Name="Category">
         <ScalarProperty Name="Id" ColumnName="Category_Id" />
@@ -1211,6 +1248,30 @@
         <ScalarProperty Name="Id" ColumnName="TaskData_Id" />
       </EndProperty>
       <EndProperty Name="Task">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ResultTaskResult" TypeName="DataModel.ResultTaskResult" StoreEntitySet="TaskResults">
+      <EndProperty Name="Result">
+        <ScalarProperty Name="Id" ColumnName="Result_Id" />
+      </EndProperty>
+      <EndProperty Name="TaskResult">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaskResultStudentAction" TypeName="DataModel.TaskResultStudentAction" StoreEntitySet="StudentActions">
+      <EndProperty Name="TaskResult">
+        <ScalarProperty Name="Id" ColumnName="TaskResult_Id" />
+      </EndProperty>
+      <EndProperty Name="StudentAction">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaskResultTaskVariant" TypeName="DataModel.TaskResultTaskVariant" StoreEntitySet="TaskResults">
+      <EndProperty Name="TaskVariant">
+        <ScalarProperty Name="Id" ColumnName="TaskVariant_Id" />
+      </EndProperty>
+      <EndProperty Name="TaskResult">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

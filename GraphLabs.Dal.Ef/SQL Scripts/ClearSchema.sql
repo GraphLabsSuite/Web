@@ -149,6 +149,9 @@ BEGIN
   ORDER BY TABLE_NAME
 END
 GO
+IF OBJECT_ID(N'[dbo].[FK_TaskVariantTaskResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_TaskVariantTaskResult];
+GO
 
 
 /* Drop all tables */
@@ -176,4 +179,7 @@ BEGIN
     WHERE sys.objects.[type] = N'U' AND NOT (sys.schemas.[name] = N'dbo' AND sys.objects.[name] = N'TestTable')
     ORDER BY sys.objects.[name]
 END
+GO
+IF OBJECT_ID(N'[dbo].[TaskResults]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TaskResults];
 GO

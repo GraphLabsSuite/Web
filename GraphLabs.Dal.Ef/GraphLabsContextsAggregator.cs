@@ -32,6 +32,7 @@ namespace GraphLabs.Dal.Ef
             _news = new Lazy<IEntitySet<News>>(() => new EntitySet<News>(ctx));
             _sessions = new Lazy<IEntitySet<Session>>(() => new EntitySet<Session>(ctx));
             _results = new Lazy<IEntitySet<Result>>(() => new EntitySet<Result>(ctx));
+            _taskReults = new Lazy<IEntitySet<TaskResult>>(() => new EntitySet<TaskResult>(ctx));
             _actions = new Lazy<IEntitySet<StudentAction>>(() => new EntitySet<StudentAction>(ctx));
             _testQuestions = new Lazy<IEntitySet<TestQuestion>>(() => new EntitySet<TestQuestion>(ctx));
             _answerVariants = new Lazy<IEntitySet<AnswerVariant>>(() => new EntitySet<AnswerVariant>(ctx));
@@ -50,6 +51,7 @@ namespace GraphLabs.Dal.Ef
         private readonly Lazy<IEntitySet<News>> _news;
         private readonly Lazy<IEntitySet<Session>> _sessions;
         private readonly Lazy<IEntitySet<Result>> _results;
+        private readonly Lazy<IEntitySet<TaskResult>> _taskReults;
         private readonly Lazy<IEntitySet<StudentAction>> _actions;
         private readonly Lazy<IEntitySet<TestQuestion>> _testQuestions;
         private readonly Lazy<IEntitySet<AnswerVariant>> _answerVariants;
@@ -72,7 +74,9 @@ namespace GraphLabs.Dal.Ef
 
         /// <summary> Сессии </summary>
         public IEntitySet<Session> Sessions => _sessions.Value;
-        
+
+        public IEntitySet<TaskResult> TaskResults => _taskReults.Value;
+
         /// <summary> Результаты </summary>
         public IEntitySet<Result> Results => _results.Value;
 

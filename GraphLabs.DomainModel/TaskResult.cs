@@ -16,18 +16,20 @@ namespace GraphLabs.DomainModel
     
     #pragma warning disable 1591
     
-    public partial class StudentAction : AbstractEntity
+    public partial class TaskResult : AbstractEntity
     {
-        protected StudentAction()
+        protected TaskResult()
         {
+            this.StudentActions = new HashSet<StudentAction>();
         }
     
-        public long Id { get; private set; }
-        public string Description { get; set; }
-        public int Penalty { get; set; }
-        public System.DateTime Time { get; set; }
+        public long Id { get; set; }
+        public ExecutionStatus Status { get; set; }
+        public int Score { get; set; }
     
-        public virtual TaskResult TaskResult { get; set; }
+        public virtual Result Result { get; set; }
+        public virtual ICollection<StudentAction> StudentActions { get; set; }
+        public virtual TaskVariant TaskVariant { get; set; }
     }
     
     #pragma warning restore 1591

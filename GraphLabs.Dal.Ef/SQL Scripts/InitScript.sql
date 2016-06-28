@@ -43,6 +43,28 @@ VALUES
 	4)
 GO
 
+-- Учётка пользователя
+INSERT INTO [dbo].[Users] 
+	(Surname, Name, FatherName, PasswordHash, Email, Role)
+VALUES 
+    ('Студент', 'Типичный', 'Тестовый', 
+	'$2a$06$LzfX0oshO/c9C2yKVIBmfOupOcoIfqDrXdteGR1yVQjdKj6BDztZO',
+	'student@graphlabs.ru', 
+	1)
+GO
+
+INSERT INTO [dbo].[Groups] 
+	(Number, IsOpen, FirstYear)
+VALUES 
+    ('221', 'True', '1999')
+GO
+
+INSERT INTO [dbo].[Users_Student] 
+	(IsVerified, IsDismissed, Id, Group_Id)
+VALUES 
+    ('True', 'False', '2', '1')
+GO
+
 -- Табличка с настройками
 INSERT INTO [dbo].[Settings] 
 	(Id,

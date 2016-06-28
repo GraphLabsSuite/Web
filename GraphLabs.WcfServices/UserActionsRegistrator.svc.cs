@@ -43,54 +43,48 @@ namespace GraphLabs.WcfServices
                 var task = op.DataContext.Query.Get<Task>(taskId);
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
+                var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
 
                 foreach (var actionDescription in actions)
                 {
                     var newAction = op.DataContext.Factory.Create<StudentAction>();
                     newAction.Description = actionDescription.Description;
                     newAction.Penalty = actionDescription.Penalty;
-                    newAction.Result = resultLog;
+                    newAction.TaskResult = taskResultLog;
                     newAction.Time = actionDescription.TimeStamp;
-                    newAction.Task = task;
-                    resultLog.Actions.Add(newAction);
+                    
+                    taskResultLog.StudentActions.Add(newAction);
                 }
+
+                taskResultLog.Score -= actions.Last().Penalty;
 
                 if (isTaskFinished)
                 {
                     var newAction = op.DataContext.Factory.Create<StudentAction>();
                     newAction.Description = $"Задание {task.Name} выполнено.";
                     newAction.Penalty = 0;
-                    newAction.Result = resultLog;
+                    newAction.TaskResult = taskResultLog;
                     newAction.Time = _systemDate.Now();
-                    newAction.Task = task;
-                    resultLog.Actions.Add(newAction);
+                    taskResultLog.Status = ExecutionStatus.Complete;
+                    taskResultLog.StudentActions.Add(newAction);
                 }
-
-                var currentScore = CalculateCurrentScore(resultLog);
 
                 op.Complete();
 
-                return currentScore;
+                return taskResultLog.Score;
             }
-        }
-
-        private int CalculateCurrentScore(Result result)
-        {
-            return StartingScore - result.Actions.Sum(a => a.Penalty);
         }
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
         {
-            var activeResults = query.OfEntities<Result>()
-                .Where(result => result.Student.Id == session.User.Id && result.Grade == null)
-                .ToArray();
+            return query.OfEntities<Result>()
+                .Where(result => result.Student.Id == session.User.Id && result.Score == null)
+                .ToArray().First();
+        }
 
-            foreach (var activeResult in activeResults.OrderByDescending(r => r.StartDateTime).Skip(1))
-            {
-                activeResult.Grade = Grade.Interrupted;
-            }
-
-            return activeResults.First();
+        private TaskResult GetCurrentTaskResultLog(Result resultLog, Task task)
+        {
+            return resultLog.TaskResults.Single(tr => tr.TaskVariant.Task == task);
         }
 
         private Session GetSessionWithChecks(IEntityQuery query, Guid sessionGuid)

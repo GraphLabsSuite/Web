@@ -135,6 +135,9 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="ExecutionStatus.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\EntityQueryExtensions.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="Contexts\IGraphLabsContext.cs" />
@@ -158,9 +161,6 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\EntityValidationError.cs" />
-    <Compile Include="Grade.cs">
-      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Infrastructure\GraphLabsValidationException.cs" />
     <Compile Include="Group.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
@@ -208,6 +208,9 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TaskData.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskResult.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TaskVariant.cs">
