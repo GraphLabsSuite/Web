@@ -25,7 +25,7 @@ namespace GraphLabs.DomainModel
     
         public long Id { get; set; }
         public ExecutionStatus Status { get; set; }
-        public int Score { get; set; }
+        public int? Score { get; set; }
     
         public virtual Result Result { get; set; }
         public virtual ICollection<StudentAction> StudentActions { get; set; }

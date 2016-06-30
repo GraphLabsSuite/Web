@@ -2,17 +2,16 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/10/2016 15:46:54
--- Generated from EDMX file: C:\Users\Илья\Desktop\taskresults2\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- Date Created: 06/30/2016 11:16:08
+-- Generated from EDMX file: C:\Users\Егор\Desktop\graphlabs.site\trunk\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [gltst];
+USE [gl_unit_tests];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
-
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
@@ -175,7 +174,7 @@ GO
 CREATE TABLE [dbo].[TaskResults] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Status] tinyint  NOT NULL,
-    [Score] int  NOT NULL,
+    [Score] int  NULL,
     [Result_Id] bigint  NOT NULL,
     [TaskVariant_Id] bigint  NOT NULL
 );

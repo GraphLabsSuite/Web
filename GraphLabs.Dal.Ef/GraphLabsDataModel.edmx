@@ -276,7 +276,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="tinyint" Nullable="false" />
-    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="true" />
     <Property Name="Result_Id" Type="bigint" Nullable="false" />
     <Property Name="TaskVariant_Id" Type="bigint" Nullable="false" />
   </EntityType>
@@ -932,7 +932,7 @@
           <NavigationProperty Name="StudentActions" Relationship="DataModel.TaskResultStudentAction" FromRole="TaskResult" ToRole="StudentAction" />
           <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
           <NavigationProperty Name="TaskVariant" Relationship="DataModel.TaskResultTaskVariant" FromRole="TaskResult" ToRole="TaskVariant" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="ResultTaskResult">
           <End Type="DataModel.Result" Role="Result" Multiplicity="1" />

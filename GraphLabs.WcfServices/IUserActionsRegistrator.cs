@@ -16,6 +16,6 @@ namespace GraphLabs.WcfServices
         /// <returns> Количество баллов студента </returns>
         /// <remarks> От этой штуки зависит GraphLabs.Components </remarks>
         [OperationContract]
-        int RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false);
+        int? RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false);
     }
 }

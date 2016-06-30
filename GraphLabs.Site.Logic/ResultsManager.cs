@@ -80,7 +80,7 @@ namespace GraphLabs.Site.Logic
             foreach (var oldResult in resultsToInterrupt)
             {
                 //TODO: Заменить Score
-                oldResult.Score = -1;
+                oldResult.Score = null;
             }
 
             if (latestCurrentResult == null)

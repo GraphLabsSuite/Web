@@ -36,7 +36,7 @@ namespace GraphLabs.WcfServices
         /// <param name="isTaskFinished"> Задание завершено? </param>
         /// <returns> Количество баллов студента </returns>
         /// <remarks> От этой штуки зависит GraphLabs.Components </remarks>
-        public int RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false)
+        public int? RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false)
         {
             using (var op = _operationFactory.Create())
             {
