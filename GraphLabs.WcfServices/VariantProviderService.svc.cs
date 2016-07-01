@@ -66,7 +66,7 @@ namespace GraphLabs.WcfServices
         private Result GetCurrentResultLog(IEntityQuery query, Session session)
         {
             return query.OfEntities<Result>()
-                .Where(result => result.Student.Id == session.User.Id && result.Score == null)
+                .Where(result => result.Student.Id == session.User.Id && result.Status == ExecutionStatus.Executing)
                 .ToArray().First();
         }
 

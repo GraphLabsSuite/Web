@@ -60,6 +60,7 @@ namespace GraphLabs.Site.Logic
         {
             var student = GetCurrentStudent(sessionGuid);
 
+            //Найти неоконченные результаты выполнения
             IEnumerable<Result> resultsToInterrupt = _resultsRepository.FindNotFinishedResults(student);
             var variant = GetLabVariant(variantId);
 
@@ -81,6 +82,7 @@ namespace GraphLabs.Site.Logic
             {
                 //TODO: Заменить Score
                 oldResult.Score = null;
+                oldResult.Status = ExecutionStatus.Complete;
             }
 
             if (latestCurrentResult == null)

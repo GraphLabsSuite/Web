@@ -55,8 +55,12 @@ namespace GraphLabs.WcfServices
                     
                     taskResultLog.StudentActions.Add(newAction);
                 }
-
+                if (taskResultLog.Score == null)
+                {
+                    taskResultLog.Score = StartingScore;
+                }
                 taskResultLog.Score -= actions.Last().Penalty;
+                
 
                 if (isTaskFinished)
                 {
