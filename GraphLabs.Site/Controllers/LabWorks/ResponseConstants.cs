@@ -16,7 +16,12 @@ namespace GraphLabs.Site.Controllers.LabWorks
 		public const int LabWorkSuccessEditSystemName = 1;
 
 		/// <summary> Лабораторная работа с таким именем уже существует </summary>
-		public const int LabWorkExistErrorSystemName = 2;		
+		public const int LabWorkExistErrorSystemName = 2;
+
+        /// <summary>
+        /// Введённые даты не соответствуют формату ввода!
+        /// </summary>
+        public const int LabWorkDateCouldNotBeParsed = 3;	
 
 		#endregion
 

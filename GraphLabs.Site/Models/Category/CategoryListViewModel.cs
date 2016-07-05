@@ -26,14 +26,22 @@ namespace GraphLabs.Site.Models
 
 		public CategoryListViewModel()
 		{
-			Items = _categoriesRepository.GetAllCategories()
-			.Select(c => new CategoryViewModelDto(_testsContext, _categoriesRepository)
-			{
-				Id = c.Id,
-				Name = c.Name,
-				QuestionCount = _surveyRepository.GetCategorizesTestQuestionCount(c.Id)
-			})
-			.ToArray();
+            //TODO: null exception при отображении категорий
+		    if (Items != null)
+		    {
+		        Items = _categoriesRepository.GetAllCategories()
+		            .Select(c => new CategoryViewModelDto(_testsContext, _categoriesRepository)
+		            {
+		                Id = c.Id,
+		                Name = c.Name,
+		                QuestionCount = _surveyRepository.GetCategorizesTestQuestionCount(c.Id)
+		            })
+		            .ToArray();
+		    }
+		    else
+		    {
+		        Items = new CategoryViewModelDto[0];
+		    }
 		}
 	}
 

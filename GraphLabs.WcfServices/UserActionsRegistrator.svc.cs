@@ -44,23 +44,26 @@ namespace GraphLabs.WcfServices
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
                 var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
-
-                foreach (var actionDescription in actions)
-                {
-                    var newAction = op.DataContext.Factory.Create<StudentAction>();
-                    newAction.Description = actionDescription.Description;
-                    newAction.Penalty = actionDescription.Penalty;
-                    newAction.TaskResult = taskResultLog;
-                    newAction.Time = actionDescription.TimeStamp;
-                    
-                    taskResultLog.StudentActions.Add(newAction);
-                }
                 if (taskResultLog.Score == null)
                 {
                     taskResultLog.Score = StartingScore;
                 }
-                taskResultLog.Score -= actions.Last().Penalty;
-                
+
+                if (actions.Any())
+                {
+                    foreach (var actionDescription in actions)
+                    {
+                        var newAction = op.DataContext.Factory.Create<StudentAction>();
+                        newAction.Description = actionDescription.Description;
+                        newAction.Penalty = actionDescription.Penalty;
+                        newAction.TaskResult = taskResultLog;
+                        newAction.Time = actionDescription.TimeStamp;
+
+                        taskResultLog.StudentActions.Add(newAction);
+                    }
+
+                    taskResultLog.Score -= actions.Last().Penalty;
+                }
 
                 if (isTaskFinished)
                 {

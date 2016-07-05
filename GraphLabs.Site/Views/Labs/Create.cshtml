@@ -112,7 +112,13 @@
             var pattern = /Date\(([^)]+)\)/;
             var results = pattern.exec(value);
             var dt = new Date(parseFloat(results[1]));
-            return (dt.getMonth() + 1) + "." + dt.getDate() + "." + dt.getFullYear();
+            var month = (dt.getMonth() >= 10 ? (dt.getMonth() + 1) : ("0" + (dt.getMonth() + 1)));
+            var day = (dt.getDate() >= 10 ? (dt.getDate()) : ("0" + dt.getDate()));
+            var hour = (dt.getHours() >= 10 ? (dt.getHours()) : ("0" + dt.getHours()));
+            var minute = (dt.getMinutes() >= 10 ? (dt.getMinutes()) : ("0" + dt.getMinutes()));
+            var second = (dt.getSeconds() >= 10 ? (dt.getSeconds()) : ("0" + dt.getSeconds()));
+            var msecond = (dt.getMilliseconds() >= 10 ? (dt.getMilliseconds() >= 100 ? (dt.getMilliseconds()) :("0" + dt.getMilliseconds())) : ("00" + dt.getMilliseconds()));
+            return day + "-" + month + "-" + dt.getFullYear() + " " + hour + ":" + minute + ":" + second + "." + msecond;
         }
 
         $("#firstSelectSize").change(function () {
@@ -230,7 +236,6 @@
                 wantCreate = 0;
                 return;
             };
-
             $("#error").html("Отправка данных на сервер...");
 
             var list = new Array();
@@ -240,12 +245,12 @@
             };
             var result = $("fieldset").serialize();
             result = result + "&JsonArr=" + JSON.stringify(list);
-            
+
             @if (Model.Id > 0)
             {
                 @Html.Raw("result = result + \"&Id=" + Model.Id.ToString() + "\"")
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: @(Model.Id > 0 ? Html.Raw("\"LabWorkEdit\"") : Html.Raw("\"LabWorkCreate\"")),
@@ -260,7 +265,7 @@
                 }
             });
         });
-        
+
         function Suc(obj) {
             switch (obj.Result) {
                 case @ResponseConstants.LabWorkSuccessCreateSystemName:
