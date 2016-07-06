@@ -21,7 +21,6 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Найти неоконченные результаты выполнения </summary>
         public Result[] FindNotFinishedResults(Student student)
         {
-            //TODO: Заменить Score
             return Context.Results
                 .Where(result => result.Student.Id == student.Id && result.Status == ExecutionStatus.Executing)
                 .ToArray();

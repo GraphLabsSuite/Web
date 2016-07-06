@@ -4,8 +4,11 @@ using GraphLabs.Site.Logic;
 using GraphLabs.Site.Models;
 using System;
 using System.Data.Entity;
+using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
+using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Utils;
 
@@ -127,13 +130,12 @@ namespace GraphLabs.Site.Controllers
             }
 
             #endregion
-
             var session = GetSessionGuid();
             var nextTaskLink = GetNextTaskUri();
             _resultsManager.StartLabExecution(labVarId, session);
             LabWork lab = GetLabWorkById(labId);
             TaskVariant[] variants = GetTaskVariantsByLabVarId(labVarId);
-            var labWork = new LabWorkExecutionModel(session, lab, variants
+            var labWork = new LabWorkExecutionModel(session, lab, labVarId, variants
                 .Select(v => _taskExecutionModelFactory.CreateForDemoMode(
                     session,
                     v.Task.Name,
@@ -173,10 +175,12 @@ namespace GraphLabs.Site.Controllers
         public ActionResult TaskComplete()
         {
             var model = (LabWorkExecutionModel)Session[LAB_VARIABLE_KEY];
-
             model.SetCurrentTaskToComplete();
             if (model.CheckCompleteLab())
             {
+                var tasks = GetTasksId(model.Tasks);
+                var session = GetSessionGuid();
+                _resultsManager.EndLabExecution(model.LabVarId, model.SessionGuid);
                 ViewBag.Message = "Лабораторная работа выполнена!";
                 return View("LabWorkExecutionError");
             }
@@ -184,6 +188,16 @@ namespace GraphLabs.Site.Controllers
 
             Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
+        }
+
+        private long[] GetTasksId(TaskExecutionModel[] tasksModel)
+        {
+            var result = new long[tasksModel.Length];
+            for (int i = 0; i < tasksModel.Length; i++)
+            {
+                result[i] = tasksModel[i].TaskId;
+            }
+            return result;
         }
     }
 }

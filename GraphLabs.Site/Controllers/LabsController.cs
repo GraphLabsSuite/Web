@@ -80,6 +80,7 @@ namespace GraphLabs.Site.Controllers
             lab.AcquaintanceFrom = ParseDate.Parse(DateFrom, out message); 
 			lab.AcquaintanceTill = ParseDate.Parse(DateTill, out message);
             //_changesTracker.SaveChanges();
+            _labRepository.SaveLabWork(lab);
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
 

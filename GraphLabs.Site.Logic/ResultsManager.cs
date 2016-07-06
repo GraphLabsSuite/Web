@@ -58,20 +58,10 @@ namespace GraphLabs.Site.Logic
         /// <summary> Зафиксировать начало выполнения ЛР (создаёт заголовок результата) </summary>
         public void StartLabExecution(long variantId, Guid sessionGuid)
         {
-            var student = GetCurrentStudent(sessionGuid);
-
-            //Найти неоконченные результаты выполнения
-            IEnumerable<Result> resultsToInterrupt = _resultsRepository.FindNotFinishedResults(student);
             var variant = GetLabVariant(variantId);
-
-            // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
-            var currentResults = resultsToInterrupt
-                .Where(res => res.LabVariant == variant)
-                .OrderByDescending(res => res.StartDateTime)
-                .ToArray();
-
-            // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
-            var latestCurrentResult = currentResults.FirstOrDefault();
+            var student = GetCurrentStudent(sessionGuid);
+            var resultsToInterrupt = FindResultsToInterrup(sessionGuid);
+            var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, variantId);
             // Если есть, то вместо начала нового выполнения, продолжим старое.
             if (latestCurrentResult != null)
             {
@@ -108,6 +98,62 @@ namespace GraphLabs.Site.Logic
             }
 
             _changesTracker.SaveChanges();
+        }
+
+        public void EndLabExecution(long labVarId, Guid sessionGuid)
+        {
+            var resultsToInterrupt = FindResultsToInterrup(sessionGuid);
+            var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, labVarId);
+            var taskResults = latestCurrentResult.TaskResults;
+            var mark = GetMark(taskResults);
+            latestCurrentResult.Score = mark;
+            _changesTracker.SaveChanges();
+        }
+
+        private IEnumerable<Result> FindResultsToInterrup(Guid sessionGuid)
+        {
+            var student = GetCurrentStudent(sessionGuid);
+
+            //Найти неоконченные результаты выполнения
+            return _resultsRepository.FindNotFinishedResults(student);
+        } 
+
+        private Result FindLatestCurrentResult(IEnumerable<Result> resultsToInterrupt, long variantId)
+        {
+
+            var variant = GetLabVariant(variantId);
+            // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
+            var currentResults = resultsToInterrupt
+                .Where(res => res.LabVariant == variant)
+                .OrderByDescending(res => res.StartDateTime)
+                .ToArray();
+
+            // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
+            return currentResults.FirstOrDefault();
+        }
+
+        private int?[] GetTaskResultsScore(ICollection<TaskResult> taskResults)
+        {
+            var taskResultsArray = taskResults.ToArray();
+            var result = new int?[taskResultsArray.Length];
+            for (var i = 0; i < taskResultsArray.Length; i++)
+            {
+                result[i] = taskResultsArray[i].Score;
+            }
+            return result;
+        }
+
+        private int GetMark(ICollection<TaskResult> taskResults)
+        {
+            var scores = GetTaskResultsScore(taskResults);
+            var sum = 0;
+            for (int i = 0; i < scores.Length; i++)
+            {
+                if (scores[i] == null) return -1;
+                sum = (int) scores[i] + sum;
+
+            }
+            return sum/scores.Length;
         }
     }
 }

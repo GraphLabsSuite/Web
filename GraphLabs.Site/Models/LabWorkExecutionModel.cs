@@ -16,6 +16,16 @@ namespace GraphLabs.Site.Models
         /// <summary> Id лабораторной работы </summary>
         public long LabId { get; set; }
 
+        /// <summary>
+        /// Вариант лабораторной работы
+        /// </summary>
+        public long LabVarId { get; set; }
+        
+        /// <summary>
+        /// Сессия студента
+        /// </summary>
+        public Guid SessionGuid { get; set; }
+        
         /// <summary> Задания </summary>
         public TaskExecutionModel[] Tasks { get; set; }
 
@@ -23,11 +33,13 @@ namespace GraphLabs.Site.Models
         public int CurrentTask { get; set; }
 
         /// <summary> Конструктор модели </summary>
-        public LabWorkExecutionModel(Guid sessionGuid, LabWork lab, IEnumerable<TaskExecutionModel> variants)
+        public LabWorkExecutionModel(Guid sessionGuid, LabWork lab, long labVarId, IEnumerable<TaskExecutionModel> variants)
         {
+            SessionGuid = sessionGuid;
             LabName = lab.Name;
             LabId = lab.Id;
             Tasks = variants.ToArray();
+            LabVarId = labVarId;
         }
 
         /// <summary> Проверка завершенности лабораторной работы </summary>
