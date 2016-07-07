@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +10,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Logic
 {
-    /// <summary> РњРµРЅРµРґР¶РµСЂ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ </summary>
+    /// <summary> Менеджер результатов </summary>
     public class ResultsManager : IResultsManager
     {
         private readonly IReportsContext _reportsContext;
@@ -19,7 +19,7 @@ namespace GraphLabs.Site.Logic
         private readonly IResultsRepository _resultsRepository;
         private readonly IChangesTracker _changesTracker;
 
-        /// <summary> РњРµРЅРµРґР¶РµСЂ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ </summary>
+        /// <summary> Менеджер результатов </summary>
         public ResultsManager(
             IReportsContext reportsContext,
             ILabRepository labRepository,
@@ -39,7 +39,7 @@ namespace GraphLabs.Site.Logic
             var session = _sessionRepository.FindByGuid(sessionGuid);
             if (session == null || !(session.User is Student))
             {
-                throw new HttpException(404, "РќРµ РЅР°Р№РґРµРЅР° СЃРµСЃСЃРёСЏ _СЃС‚СѓРґРµРЅС‚Р°_.");
+                throw new HttpException(404, "Не найдена сессия _студента_.");
             }
 
             return (Student)session.User;
@@ -50,34 +50,34 @@ namespace GraphLabs.Site.Logic
             var variant = _labRepository.FindLabVariantById(variantId);
             if (variant == null)
             {
-                throw new HttpException(404, "РќРµ РЅР°Р№РґРµРЅ РІР°СЂРёР°РЅС‚ Р·Р°РїСЂР°С€РёРІР°РµРјРѕР№ Р›Р .");
+                throw new HttpException(404, "Не найден вариант запрашиваемой ЛР.");
             }
             return variant;
         }
 
-        /// <summary> Р—Р°С„РёРєСЃРёСЂРѕРІР°С‚СЊ РЅР°С‡Р°Р»Рѕ РІС‹РїРѕР»РЅРµРЅРёСЏ Р›Р  (СЃРѕР·РґР°С‘С‚ Р·Р°РіРѕР»РѕРІРѕРє СЂРµР·СѓР»СЊС‚Р°С‚Р°) </summary>
+        /// <summary> Зафиксировать начало выполнения ЛР (создаёт заголовок результата) </summary>
         public void StartLabExecution(long variantId, Guid sessionGuid)
         {
             var variant = GetLabVariant(variantId);
             var student = GetCurrentStudent(sessionGuid);
             var resultsToInterrupt = FindResultsToInterrup(sessionGuid);
             var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, variantId);
-            // Р•СЃР»Рё РµСЃС‚СЊ, С‚Рѕ РІРјРµСЃС‚Рѕ РЅР°С‡Р°Р»Р° РЅРѕРІРѕРіРѕ РІС‹РїРѕР»РЅРµРЅРёСЏ, РїСЂРѕРґРѕР»Р¶РёРј СЃС‚Р°СЂРѕРµ.
+            // Если есть, то вместо начала нового выполнения, продолжим старое.
             if (latestCurrentResult != null)
             {
-                resultsToInterrupt = resultsToInterrupt.Except(new[] {latestCurrentResult});
+                resultsToInterrupt = resultsToInterrupt.Except(new[] { latestCurrentResult });
             }
 
             foreach (var oldResult in resultsToInterrupt)
             {
-                //TODO: Р—Р°РјРµРЅРёС‚СЊ Score
+                //TODO: Заменить Score
                 oldResult.Score = null;
                 oldResult.Status = ExecutionStatus.Complete;
             }
 
             if (latestCurrentResult == null)
             {
-                // Р•СЃР»Рё РЅРµ РЅР°С€Р»Рё, С‚Рѕ Р·Р°РІРѕРґРёРј РЅРѕРІС‹Р№
+                // Если не нашли, то заводим новый
                 var result = _reportsContext.Results.CreateNew();
                 result.LabVariant = variant;
                 result.Mode = variant.IntroducingVariant
@@ -88,7 +88,7 @@ namespace GraphLabs.Site.Logic
                 foreach (var taskVariant in variant.TaskVariants)
                 {
                     var taskResult = _reportsContext.TaskResults.CreateNew();
-                    taskResult.Status = ExecutionStatus.Executing;;
+                    taskResult.Status = ExecutionStatus.Executing; ;
                     taskResult.StudentActions = new List<StudentAction>();
                     taskResult.TaskVariant = taskVariant;
                     taskResult.Result = result;
@@ -114,21 +114,21 @@ namespace GraphLabs.Site.Logic
         {
             var student = GetCurrentStudent(sessionGuid);
 
-            //РќР°Р№С‚Рё РЅРµРѕРєРѕРЅС‡РµРЅРЅС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ РІС‹РїРѕР»РЅРµРЅРёСЏ
+            //Найти неоконченные результаты выполнения
             return _resultsRepository.FindNotFinishedResults(student);
-        } 
+        }
 
         private Result FindLatestCurrentResult(IEnumerable<Result> resultsToInterrupt, long variantId)
         {
 
             var variant = GetLabVariant(variantId);
-            // РќР°Р№РґС‘Рј СЂРµР·СѓР»СЊС‚Р°С‚С‹, РѕС‚РЅРѕСЃСЏС‰РёРµСЃСЏ Рє РІР°СЂРёР°РЅС‚Сѓ Р›Р , РєРѕС‚РѕСЂС‹Р№ РїС‹С‚Р°РµРјСЃСЏ РЅР°С‡Р°С‚СЊ РІС‹РїРѕР»РЅСЏС‚СЊ
+            // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
             var currentResults = resultsToInterrupt
                 .Where(res => res.LabVariant == variant)
                 .OrderByDescending(res => res.StartDateTime)
                 .ToArray();
 
-            // РџРѕСЃРјРѕС‚СЂРёРј, РµСЃС‚СЊ Р»Рё РІРѕРѕР±С‰Рµ С‚Р°РєРёРµ. Р•СЃР»Рё РµСЃС‚СЊ, Р±РµСЂС‘Рј СЃР°РјС‹Р№ СЃРІРµР¶РёР№ (С‚РµРѕСЂРµС‚РёС‡РµСЃРєРё, С‚Р°Рј Р±РѕР»СЊС€Рµ 1 Рё РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ).
+            // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
             return currentResults.FirstOrDefault();
         }
 
@@ -150,10 +150,10 @@ namespace GraphLabs.Site.Logic
             for (int i = 0; i < scores.Length; i++)
             {
                 if (scores[i] == null) return -1;
-                sum = (int) scores[i] + sum;
+                sum = (int)scores[i] + sum;
 
             }
-            return sum/scores.Length;
+            return sum / scores.Length;
         }
     }
 }
