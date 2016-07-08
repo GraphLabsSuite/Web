@@ -18,16 +18,19 @@ namespace GraphLabs.Site.Models
 
         public string Variant { get; set; }
 
+        public long VariantId { get; set; }
+
         public int Result { get; set; }
 
         public int Mark { get; set; }
 
-        public StudentsResultModel(long id, string name, DateTime date, string variant, int result)
+        public StudentsResultModel(long id, string name, DateTime date, string variant, long varId, int result)
         {
             Id = id;
             Name = name;
             Date = date;
             Variant = variant;
+            VariantId = varId;
             Result = result;
             SetMark(result);
         }

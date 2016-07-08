@@ -21,14 +21,14 @@ namespace GraphLabs.Site.Controllers
     public class StudentsResultController : GraphLabsController
     {
         private readonly GraphLabsContext _ctx;
- 
+        private long _studentId;
         private string _sessionId = System.Web.HttpContext.Current.Session.SessionID;
         //private readonly StudentsResultModel[] _model;
 
         public StudentsResultController(GraphLabsContext context)
         {
             _ctx = context;
-            //_studentGuid = new Guid("7568BF04-DAF7-48EE-88EA-748949C46F62");
+
         }
 
         public ActionResult Index()
@@ -40,6 +40,7 @@ namespace GraphLabs.Site.Controllers
             //res[2] = new StudentsResultModel (3, 2, "Лаб 3", new DateTime(2014, 3, 13), "1", 95); 
             //var studentGuid = new Guid(_sessionId);
             var studentMail = HttpContext.User.Identity.Name;
+            _studentId = _ctx.Users.Single(user => user.Email == studentMail).Id;
             var model = BuildStudentResultModel(studentMail);
             return View(model);
         }
@@ -47,40 +48,72 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public string GetLabDetail(int id)
         {
-            var result = BuildLabDetails(id);
+            var studentMail = HttpContext.User.Identity.Name;
+            _studentId = _ctx.Users.Single(user => user.Email == studentMail).Id;
+            var result = GetLabDetails(id);
             return JsonConvert.SerializeObject(result);
         }
 
-        private JSONResultLabResultInfo BuildLabDetails(int id)
+        private JSONResultLabResultInfo GetLabDetails(int id)
         {
             var result = new JSONResultLabResultInfo();
-            result.Result = 0;
-            switch (id)
-            {
-                case 1:
-                    result.LabName = "Лаб 1";
-                    break;
-                case 2:
-                    result.LabName = "Лаб 2";
-                    break;
-                default:
-                    result.LabName = "Лаб 3";
-                    break;
-            }
-            result.StudentsNumber = 15;
-            result.Place = 3;
-            result.Tasks = new TaskInfo[5];
-            result.Tasks[0] = new TaskInfo { Id = 1, Name = "Задание 1", Variant = "3", Result = 90 };
-            result.Tasks[1] = new TaskInfo { Id = 2, Name = "Задание 2", Variant = "2", Result = 80 };
-            result.Tasks[2] = new TaskInfo { Id = 3, Name = "Задание 3", Variant = "3", Result = 100 };
-            result.Tasks[3] = new TaskInfo { Id = 4, Name = "Задание 4", Variant = "1", Result = 94 };
-            result.Tasks[4] = new TaskInfo { Id = 5, Name = "Задание 5", Variant = "3", Result = 63 };
 
-            result.Problems = new string[3];
-            result.Problems[0] = "Проблема 1";
-            result.Problems[1] = "Проблема 2";
-            result.Problems[2] = "Проблема 3";
+            var labName = _ctx.LabVariants.Single(labvar => labvar.Id == id).LabWork.Name;
+            var resultStudent = _ctx.Results.Where(tr => tr.Student.Id == _studentId).ToArray();
+            var groupId = resultStudent[0].Student.Group.Id;
+            result.Result = 0;
+            result.LabName = labName;
+            result.StudentsNumber = _ctx.Groups.Count(tr => tr.Id == groupId);
+            result.Place = GetPlace(id);
+            result.Tasks = GetTaskInfo(id);
+            result.Problems = GetProblems(id);
+
             return result;
+        }
+
+        private TaskInfo[] GetTaskInfo(int lab)
+        {
+            var tasks = _ctx.TaskResults.Where(task => task.Result.Student.Id == _studentId && task.Result.LabVariant.Id == lab).ToArray();
+            var result = new TaskInfo[tasks.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new TaskInfo(tasks,i);
+            }
+            return result;
+        }
+
+        private string[] GetProblems(int id)
+        {
+            string[] result;
+            var problems =
+                _ctx.StudentActions.Where(tr => tr.TaskResult.Result.LabVariant.Id == id && tr.TaskResult.Result.Student.Id == _studentId && tr.Penalty != 0)
+                    .ToArray();
+            if (problems.Length == 0)
+            {
+               result = new string[1];
+                result[0] = "У вас нет проблемных зон.";
+            }
+            else
+            {
+                result = new string[problems.Length];
+                for (int i = 0; i < problems.Length; i++)
+                {
+                    result[i] = problems[i].Description;
+                }
+            }
+            return result;
+        }
+
+        private int GetPlace(int id)
+        {
+            var students = _ctx.Results.Where(tr => tr.LabVariant.Id == id).OrderBy(td => td.Score).ToArray();
+            var place = 1;
+            for (int i = 0; i < students.Length; i++)
+            {
+                if (students[i].Student.Id != _studentId) place++;
+                else return place;
+            }
+            return place;
         }
 
         private StudentsResultModel[] BuildStudentResultModel(string studentMail)
@@ -90,7 +123,7 @@ namespace GraphLabs.Site.Controllers
             var resultModel = new StudentsResultModel[results.Length];
             for (int i = 0; i < results.Length; i++)
             {
-                var temp = new StudentsResultModel(results[i].LabVariant.LabWork.Id, results[i].LabVariant.LabWork.Name, results[i].StartDateTime, results[i].LabVariant.Number, (int) results[i].Score);
+                var temp = new StudentsResultModel(results[i].LabVariant.LabWork.Id, results[i].LabVariant.LabWork.Name, results[i].StartDateTime, results[i].LabVariant.Number, results[i].LabVariant.Id, (int) results[i].Score);
                 resultModel[i] = temp;
             }
             return resultModel;

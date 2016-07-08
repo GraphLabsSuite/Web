@@ -34,6 +34,7 @@ namespace GraphLabs.DomainModel
     
         public virtual ICollection<News> News { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
+
     }
     
     #pragma warning restore 1591

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GraphLabs.Dal.Ef;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {
@@ -14,6 +16,16 @@ namespace GraphLabs.Site.Models
         public string Variant { get; set; }
 
         public int Result { get; set; }
+
+        public TaskInfo(TaskResult[] tasks, int number)
+        {
+            Id = tasks[number].Id;
+            Name = tasks[number].TaskVariant.Task.Name;
+            Variant = "Вариант " + tasks[number].TaskVariant.Number;
+            int? score = tasks[number].Score;
+            if (score != null) Result = (int) score;
+            else Result = -1;
+        }
     }
 
     public class JSONResultLabResultInfo
@@ -26,7 +38,7 @@ namespace GraphLabs.Site.Models
 
         public string[] Problems { get; set; }
 
-        public int StudentsNumber { get; set; }
+        public long StudentsNumber { get; set; }
 
         public int Place { get; set; }
     }
