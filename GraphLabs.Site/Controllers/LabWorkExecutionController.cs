@@ -132,7 +132,8 @@ namespace GraphLabs.Site.Controllers
             #endregion
             var session = GetSessionGuid();
             var nextTaskLink = GetNextTaskUri();
-            _resultsManager.StartLabExecution(labVarId, session);
+            var unsolvedTask = _resultsManager.StartLabExecution(labVarId, session);
+            
             LabWork lab = GetLabWorkById(labId);
             TaskVariant[] variants = GetTaskVariantsByLabVarId(labVarId);
             var labWork = new LabWorkExecutionModel(session, lab, labVarId, variants
@@ -144,8 +145,7 @@ namespace GraphLabs.Site.Controllers
                     lab.Id,
                     nextTaskLink))
                 .ToArray());
-
-            labWork.SetNotSolvedTaskToCurrent();
+           labWork.SetGivenOrFirstTask(unsolvedTask);
             Session[LAB_VARIABLE_KEY] = labWork;
             return View(labWork);
         }
@@ -175,7 +175,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult TaskComplete()
         {
             var model = (LabWorkExecutionModel)Session[LAB_VARIABLE_KEY];
-            model.SetCurrentTaskToComplete();
+            //model.SetCurrentTaskToComplete();
             if (model.CheckCompleteLab())
             {
                 var tasks = GetTasksId(model.Tasks);
@@ -185,7 +185,6 @@ namespace GraphLabs.Site.Controllers
                 return View("LabWorkExecutionError");
             }
             model.SetNotSolvedTaskToCurrent();
-
             Session[LAB_VARIABLE_KEY] = model;
             return View("Index", model);
         }

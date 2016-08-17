@@ -20,36 +20,59 @@ namespace GraphLabs.Site.Models
 
         public long VariantId { get; set; }
 
-        public int Result { get; set; }
+        public String Result { get; set; }
 
-        public int Mark { get; set; }
+        public String Mark { get; set; }
 
-        public StudentsResultModel(long id, string name, DateTime date, string variant, long varId, int result)
+        public String Status { get; set; }
+
+        public StudentsResultModel(long id, string name, DateTime date, string variant, long varId, int? result,ExecutionStatus status)
         {
             Id = id;
             Name = name;
             Date = date;
             Variant = variant;
             VariantId = varId;
-            Result = result;
+            Result = result.ToString();
+            SetStatus(status);
             SetMark(result);
         }
 
-        private void SetMark(int result)
+        private void SetMark(int? result)
         {
-            if (result >= 90)
+            if (result == null)
             {
-                Mark = 5;
+                Mark = "";
+            }
+            else if (result >= 90)
+            {
+                Mark = "5";
             }
             else if (result >= 70)
             {
-                Mark = 4;
+                Mark = "4";
             }
             else if (result >= 60)
             {
-                Mark = 3;
+                Mark = "3";
             }
-            else Mark = 2;
+            else Mark = "2";
+        }
+
+        private void SetStatus(ExecutionStatus status)
+        {
+            switch (status)
+            {
+                    case ExecutionStatus.Complete:
+                    Status = "Завершено";
+                    break;
+                    case ExecutionStatus.Executing:
+                    Status = "Выполняется";
+                    break;
+                    case ExecutionStatus.Interrupted:
+                    Status = "Прервано";
+                    break;
+            }
         }
     }
 }

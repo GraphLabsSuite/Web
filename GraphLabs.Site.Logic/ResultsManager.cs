@@ -56,12 +56,13 @@ namespace GraphLabs.Site.Logic
         }
 
         /// <summary> Зафиксировать начало выполнения ЛР (создаёт заголовок результата) </summary>
-        public void StartLabExecution(long variantId, Guid sessionGuid)
+        public long StartLabExecution(long variantId, Guid sessionGuid)
         {
             var variant = GetLabVariant(variantId);
             var student = GetCurrentStudent(sessionGuid);
-            var resultsToInterrupt = FindResultsToInterrup(sessionGuid);
+            var resultsToInterrupt = FindResultsToInterrupt(sessionGuid);
             var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, variantId);
+            var unsolvedTask = 0;
             // Если есть, то вместо начала нового выполнения, продолжим старое.
             if (latestCurrentResult != null)
             {
@@ -72,7 +73,7 @@ namespace GraphLabs.Site.Logic
             {
                 //TODO: Заменить Score
                 oldResult.Score = null;
-                oldResult.Status = ExecutionStatus.Complete;
+                oldResult.Status = ExecutionStatus.Interrupted;
             }
 
             if (latestCurrentResult == null)
@@ -84,11 +85,13 @@ namespace GraphLabs.Site.Logic
                     ? LabExecutionMode.IntroductoryMode
                     : LabExecutionMode.TestMode;
                 result.Student = student;
-
+                result.Status = ExecutionStatus.Executing;
+                result.Score = null;
                 foreach (var taskVariant in variant.TaskVariants)
                 {
                     var taskResult = _reportsContext.TaskResults.CreateNew();
-                    taskResult.Status = ExecutionStatus.Executing; ;
+                    taskResult.Status = ExecutionStatus.Executing;
+                    ;
                     taskResult.StudentActions = new List<StudentAction>();
                     taskResult.TaskVariant = taskVariant;
                     taskResult.Result = result;
@@ -96,21 +99,33 @@ namespace GraphLabs.Site.Logic
                     result.TaskResults.Add(taskResult);
                 }
             }
+            else
+            {
+                foreach (var taskResult in latestCurrentResult.TaskResults)
+                {
+                    if (taskResult.Status == ExecutionStatus.Executing)
+                    {
+                        return taskResult.TaskVariant.Task.Id;
+                    }
+                }
+            }
 
             _changesTracker.SaveChanges();
+            return unsolvedTask;
         }
 
         public void EndLabExecution(long labVarId, Guid sessionGuid)
         {
-            var resultsToInterrupt = FindResultsToInterrup(sessionGuid);
+            var resultsToInterrupt = FindResultsToInterrupt(sessionGuid);
             var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, labVarId);
             var taskResults = latestCurrentResult.TaskResults;
             var mark = GetMark(taskResults);
             latestCurrentResult.Score = mark;
+            latestCurrentResult.Status = ExecutionStatus.Complete;
             _changesTracker.SaveChanges();
         }
 
-        private IEnumerable<Result> FindResultsToInterrup(Guid sessionGuid)
+        private IEnumerable<Result> FindResultsToInterrupt(Guid sessionGuid)
         {
             var student = GetCurrentStudent(sessionGuid);
 

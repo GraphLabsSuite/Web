@@ -32,6 +32,7 @@ namespace GraphLabs.Site.Models
         /// <summary> Текущее задание </summary>
         public int CurrentTask { get; set; }
 
+
         /// <summary> Конструктор модели </summary>
         public LabWorkExecutionModel(Guid sessionGuid, LabWork lab, long labVarId, IEnumerable<TaskExecutionModel> variants)
         {
@@ -67,6 +68,41 @@ namespace GraphLabs.Site.Models
                 }
             }
             throw new Exception("Лабораторная работа выполнена");
+        }
+
+        public void SetGivenOrFirstTask(long unsolvedTask)
+        {
+            bool flag = false;
+            if (unsolvedTask != 0)
+            {
+                for (int i = 0; i < Tasks.Length; ++i)
+                {
+                    if (Tasks[i].TaskId != unsolvedTask)
+                    {
+                        Tasks[i].IsSolved = true;
+                    }
+                    else
+                    {
+                        CurrentTask = i;
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                CurrentTask = 0;
+                return;
+            }
+
+            if (!flag)
+            {
+                CurrentTask = 0;
+                foreach (var task in Tasks)
+                {
+                    task.IsSolved = false;
+                }
+            }
         }
 
         /// <summary> Установить текущее задание </summary>

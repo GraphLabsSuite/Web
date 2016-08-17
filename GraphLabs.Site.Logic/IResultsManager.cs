@@ -7,7 +7,7 @@ namespace GraphLabs.Site.Logic
     public interface IResultsManager
     {
         /// <summary> Зафиксировать начало выполнения ЛР (создаёт заголовок результата) </summary>
-        void StartLabExecution(long variantId, Guid sessionGuid);
+        long StartLabExecution(long variantId, Guid sessionGuid);
 
         /// <summary>
         /// Зафиксировать конец выполнения ЛР (высчитывает и обновляет результат всей лабы)

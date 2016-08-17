@@ -14,6 +14,7 @@ namespace GraphLabs.DomainModel
     
     public enum ExecutionStatus : byte
     {
+        Interrupted = 2,
         Complete = 1,
         Executing = 0
     }

@@ -8,11 +8,12 @@
 <style type="text/css">
     .varColumn2 { visibility: hidden; width: 0;}
      .idColumn { width: 7%; }
-    .nameColumn { width: 45%; }
-    .dateColumn { width: 12%; }
-    .varColumn { width: 12%; }
-    .resultColumn { width: 12%; }
-    .markColumn { width: 12%; }
+    .nameColumn { width: 43%; }
+    .dateColumn { width: 10%; }
+    .varColumn { width: 10%; }
+    .resultColumn { width: 10%; }
+    .markColumn { width: 10%; }
+    .statusColumn { width: 10%}
 </style>
 
 @{
@@ -26,7 +27,7 @@
             caption: null,
             displayHeader: true,
             htmlAttributes: new { id = "datatable" },
-            
+        
             columns: grid.Columns(
                 grid.Column(header:"",                  format: item => item.VariantId, columnName:"VarId", style: "varColumn2"),
                 grid.Column(header: "",                 format: item => item.Id,        columnName: "Id",       style:"idColumn"),
@@ -34,7 +35,8 @@
                 grid.Column(header: "Дата выполнения",  format: @<text>@item.Date.ToString("dd/MM/yyyy")</text>,      columnName: "Date",     style:"dateColumn"),
                 grid.Column(header: "Вариант",          format: item => item.Variant,   columnName: "Variant",     style:"varColumn"),
                 grid.Column(header: "Результат",        format: item => item.Result,    columnName: "Result",   style:"resultColumn"),
-                grid.Column(header: "Оценка",           format: item => item.Mark,    columnName: "Mark",   style:"markColumn")
+                grid.Column(header: "Оценка",           format: item => item.Mark,    columnName: "Mark",   style:"markColumn"),
+                grid.Column(header: "Статус",           format: item => item.Status, columnName: "Status", style: "statusColumn")
                 )
             );
 }
