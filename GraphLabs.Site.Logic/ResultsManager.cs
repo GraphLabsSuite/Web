@@ -114,15 +114,17 @@ namespace GraphLabs.Site.Logic
             return unsolvedTask;
         }
 
-        public void EndLabExecution(long labVarId, Guid sessionGuid)
-        {
-            var resultsToInterrupt = FindResultsToInterrupt(sessionGuid);
-            var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, labVarId);
-            var taskResults = latestCurrentResult.TaskResults;
-            var mark = GetMark(taskResults);
-            latestCurrentResult.Score = mark;
-            latestCurrentResult.Status = ExecutionStatus.Complete;
-            _changesTracker.SaveChanges();
+          public void EndLabExecution(long labVarId, Guid sessionGuid)
+          {
+            /*
+              var resultsToInterrupt = FindResultsToInterrupt(sessionGuid);
+              var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, labVarId);
+              var taskResults = latestCurrentResult.TaskResults;
+              var mark = GetMark(taskResults);
+              latestCurrentResult.Score = mark;
+              latestCurrentResult.Status = ExecutionStatus.Complete;
+              _changesTracker.SaveChanges();
+              */
         }
 
         private IEnumerable<Result> FindResultsToInterrupt(Guid sessionGuid)
