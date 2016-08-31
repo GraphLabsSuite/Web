@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GraphLabs.Site.Models.StudentActions;
+﻿using GraphLabs.Site.Models.StudentActions;
 using GraphLabs.Site.Models.TaskResults;
 
-namespace GraphLabs.Site.Models.TaskResultsWithActions
+namespace GraphLabs.Site.Models.LabExecution
 {
     public class TaskResultWithActionsModel : TaskResultModel
     {

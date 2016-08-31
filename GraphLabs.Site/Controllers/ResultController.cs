@@ -5,6 +5,7 @@ using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
+using GraphLabs.Site.Models.LabExecution;
 using GraphLabs.Site.Models.Results;
 using GraphLabs.Site.Models.ResultsWithTaskInfo;
 using GraphLabs.Site.Models.TaskResultsWithActions;

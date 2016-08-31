@@ -1,4 +1,7 @@
-namespace GraphLabs.Site.Models
+using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.Infrastructure;
+
+namespace GraphLabs.Site.Models.LabExecution
 {
     /// <summary> Модель задания в лабе </summary>
     public class TaskExecutionModel
@@ -9,10 +12,14 @@ namespace GraphLabs.Site.Models
         /// <summary> Название задания </summary>
         public string TaskName { get; set; }
 
-        /// <summary> Строка инициализации </summary>
-        public string InitParams { get; set; }
-
         /// <summary> Выполнено? </summary>
-        public bool IsSolved { get; set; }
+        public TaskExecutionState State { get; set; }
+    }
+
+    public enum TaskExecutionState
+    {
+        New,
+        CurrentlySolving,
+        Solved
     }
 }

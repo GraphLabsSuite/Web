@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.LabWorkExecutionModel
+﻿@using GraphLabs.Site.Models.LabExecution
+@model VariantExecutionModelBase
 
 @{
     ViewBag.Title = "Лабораторная работа";
@@ -6,41 +7,48 @@
 
 <h2>@Model.LabName</h2>
 
-<h5>@Model.Tasks[Model.CurrentTask].TaskName</h5>
+@{
+    var taskModel = @Model as TaskVariantExecutionModel;
+}
 
-<div id="task-module-wrapper" class="ui-resizable">
-    <div id="loading-please-wait">
-        <img src="../../Images/graphlabs.png" alt=""/>
-        <p>Задание загружается. Пожалуйста, подождите.</p>
+@if (taskModel != null)
+{
+    <h5>@taskModel.TaskName</h5>
+
+    <div id="task-module-wrapper" class="ui-resizable">
+        <div id="loading-please-wait">
+            <img src="../../Images/graphlabs.png" alt=""/>
+            <p>Задание загружается. Пожалуйста, подождите.</p>
+        </div>
+        <object id="task-module-object" data="data:application/x-silverlight-2," type="application/x-silverlight-2">
+            <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@taskModel.TaskId"/>
+            <param name="onerror" value="onSilverlightError"/>
+            <param name="background" value="#E8EDEF"/>
+            <param name="minRuntimeVersion" value="2.0.31005.0"/>
+            <param name="autoUpgrade" value="true"/>
+            <param name="initParams" value="@taskModel.InitParams"/>
+            <param name="onload" value="onTaskModuleLoaded"/>
+            <param name="onerror" value="onTaskModuleLoaded"/>
+            <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
+                <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none"/>
+            </a>
+        </object>
     </div>
-    <object id="task-module-object" data="data:application/x-silverlight-2," type="application/x-silverlight-2">
-        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@Model.Tasks[Model.CurrentTask].TaskId"/>
-        <param name="onerror" value="onSilverlightError"/>
-        <param name="background" value="#E8EDEF"/>
-        <param name="minRuntimeVersion" value="2.0.31005.0"/>
-        <param name="autoUpgrade" value="true"/>
-        <param name="initParams" value="@Model.Tasks[Model.CurrentTask].InitParams"/>
-        <param name="onload" value="onTaskModuleLoaded"/>
-        <param name="onerror" value="onTaskModuleLoaded" />
-        <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
-            <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none"/>
-        </a>
-    </object>
-</div>
+}
+else
+{
+    var completeModel = (VariantExecutionCompleteModel)Model;
+    <h4>@completeModel.ResultMessage</h4>
+}
 
-@for (int i = 0; i < Model.Tasks.Length; ++i)
+@for (int i = 0; i < Model.OtherTasks.Length; ++i)
 {
     <input type="button" class="TaskNavigation" value="@(i + 1)"
-           @if (Model.Tasks[i].IsSolved || i == Model.CurrentTask)
+           @if (Model.OtherTasks[i].State != TaskExecutionState.New)
            {
                @Html.Raw(" disabled ")
            }/>
 }
-
-<div>
-    Кнопка для дебага :D
-    <input type="button" value="Выполнить" onclick="TaskComplete();"/>
-</div>
 
 @section scripts
 {
@@ -50,7 +58,7 @@
         $("input.TaskNavigation").click(function() {
             if (confirm("Будет потерян прогресс текущего задания! Продолжить?")) {
                 var task = $(this).attr("value") - 1;
-                location.href = "/LabWorkExecution/ChangeTask?&Task=" + task;
+                location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&taskIndex=" + task;
             }
         });
 

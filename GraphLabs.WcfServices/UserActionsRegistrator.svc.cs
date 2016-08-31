@@ -79,7 +79,7 @@ namespace GraphLabs.WcfServices
                     taskResultLog.Status = ExecutionStatus.Complete;
                     taskResultLog.StudentActions.Add(newAction);
 
-                    if (IsLabFinished(op, taskResultLog))
+          /*          if (IsLabFinished(op, taskResultLog))
                     {
                         var student = GetCurrentStudent(op, sessionGuid);
                         //Найти неоконченные результаты выполнения
@@ -104,87 +104,13 @@ namespace GraphLabs.WcfServices
                         var mark = GetMark(taskResults);
                         latestCurrentResult.Score = mark;
                         latestCurrentResult.Status = ExecutionStatus.Complete;
-                    }
+                    }*/
                 }
 
                 op.Complete();
 
                 return taskResultLog.Score;
             }
-        }
-
-        private bool IsLabFinished(IOperationContext<IGraphLabsContext> op, TaskResult task)
-        {
-            var countReal = op.DataContext.Query.OfEntities<TaskResult>().Count(taskResult => taskResult.Result.Id == task.Result.Id);
-            var variantOfLab = task.Result.LabVariant.Id;
-            var labVars = op.DataContext.Query.Get<LabVariant>(variantOfLab);
-            var countNeeded = labVars.TaskVariants.Count;
-            if (countNeeded == countReal)
-            {
-                if (
-                    op.DataContext.Query.OfEntities<TaskResult>()
-                        .Any(
-                            taskResult =>
-                                taskResult.Result.Id == task.Result.Id && taskResult.Status == ExecutionStatus.Executing))
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private int GetMark(ICollection<TaskResult> taskResults)
-        {
-            var scores = GetTaskResultsScore(taskResults);
-            var sum = 0;
-            for (int i = 0; i < scores.Length; i++)
-            {
-                if (scores[i] == null) return -1;
-                sum = (int)scores[i] + sum;
-
-            }
-            return sum / scores.Length;
-        }
-
-        private int?[] GetTaskResultsScore(ICollection<TaskResult> taskResults)
-        {
-            var taskResultsArray = taskResults.ToArray();
-            var result = new int?[taskResultsArray.Length];
-            for (var i = 0; i < taskResultsArray.Length; i++)
-            {
-                result[i] = taskResultsArray[i].Score;
-            }
-            return result;
-        }
-
-        private Student GetCurrentStudent(IOperationContext<IGraphLabsContext> op, Guid sessionGuid)
-        {
-            
-            var session = op.DataContext.Query.Find<Session>(sessionGuid);
-            if (session == null || !(session.User is Student))
-            {
-                throw new HttpException(404, "Не найдена сессия _студента_.");
-            }
-
-            return (Student)session.User;
-        }
-
-        private LabVariant GetLabVariant(TaskResult taskResult)
-        {
-           
-            var variant = taskResult.Result.LabVariant;
-            if (variant == null)
-            {
-                throw new HttpException(404, "Не найден вариант запрашиваемой ЛР.");
-            }
-            return variant;
         }
 
         private Result GetCurrentResultLog(IEntityQuery query, Session session)

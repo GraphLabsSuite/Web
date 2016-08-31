@@ -163,7 +163,9 @@
     <Compile Include="Infrastructure\IModelFactory.cs" />
     <Compile Include="Infrastructure\ListModelFactory.cs" />
     <Compile Include="IoC\ModelsConfiguration.cs" />
-    <Compile Include="ITaskExecutionModelFactory.cs" />
+    <Compile Include="LabExecution\DemoVariantModelLoader.cs" />
+    <Compile Include="LabExecution\IDemoVariantModelLoader.cs" />
+    <Compile Include="LabExecution\VariantExecutionModelBase.cs" />
     <Compile Include="Lab\LabListModel.cs" />
     <Compile Include="Lab\LabModel.cs" />
     <Compile Include="Lab\LabModelLoader.cs" />
@@ -173,18 +175,18 @@
     <Compile Include="News\NewsModelSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
-    <Compile Include="ResultsWithTaskInfo\ResultWithTaskInfoModelLoader.cs" />
-    <Compile Include="ResultsWithTaskInfo\ResultWithTaskInfoModel.cs" />
+    <Compile Include="TaskResultsWithActions\ResultsWithTaskInfo\ResultWithTaskInfoModelLoader.cs" />
+    <Compile Include="TaskResultsWithActions\ResultsWithTaskInfo\ResultWithTaskInfoModel.cs" />
     <Compile Include="Results\ResultModel.cs" />
     <Compile Include="Results\ResultModelLoader.cs" />
     <Compile Include="StudentActions\StudentActionModel.cs" />
     <Compile Include="StudentActions\StudentActionModelLoader.cs" />
-    <Compile Include="TaskExecutionModel.cs" />
-    <Compile Include="TaskExecutionModelFactory.cs" />
+    <Compile Include="LabExecution\TaskExecutionModel.cs" />
+    <Compile Include="LabExecution\TaskExecutionModelLoader.cs" />
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />
     <Compile Include="TaskResults\TaskResultModelLoader.cs" />
-    <Compile Include="TaskResultsWithActions\TaskResultWithActionsModel.cs" />
+    <Compile Include="LabExecution\TaskResultWithActionsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphLabs.Dal.Ef\GraphLabs.Dal.Ef.csproj">

@@ -357,7 +357,6 @@
     <Compile Include="Models\JSONResultGroupDetail.cs" />
     <Compile Include="Models\JSONResultGroupsInfoModel.cs" />
     <Compile Include="Models\JSONResultLabResultInfo.cs" />
-    <Compile Include="Models\LabWorkExecutionModel.cs" />
     <Compile Include="Models\StudentsResultModel.cs" />
     <Compile Include="Models\Survey\SurveyIndexViewModel.cs" />
     <Compile Include="Models\Survey\SurveyCreatingModel.cs" />
