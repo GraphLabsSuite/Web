@@ -78,33 +78,6 @@ namespace GraphLabs.WcfServices
                     newAction.Time = _systemDate.Now();
                     taskResultLog.Status = ExecutionStatus.Complete;
                     taskResultLog.StudentActions.Add(newAction);
-
-          /*          if (IsLabFinished(op, taskResultLog))
-                    {
-                        var student = GetCurrentStudent(op, sessionGuid);
-                        //Найти неоконченные результаты выполнения
-
-                        var resultsToInterrupt =
-                            op.DataContext.Query.OfEntities<Result>()
-                                .Where(
-                                    result =>
-                                        result.Student.Id == student.Id && result.Status == ExecutionStatus.Executing)
-                                .ToArray();
-
-                        var variant = GetLabVariant(taskResultLog);
-                        // Найдём результаты, относящиеся к варианту ЛР, который пытаемся начать выполнять
-                        var currentResults = resultsToInterrupt
-                            .Where(res => res.LabVariant == variant)
-                            .OrderByDescending(res => res.StartDateTime)
-                            .ToArray();
-
-                        // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
-                        var latestCurrentResult = currentResults.FirstOrDefault();
-                        var taskResults = latestCurrentResult.TaskResults;
-                        var mark = GetMark(taskResults);
-                        latestCurrentResult.Score = mark;
-                        latestCurrentResult.Status = ExecutionStatus.Complete;
-                    }*/
                 }
 
                 op.Complete();

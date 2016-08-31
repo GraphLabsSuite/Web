@@ -29,7 +29,6 @@ namespace GraphLabs.Site.Logic.IoC
 
             // Доменные сервисы, которые из этой сборки надо убирать (логика -> в толстые модели)
             container.RegisterType<ITaskManager, TaskManager>(new HierarchicalLifetimeManager());
-            container.RegisterType<IResultsManager, ResultsManager>(new HierarchicalLifetimeManager());
         }
     }
 }

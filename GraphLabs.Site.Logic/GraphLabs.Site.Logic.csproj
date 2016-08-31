@@ -187,9 +187,7 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="IoC\SiteLogicConfiguration.cs" />
-    <Compile Include="IResultsManager.cs" />
     <Compile Include="OperationContextExtensions.cs" />
-    <Compile Include="ResultsManager.cs" />
     <Compile Include="Security\FormsAuthenticationSavingService.cs" />
     <Compile Include="Security\GraphLabsPrincipal.cs" />
     <Compile Include="Security\Interfaces\IAuthenticationSavingService.cs" />

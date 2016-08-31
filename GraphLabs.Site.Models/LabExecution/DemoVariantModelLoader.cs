@@ -83,31 +83,36 @@ namespace GraphLabs.Site.Models.LabExecution
                     result = latestCurrentResult;
                 }
 
-                operation.Complete();
-
                 var task = taskIndex.HasValue
                     ? GetTaskByIndex(lab, taskIndex.Value)
                     : GetFirstUnsolvedTask(result);
 
-                if (task == null)
-                {
-                    return CompleteVariant(result);
-                }
+                var model = task == null 
+                    ? CompleteVariant(result) : 
+                    CreateTaskExecutionModel(taskCompleteRedirect, task, variant, lab, result);
 
-                var initParams = InitParams.ForDemoMode(
-                    _authService.GetSessionInfo().SessionGuid,
-                    task.Id,
-                    variant.Id,
-                    lab.Id,
-                    taskCompleteRedirect);
-
-                var model = CreateModelHeader<TaskVariantExecutionModel>(result, task);
-                model.TaskName = task.Name;
-                model.TaskId = task.Id;
-                model.InitParams = _initParamsProvider.GetInitParamsString(initParams);
+                operation.Complete();
 
                 return model;
             }
+        }
+
+        private VariantExecutionModelBase CreateTaskExecutionModel(Uri taskCompleteRedirect, Task task, LabVariant variant,
+            LabWork lab, Result result)
+        {
+            var initParams = InitParams.ForDemoMode(
+                _authService.GetSessionInfo().SessionGuid,
+                task.Id,
+                variant.Id,
+                lab.Id,
+                taskCompleteRedirect);
+
+            var model = CreateModelHeader<TaskVariantExecutionModel>(result, task);
+            model.TaskName = task.Name;
+            model.TaskId = task.Id;
+            model.InitParams = _initParamsProvider.GetInitParamsString(initParams);
+
+            return model;
         }
 
         private IEnumerable<TaskExecutionModel> GetOtherTasksModels(LabWork lab, Result result, Task task)
