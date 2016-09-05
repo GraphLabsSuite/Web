@@ -67,10 +67,23 @@ namespace GraphLabs.Site.Controllers
             var resultModel = new StudentsResultModel[results.Length];
             for (int i = 0; i < results.Length; i++)
             {
-                var temp = new StudentsResultModel(results[i].LabVariant.LabWork.Id, results[i].LabVariant.LabWork.Name, results[i].StartDateTime, results[i].LabVariant.Number, results[i].LabVariant.Id, results[i].Score, results[i].Status);
+                var temp = new StudentsResultModel(results[i].LabVariant.Id, results[i].LabVariant.LabWork.Name, results[i].StartDateTime, results[i].LabVariant.Number, results[i].Id, results[i].Score, results[i].Status, results[i].LabVariant.Id);
                 resultModel[i] = temp;
             }
             return resultModel;
+        }
+
+        [HttpPost]
+        public string GetTaskDetail(int id)
+        {
+            var result = GetTaskDetails(id);
+            return JsonConvert.SerializeObject(result);
+        }
+
+        private JSONTaskResultInfo GetTaskDetails(int id)
+        {
+            var result = new JSONTaskResultInfo(_ctx, id);
+            return result;
         }
 
     }

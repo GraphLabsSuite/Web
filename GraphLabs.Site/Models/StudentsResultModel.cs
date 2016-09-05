@@ -18,7 +18,9 @@ namespace GraphLabs.Site.Models
 
         public string Variant { get; set; }
 
-        public long VariantId { get; set; }
+        public long ResultId { get; set; }
+
+        public long LabVariant { get; set; }
 
         public String Result { get; set; }
 
@@ -26,16 +28,17 @@ namespace GraphLabs.Site.Models
 
         public String Status { get; set; }
 
-        public StudentsResultModel(long id, string name, DateTime date, string variant, long varId, int? result,ExecutionStatus status)
+        public StudentsResultModel(long id, string name, DateTime date, string variant, long resId, int? result,ExecutionStatus status, long labvariant)
         {
             Id = id;
             Name = name;
             Date = date;
             Variant = variant;
-            VariantId = varId;
+            ResultId = resId;
             Result = result.ToString();
             SetStatus(status);
             SetMark(result);
+            LabVariant = labvariant;
         }
 
         private void SetMark(int? result)

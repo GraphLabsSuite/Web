@@ -1,4 +1,6 @@
-﻿@model GraphLabs.Site.Models.StudentsResultModel[]
+﻿@using System.Collections
+@using GraphLabs.Site.Models
+@model GraphLabs.Site.Models.StudentsResultModel[]
 
 @{
     ViewBag.Title = "Результаты";
@@ -29,7 +31,7 @@
             htmlAttributes: new { id = "datatable" },
         
             columns: grid.Columns(
-                grid.Column(header:"",                  format: item => item.VariantId, columnName:"VarId", style: "varColumn2"),
+                grid.Column(header:"",                  format: item => item.ResultId, columnName:"VarId", style: "varColumn2"),
                 grid.Column(header: "",                 format: item => item.Id,        columnName: "Id",       style:"idColumn"),
                 grid.Column(header: "Название работы",  format: item => item.Name,      columnName: "Name",     style:"nameColumn"),
                 grid.Column(header: "Дата выполнения",  format: @<text>@item.Date.ToString("dd/MM/yyyy")</text>,      columnName: "Date",     style:"dateColumn"),
@@ -44,27 +46,36 @@
 <br />
 <span id="error" class="field-validation-error"></span>
 
-<div id="labInfo" style="display:none">
-    <h3></h3>
-    
-    <h6></h6>
-    <br />
+<table>
+    <tr><td>
+            <div id="labInfo" style="display: none" align="left">
+                <h3></h3>
 
-    <div>
-    <table id="labTable">
-    </table>
-    </div>
+                <h6></h6>
+                <br/>
 
-    <div>
-    <table id="problemsTable">
-    </table>
-    </div>
-</div>
+                <div>
+                    <table id="labTable"></table>
+                </div>
+
+                <div>
+                    <table id="problemsTable"></table>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div id="taskInfo" align="right">
+                <h3></h3>
+                <table id="taskTable"></table>
+            </div>
+        </td>
+    </tr>
+</table>
 
 @section scripts{
     <script>
 
-        $(function() {            
+        $(function() {
             $('#datatable tbody tr').click(function () {
                 GetLabDetail($(this).find('td:first').text());
             });
@@ -100,15 +111,63 @@
                     $("#labTable").append("<tr><th>Задания</th><th>Вариант</th><th>Результат</th></tr>");
 
                     for (var i = 0; i < obj.Tasks.length; i++) {
-                        $("#labTable").append("<tr value='" + obj.Tasks[i].Id + "'><td>" + obj.Tasks[i].Name + "</td><td>" + obj.Tasks[i].Variant + "</td><td>" + obj.Tasks[i].Result + "</td></tr>");
+                        $("#labTable").append("<tr value='" + obj.Tasks[i].Id + "'><td>" + obj.Tasks[i].Name + "</td><td>" + obj.Tasks[i].Variant + "</td><td>" + obj.Tasks[i].Result +
+                            "<td><input type='button' onclick='javascript:GetTaskDetail(" + obj.Tasks[i].Id + ")' value ='Посмотреть отчёт по заданию'/></td></tr>");
                     };
-
+                   
                     $("#problemsTable tr").detach();
                     $("#problemsTable").append("<tr><th>Проблемные области</th></tr>");
 
                     for (var j = 0; j < obj.Problems.length; j++) {
                         $("#problemsTable").append("<tr><td>" + obj.Problems[j] + "</td></tr>");
                     };
+                    break;
+                case 1:
+                    $("#error").html("Ошибка! Попробуйте обновить страницу");
+                    break;
+            };
+        };
+
+        $(function () {
+            $('.showTask').click(function () {
+                GetTaskDetail($(this).find('a:value').text());
+            });
+        });
+
+        function GetTaskDetail(id) {
+            $("#error").html("Идет отправка данных...");
+            var result = "Id=" + id;
+            $.ajax({
+                type: "POST",
+                url: "StudentsResult/GetTaskDetail",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                    $("#taskInfo").css("display", "none");
+                },
+                success: function (data) {
+                    Suc2(data);
+                }
+            });
+        };
+
+        function Suc2(data) {
+            var obj = jQuery.parseJSON(data);
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("");
+                    $("#taskInfo h3").html("");
+                    $("#taskTable").html("");
+                    $("#taskInfo").css("display", "block");
+                    $("#taskInfo h3").html(obj.TaskName);
+
+                    //$("#taskTable tr").detach();
+                    $("#taskTable").append("<tr><th>Номер действия</th><th>Описание действия</th><th>Штрафной балл</th><th>Время</th></tr>");
+
+                    for (var i = 0; i < obj.Actions.length; i++) {
+                        $("#taskTable").append("<tr><td>" + obj.Actions[i].Id + "</td><td>" + obj.Actions[i].Description + "</td><td>" + obj.Actions[i].Penalty + "</td><td>" + obj.Actions[i].Time + "</td></tr>");
+                    };
+
                     break;
                 case 1:
                     $("#error").html("Ошибка! Попробуйте обновить страницу");

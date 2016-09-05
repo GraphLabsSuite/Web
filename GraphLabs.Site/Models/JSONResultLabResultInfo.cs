@@ -44,20 +44,23 @@ namespace GraphLabs.Site.Models
 
         public JSONResultLabResultInfo(GraphLabsContext ctx, int id, long studentId)
         {
-            var labName = ctx.LabVariants.Single(labvar => labvar.Id == id).LabWork.Name;
+            //var labVar = ctx.LabVariants.Single(labvar => labvar.Id == id);
+            var result = ctx.Results.Single(res => res.Id == id);
+            var labVar = result.LabVariant.Id;
+            var labName = result.LabVariant.LabWork.Name;
             var resultStudent = ctx.Results.Where(tr => tr.Student.Id == studentId).ToArray();
             var groupId = resultStudent[0].Student.Group.Id;
             Result = 0;
             LabName = labName;
             StudentsNumber = ctx.Groups.Count(tr => tr.Id == groupId);
-            Place = GetPlace(ctx, id, studentId);
+            Place = GetPlace(ctx, labVar, studentId);
             Tasks = GetTaskInfo(ctx, id, studentId);
-            Problems = GetProblems(ctx, id, studentId);
+            Problems = GetProblems(ctx, id);
         }
 
-    private TaskInfo[] GetTaskInfo(GraphLabsContext ctx, int lab, long studentId)
+    private TaskInfo[] GetTaskInfo(GraphLabsContext ctx, int id, long studentId)
     {
-        var tasks = ctx.TaskResults.Where(task => task.Result.Student.Id == studentId && task.Result.LabVariant.Id == lab).ToArray();
+        var tasks = ctx.TaskResults.Where(task => task.Result.Student.Id == studentId && task.Result.Id == id).ToArray();
         var result = new TaskInfo[tasks.Length];
         for (int i = 0; i < result.Length; i++)
         {
@@ -66,11 +69,11 @@ namespace GraphLabs.Site.Models
         return result;
     }
 
-    private string[] GetProblems(GraphLabsContext ctx, int id, long studentId)
+    private string[] GetProblems(GraphLabsContext ctx, int id)
     {
         string[] result;
         var problems =
-            ctx.StudentActions.Where(tr => tr.TaskResult.Result.LabVariant.Id == id && tr.TaskResult.Result.Student.Id == studentId && tr.Penalty != 0)
+            ctx.StudentActions.Where(tr => tr.TaskResult.Result.Id == id && tr.Penalty != 0)
                 .ToArray();
         if (problems.Length == 0)
         {
@@ -79,16 +82,46 @@ namespace GraphLabs.Site.Models
         }
         else
         {
-            result = new string[problems.Length];
+            result = new string[0];
             for (int i = 0; i < problems.Length; i++)
             {
-                result[i] = problems[i].Description;
+                bool flag = true;
+                for (int j = 0; j < problems.Length && j != i; j++)
+                {
+                    if (problems[i].Description == problems[j].Description)
+                    {
+                        flag = false;
+                    }
+                }
+                if (flag)
+                {
+                    result = InsertDescription(problems[i].Description, result);
+                }
             }
         }
+
         return result;
     }
 
-    private int GetPlace(GraphLabsContext ctx, int id, long studentId)
+        private string[] InsertDescription(string Description, string[] array)
+        {
+            var newLength = array.Length + 1;
+            var result = new string[newLength];
+            for (var i = 0; i < result.Length; i++)
+            {
+                if (i < array.Length)
+                {
+                    result[i] = array[i];
+                }
+                else
+                {
+                    result[i] = Description;
+                }
+            }
+            return result;
+        }
+
+    private int GetPlace(GraphLabsContext ctx, long id, long studentId)
     {
         var students = ctx.Results.Where(tr => tr.LabVariant.Id == id).OrderBy(td => td.Score).ToArray();
         var place = 1;
@@ -100,4 +133,54 @@ namespace GraphLabs.Site.Models
         return place;
     }
 }
+
+    public class JSONTaskResultInfo
+    {
+        public int Result { get; set; }
+
+        public int Id { get; set; }
+
+        public string TaskName { get; set; }
+
+        public StudentActionInfo[] Actions { get; set; }
+
+        public JSONTaskResultInfo(GraphLabsContext ctx, int id)
+        {
+            var taskResult = ctx.TaskResults.Single(task => task.Id == id);
+            Id = id;
+            TaskName = taskResult.TaskVariant.Task.Name;
+            Actions = GetStudentActionsInfo(ctx, id);
+            Result = 0;
+        }
+
+        private StudentActionInfo[] GetStudentActionsInfo(GraphLabsContext ctx, int id)
+        {
+            var actions = ctx.StudentActions.Where(action => action.TaskResult.Id == id).ToArray();
+            var studentActions = new StudentActionInfo[actions.Length];
+            for (int i = 0; i < actions.Length; i++)
+            {
+                studentActions[i] = new StudentActionInfo(actions[i]);
+            }
+            return studentActions;
+        }
+    }
+
+    public class StudentActionInfo
+    {
+        public long Id;
+
+        public string Description;
+
+        public int Penalty;
+
+        public DateTime Time;
+
+        public StudentActionInfo(StudentAction action)
+        {
+            Id = action.Id;
+            Description = action.Description;
+            Penalty = action.Penalty;
+            Time = action.Time;
+        }
+    }
 }
