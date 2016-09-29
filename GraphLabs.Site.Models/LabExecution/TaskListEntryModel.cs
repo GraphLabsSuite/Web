@@ -4,7 +4,7 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.LabExecution
 {
     /// <summary> Модель задания в лабе </summary>
-    public class TaskExecutionModel
+    public class TaskListEntryModel
     {
         /// <summary> Id задания </summary>
         public long TaskId { get; set; }

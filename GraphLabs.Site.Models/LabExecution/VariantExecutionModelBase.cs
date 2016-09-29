@@ -13,7 +13,7 @@ namespace GraphLabs.Site.Models.LabExecution
         public string LabName { get; set; }
 
         /// <summary> Задания </summary>
-        public TaskExecutionModel[] OtherTasks { get; set; }
+        public TaskListEntryModel[] OtherTasks { get; set; }
     }
 
     /// <summary> Модель для выполнения варианта лабы </summary>

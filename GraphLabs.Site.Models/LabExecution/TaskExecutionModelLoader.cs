@@ -7,7 +7,7 @@ namespace GraphLabs.Site.Models.LabExecution
     /// <summary> Фабрика моделей заданий в лабе </summary>
     internal sealed class TaskExecutionModelLoader
     {
-        public TaskExecutionModel Load(Result currentResult, LabEntry entryToLoad)
+        public TaskListEntryModel Load(Result currentResult, LabEntry entryToLoad)
         {
             var resultForEntry = currentResult
                 .TaskResults
@@ -17,7 +17,7 @@ namespace GraphLabs.Site.Models.LabExecution
                 ? TaskExecutionState.Solved
                 : TaskExecutionState.New;
 
-            return new TaskExecutionModel()
+            return new TaskListEntryModel()
             {
                 TaskId = entryToLoad.Task.Id,
                 TaskName = entryToLoad.Task.Name,

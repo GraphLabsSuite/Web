@@ -115,7 +115,7 @@ namespace GraphLabs.Site.Models.LabExecution
             return model;
         }
 
-        private IEnumerable<TaskExecutionModel> GetOtherTasksModels(LabWork lab, Result result, Task task)
+        private IEnumerable<TaskListEntryModel> GetOtherTasksModels(LabWork lab, Result result, Task task)
         {
             var otherTasks = lab.LabEntries
                 .Select(e =>

@@ -181,7 +181,7 @@
     <Compile Include="Results\ResultModelLoader.cs" />
     <Compile Include="StudentActions\StudentActionModel.cs" />
     <Compile Include="StudentActions\StudentActionModelLoader.cs" />
-    <Compile Include="LabExecution\TaskExecutionModel.cs" />
+    <Compile Include="LabExecution\TaskListEntryModel.cs" />
     <Compile Include="LabExecution\TaskExecutionModelLoader.cs" />
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />
