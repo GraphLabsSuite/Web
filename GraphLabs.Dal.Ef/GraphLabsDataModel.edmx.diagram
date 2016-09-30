@@ -21,7 +21,7 @@
         <EntityTypeShape EntityType="DataModel.Session" Width="1.5" PointX="7.5" PointY="1.625" />
         <AssociationConnector Association="DataModel.UserSession" ManuallyRouted="false" >
         </AssociationConnector>
-        <EntityTypeShape EntityType="DataModel.Settings" Width="2" PointX="8" PointY="4.125" FillColor="Gray" />
+        <EntityTypeShape EntityType="DataModel.Settings" Width="2" PointX="9.5" PointY="2" FillColor="Gray" />
         <EntityTypeShape EntityType="DataModel.Student" Width="1.5" PointX="5.875" PointY="4" FillColor="255, 128, 0" />
         <InheritanceConnector EntityType="DataModel.Student" ManuallyRouted="false" >
         </InheritanceConnector>
@@ -49,6 +49,13 @@
         <AssociationConnector Association="DataModel.ResultTaskResult" />
         <AssociationConnector Association="DataModel.TaskResultStudentAction" />
         <AssociationConnector Association="DataModel.TaskResultTaskVariant" />
+        <EntityTypeShape EntityType="DataModel.LabSchedule" Width="1.5" PointX="9.625" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="DataModel.LabWorkLabSchedule" ManuallyRouted="true" >
+          <ConnectorPoint PointX="7.5625" PointY="9.75" />
+          <ConnectorPoint PointX="7.5625" PointY="5.8939925130208328" />
+          <ConnectorPoint PointX="9.625" PointY="5.8939925130208328" />
+        </AssociationConnector>
+        <AssociationConnector Association="DataModel.StudentLabSchedule" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
