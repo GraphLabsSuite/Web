@@ -61,6 +61,15 @@ namespace GraphLabs.DomainModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата &quot;с&quot; должна быть больше даты &quot;по&quot;..
+        /// </summary>
+        internal static string AbstractLabSchedule_OnEntityValidating_Дата_с_должна_быть_больше_даты_по {
+            get {
+                return ResourceManager.GetString("AbstractLabSchedule_OnEntityValidating_Дата_с_должна_быть_больше_даты_по", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Необходимо указать описание действия..
         /// </summary>
         internal static string Action_OnEntityValidating_Необходимо_указать_описание_действия_ {

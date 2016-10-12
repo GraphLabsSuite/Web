@@ -23,7 +23,10 @@
     <EntitySet Name="Categories" EntityType="DataModel.Store.Categories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaskDatas" EntityType="DataModel.Store.TaskDatas" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaskResults" EntityType="DataModel.Store.TaskResults" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractLabSchedules" EntityType="DataModel.Store.AbstractLabSchedules" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Student" EntityType="DataModel.Store.Users_Student" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractLabSchedules_GroupLabSchedule" EntityType="DataModel.Store.AbstractLabSchedules_GroupLabSchedule" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractLabSchedules_IndividualLabSchedule" EntityType="DataModel.Store.AbstractLabSchedules_IndividualLabSchedule" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VariantTestQuestion" EntityType="DataModel.Store.VariantTestQuestion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabVariantTaskVariant" EntityType="DataModel.Store.LabVariantTaskVariant" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserNews" Association="DataModel.Store.UserNews">
@@ -102,9 +105,25 @@
       <End Role="TaskResult" EntitySet="TaskResults" />
       <End Role="TaskVariant" EntitySet="TaskVariants" />
     </AssociationSet>
+    <AssociationSet Name="GroupGroupLabSchedule" Association="DataModel.Store.GroupGroupLabSchedule">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupLabSchedule" EntitySet="AbstractLabSchedules_GroupLabSchedule" />
+    </AssociationSet>
+    <AssociationSet Name="StudentIndividualLabSchedule" Association="DataModel.Store.StudentIndividualLabSchedule">
+      <End Role="Student" EntitySet="Users_Student" />
+      <End Role="IndividualLabSchedule" EntitySet="AbstractLabSchedules_IndividualLabSchedule" />
+    </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
       <End Role="Student" EntitySet="Users_Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupLabSchedule_inherits_AbstractLabSchedule" Association="DataModel.Store.FK_GroupLabSchedule_inherits_AbstractLabSchedule">
+      <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
+      <End Role="GroupLabSchedule" EntitySet="AbstractLabSchedules_GroupLabSchedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IndividualLabSchedule_inherits_AbstractLabSchedule" Association="DataModel.Store.FK_IndividualLabSchedule_inherits_AbstractLabSchedule">
+      <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
+      <End Role="IndividualLabSchedule" EntitySet="AbstractLabSchedules_IndividualLabSchedule" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="News">
@@ -271,6 +290,15 @@
     <Property Name="Result_Id" Type="bigint" Nullable="false" />
     <Property Name="TaskVariant_Id" Type="bigint" Nullable="false" />
   </EntityType>
+  <EntityType Name="AbstractLabSchedules">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateFrom" Type="datetime" Nullable="false" />
+    <Property Name="DateTill" Type="datetime" Nullable="false" />
+    <Property Name="Mode" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Users_Student">
     <Key>
       <PropertyRef Name="Id" />
@@ -279,6 +307,20 @@
     <Property Name="IsDismissed" Type="bit" Nullable="false" />
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Group_Id" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AbstractLabSchedules_GroupLabSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Group_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AbstractLabSchedules_IndividualLabSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Student_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="VariantTestQuestion">
     <Key>
@@ -476,6 +518,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="GroupGroupLabSchedule">
+    <End Role="Group" Type="DataModel.Store.Groups" Multiplicity="1" />
+    <End Role="GroupLabSchedule" Type="DataModel.Store.AbstractLabSchedules_GroupLabSchedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupLabSchedule">
+        <PropertyRef Name="Group_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StudentIndividualLabSchedule">
+    <End Role="Student" Type="DataModel.Store.Users_Student" Multiplicity="1" />
+    <End Role="IndividualLabSchedule" Type="DataModel.Store.AbstractLabSchedules_IndividualLabSchedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="IndividualLabSchedule">
+        <PropertyRef Name="Student_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_VariantTestQuestion_LabVariant">
     <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
     <End Role="VariantTestQuestion" Type="DataModel.Store.VariantTestQuestion" Multiplicity="*" />
@@ -534,6 +600,34 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Student">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupLabSchedule_inherits_AbstractLabSchedule">
+    <End Role="AbstractLabSchedule" Type="DataModel.Store.AbstractLabSchedules" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GroupLabSchedule" Type="DataModel.Store.AbstractLabSchedules_GroupLabSchedule" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AbstractLabSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupLabSchedule">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IndividualLabSchedule_inherits_AbstractLabSchedule">
+    <End Role="AbstractLabSchedule" Type="DataModel.Store.AbstractLabSchedules" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="IndividualLabSchedule" Type="DataModel.Store.AbstractLabSchedules_IndividualLabSchedule" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AbstractLabSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="IndividualLabSchedule">
         <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -627,6 +721,15 @@
           <AssociationSet Name="TaskResultTaskVariant" Association="DataModel.TaskResultTaskVariant">
             <End Role="TaskResult" EntitySet="TaskResults" />
             <End Role="TaskVariant" EntitySet="TaskVariants" />
+          </AssociationSet>
+          <EntitySet Name="AbstractLabSchedules" EntityType="DataModel.AbstractLabSchedule" />
+          <AssociationSet Name="GroupGroupLabSchedule" Association="DataModel.GroupGroupLabSchedule">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="GroupLabSchedule" EntitySet="AbstractLabSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="StudentIndividualLabSchedule" Association="DataModel.StudentIndividualLabSchedule">
+            <End Role="Student" EntitySet="Users" />
+            <End Role="IndividualLabSchedule" EntitySet="AbstractLabSchedules" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
@@ -896,6 +999,29 @@
           <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
           <End Type="DataModel.TaskVariant" Role="TaskVariant" Multiplicity="1" />
         </Association>
+        <EntityType Name="AbstractLabSchedule" Abstract="true">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateFrom" Type="DateTime" Nullable="false" />
+          <Property Name="DateTill" Type="DateTime" Nullable="false" />
+          <Property Name="Mode" Type="DataModel.LabExecutionMode" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupLabSchedule" BaseType="DataModel.AbstractLabSchedule" >
+          <NavigationProperty Name="Group" Relationship="DataModel.GroupGroupLabSchedule" FromRole="GroupLabSchedule" ToRole="Group" />
+        </EntityType>
+        <Association Name="GroupGroupLabSchedule">
+          <End Type="DataModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="DataModel.GroupLabSchedule" Role="GroupLabSchedule" Multiplicity="*" />
+        </Association>
+        <EntityType Name="IndividualLabSchedule" BaseType="DataModel.AbstractLabSchedule" >
+          <NavigationProperty Name="Student" Relationship="DataModel.StudentIndividualLabSchedule" FromRole="IndividualLabSchedule" ToRole="Student" />
+        </EntityType>
+        <Association Name="StudentIndividualLabSchedule">
+          <End Type="DataModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="DataModel.IndividualLabSchedule" Role="IndividualLabSchedule" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1076,6 +1202,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AbstractLabSchedules">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.AbstractLabSchedule)">
+        <MappingFragment StoreEntitySet="AbstractLabSchedules">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+          <ScalarProperty Name="DateTill" ColumnName="DateTill" />
+          <ScalarProperty Name="Mode" ColumnName="Mode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.GroupLabSchedule)">
+        <MappingFragment StoreEntitySet="AbstractLabSchedules_GroupLabSchedule">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.IndividualLabSchedule)">
+        <MappingFragment StoreEntitySet="AbstractLabSchedules_IndividualLabSchedule">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="UserNews" TypeName="DataModel.UserNews" StoreEntitySet="News">
       <EndProperty Name="Publisher">
         <ScalarProperty Name="Id" ColumnName="User_Id" />
@@ -1210,6 +1356,22 @@
         <ScalarProperty Name="Id" ColumnName="TaskVariant_Id" />
       </EndProperty>
       <EndProperty Name="TaskResult">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupGroupLabSchedule" TypeName="DataModel.GroupGroupLabSchedule" StoreEntitySet="AbstractLabSchedules_GroupLabSchedule">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Group_Id" />
+      </EndProperty>
+      <EndProperty Name="GroupLabSchedule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StudentIndividualLabSchedule" TypeName="DataModel.StudentIndividualLabSchedule" StoreEntitySet="AbstractLabSchedules_IndividualLabSchedule">
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Student_Id" />
+      </EndProperty>
+      <EndProperty Name="IndividualLabSchedule">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -182,4 +182,7 @@
   <data name="GraphLabsValidationException_Ошибка_валидации_0" xml:space="preserve">
     <value>Ошибка валидации: {0}</value>
   </data>
+  <data name="AbstractLabSchedule_OnEntityValidating_Дата_с_должна_быть_больше_даты_по" xml:space="preserve">
+    <value>Дата "с" должна быть больше даты "по".</value>
+  </data>
 </root>

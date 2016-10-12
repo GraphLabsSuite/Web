@@ -180,12 +180,35 @@ CREATE TABLE [dbo].[TaskResults] (
 );
 GO
 
+-- Creating table 'AbstractLabSchedules'
+CREATE TABLE [dbo].[AbstractLabSchedules] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [DateFrom] datetime  NOT NULL,
+    [DateTill] datetime  NOT NULL,
+    [Mode] int  NOT NULL
+);
+GO
+
 -- Creating table 'Users_Student'
 CREATE TABLE [dbo].[Users_Student] (
     [IsVerified] bit  NOT NULL,
     [IsDismissed] bit  NOT NULL,
     [Id] bigint  NOT NULL,
     [Group_Id] bigint  NULL
+);
+GO
+
+-- Creating table 'AbstractLabSchedules_GroupLabSchedule'
+CREATE TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule] (
+    [Id] bigint  NOT NULL,
+    [Group_Id] bigint  NOT NULL
+);
+GO
+
+-- Creating table 'AbstractLabSchedules_IndividualLabSchedule'
+CREATE TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule] (
+    [Id] bigint  NOT NULL,
+    [Student_Id] bigint  NOT NULL
 );
 GO
 
@@ -200,13 +223,6 @@ GO
 CREATE TABLE [dbo].[LabVariantTaskVariant] (
     [LabVariantTaskVariant_TaskVariant_Id] bigint  NOT NULL,
     [TaskVariants_Id] bigint  NOT NULL
-);
-GO
-
--- Creating table 'LabWorkGroup'
-CREATE TABLE [dbo].[LabWorkGroup] (
-    [LabWorks_Id] bigint  NOT NULL,
-    [Groups_Id] bigint  NOT NULL
 );
 GO
 
@@ -316,9 +332,27 @@ ADD CONSTRAINT [PK_TaskResults]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'AbstractLabSchedules'
+ALTER TABLE [dbo].[AbstractLabSchedules]
+ADD CONSTRAINT [PK_AbstractLabSchedules]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'Users_Student'
 ALTER TABLE [dbo].[Users_Student]
 ADD CONSTRAINT [PK_Users_Student]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractLabSchedules_GroupLabSchedule'
+ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule]
+ADD CONSTRAINT [PK_AbstractLabSchedules_GroupLabSchedule]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractLabSchedules_IndividualLabSchedule'
+ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule]
+ADD CONSTRAINT [PK_AbstractLabSchedules_IndividualLabSchedule]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -332,12 +366,6 @@ GO
 ALTER TABLE [dbo].[LabVariantTaskVariant]
 ADD CONSTRAINT [PK_LabVariantTaskVariant]
     PRIMARY KEY CLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
-GO
-
--- Creating primary key on [LabWorks_Id], [Groups_Id] in table 'LabWorkGroup'
-ALTER TABLE [dbo].[LabWorkGroup]
-ADD CONSTRAINT [PK_LabWorkGroup]
-    PRIMARY KEY CLUSTERED ([LabWorks_Id], [Groups_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -542,30 +570,6 @@ ON [dbo].[LabEntries]
     ([Task_Id]);
 GO
 
--- Creating foreign key on [LabWorks_Id] in table 'LabWorkGroup'
-ALTER TABLE [dbo].[LabWorkGroup]
-ADD CONSTRAINT [FK_LabWorkGroup_LabWork]
-    FOREIGN KEY ([LabWorks_Id])
-    REFERENCES [dbo].[LabWorks]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Groups_Id] in table 'LabWorkGroup'
-ALTER TABLE [dbo].[LabWorkGroup]
-ADD CONSTRAINT [FK_LabWorkGroup_Group]
-    FOREIGN KEY ([Groups_Id])
-    REFERENCES [dbo].[Groups]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_LabWorkGroup_Group'
-CREATE INDEX [IX_FK_LabWorkGroup_Group]
-ON [dbo].[LabWorkGroup]
-    ([Groups_Id]);
-GO
-
 -- Creating foreign key on [Category_Id] in table 'TestQuestions'
 ALTER TABLE [dbo].[TestQuestions]
 ADD CONSTRAINT [FK_TestQuestionCategory]
@@ -641,11 +645,59 @@ ON [dbo].[TaskResults]
     ([TaskVariant_Id]);
 GO
 
+-- Creating foreign key on [Group_Id] in table 'AbstractLabSchedules_GroupLabSchedule'
+ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule]
+ADD CONSTRAINT [FK_GroupGroupLabSchedule]
+    FOREIGN KEY ([Group_Id])
+    REFERENCES [dbo].[Groups]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GroupGroupLabSchedule'
+CREATE INDEX [IX_FK_GroupGroupLabSchedule]
+ON [dbo].[AbstractLabSchedules_GroupLabSchedule]
+    ([Group_Id]);
+GO
+
+-- Creating foreign key on [Student_Id] in table 'AbstractLabSchedules_IndividualLabSchedule'
+ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule]
+ADD CONSTRAINT [FK_StudentIndividualLabSchedule]
+    FOREIGN KEY ([Student_Id])
+    REFERENCES [dbo].[Users_Student]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StudentIndividualLabSchedule'
+CREATE INDEX [IX_FK_StudentIndividualLabSchedule]
+ON [dbo].[AbstractLabSchedules_IndividualLabSchedule]
+    ([Student_Id]);
+GO
+
 -- Creating foreign key on [Id] in table 'Users_Student'
 ALTER TABLE [dbo].[Users_Student]
 ADD CONSTRAINT [FK_Student_inherits_User]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'AbstractLabSchedules_GroupLabSchedule'
+ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule]
+ADD CONSTRAINT [FK_GroupLabSchedule_inherits_AbstractLabSchedule]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[AbstractLabSchedules]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'AbstractLabSchedules_IndividualLabSchedule'
+ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule]
+ADD CONSTRAINT [FK_IndividualLabSchedule_inherits_AbstractLabSchedule]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[AbstractLabSchedules]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO

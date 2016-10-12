@@ -48,6 +48,15 @@
         <AssociationConnector Association="DataModel.ResultTaskResult" />
         <AssociationConnector Association="DataModel.TaskResultStudentAction" />
         <AssociationConnector Association="DataModel.TaskResultTaskVariant" />
+        <EntityTypeShape EntityType="DataModel.AbstractLabSchedule" Width="1.875" PointX="12" PointY="4.375" />
+        <EntityTypeShape EntityType="DataModel.GroupLabSchedule" Width="1.5" PointX="10.5" PointY="6.75" />
+        <InheritanceConnector EntityType="DataModel.GroupLabSchedule" />
+        <AssociationConnector Association="DataModel.GroupGroupLabSchedule" />
+        <EntityTypeShape EntityType="DataModel.IndividualLabSchedule" Width="1.5" PointX="9.75" PointY="4" />
+        <InheritanceConnector EntityType="DataModel.IndividualLabSchedule" />
+        <InheritanceConnector EntityType="DataModel.IndividualLabSchedule" />
+        <InheritanceConnector EntityType="DataModel.GroupLabSchedule" />
+        <AssociationConnector Association="DataModel.StudentIndividualLabSchedule" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

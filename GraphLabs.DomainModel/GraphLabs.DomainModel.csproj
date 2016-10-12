@@ -135,10 +135,16 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="AbstractLabSchedule.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExecutionStatus.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\EntityQueryExtensions.cs" />
+    <Compile Include="GroupLabSchedule.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="Contexts\IGraphLabsContext.cs" />
     <Compile Include="Contexts\ILabWorksContext.cs" />
@@ -152,6 +158,9 @@
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="IEntityQuery.cs" />
+    <Compile Include="IndividualLabSchedule.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\IEntitySet.cs" />
     <Compile Include="Infrastructure\AbstractEntity.cs" />
     <Compile Include="AnswerVariant.cs">
@@ -222,6 +231,7 @@
     <Compile Include="TestQuestion.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Triggers\AbstractLabSchedule.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\Group.cs" />
     <Compile Include="Infrastructure\ITrackableEntity.cs" />
