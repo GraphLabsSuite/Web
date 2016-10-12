@@ -673,15 +673,6 @@
             <End Role="TaskResult" EntitySet="TaskResults" />
             <End Role="TaskVariant" EntitySet="TaskVariants" />
           </AssociationSet>
-          <EntitySet Name="LabSchedules" EntityType="DataModel.LabSchedule" />
-          <AssociationSet Name="LabWorkLabSchedule" Association="DataModel.LabWorkLabSchedule">
-            <End Role="LabWork" EntitySet="LabWorks" />
-            <End Role="LabSchedule" EntitySet="LabSchedules" />
-          </AssociationSet>
-          <AssociationSet Name="StudentLabSchedule" Association="DataModel.StudentLabSchedule">
-            <End Role="Student" EntitySet="Users" />
-            <End Role="LabSchedule" EntitySet="LabSchedules" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
           <Key>
@@ -959,45 +950,6 @@
           <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
           <End Type="DataModel.TaskVariant" Role="TaskVariant" Multiplicity="1" />
         </Association>
-        <EntityType Name="LabSchedule">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PeriodStart" Type="DateTime" Nullable="false" />
-          <Property Name="PeriodEnd" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkLabSchedule" FromRole="LabSchedule" ToRole="LabWork" />
-          <NavigationProperty Name="Student" Relationship="DataModel.StudentLabSchedule" FromRole="LabSchedule" ToRole="Student" />
-          <Property Name="Mode" Type="DataModel.LabWorkMode" Nullable="false" />
-        </EntityType>
-        <Association Name="LabWorkLabSchedule">
-          <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="1" />
-          <End Type="DataModel.LabSchedule" Role="LabSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LabWork">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LabSchedule">
-              <PropertyRef Name="LabWorkId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="StudentLabSchedule">
-          <End Type="DataModel.Student" Role="Student" Multiplicity="1" />
-          <End Type="DataModel.LabSchedule" Role="LabSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Student">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LabSchedule">
-              <PropertyRef Name="StudentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EnumType Name="LabWorkMode">
-          <Member Name="Control" />
-          <Member Name="Introducing" />
-        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
