@@ -21,7 +21,6 @@ namespace GraphLabs.DomainModel
         protected Group()
         {
             this.Students = new HashSet<Student>();
-            this.LabWorks = new HashSet<LabWork>();
         }
     
         public long Id { get; private set; }
@@ -30,7 +29,6 @@ namespace GraphLabs.DomainModel
         public int FirstYear { get; set; }
     
         public virtual ICollection<Student> Students { get; set; }
-        public virtual ICollection<LabWork> LabWorks { get; set; }
     }
     
     #pragma warning restore 1591

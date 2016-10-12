@@ -22,7 +22,6 @@ namespace GraphLabs.DomainModel
         {
             this.LabVariants = new HashSet<LabVariant>();
             this.LabEntries = new HashSet<LabEntry>();
-            this.Groups = new HashSet<Group>();
         }
     
         public long Id { get; private set; }
@@ -32,7 +31,6 @@ namespace GraphLabs.DomainModel
     
         public virtual ICollection<LabVariant> LabVariants { get; set; }
         public virtual ICollection<LabEntry> LabEntries { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
     }
     
     #pragma warning restore 1591

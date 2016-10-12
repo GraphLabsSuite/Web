@@ -24,8 +24,6 @@ namespace GraphLabs.DomainModel
     
         public int Id { get; set; }
         public byte[] Xap { get; set; }
-    
-        public virtual Task Task { get; set; }
     }
     
     #pragma warning restore 1591

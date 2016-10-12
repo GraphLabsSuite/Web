@@ -26,7 +26,6 @@
     <EntitySet Name="Users_Student" EntityType="DataModel.Store.Users_Student" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VariantTestQuestion" EntityType="DataModel.Store.VariantTestQuestion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabVariantTaskVariant" EntityType="DataModel.Store.LabVariantTaskVariant" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LabWorkGroup" EntityType="DataModel.Store.LabWorkGroup" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserNews" Association="DataModel.Store.UserNews">
       <End Role="Publisher" EntitySet="Users" />
       <End Role="News" EntitySet="News" />
@@ -82,14 +81,6 @@
     <AssociationSet Name="TaskLabEntry" Association="DataModel.Store.TaskLabEntry">
       <End Role="Task" EntitySet="Tasks" />
       <End Role="LabEntry" EntitySet="LabEntries" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LabWorkGroup_LabWork" Association="DataModel.Store.FK_LabWorkGroup_LabWork">
-      <End Role="LabWork" EntitySet="LabWorks" />
-      <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LabWorkGroup_Group" Association="DataModel.Store.FK_LabWorkGroup_Group">
-      <End Role="Group" EntitySet="Groups" />
-      <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
     </AssociationSet>
     <AssociationSet Name="TestQuestionCategory" Association="DataModel.Store.TestQuestionCategory">
       <End Role="TestQuestion" EntitySet="TestQuestions" />
@@ -304,14 +295,6 @@
     </Key>
     <Property Name="LabVariantTaskVariant_TaskVariant_Id" Type="bigint" Nullable="false" />
     <Property Name="TaskVariants_Id" Type="bigint" Nullable="false" />
-  </EntityType>
-  <EntityType Name="LabWorkGroup">
-    <Key>
-      <PropertyRef Name="LabWorks_Id" />
-      <PropertyRef Name="Groups_Id" />
-    </Key>
-    <Property Name="LabWorks_Id" Type="bigint" Nullable="false" />
-    <Property Name="Groups_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <Association Name="UserNews">
     <End Role="Publisher" Type="DataModel.Store.Users" Multiplicity="1" />
@@ -541,30 +524,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_LabWorkGroup_LabWork">
-    <End Role="LabWork" Type="DataModel.Store.LabWorks" Multiplicity="1" />
-    <End Role="LabWorkGroup" Type="DataModel.Store.LabWorkGroup" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LabWork">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="LabWorkGroup">
-        <PropertyRef Name="LabWorks_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LabWorkGroup_Group">
-    <End Role="LabWorkGroup" Type="DataModel.Store.LabWorkGroup" Multiplicity="*" />
-    <End Role="Group" Type="DataModel.Store.Groups" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Group">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="LabWorkGroup">
-        <PropertyRef Name="Groups_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Student_inherits_User">
     <End Role="User" Type="DataModel.Store.Users" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -646,10 +605,6 @@
             <End Role="Task" EntitySet="Tasks" />
             <End Role="LabEntry" EntitySet="LabEntries" />
           </AssociationSet>
-          <AssociationSet Name="LabWorkGroup" Association="DataModel.LabWorkGroup">
-            <End Role="LabWork" EntitySet="LabWorks" />
-            <End Role="Group" EntitySet="Groups" />
-          </AssociationSet>
           <EntitySet Name="Categories" EntityType="DataModel.Category" />
           <AssociationSet Name="TestQuestionCategory" Association="DataModel.TestQuestionCategory">
             <End Role="TestQuestion" EntitySet="TestQuestions" />
@@ -695,7 +650,6 @@
           <Property Type="String" Name="FatherName" FixedLength="false" MaxLength="30" Unicode="true" Nullable="true" />
           <Property Type="String" Name="PasswordHash" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
           <Property Type="String" Name="Email" Nullable="false" FixedLength="false" MaxLength="50" Unicode="true" />
-          <NavigationProperty Name="News" Relationship="DataModel.UserNews" FromRole="Publisher" ToRole="News" />
           <NavigationProperty Name="Sessions" Relationship="DataModel.UserSession" FromRole="User" ToRole="Session" />
           <Property Type="DataModel.UserRole" Name="Role" ConcurrencyMode="None" annotation:StoreGeneratedPattern="None" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" Nullable="false" />
         </EntityType>
@@ -712,7 +666,6 @@
           <Property Type="Boolean" Name="IsOpen" Nullable="false" />
           <Property Type="Int32" Name="FirstYear" Nullable="false" />
           <NavigationProperty Name="Students" Relationship="DataModel.GroupStudent" FromRole="Group" ToRole="Student" />
-          <NavigationProperty Name="LabWorks" Relationship="DataModel.LabWorkGroup" FromRole="Group" ToRole="LabWork" />
         </EntityType>
         <EntityType Name="Result">
           <Key>
@@ -747,7 +700,6 @@
           <Property Type="DateTime" Name="AcquaintanceTill" Nullable="true" />
           <NavigationProperty Name="LabVariants" Relationship="DataModel.LabWorkLabVariant" FromRole="LabWork" ToRole="LabVariant" />
           <NavigationProperty Name="LabEntries" Relationship="DataModel.LabWorkLabEntry" FromRole="LabWork" ToRole="LabEntry" />
-          <NavigationProperty Name="Groups" Relationship="DataModel.LabWorkGroup" FromRole="LabWork" ToRole="Group" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -760,7 +712,6 @@
           <Property Type="String" Name="Version" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Note" MaxLength="Max" />
           <NavigationProperty Name="TaskVariants" Relationship="DataModel.TaskTaskVariant" FromRole="Task" ToRole="TaskVariant" />
-          <NavigationProperty Name="LabEntries" Relationship="DataModel.TaskLabEntry" FromRole="Task" ToRole="LabEntry" />
           <NavigationProperty Name="TaskData" Relationship="DataModel.TaskTaskData" FromRole="Task" ToRole="TaskData" />
         </EntityType>
         <EntityType Name="LabVariant">
@@ -773,7 +724,6 @@
           <Property Type="Int64" Name="Version" Nullable="false" />
           <NavigationProperty Name="TaskVariants" Relationship="DataModel.LabVariantTaskVariant" FromRole="LabVariant" ToRole="TaskVariant" />
           <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkLabVariant" FromRole="LabVariant" ToRole="LabWork" />
-          <NavigationProperty Name="Results" Relationship="DataModel.LabVariantResult" FromRole="LabVariant" ToRole="Result" />
           <Property Type="Boolean" Name="IntroducingVariant" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="TestQuestion">
@@ -896,10 +846,6 @@
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
           <End Type="DataModel.LabEntry" Role="LabEntry" Multiplicity="*" />
         </Association>
-        <Association Name="LabWorkGroup">
-          <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="*" />
-          <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
-        </Association>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
@@ -917,7 +863,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Xap" Type="Binary" Nullable="false" />
-          <NavigationProperty Name="Task" Relationship="DataModel.TaskTaskData" FromRole="TaskData" ToRole="Task" />
         </EntityType>
         <Association Name="TaskTaskData">
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
@@ -943,6 +888,7 @@
           <End Type="DataModel.StudentAction" Role="StudentAction" Multiplicity="*" />
         </Association>
         <EnumType Name="ExecutionStatus" UnderlyingType="Byte">
+          <Member Name="Interrupted" Value="2" />
           <Member Name="Complete" Value="1" />
           <Member Name="Executing" Value="0" />
         </EnumType>
@@ -1225,14 +1171,6 @@
       </EndProperty>
       <EndProperty Name="LabEntry">
         <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="LabWorkGroup" TypeName="DataModel.LabWorkGroup" StoreEntitySet="LabWorkGroup">
-      <EndProperty Name="LabWork">
-        <ScalarProperty Name="Id" ColumnName="LabWorks_Id" />
-      </EndProperty>
-      <EndProperty Name="Group">
-        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="TestQuestionCategory" TypeName="DataModel.TestQuestionCategory" StoreEntitySet="TestQuestions">

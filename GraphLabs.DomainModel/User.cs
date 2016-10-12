@@ -20,7 +20,6 @@ namespace GraphLabs.DomainModel
     {
         protected User()
         {
-            this.News = new HashSet<News>();
             this.Sessions = new HashSet<Session>();
         }
     
@@ -32,9 +31,7 @@ namespace GraphLabs.DomainModel
         public string Email { get; set; }
         public UserRole Role { get; set; }
     
-        public virtual ICollection<News> News { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
-
     }
     
     #pragma warning restore 1591

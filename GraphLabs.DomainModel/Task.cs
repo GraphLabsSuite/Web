@@ -21,7 +21,6 @@ namespace GraphLabs.DomainModel
         protected Task()
         {
             this.TaskVariants = new HashSet<TaskVariant>();
-            this.LabEntries = new HashSet<LabEntry>();
         }
     
         public long Id { get; private set; }
@@ -32,7 +31,6 @@ namespace GraphLabs.DomainModel
         public string Note { get; set; }
     
         public virtual ICollection<TaskVariant> TaskVariants { get; set; }
-        public virtual ICollection<LabEntry> LabEntries { get; set; }
         public virtual TaskData TaskData { get; set; }
     }
     
