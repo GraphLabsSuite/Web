@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -7,7 +7,7 @@ namespace GraphLabs.Site.Utils
 {
     public static class EnumerableExtensions
     {
-        /// <summary> Сравнивает два списка, порядок элементов значения не имеет </summary>
+        /// <summary> РЎСЂР°РІРЅРёРІР°РµС‚ РґРІР° СЃРїРёСЃРєР°, РїРѕСЂСЏРґРѕРє СЌР»РµРјРµРЅС‚РѕРІ Р·РЅР°С‡РµРЅРёСЏ РЅРµ РёРјРµРµС‚ </summary>
         public static bool ContainsSameSet<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
         {
             Contract.Requires<ArgumentNullException>(list1 != null && list2 != null);

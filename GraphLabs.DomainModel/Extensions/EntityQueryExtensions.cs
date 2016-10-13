@@ -1,13 +1,13 @@
-using GraphLabs.DomainModel.Infrastructure;
+п»їusing GraphLabs.DomainModel.Infrastructure;
 using JetBrains.Annotations;
 
 namespace GraphLabs.DomainModel.Extensions
 {
-    /// <summary> Расширения для GraphLabsContext </summary>
+    /// <summary> Р Р°СЃС€РёСЂРµРЅРёСЏ РґР»СЏ GraphLabsContext </summary>
     public static class EntityQueryExtensions
     {
-        /// <summary> Поиск сущности (ошибка, если не нашёл) </summary>
-        /// <exception cref="EntityNotFoundException">Сущность с заданным ключом не найдена</exception>
+        /// <summary> РџРѕРёСЃРє СЃСѓС‰РЅРѕСЃС‚Рё (РѕС€РёР±РєР°, РµСЃР»Рё РЅРµ РЅР°С€С‘Р») </summary>
+        /// <exception cref="EntityNotFoundException">РЎСѓС‰РЅРѕСЃС‚СЊ СЃ Р·Р°РґР°РЅРЅС‹Рј РєР»СЋС‡РѕРј РЅРµ РЅР°Р№РґРµРЅР°</exception>
         [NotNull]
         public static TEntity Get<TEntity>(this IEntityQuery query, object keyValue)
             where TEntity : AbstractEntity
@@ -19,7 +19,7 @@ namespace GraphLabs.DomainModel.Extensions
             return entity;
         }
 
-        /// <summary> Поиск сущности (null, если не нашёл) </summary>
+        /// <summary> РџРѕРёСЃРє СЃСѓС‰РЅРѕСЃС‚Рё (null, РµСЃР»Рё РЅРµ РЅР°С€С‘Р») </summary>
         [CanBeNull]
         public static TEntity Find<TEntity>(this IEntityQuery query, object keyValue)
             where TEntity : AbstractEntity

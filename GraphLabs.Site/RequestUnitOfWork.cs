@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Diagnostics.Contracts;
 using GraphLabs.Dal.Ef;
 using GraphLabs.Site.ServicesConfig;
@@ -6,14 +6,14 @@ using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site
 {
-    /// <summary> Менеджер 'главной' транзакции запроса </summary>
+    /// <summary> РњРµРЅРµРґР¶РµСЂ 'РіР»Р°РІРЅРѕР№' С‚СЂР°РЅР·Р°РєС†РёРё Р·Р°РїСЂРѕСЃР° </summary>
     internal sealed class RequestUnitOfWork
     {
-        /// <summary> Контейнер </summary>
+        /// <summary> РљРѕРЅС‚РµР№РЅРµСЂ </summary>
         public IUnityContainer Container { get; private set; }
 
 
-        /// <summary> Начало запроса </summary>
+        /// <summary> РќР°С‡Р°Р»Рѕ Р·Р°РїСЂРѕСЃР° </summary>
         public void OnRequestBeginning()
         {
             Container = IoC.GetChildContainer();
@@ -25,20 +25,20 @@ namespace GraphLabs.Site
             Container = null;
         }
 
-        /// <summary> Успешное выполнение запроса </summary>
+        /// <summary> РЈСЃРїРµС€РЅРѕРµ РІС‹РїРѕР»РЅРµРЅРёРµ Р·Р°РїСЂРѕСЃР° </summary>
         public void OnRequestSuccess()
         {
-            Contract.Assert(Container != null, "Один из методов завершения запроса уже был вызван.");
+            Contract.Assert(Container != null, "РћРґРёРЅ РёР· РјРµС‚РѕРґРѕРІ Р·Р°РІРµСЂС€РµРЅРёСЏ Р·Р°РїСЂРѕСЃР° СѓР¶Рµ Р±С‹Р» РІС‹Р·РІР°РЅ.");
 
             Container.Resolve<IChangesTracker>().SaveChanges();
 
             OnRequestEnding();
         }
 
-        /// <summary> Ошибка при выполнении запроса </summary>
+        /// <summary> РћС€РёР±РєР° РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё Р·Р°РїСЂРѕСЃР° </summary>
         public void OnRequestFailure()
         {
-            Contract.Assert(Container != null, "Один из методов завершения запроса уже был вызван.");
+            Contract.Assert(Container != null, "РћРґРёРЅ РёР· РјРµС‚РѕРґРѕРІ Р·Р°РІРµСЂС€РµРЅРёСЏ Р·Р°РїСЂРѕСЃР° СѓР¶Рµ Р±С‹Р» РІС‹Р·РІР°РЅ.");
 
             OnRequestEnding();
         }

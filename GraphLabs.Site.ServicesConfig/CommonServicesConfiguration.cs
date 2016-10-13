@@ -1,14 +1,14 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using GraphLabs.Dal.Ef.IoC;
 using GraphLabs.Site.Logic.IoC;
 using GraphLabs.Site.Utils.IoC;
 
 namespace GraphLabs.Site.ServicesConfig
 {
-    /// <summary> Конфигурация общих сервисов </summary>
+    /// <summary> РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ РѕР±С‰РёС… СЃРµСЂРІРёСЃРѕРІ </summary>
     internal static class CommonServicesConfiguration
     {
-        /// <summary> Реестры общих сервисов </summary>
+        /// <summary> Р РµРµСЃС‚СЂС‹ РѕР±С‰РёС… СЃРµСЂРІРёСЃРѕРІ </summary>
         public static IEnumerable<IUnityRegistry> Registries
         {
             get

@@ -1,10 +1,10 @@
-using System;
+п»їusing System;
 using System.Linq;
 using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models.LabExecution
 {
-    /// <summary> Фабрика моделей заданий в лабе </summary>
+    /// <summary> Р¤Р°Р±СЂРёРєР° РјРѕРґРµР»РµР№ Р·Р°РґР°РЅРёР№ РІ Р»Р°Р±Рµ </summary>
     internal sealed class TaskExecutionModelLoader
     {
         public TaskListEntryModel Load(Result currentResult, LabEntry entryToLoad)

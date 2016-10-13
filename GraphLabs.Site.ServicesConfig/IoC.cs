@@ -1,19 +1,19 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using System.Linq;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
 namespace GraphLabs.Site.ServicesConfig
 {
-    /// <summary> Unity-контейнер </summary>
+    /// <summary> Unity-РєРѕРЅС‚РµР№РЅРµСЂ </summary>
     public static class IoC
     {
         private static readonly object _containerLock = new object();
 
         private static IUnityContainer _container;
 
-        /// <summary> Построение корневого контейнера </summary>
-        /// <remarks> Применяет блокировку с двойной проверкой, т.к. может быть вызван вразнобой втч из разных потоков </remarks>
+        /// <summary> РџРѕСЃС‚СЂРѕРµРЅРёРµ РєРѕСЂРЅРµРІРѕРіРѕ РєРѕРЅС‚РµР№РЅРµСЂР° </summary>
+        /// <remarks> РџСЂРёРјРµРЅСЏРµС‚ Р±Р»РѕРєРёСЂРѕРІРєСѓ СЃ РґРІРѕР№РЅРѕР№ РїСЂРѕРІРµСЂРєРѕР№, С‚.Рє. РјРѕР¶РµС‚ Р±С‹С‚СЊ РІС‹Р·РІР°РЅ РІСЂР°Р·РЅРѕР±РѕР№ РІС‚С‡ РёР· СЂР°Р·РЅС‹С… РїРѕС‚РѕРєРѕРІ </remarks>
         public static void BuildUp(IEnumerable<IUnityRegistry> registies)
         {
             if (_container != null)
@@ -31,13 +31,13 @@ namespace GraphLabs.Site.ServicesConfig
             }
         }
 
-        /// <summary> Построение корневого контейнера </summary>
+        /// <summary> РџРѕСЃС‚СЂРѕРµРЅРёРµ РєРѕСЂРЅРµРІРѕРіРѕ РєРѕРЅС‚РµР№РЅРµСЂР° </summary>
         public static void BuildUp(IUnityRegistry registry)
         {
             BuildUp(new [] {registry});
         }
 
-        /// <summary> Создать дочерний контейнер </summary>
+        /// <summary> РЎРѕР·РґР°С‚СЊ РґРѕС‡РµСЂРЅРёР№ РєРѕРЅС‚РµР№РЅРµСЂ </summary>
         public static IUnityContainer GetChildContainer()
         {
             var child = _container.CreateChildContainer();

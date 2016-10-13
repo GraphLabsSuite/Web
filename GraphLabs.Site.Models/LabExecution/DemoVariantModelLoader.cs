@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace GraphLabs.Site.Models.LabExecution
                 var variant = operation.DataContext.Query.Get<LabVariant>(labVariantId);
                 if (!variant.IntroducingVariant)
                 {
-                    throw new Exception("Запрошенный вариант не предназначен для ознакомительного решения.");
+                    throw new Exception("Р—Р°РїСЂРѕС€РµРЅРЅС‹Р№ РІР°СЂРёР°РЅС‚ РЅРµ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РѕР·РЅР°РєРѕРјРёС‚РµР»СЊРЅРѕРіРѕ СЂРµС€РµРЅРёСЏ.");
                 }
                 var lab = variant.LabWork;
                 
@@ -45,7 +45,7 @@ namespace GraphLabs.Site.Models.LabExecution
                 var resultsToInterrupt = FindResultsToInterrup(student);
                 var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, lab);
                 
-                // Если есть, то вместо начала нового выполнения, продолжим старое.
+                // Р•СЃР»Рё РµСЃС‚СЊ, С‚Рѕ РІРјРµСЃС‚Рѕ РЅР°С‡Р°Р»Р° РЅРѕРІРѕРіРѕ РІС‹РїРѕР»РЅРµРЅРёСЏ, РїСЂРѕРґРѕР»Р¶РёРј СЃС‚Р°СЂРѕРµ.
                 if (latestCurrentResult != null)
                 {
                     resultsToInterrupt = resultsToInterrupt.Except(new[] {latestCurrentResult}).ToArray();
@@ -60,7 +60,7 @@ namespace GraphLabs.Site.Models.LabExecution
                 Result result;
                 if (latestCurrentResult == null)
                 {
-                    // Если не нашли, то заводим новый
+                    // Р•СЃР»Рё РЅРµ РЅР°С€Р»Рё, С‚Рѕ Р·Р°РІРѕРґРёРј РЅРѕРІС‹Р№
                     result = operation.DataContext.Factory.Create<Result>();
                     result.LabVariant = variant;
                     result.Mode = variant.IntroducingVariant
@@ -146,7 +146,7 @@ namespace GraphLabs.Site.Models.LabExecution
         }
         
         
-        #region Завершение лабы
+        #region Р—Р°РІРµСЂС€РµРЅРёРµ Р»Р°Р±С‹
 
         private VariantExecutionModelBase CompleteVariant(Result result)
         {
@@ -157,7 +157,7 @@ namespace GraphLabs.Site.Models.LabExecution
             result.Status = ExecutionStatus.Complete;
 
             var model = CreateModelHeader<VariantExecutionCompleteModel>(result, null);
-            model.ResultMessage = $"Работа завершена! Ваша оценка: ${mark}.";
+            model.ResultMessage = $"Р Р°Р±РѕС‚Р° Р·Р°РІРµСЂС€РµРЅР°! Р’Р°С€Р° РѕС†РµРЅРєР°: ${mark}.";
 
             return model;
         }
@@ -216,7 +216,7 @@ namespace GraphLabs.Site.Models.LabExecution
                 .FirstOrDefault();
 
             if (result == null)
-                throw new Exception("Задания с запрошенным номером не существует.");
+                throw new Exception("Р—Р°РґР°РЅРёСЏ СЃ Р·Р°РїСЂРѕС€РµРЅРЅС‹Рј РЅРѕРјРµСЂРѕРј РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
 
             return result.Task;
         }
@@ -227,7 +227,7 @@ namespace GraphLabs.Site.Models.LabExecution
 
             var ip = HttpContext.Current.Request.UserHostAddress;
             var matchingSessions = query.OfEntities<Session>()
-                .Where(s => s.Guid == session.SessionGuid && s.IP == ip) //todo куда-то вытащить
+                .Where(s => s.Guid == session.SessionGuid && s.IP == ip) //todo РєСѓРґР°-С‚Рѕ РІС‹С‚Р°С‰РёС‚СЊ
                 .ToArray();
 
             if (matchingSessions.Count() == 1)
@@ -237,12 +237,12 @@ namespace GraphLabs.Site.Models.LabExecution
                     return student;
             }
 
-            throw new Exception("Сессия студента не найдена.");
+            throw new Exception("РЎРµСЃСЃРёСЏ СЃС‚СѓРґРµРЅС‚Р° РЅРµ РЅР°Р№РґРµРЅР°.");
         }
 
         private Result[] FindResultsToInterrup(Student student)
         {
-            //Найти неоконченные результаты выполнения
+            //РќР°Р№С‚Рё РЅРµРѕРєРѕРЅС‡РµРЅРЅС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ РІС‹РїРѕР»РЅРµРЅРёСЏ
             return student.Results
                 .Where(result => result.Status == ExecutionStatus.Executing)
                 // .Include(i => i.)
@@ -251,12 +251,12 @@ namespace GraphLabs.Site.Models.LabExecution
 
         private Result FindLatestCurrentResult(IEnumerable<Result> resultsToInterrupt, LabWork lab)
         {
-            // Найдём результаты, относящиеся к ЛР, которую пытаемся начать выполнять
+            // РќР°Р№РґС‘Рј СЂРµР·СѓР»СЊС‚Р°С‚С‹, РѕС‚РЅРѕСЃСЏС‰РёРµСЃСЏ Рє Р›Р , РєРѕС‚РѕСЂСѓСЋ РїС‹С‚Р°РµРјСЃСЏ РЅР°С‡Р°С‚СЊ РІС‹РїРѕР»РЅСЏС‚СЊ
             var currentResults = resultsToInterrupt
                 .Where(res => res.LabVariant.LabWork == lab)
                 .OrderByDescending(res => res.StartDateTime);
 
-            // Посмотрим, есть ли вообще такие. Если есть, берём самый свежий (теоретически, там больше 1 и не должно быть).
+            // РџРѕСЃРјРѕС‚СЂРёРј, РµСЃС‚СЊ Р»Рё РІРѕРѕР±С‰Рµ С‚Р°РєРёРµ. Р•СЃР»Рё РµСЃС‚СЊ, Р±РµСЂС‘Рј СЃР°РјС‹Р№ СЃРІРµР¶РёР№ (С‚РµРѕСЂРµС‚РёС‡РµСЃРєРё, С‚Р°Рј Р±РѕР»СЊС€Рµ 1 Рё РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ).
             return currentResults.FirstOrDefault();
         }
     }

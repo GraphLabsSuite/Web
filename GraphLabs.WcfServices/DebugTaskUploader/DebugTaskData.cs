@@ -1,4 +1,4 @@
-namespace GraphLabs.WcfServices.DebugTaskUploader
+﻿namespace GraphLabs.WcfServices.DebugTaskUploader
 {
     public class DebugTaskData
     {

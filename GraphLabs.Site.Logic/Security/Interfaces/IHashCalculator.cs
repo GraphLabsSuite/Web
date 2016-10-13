@@ -1,12 +1,12 @@
-namespace GraphLabs.Site.Logic.Security
+п»їnamespace GraphLabs.Site.Logic.Security
 {
-    /// <summary> Вычислятор хеш-суммы паролей </summary>
+    /// <summary> Р’С‹С‡РёСЃР»СЏС‚РѕСЂ С…РµС€-СЃСѓРјРјС‹ РїР°СЂРѕР»РµР№ </summary>
     public interface IHashCalculator
     {
-        /// <summary> Генерирует хеш </summary>
+        /// <summary> Р“РµРЅРµСЂРёСЂСѓРµС‚ С…РµС€ </summary>
         string Crypt(string text);
 
-        /// <summary> Проверка </summary>
+        /// <summary> РџСЂРѕРІРµСЂРєР° </summary>
         bool Verify(string text, string hash);
     }
 }

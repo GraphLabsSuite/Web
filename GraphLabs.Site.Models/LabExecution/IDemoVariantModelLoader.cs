@@ -1,8 +1,8 @@
-using System;
+п»їusing System;
 
 namespace GraphLabs.Site.Models.LabExecution
 {
-    /// <summary> Загрузчик варинта для выполнения в ознакомительном режиме </summary>
+    /// <summary> Р—Р°РіСЂСѓР·С‡РёРє РІР°СЂРёРЅС‚Р° РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РІ РѕР·РЅР°РєРѕРјРёС‚РµР»СЊРЅРѕРј СЂРµР¶РёРјРµ </summary>
     public interface IDemoVariantModelLoader
     {
         VariantExecutionModelBase Load(long labVariantId, int? taskIndex, Uri taskCompleteRedirect);

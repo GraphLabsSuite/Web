@@ -1,20 +1,20 @@
-using GraphLabs.DomainModel;
+п»їusing GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Infrastructure;
 
 namespace GraphLabs.Site.Models.Infrastructure
 {
-    /// <summary> Базовый загрузчик модели по сущности </summary>
-    /// <typeparam name="TModel">Класс модели</typeparam>
-    /// <typeparam name="TEntity">Класс сущности</typeparam>
+    /// <summary> Р‘Р°Р·РѕРІС‹Р№ Р·Р°РіСЂСѓР·С‡РёРє РјРѕРґРµР»Рё РїРѕ СЃСѓС‰РЅРѕСЃС‚Рё </summary>
+    /// <typeparam name="TModel">РљР»Р°СЃСЃ РјРѕРґРµР»Рё</typeparam>
+    /// <typeparam name="TEntity">РљР»Р°СЃСЃ СЃСѓС‰РЅРѕСЃС‚Рё</typeparam>
     abstract class AbstractModelLoader<TModel, TEntity> : IEntityBasedModelLoader<TModel, TEntity>
         where TModel : IEntityBasedModel<TEntity>
         where TEntity : AbstractEntity 
     {
         protected readonly IEntityQuery _query;
 
-        /// <summary> Базовый загрузчик модели по сущности </summary>
+        /// <summary> Р‘Р°Р·РѕРІС‹Р№ Р·Р°РіСЂСѓР·С‡РёРє РјРѕРґРµР»Рё РїРѕ СЃСѓС‰РЅРѕСЃС‚Рё </summary>
         protected AbstractModelLoader(IEntityQuery query)
         {
             _query = query;

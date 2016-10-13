@@ -1,9 +1,9 @@
-namespace GraphLabs.Site.Core.OperationContext
+п»їnamespace GraphLabs.Site.Core.OperationContext
 {
-    /// <summary> Фабрика контекста операций </summary>
+    /// <summary> Р¤Р°Р±СЂРёРєР° РєРѕРЅС‚РµРєСЃС‚Р° РѕРїРµСЂР°С†РёР№ </summary>
     public interface IOperationContextFactory<out TDataContext>
     {
-        /// <summary> Создать контекст </summary>
+        /// <summary> РЎРѕР·РґР°С‚СЊ РєРѕРЅС‚РµРєСЃС‚ </summary>
         IOperationContext<TDataContext> Create();
     }
 }

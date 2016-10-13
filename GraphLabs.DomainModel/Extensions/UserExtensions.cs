@@ -1,9 +1,9 @@
-namespace GraphLabs.DomainModel.Extensions
+п»їnamespace GraphLabs.DomainModel.Extensions
 {
-    /// <summary> Расширения для пользователей </summary>
+    /// <summary> Р Р°СЃС€РёСЂРµРЅРёСЏ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ </summary>
     public static class UserExtensions
     {
-        /// <summary> Возращает имя пользователя в формате Фамилия И.О. </summary>
+        /// <summary> Р’РѕР·СЂР°С‰Р°РµС‚ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ С„РѕСЂРјР°С‚Рµ Р¤Р°РјРёР»РёСЏ Р.Рћ. </summary>
         public static string GetShortName(this User user)
         {
             return user.FatherName != null 

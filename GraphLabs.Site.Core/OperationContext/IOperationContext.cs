@@ -1,14 +1,14 @@
-using System;
+п»їusing System;
 
 namespace GraphLabs.Site.Core.OperationContext
 {
-    /// <summary> Контекст бизнес-операции </summary>
+    /// <summary> РљРѕРЅС‚РµРєСЃС‚ Р±РёР·РЅРµСЃ-РѕРїРµСЂР°С†РёРё </summary>
     public interface IOperationContext<out TDataContext> : IDisposable
     {
-        /// <summary> Контекст доступа к данным </summary>
+        /// <summary> РљРѕРЅС‚РµРєСЃС‚ РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј </summary>
         TDataContext DataContext { get; }
 
-        /// <summary> Сохранить изменения (завершает операцию) </summary>
+        /// <summary> РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ (Р·Р°РІРµСЂС€Р°РµС‚ РѕРїРµСЂР°С†РёСЋ) </summary>
         void Complete();
     }
 }

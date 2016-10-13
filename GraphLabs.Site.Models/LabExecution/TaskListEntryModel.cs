@@ -1,18 +1,18 @@
-using GraphLabs.DomainModel;
+п»їusing GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.LabExecution
 {
-    /// <summary> Модель задания в лабе </summary>
+    /// <summary> РњРѕРґРµР»СЊ Р·Р°РґР°РЅРёСЏ РІ Р»Р°Р±Рµ </summary>
     public class TaskListEntryModel
     {
-        /// <summary> Id задания </summary>
+        /// <summary> Id Р·Р°РґР°РЅРёСЏ </summary>
         public long TaskId { get; set; }
 
-        /// <summary> Название задания </summary>
+        /// <summary> РќР°Р·РІР°РЅРёРµ Р·Р°РґР°РЅРёСЏ </summary>
         public string TaskName { get; set; }
 
-        /// <summary> Выполнено? </summary>
+        /// <summary> Р’С‹РїРѕР»РЅРµРЅРѕ? </summary>
         public TaskExecutionState State { get; set; }
     }
 

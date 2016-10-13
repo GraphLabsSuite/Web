@@ -1,4 +1,4 @@
-using System.Diagnostics;
+п»їusing System.Diagnostics;
 using GraphLabs.Dal.Ef.Infrastructure;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core;
@@ -6,10 +6,10 @@ using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Dal.Ef.OperationContext
 {
-    /// <summary> Фабрика <see cref="OperationContextImpl"/> </summary>
+    /// <summary> Р¤Р°Р±СЂРёРєР° <see cref="OperationContextImpl"/> </summary>
     class OperationContextFactory : IOperationContextFactory<IGraphLabsContext>
     {
-        /// <summary> Создать контекст </summary>
+        /// <summary> РЎРѕР·РґР°С‚СЊ РєРѕРЅС‚РµРєСЃС‚ </summary>
         public IOperationContext<IGraphLabsContext> Create()
         {
             var ctx = new GraphLabsContext();

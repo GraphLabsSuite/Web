@@ -1,16 +1,16 @@
-using GraphLabs.DomainModel.Contexts;
+п»їusing GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core;
 using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Dal.Ef
 {
-    /// <summary> Контекст бизнес-операции </summary>
+    /// <summary> РљРѕРЅС‚РµРєСЃС‚ Р±РёР·РЅРµСЃ-РѕРїРµСЂР°С†РёРё </summary>
     sealed class OperationContextImpl : IOperationContext<IGraphLabsContext>
     {
         private readonly IChangesTracker _changesTracker;
         private readonly IGraphLabsContext _dataContext;
 
-        /// <summary> Контекст доступа к данным </summary>
+        /// <summary> РљРѕРЅС‚РµРєСЃС‚ РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј </summary>
         public IGraphLabsContext DataContext
         {
             get
@@ -27,7 +27,7 @@ namespace GraphLabs.Dal.Ef
 
         private bool _isComplete = false;
 
-        /// <summary> Сохранить изменения (завершает операцию) </summary>
+        /// <summary> РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ (Р·Р°РІРµСЂС€Р°РµС‚ РѕРїРµСЂР°С†РёСЋ) </summary>
         public void Complete()
         {
             //TODO
