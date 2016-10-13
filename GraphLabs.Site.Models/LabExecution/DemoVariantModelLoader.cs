@@ -157,7 +157,7 @@ namespace GraphLabs.Site.Models.LabExecution
             result.Status = ExecutionStatus.Complete;
 
             var model = CreateModelHeader<VariantExecutionCompleteModel>(result, null);
-            model.ResultMessage = $"Работа завершена! Ваша оценка: ${mark}.";
+            model.ResultMessage = $"Работа завершена! Ваш балл: {mark}.";
 
             return model;
         }
