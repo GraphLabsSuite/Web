@@ -8,6 +8,8 @@ using GraphLabs.Site.Models.LabExecution;
 using GraphLabs.Site.Models.News;
 using GraphLabs.Site.Models.Results;
 using GraphLabs.Site.Models.ResultsWithTaskInfo;
+using GraphLabs.Site.Models.Schedule;
+using GraphLabs.Site.Models.Schedule.Edit;
 using GraphLabs.Site.Models.StudentActions;
 using GraphLabs.Site.Models.TaskResults;
 using GraphLabs.Site.Models.TaskResultsWithActions;
@@ -42,6 +44,11 @@ namespace GraphLabs.Site.Models.IoC
 
             // выполнение лабы
             container.RegisterType<IDemoVariantModelLoader, DemoVariantModelLoader>(new HierarchicalLifetimeManager());
+
+            // расписание
+            container.RegisterType<IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule>, LabScheduleModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelLoader<EditLabScheduleModel, AbstractLabSchedule>, EditLabScheduleModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelSaver<EditLabScheduleModel, AbstractLabSchedule>, LabScheduleModelSaver>(new PerResolveLifetimeManager());
         }
     }
 }
