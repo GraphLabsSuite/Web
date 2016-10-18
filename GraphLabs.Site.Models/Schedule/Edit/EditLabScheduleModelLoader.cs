@@ -22,6 +22,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
         {
             var model = new EditLabScheduleModel
             {
+                Id = entity.Id,
                 DateFrom = entity.DateFrom,
                 DateTill = entity.DateTill,
                 Mode = entity.Mode,

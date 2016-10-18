@@ -57,16 +57,22 @@ namespace GraphLabs.Dal.Ef
         /// <summary> Создаёт новый экземпляр сущности </summary>
         public TEntity Create<TEntity>(Action<TEntity> initializer) where TEntity : AbstractEntity
         {
-            var baseEntityType = GetEntityTypeFor(typeof(TEntity));
-            TEntity newEntity;
-            if (baseEntityType == typeof(TEntity))
+            return (TEntity) Create(typeof (TEntity), o => initializer((TEntity)o));
+        }
+
+        /// <summary> Создаёт новый экземпляр сущности </summary>
+        public object Create(Type typeOfEntity, Action<object> initializer)
+        {
+            var baseEntityType = GetEntityTypeFor(typeOfEntity);
+            object newEntity;
+            if (baseEntityType == typeOfEntity)
             {
-                newEntity = _ctx.Set<TEntity>().Create();
-                _ctx.Set<TEntity>().Add(newEntity);
+                newEntity = _ctx.Set(typeOfEntity).Create();
+                _ctx.Set(typeOfEntity).Add(newEntity);
             }
             else
             {
-                newEntity = (TEntity)_ctx.Set(baseEntityType).Create(typeof(TEntity));
+                newEntity = _ctx.Set(baseEntityType).Create(typeOfEntity);
                 _ctx.Set(baseEntityType).Add(newEntity);
             }
 

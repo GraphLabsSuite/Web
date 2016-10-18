@@ -15,6 +15,8 @@ namespace GraphLabs.Site.Models.Schedule.Edit
             Group
         }
 
+        public long Id { get; set; }
+
         [Display(Name = "Дата открытия")]
         public DateTime DateFrom { get; set; }
 

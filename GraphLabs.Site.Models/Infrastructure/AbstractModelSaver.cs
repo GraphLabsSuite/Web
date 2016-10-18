@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
@@ -19,6 +20,11 @@ namespace GraphLabs.Site.Models.Infrastructure
             _operationContextFactory = operationContextFactory;
         }
 
+        protected virtual Type GetEntityType(TModel model)
+        {
+            return typeof(TEntity);
+        }
+
         public TEntity CreateOrUpdate(TModel model)
         {
             using (var operation = _operationContextFactory.Create())
@@ -26,7 +32,11 @@ namespace GraphLabs.Site.Models.Infrastructure
                 TEntity entity;
                 if (!ExistsInDatabase(model))
                 {
-                    entity = operation.DataContext.Factory.Create(GetEntityInitializer(model, operation.DataContext.Query));
+                    var type = GetEntityType(model);
+                    Contract.Assert(typeof(TEntity).IsAssignableFrom(type));
+                    entity = (TEntity)operation.DataContext.Factory.Create(
+                        type,
+                        o => GetEntityInitializer(model, operation.DataContext.Query)((TEntity)o));
                 }
                 else
                 {

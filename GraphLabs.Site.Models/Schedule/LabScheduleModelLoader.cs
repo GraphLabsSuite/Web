@@ -21,6 +21,7 @@ namespace GraphLabs.Site.Models.Schedule
         {
             var model = new LabScheduleModel
             {
+                Id = entity.Id,
                 DateFrom = entity.DateFrom,
                 DateTill = entity.DateTill,
                 Mode = entity.Mode

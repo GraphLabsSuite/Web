@@ -48,7 +48,7 @@ namespace GraphLabs.Site.Models.IoC
             // расписание
             container.RegisterType<IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule>, LabScheduleModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<EditLabScheduleModel, AbstractLabSchedule>, EditLabScheduleModelLoader>(new PerResolveLifetimeManager());
-            container.RegisterType<IEntityBasedModelSaver<EditLabScheduleModel, AbstractLabSchedule>, LabScheduleModelSaver>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelSaver<EditLabScheduleModel, AbstractLabSchedule>, EditLabScheduleModelSaver>(new PerResolveLifetimeManager());
         }
     }
 }
