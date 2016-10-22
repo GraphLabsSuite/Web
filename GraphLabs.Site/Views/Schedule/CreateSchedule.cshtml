@@ -1,0 +1,34 @@
+﻿@using GraphLabs.Site.Models.Schedule.Edit
+@model GraphLabs.Site.Models.Schedule.Edit.EditLabScheduleModelBase
+
+@{
+    if (Model is EditIndividualLabScheduleModel)
+    {
+        ViewBag.Title = "Создать строку индивидуального расписания";
+    }
+    else if (Model is EditGroupLabScheduleModel)
+    {
+        ViewBag.Title = "Создать строку группового расписания";
+    }
+    else
+    {
+        throw new NotImplementedException();
+    }
+
+    ViewBag.ActionLabel = "Создать";
+}       
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+
+<span class="field-validation-error">
+    @ViewBag.Message
+</span>
+
+@Html.Partial("_ScheduleEditors", Model)
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

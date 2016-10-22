@@ -9,6 +9,19 @@ namespace GraphLabs.DomainModel.Extensions
         /// <summary> Поиск сущности (ошибка, если не нашёл) </summary>
         /// <exception cref="EntityNotFoundException">Сущность с заданным ключом не найдена</exception>
         [NotNull]
+        public static TEntity Get<TEntity>(this IEntityQuery query, object[] keyValues)
+            where TEntity : AbstractEntity
+        {
+            var entity = query.Find<TEntity>(keyValues);
+            if (entity == null)
+                throw new EntityNotFoundException(typeof(TEntity), keyValues);
+
+            return entity;
+        }
+
+        /// <summary> Поиск сущности (ошибка, если не нашёл) </summary>
+        /// <exception cref="EntityNotFoundException">Сущность с заданным ключом не найдена</exception>
+        [NotNull]
         public static TEntity Get<TEntity>(this IEntityQuery query, object keyValue)
             where TEntity : AbstractEntity
         {

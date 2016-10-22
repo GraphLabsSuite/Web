@@ -325,8 +325,10 @@
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
+    <Compile Include="Utils\SmartModelBinder.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
     <Compile Include="RequestUnitOfWork.cs" />
@@ -405,6 +407,10 @@
     <Content Include="Views\Result\StudentList.cshtml" />
     <Content Include="Views\Result\StudentResult.cshtml" />
     <Content Include="Views\Result\TaskResult.cshtml" />
+    <Content Include="Views\Schedule\Index.cshtml" />
+    <Content Include="Views\Schedule\CreateSchedule.cshtml" />
+    <Content Include="Views\Schedule\_ScheduleEditors.cshtml" />
+    <Content Include="Views\Schedule\EditSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

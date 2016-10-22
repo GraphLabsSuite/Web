@@ -38,6 +38,7 @@ namespace GraphLabs.Site.Models.Schedule
             if (groupSchedule != null)
             {
                 model.Doer = groupSchedule.Group.GetName(_systemDate);
+                return model;
             }
 
             throw new ArgumentOutOfRangeException($"Загрузка модели строки расписания для типа {entity.GetType()} не реализована.");

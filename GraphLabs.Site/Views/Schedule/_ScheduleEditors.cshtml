@@ -1,0 +1,50 @@
+﻿@using System.Globalization
+@using GraphLabs.Site.Utils
+
+@model GraphLabs.Site.Models.Schedule.Edit.EditLabScheduleModelBase
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        @Html.Hidden(SmartModelBinder.ModelTypeField, Model.GetType().FullName)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateFrom)
+        </div>
+        <div class="editor-field">
+            <div id="DatePickerFrom" class="input-group input-append date">
+                <input id="DateFrom" name="DateFrom" type="text"/>
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.DateFrom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateTill)
+        </div>
+        <div class="editor-field">
+            <div id="DatePickerTill" class="input-group input-append date">
+                <input id="DateTill" name="DateTill" type="text"/>
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.DateTill)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SelectedDoerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedDoerId, Model.Doers.Select(g => new SelectListItem
+            {
+                Text = g.Value,
+                Value = g.Key.ToString(CultureInfo.InvariantCulture)
+            }).OrderBy(i => i.Text))
+            @Html.ValidationMessageFor(model => model.SelectedDoerId)
+        </div>
+
+        <p>
+            <input type="submit" value="@ViewBag.ActionLabel"/>
+        </p>
+    </fieldset>
+}

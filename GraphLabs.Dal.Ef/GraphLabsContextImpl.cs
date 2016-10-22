@@ -57,7 +57,7 @@ namespace GraphLabs.Dal.Ef
         /// <summary> Создаёт новый экземпляр сущности </summary>
         public TEntity Create<TEntity>(Action<TEntity> initializer) where TEntity : AbstractEntity
         {
-            return (TEntity) Create(typeof (TEntity), o => initializer((TEntity)o));
+            return (TEntity) Create(typeof (TEntity), o => initializer?.Invoke((TEntity)o));
         }
 
         /// <summary> Создаёт новый экземпляр сущности </summary>
