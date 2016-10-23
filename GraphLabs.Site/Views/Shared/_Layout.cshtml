@@ -1,7 +1,7 @@
 ﻿@using GraphLabs.DomainModel
 @using GraphLabs.Site.Logic.Security
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -15,55 +15,52 @@
 </head>
 <body>
 <div id="header">
+    <div class="content-wrapper">
+        <span id="logo">
+            <a href="~/"><img alt="GL" src="~/Images/graphlabs_logo.png" height="40" /></a>
+        </span>
+        <section id="login">
+            @Html.Partial("_LoginPartial")
+        </section>
+    </div>
 </div>
 <div id="body">
-    <div class="content-wrapper">
-        <div class="float-left">
-            <nav>
-                <ul id="menu">
-                    <li>
-                        <a href="#">Меню</a>
-                        <ul>
-                            <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            @if (User.IsInAnyRole(UserRole.Teacher))
-                            {
-                                <li>@Html.ActionLink("Группы", "Index", "Group")</li>
-                                <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
-                                <li>@Html.ActionLink("Категории", "Index", "Category")</li>
-                                <li>@Html.ActionLink("Задания", "Index", "Task")</li>
-                                <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
-                                <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
-                                <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
-                                <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
-                                <li>@Html.ActionLink("Система", "Index", "Settings")</li>
-                            }
-                            <!-- Админу кнопки студента не показываем -->
-                            @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
-                            {
-                                <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
-                                <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
-                            }
-                        </ul>
-                    </li>
+    <div id="main">
+        <div class="content-wrapper">
+            <nav id="menu">
+                <ul>
+                    @if (User.IsInAnyRole(UserRole.Teacher))
+                    {
+                        <li>@Html.ActionLink("Новости", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Группы", "Index", "Group")</li>
+                        <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
+                        <li>@Html.ActionLink("Категории", "Index", "Category")</li>
+                        <li>@Html.ActionLink("Задания", "Index", "Task")</li>
+                        <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
+                        <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
+                        <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
+                        <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
+                        <li>@Html.ActionLink("Система", "Index", "Settings")</li>
+                    }
+                    <!-- Админу кнопки студента не показываем -->
+                    @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
+                    {
+                        <li>@Html.ActionLink("Новости", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
+                        <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
+                    }
                 </ul>
             </nav>
-        </div>
-        <div class="float-right">
-            <section id="login">
-                @Html.Partial("_LoginPartial")
+            <section class="main-content">
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                {
+                    <div class="error">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
+                @RenderBody()
             </section>
         </div>
-    </div>
-    <div id="main">
-        <section class="content-wrapper main-content clear-fix">
-            @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
-            {
-                <div class="error">
-                    <p>@ViewBag.Message</p>
-                </div>
-            }
-            @RenderBody()
-        </section>
     </div>
 </div>
 <div id="footer">

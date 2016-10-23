@@ -303,6 +303,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Images\copy.png" />
     <Content Include="Images\graphlabs.png" />
+    <Content Include="Images\graphlabs_logo.png" />
+    <Content Include="Images\graphlabs_medium.png" />
     <Content Include="Images\PopUp\cross.png" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />

@@ -1,103 +1,36 @@
 ﻿/*Почему z-index 8? Потому что 8 - мое любимое число!*/
 #menu{
-    margin: 0;
-	float:left;
-	width:100%;
-	list-style:none;
-    z-index: 8;
+	width:120px;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 #menu li{
-	float:left;
-	margin-right:10px;
 	position: relative;
 	display:block;
-    z-index: 8;
 }
+
 
 #menu li a{
-	padding:0;
-	background: #8aa5b7;	
+    padding-left: 5px;
     text-indent:0;
-	display:inline-block;
-	color: #050105;
-	font-family:Arial;
-	font-size:15px;
-	font-style:normal;
+	display: block;
+    text-align: left;
+	color: #5c7e94;
+    font-family: Segoe UI, Verdana, Helvetica;
+    font-size: 1.1em;
+	font-style: normal;
 	height:25px;
+    font-weight: 600;
 	line-height:25px;
-	width:120px;
+	width:100%;
 	text-decoration:none;
-	text-align:center;
-	text-shadow:1px 1px 0px #287ace;
-	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Тень текста, чтобы приподнять его на немного */	
-	-webkit-border-top-left-radius:2px;
-	-moz-border-radius-topleft:2px;
-	border-top-left-radius:2px;
-	-webkit-border-top-right-radius:2px;
-	-moz-border-radius-topright:2px;
-	border-top-right-radius:2px;
-	-webkit-border-bottom-right-radius:2px;
-	-moz-border-radius-bottomright:2px;
-	border-bottom-right-radius:2px;
-	-webkit-border-bottom-left-radius:2px;
-	-moz-border-radius-bottomleft:2px;
-	border-bottom-left-radius:2px;
-
-    z-index: 8;
+	text-align:left;
 }
 
-#menu li a:hover{
-	color:#fff;
-	background: #8aa5b7;
-	text-decoration:underline;
-    z-index: 8;
-}
-
-/*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
 #menu ul{
-	list-style:none;
-	position:absolute;
-	left:-9999px; /* Скрываем за экраном, когда не нужно (данный метод лучше, чем display:none;) */
-	opacity:0; /* Устанавливаем начальное состояние прозрачности */
-	-webkit-transition:0.25s linear opacity; /* В Webkit выпадающие пункты будут проявляться */
-    z-index: 8;
-}
-
-#menu ul li{
-	padding-top:1px; /* Вводим отступ между li чтобы создать иллюзию разделенных пунктов меню */
-	float:none;
-    z-index: 8;
-}
-
-#menu ul a{
-	white-space:nowrap; /* Останавливаем перенос текста и создаем многострочный выпадающий пункт */
-	display:block;
-    z-index: 8;
-}
-
-#menu li:hover ul{ /* Выводим выпадающий пункт при наведении курсора */
-	left:0; /* Приносим его обратно на экран, когда нужно */
-	opacity:1; /* Делаем непрозрачным */
-    z-index: 8;
-}
-
-#menu li:hover a{ /* Устанавливаем стили для верхнего уровня, когда выводится выпадающий список */
-	background: #8aa5b7;
-	text-decoration:none;
-    z-index: 8;
-}
-
-#menu li:hover ul a{ /* Изменяем некоторые стили верхнего уровня при выводе выпадающего пункта */
-	text-decoration:none;
-	-webkit-transition:-webkit-transform 0.075s linear;
-    z-index: 8;
-}
-
-#menu li:hover ul li a:hover{ /* Устанавливаем стили для выпадающих пунктов, когда курсор наводится на конкретный пункт */
-	background: #4197ee;
-	text-decoration:underline;
-	-moz-transform:scale(1.05);
-	-webkit-transform:scale(1.05);
-    z-index: 8;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }

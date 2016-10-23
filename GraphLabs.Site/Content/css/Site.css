@@ -34,15 +34,23 @@ hgroup, section {
 }
 
 #header {
-    background: url(../../Images/top.gif) left top no-repeat, url(../../Images/22.gif) right top no-repeat;
     clear: both;
-    background-color: #5c7e94;
+    background-color: #e8edef;
     font-size: .8em;
-    height: 143px;
+    height: auto;
     top: 0;
     left:0;
     width: 100%;
-   position: absolute;
+    position: absolute;
+}
+
+#logo {
+    font-size: 2.6em;
+    font-weight: 500;
+}
+
+#logo a{
+    background-color: transparent;
 }
 
 #body {
@@ -50,33 +58,31 @@ hgroup, section {
     clear: both;
     left:0;
     width: 100%;
-    top: 143px;
+    top: 48px;
     bottom: 40px;
     position: absolute;
 }
 
 #main {
-    background-color: #e8edef;
+    background-color: #fff;
     clear: both;
     left: 0;
+    right: 0;
     width: 100%;
-    top: 25px;
+    top: 3px;
     bottom: 0;
     position: absolute;
     overflow-y: auto;
 }
 
     .main-content {
-        padding-left: 10px;
         padding-top: 10px;
-    }
-
-    .featured + .main-content {
-        background: url("../../Images/heroAccent.png") no-repeat;
+        float: right;
+        width: 80%;
     }
 
 #header .content-wrapper {
-    padding-top: 20px; 
+    padding-top: 5px; 
 }
 
 #footer {
@@ -128,14 +134,6 @@ mark {
     float: right;
 }
 
-.clear-fix:after {
-    content: ".";
-    clear: both;
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-
 h1, h2, h3,
 h4, h5, h6 {
     color: #000;
@@ -168,47 +166,8 @@ h5, h6 {
         text-decoration: none;
     }
 
-/* site title
-----------------------------------------------------------*/
-.site-title {
-    color: #c8c8c8;
-    font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
-    font-size: 2.3em;
-    margin: 0;
-}
-
-.site-title a, .site-title a:hover, .site-title a:active {
-    background: none;
-    color: #c8c8c8;
-    outline: none;
-    text-decoration: none;
-}
-
 /* page elements
 ----------------------------------------------------------*/
-/* featured */
-.featured {
-    background-color: #fff;
-}
-
-    .featured .content-wrapper {
-        background-color: #7ac0da;
-        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        color: #3e5667;
-        padding: 20px 40px 30px 40px;
-    }
-
-        .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #fff;
-        }
-
-        .featured p {
-            font-size: 1.1em;
-        }
 
 /* page titles */
 hgroup.title {
@@ -226,30 +185,6 @@ hgroup.title h2 {
 }
 
 /* content */
-article {
-    float: left;
-    width: 70%;
-}
-
-aside {
-    float: right;
-    width: 25%;
-}
-
-    aside ul {
-        list-style: none;
-        padding: 0;
-    }
-
-        aside ul li {
-            background: url("../../Images/bullet.png") no-repeat 0 50%;
-            padding: 2px 0 2px 20px;
-        }
-
-.label {
-    font-weight: 700;
-}
-
 .smallLeftPanel {
     float: left;
     width: 20%;
