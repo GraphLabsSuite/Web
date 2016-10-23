@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
 
 namespace GraphLabs.Site.Models.CreateLab
 {
-    public class CreateLabModel : LabModel
+    public class CreateLabModel : LabModel, IEntityBasedModel<LabWork>
     {
-        public DateTime? AcquaintanceFrom { get; set; }
-
-        public DateTime? AcquaintanceTill { get; set; }
-
         public List<KeyValuePair<long, string>> Tasks { get; set; }
 
         public CreateLabModel() { }

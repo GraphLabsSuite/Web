@@ -24,7 +24,8 @@ namespace GraphLabs.Site.Models.Schedule
                 Id = entity.Id,
                 DateFrom = entity.DateFrom,
                 DateTill = entity.DateTill,
-                Mode = entity.Mode
+                Mode = entity.Mode,
+                LabName = entity.LabWork.Name
             };
 
             var studentSchedule = entity as IndividualLabSchedule;

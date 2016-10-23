@@ -9,22 +9,23 @@ using GraphLabs.Site.Utils;
 namespace GraphLabs.Site.Models.DemoLab
 {
     /// <summary> Загрузчик моделей демонстрационных лабораторных работ </summary>
-    sealed class DemoLabModelLoader : AbstractModelLoader<DemoLabModel, LabWork>
+    sealed class DemoLabModelLoader : AbstractModelLoader<DemoLabModel, AbstractLabSchedule>
     {
         /// <summary> Загрузчик моделей демонстрационных лабораторных работ </summary>
         public DemoLabModelLoader(IEntityQuery query) : base(query) { }
 
         /// <summary> Загрузить по сущности-прототипу </summary>
-        public override DemoLabModel Load(LabWork labWork)
+        public override DemoLabModel Load(AbstractLabSchedule sch)
         {
-            Contract.Requires(labWork != null);
+            Contract.Requires(sch != null);
+            Contract.Requires(sch.Mode == LabExecutionMode.IntroductoryMode);
 
             var model = new DemoLabModel
             {
-                Id = labWork.Id,
-                Name = labWork.Name,
-                AcquaintanceTill = (DateTime)labWork.AcquaintanceTill,
-                Variants = labWork.LabVariants
+                Id = sch.Id,
+                Name = sch.LabWork.Name,
+                AcquaintanceTill = sch.DateTill,
+                Variants = sch.LabWork.LabVariants
                     .Where(lv => lv.IntroducingVariant)
                     .ToArray()
                     .Where(lv => VerifyCompleteVariant(lv.Id))

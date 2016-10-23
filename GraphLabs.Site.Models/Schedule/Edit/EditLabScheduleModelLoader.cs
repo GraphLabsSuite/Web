@@ -1,15 +1,18 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Models.Infrastructure;
+using JetBrains.Annotations;
 
 namespace GraphLabs.Site.Models.Schedule.Edit
 {
-    /// <summary> Загрузчик модели <see cref="EditLabScheduleModel"/> </summary>
-    class EditLabScheduleModelLoader : AbstractModelLoader<EditLabScheduleModelBase, AbstractLabSchedule>, IEditLabScheduleModelLoader
+    /// <summary> Загрузчик модели <see cref="EditLabScheduleModelBase"/> </summary>
+    [UsedImplicitly]
+    sealed class EditLabScheduleModelLoader : AbstractModelLoader<EditLabScheduleModelBase, AbstractLabSchedule>, IEditLabScheduleModelLoader
     {
         private readonly ISystemDateService _systemDate;
 
@@ -25,11 +28,13 @@ namespace GraphLabs.Site.Models.Schedule.Edit
             if (studentSchedule != null)
             {
                 model = CreateEmptyModel(EditLabScheduleModelBase.Kind.Individual);
+                model.SelectedDoerId = studentSchedule.Student.Id.ToString(CultureInfo.InvariantCulture);
             }
             var groupSchedule = entity as GroupLabSchedule;
             if (groupSchedule != null)
             {
                 model = CreateEmptyModel(EditLabScheduleModelBase.Kind.Group);
+                model.SelectedDoerId = groupSchedule.Group.Id.ToString(CultureInfo.InvariantCulture);
             }
 
             if (model == null)
@@ -39,6 +44,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
             model.DateFrom = entity.DateFrom;
             model.DateTill = entity.DateTill;
             model.Mode = entity.Mode;
+            model.SelectedLabWorkId = entity.LabWork.Id.ToString(CultureInfo.InvariantCulture);
 
             return model;
         }
@@ -68,6 +74,11 @@ namespace GraphLabs.Site.Models.Schedule.Edit
                 default:
                     throw new ArgumentOutOfRangeException(nameof(kind));
             }
+
+            model.LabWorks = _query.OfEntities<LabWork>()
+                .OrderBy(lr => lr.Name)
+                .ToArray()
+                .ToDictionary(lr => lr.Id, lr => lr.Name);
 
             model.DateFrom = _systemDate.Now();
             model.DateTill = _systemDate.Now();

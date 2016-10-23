@@ -18,14 +18,6 @@
                 <label>Название лабораторной работы</label>
                 <input id="labName" name="Name" type="text" value="" />
             </li>
-            <li>
-                <label>Дата начала доступности работы</label>
-                <input id="dateFrom" name="DateFrom" type="date" />
-            </li>
-            <li>
-                <label>Дата окончания доступности работы</label>
-                <input id="dateTill" name="DateTill" type="date" />
-            </li>
         </ol>
     </fieldset>
 
@@ -97,29 +89,10 @@
             $("#success").html("");
             $("#save").removeAttr("disabled");
             $("#labName").val(obj.Name);
-            if (obj.AcquaintanceFrom != null) {
-                $("#dateFrom").val(ToJavaScriptDate(obj.AcquaintanceFrom));
-            };
-            if (obj.AcquaintanceTill != null) {
-                $("#dateTill").val(ToJavaScriptDate(obj.AcquaintanceTill));
-            };
             for (var i = 0; i < obj.Tasks.length; ++i) {
                 $("#firstSelect option[value='" + obj.Tasks[i].Key + "']").prop("selected", true).dblclick();
             };
         };
-
-        function ToJavaScriptDate(value) {
-            var pattern = /Date\(([^)]+)\)/;
-            var results = pattern.exec(value);
-            var dt = new Date(parseFloat(results[1]));
-            var month = (dt.getMonth() >= 10 ? (dt.getMonth() + 1) : ("0" + (dt.getMonth() + 1)));
-            var day = (dt.getDate() >= 10 ? (dt.getDate()) : ("0" + dt.getDate()));
-            var hour = (dt.getHours() >= 10 ? (dt.getHours()) : ("0" + dt.getHours()));
-            var minute = (dt.getMinutes() >= 10 ? (dt.getMinutes()) : ("0" + dt.getMinutes()));
-            var second = (dt.getSeconds() >= 10 ? (dt.getSeconds()) : ("0" + dt.getSeconds()));
-            var msecond = (dt.getMilliseconds() >= 10 ? (dt.getMilliseconds() >= 100 ? (dt.getMilliseconds()) :("0" + dt.getMilliseconds())) : ("00" + dt.getMilliseconds()));
-            return day + "-" + month + "-" + dt.getFullYear() + " " + hour + ":" + minute + ":" + second + "." + msecond;
-        }
 
         $("#firstSelectSize").change(function () {
             var p = $("#firstSelectSize");

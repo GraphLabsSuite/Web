@@ -22,8 +22,6 @@ namespace GraphLabs.Site.Models.CreateLab
             {
                 Id = labWork.Id,
                 Name = labWork.Name,
-                AcquaintanceFrom = (DateTime)labWork.AcquaintanceFrom,
-                AcquaintanceTill = (DateTime)labWork.AcquaintanceTill,
                 Tasks = MakeListFromTasks(labWork.LabEntries.Select(e => e.Task).ToArray())
             };
 

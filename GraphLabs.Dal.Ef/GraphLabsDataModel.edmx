@@ -113,6 +113,10 @@
       <End Role="Student" EntitySet="Users_Student" />
       <End Role="IndividualLabSchedule" EntitySet="AbstractLabSchedules_IndividualLabSchedule" />
     </AssociationSet>
+    <AssociationSet Name="LabWorkAbstractLabSchedule" Association="DataModel.Store.LabWorkAbstractLabSchedule">
+      <End Role="LabWork" EntitySet="LabWorks" />
+      <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
+    </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
       <End Role="Student" EntitySet="Users_Student" />
@@ -186,8 +190,6 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AcquaintanceFrom" Type="datetime" Nullable="true" />
-    <Property Name="AcquaintanceTill" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="Tasks">
     <Key>
@@ -298,6 +300,7 @@
     <Property Name="DateFrom" Type="datetime" Nullable="false" />
     <Property Name="DateTill" Type="datetime" Nullable="false" />
     <Property Name="Mode" Type="int" Nullable="false" />
+    <Property Name="LabWork_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Users_Student">
     <Key>
@@ -542,6 +545,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="LabWorkAbstractLabSchedule">
+    <End Role="LabWork" Type="DataModel.Store.LabWorks" Multiplicity="1" />
+    <End Role="AbstractLabSchedule" Type="DataModel.Store.AbstractLabSchedules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LabWork">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AbstractLabSchedule">
+        <PropertyRef Name="LabWork_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_VariantTestQuestion_LabVariant">
     <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
     <End Role="VariantTestQuestion" Type="DataModel.Store.VariantTestQuestion" Multiplicity="*" />
@@ -731,6 +746,10 @@
             <End Role="Student" EntitySet="Users" />
             <End Role="IndividualLabSchedule" EntitySet="AbstractLabSchedules" />
           </AssociationSet>
+          <AssociationSet Name="LabWorkAbstractLabSchedule" Association="DataModel.LabWorkAbstractLabSchedule">
+            <End Role="LabWork" EntitySet="LabWorks" />
+            <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
           <Key>
@@ -799,8 +818,6 @@
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="String" Name="Name" Nullable="false" FixedLength="false" MaxLength="Max" Unicode="true" />
-          <Property Type="DateTime" Name="AcquaintanceFrom" Nullable="true" />
-          <Property Type="DateTime" Name="AcquaintanceTill" Nullable="true" />
           <NavigationProperty Name="LabVariants" Relationship="DataModel.LabWorkLabVariant" FromRole="LabWork" ToRole="LabVariant" />
           <NavigationProperty Name="LabEntries" Relationship="DataModel.LabWorkLabEntry" FromRole="LabWork" ToRole="LabEntry" />
         </EntityType>
@@ -1007,6 +1024,7 @@
           <Property Name="DateFrom" Type="DateTime" Nullable="false" />
           <Property Name="DateTill" Type="DateTime" Nullable="false" />
           <Property Name="Mode" Type="DataModel.LabExecutionMode" Nullable="false" />
+          <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkAbstractLabSchedule" FromRole="AbstractLabSchedule" ToRole="LabWork" />
         </EntityType>
         <EntityType Name="GroupLabSchedule" BaseType="DataModel.AbstractLabSchedule" >
           <NavigationProperty Name="Group" Relationship="DataModel.GroupGroupLabSchedule" FromRole="GroupLabSchedule" ToRole="Group" />
@@ -1021,6 +1039,10 @@
         <Association Name="StudentIndividualLabSchedule">
           <End Type="DataModel.Student" Role="Student" Multiplicity="1" />
           <End Type="DataModel.IndividualLabSchedule" Role="IndividualLabSchedule" Multiplicity="*" />
+        </Association>
+        <Association Name="LabWorkAbstractLabSchedule">
+          <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="1" />
+          <End Type="DataModel.AbstractLabSchedule" Role="AbstractLabSchedule" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1095,8 +1117,6 @@
         <MappingFragment StoreEntitySet="LabWorks">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="AcquaintanceFrom" ColumnName="AcquaintanceFrom" />
-          <ScalarProperty Name="AcquaintanceTill" ColumnName="AcquaintanceTill" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1372,6 +1392,14 @@
         <ScalarProperty Name="Id" ColumnName="Student_Id" />
       </EndProperty>
       <EndProperty Name="IndividualLabSchedule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LabWorkAbstractLabSchedule" TypeName="DataModel.LabWorkAbstractLabSchedule" StoreEntitySet="AbstractLabSchedules">
+      <EndProperty Name="LabWork">
+        <ScalarProperty Name="Id" ColumnName="LabWork_Id" />
+      </EndProperty>
+      <EndProperty Name="AbstractLabSchedule">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -37,7 +37,7 @@ namespace GraphLabs.Site.Models.IoC
             container.RegisterType<IEntityBasedModelLoader<LabModel, LabWork>, LabModelLoader>(new PerResolveLifetimeManager());
 
             // демолабы
-            container.RegisterType<IEntityBasedModelLoader<DemoLabModel, LabWork>, DemoLabModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelLoader<DemoLabModel, AbstractLabSchedule>, DemoLabModelLoader>(new PerResolveLifetimeManager());
 
             // создание лабы
             container.RegisterType<IEntityBasedModelLoader<CreateLabModel, LabWork>, CreateLabModelLoader>(new PerResolveLifetimeManager());

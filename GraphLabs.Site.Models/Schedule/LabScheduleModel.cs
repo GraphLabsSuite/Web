@@ -8,6 +8,7 @@ namespace GraphLabs.Site.Models.Schedule
     public class LabScheduleModel : IEntityBasedModel<AbstractLabSchedule>
     {
         public long Id { get; set; }
+        public string LabName { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTill { get; set; }
         public LabExecutionMode Mode { get; set; }

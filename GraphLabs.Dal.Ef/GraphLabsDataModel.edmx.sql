@@ -1,3 +1,169 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 10/23/2016 22:57:58
+-- Generated from EDMX file: E:\Рабочий стол\graphlabs\graphlabs.site\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- --------------------------------------------------
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [gltst];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[FK_UserNews]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[News] DROP CONSTRAINT [FK_UserNews];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestQuestionAnswerVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AnswerVariants] DROP CONSTRAINT [FK_TestQuestionAnswerVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VariantTestQuestion_LabVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VariantTestQuestion] DROP CONSTRAINT [FK_VariantTestQuestion_LabVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VariantTestQuestion_TestQuestion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VariantTestQuestion] DROP CONSTRAINT [FK_VariantTestQuestion_TestQuestion];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserSession]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Sessions] DROP CONSTRAINT [FK_UserSession];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupStudent]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_GroupStudent];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StudentResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Results] DROP CONSTRAINT [FK_StudentResult];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskTaskVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TaskVariants] DROP CONSTRAINT [FK_TaskTaskVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LabVariantTaskVariant_LabVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LabVariantTaskVariant] DROP CONSTRAINT [FK_LabVariantTaskVariant_LabVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LabVariantTaskVariant_TaskVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LabVariantTaskVariant] DROP CONSTRAINT [FK_LabVariantTaskVariant_TaskVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LabWorkLabVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LabVariants] DROP CONSTRAINT [FK_LabWorkLabVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LabVariantResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Results] DROP CONSTRAINT [FK_LabVariantResult];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LabWorkLabEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LabEntries] DROP CONSTRAINT [FK_LabWorkLabEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskLabEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LabEntries] DROP CONSTRAINT [FK_TaskLabEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestQuestionCategory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_TestQuestionCategory];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskTaskData]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tasks] DROP CONSTRAINT [FK_TaskTaskData];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ResultTaskResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_ResultTaskResult];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskResultStudentAction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[StudentActions] DROP CONSTRAINT [FK_TaskResultStudentAction];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskResultTaskVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_TaskResultTaskVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupGroupLabSchedule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule] DROP CONSTRAINT [FK_GroupGroupLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StudentIndividualLabSchedule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule] DROP CONSTRAINT [FK_StudentIndividualLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GroupLabSchedule_inherits_AbstractLabSchedule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule] DROP CONSTRAINT [FK_GroupLabSchedule_inherits_AbstractLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IndividualLabSchedule_inherits_AbstractLabSchedule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule] DROP CONSTRAINT [FK_IndividualLabSchedule_inherits_AbstractLabSchedule];
+GO
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[News]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[News];
+GO
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
+GO
+IF OBJECT_ID(N'[dbo].[Groups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Groups];
+GO
+IF OBJECT_ID(N'[dbo].[Results]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Results];
+GO
+IF OBJECT_ID(N'[dbo].[StudentActions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[StudentActions];
+GO
+IF OBJECT_ID(N'[dbo].[LabWorks]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LabWorks];
+GO
+IF OBJECT_ID(N'[dbo].[Tasks]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tasks];
+GO
+IF OBJECT_ID(N'[dbo].[LabVariants]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LabVariants];
+GO
+IF OBJECT_ID(N'[dbo].[TestQuestions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TestQuestions];
+GO
+IF OBJECT_ID(N'[dbo].[AnswerVariants]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AnswerVariants];
+GO
+IF OBJECT_ID(N'[dbo].[Sessions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Sessions];
+GO
+IF OBJECT_ID(N'[dbo].[Settings]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Settings];
+GO
+IF OBJECT_ID(N'[dbo].[TaskVariants]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TaskVariants];
+GO
+IF OBJECT_ID(N'[dbo].[LabEntries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LabEntries];
+GO
+IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Categories];
+GO
+IF OBJECT_ID(N'[dbo].[TaskDatas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TaskDatas];
+GO
+IF OBJECT_ID(N'[dbo].[TaskResults]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TaskResults];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractLabSchedules]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractLabSchedules];
+GO
+IF OBJECT_ID(N'[dbo].[Users_Student]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users_Student];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractLabSchedules_GroupLabSchedule]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractLabSchedules_IndividualLabSchedule]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[VariantTestQuestion]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VariantTestQuestion];
+GO
+IF OBJECT_ID(N'[dbo].[LabVariantTaskVariant]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LabVariantTaskVariant];
+GO
+
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
@@ -59,9 +225,7 @@ GO
 -- Creating table 'LabWorks'
 CREATE TABLE [dbo].[LabWorks] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
-    [AcquaintanceFrom] datetime  NULL,
-    [AcquaintanceTill] datetime  NULL
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -171,7 +335,8 @@ CREATE TABLE [dbo].[AbstractLabSchedules] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [DateFrom] datetime  NOT NULL,
     [DateTill] datetime  NOT NULL,
-    [Mode] int  NOT NULL
+    [Mode] int  NOT NULL,
+    [LabWork_Id] bigint  NOT NULL
 );
 GO
 
@@ -659,6 +824,21 @@ GO
 CREATE INDEX [IX_FK_StudentIndividualLabSchedule]
 ON [dbo].[AbstractLabSchedules_IndividualLabSchedule]
     ([Student_Id]);
+GO
+
+-- Creating foreign key on [LabWork_Id] in table 'AbstractLabSchedules'
+ALTER TABLE [dbo].[AbstractLabSchedules]
+ADD CONSTRAINT [FK_LabWorkAbstractLabSchedule]
+    FOREIGN KEY ([LabWork_Id])
+    REFERENCES [dbo].[LabWorks]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LabWorkAbstractLabSchedule'
+CREATE INDEX [IX_FK_LabWorkAbstractLabSchedule]
+ON [dbo].[AbstractLabSchedules]
+    ([LabWork_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'

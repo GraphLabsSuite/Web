@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.ServiceModel;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core.OperationContext;
+using GraphLabs.Site.Logic;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Utils;
 
@@ -66,8 +68,17 @@ namespace GraphLabs.WcfServices.DebugTaskUploader
                 var now = DateTime.Now;
                 var lab = operation.DataContext.Factory.Create<LabWork>();
                 lab.Name = $"Отладка модуля \"{task.Name}\"";
-                lab.AcquaintanceFrom = now.Date;
-                lab.AcquaintanceTill = now.Date.AddDays(7);
+
+                // Добавляем в расписание для всех групп
+                foreach (var group in operation.QueryOf<Group>().ToArray())
+                {
+                    var sch = operation.DataContext.Factory.Create<GroupLabSchedule>();
+                    sch.DateFrom = now.Date;
+                    sch.DateTill = now.Date.AddDays(7);
+                    sch.Group = group;
+                    sch.LabWork = lab;
+                    sch.Mode = LabExecutionMode.IntroductoryMode;
+                }
 
                 // Добавляем задание в лабу
                 var labEntry = operation.DataContext.Factory.Create<LabEntry>();

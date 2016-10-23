@@ -24,6 +24,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
                 sch.DateFrom = model.DateFrom;
                 sch.DateTill = model.DateTill;
                 sch.Mode = model.Mode;
+                sch.LabWork = query.Get<LabWork>(model.GetLabWorkId());
 
                 var groupSch = sch as GroupLabSchedule;
                 if (groupSch != null)

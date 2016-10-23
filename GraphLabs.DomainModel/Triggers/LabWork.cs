@@ -11,9 +11,6 @@ namespace GraphLabs.DomainModel
         {
             if (string.IsNullOrWhiteSpace(Name))
                 yield return new EntityValidationError("Name", ValidationErrors.LabWork_OnValidating_Название_лабораторной_работы_не_может_быть_пустым_);
-
-            if (AcquaintanceFrom >= AcquaintanceTill)
-                yield return new EntityValidationError("AcquaintanceTill", ValidationErrors.LabWork_OnValidating_Указан_некорректный_период_ознакомления_);
         }
     }
 }

@@ -11,18 +11,6 @@ namespace GraphLabs.DomainModel.Repositories
     {
         // ReSharper disable ReturnTypeCanBeEnumerable.Global
 
-        #region Получение массивов лабораторных работ
-
-        /// <summary> Получить лабораторные работы </summary>
-        [NotNull]
-        LabWork[] GetLabWorks();
-
-        /// <summary> Получить лабораторные работы, доступные в данный момент в ознакомительном режиме </summary>
-        [NotNull]
-        LabWork[] GetDemoLabs(DateTime currentDate);
-
-        #endregion
-
         #region Получение массива вариантов лабораторной работы
 
         /// <summary> Получить варианты лабораторной работы по id лабораторной работы </summary>

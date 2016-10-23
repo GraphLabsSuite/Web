@@ -20,29 +20,6 @@ namespace GraphLabs.Dal.Ef.Repositories
 			_taskRepository = taskRepository;
         }
 		
-        #region Получение массивов лабораторных работ
-
-        /// <summary> Получить лабораторные работы </summary>
-        public LabWork[] GetLabWorks()
-        {
-            CheckNotDisposed();
-
-            return Context.LabWorks.ToArray();
-        }
-
-        /// <summary> Получить лабораторные работы, доступные в данный момент в ознакомительном режиме </summary>
-        public LabWork[] GetDemoLabs(DateTime currentDate)
-        {
-            CheckNotDisposed();
-
-            return GetLabWorks()
-                .Where(l => l.AcquaintanceFrom.HasValue && l.AcquaintanceTill.HasValue)
-                .Where(l => currentDate.CompareTo(l.AcquaintanceFrom) >= 0 && currentDate.CompareTo(l.AcquaintanceTill) <= 0)
-                .ToArray();
-        }
-
-        #endregion
-
         #region Получение массива вариантов лабораторной работы
 
         /// <summary> Получить варианты лабораторной работы по id лабораторной работы </summary>

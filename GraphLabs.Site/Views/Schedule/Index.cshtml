@@ -29,6 +29,7 @@
 
             columns: grid.Columns(
                 grid.Column(header: "#", format: item => item.Id, columnName: "Id"),
+                grid.Column(header: "Лабораторная работа", format: item => item.LabName, columnName: "LabName"),
                 grid.Column(header: "Выполняет", format: item => item.Doer, columnName: "Doer"),
                 grid.Column(header: "Дата открытия", format: item => item.DateFrom, columnName: "DateFrom"),
                 grid.Column(header: "Дата закрытия", format: item => item.DateTill, columnName: "DateTill"),

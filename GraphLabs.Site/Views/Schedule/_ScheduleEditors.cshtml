@@ -9,6 +9,32 @@
 
     <fieldset>
         @Html.Hidden(SmartModelBinder.ModelTypeField, Model.GetType().FullName)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SelectedLabWorkId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedLabWorkId, Model.LabWorks.Select(g => new SelectListItem
+                                                                                               {
+                                                                                                   Text = g.Value,
+                                                                                                   Value = g.Key.ToString(CultureInfo.InvariantCulture)
+                                                                                               }).OrderBy(i => i.Text))
+            @Html.ValidationMessageFor(model => model.SelectedDoerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SelectedDoerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedDoerId, Model.Doers.Select(g => new SelectListItem
+                                                                                         {
+                                                                                             Text = g.Value,
+                                                                                             Value = g.Key.ToString(CultureInfo.InvariantCulture)
+                                                                                         }).OrderBy(i => i.Text))
+            @Html.ValidationMessageFor(model => model.SelectedDoerId)
+        </div>
+
+
         <div class="editor-label">
             @Html.LabelFor(model => model.DateFrom)
         </div>
@@ -29,18 +55,6 @@
                 <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
             @Html.ValidationMessageFor(model => model.DateTill)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SelectedDoerId)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.SelectedDoerId, Model.Doers.Select(g => new SelectListItem
-            {
-                Text = g.Value,
-                Value = g.Key.ToString(CultureInfo.InvariantCulture)
-            }).OrderBy(i => i.Text))
-            @Html.ValidationMessageFor(model => model.SelectedDoerId)
         </div>
 
         <p>

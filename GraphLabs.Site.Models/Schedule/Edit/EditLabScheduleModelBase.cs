@@ -37,11 +37,20 @@ namespace GraphLabs.Site.Models.Schedule.Edit
         [Display(Name = "Выполняет")]
         public virtual string SelectedDoerId { get; set; }
 
+        public IDictionary<long, string> LabWorks { get; set; }
+        [Display(Name = "Лабораторная работа")]
+        public string SelectedLabWorkId { get; set; }
+
         public abstract Kind ScheduleKind { get; }
 
         public long GetDoerId()
         {
             return long.Parse(SelectedDoerId);
+        }
+
+        public long GetLabWorkId()
+        {
+            return long.Parse(SelectedLabWorkId);
         }
     }
 }

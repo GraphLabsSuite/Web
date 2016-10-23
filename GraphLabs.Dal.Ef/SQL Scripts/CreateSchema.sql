@@ -73,9 +73,7 @@ GO
 -- Creating table 'LabWorks'
 CREATE TABLE [dbo].[LabWorks] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
-    [AcquaintanceFrom] datetime  NULL,
-    [AcquaintanceTill] datetime  NULL
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -185,7 +183,8 @@ CREATE TABLE [dbo].[AbstractLabSchedules] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [DateFrom] datetime  NOT NULL,
     [DateTill] datetime  NOT NULL,
-    [Mode] int  NOT NULL
+    [Mode] int  NOT NULL,
+    [LabWork_Id] bigint  NOT NULL
 );
 GO
 
@@ -673,6 +672,21 @@ GO
 CREATE INDEX [IX_FK_StudentIndividualLabSchedule]
 ON [dbo].[AbstractLabSchedules_IndividualLabSchedule]
     ([Student_Id]);
+GO
+
+-- Creating foreign key on [LabWork_Id] in table 'AbstractLabSchedules'
+ALTER TABLE [dbo].[AbstractLabSchedules]
+ADD CONSTRAINT [FK_LabWorkAbstractLabSchedule]
+    FOREIGN KEY ([LabWork_Id])
+    REFERENCES [dbo].[LabWorks]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LabWorkAbstractLabSchedule'
+CREATE INDEX [IX_FK_LabWorkAbstractLabSchedule]
+ON [dbo].[AbstractLabSchedules]
+    ([LabWork_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'

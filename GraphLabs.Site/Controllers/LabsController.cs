@@ -5,16 +5,13 @@ using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models.CreateLab;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
-using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -66,20 +63,15 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public JsonResult LabWorkCreate(string Name, string DateFrom, string DateTill, string JsonArr)
+        public JsonResult LabWorkCreate(string Name, string JsonArr)
         {
             if (_labRepository.CheckLabWorkExist(Name))
             {
                 return Json(new JSONResultCreateLab( ResponseConstants.LabWorkExistErrorSystemName, Name ));
 			};
 
-            if (!ParseDate.TryParse(DateFrom) || !ParseDate.TryParse(DateTill)) return Json(new JSONResultCreateLab( ResponseConstants.LabWorkDateCouldNotBeParsed, Name));
             LabWork lab = _labWorksContext.LabWorks.CreateNew();
-            var message = "";
             lab.Name = Name;
-            lab.AcquaintanceFrom = ParseDate.Parse(DateFrom, out message); 
-			lab.AcquaintanceTill = ParseDate.Parse(DateTill, out message);
-            //_changesTracker.SaveChanges();
             _labRepository.SaveLabWork(lab);
 			_labRepository.SaveLabEntries(lab.Id, JsonConvert.DeserializeObject<long[]>(JsonArr));
 			_labRepository.DeleteExcessTaskVariantsFromLabVariants(lab.Id);
@@ -88,18 +80,15 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public JsonResult LabWorkEdit(string Name, string DateFrom, string DateTill, string JsonArr, long id)
+        public JsonResult LabWorkEdit(string Name, string JsonArr, long id)
         {
 			if (_labRepository.CheckLabWorkExist(Name) && (_labRepository.GetLabWorkIdByName(Name) != id))
 			{
 				return Json(new JSONResultCreateLab(ResponseConstants.LabWorkExistErrorSystemName, Name));
 			};
-            if (!ParseDate.TryParse(DateFrom) || !ParseDate.TryParse(DateTill)) return Json(new JSONResultCreateLab(ResponseConstants.LabWorkDateCouldNotBeParsed, Name));
             LabWork lab = _labRepository.GetLabWorkById(id);
             var message = "";
 			lab.Name = Name;
-			lab.AcquaintanceFrom = ParseDate.Parse(DateFrom, out message);
-			lab.AcquaintanceTill = ParseDate.Parse(DateTill, out message);
 
 			_labRepository.DeleteEntries(id);
 			lab.LabEntries.Clear();
@@ -147,15 +136,6 @@ namespace GraphLabs.Site.Controllers
 			labVar.IntroducingVariant = IntrVar;
 			labVar.Version = 1;
 			labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
-
-			try
-			{
-				// тут было сохранение, которое теперь автоматическое...
-			}
-			catch (Exception)
-			{
-				return Json(ResponseConstants.LabVariantSaveErrorSystemName);
-			}
 
 			return Json(ResponseConstants.LabVariantSaveSuccessSystemName);
 		}
