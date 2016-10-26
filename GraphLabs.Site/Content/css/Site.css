@@ -78,14 +78,12 @@ hgroup, section {
     .main-content-with-menu {
         padding-top: 10px;
         width: auto;
-        /*height: 100%;*/
-        margin-left: 160px; /* совпадает с шириной меню + 10*/
+        margin-left: 160px; /* совпадает с шириной меню + 20*/
     }
 
     .main-content-without-menu {
         padding-top: 10px;
         width: auto;
-        /*height: 100%;*/
     }
 
 #header .content-wrapper {
