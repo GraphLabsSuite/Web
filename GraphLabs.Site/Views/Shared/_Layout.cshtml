@@ -1,6 +1,13 @@
 ﻿@using GraphLabs.DomainModel
 @using GraphLabs.Site.Logic.Security
 
+@{
+    if (!User.Identity.IsAuthenticated)
+    {
+        ViewBag.HideNavigationMenu = true;
+    }
+}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -24,42 +31,56 @@
         </section>
     </div>
 </div>
+
+@functions
+{
+    // говорят так нехорошо но пока оставлю это здесь
+    private bool MenuIsVisible()
+    {
+        return ViewBag.HideNavigationMenu == null || !ViewBag.HideNavigationMenu;
+    }
+}
+
+
 <div id="body">
     <div id="main">
         <div class="content-wrapper">
-            <nav id="menu">
-                <ul>
-                    @if (User.IsInAnyRole(UserRole.Teacher))
+            @if (MenuIsVisible())
+            {
+                <nav id="menu">
+                    <ul>
+                        @if (User.IsInAnyRole(UserRole.Teacher))
+                        {
+                            <li>@Html.ActionLink("Новости", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Группы", "Index", "Group")</li>
+                            <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
+                            <li>@Html.ActionLink("Категории", "Index", "Category")</li>
+                            <li>@Html.ActionLink("Задания", "Index", "Task")</li>
+                            <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
+                            <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
+                            <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
+                            <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
+                            <li>@Html.ActionLink("Система", "Index", "Settings")</li>
+                        }
+                        <!-- Админу кнопки студента не показываем -->
+                        @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
+                        {
+                            <li>@Html.ActionLink("Новости", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
+                            <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
+                        }
+                    </ul>
+                </nav>
+            }
+                <section class="@(MenuIsVisible() ? "main-content-with-menu" : "main-content-without-menu")">
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
                     {
-                        <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Группы", "Index", "Group")</li>
-                        <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
-                        <li>@Html.ActionLink("Категории", "Index", "Category")</li>
-                        <li>@Html.ActionLink("Задания", "Index", "Task")</li>
-                        <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
-                        <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
-                        <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
-                        <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
-                        <li>@Html.ActionLink("Система", "Index", "Settings")</li>
+                        <div class="error">
+                            <p>@ViewBag.Message</p>
+                        </div>
                     }
-                    <!-- Админу кнопки студента не показываем -->
-                    @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
-                    {
-                        <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
-                        <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
-                    }
-                </ul>
-            </nav>
-            <section class="main-content">
-                @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
-                {
-                    <div class="error">
-                        <p>@ViewBag.Message</p>
-                    </div>
-                }
-                @RenderBody()
-            </section>
+                    @RenderBody()
+                </section>
         </div>
     </div>
 </div>

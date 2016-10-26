@@ -8,8 +8,7 @@
 body {
     background-color: #fff;
     color: #333;
-    font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-family: Segoe UI, Verdana, Helvetica, Sans-Serif;
     margin: 0 auto;
     padding: 0;
     min-height: 100%;
@@ -19,6 +18,7 @@ body {
     -o-min-width: 800px;
     -webkit-min-width: 800px;
     min-width: 800px;
+    overflow-y: hidden;
 }
 
 hgroup, section {
@@ -32,12 +32,12 @@ hgroup, section {
     max-width: 1600px;
     clear: both;
     padding: 0 50px;
+    height: 100%;
 }
 
 #header {
     clear: both;
     background-color: #e8edef;
-    font-size: .8em;
     height: auto;
     top: 0;
     left:0;
@@ -46,7 +46,6 @@ hgroup, section {
 }
 
 #logo {
-    font-size: 2.6em;
     font-weight: 500;
 }
 
@@ -76,21 +75,30 @@ hgroup, section {
     overflow-y: auto;
 }
 
-    .main-content {
+    .main-content-with-menu {
         padding-top: 10px;
-        float: right;
-        width: 80%;
+        width: auto;
+        /*height: 100%;*/
+        margin-left: 160px; /* совпадает с шириной меню + 10*/
+    }
+
+    .main-content-without-menu {
+        padding-top: 10px;
+        width: auto;
+        /*height: 100%;*/
     }
 
 #header .content-wrapper {
-    padding-top: 5px; 
+    padding-top: 5px;
 }
 
 #footer {
     display: block;
     clear: both;
     background-color: #e8edef;
-    font-size: .8em;
+    font-family: Segoe UI, Verdana, Helvetica, Sans-Serif;
+    font-size: 0.7em;
+    color: #4F6B7C;
     height: 40px;
     left:0;
     bottom: 0;
@@ -321,14 +329,14 @@ textarea {
 .message-error {
     clear: both;
     color: #e80c4d;
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
 
 .message-success {
     color: #7ac0da;
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
