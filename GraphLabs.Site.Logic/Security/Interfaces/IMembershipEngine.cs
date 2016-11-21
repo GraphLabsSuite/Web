@@ -9,7 +9,10 @@ namespace GraphLabs.Site.Logic.Security
     public interface IMembershipEngine
     {
         /// <summary> Выполняет вход </summary>
-        bool TryLogin(string email, string password, string clientIp, out Guid sessionGuid);
+        LoginResult TryLogin(string email, string password, string clientIp, out Guid sessionGuid);
+
+        /// <summary> Выполняет вход, убивая все сессии на других браузерах/компьютерах </summary>
+        LoginResult TryForceLogin(string email, string password, string clientIp, out Guid sessionGuid);
 
         /// <summary> Выход </summary>
         void Logout(string email, Guid sessionGuid, string clientIp);
@@ -30,14 +33,25 @@ namespace GraphLabs.Site.Logic.Security
     internal abstract class MembershipEngineContracts : IMembershipEngine
     {
         /// <summary> Выполняет вход </summary>
-        public bool TryLogin(string email, string password, string clientIp, out Guid sessionId)
+        public LoginResult TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
             Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
             Contract.Ensures(
-                !Contract.Result<bool>() & Contract.ValueAtReturn(out sessionId) == Guid.Empty ||
-                Contract.Result<bool>() & Contract.ValueAtReturn(out sessionId) != Guid.Empty);
+                Contract.Result<LoginResult>() != LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) == Guid.Empty ||
+                Contract.Result<LoginResult>() == LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) != Guid.Empty);
 
-            return default(bool);
+            return default(LoginResult);
+        }
+
+        /// <summary> Выполняет вход </summary>
+        public LoginResult TryForceLogin(string email, string password, string clientIp, out Guid sessionGuid)
+        {
+            Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
+            Contract.Ensures(
+                Contract.Result<LoginResult>() != LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) == Guid.Empty ||
+                Contract.Result<LoginResult>() == LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) != Guid.Empty);
+
+            return default(LoginResult);
         }
 
         /// <summary> Выход </summary>

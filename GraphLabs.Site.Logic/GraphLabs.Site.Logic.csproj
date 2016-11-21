@@ -193,6 +193,7 @@
     <Compile Include="Security\Interfaces\IAuthenticationSavingService.cs" />
     <Compile Include="Security\Interfaces\IGraphLabsIdentity.cs" />
     <Compile Include="Security\Interfaces\IGraphLabsPrincipal.cs" />
+    <Compile Include="Security\LoginResult.cs" />
     <Compile Include="Security\MembershipEngine.cs" />
     <Compile Include="Security\BCryptCalculator.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />

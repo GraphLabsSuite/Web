@@ -79,11 +79,25 @@ namespace GraphLabs.Site.Controllers
             if (ModelState.IsValid)
             {
                 Guid session;
-                var success = _membershipEngine.TryLogin(model.Email, model.Password, Request.GetClientIP(), out session);
-                if (success)
+                var success = model.ForceMode
+                    ? _membershipEngine.TryForceLogin(model.Email, model.Password, Request.GetClientIP(), out session)
+                    : _membershipEngine.TryLogin(model.Email, model.Password, Request.GetClientIP(), out session);
+
+                if (success == LoginResult.Success)
                 {
                     _authSavingService.SignIn(model.Email, session);
                     return RedirectToLocal(returnUrl);
+                }
+
+                if (success == LoginResult.LoggedInWithAnotherSessionId)
+                {
+                    model.ForceMode = true;
+                    return View(model);
+                }
+
+                if (success == LoginResult.InvalidLoginPassword)
+                {
+                    model.ForceMode = false;
                 }
             }
 

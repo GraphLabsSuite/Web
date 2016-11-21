@@ -15,6 +15,18 @@
 
     <fieldset>
         <legend>Данные для входа</legend>
+        @if (Model != null && Model.ForceMode)
+        {
+            <p class="error">
+                ВНИМАНИЕ! От имени вашего пользователя открыта сессия с другого компьютера или браузера.<br/>
+                При нажатии кнопки продолжить, данная сессия будет ПРЕРВАНА.<br/>
+                Для студентов это означает НЕЗАЧЕТ автоматом по выполняемым в той сессии лабораторным работам!
+            </p>
+            {
+                Model.ForceMode = true;
+            }
+            @Html.HiddenFor(m => m.ForceMode)
+        }
         <p>
             @Html.ValidationMessage(GraphLabsController.STD_VALIDATION_MSG_KEY)
         </p>
@@ -30,7 +42,14 @@
                 @Html.ValidationMessageFor(m => m.Password)
             </li>
         </ol>
-        <input type="submit" value="Вход" />
+        @if (Model != null && Model.ForceMode)
+        {
+            <input type="submit" value="Вход с закрытием других сессий" style="background: lightcoral" />
+        }
+        else
+        {
+            <input type="submit" value="Вход"/>
+        }
     </fieldset>
     <p>
         @Html.ActionLink("Зарегистрироваться", "Register"), если у вас всё ещё нет учётной записи.

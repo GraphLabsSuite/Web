@@ -40,7 +40,18 @@ namespace GraphLabs.Site.Logic.Security
         }
 
         /// <summary> Выполняет вход </summary>
-        public bool TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
+        public LoginResult TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
+        {
+            return TryLoginImpl(email, password, clientIp, out sessionGuid, force: false);
+        }
+
+        /// <summary> Выполняет вход, убивая все сессии на других браузерах/компьютерах </summary>
+        public LoginResult TryForceLogin(string email, string password, string clientIp, out Guid sessionGuid)
+        {
+            return TryLoginImpl(email, password, clientIp, out sessionGuid, force: true);
+        }
+
+        private LoginResult TryLoginImpl(string email, string password, string clientIp, out Guid sessionGuid, bool force)
         {
             using (var operation = _operationFactory.Create())
             {
@@ -51,23 +62,27 @@ namespace GraphLabs.Site.Logic.Security
                 if (user == null || !UserIsValid(user, password))
                 {
                     _log.InfoFormat("Неудачный вход, e-mail: {0}, ip: {1}", email, clientIp);
+
                     sessionGuid = Guid.Empty;
-                    return false;
+                    return LoginResult.InvalidLoginPassword;
                 }
 
-                var lastSession = RemoveOldSessionsExceptLast(operation.DataContext, user);
-                Session session;
-                if (lastSession == null || !SessionIsValid(lastSession, email, clientIp))
+                var lastSessions = GetSessionsOrderedByCreationTime(operation.DataContext, user);
+                if (lastSessions.Any())
                 {
-                    if (lastSession != null)
-                        operation.DataContext.Factory.Delete(lastSession);
+                    if (!force)
+                    {
+                        sessionGuid = Guid.Empty;
+                        return LoginResult.LoggedInWithAnotherSessionId;
+                    }
 
-                    session = CreateSession(operation.DataContext.Factory, user, clientIp);
+                    foreach (var s in lastSessions)
+                    {
+                        operation.DataContext.Factory.Delete(s);
+                    }
                 }
-                else
-                {
-                    session = lastSession;
-                }
+
+                var session = CreateSession(operation.DataContext.Factory, user, clientIp);
                 SetLastAction(session);
 
                 _log.InfoFormat("Удачный вход, e-mail: {0}, ip: {1}", email, clientIp);
@@ -78,7 +93,7 @@ namespace GraphLabs.Site.Logic.Security
                 operation.Complete();
             }
 
-            return true;
+            return LoginResult.Success;
         }
 
         private Session CreateSession(IEntityFactory factory, User user, string ip)
@@ -272,20 +287,13 @@ namespace GraphLabs.Site.Logic.Security
 
         /// <summary> Удаляет все старые сессии, кроме последней</summary>
         /// <returns> Возвращает последнюю по времени сессию, если таковая вообще есть </returns>
-        private Session RemoveOldSessionsExceptLast(IGraphLabsContext ctx, User user)
+        private Session[] GetSessionsOrderedByCreationTime(IGraphLabsContext ctx, User user)
         {
-            var oldSessions = ctx.Query
+            return ctx.Query
                 .OfEntities<Session>()
                 .Where(s => s.User.Id == user.Id)
                 .OrderByDescending(s => s.CreationTime)
                 .ToArray();
-
-            foreach (var session in oldSessions.Skip(1))
-            {
-                ctx.Factory.Delete(session);
-            }
-
-            return oldSessions.FirstOrDefault();
         }
 
         #endregion

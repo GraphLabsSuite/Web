@@ -15,5 +15,8 @@ namespace GraphLabs.Site.Models.Account
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
+        /// <summary> Форсированный вход? </summary>
+        public bool ForceMode { get; set; }
     }
 }
