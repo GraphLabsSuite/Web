@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphLabs.DomainModel;
-using GraphLabs.Site.Models.Infrastructure;
-using GraphLabs.Site.Models.Lab;
 
 namespace GraphLabs.Site.Models.DemoLab
 {
-    public class DemoLabModel : LabModel, IEntityBasedModel<AbstractLabSchedule>
+    /// <summary> Модель ЛР, доступной к ознакомительному выполнению </summary>
+    public class DemoLabModel : AvailableLabModel
     {
         public ICollection<KeyValuePair<long, string>> Variants { get; set; }
 
