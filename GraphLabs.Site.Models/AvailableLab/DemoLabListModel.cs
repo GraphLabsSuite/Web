@@ -5,7 +5,7 @@ using GraphLabs.Site.Core;
 using GraphLabs.Site.Logic.Security;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.AvailableLab
 {
     /// <summary> Модель списка демонстрационных лабораторных работ </summary>
     public class DemoLabListModel : ListModelBase<DemoLabModel>

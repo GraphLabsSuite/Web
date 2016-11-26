@@ -1,7 +1,7 @@
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.AvailableLab
 {
     /// <summary> Абстрактная модель ЛР, доступной к выполнению студентом </summary>
     public abstract class AvailableLabModel : IEntityBasedModel<AbstractLabSchedule>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.AvailableLab
 {
     /// <summary> Модель ЛР, доступной к ознакомительному выполнению </summary>
     public class DemoLabModel : AvailableLabModel

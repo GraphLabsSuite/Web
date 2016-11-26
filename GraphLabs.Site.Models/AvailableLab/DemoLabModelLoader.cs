@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Utils;
 
-namespace GraphLabs.Site.Models.DemoLab
+namespace GraphLabs.Site.Models.AvailableLab
 {
     /// <summary> Загрузчик моделей демонстрационных лабораторных работ </summary>
     sealed class DemoLabModelLoader : AbstractModelLoader<DemoLabModel, AbstractLabSchedule>

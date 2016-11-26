@@ -1,6 +1,6 @@
 ﻿using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.AvailableLab;
 using GraphLabs.Site.Models.CreateLab;
-using GraphLabs.Site.Models.DemoLab;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
