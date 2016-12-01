@@ -47,7 +47,7 @@ namespace GraphLabs.Site.Models.AvailableLab
                 .Union(_query.OfEntities<GroupLabSchedule>().Where(g => g.Group.Id == currentStudent.Group.Id))
                 .Where(sch => sch.Mode == ExecutionMode 
                               && sch.DateFrom <= currentTime && sch.DateTill >= currentTime)
-                .Where(GetAdditionalScheduleFilter(_query))
+                .Where(GetAdditionalScheduleFilter(_query, currentStudent))
                 .ToArray()
                 .Select(l => _modelLoader.Load(l))
                 .ToArray();
@@ -56,7 +56,7 @@ namespace GraphLabs.Site.Models.AvailableLab
         }
 
         /// <summary> Дополнительное условие фильтрации </summary>
-        protected virtual Expression<Func<AbstractLabSchedule, bool>> GetAdditionalScheduleFilter(IEntityQuery query)
+        protected virtual Expression<Func<AbstractLabSchedule, bool>> GetAdditionalScheduleFilter(IEntityQuery query, Student student)
         {
             return s => true;
         }
