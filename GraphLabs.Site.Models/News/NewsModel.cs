@@ -24,7 +24,6 @@ namespace GraphLabs.Site.Models.News
         /// <summary> Содержание </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Необходимо указать содержание новости")]
         [MinLength(3, ErrorMessage = "Cодержание слишком короткое!")]
-        [MaxLength(500, ErrorMessage = "Содержание слишком длинное!")]
         [Display(Name = "Содержание")]
         public string Text { get; set; }
 
