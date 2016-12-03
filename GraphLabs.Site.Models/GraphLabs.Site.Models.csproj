@@ -168,8 +168,11 @@
     <Compile Include="Infrastructure\IModelFactory.cs" />
     <Compile Include="Infrastructure\ListModelFactory.cs" />
     <Compile Include="IoC\ModelsConfiguration.cs" />
+    <Compile Include="Infrastructure\AbstractOperation.cs" />
     <Compile Include="LabExecution\DemoVariantModelLoader.cs" />
     <Compile Include="LabExecution\IDemoVariantModelLoader.cs" />
+    <Compile Include="LabExecution\Operations\LoadDemoVariantForExecution.cs" />
+    <Compile Include="LabExecution\Operations\LoadVariantForExecutionBase.cs" />
     <Compile Include="LabExecution\VariantExecutionModelBase.cs" />
     <Compile Include="Lab\LabListModel.cs" />
     <Compile Include="Lab\LabModel.cs" />
