@@ -24,15 +24,18 @@ namespace GraphLabs.Site.Models.AvailableLab
 
         protected override Expression<Func<AbstractLabSchedule, bool>> GetAdditionalScheduleFilter(IEntityQuery query, Student currentStudent)
         {
+            var allSchedules = query.OfEntities<AbstractLabSchedule>();
+            var allResults = query.OfEntities<Result>();
+
             return currentSchedule =>
-                query.OfEntities<AbstractLabSchedule>()
+                 allSchedules
                      .Count(sch => sch.LabWork == currentSchedule.LabWork 
                                 && sch.Mode == LabExecutionMode.TestMode
-                                && ((sch as IndividualLabSchedule).Student == currentStudent || (sch as GroupLabSchedule).Group == currentStudent.Group))
+                                && ((sch as IndividualLabSchedule).Student.Id == currentStudent.Id || (sch as GroupLabSchedule).Group.Id == currentStudent.Group.Id))
                      >
-                query.OfEntities<Result>()
+                allResults
                      .Count(res => res.LabVariant.LabWork == currentSchedule.LabWork 
-                                && res.Student == currentStudent
+                                && res.Student.Id == currentStudent.Id
                                 && res.Status != ExecutionStatus.Complete);
         }
     }

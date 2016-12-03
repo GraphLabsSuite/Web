@@ -66,8 +66,9 @@
                         @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
                         {
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Ознакомительные лабораторные", "Index", "DemoLab")</li>
-                            <li>@Html.ActionLink("Мои результаты", "Index", "StudentsResult")</li>
+                            <li>@Html.ActionLink("Подготовка", "Index", "DemoLab")</li>
+                            <li>@Html.ActionLink("Контрольные", "Index", "TestingLab")</li>
+                            <li>@Html.ActionLink("Результаты", "Index", "StudentsResult")</li>
                         }
                     </ul>
                 </nav>
