@@ -19,7 +19,7 @@ GO
 -- Creating table 'News'
 CREATE TABLE [dbo].[News] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Text] nvarchar(1000)  NOT NULL,
+    [Text] nvarchar(max)  NOT NULL,
     [PublicationTime] datetime  NOT NULL,
     [Title] nvarchar(100)  NOT NULL,
     [LastModificationTime] datetime  NULL,

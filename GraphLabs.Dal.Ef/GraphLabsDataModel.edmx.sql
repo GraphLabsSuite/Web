@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/03/2016 11:17:39
+-- Date Created: 12/03/2016 12:46:41
 -- Generated from EDMX file: E:\Рабочий стол\graphlabs\graphlabs.site\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -174,7 +174,7 @@ GO
 -- Creating table 'News'
 CREATE TABLE [dbo].[News] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Text] nvarchar(1000)  NOT NULL,
+    [Text] nvarchar(max)  NOT NULL,
     [PublicationTime] datetime  NOT NULL,
     [Title] nvarchar(100)  NOT NULL,
     [LastModificationTime] datetime  NULL,
