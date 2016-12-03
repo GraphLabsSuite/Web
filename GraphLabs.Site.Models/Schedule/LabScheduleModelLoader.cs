@@ -1,5 +1,4 @@
 using System;
-using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
@@ -10,11 +9,8 @@ namespace GraphLabs.Site.Models.Schedule
     /// <summary> Загрузчик модели <see cref="LabScheduleModel"/> </summary>
     class LabScheduleModelLoader : AbstractModelLoader<LabScheduleModel, AbstractLabSchedule>
     {
-        private readonly ISystemDateService _systemDate;
-
-        public LabScheduleModelLoader(IEntityQuery query, ISystemDateService systemDate) : base(query)
+        public LabScheduleModelLoader(IEntityQuery query) : base(query)
         {
-            _systemDate = systemDate;
         }
 
         public override LabScheduleModel Load(AbstractLabSchedule entity)
@@ -38,7 +34,7 @@ namespace GraphLabs.Site.Models.Schedule
             var groupSchedule = entity as GroupLabSchedule;
             if (groupSchedule != null)
             {
-                model.Doer = groupSchedule.Group.GetName(_systemDate);
+                model.Doer = groupSchedule.Group.Name;
                 return model;
             }
 

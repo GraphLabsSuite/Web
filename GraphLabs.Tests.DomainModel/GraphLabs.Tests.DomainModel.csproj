@@ -112,7 +112,6 @@
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
     <Compile Include="DataModelTests.cs" />
-    <Compile Include="GroupExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemDateTests.cs" />
     <Compile Include="GraphLabsTestBase.cs" />

@@ -22,14 +22,6 @@ namespace GraphLabs.DomainModel.Repositories
         /// <summary> Получить группу по id </summary>
         [NotNull]
         Group GetGroupById(long id);
-
-        /// <summary> Попробовать сохранить новую группу </summary>
-        [NotNull]
-        bool TrySaveGroup(Group group);
-
-        /// <summary> Попробовать обновить группу </summary>
-        [NotNull]
-        bool TryModifyGroup(long id, int number, int year, bool isOpen);
     }
 
     /// <summary> Репозиторий с группами </summary>
@@ -66,24 +58,6 @@ namespace GraphLabs.DomainModel.Repositories
             Contract.Ensures(Contract.Result<Group>() != null);
 
             return default(Group);
-        }
-
-        /// <summary> Репозиторий с группами </summary>
-        public bool TrySaveGroup(Group group)
-        {
-            Contract.Requires(group != null);
-
-            return false;
-        }
-
-        /// <summary> Попробовать обновить группу </summary>
-        public bool TryModifyGroup(long id, int number, int year, bool isOpen)
-        {
-            Contract.Requires(id > 0);
-            Contract.Requires(number > 0);
-            Contract.Requires(year > 0);
-
-            return false;
         }
     }
 }

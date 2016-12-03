@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/23/2016 22:57:58
+-- Date Created: 12/03/2016 11:17:39
 -- Generated from EDMX file: E:\Рабочий стол\graphlabs\graphlabs.site\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -79,6 +79,9 @@ IF OBJECT_ID(N'[dbo].[FK_GroupGroupLabSchedule]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_StudentIndividualLabSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule] DROP CONSTRAINT [FK_StudentIndividualLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LabWorkAbstractLabSchedule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractLabSchedules] DROP CONSTRAINT [FK_LabWorkAbstractLabSchedule];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
@@ -194,9 +197,9 @@ GO
 -- Creating table 'Groups'
 CREATE TABLE [dbo].[Groups] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Number] int  NOT NULL,
     [IsOpen] bit  NOT NULL,
-    [FirstYear] int  NOT NULL
+    [FirstYear] int  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 

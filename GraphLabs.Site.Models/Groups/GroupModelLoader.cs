@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.Contracts;
-using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
@@ -29,8 +28,7 @@ namespace GraphLabs.Site.Models.Groups
                 IsOpen = group.IsOpen,
                 Students = group.Students,
                 FirstYear = group.FirstYear,
-                Number = group.Number,
-                Name = group.GetName(_dateService)
+                Name = group.Name
             };
 
             return model;

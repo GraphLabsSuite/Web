@@ -107,11 +107,11 @@ namespace GraphLabs.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Номер группы должен быть больше 0..
+        ///   Looks up a localized string similar to Необходимо указать непустое название группы..
         /// </summary>
-        internal static string Group_OnValidating_Номер_группы_должен_быть_больше_0_ {
+        internal static string Group_OnEntityValidating_Необходимо_указать_непустое_название_группы {
             get {
-                return ResourceManager.GetString("Group_OnValidating_Номер_группы_должен_быть_больше_0_", resourceCulture);
+                return ResourceManager.GetString("Group_OnEntityValidating_Необходимо_указать_непустое_название_группы", resourceCulture);
             }
         }
         

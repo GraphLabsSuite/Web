@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
@@ -60,7 +59,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
                         Doers = _query.OfEntities<Student>()
                             .Where(s => !s.IsDismissed && s.IsVerified)
                             .ToArray()
-                            .ToDictionary(s => s.Id, s => $"[{s.Group.GetName(_systemDate)}] {s.GetShortName()}")
+                            .ToDictionary(s => s.Id, s => $"[{s.Group.Name}] {s.GetShortName()}")
                     };
                     break;
                 case EditLabScheduleModelBase.Kind.Group:
@@ -68,7 +67,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
                     {
                         Doers = _query.OfEntities<Group>()
                             .ToArray()
-                            .ToDictionary(g => g.Id, g => g.GetName(_systemDate))
+                            .ToDictionary(g => g.Id, g => g.Name)
                     };
                     break;
                 default:

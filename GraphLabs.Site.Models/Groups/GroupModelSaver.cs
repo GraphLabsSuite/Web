@@ -20,7 +20,7 @@ namespace GraphLabs.Site.Models.Groups
             return g =>
             {
                 g.FirstYear = model.FirstYear;
-                g.Number = model.Number;
+                g.Name = model.Name;
                 g.IsOpen = model.IsOpen;
             };
         }

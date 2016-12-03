@@ -1,5 +1,4 @@
-﻿using GraphLabs.Dal.Ef.Extensions;
-using GraphLabs.DomainModel;
+﻿using GraphLabs.DomainModel;
 using GraphLabs.Dal.Ef;
 using GraphLabs.Dal.Ef.Services;
 
@@ -34,7 +33,7 @@ namespace GraphLabs.Site.Models
         }
 
         /// <summary> Конструктор для простого создания из модели </summary>
-        public UserModel(User model, ISystemDateService dateService)
+        public UserModel(User model)
         {
             Id = model.Id;
             Name = string.Format("{0} {1} {2}", model.Surname, model.Name, model.FatherName);
@@ -42,7 +41,7 @@ namespace GraphLabs.Site.Models
 
             var student = model as Student;
             IsStudent = student != null;
-            Group = student != null ? student.Group.GetName(dateService) : null;
+            Group = student != null ? student.Group.Name : null;
             IsVerified = student != null ? student.IsVerified : (bool?)null;
             IsDismissed = student != null ? student.IsDismissed : (bool?)null;
         }

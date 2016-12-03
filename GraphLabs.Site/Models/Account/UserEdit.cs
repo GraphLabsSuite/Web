@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.DomainModel;
-using GraphLabs.Dal.Ef;
-using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models.Account
@@ -36,10 +33,10 @@ namespace GraphLabs.Site.Models.Account
         public long? GroupID { get; set; }
 
 		public List<SelectListItem> GroupList { get; private set; }
-		public void FillGroupList(Group[] groups, ISystemDateService systemDateService)
+		public void FillGroupList(Group[] groups)
 		{
 			GroupList = groups
-				.Select(t => new SelectListItem { Text = t.GetName(systemDateService), Value = t.Id.ToString() })
+				.Select(t => new SelectListItem { Text = t.Name, Value = t.Id.ToString() })
 				.ToList();
 		}
 

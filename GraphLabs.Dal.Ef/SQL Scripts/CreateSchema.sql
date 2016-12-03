@@ -42,9 +42,9 @@ GO
 -- Creating table 'Groups'
 CREATE TABLE [dbo].[Groups] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Number] int  NOT NULL,
     [IsOpen] bit  NOT NULL,
-    [FirstYear] int  NOT NULL
+    [FirstYear] int  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 

@@ -38,42 +38,5 @@ namespace GraphLabs.Dal.Ef.Repositories
 
             return Context.Groups.Where(g => g.Id == id).Single();
         }
-
-        /// <summary> Попробовать сохранить новую группу </summary>
-        public bool TrySaveGroup(Group group)
-        {
-            CheckNotDisposed();
-
-            try
-            {
-                Context.Groups.Add(group);
-                Context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary> Попробовать обновить группу </summary>
-        public bool TryModifyGroup(long id, int number, int year, bool isOpen)
-        {
-            Group group = GetGroupById(id);
-            group.Number = number;
-            group.FirstYear = year;
-            group.IsOpen = isOpen;
-            try
-            {
-                Context.Entry(group).State = EntityState.Modified;
-                Context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
     }
 }

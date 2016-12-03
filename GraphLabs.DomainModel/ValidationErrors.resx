@@ -131,9 +131,6 @@
   <data name="News_OnValidating_Текст_новости_не_может_быть_пустым_" xml:space="preserve">
     <value>Текст новости не может быть пустым.</value>
   </data>
-  <data name="Group_OnValidating_Номер_группы_должен_быть_больше_0_" xml:space="preserve">
-    <value>Номер группы должен быть больше 0.</value>
-  </data>
   <data name="Settings_OnValidating_Новое_значение_системного_времени_не_может_быть_меньше_старого_" xml:space="preserve">
     <value>Новое значение системного времени не может быть меньше старого.</value>
   </data>
@@ -184,5 +181,8 @@
   </data>
   <data name="AbstractLabSchedule_OnEntityValidating_Дата_с_должна_быть_больше_даты_по" xml:space="preserve">
     <value>Дата "с" должна быть больше даты "по".</value>
+  </data>
+  <data name="Group_OnEntityValidating_Необходимо_указать_непустое_название_группы" xml:space="preserve">
+    <value>Необходимо указать непустое название группы.</value>
   </data>
 </root>

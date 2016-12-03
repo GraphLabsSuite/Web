@@ -18,7 +18,6 @@ namespace GraphLabs.Site.Controllers
     {
         #region Зависимости
 
-        private readonly ISystemDateService _dateService;
         private readonly IUserRepository _userRepository;
         private readonly IGroupRepository _groupRepository;
         private readonly IHashCalculator _hashCalculator;
@@ -27,13 +26,11 @@ namespace GraphLabs.Site.Controllers
         #endregion
 
         public UserController(
-            ISystemDateService dateService, 
             IUserRepository userRepository, 
             IGroupRepository groupRepository, 
             IHashCalculator hashCalculator,
             IUsersContext usersContext)
         {
-            _dateService = dateService;
             _userRepository = userRepository;
             _groupRepository = groupRepository;
             _hashCalculator = hashCalculator;
@@ -70,7 +67,7 @@ namespace GraphLabs.Site.Controllers
 							.Concat(verStudents)
 							.Concat(unverStudents);
 
-            var us = userList.Select(user => new UserModel(user, _dateService)).ToList();
+            var us = userList.Select(user => new UserModel(user)).ToList();
 
             ui.Users = us;
 
@@ -94,7 +91,7 @@ namespace GraphLabs.Site.Controllers
 
             var model = new UserEdit(user);
 
-			model.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			model.FillGroupList(_groupRepository.GetOpenGroups());
 
             return View(model);
         }
@@ -107,7 +104,7 @@ namespace GraphLabs.Site.Controllers
 			_userRepository.VerifyStudent(user.Id);
 
 			user.IsVerified = true;
-			user.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			user.FillGroupList(_groupRepository.GetOpenGroups());
 
             return View("~/Views/User/Edit.cshtml", user);
         }
@@ -120,7 +117,7 @@ namespace GraphLabs.Site.Controllers
 			_userRepository.DismissStudent(user.Id);
 
 			user.IsDismissed = true;
-			user.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			user.FillGroupList(_groupRepository.GetOpenGroups());
 
 			return View("~/Views/User/Edit.cshtml", user);
         }
@@ -133,7 +130,7 @@ namespace GraphLabs.Site.Controllers
 			_userRepository.RestoreStudent(user.Id);
 
 			user.IsDismissed = false;
-			user.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			user.FillGroupList(_groupRepository.GetOpenGroups());
 
 			return View("~/Views/User/Edit.cshtml", user);
 		}
@@ -156,7 +153,7 @@ namespace GraphLabs.Site.Controllers
 				}
             }
 
-			model.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			model.FillGroupList(_groupRepository.GetOpenGroups());
 			ViewBag.Message = "Не удалось сохранить пользователя, попробуйте указать другие данные";
 			return View("~/Views/User/Edit.cshtml", model);
         }
@@ -170,7 +167,7 @@ namespace GraphLabs.Site.Controllers
         {
             var model = new UserCreate();
 
-			model.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			model.FillGroupList(_groupRepository.GetOpenGroups());
 
             return View(model);
         }
@@ -190,7 +187,7 @@ namespace GraphLabs.Site.Controllers
 				ViewBag.Message = "Пользователь с таким Email существует";
             }
 
-			model.FillGroupList(_groupRepository.GetOpenGroups(), _dateService);
+			model.FillGroupList(_groupRepository.GetOpenGroups());
 
 			return View(model);
         }

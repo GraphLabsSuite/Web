@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using GraphLabs.Dal.Ef.Extensions;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
@@ -23,7 +22,6 @@ namespace GraphLabs.Site.Controllers
         private readonly IMembershipEngine _membershipEngine;
         private readonly IAuthenticationSavingService _authSavingService;
         private readonly IEntityQuery _query;
-        private readonly ISystemDateService _dateService;
 
         #endregion
 
@@ -31,13 +29,11 @@ namespace GraphLabs.Site.Controllers
         public AccountController(
             IMembershipEngine membershipEngine,
             IAuthenticationSavingService authSavingService,
-            IEntityQuery query,
-            ISystemDateService dateService)
+            IEntityQuery query)
         {
             _membershipEngine = membershipEngine;
             _authSavingService = authSavingService;
             _query = query;
-            _dateService = dateService;
         }
 
 
@@ -161,7 +157,7 @@ namespace GraphLabs.Site.Controllers
             var groups = _query.OfEntities<Group>()
                 .Where(g => g.IsOpen)
                 .ToArray()
-                .Select(t => new NameValueModel(t.Id, t.GetName(_dateService)))
+                .Select(t => new NameValueModel(t.Id, t.Name))
                 .ToArray();
 
             ViewBag.GroupsList = new SelectList(groups, "Id", "Name", selectedValue);

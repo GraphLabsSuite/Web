@@ -163,7 +163,6 @@
     <Compile Include="GraphLabsContextImpl.cs" />
     <Compile Include="Infrastructure\EntityChange.cs" />
     <Compile Include="Infrastructure\EntitySet.cs" />
-    <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\SessionExtensions.cs" />
     <Compile Include="Extensions\SystemDateExtensions.cs" />
     <Compile Include="Extensions\UserRoleExtensions.cs" />
