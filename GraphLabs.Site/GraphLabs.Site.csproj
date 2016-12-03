@@ -330,6 +330,7 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
+    <Compile Include="Controllers\TestingLabController.cs" />
     <Compile Include="Utils\SmartModelBinder.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
@@ -413,6 +414,7 @@
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
     <Content Include="Views\Schedule\_ScheduleEditors.cshtml" />
     <Content Include="Views\Schedule\EditSchedule.cshtml" />
+    <Content Include="Views\TestingLab\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

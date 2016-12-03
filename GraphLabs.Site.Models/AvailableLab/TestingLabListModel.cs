@@ -9,10 +9,10 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.AvailableLab
 {
     /// <summary> Загрузчик списка <see cref="TestingLabModel"/> </summary>
-    public class TestingLabListModelLoader : AvailableLabListModel<TestingLabModel>
+    public class TestingLabListModel : AvailableLabListModel<TestingLabModel>
     {
         /// <summary> Загрузчик списка <see cref="TestingLabModel"/> </summary>
-        public TestingLabListModelLoader(IEntityQuery query,
+        public TestingLabListModel(IEntityQuery query,
             IEntityBasedModelLoader<TestingLabModel, AbstractLabSchedule> modelLoader,
             ISystemDateService dateService, 
             IGraphLabsPrincipal currentUser) : base(query, modelLoader, dateService, currentUser)
