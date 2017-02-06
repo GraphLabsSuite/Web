@@ -327,6 +327,8 @@
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
+    <Compile Include="Controllers\PreviewController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
@@ -415,6 +417,9 @@
     <Content Include="Views\Schedule\_ScheduleEditors.cshtml" />
     <Content Include="Views\Schedule\EditSchedule.cshtml" />
     <Content Include="Views\TestingLab\Index.cshtml" />
+    <Content Include="Views\Preview\TaskVariant.cshtml" />
+    <Content Include="Views\Preview\Index.cshtml" />
+    <Content Include="Views\Question\SelectQuestions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -1,0 +1,28 @@
+﻿@model GraphLabs.Site.Models.Question.QuestionListModel
+
+@{
+    ViewBag.Title = "Вопросы ";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<style type="text/css">
+    .idColumn {
+        width: 10%;
+    }
+
+    .nameColumn {
+        width: 90%;
+    }
+
+    
+</style>
+
+@foreach (var item in @Model.Items)
+{
+    <p>@item.Question</p>
+}
+
+
+
+
