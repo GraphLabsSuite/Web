@@ -12,6 +12,7 @@ namespace GraphLabs.Site.Models.Question
     {
         public long Id { get; set; }
         public string Question { get; set; }
+        public ICollection<Category> CategoryList { get; set; }
 
         public virtual ICollection<LabVariant> LabVariant { get; set; }
         public virtual Category Category { get; set; }

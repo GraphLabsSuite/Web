@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Вопросы ";
+    var singleQuestion = @Model.Items.ToArray()[0];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -18,10 +19,23 @@
     
 </style>
 
-@foreach (var item in @Model.Items)
-{
-    <p>@item.Question</p>
-}
+<form method="post" action="some_url">
+    <ul>
+        @foreach (var category in singleQuestion.CategoryList)
+        {
+            <li>@category.Name</li>
+            foreach (var item in @Model.Items)
+            {
+                if (@item.Category.Name == category.Name)
+                {
+                    <input type="checkbox" name="@item.Question" /> @item.Question <br />
+                }
+            }
+            <hr />
+        }
+    </ul>
+    <input id="save" type="button" value="Сохранить" />
+</form>
 
 
 

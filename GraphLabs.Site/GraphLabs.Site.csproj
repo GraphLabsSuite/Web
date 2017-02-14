@@ -325,7 +325,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
     <Compile Include="Controllers\PreviewController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />

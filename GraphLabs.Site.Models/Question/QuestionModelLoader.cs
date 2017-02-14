@@ -24,7 +24,8 @@ namespace GraphLabs.Site.Models.Question
                 Id = question.Id,
                 Question = question.Question,
                 LabVariant = question.LabVariant,
-                Category = question.Category
+                Category = question.Category,
+                CategoryList = _query.OfEntities<Category>().ToArray()
             };
 
             return model;
