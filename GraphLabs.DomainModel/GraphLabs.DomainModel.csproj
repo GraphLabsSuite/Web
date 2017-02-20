@@ -190,6 +190,9 @@
     <Compile Include="News.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PoolScore.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Repositories\ICategoryRepository.cs" />
     <Compile Include="Repositories\IGroupsRepository.cs" />
@@ -226,6 +229,9 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Term.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestPool.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TestQuestion.cs">

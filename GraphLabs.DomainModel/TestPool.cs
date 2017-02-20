@@ -16,14 +16,20 @@ namespace GraphLabs.DomainModel
     
     #pragma warning disable 1591
     
-    public partial class TaskData : AbstractEntity
+    public partial class TestPool : AbstractEntity
     {
-        protected TaskData()
+        protected TestPool()
         {
+            this.LabVariants = new HashSet<LabVariant>();
+            this.PoolScores = new HashSet<PoolScore>();
         }
     
         public int Id { get; set; }
-        public byte[] Xap { get; set; }
+        public string Strategy { get; set; }
+        public string Forfeit { get; set; }
+    
+        public virtual ICollection<LabVariant> LabVariants { get; set; }
+        public virtual ICollection<PoolScore> PoolScores { get; set; }
     }
     
     #pragma warning restore 1591
