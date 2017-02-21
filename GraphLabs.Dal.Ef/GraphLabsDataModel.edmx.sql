@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/20/2017 13:58:41
+-- Date Created: 02/21/2017 23:09:57
 -- Generated from EDMX file: C:\Users\Егор\Desktop\graphlabs.site\trunk\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -368,18 +368,18 @@ GO
 
 -- Creating table 'TestPools'
 CREATE TABLE [dbo].[TestPools] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Strategy] nvarchar(max)  NOT NULL,
-    [Forfeit] nvarchar(max)  NOT NULL
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'PoolScores'
 CREATE TABLE [dbo].[PoolScores] (
-    [Id] nvarchar(max)  NOT NULL,
-    [Score] nvarchar(max)  NOT NULL,
+    [Id] bigint  NOT NULL,
+    [Score] int  NOT NULL,
+    [ScoringStratery] int  NOT NULL,
     [TestQuestion_Id] bigint  NOT NULL,
-    [TestPool_Id] int  NOT NULL
+    [TestPool_Id] bigint  NOT NULL
 );
 GO
 
@@ -415,8 +415,8 @@ GO
 
 -- Creating table 'TestPoolLabVariant'
 CREATE TABLE [dbo].[TestPoolLabVariant] (
-    [TestPools_Id] int  NOT NULL,
-    [LabVariants_Id] bigint  NOT NULL
+    [TestPools_Id] bigint  NOT NULL,
+    [TestPoolLabVariant_TestPool_Id] bigint  NOT NULL
 );
 GO
 
@@ -575,10 +575,10 @@ ADD CONSTRAINT [PK_LabVariantTaskVariant]
     PRIMARY KEY CLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
 GO
 
--- Creating primary key on [TestPools_Id], [LabVariants_Id] in table 'TestPoolLabVariant'
+-- Creating primary key on [TestPools_Id], [TestPoolLabVariant_TestPool_Id] in table 'TestPoolLabVariant'
 ALTER TABLE [dbo].[TestPoolLabVariant]
 ADD CONSTRAINT [PK_TestPoolLabVariant]
-    PRIMARY KEY CLUSTERED ([TestPools_Id], [LabVariants_Id] ASC);
+    PRIMARY KEY CLUSTERED ([TestPools_Id], [TestPoolLabVariant_TestPool_Id] ASC);
 GO
 
 -- Creating primary key on [Groups_Id], [LabWorks_Id] in table 'LabWorkGroup'
@@ -894,10 +894,10 @@ ADD CONSTRAINT [FK_TestPoolLabVariant_TestPool]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [LabVariants_Id] in table 'TestPoolLabVariant'
+-- Creating foreign key on [TestPoolLabVariant_TestPool_Id] in table 'TestPoolLabVariant'
 ALTER TABLE [dbo].[TestPoolLabVariant]
 ADD CONSTRAINT [FK_TestPoolLabVariant_LabVariant]
-    FOREIGN KEY ([LabVariants_Id])
+    FOREIGN KEY ([TestPoolLabVariant_TestPool_Id])
     REFERENCES [dbo].[LabVariants]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -906,7 +906,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolLabVariant_LabVariant'
 CREATE INDEX [IX_FK_TestPoolLabVariant_LabVariant]
 ON [dbo].[TestPoolLabVariant]
-    ([LabVariants_Id]);
+    ([TestPoolLabVariant_TestPool_Id]);
 GO
 
 -- Creating foreign key on [Groups_Id] in table 'LabWorkGroup'

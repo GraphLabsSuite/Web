@@ -327,18 +327,18 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Strategy" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Forfeit" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="PoolScores">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Score" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="ScoringStratery" Type="int" Nullable="false" />
     <Property Name="TestQuestion_Id" Type="bigint" Nullable="false" />
-    <Property Name="TestPool_Id" Type="int" Nullable="false" />
+    <Property Name="TestPool_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Users_Student">
     <Key>
@@ -374,10 +374,10 @@
   <EntityType Name="TestPoolLabVariant">
     <Key>
       <PropertyRef Name="TestPools_Id" />
-      <PropertyRef Name="LabVariants_Id" />
+      <PropertyRef Name="TestPoolLabVariant_TestPool_Id" />
     </Key>
-    <Property Name="TestPools_Id" Type="int" Nullable="false" />
-    <Property Name="LabVariants_Id" Type="bigint" Nullable="false" />
+    <Property Name="TestPools_Id" Type="bigint" Nullable="false" />
+    <Property Name="TestPoolLabVariant_TestPool_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="LabWorkGroup">
     <Key>
@@ -671,7 +671,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="TestPoolLabVariant">
-        <PropertyRef Name="LabVariants_Id" />
+        <PropertyRef Name="TestPoolLabVariant_TestPool_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1393,6 +1393,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(DataModel.TestPool)">
         <MappingFragment StoreEntitySet="TestPools">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1401,6 +1402,7 @@
         <MappingFragment StoreEntitySet="PoolScores">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="ScoringStratery" ColumnName="ScoringStratery" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1562,7 +1564,7 @@
         <ScalarProperty Name="Id" ColumnName="TestPools_Id" />
       </EndProperty>
       <EndProperty Name="LabVariant">
-        <ScalarProperty Name="Id" ColumnName="LabVariants_Id" />
+        <ScalarProperty Name="Id" ColumnName="TestPoolLabVariant_TestPool_Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="LabWorkGroup" TypeName="DataModel.LabWorkGroup" StoreEntitySet="LabWorkGroup">
