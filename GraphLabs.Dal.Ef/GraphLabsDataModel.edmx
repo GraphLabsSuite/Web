@@ -965,7 +965,6 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="Question" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Category" Relationship="DataModel.TestQuestionCategory" FromRole="TestQuestion" ToRole="Category" />
-          <NavigationProperty Name="PoolScores" Relationship="DataModel.TestQuestionPoolScore" FromRole="TestQuestion" ToRole="PoolScore" />
         </EntityType>
         <EntityType Name="AnswerVariant">
           <Key>
@@ -1156,11 +1155,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Strategy" Type="String" Nullable="false" />
-          <Property Name="Forfeit" Type="String" Nullable="false" />
-          <NavigationProperty Name="LabVariants" Relationship="DataModel.TestPoolLabVariant" FromRole="TestPool" ToRole="LabVariant" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="PoolScores" Relationship="DataModel.TestPoolPoolScore" FromRole="TestPool" ToRole="PoolScore" />
+          <Property Name="Name" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="TestPoolLabVariant">
           <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="*" />
@@ -1170,10 +1167,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" />
-          <Property Name="Score" Type="String" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionPoolScore" FromRole="PoolScore" ToRole="TestQuestion" />
           <NavigationProperty Name="TestPool" Relationship="DataModel.TestPoolPoolScore" FromRole="PoolScore" ToRole="TestPool" />
+          <Property Name="ScoringStratery" Type="DataModel.ScoringStrategy" Nullable="false" />
         </EntityType>
         <Association Name="LabWorkGroup">
           <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
@@ -1187,6 +1185,10 @@
           <End Type="DataModel.PoolScore" Role="PoolScore" Multiplicity="*" />
           <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
         </Association>
+        <EnumType Name="ScoringStrategy">
+          <Member Name="AllCorrectVariantsShouldBeSpecified" />
+          <Member Name="AnyCorrectVariantCanBeSpecified" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1391,8 +1393,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(DataModel.TestPool)">
         <MappingFragment StoreEntitySet="TestPools">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Strategy" ColumnName="Strategy" />
-          <ScalarProperty Name="Forfeit" ColumnName="Forfeit" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

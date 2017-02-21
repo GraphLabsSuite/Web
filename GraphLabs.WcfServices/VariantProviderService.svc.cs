@@ -35,8 +35,9 @@ namespace GraphLabs.WcfServices
         {
             using (var op = _operationFactory.Create())
             {
-                var task = op.DataContext.Query.Get<Task>(taskId);
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
+
+                var task = op.DataContext.Query.Get<Task>(taskId);
                 var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
                 var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
 
