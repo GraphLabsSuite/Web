@@ -68,7 +68,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                     taskResult.TaskVariant = taskVariant;
                     taskResult.Result = result;
 
-                    result.TaskResults.Add(taskResult);
+                    result.AbstractResultEntries.Add(taskResult);
                 }
             }
             else
@@ -139,9 +139,9 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private VariantExecutionModelBase CompleteVariant(Result result)
         {
-            Contract.Assert(result.TaskResults.All(r => r.Status == ExecutionStatus.Complete));
+            Contract.Assert(result.AbstractResultEntries.All(r => r.Status == ExecutionStatus.Complete));
 
-            var mark = GetMark(result.TaskResults);
+            var mark = GetMark(result.AbstractResultEntries);
             result.Score = mark;
             result.Status = ExecutionStatus.Complete;
 
@@ -151,7 +151,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return model;
         }
 
-        private int GetMark(ICollection<TaskResult> taskResults)
+        private int GetMark(ICollection<AbstractResultEntry> taskResults)
         {
             var scores = GetTaskResultsScore(taskResults);
             var sum = 0;
@@ -165,7 +165,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return sum / scores.Length;
         }
 
-        private int?[] GetTaskResultsScore(ICollection<TaskResult> taskResults)
+        private int?[] GetTaskResultsScore(ICollection<AbstractResultEntry> taskResults)
         {
             var taskResultsArray = taskResults.ToArray();
             var result = new int?[taskResultsArray.Length];
@@ -182,8 +182,9 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
         private Task GetFirstUnsolvedTask(Result labResult)
         {
             var solvedTasks = labResult
-                .TaskResults
+                .AbstractResultEntries
                 .Where(r => r.Status == ExecutionStatus.Complete)
+                .OfType<TaskResult>()
                 .Select(r => r.TaskVariant.Task.Id)
                 .ToArray();
 

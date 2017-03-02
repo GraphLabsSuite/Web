@@ -29,7 +29,7 @@ namespace GraphLabs.Site.Models.ResultsWithTaskInfo
                 Status = ExecutionStatusToString(result.Status),
                 StartDateTime = result.StartDateTime,
                 LabWorkName = result.LabVariant.LabWork.Name,
-                TaskResults = result.TaskResults.Select(x => _modelLoader.Load(x)).ToArray(),
+                TaskResults = result.AbstractResultEntries.OfType<TaskResult>().Select(x => _modelLoader.Load(x)).ToArray(),
                 StudentId = result.Student.Id
             };
 

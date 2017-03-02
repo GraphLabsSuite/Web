@@ -138,6 +138,12 @@
     <Compile Include="AbstractLabSchedule.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AbstractResultEntry.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AbstractStudentAction.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExecutionStatus.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
@@ -190,9 +196,6 @@
     <Compile Include="News.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PoolScore.cs">
-      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Repositories\ICategoryRepository.cs" />
     <Compile Include="Repositories\IGroupsRepository.cs" />
@@ -202,6 +205,9 @@
     <Compile Include="Repositories\ISurveyRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Result.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScoringStrategy.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Session.cs">
@@ -214,6 +220,9 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="StudentAction.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAnswer.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Task.cs">
@@ -234,7 +243,13 @@
     <Compile Include="TestPool.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TestPoolEntry.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TestQuestion.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestResult.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Triggers\AbstractLabSchedule.cs" />

@@ -60,7 +60,7 @@ namespace GraphLabs.Site.Models
 
     private TaskInfo[] GetTaskInfo(GraphLabsContext ctx, int id, long studentId)
     {
-        var tasks = ctx.TaskResults.Where(task => task.Result.Student.Id == studentId && task.Result.Id == id).ToArray();
+        var tasks = ctx.AbstractResultEntries.OfType<TaskResult>().Where(task=> task.Result.Student.Id == studentId && task.Result.Id == id).ToArray();
         var result = new TaskInfo[tasks.Length];
         for (int i = 0; i < result.Length; i++)
         {
@@ -73,7 +73,7 @@ namespace GraphLabs.Site.Models
     {
         string[] result;
         var problems =
-            ctx.StudentActions.Where(tr => tr.TaskResult.Result.Id == id && tr.Penalty != 0)
+            ctx.AbstractStudentActions.OfType<StudentAction>().Where(tr => tr.TaskResult.Result.Id == id && tr.Penalty != 0)
                 .ToArray();
         if (problems.Length == 0)
         {
@@ -146,7 +146,7 @@ namespace GraphLabs.Site.Models
 
         public JSONTaskResultInfo(GraphLabsContext ctx, int id)
         {
-            var taskResult = ctx.TaskResults.Single(task => task.Id == id);
+            var taskResult = ctx.AbstractResultEntries.OfType<TaskResult>().Single(task => task.Id == id);
             Id = id;
             TaskName = taskResult.TaskVariant.Task.Name;
             Actions = GetStudentActionsInfo(ctx, id);
@@ -155,7 +155,7 @@ namespace GraphLabs.Site.Models
 
         private StudentActionInfo[] GetStudentActionsInfo(GraphLabsContext ctx, int id)
         {
-            var actions = ctx.StudentActions.Where(action => action.TaskResult.Id == id).ToArray();
+            var actions = ctx.AbstractStudentActions.OfType<StudentAction>().Where(action => action.TaskResult.Id == id).ToArray();
             var studentActions = new StudentActionInfo[actions.Length];
             for (int i = 0; i < actions.Length; i++)
             {

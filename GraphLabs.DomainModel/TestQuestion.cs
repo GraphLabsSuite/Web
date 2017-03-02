@@ -20,14 +20,14 @@ namespace GraphLabs.DomainModel
     {
         protected TestQuestion()
         {
-            this.PoolScores = new HashSet<PoolScore>();
+            this.AnswerVariants = new HashSet<AnswerVariant>();
         }
     
         public long Id { get; private set; }
         public string Question { get; set; }
     
         public virtual Category Category { get; set; }
-        public virtual ICollection<PoolScore> PoolScores { get; set; }
+        public virtual ICollection<AnswerVariant> AnswerVariants { get; set; }
     }
     
     #pragma warning restore 1591

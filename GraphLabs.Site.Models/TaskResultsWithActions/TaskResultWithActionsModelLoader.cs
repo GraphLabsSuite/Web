@@ -28,7 +28,7 @@ namespace GraphLabs.Site.Models.TaskResultsWithActions
                 Status = ExecutionStatusToString(taskResult.Status),
                 TaskVariantNumber = taskResult.TaskVariant.Number,
                 StudentActions = taskResult.StudentActions.Select(x => _modelLoader.Load(x)).ToArray(),
-                ResultId = taskResult.Result.Id
+                Result = taskResult.Result
             };
 
             return model;

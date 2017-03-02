@@ -30,7 +30,6 @@ namespace GraphLabs.Dal.Ef
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Result> Results { get; set; }
-        public DbSet<StudentAction> StudentActions { get; set; }
         public DbSet<LabWork> LabWorks { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<LabVariant> LabVariants { get; set; }
@@ -42,9 +41,10 @@ namespace GraphLabs.Dal.Ef
         public DbSet<LabEntry> LabEntries { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TaskData> TaskDatas { get; set; }
-        public DbSet<TaskResult> TaskResults { get; set; }
         public DbSet<AbstractLabSchedule> AbstractLabSchedules { get; set; }
         public DbSet<TestPool> TestPools { get; set; }
-        public DbSet<PoolScore> PoolScores { get; set; }
+        public DbSet<TestPoolEntry> TestPoolEntries { get; set; }
+        public DbSet<AbstractResultEntry> AbstractResultEntries { get; set; }
+        public DbSet<AbstractStudentAction> AbstractStudentActions { get; set; }
     }
 }

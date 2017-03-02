@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/21/2017 23:09:57
+-- Date Created: 03/02/2017 17:05:36
 -- Generated from EDMX file: C:\Users\Егор\Desktop\graphlabs.site\trunk\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -19,9 +19,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_UserNews]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[News] DROP CONSTRAINT [FK_UserNews];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TestQuestionAnswerVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AnswerVariants] DROP CONSTRAINT [FK_TestQuestionAnswerVariant];
 GO
 IF OBJECT_ID(N'[dbo].[FK_UserSession]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Sessions] DROP CONSTRAINT [FK_UserSession];
@@ -59,14 +56,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_TaskTaskData]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tasks] DROP CONSTRAINT [FK_TaskTaskData];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ResultTaskResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_ResultTaskResult];
-GO
 IF OBJECT_ID(N'[dbo].[FK_TaskResultStudentAction]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[StudentActions] DROP CONSTRAINT [FK_TaskResultStudentAction];
+    ALTER TABLE [dbo].[AbstractStudentActions_StudentAction] DROP CONSTRAINT [FK_TaskResultStudentAction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TaskResultTaskVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TaskResults] DROP CONSTRAINT [FK_TaskResultTaskVariant];
+    ALTER TABLE [dbo].[AbstractResultEntries_TaskResult] DROP CONSTRAINT [FK_TaskResultTaskVariant];
 GO
 IF OBJECT_ID(N'[dbo].[FK_GroupGroupLabSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule] DROP CONSTRAINT [FK_GroupGroupLabSchedule];
@@ -77,32 +71,56 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_LabWorkAbstractLabSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AbstractLabSchedules] DROP CONSTRAINT [FK_LabWorkAbstractLabSchedule];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TestPoolLabVariant_TestPool]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TestPoolLabVariant] DROP CONSTRAINT [FK_TestPoolLabVariant_TestPool];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TestPoolLabVariant_LabVariant]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TestPoolLabVariant] DROP CONSTRAINT [FK_TestPoolLabVariant_LabVariant];
-GO
 IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_Group]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LabWorkGroup] DROP CONSTRAINT [FK_LabWorkGroup_Group];
 GO
 IF OBJECT_ID(N'[dbo].[FK_LabWorkGroup_LabWork]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LabWorkGroup] DROP CONSTRAINT [FK_LabWorkGroup_LabWork];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TestQuestionPoolScore]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PoolScores] DROP CONSTRAINT [FK_TestQuestionPoolScore];
+IF OBJECT_ID(N'[dbo].[FK_TestQuestionAnswerVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AnswerVariants] DROP CONSTRAINT [FK_TestQuestionAnswerVariant];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TestPoolPoolScore]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PoolScores] DROP CONSTRAINT [FK_TestPoolPoolScore];
+IF OBJECT_ID(N'[dbo].[FK_TestQuestionTestPoolEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestPoolEntries] DROP CONSTRAINT [FK_TestQuestionTestPoolEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestPoolTestPoolEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestPoolEntries] DROP CONSTRAINT [FK_TestPoolTestPoolEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ResultAbstractResultEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractResultEntries] DROP CONSTRAINT [FK_ResultAbstractResultEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestResultStudentAnswer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer] DROP CONSTRAINT [FK_TestResultStudentAnswer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AnswerVariantStudentAnswer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer] DROP CONSTRAINT [FK_AnswerVariantStudentAnswer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestPoolLabVariant]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LabVariants] DROP CONSTRAINT [FK_TestPoolLabVariant];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestResultTestPoolEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractResultEntries_TestResult] DROP CONSTRAINT [FK_TestResultTestPoolEntry];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Student_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Student] DROP CONSTRAINT [FK_Student_inherits_User];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TaskResult_inherits_AbstractResultEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractResultEntries_TaskResult] DROP CONSTRAINT [FK_TaskResult_inherits_AbstractResultEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StudentAction_inherits_AbstractStudentAction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractStudentActions_StudentAction] DROP CONSTRAINT [FK_StudentAction_inherits_AbstractStudentAction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_GroupLabSchedule_inherits_AbstractLabSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule] DROP CONSTRAINT [FK_GroupLabSchedule_inherits_AbstractLabSchedule];
 GO
 IF OBJECT_ID(N'[dbo].[FK_IndividualLabSchedule_inherits_AbstractLabSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule] DROP CONSTRAINT [FK_IndividualLabSchedule_inherits_AbstractLabSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestResult_inherits_AbstractResultEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractResultEntries_TestResult] DROP CONSTRAINT [FK_TestResult_inherits_AbstractResultEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StudentAnswer_inherits_AbstractStudentAction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer] DROP CONSTRAINT [FK_StudentAnswer_inherits_AbstractStudentAction];
 GO
 
 -- --------------------------------------------------
@@ -120,9 +138,6 @@ IF OBJECT_ID(N'[dbo].[Groups]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Results]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Results];
-GO
-IF OBJECT_ID(N'[dbo].[StudentActions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[StudentActions];
 GO
 IF OBJECT_ID(N'[dbo].[LabWorks]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabWorks];
@@ -157,20 +172,29 @@ GO
 IF OBJECT_ID(N'[dbo].[TaskDatas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TaskDatas];
 GO
-IF OBJECT_ID(N'[dbo].[TaskResults]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TaskResults];
-GO
 IF OBJECT_ID(N'[dbo].[AbstractLabSchedules]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AbstractLabSchedules];
 GO
 IF OBJECT_ID(N'[dbo].[TestPools]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TestPools];
 GO
-IF OBJECT_ID(N'[dbo].[PoolScores]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PoolScores];
+IF OBJECT_ID(N'[dbo].[TestPoolEntries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TestPoolEntries];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractResultEntries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractResultEntries];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractStudentActions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractStudentActions];
 GO
 IF OBJECT_ID(N'[dbo].[Users_Student]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users_Student];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractResultEntries_TaskResult]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractResultEntries_TaskResult];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractStudentActions_StudentAction]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractStudentActions_StudentAction];
 GO
 IF OBJECT_ID(N'[dbo].[AbstractLabSchedules_GroupLabSchedule]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AbstractLabSchedules_GroupLabSchedule];
@@ -178,11 +202,14 @@ GO
 IF OBJECT_ID(N'[dbo].[AbstractLabSchedules_IndividualLabSchedule]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule];
 GO
+IF OBJECT_ID(N'[dbo].[AbstractResultEntries_TestResult]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractResultEntries_TestResult];
+GO
+IF OBJECT_ID(N'[dbo].[AbstractStudentActions_StudentAnswer]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AbstractStudentActions_StudentAnswer];
+GO
 IF OBJECT_ID(N'[dbo].[LabVariantTaskVariant]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabVariantTaskVariant];
-GO
-IF OBJECT_ID(N'[dbo].[TestPoolLabVariant]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TestPoolLabVariant];
 GO
 IF OBJECT_ID(N'[dbo].[LabWorkGroup]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LabWorkGroup];
@@ -236,16 +263,6 @@ CREATE TABLE [dbo].[Results] (
 );
 GO
 
--- Creating table 'StudentActions'
-CREATE TABLE [dbo].[StudentActions] (
-    [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Description] nvarchar(100)  NOT NULL,
-    [Penalty] int  NOT NULL,
-    [Time] datetime  NOT NULL,
-    [TaskResult_Id] bigint  NOT NULL
-);
-GO
-
 -- Creating table 'LabWorks'
 CREATE TABLE [dbo].[LabWorks] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
@@ -273,7 +290,8 @@ CREATE TABLE [dbo].[LabVariants] (
     [Number] nvarchar(max)  NOT NULL,
     [Version] bigint  NOT NULL,
     [IntroducingVariant] bit  NOT NULL,
-    [LabWork_Id] bigint  NOT NULL
+    [LabWork_Id] bigint  NOT NULL,
+    [TestPool_Id] bigint  NOT NULL
 );
 GO
 
@@ -346,16 +364,6 @@ CREATE TABLE [dbo].[TaskDatas] (
 );
 GO
 
--- Creating table 'TaskResults'
-CREATE TABLE [dbo].[TaskResults] (
-    [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Status] tinyint  NOT NULL,
-    [Score] int  NULL,
-    [Result_Id] bigint  NOT NULL,
-    [TaskVariant_Id] bigint  NOT NULL
-);
-GO
-
 -- Creating table 'AbstractLabSchedules'
 CREATE TABLE [dbo].[AbstractLabSchedules] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
@@ -373,13 +381,30 @@ CREATE TABLE [dbo].[TestPools] (
 );
 GO
 
--- Creating table 'PoolScores'
-CREATE TABLE [dbo].[PoolScores] (
-    [Id] bigint  NOT NULL,
+-- Creating table 'TestPoolEntries'
+CREATE TABLE [dbo].[TestPoolEntries] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
     [Score] int  NOT NULL,
-    [ScoringStratery] int  NOT NULL,
+    [ScoringStrategy] int  NOT NULL,
     [TestQuestion_Id] bigint  NOT NULL,
     [TestPool_Id] bigint  NOT NULL
+);
+GO
+
+-- Creating table 'AbstractResultEntries'
+CREATE TABLE [dbo].[AbstractResultEntries] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Status] tinyint  NOT NULL,
+    [Score] int  NOT NULL,
+    [Result_Id] bigint  NOT NULL
+);
+GO
+
+-- Creating table 'AbstractStudentActions'
+CREATE TABLE [dbo].[AbstractStudentActions] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Time] datetime  NOT NULL,
+    [Penalty] int  NOT NULL
 );
 GO
 
@@ -389,6 +414,21 @@ CREATE TABLE [dbo].[Users_Student] (
     [IsDismissed] bit  NOT NULL,
     [Id] bigint  NOT NULL,
     [Group_Id] bigint  NULL
+);
+GO
+
+-- Creating table 'AbstractResultEntries_TaskResult'
+CREATE TABLE [dbo].[AbstractResultEntries_TaskResult] (
+    [Id] bigint  NOT NULL,
+    [TaskVariant_Id] bigint  NOT NULL
+);
+GO
+
+-- Creating table 'AbstractStudentActions_StudentAction'
+CREATE TABLE [dbo].[AbstractStudentActions_StudentAction] (
+    [Description] nvarchar(100)  NOT NULL,
+    [Id] bigint  NOT NULL,
+    [TaskResult_Id] bigint  NOT NULL
 );
 GO
 
@@ -406,17 +446,26 @@ CREATE TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule] (
 );
 GO
 
+-- Creating table 'AbstractResultEntries_TestResult'
+CREATE TABLE [dbo].[AbstractResultEntries_TestResult] (
+    [Index] nvarchar(max)  NOT NULL,
+    [Id] bigint  NOT NULL,
+    [TestPoolEntry_Id] bigint  NOT NULL
+);
+GO
+
+-- Creating table 'AbstractStudentActions_StudentAnswer'
+CREATE TABLE [dbo].[AbstractStudentActions_StudentAnswer] (
+    [Id] bigint  NOT NULL,
+    [TestResult_Id] bigint  NOT NULL,
+    [AnswerVariant_Id] bigint  NOT NULL
+);
+GO
+
 -- Creating table 'LabVariantTaskVariant'
 CREATE TABLE [dbo].[LabVariantTaskVariant] (
     [LabVariantTaskVariant_TaskVariant_Id] bigint  NOT NULL,
     [TaskVariants_Id] bigint  NOT NULL
-);
-GO
-
--- Creating table 'TestPoolLabVariant'
-CREATE TABLE [dbo].[TestPoolLabVariant] (
-    [TestPools_Id] bigint  NOT NULL,
-    [TestPoolLabVariant_TestPool_Id] bigint  NOT NULL
 );
 GO
 
@@ -452,12 +501,6 @@ GO
 -- Creating primary key on [Id] in table 'Results'
 ALTER TABLE [dbo].[Results]
 ADD CONSTRAINT [PK_Results]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'StudentActions'
-ALTER TABLE [dbo].[StudentActions]
-ADD CONSTRAINT [PK_StudentActions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -527,12 +570,6 @@ ADD CONSTRAINT [PK_TaskDatas]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'TaskResults'
-ALTER TABLE [dbo].[TaskResults]
-ADD CONSTRAINT [PK_TaskResults]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'AbstractLabSchedules'
 ALTER TABLE [dbo].[AbstractLabSchedules]
 ADD CONSTRAINT [PK_AbstractLabSchedules]
@@ -545,15 +582,39 @@ ADD CONSTRAINT [PK_TestPools]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'PoolScores'
-ALTER TABLE [dbo].[PoolScores]
-ADD CONSTRAINT [PK_PoolScores]
+-- Creating primary key on [Id] in table 'TestPoolEntries'
+ALTER TABLE [dbo].[TestPoolEntries]
+ADD CONSTRAINT [PK_TestPoolEntries]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractResultEntries'
+ALTER TABLE [dbo].[AbstractResultEntries]
+ADD CONSTRAINT [PK_AbstractResultEntries]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractStudentActions'
+ALTER TABLE [dbo].[AbstractStudentActions]
+ADD CONSTRAINT [PK_AbstractStudentActions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'Users_Student'
 ALTER TABLE [dbo].[Users_Student]
 ADD CONSTRAINT [PK_Users_Student]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractResultEntries_TaskResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TaskResult]
+ADD CONSTRAINT [PK_AbstractResultEntries_TaskResult]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractStudentActions_StudentAction'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAction]
+ADD CONSTRAINT [PK_AbstractStudentActions_StudentAction]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -569,16 +630,22 @@ ADD CONSTRAINT [PK_AbstractLabSchedules_IndividualLabSchedule]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'AbstractResultEntries_TestResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
+ADD CONSTRAINT [PK_AbstractResultEntries_TestResult]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AbstractStudentActions_StudentAnswer'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer]
+ADD CONSTRAINT [PK_AbstractStudentActions_StudentAnswer]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] in table 'LabVariantTaskVariant'
 ALTER TABLE [dbo].[LabVariantTaskVariant]
 ADD CONSTRAINT [PK_LabVariantTaskVariant]
     PRIMARY KEY CLUSTERED ([LabVariantTaskVariant_TaskVariant_Id], [TaskVariants_Id] ASC);
-GO
-
--- Creating primary key on [TestPools_Id], [TestPoolLabVariant_TestPool_Id] in table 'TestPoolLabVariant'
-ALTER TABLE [dbo].[TestPoolLabVariant]
-ADD CONSTRAINT [PK_TestPoolLabVariant]
-    PRIMARY KEY CLUSTERED ([TestPools_Id], [TestPoolLabVariant_TestPool_Id] ASC);
 GO
 
 -- Creating primary key on [Groups_Id], [LabWorks_Id] in table 'LabWorkGroup'
@@ -604,21 +671,6 @@ GO
 CREATE INDEX [IX_FK_UserNews]
 ON [dbo].[News]
     ([User_Id]);
-GO
-
--- Creating foreign key on [TestQuestion_Id] in table 'AnswerVariants'
-ALTER TABLE [dbo].[AnswerVariants]
-ADD CONSTRAINT [FK_TestQuestionAnswerVariant]
-    FOREIGN KEY ([TestQuestion_Id])
-    REFERENCES [dbo].[TestQuestions]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestionAnswerVariant'
-CREATE INDEX [IX_FK_TestQuestionAnswerVariant]
-ON [dbo].[AnswerVariants]
-    ([TestQuestion_Id]);
 GO
 
 -- Creating foreign key on [User_Id] in table 'Sessions'
@@ -795,38 +847,23 @@ ON [dbo].[Tasks]
     ([TaskData_Id]);
 GO
 
--- Creating foreign key on [Result_Id] in table 'TaskResults'
-ALTER TABLE [dbo].[TaskResults]
-ADD CONSTRAINT [FK_ResultTaskResult]
-    FOREIGN KEY ([Result_Id])
-    REFERENCES [dbo].[Results]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ResultTaskResult'
-CREATE INDEX [IX_FK_ResultTaskResult]
-ON [dbo].[TaskResults]
-    ([Result_Id]);
-GO
-
--- Creating foreign key on [TaskResult_Id] in table 'StudentActions'
-ALTER TABLE [dbo].[StudentActions]
+-- Creating foreign key on [TaskResult_Id] in table 'AbstractStudentActions_StudentAction'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAction]
 ADD CONSTRAINT [FK_TaskResultStudentAction]
     FOREIGN KEY ([TaskResult_Id])
-    REFERENCES [dbo].[TaskResults]
+    REFERENCES [dbo].[AbstractResultEntries_TaskResult]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TaskResultStudentAction'
 CREATE INDEX [IX_FK_TaskResultStudentAction]
-ON [dbo].[StudentActions]
+ON [dbo].[AbstractStudentActions_StudentAction]
     ([TaskResult_Id]);
 GO
 
--- Creating foreign key on [TaskVariant_Id] in table 'TaskResults'
-ALTER TABLE [dbo].[TaskResults]
+-- Creating foreign key on [TaskVariant_Id] in table 'AbstractResultEntries_TaskResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TaskResult]
 ADD CONSTRAINT [FK_TaskResultTaskVariant]
     FOREIGN KEY ([TaskVariant_Id])
     REFERENCES [dbo].[TaskVariants]
@@ -836,7 +873,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TaskResultTaskVariant'
 CREATE INDEX [IX_FK_TaskResultTaskVariant]
-ON [dbo].[TaskResults]
+ON [dbo].[AbstractResultEntries_TaskResult]
     ([TaskVariant_Id]);
 GO
 
@@ -885,30 +922,6 @@ ON [dbo].[AbstractLabSchedules]
     ([LabWork_Id]);
 GO
 
--- Creating foreign key on [TestPools_Id] in table 'TestPoolLabVariant'
-ALTER TABLE [dbo].[TestPoolLabVariant]
-ADD CONSTRAINT [FK_TestPoolLabVariant_TestPool]
-    FOREIGN KEY ([TestPools_Id])
-    REFERENCES [dbo].[TestPools]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [TestPoolLabVariant_TestPool_Id] in table 'TestPoolLabVariant'
-ALTER TABLE [dbo].[TestPoolLabVariant]
-ADD CONSTRAINT [FK_TestPoolLabVariant_LabVariant]
-    FOREIGN KEY ([TestPoolLabVariant_TestPool_Id])
-    REFERENCES [dbo].[LabVariants]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolLabVariant_LabVariant'
-CREATE INDEX [IX_FK_TestPoolLabVariant_LabVariant]
-ON [dbo].[TestPoolLabVariant]
-    ([TestPoolLabVariant_TestPool_Id]);
-GO
-
 -- Creating foreign key on [Groups_Id] in table 'LabWorkGroup'
 ALTER TABLE [dbo].[LabWorkGroup]
 ADD CONSTRAINT [FK_LabWorkGroup_Group]
@@ -933,34 +946,124 @@ ON [dbo].[LabWorkGroup]
     ([LabWorks_Id]);
 GO
 
--- Creating foreign key on [TestQuestion_Id] in table 'PoolScores'
-ALTER TABLE [dbo].[PoolScores]
-ADD CONSTRAINT [FK_TestQuestionPoolScore]
+-- Creating foreign key on [TestQuestion_Id] in table 'AnswerVariants'
+ALTER TABLE [dbo].[AnswerVariants]
+ADD CONSTRAINT [FK_TestQuestionAnswerVariant]
     FOREIGN KEY ([TestQuestion_Id])
     REFERENCES [dbo].[TestQuestions]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestionPoolScore'
-CREATE INDEX [IX_FK_TestQuestionPoolScore]
-ON [dbo].[PoolScores]
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestionAnswerVariant'
+CREATE INDEX [IX_FK_TestQuestionAnswerVariant]
+ON [dbo].[AnswerVariants]
     ([TestQuestion_Id]);
 GO
 
--- Creating foreign key on [TestPool_Id] in table 'PoolScores'
-ALTER TABLE [dbo].[PoolScores]
-ADD CONSTRAINT [FK_TestPoolPoolScore]
+-- Creating foreign key on [TestQuestion_Id] in table 'TestPoolEntries'
+ALTER TABLE [dbo].[TestPoolEntries]
+ADD CONSTRAINT [FK_TestQuestionTestPoolEntry]
+    FOREIGN KEY ([TestQuestion_Id])
+    REFERENCES [dbo].[TestQuestions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestionTestPoolEntry'
+CREATE INDEX [IX_FK_TestQuestionTestPoolEntry]
+ON [dbo].[TestPoolEntries]
+    ([TestQuestion_Id]);
+GO
+
+-- Creating foreign key on [TestPool_Id] in table 'TestPoolEntries'
+ALTER TABLE [dbo].[TestPoolEntries]
+ADD CONSTRAINT [FK_TestPoolTestPoolEntry]
     FOREIGN KEY ([TestPool_Id])
     REFERENCES [dbo].[TestPools]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolPoolScore'
-CREATE INDEX [IX_FK_TestPoolPoolScore]
-ON [dbo].[PoolScores]
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolTestPoolEntry'
+CREATE INDEX [IX_FK_TestPoolTestPoolEntry]
+ON [dbo].[TestPoolEntries]
     ([TestPool_Id]);
+GO
+
+-- Creating foreign key on [Result_Id] in table 'AbstractResultEntries'
+ALTER TABLE [dbo].[AbstractResultEntries]
+ADD CONSTRAINT [FK_ResultAbstractResultEntry]
+    FOREIGN KEY ([Result_Id])
+    REFERENCES [dbo].[Results]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ResultAbstractResultEntry'
+CREATE INDEX [IX_FK_ResultAbstractResultEntry]
+ON [dbo].[AbstractResultEntries]
+    ([Result_Id]);
+GO
+
+-- Creating foreign key on [TestResult_Id] in table 'AbstractStudentActions_StudentAnswer'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer]
+ADD CONSTRAINT [FK_TestResultStudentAnswer]
+    FOREIGN KEY ([TestResult_Id])
+    REFERENCES [dbo].[AbstractResultEntries_TestResult]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestResultStudentAnswer'
+CREATE INDEX [IX_FK_TestResultStudentAnswer]
+ON [dbo].[AbstractStudentActions_StudentAnswer]
+    ([TestResult_Id]);
+GO
+
+-- Creating foreign key on [AnswerVariant_Id] in table 'AbstractStudentActions_StudentAnswer'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer]
+ADD CONSTRAINT [FK_AnswerVariantStudentAnswer]
+    FOREIGN KEY ([AnswerVariant_Id])
+    REFERENCES [dbo].[AnswerVariants]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AnswerVariantStudentAnswer'
+CREATE INDEX [IX_FK_AnswerVariantStudentAnswer]
+ON [dbo].[AbstractStudentActions_StudentAnswer]
+    ([AnswerVariant_Id]);
+GO
+
+-- Creating foreign key on [TestPool_Id] in table 'LabVariants'
+ALTER TABLE [dbo].[LabVariants]
+ADD CONSTRAINT [FK_TestPoolLabVariant]
+    FOREIGN KEY ([TestPool_Id])
+    REFERENCES [dbo].[TestPools]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolLabVariant'
+CREATE INDEX [IX_FK_TestPoolLabVariant]
+ON [dbo].[LabVariants]
+    ([TestPool_Id]);
+GO
+
+-- Creating foreign key on [TestPoolEntry_Id] in table 'AbstractResultEntries_TestResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
+ADD CONSTRAINT [FK_TestResultTestPoolEntry]
+    FOREIGN KEY ([TestPoolEntry_Id])
+    REFERENCES [dbo].[TestPoolEntries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestResultTestPoolEntry'
+CREATE INDEX [IX_FK_TestResultTestPoolEntry]
+ON [dbo].[AbstractResultEntries_TestResult]
+    ([TestPoolEntry_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'
@@ -968,6 +1071,24 @@ ALTER TABLE [dbo].[Users_Student]
 ADD CONSTRAINT [FK_Student_inherits_User]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'AbstractResultEntries_TaskResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TaskResult]
+ADD CONSTRAINT [FK_TaskResult_inherits_AbstractResultEntry]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[AbstractResultEntries]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'AbstractStudentActions_StudentAction'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAction]
+ADD CONSTRAINT [FK_StudentAction_inherits_AbstractStudentAction]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[AbstractStudentActions]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
@@ -986,6 +1107,24 @@ ALTER TABLE [dbo].[AbstractLabSchedules_IndividualLabSchedule]
 ADD CONSTRAINT [FK_IndividualLabSchedule_inherits_AbstractLabSchedule]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[AbstractLabSchedules]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'AbstractResultEntries_TestResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
+ADD CONSTRAINT [FK_TestResult_inherits_AbstractResultEntry]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[AbstractResultEntries]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'AbstractStudentActions_StudentAnswer'
+ALTER TABLE [dbo].[AbstractStudentActions_StudentAnswer]
+ADD CONSTRAINT [FK_StudentAnswer_inherits_AbstractStudentAction]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[AbstractStudentActions]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO

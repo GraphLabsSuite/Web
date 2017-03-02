@@ -16,17 +16,17 @@ namespace GraphLabs.DomainModel
     
     #pragma warning disable 1591
     
-    public partial class PoolScore : AbstractEntity
+    public partial class TestResult : AbstractResultEntry
     {
-        protected PoolScore()
+        protected TestResult()
         {
+            this.StudentAnswers = new HashSet<StudentAnswer>();
         }
     
-        public string Id { get; set; }
-        public string Score { get; set; }
+        public string Index { get; set; }
     
-        public virtual TestQuestion TestQuestion { get; set; }
-        public virtual TestPool TestPool { get; set; }
+        public virtual ICollection<StudentAnswer> StudentAnswers { get; set; }
+        public virtual TestPoolEntry TestPoolEntry { get; set; }
     }
     
     #pragma warning restore 1591

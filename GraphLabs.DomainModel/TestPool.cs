@@ -21,15 +21,12 @@ namespace GraphLabs.DomainModel
         protected TestPool()
         {
             this.LabVariants = new HashSet<LabVariant>();
-            this.PoolScores = new HashSet<PoolScore>();
         }
     
-        public int Id { get; set; }
-        public string Strategy { get; set; }
-        public string Forfeit { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
     
         public virtual ICollection<LabVariant> LabVariants { get; set; }
-        public virtual ICollection<PoolScore> PoolScores { get; set; }
     }
     
     #pragma warning restore 1591

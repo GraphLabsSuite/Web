@@ -28,7 +28,13 @@ namespace GraphLabs.Site.Controllers
 
         #endregion
 
-        public ResultController(IUserRepository userRepository, IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult> taskResultWithActionsModelLoader, IEntityBasedModelLoader<ResultWithTaskInfoModel, Result> resultWithTaskInfoModelLoader, IListModelLoader listModelLoader, IEntityBasedModelLoader<GroupModel, Group> groupModelLoader, IEntityBasedModelLoader<ResultModel, Result> resultModelLoader)
+        public ResultController(
+            IUserRepository userRepository,
+            IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult> taskResultWithActionsModelLoader,
+            IEntityBasedModelLoader<ResultWithTaskInfoModel, Result> resultWithTaskInfoModelLoader,
+            IListModelLoader listModelLoader,
+            IEntityBasedModelLoader<GroupModel, Group> groupModelLoader,
+            IEntityBasedModelLoader<ResultModel, Result> resultModelLoader)
         {
             _userRepository = userRepository;
             _taskResultWithActionsModelLoader = taskResultWithActionsModelLoader;

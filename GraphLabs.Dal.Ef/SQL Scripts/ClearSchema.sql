@@ -5,7 +5,7 @@
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [gl_unit_tests];
+USE [gltst];
 GO
 
 /* Drop all non-system stored procs */

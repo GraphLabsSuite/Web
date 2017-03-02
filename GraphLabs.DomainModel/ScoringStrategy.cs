@@ -10,23 +10,11 @@
 namespace GraphLabs.DomainModel
 {
     using System;
-    using System.Collections.Generic;
     using GraphLabs.DomainModel.Infrastructure;
     
-    
-    #pragma warning disable 1591
-    
-    public partial class StudentAction : AbstractStudentAction
+    public enum ScoringStrategy : int
     {
-        protected StudentAction()
-        {
-        }
-    
-        public string Description { get; set; }
-    
-        public virtual TaskResult TaskResult { get; set; }
+        AllCorrectVariantsShouldBeSpecified = 0,
+        AnyCorrectVariantCanBeSpecified = 1
     }
-    
-    #pragma warning restore 1591
-    
 }

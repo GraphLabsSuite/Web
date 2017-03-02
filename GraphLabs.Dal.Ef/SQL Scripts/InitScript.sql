@@ -54,7 +54,7 @@ VALUES
 GO
 
 INSERT INTO [dbo].[Groups] 
-	(Number, IsOpen, FirstYear)
+	(Name, IsOpen, FirstYear)
 VALUES 
     ('221', 'True', '1999')
 GO

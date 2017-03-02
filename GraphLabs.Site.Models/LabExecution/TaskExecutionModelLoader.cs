@@ -10,7 +10,8 @@ namespace GraphLabs.Site.Models.LabExecution
         public TaskListEntryModel Load(Result currentResult, LabEntry entryToLoad)
         {
             var resultForEntry = currentResult
-                .TaskResults
+                .AbstractResultEntries
+                .OfType<TaskResult>()
                 .SingleOrDefault(result => result.TaskVariant.Task.Id == entryToLoad.Task.Id);
 
             var taskState = resultForEntry?.Status == ExecutionStatus.Complete

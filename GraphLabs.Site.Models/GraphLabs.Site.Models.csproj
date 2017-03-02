@@ -193,18 +193,18 @@
     <Compile Include="Schedule\LabScheduleListModel.cs" />
     <Compile Include="Schedule\LabScheduleModel.cs" />
     <Compile Include="Schedule\LabScheduleModelLoader.cs" />
-    <Compile Include="TaskResultsWithActions\ResultsWithTaskInfo\ResultWithTaskInfoModelLoader.cs" />
-    <Compile Include="TaskResultsWithActions\ResultsWithTaskInfo\ResultWithTaskInfoModel.cs" />
+    <Compile Include="ResultsWithTaskInfo\ResultWithTaskInfoModelLoader.cs" />
+    <Compile Include="ResultsWithTaskInfo\ResultWithTaskInfoModel.cs" />
     <Compile Include="Results\ResultModel.cs" />
     <Compile Include="Results\ResultModelLoader.cs" />
     <Compile Include="StudentActions\StudentActionModel.cs" />
     <Compile Include="StudentActions\StudentActionModelLoader.cs" />
     <Compile Include="LabExecution\TaskListEntryModel.cs" />
     <Compile Include="LabExecution\TaskExecutionModelLoader.cs" />
+    <Compile Include="TaskResultsWithActions\TaskResultWithActionsModel.cs" />
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />
     <Compile Include="TaskResults\TaskResultModelLoader.cs" />
-    <Compile Include="LabExecution\TaskResultWithActionsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphLabs.Dal.Ef\GraphLabs.Dal.Ef.csproj">

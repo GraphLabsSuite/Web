@@ -10,7 +10,6 @@
     <EntitySet Name="Users" EntityType="DataModel.Store.Users" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Groups" EntityType="DataModel.Store.Groups" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Results" EntityType="DataModel.Store.Results" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="StudentActions" EntityType="DataModel.Store.StudentActions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabWorks" EntityType="DataModel.Store.LabWorks" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tasks" EntityType="DataModel.Store.Tasks" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabVariants" EntityType="DataModel.Store.LabVariants" store:Type="Tables" Schema="dbo" />
@@ -22,23 +21,23 @@
     <EntitySet Name="LabEntries" EntityType="DataModel.Store.LabEntries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Categories" EntityType="DataModel.Store.Categories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaskDatas" EntityType="DataModel.Store.TaskDatas" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaskResults" EntityType="DataModel.Store.TaskResults" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractLabSchedules" EntityType="DataModel.Store.AbstractLabSchedules" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestPools" EntityType="DataModel.Store.TestPools" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PoolScores" EntityType="DataModel.Store.PoolScores" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestPoolEntries" EntityType="DataModel.Store.TestPoolEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractResultEntries" EntityType="DataModel.Store.AbstractResultEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractStudentActions" EntityType="DataModel.Store.AbstractStudentActions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Student" EntityType="DataModel.Store.Users_Student" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractResultEntries_TaskResult" EntityType="DataModel.Store.AbstractResultEntries_TaskResult" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractStudentActions_StudentAction" EntityType="DataModel.Store.AbstractStudentActions_StudentAction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractLabSchedules_GroupLabSchedule" EntityType="DataModel.Store.AbstractLabSchedules_GroupLabSchedule" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractLabSchedules_IndividualLabSchedule" EntityType="DataModel.Store.AbstractLabSchedules_IndividualLabSchedule" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractResultEntries_TestResult" EntityType="DataModel.Store.AbstractResultEntries_TestResult" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AbstractStudentActions_StudentAnswer" EntityType="DataModel.Store.AbstractStudentActions_StudentAnswer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabVariantTaskVariant" EntityType="DataModel.Store.LabVariantTaskVariant" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TestPoolLabVariant" EntityType="DataModel.Store.TestPoolLabVariant" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LabWorkGroup" EntityType="DataModel.Store.LabWorkGroup" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserNews" Association="DataModel.Store.UserNews">
       <End Role="Publisher" EntitySet="Users" />
       <End Role="News" EntitySet="News" />
-    </AssociationSet>
-    <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.Store.TestQuestionAnswerVariant">
-      <End Role="TestQuestion" EntitySet="TestQuestions" />
-      <End Role="AnswerVariant" EntitySet="AnswerVariants" />
     </AssociationSet>
     <AssociationSet Name="UserSession" Association="DataModel.Store.UserSession">
       <End Role="User" EntitySet="Users" />
@@ -88,16 +87,12 @@
       <End Role="Task" EntitySet="Tasks" />
       <End Role="TaskData" EntitySet="TaskDatas" />
     </AssociationSet>
-    <AssociationSet Name="ResultTaskResult" Association="DataModel.Store.ResultTaskResult">
-      <End Role="Result" EntitySet="Results" />
-      <End Role="TaskResult" EntitySet="TaskResults" />
-    </AssociationSet>
     <AssociationSet Name="TaskResultStudentAction" Association="DataModel.Store.TaskResultStudentAction">
-      <End Role="TaskResult" EntitySet="TaskResults" />
-      <End Role="StudentAction" EntitySet="StudentActions" />
+      <End Role="TaskResult" EntitySet="AbstractResultEntries_TaskResult" />
+      <End Role="StudentAction" EntitySet="AbstractStudentActions_StudentAction" />
     </AssociationSet>
     <AssociationSet Name="TaskResultTaskVariant" Association="DataModel.Store.TaskResultTaskVariant">
-      <End Role="TaskResult" EntitySet="TaskResults" />
+      <End Role="TaskResult" EntitySet="AbstractResultEntries_TaskResult" />
       <End Role="TaskVariant" EntitySet="TaskVariants" />
     </AssociationSet>
     <AssociationSet Name="GroupGroupLabSchedule" Association="DataModel.Store.GroupGroupLabSchedule">
@@ -112,14 +107,6 @@
       <End Role="LabWork" EntitySet="LabWorks" />
       <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
     </AssociationSet>
-    <AssociationSet Name="FK_TestPoolLabVariant_TestPool" Association="DataModel.Store.FK_TestPoolLabVariant_TestPool">
-      <End Role="TestPool" EntitySet="TestPools" />
-      <End Role="TestPoolLabVariant" EntitySet="TestPoolLabVariant" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TestPoolLabVariant_LabVariant" Association="DataModel.Store.FK_TestPoolLabVariant_LabVariant">
-      <End Role="LabVariant" EntitySet="LabVariants" />
-      <End Role="TestPoolLabVariant" EntitySet="TestPoolLabVariant" />
-    </AssociationSet>
     <AssociationSet Name="FK_LabWorkGroup_Group" Association="DataModel.Store.FK_LabWorkGroup_Group">
       <End Role="Group" EntitySet="Groups" />
       <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
@@ -128,17 +115,49 @@
       <End Role="LabWork" EntitySet="LabWorks" />
       <End Role="LabWorkGroup" EntitySet="LabWorkGroup" />
     </AssociationSet>
-    <AssociationSet Name="TestQuestionPoolScore" Association="DataModel.Store.TestQuestionPoolScore">
-      <End Role="PoolScore" EntitySet="PoolScores" />
+    <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.Store.TestQuestionAnswerVariant">
       <End Role="TestQuestion" EntitySet="TestQuestions" />
+      <End Role="AnswerVariant" EntitySet="AnswerVariants" />
     </AssociationSet>
-    <AssociationSet Name="TestPoolPoolScore" Association="DataModel.Store.TestPoolPoolScore">
-      <End Role="PoolScore" EntitySet="PoolScores" />
+    <AssociationSet Name="TestQuestionTestPoolEntry" Association="DataModel.Store.TestQuestionTestPoolEntry">
+      <End Role="TestQuestion" EntitySet="TestQuestions" />
+      <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
+    </AssociationSet>
+    <AssociationSet Name="TestPoolTestPoolEntry" Association="DataModel.Store.TestPoolTestPoolEntry">
       <End Role="TestPool" EntitySet="TestPools" />
+      <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
+    </AssociationSet>
+    <AssociationSet Name="ResultAbstractResultEntry" Association="DataModel.Store.ResultAbstractResultEntry">
+      <End Role="Result" EntitySet="Results" />
+      <End Role="AbstractResultEntry" EntitySet="AbstractResultEntries" />
+    </AssociationSet>
+    <AssociationSet Name="TestResultStudentAnswer" Association="DataModel.Store.TestResultStudentAnswer">
+      <End Role="TestResult" EntitySet="AbstractResultEntries_TestResult" />
+      <End Role="StudentAnswer" EntitySet="AbstractStudentActions_StudentAnswer" />
+    </AssociationSet>
+    <AssociationSet Name="AnswerVariantStudentAnswer" Association="DataModel.Store.AnswerVariantStudentAnswer">
+      <End Role="AnswerVariant" EntitySet="AnswerVariants" />
+      <End Role="StudentAnswer" EntitySet="AbstractStudentActions_StudentAnswer" />
+    </AssociationSet>
+    <AssociationSet Name="TestPoolLabVariant" Association="DataModel.Store.TestPoolLabVariant">
+      <End Role="TestPool" EntitySet="TestPools" />
+      <End Role="LabVariant" EntitySet="LabVariants" />
+    </AssociationSet>
+    <AssociationSet Name="TestResultTestPoolEntry" Association="DataModel.Store.TestResultTestPoolEntry">
+      <End Role="TestResult" EntitySet="AbstractResultEntries_TestResult" />
+      <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
     </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
       <End Role="Student" EntitySet="Users_Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaskResult_inherits_AbstractResultEntry" Association="DataModel.Store.FK_TaskResult_inherits_AbstractResultEntry">
+      <End Role="AbstractResultEntry" EntitySet="AbstractResultEntries" />
+      <End Role="TaskResult" EntitySet="AbstractResultEntries_TaskResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentAction_inherits_AbstractStudentAction" Association="DataModel.Store.FK_StudentAction_inherits_AbstractStudentAction">
+      <End Role="AbstractStudentAction" EntitySet="AbstractStudentActions" />
+      <End Role="StudentAction" EntitySet="AbstractStudentActions_StudentAction" />
     </AssociationSet>
     <AssociationSet Name="FK_GroupLabSchedule_inherits_AbstractLabSchedule" Association="DataModel.Store.FK_GroupLabSchedule_inherits_AbstractLabSchedule">
       <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
@@ -147,6 +166,14 @@
     <AssociationSet Name="FK_IndividualLabSchedule_inherits_AbstractLabSchedule" Association="DataModel.Store.FK_IndividualLabSchedule_inherits_AbstractLabSchedule">
       <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
       <End Role="IndividualLabSchedule" EntitySet="AbstractLabSchedules_IndividualLabSchedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TestResult_inherits_AbstractResultEntry" Association="DataModel.Store.FK_TestResult_inherits_AbstractResultEntry">
+      <End Role="AbstractResultEntry" EntitySet="AbstractResultEntries" />
+      <End Role="TestResult" EntitySet="AbstractResultEntries_TestResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentAnswer_inherits_AbstractStudentAction" Association="DataModel.Store.FK_StudentAnswer_inherits_AbstractStudentAction">
+      <End Role="AbstractStudentAction" EntitySet="AbstractStudentActions" />
+      <End Role="StudentAnswer" EntitySet="AbstractStudentActions_StudentAnswer" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="News">
@@ -193,16 +220,6 @@
     <Property Name="Student_Id" Type="bigint" Nullable="false" />
     <Property Name="LabVariant_Id" Type="bigint" Nullable="false" />
   </EntityType>
-  <EntityType Name="StudentActions">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Penalty" Type="int" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
-    <Property Name="TaskResult_Id" Type="bigint" Nullable="false" />
-  </EntityType>
   <EntityType Name="LabWorks">
     <Key>
       <PropertyRef Name="Id" />
@@ -233,6 +250,7 @@
     <Property Name="Version" Type="bigint" Nullable="false" />
     <Property Name="IntroducingVariant" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="LabWork_Id" Type="bigint" Nullable="false" />
+    <Property Name="TestPool_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="TestQuestions">
     <Key>
@@ -303,16 +321,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Xap" Type="varbinary(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="TaskResults">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Status" Type="tinyint" Nullable="false" />
-    <Property Name="Score" Type="int" Nullable="true" />
-    <Property Name="Result_Id" Type="bigint" Nullable="false" />
-    <Property Name="TaskVariant_Id" Type="bigint" Nullable="false" />
-  </EntityType>
   <EntityType Name="AbstractLabSchedules">
     <Key>
       <PropertyRef Name="Id" />
@@ -330,15 +338,32 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="PoolScores">
+  <EntityType Name="TestPoolEntries">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
-    <Property Name="ScoringStratery" Type="int" Nullable="false" />
+    <Property Name="ScoringStrategy" Type="int" Nullable="false" />
     <Property Name="TestQuestion_Id" Type="bigint" Nullable="false" />
     <Property Name="TestPool_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AbstractResultEntries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="tinyint" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="Result_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AbstractStudentActions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Penalty" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Users_Student">
     <Key>
@@ -348,6 +373,21 @@
     <Property Name="IsDismissed" Type="bit" Nullable="false" />
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Group_Id" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AbstractResultEntries_TaskResult">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="TaskVariant_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AbstractStudentActions_StudentAction">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="TaskResult_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="AbstractLabSchedules_GroupLabSchedule">
     <Key>
@@ -363,6 +403,22 @@
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Student_Id" Type="bigint" Nullable="false" />
   </EntityType>
+  <EntityType Name="AbstractResultEntries_TestResult">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Index" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="TestPoolEntry_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AbstractStudentActions_StudentAnswer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="TestResult_Id" Type="bigint" Nullable="false" />
+    <Property Name="AnswerVariant_Id" Type="bigint" Nullable="false" />
+  </EntityType>
   <EntityType Name="LabVariantTaskVariant">
     <Key>
       <PropertyRef Name="LabVariantTaskVariant_TaskVariant_Id" />
@@ -370,14 +426,6 @@
     </Key>
     <Property Name="LabVariantTaskVariant_TaskVariant_Id" Type="bigint" Nullable="false" />
     <Property Name="TaskVariants_Id" Type="bigint" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TestPoolLabVariant">
-    <Key>
-      <PropertyRef Name="TestPools_Id" />
-      <PropertyRef Name="TestPoolLabVariant_TestPool_Id" />
-    </Key>
-    <Property Name="TestPools_Id" Type="bigint" Nullable="false" />
-    <Property Name="TestPoolLabVariant_TestPool_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="LabWorkGroup">
     <Key>
@@ -396,18 +444,6 @@
       </Principal>
       <Dependent Role="News">
         <PropertyRef Name="User_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TestQuestionAnswerVariant">
-    <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="1" />
-    <End Role="AnswerVariant" Type="DataModel.Store.AnswerVariants" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TestQuestion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AnswerVariant">
-        <PropertyRef Name="TestQuestion_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -531,21 +567,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ResultTaskResult">
-    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="1" />
-    <End Role="TaskResult" Type="DataModel.Store.TaskResults" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Result">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TaskResult">
-        <PropertyRef Name="Result_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="TaskResultStudentAction">
-    <End Role="TaskResult" Type="DataModel.Store.TaskResults" Multiplicity="1" />
-    <End Role="StudentAction" Type="DataModel.Store.StudentActions" Multiplicity="*" />
+    <End Role="TaskResult" Type="DataModel.Store.AbstractResultEntries_TaskResult" Multiplicity="1" />
+    <End Role="StudentAction" Type="DataModel.Store.AbstractStudentActions_StudentAction" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TaskResult">
         <PropertyRef Name="Id" />
@@ -556,7 +580,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="TaskResultTaskVariant">
-    <End Role="TaskResult" Type="DataModel.Store.TaskResults" Multiplicity="*" />
+    <End Role="TaskResult" Type="DataModel.Store.AbstractResultEntries_TaskResult" Multiplicity="*" />
     <End Role="TaskVariant" Type="DataModel.Store.TaskVariants" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="TaskVariant">
@@ -603,27 +627,99 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TestQuestionPoolScore">
-    <End Role="PoolScore" Type="DataModel.Store.PoolScores" Multiplicity="*" />
+  <Association Name="TestQuestionAnswerVariant">
     <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="1" />
+    <End Role="AnswerVariant" Type="DataModel.Store.AnswerVariants" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TestQuestion">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="PoolScore">
+      <Dependent Role="AnswerVariant">
         <PropertyRef Name="TestQuestion_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TestPoolPoolScore">
-    <End Role="PoolScore" Type="DataModel.Store.PoolScores" Multiplicity="*" />
+  <Association Name="TestQuestionTestPoolEntry">
+    <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="1" />
+    <End Role="TestPoolEntry" Type="DataModel.Store.TestPoolEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestQuestion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestPoolEntry">
+        <PropertyRef Name="TestQuestion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestPoolTestPoolEntry">
     <End Role="TestPool" Type="DataModel.Store.TestPools" Multiplicity="1" />
+    <End Role="TestPoolEntry" Type="DataModel.Store.TestPoolEntries" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TestPool">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="PoolScore">
+      <Dependent Role="TestPoolEntry">
         <PropertyRef Name="TestPool_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ResultAbstractResultEntry">
+    <End Role="Result" Type="DataModel.Store.Results" Multiplicity="1" />
+    <End Role="AbstractResultEntry" Type="DataModel.Store.AbstractResultEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Result">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AbstractResultEntry">
+        <PropertyRef Name="Result_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestResultStudentAnswer">
+    <End Role="TestResult" Type="DataModel.Store.AbstractResultEntries_TestResult" Multiplicity="1" />
+    <End Role="StudentAnswer" Type="DataModel.Store.AbstractStudentActions_StudentAnswer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestResult">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentAnswer">
+        <PropertyRef Name="TestResult_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AnswerVariantStudentAnswer">
+    <End Role="AnswerVariant" Type="DataModel.Store.AnswerVariants" Multiplicity="1" />
+    <End Role="StudentAnswer" Type="DataModel.Store.AbstractStudentActions_StudentAnswer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AnswerVariant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentAnswer">
+        <PropertyRef Name="AnswerVariant_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestPoolLabVariant">
+    <End Role="TestPool" Type="DataModel.Store.TestPools" Multiplicity="1" />
+    <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPool">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LabVariant">
+        <PropertyRef Name="TestPool_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestResultTestPoolEntry">
+    <End Role="TestResult" Type="DataModel.Store.AbstractResultEntries_TestResult" Multiplicity="*" />
+    <End Role="TestPoolEntry" Type="DataModel.Store.TestPoolEntries" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TestPoolEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestResult">
+        <PropertyRef Name="TestPoolEntry_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -648,30 +744,6 @@
       </Principal>
       <Dependent Role="LabVariantTaskVariant">
         <PropertyRef Name="TaskVariants_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TestPoolLabVariant_TestPool">
-    <End Role="TestPool" Type="DataModel.Store.TestPools" Multiplicity="1" />
-    <End Role="TestPoolLabVariant" Type="DataModel.Store.TestPoolLabVariant" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TestPool">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TestPoolLabVariant">
-        <PropertyRef Name="TestPools_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TestPoolLabVariant_LabVariant">
-    <End Role="TestPoolLabVariant" Type="DataModel.Store.TestPoolLabVariant" Multiplicity="*" />
-    <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="LabVariant">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TestPoolLabVariant">
-        <PropertyRef Name="TestPoolLabVariant_TestPool_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -713,6 +785,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TaskResult_inherits_AbstractResultEntry">
+    <End Role="AbstractResultEntry" Type="DataModel.Store.AbstractResultEntries" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TaskResult" Type="DataModel.Store.AbstractResultEntries_TaskResult" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AbstractResultEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TaskResult">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentAction_inherits_AbstractStudentAction">
+    <End Role="AbstractStudentAction" Type="DataModel.Store.AbstractStudentActions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="StudentAction" Type="DataModel.Store.AbstractStudentActions_StudentAction" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AbstractStudentAction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentAction">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_GroupLabSchedule_inherits_AbstractLabSchedule">
     <End Role="AbstractLabSchedule" Type="DataModel.Store.AbstractLabSchedules" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -741,6 +841,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TestResult_inherits_AbstractResultEntry">
+    <End Role="AbstractResultEntry" Type="DataModel.Store.AbstractResultEntries" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TestResult" Type="DataModel.Store.AbstractResultEntries_TestResult" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AbstractResultEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestResult">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentAnswer_inherits_AbstractStudentAction">
+    <End Role="AbstractStudentAction" Type="DataModel.Store.AbstractStudentActions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="StudentAnswer" Type="DataModel.Store.AbstractStudentActions_StudentAnswer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AbstractStudentAction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentAnswer">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -754,16 +882,11 @@
           </AssociationSet>
           <EntitySet Name="Groups" EntityType="DataModel.Group" />
           <EntitySet Name="Results" EntityType="DataModel.Result" />
-          <EntitySet Name="StudentActions" EntityType="DataModel.StudentAction" />
           <EntitySet Name="LabWorks" EntityType="DataModel.LabWork" />
           <EntitySet Name="Tasks" EntityType="DataModel.Task" />
           <EntitySet Name="LabVariants" EntityType="DataModel.LabVariant" />
           <EntitySet Name="TestQuestions" EntityType="DataModel.TestQuestion" />
           <EntitySet Name="AnswerVariants" EntityType="DataModel.AnswerVariant" />
-          <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.TestQuestionAnswerVariant">
-            <End Role="TestQuestion" EntitySet="TestQuestions" />
-            <End Role="AnswerVariant" EntitySet="AnswerVariants" />
-          </AssociationSet>
           <EntitySet Name="Sessions" EntityType="DataModel.Session" />
           <AssociationSet Name="UserSession" Association="DataModel.UserSession">
             <End Role="User" EntitySet="Users" />
@@ -814,17 +937,12 @@
             <End Role="Task" EntitySet="Tasks" />
             <End Role="TaskData" EntitySet="TaskDatas" />
           </AssociationSet>
-          <EntitySet Name="TaskResults" EntityType="DataModel.TaskResult" />
-          <AssociationSet Name="ResultTaskResult" Association="DataModel.ResultTaskResult">
-            <End Role="Result" EntitySet="Results" />
-            <End Role="TaskResult" EntitySet="TaskResults" />
-          </AssociationSet>
           <AssociationSet Name="TaskResultStudentAction" Association="DataModel.TaskResultStudentAction">
-            <End Role="TaskResult" EntitySet="TaskResults" />
-            <End Role="StudentAction" EntitySet="StudentActions" />
+            <End Role="TaskResult" EntitySet="AbstractResultEntries" />
+            <End Role="StudentAction" EntitySet="AbstractStudentActions" />
           </AssociationSet>
           <AssociationSet Name="TaskResultTaskVariant" Association="DataModel.TaskResultTaskVariant">
-            <End Role="TaskResult" EntitySet="TaskResults" />
+            <End Role="TaskResult" EntitySet="AbstractResultEntries" />
             <End Role="TaskVariant" EntitySet="TaskVariants" />
           </AssociationSet>
           <EntitySet Name="AbstractLabSchedules" EntityType="DataModel.AbstractLabSchedule" />
@@ -841,22 +959,44 @@
             <End Role="AbstractLabSchedule" EntitySet="AbstractLabSchedules" />
           </AssociationSet>
           <EntitySet Name="TestPools" EntityType="DataModel.TestPool" />
-          <AssociationSet Name="TestPoolLabVariant" Association="DataModel.TestPoolLabVariant">
-            <End Role="TestPool" EntitySet="TestPools" />
-            <End Role="LabVariant" EntitySet="LabVariants" />
-          </AssociationSet>
-          <EntitySet Name="PoolScores" EntityType="DataModel.PoolScore" />
           <AssociationSet Name="LabWorkGroup" Association="DataModel.LabWorkGroup">
             <End Role="Group" EntitySet="Groups" />
             <End Role="LabWork" EntitySet="LabWorks" />
           </AssociationSet>
-          <AssociationSet Name="TestQuestionPoolScore" Association="DataModel.TestQuestionPoolScore">
-            <End Role="PoolScore" EntitySet="PoolScores" />
+          <AssociationSet Name="TestQuestionAnswerVariant" Association="DataModel.TestQuestionAnswerVariant">
             <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="AnswerVariant" EntitySet="AnswerVariants" />
           </AssociationSet>
-          <AssociationSet Name="TestPoolPoolScore" Association="DataModel.TestPoolPoolScore">
-            <End Role="PoolScore" EntitySet="PoolScores" />
+          <EntitySet Name="TestPoolEntries" EntityType="DataModel.TestPoolEntry" />
+          <AssociationSet Name="TestQuestionTestPoolEntry" Association="DataModel.TestQuestionTestPoolEntry">
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
+          </AssociationSet>
+          <AssociationSet Name="TestPoolTestPoolEntry" Association="DataModel.TestPoolTestPoolEntry">
             <End Role="TestPool" EntitySet="TestPools" />
+            <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
+          </AssociationSet>
+          <EntitySet Name="AbstractResultEntries" EntityType="DataModel.AbstractResultEntry" />
+          <AssociationSet Name="ResultAbstractResultEntry" Association="DataModel.ResultAbstractResultEntry">
+            <End Role="Result" EntitySet="Results" />
+            <End Role="AbstractResultEntry" EntitySet="AbstractResultEntries" />
+          </AssociationSet>
+          <AssociationSet Name="TestResultStudentAnswer" Association="DataModel.TestResultStudentAnswer">
+            <End Role="TestResult" EntitySet="AbstractResultEntries" />
+            <End Role="StudentAnswer" EntitySet="AbstractStudentActions" />
+          </AssociationSet>
+          <EntitySet Name="AbstractStudentActions" EntityType="DataModel.AbstractStudentAction" />
+          <AssociationSet Name="AnswerVariantStudentAnswer" Association="DataModel.AnswerVariantStudentAnswer">
+            <End Role="AnswerVariant" EntitySet="AnswerVariants" />
+            <End Role="StudentAnswer" EntitySet="AbstractStudentActions" />
+          </AssociationSet>
+          <AssociationSet Name="TestPoolLabVariant" Association="DataModel.TestPoolLabVariant">
+            <End Role="TestPool" EntitySet="TestPools" />
+            <End Role="LabVariant" EntitySet="LabVariants" />
+          </AssociationSet>
+          <AssociationSet Name="TestResultTestPoolEntry" Association="DataModel.TestResultTestPoolEntry">
+            <End Role="TestResult" EntitySet="AbstractResultEntries" />
+            <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
@@ -908,17 +1048,11 @@
           <Property Type="Int32" Name="Score" Nullable="true" />
           <NavigationProperty Name="Student" Relationship="DataModel.StudentResult" FromRole="Result" ToRole="Student" />
           <NavigationProperty Name="LabVariant" Relationship="DataModel.LabVariantResult" FromRole="Result" ToRole="LabVariant" />
-          <NavigationProperty Name="TaskResults" Relationship="DataModel.ResultTaskResult" FromRole="Result" ToRole="TaskResult" />
           <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
+          <NavigationProperty Name="AbstractResultEntries" Relationship="DataModel.ResultAbstractResultEntry" FromRole="Result" ToRole="AbstractResultEntry" />
         </EntityType>
-        <EntityType Name="StudentAction">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EntityType Name="StudentAction" BaseType="DataModel.AbstractStudentAction">
           <Property Type="String" Name="Description" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
-          <Property Type="Int32" Name="Penalty" Nullable="false" />
-          <Property Type="DateTime" Name="Time" Nullable="false" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" Precision="3" />
           <NavigationProperty Name="TaskResult" Relationship="DataModel.TaskResultStudentAction" FromRole="StudentAction" ToRole="TaskResult" />
         </EntityType>
         <EntityType Name="LabWork">
@@ -956,7 +1090,7 @@
           <NavigationProperty Name="TaskVariants" Relationship="DataModel.LabVariantTaskVariant" FromRole="LabVariant" ToRole="TaskVariant" />
           <NavigationProperty Name="LabWork" Relationship="DataModel.LabWorkLabVariant" FromRole="LabVariant" ToRole="LabWork" />
           <Property Type="Boolean" Name="IntroducingVariant" Nullable="false" DefaultValue="false" />
-          <NavigationProperty Name="TestPools" Relationship="DataModel.TestPoolLabVariant" FromRole="LabVariant" ToRole="TestPool" />
+          <NavigationProperty Name="TestPool" Relationship="DataModel.TestPoolLabVariant" FromRole="LabVariant" ToRole="TestPool" />
         </EntityType>
         <EntityType Name="TestQuestion">
           <Key>
@@ -965,6 +1099,7 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="Question" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Category" Relationship="DataModel.TestQuestionCategory" FromRole="TestQuestion" ToRole="Category" />
+          <NavigationProperty Name="AnswerVariants" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="TestQuestion" ToRole="AnswerVariant" />
         </EntityType>
         <EntityType Name="AnswerVariant">
           <Key>
@@ -975,10 +1110,6 @@
           <Property Type="Boolean" Name="IsCorrect" Nullable="false" />
           <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="AnswerVariant" ToRole="TestQuestion" />
         </EntityType>
-        <Association Name="TestQuestionAnswerVariant">
-          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
-          <End Type="DataModel.AnswerVariant" Role="AnswerVariant" Multiplicity="*" />
-        </Association>
         <EntityType Name="Session">
           <Key>
             <PropertyRef Name="Guid" />
@@ -1095,21 +1226,10 @@
           <End Type="DataModel.Task" Role="Task" Multiplicity="1" />
           <End Type="DataModel.TaskData" Role="TaskData" Multiplicity="1" />
         </Association>
-        <EntityType Name="TaskResult">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Result" Relationship="DataModel.ResultTaskResult" FromRole="TaskResult" ToRole="Result" />
+        <EntityType Name="TaskResult" BaseType="DataModel.AbstractResultEntry">
           <NavigationProperty Name="StudentActions" Relationship="DataModel.TaskResultStudentAction" FromRole="TaskResult" ToRole="StudentAction" />
-          <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
           <NavigationProperty Name="TaskVariant" Relationship="DataModel.TaskResultTaskVariant" FromRole="TaskResult" ToRole="TaskVariant" />
-          <Property Name="Score" Type="Int32" Nullable="true" />
         </EntityType>
-        <Association Name="ResultTaskResult">
-          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
-          <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="*" />
-        </Association>
         <Association Name="TaskResultStudentAction">
           <End Type="DataModel.TaskResult" Role="TaskResult" Multiplicity="1" />
           <End Type="DataModel.StudentAction" Role="StudentAction" Multiplicity="*" />
@@ -1156,39 +1276,86 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="PoolScores" Relationship="DataModel.TestPoolPoolScore" FromRole="TestPool" ToRole="PoolScore" />
           <Property Name="Name" Type="String" Nullable="false" />
-        </EntityType>
-        <Association Name="TestPoolLabVariant">
-          <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="*" />
-          <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
-        </Association>
-        <EntityType Name="PoolScore" >
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionPoolScore" FromRole="PoolScore" ToRole="TestQuestion" />
-          <NavigationProperty Name="TestPool" Relationship="DataModel.TestPoolPoolScore" FromRole="PoolScore" ToRole="TestPool" />
-          <Property Name="ScoringStratery" Type="DataModel.ScoringStrategy" Nullable="false" />
+          <NavigationProperty Name="LabVariants" Relationship="DataModel.TestPoolLabVariant" FromRole="TestPool" ToRole="LabVariant" />
         </EntityType>
         <Association Name="LabWorkGroup">
           <End Type="DataModel.Group" Role="Group" Multiplicity="*" />
           <End Type="DataModel.LabWork" Role="LabWork" Multiplicity="*" />
         </Association>
-        <Association Name="TestQuestionPoolScore">
-          <End Type="DataModel.PoolScore" Role="PoolScore" Multiplicity="*" />
-          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
-        </Association>
-        <Association Name="TestPoolPoolScore">
-          <End Type="DataModel.PoolScore" Role="PoolScore" Multiplicity="*" />
-          <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
-        </Association>
         <EnumType Name="ScoringStrategy">
           <Member Name="AllCorrectVariantsShouldBeSpecified" />
           <Member Name="AnyCorrectVariantCanBeSpecified" />
         </EnumType>
+        <Association Name="TestQuestionAnswerVariant">
+          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
+          <End Type="DataModel.AnswerVariant" Role="AnswerVariant" Multiplicity="*" />
+        </Association>
+        <EntityType Name="TestPoolEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="ScoringStrategy" Type="DataModel.ScoringStrategy" Nullable="false" />
+          <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionTestPoolEntry" FromRole="TestPoolEntry" ToRole="TestQuestion" />
+          <NavigationProperty Name="TestPool" Relationship="DataModel.TestPoolTestPoolEntry" FromRole="TestPoolEntry" ToRole="TestPool" />
+          <NavigationProperty Name="TestResult" Relationship="DataModel.TestResultTestPoolEntry" FromRole="TestPoolEntry" ToRole="TestResult" />
+        </EntityType>
+        <Association Name="TestQuestionTestPoolEntry">
+          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
+          <End Type="DataModel.TestPoolEntry" Role="TestPoolEntry" Multiplicity="*" />
+        </Association>
+        <Association Name="TestPoolTestPoolEntry">
+          <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
+          <End Type="DataModel.TestPoolEntry" Role="TestPoolEntry" Multiplicity="*" />
+        </Association>
+        <EntityType Name="AbstractResultEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="DataModel.ExecutionStatus" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Result" Relationship="DataModel.ResultAbstractResultEntry" FromRole="AbstractResultEntry" ToRole="Result" />
+        </EntityType>
+        <Association Name="ResultAbstractResultEntry">
+          <End Type="DataModel.Result" Role="Result" Multiplicity="1" />
+          <End Type="DataModel.AbstractResultEntry" Role="AbstractResultEntry" Multiplicity="*" />
+        </Association>
+        <EntityType Name="TestResult" BaseType="DataModel.AbstractResultEntry" >
+          <NavigationProperty Name="StudentAnswers" Relationship="DataModel.TestResultStudentAnswer" FromRole="TestResult" ToRole="StudentAnswer" />
+          <NavigationProperty Name="TestPoolEntry" Relationship="DataModel.TestResultTestPoolEntry" FromRole="TestResult" ToRole="TestPoolEntry" />
+          <Property Name="Index" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentAnswer" BaseType="DataModel.AbstractStudentAction">
+          <NavigationProperty Name="TestResult" Relationship="DataModel.TestResultStudentAnswer" FromRole="StudentAnswer" ToRole="TestResult" />
+          <NavigationProperty Name="AnswerVariant" Relationship="DataModel.AnswerVariantStudentAnswer" FromRole="StudentAnswer" ToRole="AnswerVariant" />
+        </EntityType>
+        <Association Name="TestResultStudentAnswer">
+          <End Type="DataModel.TestResult" Role="TestResult" Multiplicity="1" />
+          <End Type="DataModel.StudentAnswer" Role="StudentAnswer" Multiplicity="*" />
+        </Association>
+        <EntityType Name="AbstractStudentAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="DateTime" Nullable="false" />
+          <Property Name="Penalty" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="AnswerVariantStudentAnswer">
+          <End Type="DataModel.AnswerVariant" Role="AnswerVariant" Multiplicity="1" />
+          <End Type="DataModel.StudentAnswer" Role="StudentAnswer" Multiplicity="*" />
+        </Association>
+        <Association Name="TestPoolLabVariant">
+          <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
+          <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
+        </Association>
+        <Association Name="TestResultTestPoolEntry">
+          <End Type="DataModel.TestResult" Role="TestResult" Multiplicity="1" />
+          <End Type="DataModel.TestPoolEntry" Role="TestPoolEntry" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1244,16 +1411,6 @@
           <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
           <ScalarProperty Name="Score" ColumnName="Score" />
           <ScalarProperty Name="Status" ColumnName="Status" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="StudentActions">
-      <EntityTypeMapping TypeName="IsTypeOf(DataModel.StudentAction)">
-        <MappingFragment StoreEntitySet="StudentActions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Penalty" ColumnName="Penalty" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1360,15 +1517,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TaskResults">
-      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TaskResult)">
-        <MappingFragment StoreEntitySet="TaskResults">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Score" ColumnName="Score" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AbstractLabSchedules">
       <EntityTypeMapping TypeName="IsTypeOf(DataModel.AbstractLabSchedule)">
         <MappingFragment StoreEntitySet="AbstractLabSchedules">
@@ -1397,12 +1545,52 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PoolScores">
-      <EntityTypeMapping TypeName="IsTypeOf(DataModel.PoolScore)">
-        <MappingFragment StoreEntitySet="PoolScores">
+    <EntitySetMapping Name="TestPoolEntries">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TestPoolEntry)">
+        <MappingFragment StoreEntitySet="TestPoolEntries">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Score" ColumnName="Score" />
-          <ScalarProperty Name="ScoringStratery" ColumnName="ScoringStratery" />
+          <ScalarProperty Name="ScoringStrategy" ColumnName="ScoringStrategy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AbstractResultEntries">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.AbstractResultEntry)">
+        <MappingFragment StoreEntitySet="AbstractResultEntries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TaskResult)">
+        <MappingFragment StoreEntitySet="AbstractResultEntries_TaskResult">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.TestResult)">
+        <MappingFragment StoreEntitySet="AbstractResultEntries_TestResult">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Index" ColumnName="Index" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AbstractStudentActions">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.AbstractStudentAction)">
+        <MappingFragment StoreEntitySet="AbstractStudentActions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Penalty" ColumnName="Penalty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.StudentAction)">
+        <MappingFragment StoreEntitySet="AbstractStudentActions_StudentAction">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.StudentAnswer)">
+        <MappingFragment StoreEntitySet="AbstractStudentActions_StudentAnswer">
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1411,14 +1599,6 @@
         <ScalarProperty Name="Id" ColumnName="User_Id" />
       </EndProperty>
       <EndProperty Name="News">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TestQuestionAnswerVariant" TypeName="DataModel.TestQuestionAnswerVariant" StoreEntitySet="AnswerVariants">
-      <EndProperty Name="TestQuestion">
-        <ScalarProperty Name="Id" ColumnName="TestQuestion_Id" />
-      </EndProperty>
-      <EndProperty Name="AnswerVariant">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -1511,15 +1691,7 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="ResultTaskResult" TypeName="DataModel.ResultTaskResult" StoreEntitySet="TaskResults">
-      <EndProperty Name="Result">
-        <ScalarProperty Name="Id" ColumnName="Result_Id" />
-      </EndProperty>
-      <EndProperty Name="TaskResult">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TaskResultStudentAction" TypeName="DataModel.TaskResultStudentAction" StoreEntitySet="StudentActions">
+    <AssociationSetMapping Name="TaskResultStudentAction" TypeName="DataModel.TaskResultStudentAction" StoreEntitySet="AbstractStudentActions_StudentAction">
       <EndProperty Name="TaskResult">
         <ScalarProperty Name="Id" ColumnName="TaskResult_Id" />
       </EndProperty>
@@ -1527,7 +1699,7 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="TaskResultTaskVariant" TypeName="DataModel.TaskResultTaskVariant" StoreEntitySet="TaskResults">
+    <AssociationSetMapping Name="TaskResultTaskVariant" TypeName="DataModel.TaskResultTaskVariant" StoreEntitySet="AbstractResultEntries_TaskResult">
       <EndProperty Name="TaskVariant">
         <ScalarProperty Name="Id" ColumnName="TaskVariant_Id" />
       </EndProperty>
@@ -1559,14 +1731,6 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="TestPoolLabVariant" TypeName="DataModel.TestPoolLabVariant" StoreEntitySet="TestPoolLabVariant">
-      <EndProperty Name="TestPool">
-        <ScalarProperty Name="Id" ColumnName="TestPools_Id" />
-      </EndProperty>
-      <EndProperty Name="LabVariant">
-        <ScalarProperty Name="Id" ColumnName="TestPoolLabVariant_TestPool_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="LabWorkGroup" TypeName="DataModel.LabWorkGroup" StoreEntitySet="LabWorkGroup">
       <EndProperty Name="Group">
         <ScalarProperty Name="Id" ColumnName="Groups_Id" />
@@ -1575,19 +1739,67 @@
         <ScalarProperty Name="Id" ColumnName="LabWorks_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="TestQuestionPoolScore" TypeName="DataModel.TestQuestionPoolScore" StoreEntitySet="PoolScores">
+    <AssociationSetMapping Name="TestQuestionAnswerVariant" TypeName="DataModel.TestQuestionAnswerVariant" StoreEntitySet="AnswerVariants">
       <EndProperty Name="TestQuestion">
         <ScalarProperty Name="Id" ColumnName="TestQuestion_Id" />
       </EndProperty>
-      <EndProperty Name="PoolScore">
+      <EndProperty Name="AnswerVariant">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="TestPoolPoolScore" TypeName="DataModel.TestPoolPoolScore" StoreEntitySet="PoolScores">
+    <AssociationSetMapping Name="TestQuestionTestPoolEntry" TypeName="DataModel.TestQuestionTestPoolEntry" StoreEntitySet="TestPoolEntries">
+      <EndProperty Name="TestQuestion">
+        <ScalarProperty Name="Id" ColumnName="TestQuestion_Id" />
+      </EndProperty>
+      <EndProperty Name="TestPoolEntry">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestPoolTestPoolEntry" TypeName="DataModel.TestPoolTestPoolEntry" StoreEntitySet="TestPoolEntries">
       <EndProperty Name="TestPool">
         <ScalarProperty Name="Id" ColumnName="TestPool_Id" />
       </EndProperty>
-      <EndProperty Name="PoolScore">
+      <EndProperty Name="TestPoolEntry">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ResultAbstractResultEntry" TypeName="DataModel.ResultAbstractResultEntry" StoreEntitySet="AbstractResultEntries">
+      <EndProperty Name="Result">
+        <ScalarProperty Name="Id" ColumnName="Result_Id" />
+      </EndProperty>
+      <EndProperty Name="AbstractResultEntry">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestResultStudentAnswer" TypeName="DataModel.TestResultStudentAnswer" StoreEntitySet="AbstractStudentActions_StudentAnswer">
+      <EndProperty Name="TestResult">
+        <ScalarProperty Name="Id" ColumnName="TestResult_Id" />
+      </EndProperty>
+      <EndProperty Name="StudentAnswer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AnswerVariantStudentAnswer" TypeName="DataModel.AnswerVariantStudentAnswer" StoreEntitySet="AbstractStudentActions_StudentAnswer">
+      <EndProperty Name="AnswerVariant">
+        <ScalarProperty Name="Id" ColumnName="AnswerVariant_Id" />
+      </EndProperty>
+      <EndProperty Name="StudentAnswer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestPoolLabVariant" TypeName="DataModel.TestPoolLabVariant" StoreEntitySet="LabVariants">
+      <EndProperty Name="TestPool">
+        <ScalarProperty Name="Id" ColumnName="TestPool_Id" />
+      </EndProperty>
+      <EndProperty Name="LabVariant">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestResultTestPoolEntry" TypeName="DataModel.TestResultTestPoolEntry" StoreEntitySet="AbstractResultEntries_TestResult">
+      <EndProperty Name="TestPoolEntry">
+        <ScalarProperty Name="Id" ColumnName="TestPoolEntry_Id" />
+      </EndProperty>
+      <EndProperty Name="TestResult">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

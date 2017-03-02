@@ -20,7 +20,7 @@ namespace GraphLabs.DomainModel
     {
         protected Result()
         {
-            this.TaskResults = new HashSet<TaskResult>();
+            this.AbstractResultEntries = new HashSet<AbstractResultEntry>();
         }
     
         public long Id { get; private set; }
@@ -31,7 +31,7 @@ namespace GraphLabs.DomainModel
     
         public virtual Student Student { get; set; }
         public virtual LabVariant LabVariant { get; set; }
-        public virtual ICollection<TaskResult> TaskResults { get; set; }
+        public virtual ICollection<AbstractResultEntry> AbstractResultEntries { get; set; }
     }
     
     #pragma warning restore 1591

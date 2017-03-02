@@ -22,7 +22,6 @@ namespace GraphLabs.DomainModel
         {
             this.IntroducingVariant = false;
             this.TaskVariants = new HashSet<TaskVariant>();
-            this.TestPools = new HashSet<TestPool>();
         }
     
         public long Id { get; private set; }
@@ -32,7 +31,7 @@ namespace GraphLabs.DomainModel
     
         public virtual ICollection<TaskVariant> TaskVariants { get; set; }
         public virtual LabWork LabWork { get; set; }
-        public virtual ICollection<TestPool> TestPools { get; set; }
+        public virtual TestPool TestPool { get; set; }
     }
     
     #pragma warning restore 1591
