@@ -207,9 +207,6 @@
     <Content Include="..\AssemblyVersion.cs.template">
       <Link>Properties\AssemblyVersion.cs.template</Link>
     </Content>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="GraphLabsDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GraphLabsDataModel.edmx</DependentUpon>

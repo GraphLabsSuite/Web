@@ -232,6 +232,9 @@
     <Content Include="..\AssemblyVersion.cs.template">
       <Link>Properties\AssemblyVersion.cs.template</Link>
     </Content>
+    <Content Include="..\GraphLabs.Site\connections.config">
+      <Link>connections.config</Link>
+    </Content>
     <None Include="Web.Base.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

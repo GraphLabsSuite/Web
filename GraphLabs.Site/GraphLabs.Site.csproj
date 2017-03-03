@@ -306,6 +306,7 @@
     <Content Include="Images\graphlabs_logo.png" />
     <Content Include="Images\graphlabs_medium.png" />
     <Content Include="Images\PopUp\cross.png" />
+    <Content Include="connections.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
