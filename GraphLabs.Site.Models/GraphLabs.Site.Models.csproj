@@ -205,6 +205,11 @@
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />
     <Compile Include="TaskResults\TaskResultModelLoader.cs" />
+    <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
+    <Compile Include="TestPool\TestPoolListModel.cs" />
+    <Compile Include="TestPool\TestPoolModel.cs" />
+    <Compile Include="TestPool\TestPoolModelLoader.cs" />
+    <Compile Include="TestPool\TestPoolModelSaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphLabs.Dal.Ef\GraphLabs.Dal.Ef.csproj">

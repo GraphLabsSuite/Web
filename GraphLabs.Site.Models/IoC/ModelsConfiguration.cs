@@ -13,6 +13,7 @@ using GraphLabs.Site.Models.Schedule.Edit;
 using GraphLabs.Site.Models.StudentActions;
 using GraphLabs.Site.Models.TaskResults;
 using GraphLabs.Site.Models.TaskResultsWithActions;
+using GraphLabs.Site.Models.TestPool;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 
@@ -39,6 +40,10 @@ namespace GraphLabs.Site.Models.IoC
             container.RegisterType<IEntityBasedModelLoader<ResultModel, Result>, ResultModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<StudentActionModel, StudentAction>, StudentActionModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<TaskResultModel, TaskResult>, TaskResultModelLoader>(new PerResolveLifetimeManager());
+
+            // тестпулы
+            container.RegisterType<IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool>, TestPoolModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelSaver<TestPoolModel, DomainModel.TestPool>, TestPoolModelSaver>(new PerResolveLifetimeManager());
 
             // лабы
             container.RegisterType<IEntityBasedModelLoader<LabModel, LabWork>, LabModelLoader>(new PerResolveLifetimeManager());

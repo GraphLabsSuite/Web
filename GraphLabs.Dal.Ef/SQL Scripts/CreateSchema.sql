@@ -248,6 +248,7 @@ GO
 CREATE TABLE [dbo].[AbstractResultEntries_TestResult] (
     [Index] nvarchar(max)  NOT NULL,
     [Id] bigint  NOT NULL,
+    [TestResultTestPoolEntry_TestResult_Id] bigint  NOT NULL,
     [TestPoolEntry_Id] bigint  NOT NULL
 );
 GO
@@ -774,21 +775,6 @@ ON [dbo].[TestPoolEntries]
     ([TestQuestion_Id]);
 GO
 
--- Creating foreign key on [TestPool_Id] in table 'TestPoolEntries'
-ALTER TABLE [dbo].[TestPoolEntries]
-ADD CONSTRAINT [FK_TestPoolTestPoolEntry]
-    FOREIGN KEY ([TestPool_Id])
-    REFERENCES [dbo].[TestPools]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolTestPoolEntry'
-CREATE INDEX [IX_FK_TestPoolTestPoolEntry]
-ON [dbo].[TestPoolEntries]
-    ([TestPool_Id]);
-GO
-
 -- Creating foreign key on [Result_Id] in table 'AbstractResultEntries'
 ALTER TABLE [dbo].[AbstractResultEntries]
 ADD CONSTRAINT [FK_ResultAbstractResultEntry]
@@ -849,10 +835,10 @@ ON [dbo].[LabVariants]
     ([TestPool_Id]);
 GO
 
--- Creating foreign key on [TestPoolEntry_Id] in table 'AbstractResultEntries_TestResult'
+-- Creating foreign key on [TestResultTestPoolEntry_TestResult_Id] in table 'AbstractResultEntries_TestResult'
 ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
 ADD CONSTRAINT [FK_TestResultTestPoolEntry]
-    FOREIGN KEY ([TestPoolEntry_Id])
+    FOREIGN KEY ([TestResultTestPoolEntry_TestResult_Id])
     REFERENCES [dbo].[TestPoolEntries]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -860,6 +846,36 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TestResultTestPoolEntry'
 CREATE INDEX [IX_FK_TestResultTestPoolEntry]
+ON [dbo].[AbstractResultEntries_TestResult]
+    ([TestResultTestPoolEntry_TestResult_Id]);
+GO
+
+-- Creating foreign key on [TestPool_Id] in table 'TestPoolEntries'
+ALTER TABLE [dbo].[TestPoolEntries]
+ADD CONSTRAINT [FK_TestPoolTestPoolEntry]
+    FOREIGN KEY ([TestPool_Id])
+    REFERENCES [dbo].[TestPools]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolTestPoolEntry'
+CREATE INDEX [IX_FK_TestPoolTestPoolEntry]
+ON [dbo].[TestPoolEntries]
+    ([TestPool_Id]);
+GO
+
+-- Creating foreign key on [TestPoolEntry_Id] in table 'AbstractResultEntries_TestResult'
+ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
+ADD CONSTRAINT [FK_TestPoolEntryTestResult]
+    FOREIGN KEY ([TestPoolEntry_Id])
+    REFERENCES [dbo].[TestPoolEntries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestPoolEntryTestResult'
+CREATE INDEX [IX_FK_TestPoolEntryTestResult]
 ON [dbo].[AbstractResultEntries_TestResult]
     ([TestPoolEntry_Id]);
 GO

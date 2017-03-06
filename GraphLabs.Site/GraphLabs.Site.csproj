@@ -135,6 +135,10 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BeginCollectionItem, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BeginCollectionItem.1.2.1.0\lib\net35\BeginCollectionItem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
@@ -332,6 +336,7 @@
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\TestingLabController.cs" />
+    <Compile Include="Controllers\TestPoolController.cs" />
     <Compile Include="Utils\SmartModelBinder.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
@@ -416,6 +421,11 @@
     <Content Include="Views\Schedule\_ScheduleEditors.cshtml" />
     <Content Include="Views\Schedule\EditSchedule.cshtml" />
     <Content Include="Views\TestingLab\Index.cshtml" />
+    <Content Include="Views\TestPool\Create.cshtml" />
+    <Content Include="Views\TestPool\Edit.cshtml" />
+    <Content Include="Views\TestPool\Index.cshtml" />
+    <Content Include="Views\TestPool\_TestPoolEntryRow.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -20,6 +20,7 @@ namespace GraphLabs.DomainModel
     {
         protected TestPoolEntry()
         {
+            this.TestResults = new HashSet<TestResult>();
         }
     
         public long Id { get; set; }
@@ -28,7 +29,7 @@ namespace GraphLabs.DomainModel
     
         public virtual TestQuestion TestQuestion { get; set; }
         public virtual TestPool TestPool { get; set; }
-        public virtual TestResult TestResult { get; set; }
+        public virtual ICollection<TestResult> TestResults { get; set; }
     }
     
     #pragma warning restore 1591

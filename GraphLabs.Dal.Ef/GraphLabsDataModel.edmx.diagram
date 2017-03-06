@@ -58,14 +58,13 @@
         <EntityTypeShape EntityType="DataModel.TestPool" Width="1.5" PointX="8.25" PointY="5.75" FillColor="Purple" />
         <AssociationConnector Association="DataModel.LabWorkGroup" />
         <AssociationConnector Association="DataModel.TestQuestionAnswerVariant" />
-        <EntityTypeShape EntityType="DataModel.TestPoolEntry" Width="1.5" PointX="6.375" PointY="5.5" FillColor="Purple" />
+        <EntityTypeShape EntityType="DataModel.TestPoolEntry" Width="1.5" PointX="6.125" PointY="5.75" FillColor="Purple" />
         <AssociationConnector Association="DataModel.TestQuestionTestPoolEntry" />
-        <AssociationConnector Association="DataModel.TestPoolTestPoolEntry" />
         <EntityTypeShape EntityType="DataModel.AbstractResultEntry" Width="1.5" PointX="7.75" PointY="3.375" FillColor="Maroon" />
         <AssociationConnector Association="DataModel.ResultAbstractResultEntry" />
         <InheritanceConnector EntityType="DataModel.TaskResult" ManuallyRouted="false" >
         </InheritanceConnector>
-        <EntityTypeShape EntityType="DataModel.TestResult" Width="1.5" PointX="5.5" PointY="4.125" FillColor="Maroon" />
+        <EntityTypeShape EntityType="DataModel.TestResult" Width="1.5" PointX="5.125" PointY="3.5" FillColor="Maroon" />
         <InheritanceConnector EntityType="DataModel.TestResult" />
         <EntityTypeShape EntityType="DataModel.StudentAnswer" Width="1.5" PointX="4.375" PointY="0.75" FillColor="Maroon" />
         <AssociationConnector Association="DataModel.TestResultStudentAnswer" />
@@ -74,7 +73,8 @@
         <InheritanceConnector EntityType="DataModel.StudentAnswer" />
         <AssociationConnector Association="DataModel.AnswerVariantStudentAnswer" />
         <AssociationConnector Association="DataModel.TestPoolLabVariant" />
-        <AssociationConnector Association="DataModel.TestResultTestPoolEntry" />
+        <AssociationConnector Association="DataModel.TestPoolEntryTestResult" />
+        <AssociationConnector Association="DataModel.TestPoolTestPoolEntry" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
