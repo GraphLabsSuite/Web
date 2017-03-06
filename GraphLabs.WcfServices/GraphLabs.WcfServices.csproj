@@ -202,6 +202,9 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="DebugTaskUploader\DebugTaskData.cs" />
     <Compile Include="DebugTaskUploader\IDebugTaskUploader.cs" />
     <Compile Include="DebugTaskUploader\DebugTaskUploader.svc.cs">
@@ -215,7 +218,6 @@
     <Compile Include="Data\TaskVariantDto.cs" />
     <Compile Include="IUserActionsRegistrator.cs" />
     <Compile Include="IVariantGenService.cs" />
-    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="VariantProviderService.svc.cs">
       <DependentUpon>VariantProviderService.svc</DependentUpon>
     </Compile>
@@ -229,9 +231,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="..\AssemblyVersion.cs.template">
-      <Link>Properties\AssemblyVersion.cs.template</Link>
-    </Content>
     <Content Include="..\GraphLabs.Site\connections.config">
       <Link>connections.config</Link>
     </Content>
@@ -298,7 +297,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"
-SubWCRev "." "AssemblyVersion.cs.template" "$(ProjectDir)Properties\AssemblyVersion.cs"</PreBuildEvent>
+powershell -noexit "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">

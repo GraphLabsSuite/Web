@@ -154,22 +154,19 @@
     <Compile Include="..\AssemblyInfo.General.cs">
       <Link>Properties\AssemblyInfo.General.cs</Link>
     </Compile>
+    <Compile Include="..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="IoC\IUnityRegistry.cs" />
     <Compile Include="IpHelper.cs" />
     <Compile Include="WorkingMode.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ResultMessage.cs" />
     <Compile Include="Results\ResultMessagesLog.cs" />
     <Compile Include="Results\ResultOrError.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\AssemblyVersion.cs.template">
-      <Link>Properties\AssemblyVersion.cs.template</Link>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -177,7 +174,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"
-SubWCRev "." "AssemblyVersion.cs.template" "$(ProjectDir)Properties\AssemblyVersion.cs"</PreBuildEvent>
+powershell -noexit "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

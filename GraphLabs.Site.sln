@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4E833B0F-C7CB-425C-913D-13ED833B9F5A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonItems", "CommonItems", "{4EA85125-3AB6-469B-968D-7F7CC9EE310E}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.General.cs = AssemblyInfo.General.cs
-		AssemblyVersion.cs.template = AssemblyVersion.cs.template
+		AssemblyVersion.cs = AssemblyVersion.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLabs.Site", "GraphLabs.Site\GraphLabs.Site.csproj", "{FDCAC246-E496-43CC-B881-19AC692FE96E}"
