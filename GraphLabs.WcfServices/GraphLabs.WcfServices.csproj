@@ -297,7 +297,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"
-powershell -noexit "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
+powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">
