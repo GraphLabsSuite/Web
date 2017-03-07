@@ -15,7 +15,7 @@ if ($versionSegments.Length -ne 3)
 }
 
 $currentBranch = git rev-parse --abbrev-ref HEAD
-$commitsCount = git rev-list --count HEAD
+$commitsCount = [int](git rev-list --count HEAD)
 if (!$hasChanges -and ($currentBranch -eq "master")) {
     $version = "$($versionSegments[0]).$($versionSegments[1]).$($versionSegments[2])"
     $debugVersion = "$version.$commitsCount"
