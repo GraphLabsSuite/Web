@@ -185,7 +185,14 @@
     <Compile Include="News\NewsModel.cs" />
     <Compile Include="News\NewsModelLoader.cs" />
     <Compile Include="News\NewsModelSaver.cs" />
+    <Compile Include="Preview\ITaskVariantPreviewModelLoader.cs" />
+    <Compile Include="Preview\Operations\LoadTaskVariantForPreview.cs" />
+    <Compile Include="Preview\TaskVariantPreviewModel.cs" />
+    <Compile Include="Preview\TaskVariantPreviewModelLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Question\QuestionListModel.cs" />
+    <Compile Include="Question\QuestionModel.cs" />
+    <Compile Include="Question\QuestionModelLoader.cs" />
     <Compile Include="Schedule\Edit\EditIndividualLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditGroupLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelBase.cs" />
@@ -238,6 +245,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"
