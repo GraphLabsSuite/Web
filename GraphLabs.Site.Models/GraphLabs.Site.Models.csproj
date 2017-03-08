@@ -157,12 +157,15 @@
     <Compile Include="AvailableLab\DemoLabListModel.cs" />
     <Compile Include="AvailableLab\DemoLabModelLoader.cs" />
     <Compile Include="AvailableLab\TestingLabModel.cs" />
+    <Compile Include="Infrastructure\AbstractModelRemover.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
     <Compile Include="Groups\GroupListModel.cs" />
     <Compile Include="Groups\GroupModel.cs" />
     <Compile Include="Groups\GroupModelLoader.cs" />
     <Compile Include="Groups\GroupModelSaver.cs" />
+    <Compile Include="Infrastructure\DeletionStatus.cs" />
+    <Compile Include="Infrastructure\IEntityBasedModelRemover.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelSaver.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelLoader.cs" />
     <Compile Include="Infrastructure\ListModelBase.cs" />
@@ -208,9 +211,13 @@
     <Compile Include="TaskResults\TaskResultModel.cs" />
     <Compile Include="TaskResults\TaskResultModelLoader.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
+    <Compile Include="TestPoolEntry\TestPoolEntryModelLoader.cs" />
+    <Compile Include="TestPoolEntry\TestPoolEntryModelRemover.cs" />
+    <Compile Include="TestPoolEntry\TestPoolEntryModelSaver.cs" />
     <Compile Include="TestPool\TestPoolListModel.cs" />
     <Compile Include="TestPool\TestPoolModel.cs" />
     <Compile Include="TestPool\TestPoolModelLoader.cs" />
+    <Compile Include="TestPool\TestPoolModelRemover.cs" />
     <Compile Include="TestPool\TestPoolModelSaver.cs" />
   </ItemGroup>
   <ItemGroup>

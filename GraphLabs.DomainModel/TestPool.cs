@@ -29,6 +29,7 @@ namespace GraphLabs.DomainModel
     
         public virtual ICollection<LabVariant> LabVariants { get; set; }
         public virtual ICollection<TestPoolEntry> TestPoolEntries { get; set; }
+
     }
     
     #pragma warning restore 1591

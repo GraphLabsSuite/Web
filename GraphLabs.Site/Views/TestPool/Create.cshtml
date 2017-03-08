@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.TestPool.TestPoolModel
+﻿@using GraphLabs.Site.Models.TestPool
+@model GraphLabs.Site.Models.TestPool.TestPoolModel
 
 
 @{
@@ -31,13 +32,19 @@
             Вопросы тестпула
         </div>
         <div class="editor-row">
-                @foreach (var item in Model.TestPoolEntries)
+            @if (Model != null)
+            {
+                foreach (var item in Model.TestPoolEntries)
                 {
-                    @Html.RenderPartial("_TestPoolEntryRow",item);
+                    <div class="editorRow">
+                        @Html.EditorForModel(item)
+                        @Html.ActionLink("Удалить","Delete","TestPoolEntry", new {testPoolEntryId = item.Id})
+                    </div>
                 }
+            }
         </div>
         <div class="">
-            @Html.ActionLink("Добавить", "BlankEditorRow", null, new {id = "addItem"}) %>
+            @Html.ActionLink("Добавить", "Create","TestPoolEntry", new {testPoolId = Model.Id})
         </div>
 
         <p>
