@@ -38,13 +38,13 @@
                 {
                     <div class="editorRow">
                         @Html.EditorForModel(item)
-                        @Html.ActionLink("Удалить","Delete","TestPoolEntry", new {testPoolEntryId = item.Id})
+                        @Html.ActionLink("Удалить","Delete","TestPoolEntry", new { testPoolEntryId = item.Id }, null)
                     </div>
                 }
             }
         </div>
         <div class="">
-            @Html.ActionLink("Добавить", "Create","TestPoolEntry", new {testPoolId = Model.Id})
+            @Html.ActionLink("Добавить", "Create","TestPoolEntry",new {testPoolId = Model.Id}, null)
         </div>
 
         <p>

@@ -39,7 +39,8 @@ namespace GraphLabs.Site.Models.Infrastructure
                     Contract.Assert(typeof(TEntity).IsAssignableFrom(type));
                     try
                     {
-                        operation.DataContext.Factory.Delete((TEntity)GetEntityInitializer(model, operation.DataContext.Query).Target);
+                        var m = operation.DataContext.Query.Get<TEntity>(GetEntityKey(model));  
+                        operation.DataContext.Factory.Delete(m);
                         flag = true;
                     }
                     catch (Exception e)
