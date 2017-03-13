@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Site.Models.Infrastructure
 {
-    abstract class AbstractModelRemover<TModel, TEntity> : IEntityBasedModelRemover<TModel, TEntity>
+    internal abstract class AbstractModelRemover<TModel, TEntity> : IEntityBasedModelRemover<TModel, TEntity>
         where TModel : IEntityBasedModel<TEntity>
         where TEntity : AbstractEntity
     {
@@ -23,34 +24,27 @@ namespace GraphLabs.Site.Models.Infrastructure
             _operationContextFactory = operationContextFactory;
         }
 
-        protected virtual Type GetEntityType(TModel model)
-        {
-            return typeof(TEntity);
-        }
-
-        public DeletionStatus Remove(TModel model)
+        public RemovalStatus Remove(TModel model)
         {
             using (var operation = _operationContextFactory.Create())
             {
-                var flag = false;
+                var isSuccessfullyRemoved = false;
                 if (ExistsInDatabase(model))
                 {
-                    var type = GetEntityType(model);
-                    Contract.Assert(typeof(TEntity).IsAssignableFrom(type));
+                    Contract.Assert(typeof(TEntity).IsAssignableFrom(typeof(TEntity)));
                     try
                     {
-                        var m = operation.DataContext.Query.Get<TEntity>(GetEntityKey(model));  
-                        operation.DataContext.Factory.Delete(m);
-                        flag = true;
+                        operation.DataContext.Factory.Delete(operation.DataContext.Query.Get<TEntity>(GetEntityKey(model)));
+                        isSuccessfullyRemoved = true;
                     }
-                    catch (Exception e)
+                    catch (SqlException e)
                     {
                     }
                 }
 
                 operation.Complete();
 
-                return flag ? DeletionStatus.Success : DeletionStatus.SomeFKExistOnTheElement;
+                return isSuccessfullyRemoved ? RemovalStatus.Success : RemovalStatus.SomeFKExistOnTheElement;
             }
         }
 

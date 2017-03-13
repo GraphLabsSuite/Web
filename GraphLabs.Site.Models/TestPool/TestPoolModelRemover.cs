@@ -11,7 +11,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.TestPool
 {
-    class TestPoolModelRemover : AbstractModelRemover<TestPoolModel, DomainModel.TestPool>
+    internal sealed class TestPoolModelRemover : AbstractModelRemover<TestPoolModel, DomainModel.TestPool>
     {
         public TestPoolModelRemover(IOperationContextFactory<IGraphLabsContext> operationContextFactory) : base(operationContextFactory)
         {
@@ -19,13 +19,13 @@ namespace GraphLabs.Site.Models.TestPool
 
         protected override Action<DomainModel.TestPool> GetEntityInitializer(TestPoolModel model, IEntityQuery query)
         {
-            var m = query.Get<DomainModel.TestPool>(model.Id);
+            var entity = query.Get<DomainModel.TestPool>(model.Id);
             return g =>
             {
                 g.Id = model.Id;
                 g.Name = model.Name;
-                g.LabVariants = model.LabVariants;
-                g.TestPoolEntries = m.TestPoolEntries;
+                g.LabVariants = entity.LabVariants;
+                g.TestPoolEntries = entity.TestPoolEntries;
             };
         }
 

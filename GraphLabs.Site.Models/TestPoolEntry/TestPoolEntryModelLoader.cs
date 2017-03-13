@@ -14,7 +14,7 @@ using Microsoft.Practices.ObjectBuilder2;
 namespace GraphLabs.Site.Models.TestPoolEntry
 {
     /// <summary> Загрузчик моделей тестпулов </summary>
-    class TestPoolEntryModelLoader : AbstractModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry>
+    internal sealed class TestPoolEntryModelLoader : AbstractModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry>
     {
 
         private readonly IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool> _testPoolModelLoader;

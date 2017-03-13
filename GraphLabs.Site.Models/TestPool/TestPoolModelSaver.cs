@@ -15,7 +15,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.TestPool
 {
-    class TestPoolModelSaver : AbstractModelSaver<TestPoolModel, DomainModel.TestPool>
+    internal sealed class TestPoolModelSaver : AbstractModelSaver<TestPoolModel, DomainModel.TestPool>
     {
 
         public TestPoolModelSaver(
@@ -31,13 +31,13 @@ namespace GraphLabs.Site.Models.TestPool
             //{
             //        testPoolEntries.Add(_testPoolEntryModelSaver.CreateOrUpdate(a));
             //});
-            var m = query.Get<DomainModel.TestPool>(model.Id);
+            var entity = query.Get<DomainModel.TestPool>(model.Id);
             return g =>
             {
                 g.Id = model.Id;
                 g.Name = model.Name;
-                g.LabVariants = model.LabVariants;
-                g.TestPoolEntries = m.TestPoolEntries;
+                g.LabVariants = entity.LabVariants;
+                g.TestPoolEntries = entity.TestPoolEntries;
             };
         }
 

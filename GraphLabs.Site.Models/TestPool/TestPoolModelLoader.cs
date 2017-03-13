@@ -14,7 +14,7 @@ using Microsoft.Practices.ObjectBuilder2;
 namespace GraphLabs.Site.Models.TestPool
 {
     /// <summary> Загрузчик моделей тестпулов </summary>
-    class TestPoolModelLoader : AbstractModelLoader<TestPoolModel, DomainModel.TestPool>
+    internal sealed class TestPoolModelLoader : AbstractModelLoader<TestPoolModel, DomainModel.TestPool>
     {
 
         /// <summary> Загрузчик моделей тестпулов </summary>
@@ -44,7 +44,6 @@ namespace GraphLabs.Site.Models.TestPool
             {
                 Id = testPool.Id,
                 Name = testPool.Name,
-                LabVariants = testPool.LabVariants,
                 TestPoolEntries = array
             };
 

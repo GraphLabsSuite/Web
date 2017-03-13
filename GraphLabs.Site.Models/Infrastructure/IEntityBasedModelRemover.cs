@@ -16,7 +16,7 @@ namespace GraphLabs.Site.Models.Infrastructure
 
     {
         /// <summary> Удалить сущность из БД </summary>
-        DeletionStatus Remove(TModel model);
+        RemovalStatus Remove(TModel model);
     }
 
 

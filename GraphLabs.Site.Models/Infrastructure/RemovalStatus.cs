@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphLabs.Site.Models.Infrastructure
 {
-    public enum DeletionStatus
+    public enum RemovalStatus
     {
         Success,
         SomeFKExistOnTheElement

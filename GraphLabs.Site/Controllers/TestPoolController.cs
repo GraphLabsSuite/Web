@@ -86,7 +86,7 @@ namespace GraphLabs.Site.Controllers
         {
             var testPool = _modelLoader.Load(testPoolId);
             var result = _modelRemover.Remove(testPool);
-            if (result == DeletionStatus.Success)
+            if (result == RemovalStatus.Success)
             {
                 ViewBag.Message = "The test pool has been successfully deleted!";
                 var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();

@@ -15,7 +15,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.TestPool
 {
-    class TestPoolEntryModelSaver : AbstractModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry>
+    internal sealed class TestPoolEntryModelSaver : AbstractModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry>
     {
 
         private readonly IEntityBasedModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry> _testPoolEntryModelSaver;
