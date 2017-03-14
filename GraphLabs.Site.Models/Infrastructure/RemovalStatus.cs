@@ -9,6 +9,8 @@ namespace GraphLabs.Site.Models.Infrastructure
     public enum RemovalStatus
     {
         Success,
-        SomeFKExistOnTheElement
+        SomeFKExistOnTheElement,
+        ElementDoesNotExist,
+        UnknownFailure
     }
 }

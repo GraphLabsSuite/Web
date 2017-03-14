@@ -17,53 +17,21 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <div class="editor-label">
-            Название тестпула
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            Вопросы тестпула
-        </div>
-        <div class="editor-row">
-            @if (Model != null)
-            {
-                foreach (var item in Model.TestPoolEntries)
-                {
-                    <div class="editorRow">
-                        @Html.EditorForModel(item)
-                        @Html.ActionLink("Удалить","Delete","TestPoolEntry", new { testPoolEntryId = item.Id }, null)
-                    </div>
-                }
-            }
-        </div>
-        <div class="">
-            @Html.ActionLink("Добавить", "Create","TestPoolEntry",new {testPoolId = Model.Id}, null)
-        </div>
-
-        <p>
-            <input type="submit" value="Создать"/>
-        </p>
-    </fieldset>
-
+@Html.ValidationSummary(true)
+<fieldset>
+    <div class="editor-label">
+        Название тестпула
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <p>
+        <input type="submit" value="Создать"/>
+    </p>
+</fieldset>
 }
 
 @section Scripts {
-     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $("#addItem").click(function() {
-            $.ajax({
-                url: this.href,
-                cache: false,
-                success: function(html) { $("#editorRows").append(html); }
-            });
-            return false;
-        });
-    </script>
+    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -28,28 +28,31 @@ namespace GraphLabs.Site.Models.Infrastructure
         {
             using (var operation = _operationContextFactory.Create())
             {
-                var isSuccessfullyRemoved = false;
                 if (ExistsInDatabase(model))
                 {
                     Contract.Assert(typeof(TEntity).IsAssignableFrom(typeof(TEntity)));
                     try
                     {
                         operation.DataContext.Factory.Delete(operation.DataContext.Query.Get<TEntity>(GetEntityKey(model)));
-                        isSuccessfullyRemoved = true;
+                        return RemovalStatus.Success;
                     }
                     catch (SqlException e)
                     {
+                        //TODO: Узнать, какой ErrorCode возвращается в случае наличия FK
+                        if (e.ErrorCode == 1)
+                        {
+                            
+                        }
+                        return RemovalStatus.SomeFKExistOnTheElement;
+                    }
+                    finally
+                    {
+                        operation.Complete();
                     }
                 }
-
-                operation.Complete();
-
-                return isSuccessfullyRemoved ? RemovalStatus.Success : RemovalStatus.SomeFKExistOnTheElement;
+                return RemovalStatus.ElementDoesNotExist;
             }
         }
-
-        /// <summary> Реализация должна возвращать элемент сущности </summary>
-        protected abstract Action<TEntity> GetEntityInitializer(TModel model, IEntityQuery query);
 
         /// <summary> Существует ли соответствующая запись в БД? </summary>
         /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>

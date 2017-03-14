@@ -52,12 +52,11 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(long? testPoolId)
+        public ActionResult Create(TestPoolModel testPool)
         {
-            var testPool = _modelLoader.Load(testPoolId);
             TestPool res = _modelSaver.CreateOrUpdate(testPool);
             if (res != null) {
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit",new {id = res.Id});
             }
 
             ViewBag.Message = "Невозможно сохранить тестпул";
@@ -70,9 +69,8 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(long? testPoolId)
+        public ActionResult Edit(TestPoolModel testPool)
         {
-            var testPool = _modelLoader.Load(testPoolId);
             TestPool res = _modelSaver.CreateOrUpdate(testPool);
             if (res != null)
             {
@@ -88,13 +86,13 @@ namespace GraphLabs.Site.Controllers
             var result = _modelRemover.Remove(testPool);
             if (result == RemovalStatus.Success)
             {
-                ViewBag.Message = "The test pool has been successfully deleted!";
+                ViewBag.Message = "Тестпул был успешно удалён!";
                 var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
                 return View("Index", model);
             }
             else
             {
-                ViewBag.Message = "There are still some foreign keys on this test pool!";
+                ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
                 var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
                 return View("Index", model);
             }

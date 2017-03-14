@@ -25,21 +25,6 @@ namespace GraphLabs.Site.Models.TestPoolEntry
             _testPoolModelSaver = testPoolModelSaver;
         }
 
-        protected override Action<DomainModel.TestPoolEntry> GetEntityInitializer(TestPoolEntryModel model, IEntityQuery query)
-        {
-            //var testPool = _testPoolModelSaver.CreateOrUpdate(model.TestPool);
-            var m = query.Get<DomainModel.TestPoolEntry>(model.Id);
-            return g =>
-            {
-                g.Id = model.Id;
-                g.Score = model.Score;
-                g.ScoringStrategy = model.ScoringStrategy;
-                g.TestQuestion = model.TestQuestion;
-                g.TestPool = m.TestPool;
-                g.TestResults = model.TestResults;
-            };
-        }
-
         /// <summary> Существует ли соответствующая запись в БД? </summary>
         /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
         protected override bool ExistsInDatabase(TestPoolEntryModel model)

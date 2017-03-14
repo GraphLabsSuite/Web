@@ -2,7 +2,111 @@
 
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Создание тестпула";
 }
 
-<h2>Edit</h2>
+<h2>Редактирование тестпула</h2>
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Прекратить редактирование", "Index")
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+    <div class="editor-label">
+        Название тестпула
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div class="editor-label">
+        Вопросы тестпула
+    </div>
+    <div class="editor-row" id="editorRows">
+        @if (Model != null)
+        {
+            foreach (var item in Model.TestPoolEntries)
+            {
+                <div class="editor-label">
+                    Вопрос тестпула № @item.Id
+                </div>
+                <div class="editor-row">
+                    <input id="score @item.Id" type="text"/>
+                    <p>Количество баллов</p>
+                    <input id="score @item.Id" type="number"/>
+                    <select>
+                        <option value="0">
+                            С полным штрафом, учёт только верных
+                        </option>
+                        <option value="1">
+                            С половинным штрафом, учёт только верных
+                        </option>
+                        <option value="2">
+                            Без штрафа, учёт только верных
+                        </option>
+                        <option value="3">
+                            С полным штрафом, учёт всех
+                        </option>
+                        <option value="4">
+                            С половинным штрафом, учёт всех
+                        </option>
+                        <option value="5">
+                            Без штрафа, учёт всех
+                        </option>
+                    </select>
+                </div>
+            }
+        }
+    </div>
+        <div class="editor-label">
+            Добавить новый вопрос
+        </div>
+        <div class="editor-row">
+            <input type="text"/>
+            <input type="number"/>
+            <select>
+                <option value="0">
+                    С полным штрафом, учёт только верных
+                </option>
+                <option value="1">
+                    С половинным штрафом, учёт только верных
+                </option>
+                <option value="2">
+                    Без штрафа, учёт только верных
+                </option>
+                <option value="3">
+                    С полным штрафом, учёт всех
+                </option>
+                <option value="4">
+                    С половинным штрафом, учёт всех
+                </option>
+                <option value="5">
+                    Без штрафа, учёт всех
+                </option>
+            </select>
+            <button id="addTestPoolEntry()">Добавить вопрос</button>
+        </div>
+
+    <p>
+        <input type="submit" value="Завершить редактирование"/>
+    </p>
+        </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#addTestPoolEntry").onclick(() => {
+            $.ajax({
+                url: this.href,
+                cache: false,
+                success: html => { $("#editorRows").append(html); }
+            });
+        });
+    </script>
+}
+
+

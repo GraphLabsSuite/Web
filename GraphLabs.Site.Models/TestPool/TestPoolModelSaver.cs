@@ -36,7 +36,6 @@ namespace GraphLabs.Site.Models.TestPool
             {
                 g.Id = model.Id;
                 g.Name = model.Name;
-                g.LabVariants = entity.LabVariants;
                 g.TestPoolEntries = entity.TestPoolEntries;
             };
         }
