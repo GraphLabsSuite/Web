@@ -25,12 +25,19 @@ namespace GraphLabs.Dal.Ef.Repositories
 		}
 
 		/// <summary> Получить все вопросы в заданной категории </summary>
-		public TestQuestion[] GetQuestionByCategory(long CategoryId)
+		public TestQuestion[] GetQuestionByCategory(long categoryId)
 		{
 			CheckNotDisposed();
 
-			return Context.TestQuestions.Where(tq => tq.Category.Id == CategoryId).ToArray();
+			return Context.TestQuestions.Where(tq => tq.Category.Id == categoryId).ToArray();
 		}
+
+        public TestQuestion[] GetQuestionsSimilarToString(string criteria)
+        {
+            CheckNotDisposed();
+
+            return Context.TestQuestions.Where(tq => tq.Question.StartsWith(criteria)).ToArray();
+        }
 
 		#endregion
 

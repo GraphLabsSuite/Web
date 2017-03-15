@@ -24,16 +24,16 @@ namespace GraphLabs.Site.Models.Infrastructure
             _operationContextFactory = operationContextFactory;
         }
 
-        public RemovalStatus Remove(TModel model)
+        public RemovalStatus Remove(long id)
         {
             using (var operation = _operationContextFactory.Create())
             {
-                if (ExistsInDatabase(model))
+                if (ExistsInDatabase(id))
                 {
                     Contract.Assert(typeof(TEntity).IsAssignableFrom(typeof(TEntity)));
                     try
                     {
-                        operation.DataContext.Factory.Delete(operation.DataContext.Query.Get<TEntity>(GetEntityKey(model)));
+                        operation.DataContext.Factory.Delete(operation.DataContext.Query.Get<TEntity>(id));
                         return RemovalStatus.Success;
                     }
                     catch (SqlException e)
@@ -56,10 +56,7 @@ namespace GraphLabs.Site.Models.Infrastructure
 
         /// <summary> Существует ли соответствующая запись в БД? </summary>
         /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
-        protected abstract bool ExistsInDatabase(TModel model);
-
-        /// <summary> При реализации возвращает массив первичных ключей сущности </summary>
-        protected abstract object[] GetEntityKey(TModel model);
+        protected abstract bool ExistsInDatabase(long id);
 
     }
 }

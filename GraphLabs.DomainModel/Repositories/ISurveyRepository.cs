@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Runtime.Remoting.Contexts;
 
 namespace GraphLabs.DomainModel.Repositories
 {
@@ -16,6 +17,8 @@ namespace GraphLabs.DomainModel.Repositories
 
 		/// <summary> Получить все вопросы в заданной категории </summary>
 		TestQuestion[] GetQuestionByCategory(long CategoryId);
+
+	    TestQuestion[] GetQuestionsSimilarToString(string criteria);
 
 		#endregion
 
@@ -53,7 +56,13 @@ namespace GraphLabs.DomainModel.Repositories
 			return new TestQuestion[0];
 		}
 
-		#endregion
+        public TestQuestion[] GetQuestionsSimilarToString(string criteria)
+        {
+
+            return new TestQuestion[0];
+        }
+
+        #endregion
 
         public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
         {

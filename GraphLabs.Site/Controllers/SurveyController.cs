@@ -51,6 +51,15 @@ namespace GraphLabs.Site.Controllers
 			};
 		}
 
+	    [HttpGet]
+	    public Tuple<string, long>[] Load(string input)
+	    {
+	        TestQuestion[] questions = _surveyRepository.GetQuestionsSimilarToString(input);
+            return questions.Select(q => new Tuple<string, long>(
+            q.Question,q.Id))
+                .ToArray();
+        }
+
 		#endregion
 
 		#region Создание вопроса

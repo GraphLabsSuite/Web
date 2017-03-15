@@ -45,22 +45,11 @@ namespace GraphLabs.Site.Controllers
             return RedirectToAction("Index", "TestPool");
         }
 
-        public ViewResult Index(long? testPoolId)
+        [HttpPost]
+        public ViewResult Create(TestPoolEntryModel testPoolEntry)
         {
-            var testPoolEntry = new TestPoolEntryModel();
-            var testPool = _parentModelLoader.Load(testPoolId);
-            testPool.TestPoolEntries.Add(testPoolEntry);
-            return View(
-                "_TestPoolEntryRow",
-                testPoolEntry
-                );
-        }
-
-        public ViewResult Create(long? testPoolId)
-        {
-            var testPoolEntry = new TestPoolEntryModel();
-            var testPool = _parentModelLoader.Load(testPoolId);
-            testPool.TestPoolEntries.Add(testPoolEntry);
+            var testPoolEntryCreated = _modelSaver.CreateOrUpdate(testPoolEntry);
+            testPoolEntryCreated.TestPool.TestPoolEntries.Add(testPoolEntryCreated);
             return View(
                 "_TestPoolEntryRow",
                 testPoolEntry
@@ -80,13 +69,9 @@ namespace GraphLabs.Site.Controllers
             return RedirectToAction("Index", "TestPool");
         }
 
-        public ActionResult Delete(long? testPoolEntryId)
+        public ActionResult Delete(long testPoolEntryId)
         {
-            var testPoolEntry = _modelLoader.Load(testPoolEntryId);
-            TestPoolEntry elem = _modelSaver.CreateOrUpdate(testPoolEntry);
-            elem.TestPool.TestPoolEntries.Remove(elem);
-            _modelSaver.CreateOrUpdate(_modelLoader.Load(elem.TestPool));
-            _modelRemover.Remove(testPoolEntry);
+            _modelRemover.Remove(testPoolEntryId);
             return RedirectToAction("Index", "TestPool");
         }
 

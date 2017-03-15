@@ -20,15 +20,9 @@ namespace GraphLabs.Site.Models.TestPool
 
         /// <summary> Существует ли соответствующая запись в БД? </summary>
         /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
-        protected override bool ExistsInDatabase(TestPoolModel model)
+        protected override bool ExistsInDatabase(long id)
     {
-        return model.Id != 0;
-    }
-
-    /// <summary> При реализации возвращает массив первичных ключей сущности </summary>
-    protected override object[] GetEntityKey(TestPoolModel model)
-    {
-        return new object[] { model.Id };
+        return id != 0;
     }
 }
 }

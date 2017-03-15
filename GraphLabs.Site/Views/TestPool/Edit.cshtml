@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.TestPool.TestPoolModel
+﻿@using GraphLabs.DomainModel
+@model GraphLabs.Site.Models.TestPool.TestPoolModel
 
 
 @{
@@ -16,9 +17,10 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-    <div class="editor-label">
-        Название тестпула
-    </div>
+        <div class="editor-label">
+            Название тестпула
+        </div>
+        <div id="testPoolId" display="none">@Model.Id</div>
     <div class="editor-field">
         @Html.EditorFor(model => model.Name)
         @Html.ValidationMessageFor(model => model.Name)
@@ -38,24 +40,15 @@
                     <input id="score @item.Id" type="text"/>
                     <p>Количество баллов</p>
                     <input id="score @item.Id" type="number"/>
+                    <div class="editor-label">
+                        Выбор стратегии
+                    </div>
                     <select>
-                        <option value="0">
-                            С полным штрафом, учёт только верных
+                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
+                            Учёт только верных
                         </option>
-                        <option value="1">
-                            С половинным штрафом, учёт только верных
-                        </option>
-                        <option value="2">
-                            Без штрафа, учёт только верных
-                        </option>
-                        <option value="3">
-                            С полным штрафом, учёт всех
-                        </option>
-                        <option value="4">
-                            С половинным штрафом, учёт всех
-                        </option>
-                        <option value="5">
-                            Без штрафа, учёт всех
+                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)"value="1">
+                            Учёт всех
                         </option>
                     </select>
                 </div>
@@ -66,26 +59,25 @@
             Добавить новый вопрос
         </div>
         <div class="editor-row">
-            <input type="text"/>
-            <input type="number"/>
-            <select>
+            <div class="editor-label">
+                Выбрать вопрос
+            </div>
+            <input type="text" id="search_box"/>
+            <div class="editor-label">
+                Оценить размер общего балла
+            </div>
+            <input type="hidden" value="" id="questionIdNew"/>
+            <div id="search_advice_wrapper"></div>
+            <input type="number" id="scoreNew"/>
+            <div class="editor-label">
+               Выбор стратегии
+            </div>
+            <select id="selectNew">
                 <option value="0">
-                    С полным штрафом, учёт только верных
+                    Учёт только верных
                 </option>
                 <option value="1">
-                    С половинным штрафом, учёт только верных
-                </option>
-                <option value="2">
-                    Без штрафа, учёт только верных
-                </option>
-                <option value="3">
-                    С полным штрафом, учёт всех
-                </option>
-                <option value="4">
-                    С половинным штрафом, учёт всех
-                </option>
-                <option value="5">
-                    Без штрафа, учёт всех
+                    Учёт всех
                 </option>
             </select>
             <button id="addTestPoolEntry()">Добавить вопрос</button>
@@ -99,10 +91,70 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
+        $("#addTestPoolEntry").keypress(() => {
+            $.ajax({
+                url: '/Survey/Load',
+                method: post,
+                data: $("#questionNew").text,
+                success: data => {
+                    var list = eval("(" + data + ")");
+                    suggest_count = list.length;
+                    if (suggest_count > 0) {
+                        $("#search_advice_wrapper").html("").show();
+                        for (var i in list) {
+                            if (list[i] != '') {
+                                $('#search_advice_wrapper').append('<div id="' + list[i][1] + '" class="advice_variant">' + list[i][0] + '</div>');
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        $("#search_box").keydown(I => {
+            switch (I.keyCode) {
+                case 13: // enter
+                case 27: // escape
+                    $('#search_advice_wrapper').hide();
+                    return false;
+                    break;
+                case 38: // стрелка вверх
+                case 40: // стрелка вниз
+                    I.preventDefault();
+                    if (suggest_count) {
+                        key_activate(I.keyCode - 39);
+                    }
+                    break;
+            }
+        });
+
+
+        $('.advice_variant').on('click', () => {
+            $('#search_box').val($(this).text());
+            $('#search_advice_wrapper').fadeOut(350).html('');
+        });
+
+
+        $('html').click(() => {
+            $('#search_advice_wrapper').hide();
+        });
+
+        $('#search_box').click(event => {
+            if (suggest_count)
+                $('#search_advice_wrapper').show();
+            event.stopPropagation();
+        });
+
+
         $("#addTestPoolEntry").onclick(() => {
             $.ajax({
-                url: this.href,
-                cache: false,
+                url: '/TestPoolEntry/Create',
+                method: post,
+                data: {
+                    questionId: $("#questionIdNew").text,
+                    score: $("#scoreNew").text,
+                    scoringStrategy: $("#selectNew option:selected").text,
+                    testPool: $("#testPoolId").text
+                },
                 success: html => { $("#editorRows").append(html); }
             });
         });

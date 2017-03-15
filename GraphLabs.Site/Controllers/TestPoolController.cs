@@ -80,10 +80,9 @@ namespace GraphLabs.Site.Controllers
             return View(testPool);
         }
 
-        public ViewResult Delete(long? testPoolId)
+        public ViewResult Delete(long testPoolId)
         {
-            var testPool = _modelLoader.Load(testPoolId);
-            var result = _modelRemover.Remove(testPool);
+            var result = _modelRemover.Remove(testPoolId);
             if (result == RemovalStatus.Success)
             {
                 ViewBag.Message = "Тестпул был успешно удалён!";

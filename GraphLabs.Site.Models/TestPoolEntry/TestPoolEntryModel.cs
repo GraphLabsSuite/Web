@@ -11,7 +11,6 @@ namespace GraphLabs.Site.Models.TestPoolEntry
 {
     public class TestPoolEntryModel : IEntityBasedModel<DomainModel.TestPoolEntry>
     {
-        public long Id { get; set; }
 
         public int Score { get; set; }
 
@@ -19,6 +18,6 @@ namespace GraphLabs.Site.Models.TestPoolEntry
 
         public TestQuestion TestQuestion { get; set; }
 
-        public ICollection<TestResult> TestResults { get; set; }
+        public DomainModel.TestPool TestPool { get; set; }
     }
 }
