@@ -30,26 +30,23 @@ namespace GraphLabs.Site.Models.Infrastructure
             {
                 if (ExistsInDatabase(id))
                 {
-                    Contract.Assert(typeof(TEntity).IsAssignableFrom(typeof(TEntity)));
+                    Contract.Assert(typeof (TEntity).IsAssignableFrom(typeof (TEntity)));
                     try
                     {
                         operation.DataContext.Factory.Delete(operation.DataContext.Query.Get<TEntity>(id));
+                        operation.Complete();
                         return RemovalStatus.Success;
                     }
-                    catch (SqlException e)
+                    catch (GraphLabsDbUpdateException e)
                     {
-                        //TODO: Узнать, какой ErrorCode возвращается в случае наличия FK
-                        if (e.ErrorCode == 1)
+                        if (e.HResult == -2146233088) // Это код ошибки наличия внешних ключей на данный элемент в базе данных (вроде как)
                         {
-                            
+                            return RemovalStatus.SomeFKExistOnTheElement;
                         }
-                        return RemovalStatus.SomeFKExistOnTheElement;
-                    }
-                    finally
-                    {
-                        operation.Complete();
+                        return RemovalStatus.UnknownFailure;
                     }
                 }
+
                 return RemovalStatus.ElementDoesNotExist;
             }
         }

@@ -36,7 +36,7 @@ namespace GraphLabs.Site.Models.TestPool
                     Score =  a.Score,
                     ScoringStrategy = a.ScoringStrategy,
                     TestQuestion = a.TestQuestion,
-                    TestResults = a.TestResults
+                    TestPool = a.TestPool
                 });
             });
 

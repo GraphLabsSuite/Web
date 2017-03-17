@@ -30,37 +30,7 @@ namespace GraphLabs.Site.Models.TestPool
 
         protected override Action<DomainModel.TestPoolEntry> GetEntityInitializer(TestPoolEntryModel model, IEntityQuery query)
         {
-            
-            //Action<DomainModel.TestPoolEntry> m = g =>
-            //{
-            //    g.Id = model.Id;
-            //    g.Score = model.Score;
-            //    g.ScoringStrategy = model.ScoringStrategy;
-            //    g.TestQuestion = model.TestQuestion;
-            //    g.TestResults = model.TestResults;
-            //    //g.TestPool = ((new Action<DomainModel.TestPool>(pool =>
-            //    //{
-            //    //    pool.Id = model.TestPool.Id;
-            //    //    pool.Name = model.TestPool.Name;
-            //    //    pool.LabVariants = model.TestPool.LabVariants;
-            //    //})).Target as DomainModel.TestPool);
-            //};
-
-            //ICollection<DomainModel.TestPoolEntry> testPoolEntries = new Collection<DomainModel.TestPoolEntry>();
-            //model.TestPool.TestPoolEntries.ForEach(a =>
-            //{
-            //    if (a.Id == (m.Target as DomainModel.TestPoolEntry).Id)
-            //    {
-            //        testPoolEntries.Add(m.Target as DomainModel.TestPoolEntry);
-            //    }
-            //    else
-            //    {
-            //        testPoolEntries.Add(_testPoolEntryModelSaver.CreateOrUpdate(a));
-            //    }
-            //});
-
-            //(m.Target as DomainModel.TestPoolEntry).TestPool.TestPoolEntries = testPoolEntries;
-            var m = query.Get<DomainModel.TestPoolEntry>(model.Id);
+            var entity = query.Get<DomainModel.TestPoolEntry>(model.Id);
 
             return g =>
             {
@@ -68,8 +38,7 @@ namespace GraphLabs.Site.Models.TestPool
                 g.Score = model.Score;
                 g.ScoringStrategy = model.ScoringStrategy;
                 g.TestQuestion = model.TestQuestion;
-                g.TestPool = m.TestPool;
-                g.TestResults = model.TestResults;
+                g.TestPool = entity.TestPool;
             };
         }
 

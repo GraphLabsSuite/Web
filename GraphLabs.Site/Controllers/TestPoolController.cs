@@ -89,9 +89,20 @@ namespace GraphLabs.Site.Controllers
                 var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
                 return View("Index", model);
             }
-            else
+            else if (result == RemovalStatus.SomeFKExistOnTheElement)
             {
                 ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
+                var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                return View("Index", model);
+            } else if (result == RemovalStatus.UnknownFailure)
+            {
+                ViewBag.Message = "Кто его знает, что тут произошло.";
+                var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                return View("Index", model);
+            }
+            else
+            {
+                ViewBag.Message = "Такого элемента нету.";
                 var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
                 return View("Index", model);
             }
