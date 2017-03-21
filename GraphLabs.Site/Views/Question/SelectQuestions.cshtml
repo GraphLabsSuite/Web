@@ -21,15 +21,14 @@
 
 <form method="post" action="some_url">
     <ul>
-        @foreach (var category in singleQuestion.CategoryList)
+        @foreach (var group in @Model.Items.GroupBy(i => i.Category.Name))
         {
-            <li>@category.Name</li>
-            foreach (var item in @Model.Items)
+            <li>@group.Name</li>
+            foreach (var item in @group)
             {
-                if (@item.Category.Name == category.Name)
-                {
-                    <input type="checkbox" name="@item.Question" /> @item.Question <br />
-                }
+                <input type="checkbox" name="@item.Question" /> @item.Question
+                <br />
+
             }
             <hr />
         }

@@ -10,34 +10,57 @@ using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Tasks.Contract;
 using GraphLabs.Site.Models.Preview.Operations;
 using GraphLabs.Site.Models.LabExecution;
+using GraphLabs.DomainModel.Extensions;
 
 namespace GraphLabs.Site.Models.Preview
 {
-    class TaskVariantPreviewModelLoader : ITaskVariantPreviewModelLoader
+    internal sealed class TaskVariantPreviewModelLoader : ITaskVariantPreviewModelLoader
     {
         private readonly IAuthenticationSavingService _authService;
         private readonly IInitParamsProvider _initParamsProvider;
-        private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
+        private readonly IEntityQuery _entityQuery;
         private readonly TaskExecutionModelLoader _taskModelLoader;
 
         public TaskVariantPreviewModelLoader(
             IAuthenticationSavingService authService,
             IInitParamsProvider initParamsProvider,
-            IOperationContextFactory<IGraphLabsContext> operationFactory,
+            IEntityQuery entityQuery,
             TaskExecutionModelLoader taskModelLoader)
         {
             _authService = authService;
             _initParamsProvider = initParamsProvider;
-            _operationFactory = operationFactory;
+            _entityQuery = entityQuery;
             _taskModelLoader = taskModelLoader;
         }
 
         public TaskVariantPreviewModel Load(int taskId, int labWorkId)
         {
-            using (var operation = new LoadTaskVariantForPreview(_operationFactory, _authService, _initParamsProvider, _taskModelLoader))
+            var labWork = _entityQuery.Find<LabWork>(labWorkId);
+
+            var model = CreateTaskVariantPreviewModel(taskId, 0, labWorkId);
+
+            return model;
+        }
+        private TaskVariantPreviewModel CreateTaskVariantPreviewModel(int taskId, int labVariantId, int labWorkId)
+        {
+
+            var variantId = FirstOrDefault(result => result.TaskVariant.Task.Id == taskId);
+            var initParams = InitParams.ForDemoMode(
+                _authService.GetSessionInfo().SessionGuid,
+                taskId,
+                variantId,
+                labWorkId,
+                null);
+
+            var model = new TaskVariantPreviewModel
             {
-                return operation.Load(taskId, labWorkId);
-            }
+                TaskId = taskId,
+                InitParams = _initParamsProvider.GetInitParamsString(initParams)
+            };
+
+            return model;
         }
     }
-}
+        
+    }
+

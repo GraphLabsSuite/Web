@@ -26,6 +26,7 @@ namespace GraphLabs.Site.Models.Question
             return _query.OfEntities<TestQuestion>()
                 .ToArray()
                 .Select(l => _modelLoader.Load(l))
+                .OrderByDescending(i => i.Category)
                 .ToArray();
         }
     }

@@ -111,14 +111,7 @@ namespace GraphLabs.Site.Controllers
 
         #endregion
 
-       /* #region Создание и редактирование варианта лабораторной работы: выбор вопросов
-
-        public ActionResult SelectTestQuestions(long labWorkId)
-        {
-            var model = _listModelLoader.LoadListModel<QuestionListModel, QuestionModel>();
-            return View(model);
-        }*/
-
+      
         #region Создание и редактирование варианта лабораторной работы: выбор модулей 
 
         public ActionResult IndexCreateVariant(long labId, long varId = 0)
