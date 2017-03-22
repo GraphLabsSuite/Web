@@ -186,7 +186,6 @@
     <Compile Include="News\NewsModelLoader.cs" />
     <Compile Include="News\NewsModelSaver.cs" />
     <Compile Include="Preview\ITaskVariantPreviewModelLoader.cs" />
-    <Compile Include="Preview\Operations\LoadTaskVariantForPreview.cs" />
     <Compile Include="Preview\TaskVariantPreviewModel.cs" />
     <Compile Include="Preview\TaskVariantPreviewModelLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
