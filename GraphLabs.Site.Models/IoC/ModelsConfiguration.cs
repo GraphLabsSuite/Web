@@ -5,6 +5,7 @@ using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
 using GraphLabs.Site.Models.LabExecution;
+using GraphLabs.Site.Models.Preview;
 using GraphLabs.Site.Models.News;
 using GraphLabs.Site.Models.Results;
 using GraphLabs.Site.Models.ResultsWithTaskInfo;
@@ -17,6 +18,7 @@ using GraphLabs.Site.Models.TestPool;
 using GraphLabs.Site.Models.TestPoolEntry;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
+using GraphLabs.Site.Models.Question;
 
 namespace GraphLabs.Site.Models.IoC
 {
@@ -61,9 +63,13 @@ namespace GraphLabs.Site.Models.IoC
 
             // создание лабы
             container.RegisterType<IEntityBasedModelLoader<CreateLabModel, LabWork>, CreateLabModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelLoader<QuestionModel, TestQuestion>, QuestionModelLoader>(new PerResolveLifetimeManager());
 
             // выполнение лабы
-            container.RegisterType<IDemoVariantModelLoader, DemoVariantModelLoader>(new HierarchicalLifetimeManager());
+            container.RegisterType<IDemoVariantModelLoader, DemoVariantModelLoader>(new PerResolveLifetimeManager());
+
+            // предпросмотр при создании лабы
+            container.RegisterType<ITaskVariantPreviewModelLoader, TaskVariantPreviewModelLoader>();
 
             // расписание
             container.RegisterType<IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule>, LabScheduleModelLoader>(new PerResolveLifetimeManager());
