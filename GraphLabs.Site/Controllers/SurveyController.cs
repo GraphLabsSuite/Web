@@ -9,12 +9,19 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Web.Helpers;
 using System.Web.Routing;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Controllers
 {
+    public class QuestionLookForModel
+    {
+        public string Question { get; set; }
+    }
+
+
 	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class SurveyController : GraphLabsController
 	{
@@ -51,14 +58,16 @@ namespace GraphLabs.Site.Controllers
 			};
 		}
 
-	    [HttpGet]
-	    public Tuple<string, long>[] Load(string input)
+	    [HttpPost]
+	    public ActionResult Load(QuestionLookForModel input)
 	    {
-	        TestQuestion[] questions = _surveyRepository.GetQuestionsSimilarToString(input);
-            return questions.Select(q => new Tuple<string, long>(
+	        TestQuestion[] questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
+            var questionArray = questions.Select(q => new Tuple<string, long>(
             q.Question,q.Id))
                 .ToArray();
-        }
+            var json = Json(questionArray);
+	        return json;
+	    }
 
 		#endregion
 

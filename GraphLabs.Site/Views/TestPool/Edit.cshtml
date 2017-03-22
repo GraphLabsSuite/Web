@@ -33,25 +33,29 @@
         {
             foreach (var item in Model.TestPoolEntries)
             {
+                <div class="editor-row" id="testPoolEntry @item.Id">
                 <div class="editor-label">
                     Вопрос тестпула № @item.Id
                 </div>
-                <div class="editor-row">
-                    <input id="score @item.Id" type="text"/>
-                    <p>Количество баллов</p>
-                    <input id="score @item.Id" type="number"/>
-                    <div class="editor-label">
-                        Выбор стратегии
+                    <div class="editor-field">
+                        <p>Выбранный вопрос</p>
+                        <input id="score @item.Id" type="text" value="@item.TestQuestion.Question"/>
+                        <p>Количество баллов</p>
+                        <input id="score @item.Id" type="number" value="@item.Score"/>
+                        <div class="editor-label">
+                            Выбор стратегии
+                        </div>
+                        <select>
+                            <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
+                                Учёт только верных
+                            </option>
+                            <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)"value="1">
+                                Учёт всех
+                            </option>
+                        </select>
+                        <button onclick="deleteTestPoolEntry(@item.Id);" type="submit" id="delete @item.Id">Удалить</button>
                     </div>
-                    <select>
-                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
-                            Учёт только верных
-                        </option>
-                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)"value="1">
-                            Учёт всех
-                        </option>
-                    </select>
-                </div>
+                    </div>
             }
         }
     </div>
@@ -63,11 +67,11 @@
                 Выбрать вопрос
             </div>
             <input type="text" id="search_box"/>
+            <input type="hidden" value="" id="questionIdNew"/>
+            <div id="search_advice_wrapper"></div>
             <div class="editor-label">
                 Оценить размер общего балла
             </div>
-            <input type="hidden" value="" id="questionIdNew"/>
-            <div id="search_advice_wrapper"></div>
             <input type="number" id="scoreNew"/>
             <div class="editor-label">
                Выбор стратегии
@@ -80,7 +84,7 @@
                     Учёт всех
                 </option>
             </select>
-            <button id="addTestPoolEntry()">Добавить вопрос</button>
+            <button onclick="addTestPoolEntry();">Добавить вопрос</button>
         </div>
 
     <p>
@@ -89,29 +93,37 @@
         </fieldset>
 }
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
     <script type="text/javascript">
-        $("#addTestPoolEntry").keypress(() => {
-            $.ajax({
-                url: '/Survey/Load',
-                method: post,
-                data: $("#questionNew").text,
-                success: data => {
-                    var list = eval("(" + data + ")");
-                    suggest_count = list.length;
-                    if (suggest_count > 0) {
-                        $("#search_advice_wrapper").html("").show();
-                        for (var i in list) {
-                            if (list[i] != '') {
-                                $('#search_advice_wrapper').append('<div id="' + list[i][1] + '" class="advice_variant">' + list[i][0] + '</div>');
+        var suggest_count = 0;
+        var input_initial_value = '';
+        var suggest_selected = 0;
+       
+        $(window).load(() => {
+            $("#search_box").keypress(i => {
+                $.ajax({
+                    url: '/survey/Load',
+                    method: "POST",
+                    data: JSON.stringify({
+                        Question: $("#search_box").val() + i.key
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: data => {
+                        var suggest_count = data.length;
+                        if (suggest_count > 0) {
+                            $("#search_advice_wrapper").html("").show();
+                            for (var i in data) {
+                                if (data[i] !== '') {
+                                    $('#search_advice_wrapper').append('<div id="' + data[i]['Item2'] + '" class="advice_variant">' + data[i]['Item1'] + '</div>');
+                                }
                             }
                         }
                     }
-                }
+                });
             });
-        });
-        $("#search_box").keydown(I => {
-            switch (I.keyCode) {
+            $("#search_box").keydown(I => {
+                switch (I.keyCode) {
                 case 13: // enter
                 case 27: // escape
                     $('#search_advice_wrapper').hide();
@@ -124,39 +136,50 @@
                         key_activate(I.keyCode - 39);
                     }
                     break;
-            }
-        });
-
-
-        $('.advice_variant').on('click', () => {
-            $('#search_box').val($(this).text());
-            $('#search_advice_wrapper').fadeOut(350).html('');
-        });
-
-
-        $('html').click(() => {
-            $('#search_advice_wrapper').hide();
-        });
-
-        $('#search_box').click(event => {
-            if (suggest_count)
-                $('#search_advice_wrapper').show();
-            event.stopPropagation();
-        });
-
-
-        $("#addTestPoolEntry").onclick(() => {
-            $.ajax({
-                url: '/TestPoolEntry/Create',
-                method: post,
-                data: {
-                    questionId: $("#questionIdNew").text,
-                    score: $("#scoreNew").text,
-                    scoringStrategy: $("#selectNew option:selected").text,
-                    testPool: $("#testPoolId").text
-                },
-                success: html => { $("#editorRows").append(html); }
+                }
             });
+
+
+            $('.advice_variant').on('click', () => {
+                $('#search_box').val($(this).text());
+                $('#search_advice_wrapper').fadeOut(350).html('');
+                $('#questionIdNew').val($(this).id());
+            });
+
+
+            $('html').click(() => {
+                $('#search_advice_wrapper').hide();
+            });
+
+            $('#search_box').click(event => {
+                if (suggest_count)
+                    $('#search_advice_wrapper').show();
+                event.stopPropagation();
+            });
+
+
+            var addTestPoolEntry = () => {
+                $.ajax({
+                    url: '/TestPoolEntry/Create',
+                    method: "POST",
+                    data: {
+                        questionId: $("#questionIdNew").text,
+                        score: $("#scoreNew").text,
+                        scoringStrategy: $("#selectNew option:selected").text,
+                        testPool: $("#testPoolId").text
+                    },
+                    success: html => { $("#editorRows").append(html); }
+                });
+            };
+
+            var deleteTestPoolEntry = (id) => {
+                $.ajax({
+                    url: '/TestPoolEntry/Delete',
+                    method: "POST",
+                    data: id,
+                    success: () => { $("#delete " + id).html("") }
+                });
+            };
         });
     </script>
 }
