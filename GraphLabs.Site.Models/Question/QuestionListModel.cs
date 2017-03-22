@@ -1,14 +1,10 @@
 ﻿using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphLabs.Site.Models.Question
 {
-    public class QuestionListModel : ListModelBase<QuestionModel>
+    public sealed class QuestionListModel : ListModelBase<QuestionModel>
     {
         private readonly IEntityQuery _query;
         private readonly IEntityBasedModelLoader<QuestionModel, TestQuestion> _modelLoader;
@@ -26,7 +22,7 @@ namespace GraphLabs.Site.Models.Question
             return _query.OfEntities<TestQuestion>()
                 .ToArray()
                 .Select(l => _modelLoader.Load(l))
-                .OrderByDescending(i => i.Category)
+                .OrderBy(i => i.Category.Name)
                 .ToArray();
         }
     }
