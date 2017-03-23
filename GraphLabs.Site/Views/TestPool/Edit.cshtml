@@ -92,6 +92,51 @@
     </p>
         </fieldset>
 }
+
+<style>
+    .search_area {
+        width: 350px;
+        margin: 0px;
+        position: relative;
+    }
+
+    #search_box {
+        width: 200px;
+        padding: 2px;
+        margin: 1px;
+        border: 1px solid #000;
+    }
+
+    #search_advice_wrapper {
+        display: none;
+        width: 350px;
+        background-color: rgb(80, 80, 114);
+        color: rgb(255, 227, 189);
+        -moz-opacity: 0.95;
+        opacity: 0.95;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=95);
+        filter: alpha(opacity=95);
+    }
+
+    #search_advice_wrapper .advice_variant {
+        cursor: pointer;
+        padding: 5px;
+        text-align: left;
+    }
+
+    #search_advice_wrapper .advice_variant:hover {
+        color: #FEFFBD;
+        background-color: #818187;
+    }
+
+    #search_advice_wrapper .active {
+        cursor: pointer;
+        padding: 5px;
+        color: #FEFFBD;
+        background-color: #818187;
+    }
+</style>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
 
@@ -100,87 +145,104 @@
         var input_initial_value = '';
         var suggest_selected = 0;
        
-        $(window).load(() => {
-            $("#search_box").keypress(i => {
-                $.ajax({
-                    url: '/survey/Load',
-                    method: "POST",
-                    data: JSON.stringify({
-                        Question: $("#search_box").val() + i.key
-                    }),
-                    contentType: 'application/json; charset=utf-8',
-                    success: data => {
-                        var suggest_count = data.length;
-                        if (suggest_count > 0) {
-                            $("#search_advice_wrapper").html("").show();
-                            for (var i in data) {
-                                if (data[i] !== '') {
-                                    $('#search_advice_wrapper').append('<div id="' + data[i]['Item2'] + '" class="advice_variant">' + data[i]['Item1'] + '</div>');
-                                }
+        var key_activate = (n) => {
+            console.log('I\'m here');
+            $('#search_advice_wrapper div').eq(suggest_selected - 1).removeClass('active');
+
+            if (n === 1 && suggest_selected < suggest_count) {
+                suggest_selected++;
+            } else if (n == -1 && suggest_selected > 0) {
+                suggest_selected--;
+            }
+
+            if (suggest_selected > 0) {
+                $('#search_advice_wrapper div').eq(suggest_selected - 1).addClass('active');
+                $("#search_box").val($('#search_advice_wrapper div').eq(suggest_selected - 1).text());
+            } else {
+                $("#search_box").val(input_initial_value);
+            }
+        };
+
+        var chooseIt = (str, i) => {
+            console.log(str, i);
+            document.getElementById('search_box').value = str;
+            $('#search_advice_wrapper').fadeOut(350).html('');
+            document.getElementById('questionIdNew').value = i;
+        };
+
+
+        $("#search_box").keypress(i => {
+            $.ajax({
+                url: '/survey/Load',
+                method: "POST",
+                data: JSON.stringify({
+                    Question: $("#search_box").val() + i.key
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: data => {
+                    var suggest_count = data.length;
+                    if (suggest_count > 0) {
+                        $("#search_advice_wrapper").html("").show();
+                        for (var i in data) {
+                            if (data[i] !== '') {
+                                var str = data[i]['Item1'];
+                                $('#search_advice_wrapper').append('<div onclick="chooseIt(\'' + str + '\',' + data[i]['Item2'] + ');" class="advice_variant" id="' + data[i]['Item2'] + '">' + data[i]['Item1'] + '</div>');
                             }
                         }
                     }
-                });
-            });
-            $("#search_box").keydown(I => {
-                switch (I.keyCode) {
-                case 13: // enter
-                case 27: // escape
-                    $('#search_advice_wrapper').hide();
-                    return false;
-                    break;
-                case 38: // стрелка вверх
-                case 40: // стрелка вниз
-                    I.preventDefault();
-                    if (suggest_count) {
-                        key_activate(I.keyCode - 39);
-                    }
-                    break;
                 }
             });
-
-
-            $('.advice_variant').on('click', () => {
-                $('#search_box').val($(this).text());
-                $('#search_advice_wrapper').fadeOut(350).html('');
-                $('#questionIdNew').val($(this).id());
-            });
-
-
-            $('html').click(() => {
-                $('#search_advice_wrapper').hide();
-            });
-
-            $('#search_box').click(event => {
-                if (suggest_count)
-                    $('#search_advice_wrapper').show();
-                event.stopPropagation();
-            });
-
-
-            var addTestPoolEntry = () => {
-                $.ajax({
-                    url: '/TestPoolEntry/Create',
-                    method: "POST",
-                    data: {
-                        questionId: $("#questionIdNew").text,
-                        score: $("#scoreNew").text,
-                        scoringStrategy: $("#selectNew option:selected").text,
-                        testPool: $("#testPoolId").text
-                    },
-                    success: html => { $("#editorRows").append(html); }
-                });
-            };
-
-            var deleteTestPoolEntry = (id) => {
-                $.ajax({
-                    url: '/TestPoolEntry/Delete',
-                    method: "POST",
-                    data: id,
-                    success: () => { $("#delete " + id).html("") }
-                });
-            };
         });
+        $("#search_box").keydown(I => {
+            switch (I.keyCode) {
+            case 13: // enter
+            case 27: // escape
+                $('#search_advice_wrapper').hide();
+                return false;
+                break;
+            case 38: // стрелка вверх
+            case 40: // стрелка вниз
+                I.preventDefault();
+                if (suggest_count) {
+                    key_activate(I.keyCode - 39);
+                }
+                break;
+            }
+        });
+
+
+        $('html').click(() => {
+            $('#search_advice_wrapper').hide();
+        });
+
+        $('#search_box').click(event => {
+            if (suggest_count)
+                $('#search_advice_wrapper').show();
+            event.stopPropagation();
+        });
+
+        var addTestPoolEntry = () => {
+            $.ajax({
+                url: '/TestPoolEntry/Create',
+                method: "POST",
+                data: {
+                    questionId: $("#questionIdNew").text,
+                    score: $("#scoreNew").text,
+                    scoringStrategy: $("#selectNew option:selected").text,
+                    testPool: $("#testPoolId").text
+                },
+                success: html => { $("#editorRows").append(html); }
+            });
+        };
+
+        var deleteTestPoolEntry = (id) => {
+            $.ajax({
+                url: '/TestPoolEntry/Delete',
+                method: "POST",
+                data: id,
+                success: () => { $("#delete " + id).html("") }
+            });
+        };
     </script>
 }
 
