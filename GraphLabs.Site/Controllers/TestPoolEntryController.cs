@@ -19,34 +19,30 @@ namespace GraphLabs.Site.Controllers
     public class TestPoolEntryController : GraphLabsController
     {
 
-
         private readonly IEntityBasedModelSaver<TestPoolEntryModel, TestPoolEntry> _modelSaver;
         private readonly IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> _modelRemover;
         private readonly IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> _modelLoader;
-        private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _parentModelLoader;
 
 
         public TestPoolEntryController(
             IEntityBasedModelSaver<TestPoolEntryModel, TestPoolEntry> modelSaver,
             IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> modelRemover,
-            IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> modelLoader,
-            IEntityBasedModelLoader<TestPoolModel, TestPool> parentModelLoader
+            IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> modelLoader
             )
         {
             _modelRemover = modelRemover;
             _modelSaver = modelSaver;
             _modelLoader = modelLoader;
-            _parentModelLoader = parentModelLoader;
         }
 
         public ActionResult Index(string message)
         {
             ViewBag.Message = message;
-            return RedirectToAction("Index", "TestPool");
+            return RedirectToAction("Index", "TestPoolEntry");
         }
 
         [HttpPost]
-        public ViewResult Create(TestPoolEntryModel testPoolEntry)
+        public ActionResult Create(TestPoolEntryModel testPoolEntry)
         {
             var testPoolEntryCreated = _modelSaver.CreateOrUpdate(testPoolEntry);
             testPoolEntryCreated.TestPool.TestPoolEntries.Add(testPoolEntryCreated);
@@ -63,16 +59,16 @@ namespace GraphLabs.Site.Controllers
             //TestPool res = _modelSaver.CreateOrUpdate(testPool);
             //if (res != null)
             {
-                return RedirectToAction("Index", "TestPool");
+                return RedirectToAction("Index", "TestPoolEntry");
             }
             ViewBag.Message = "Невозможно обновить тестпул";
-            return RedirectToAction("Index", "TestPool");
+            return RedirectToAction("Index", "TestPoolEntry");
         }
 
         public ActionResult Delete(long testPoolEntryId)
         {
             _modelRemover.Remove(testPoolEntryId);
-            return RedirectToAction("Index", "TestPool");
+            return RedirectToAction("Index", "TestPoolEntry");
         }
 
     }

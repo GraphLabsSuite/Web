@@ -20,7 +20,7 @@
         <div class="editor-label">
             Название тестпула
         </div>
-        <div id="testPoolId" display="none">@Model.Id</div>
+        <div id="testPoolId">@Model.Id</div>
     <div class="editor-field">
         @Html.EditorFor(model => model.Name)
         @Html.ValidationMessageFor(model => model.Name)
@@ -39,7 +39,8 @@
                 </div>
                     <div class="editor-field">
                         <p>Выбранный вопрос</p>
-                        <input id="score @item.Id" type="text" value="@item.TestQuestion.Question"/>
+                        <p id="score @item.Id">@item.TestQuestion.Question</p>
+                        @*<input id="score @item.Id" type="text" value="@item.TestQuestion.Question"/>*@
                         <p>Количество баллов</p>
                         <input id="score @item.Id" type="number" value="@item.Score"/>
                         <div class="editor-label">
@@ -164,7 +165,6 @@
         };
 
         var chooseIt = (str, i) => {
-            console.log(str, i);
             document.getElementById('search_box').value = str;
             $('#search_advice_wrapper').fadeOut(350).html('');
             document.getElementById('questionIdNew').value = i;
@@ -223,21 +223,23 @@
 
         var addTestPoolEntry = () => {
             $.ajax({
-                url: '/TestPoolEntry/Create',
+                url: '/testpoolentry/Create',
                 method: "POST",
-                data: {
-                    questionId: $("#questionIdNew").text,
-                    score: $("#scoreNew").text,
-                    scoringStrategy: $("#selectNew option:selected").text,
-                    testPool: $("#testPoolId").text
-                },
+                data: JSON.stringify({
+                    Id: 0,
+                    Score: parseInt($("#scoreNew").val()),
+                    ScoringStrategy: parseInt($("#selectNew option:selected").val()),
+                    TestQuestion:  parseInt($("#questionIdNew").val()),
+                    TestPool: parseInt($("#testPoolId").text())
+                }),
+                contentType: 'application/json; charset=utf-8',
                 success: html => { $("#editorRows").append(html); }
             });
         };
 
         var deleteTestPoolEntry = (id) => {
             $.ajax({
-                url: '/TestPoolEntry/Delete',
+                url: '/testpoolentry/Delete',
                 method: "POST",
                 data: id,
                 success: () => { $("#delete " + id).html("") }
