@@ -3,14 +3,12 @@
 
 
 @{
-    ViewBag.Title = "Создание тестпула";
+    ViewBag.Title = "Редактирование тестпула";
 }
 
-<h2>Редактирование тестпула</h2>
-
 <hgroup>
-    <h2>@ViewBag.Title.</h2>
-    @Html.ActionLink("Прекратить редактирование", "Index")
+    <h2>@ViewBag.Title</h2>
+    @*@Html.ActionLink("Прекратить редактирование", "Index")*@
 </hgroup>
 
 @using (Html.BeginForm())
@@ -18,76 +16,100 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <div class="editor-label">
-            Название тестпула
+            <h3>Название тестпула</h3>
         </div>
-        <div id="testPoolId">@Model.Id</div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name)
-    </div>
+        <div id="testPoolId" hidden="true">@Model.Id</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <br />
     <div class="editor-label">
-        Вопросы тестпула
+        <h3>Вопросы тестпула</h3>
     </div>
-    <div class="editor-row" id="editorRows">
-        @if (Model != null)
-        {
-            foreach (var item in Model.TestPoolEntries)
+        <div class="editor-row" id="editorRows">
+            @if (Model != null)
             {
-                <div class="editor-row" id="testPoolEntry @item.Id">
-                <div class="editor-label">
-                    Вопрос тестпула № @item.Id
-                </div>
-                    <div class="editor-field">
-                        <p>Выбранный вопрос</p>
-                        <p id="score @item.Id">@item.TestQuestion.Question</p>
-                        @*<input id="score @item.Id" type="text" value="@item.TestQuestion.Question"/>*@
-                        <p>Количество баллов</p>
-                        <input id="score @item.Id" type="number" value="@item.Score"/>
-                        <div class="editor-label">
-                            Выбор стратегии
-                        </div>
-                        <select>
-                            <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
-                                Учёт только верных
-                            </option>
-                            <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)"value="1">
-                                Учёт всех
-                            </option>
-                        </select>
-                        <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete @item.Id">Удалить</button>
-                    </div>
-                    </div>
-            }
-        }
-    </div>
-        <div class="editor-label">
-            Добавить новый вопрос
-        </div>
-        <div class="editor-row">
-            <div class="editor-label">
-                Выбрать вопрос
-            </div>
-            <input type="text" id="search_box"/>
-            <input type="hidden" value="" id="questionIdNew"/>
-            <div id="search_advice_wrapper"></div>
-            <div class="editor-label">
-                Оценить размер общего балла
-            </div>
-            <input type="number" id="scoreNew"/>
-            <div class="editor-label">
-               Выбор стратегии
-            </div>
-            <select id="selectNew">
-                <option value="0">
-                    Учёт только верных
-                </option>
-                <option value="1">
-                    Учёт всех
-                </option>
-            </select>
-            <button onclick="addTestPoolEntry();"  type="button">Добавить вопрос</button>
-        </div>
+                if (Model.TestPoolEntries.Count > 0)
+                {
 
+                    foreach (var item in Model.TestPoolEntries)
+                    {
+                        @*<div class="editor-label">
+                            Вопрос тестпула № @item.Id
+                        </div>*@
+                        <div class="row" id="testPoolEntry @item.Id">
+                                <div class="col-md-3">
+                                    <p>Выбранный вопрос</p>
+                                    <p id="score @item.Id">@item.TestQuestion.Question</p>
+                                    @*<input id="score @item.Id" type="text" value="@item.TestQuestion.Question"/>*@
+                                </div>
+                                <div class="col-md-3">
+                                    <p>Количество баллов</p>
+                                    <input id="score @item.Id" type="number" value="@item.Score"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        Выбор стратегии
+                                    </div>
+                                    <select>
+                                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
+                                            Учёт только верных
+                                        </option>
+                                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)" value="1">
+                                            Учёт всех
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete @item.Id">Удалить</button>
+                                </div>
+                            </div>
+                    }
+                }
+                else
+                {
+                    <p>У этого тестпула ещё нет добавленных вопросов.</p>
+                }
+            }
+        </div>
+        <br />
+        <div class="editor-label">
+            <h3>Добавить новый вопрос</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    Выбрать вопрос
+                </div>
+                <input type="text" id="search_box"/>
+                <input type="hidden" value="" id="questionIdNew"/>
+                <div id="search_advice_wrapper"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    Оценить размер общего балла
+                </div>
+                <input type="number" id="scoreNew"/>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    Выбор стратегии
+                </div>
+                <select id="selectNew">
+                    <option value="0">
+                        Учёт только верных
+                    </option>
+                    <option value="1">
+                        Учёт всех
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button onclick="addTestPoolEntry();" type="button">Добавить вопрос</button>
+            </div>
+        </div>
+        <br />
     <p>
         <input type="submit" value="Завершить редактирование"/>
     </p>
@@ -129,7 +151,7 @@
         color: #FEFFBD;
         background-color: #818187;
     }
-
+      
     #search_advice_wrapper .active {
         cursor: pointer;
         padding: 5px;
@@ -140,7 +162,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
-
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/bootstrap")
+  
     <script type="text/javascript">
         var suggest_count = 0;
         var input_initial_value = '';
@@ -222,6 +246,13 @@
         });
 
         var addTestPoolEntry = () => {
+            console.log(JSON.stringify({
+                Id: 0,
+                Score: parseInt($("#scoreNew").val()),
+                ScoringStrategy: parseInt($("#selectNew option:selected").val()),
+                TestQuestion:  parseInt($("#questionIdNew").val()),
+                TestPool: parseInt($("#testPoolId").text())
+            }));
             $.ajax({
                 url: '/testpoolentry/Create',
                 method: "POST",
@@ -229,8 +260,8 @@
                     Id: 0,
                     Score: parseInt($("#scoreNew").val()),
                     ScoringStrategy: parseInt($("#selectNew option:selected").val()),
-                    TestQuestion:  parseInt($("#questionIdNew").val()),
-                    TestPool: parseInt($("#testPoolId").text())
+                    TestPool: parseInt($("#testPoolId").text()),
+                    TestQuestion:  parseInt($("#questionIdNew").val())
                 }),
                 contentType: 'application/json; charset=utf-8',
                 success: html => { $("#editorRows").append(html); }

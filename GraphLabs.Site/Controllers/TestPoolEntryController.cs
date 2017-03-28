@@ -19,13 +19,13 @@ namespace GraphLabs.Site.Controllers
     public class TestPoolEntryController : GraphLabsController
     {
 
-        private readonly IEntityBasedModelSaver<TestPoolEntryModel, TestPoolEntry> _modelSaver;
+        private readonly IEntityBasedModelSaver<SaveTestPoolEntryModel, TestPoolEntry> _modelSaver;
         private readonly IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> _modelRemover;
         private readonly IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> _modelLoader;
 
 
         public TestPoolEntryController(
-            IEntityBasedModelSaver<TestPoolEntryModel, TestPoolEntry> modelSaver,
+            IEntityBasedModelSaver<SaveTestPoolEntryModel, TestPoolEntry> modelSaver,
             IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> modelRemover,
             IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> modelLoader
             )
@@ -42,14 +42,11 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(TestPoolEntryModel testPoolEntry)
+        public ActionResult Create(SaveTestPoolEntryModel saveTestPoolEntry)
         {
-            var testPoolEntryCreated = _modelSaver.CreateOrUpdate(testPoolEntry);
-            testPoolEntryCreated.TestPool.TestPoolEntries.Add(testPoolEntryCreated);
-            return View(
-                "_TestPoolEntryRow",
-                testPoolEntry
-                );
+            //var testPoolEntryCreated = _modelSaver.CreateOrUpdate(saveTestPoolEntry);
+            //testPoolEntryCreated.TestPool.TestPoolEntries.Add(testPoolEntryCreated);
+            return Json(true);
         }
 
         [HttpPost]

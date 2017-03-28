@@ -216,7 +216,8 @@
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />
     <Compile Include="TaskResults\TaskResultModelLoader.cs" />
-    <Compile Include="TestPoolEntry\TestPoolEntryChooseModel.cs" />
+    <Compile Include="TestPoolEntry\SaveTestPoolEntryModel.cs" />
+    <Compile Include="TestPoolEntry\SaveTestPoolEntryModelSaver.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelLoader.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelRemover.cs" />

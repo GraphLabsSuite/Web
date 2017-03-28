@@ -15,14 +15,10 @@ namespace GraphLabs.Site.Models.TestPoolEntry
     internal sealed class TestPoolEntryModelRemover : AbstractModelRemover<TestPoolEntryModel, DomainModel.TestPoolEntry>
     {
 
-        private readonly IEntityBasedModelSaver<TestPoolModel, DomainModel.TestPool> _testPoolModelSaver;
-
         public TestPoolEntryModelRemover(
-            IOperationContextFactory<IGraphLabsContext> operationContextFactory,
-            IEntityBasedModelSaver<TestPoolModel, DomainModel.TestPool> testPoolModelSaver
+            IOperationContextFactory<IGraphLabsContext> operationContextFactory
             ) : base(operationContextFactory)
         {
-            _testPoolModelSaver = testPoolModelSaver;
         }
 
         /// <summary> Существует ли соответствующая запись в БД? </summary>

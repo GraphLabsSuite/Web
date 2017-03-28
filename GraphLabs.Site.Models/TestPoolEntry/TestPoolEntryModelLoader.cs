@@ -17,18 +17,11 @@ namespace GraphLabs.Site.Models.TestPoolEntry
     internal sealed class TestPoolEntryModelLoader : AbstractModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry>
     {
 
-        private readonly IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool> _testPoolModelLoader;
-        private readonly IEntityBasedModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry> _testPoolEntryModelLoader;
-
         /// <summary> Загрузчик моделей тестпулов </summary>
         public TestPoolEntryModelLoader(
-            IEntityQuery query,
-            IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool> testPoolModelLoader,
-            IEntityBasedModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry> testPoolEntryModelLoader
+            IEntityQuery query
             ) : base(query)
         {
-            _testPoolModelLoader = testPoolModelLoader;
-            _testPoolEntryModelLoader = testPoolEntryModelLoader;
         }
 
         /// <summary> Загрузить по сущности-прототипу </summary>

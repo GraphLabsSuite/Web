@@ -7,7 +7,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.TestPoolEntry
 {
-    public class TestPoolEntryChooseModel : IEntityBasedModel<DomainModel.TestPoolEntry>
+    public class SaveTestPoolEntryModel : IEntityBasedModel<DomainModel.TestPoolEntry>
     {
         public long Id { get; set; }
 
@@ -15,8 +15,8 @@ namespace GraphLabs.Site.Models.TestPoolEntry
 
         public ScoringStrategy ScoringStrategy { get; set; }
 
-        public TestQuestion TestQuestion { get; set; }
+        public int TestQuestion { get; set; }
 
-        public DomainModel.TestPool TestPool { get; set; }
+        public int TestPool { get; set; }
     }
 }
