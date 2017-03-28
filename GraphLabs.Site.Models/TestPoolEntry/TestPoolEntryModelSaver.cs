@@ -17,15 +17,10 @@ namespace GraphLabs.Site.Models.TestPool
 {
     internal sealed class TestPoolEntryModelSaver : AbstractModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry>
     {
-
-        private readonly IEntityBasedModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry> _testPoolEntryModelSaver;
-
         public TestPoolEntryModelSaver(
-            IOperationContextFactory<IGraphLabsContext> operationContextFactory,
-            IEntityBasedModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry> testPoolEntryModelSaver
+            IOperationContextFactory<IGraphLabsContext> operationContextFactory
             ) : base(operationContextFactory)
         {
-            _testPoolEntryModelSaver = testPoolEntryModelSaver;
         }
 
         protected override Action<DomainModel.TestPoolEntry> GetEntityInitializer(TestPoolEntryModel model, IEntityQuery query)
