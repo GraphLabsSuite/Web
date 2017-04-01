@@ -206,6 +206,7 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="GraphLabsDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GraphLabsDataModel.edmx</DependentUpon>
