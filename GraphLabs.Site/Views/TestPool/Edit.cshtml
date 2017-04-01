@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Редактирование тестпула";
+    @Styles.Render("~/Content/bootstrap")
 }
 
 <hgroup>
@@ -77,7 +78,7 @@
         <div class="editor-label">
             <h3>Добавить новый вопрос</h3>
         </div>
-        <div class="row">
+        <div class="row" id="newQuestion">
             <div class="col-md-3">
                 <div class="editor-label">
                     Выбрать вопрос
@@ -162,14 +163,13 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
-@Scripts.Render("~/bundles/bootstrap")
-@Styles.Render("~/Content/bootstrap")
-  
+    @Scripts.Render("~/bundles/bootstrap")
+
     <script type="text/javascript">
         var suggest_count = 0;
         var input_initial_value = '';
         var suggest_selected = 0;
-       
+
         var key_activate = (n) => {
             console.log('I\'m here');
             $('#search_advice_wrapper div').eq(suggest_selected - 1).removeClass('active');
@@ -246,13 +246,6 @@
         });
 
         var addTestPoolEntry = () => {
-            console.log(JSON.stringify({
-                Id: 0,
-                Score: parseInt($("#scoreNew").val()),
-                ScoringStrategy: parseInt($("#selectNew option:selected").val()),
-                TestQuestion:  parseInt($("#questionIdNew").val()),
-                TestPool: parseInt($("#testPoolId").text())
-            }));
             $.ajax({
                 url: '/testpoolentry/Create',
                 method: "POST",
@@ -261,10 +254,10 @@
                     Score: parseInt($("#scoreNew").val()),
                     ScoringStrategy: parseInt($("#selectNew option:selected").val()),
                     TestPool: parseInt($("#testPoolId").text()),
-                    TestQuestion:  parseInt($("#questionIdNew").val())
+                    TestQuestion: parseInt($("#questionIdNew").val())
                 }),
                 contentType: 'application/json; charset=utf-8',
-                success: html => { $("#editorRows").append(html); }
+                success: data => { }
             });
         };
 

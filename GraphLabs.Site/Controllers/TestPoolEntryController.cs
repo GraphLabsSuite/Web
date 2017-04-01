@@ -44,7 +44,7 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(SaveTestPoolEntryModel saveTestPoolEntry)
         {
-            //var testPoolEntryCreated = _modelSaver.CreateOrUpdate(saveTestPoolEntry);
+            var testPoolEntryCreated = _modelSaver.CreateOrUpdate(saveTestPoolEntry);
             //testPoolEntryCreated.TestPool.TestPoolEntries.Add(testPoolEntryCreated);
             return Json(true);
         }
