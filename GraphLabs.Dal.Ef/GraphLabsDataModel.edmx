@@ -1322,7 +1322,6 @@
           <Property Name="ScoringStrategy" Type="DataModel.ScoringStrategy" Nullable="false" />
           <NavigationProperty Name="TestQuestion" Relationship="DataModel.TestQuestionTestPoolEntry" FromRole="TestPoolEntry" ToRole="TestQuestion" />
           <NavigationProperty Name="TestPool" Relationship="DataModel.TestPoolTestPoolEntry" FromRole="TestPoolEntry" ToRole="TestPool" />
-          <NavigationProperty Name="TestResults" Relationship="DataModel.TestPoolEntryTestResult" FromRole="TestPoolEntry" ToRole="TestResult" />
         </EntityType>
         <Association Name="TestQuestionTestPoolEntry">
           <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
