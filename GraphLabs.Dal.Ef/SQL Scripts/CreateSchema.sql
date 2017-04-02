@@ -248,7 +248,6 @@ GO
 CREATE TABLE [dbo].[AbstractResultEntries_TestResult] (
     [Index] nvarchar(max)  NOT NULL,
     [Id] bigint  NOT NULL,
-    [TestResultTestPoolEntry_TestResult_Id] bigint  NOT NULL,
     [TestPoolEntry_Id] bigint  NOT NULL
 );
 GO
@@ -833,21 +832,6 @@ GO
 CREATE INDEX [IX_FK_TestPoolLabVariant]
 ON [dbo].[LabVariants]
     ([TestPool_Id]);
-GO
-
--- Creating foreign key on [TestResultTestPoolEntry_TestResult_Id] in table 'AbstractResultEntries_TestResult'
-ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
-ADD CONSTRAINT [FK_TestResultTestPoolEntry]
-    FOREIGN KEY ([TestResultTestPoolEntry_TestResult_Id])
-    REFERENCES [dbo].[TestPoolEntries]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestResultTestPoolEntry'
-CREATE INDEX [IX_FK_TestResultTestPoolEntry]
-ON [dbo].[AbstractResultEntries_TestResult]
-    ([TestResultTestPoolEntry_TestResult_Id]);
 GO
 
 -- Creating foreign key on [TestPool_Id] in table 'TestPoolEntries'

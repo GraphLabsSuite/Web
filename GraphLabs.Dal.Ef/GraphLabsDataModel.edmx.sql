@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/01/2017 23:34:10
--- Generated from EDMX file: C:\Users\Егор\Documents\GitHub\Web\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- Date Created: 04/02/2017 09:34:58
+-- Generated from EDMX file: E:\Рабочий стол\graphlabs\git\graphlabs.site\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -94,9 +94,6 @@ IF OBJECT_ID(N'[dbo].[FK_AnswerVariantStudentAnswer]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_TestPoolLabVariant]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LabVariants] DROP CONSTRAINT [FK_TestPoolLabVariant];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TestResultTestPoolEntry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AbstractResultEntries_TestResult] DROP CONSTRAINT [FK_TestResultTestPoolEntry];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TestPoolTestPoolEntry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[TestPoolEntries] DROP CONSTRAINT [FK_TestPoolTestPoolEntry];
@@ -453,7 +450,6 @@ GO
 CREATE TABLE [dbo].[AbstractResultEntries_TestResult] (
     [Index] nvarchar(max)  NOT NULL,
     [Id] bigint  NOT NULL,
-    [TestResultTestPoolEntry_TestResult_Id] bigint  NOT NULL,
     [TestPoolEntry_Id] bigint  NOT NULL
 );
 GO
@@ -1038,21 +1034,6 @@ GO
 CREATE INDEX [IX_FK_TestPoolLabVariant]
 ON [dbo].[LabVariants]
     ([TestPool_Id]);
-GO
-
--- Creating foreign key on [TestResultTestPoolEntry_TestResult_Id] in table 'AbstractResultEntries_TestResult'
-ALTER TABLE [dbo].[AbstractResultEntries_TestResult]
-ADD CONSTRAINT [FK_TestResultTestPoolEntry]
-    FOREIGN KEY ([TestResultTestPoolEntry_TestResult_Id])
-    REFERENCES [dbo].[TestPoolEntries]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestResultTestPoolEntry'
-CREATE INDEX [IX_FK_TestResultTestPoolEntry]
-ON [dbo].[AbstractResultEntries_TestResult]
-    ([TestResultTestPoolEntry_TestResult_Id]);
 GO
 
 -- Creating foreign key on [TestPool_Id] in table 'TestPoolEntries'

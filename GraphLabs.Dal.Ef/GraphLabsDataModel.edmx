@@ -139,10 +139,6 @@
       <End Role="TestPool" EntitySet="TestPools" />
       <End Role="LabVariant" EntitySet="LabVariants" />
     </AssociationSet>
-    <AssociationSet Name="TestResultTestPoolEntry" Association="DataModel.Store.TestResultTestPoolEntry">
-      <End Role="TestResult" EntitySet="AbstractResultEntries_TestResult" />
-      <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
-    </AssociationSet>
     <AssociationSet Name="TestPoolTestPoolEntry" Association="DataModel.Store.TestPoolTestPoolEntry">
       <End Role="TestPool" EntitySet="TestPools" />
       <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
@@ -413,7 +409,6 @@
     </Key>
     <Property Name="Index" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="bigint" Nullable="false" />
-    <Property Name="TestResultTestPoolEntry_TestResult_Id" Type="bigint" Nullable="false" />
     <Property Name="TestPoolEntry_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="AbstractStudentActions_StudentAnswer">
@@ -701,18 +696,6 @@
       </Principal>
       <Dependent Role="LabVariant">
         <PropertyRef Name="TestPool_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TestResultTestPoolEntry">
-    <End Role="TestResult" Type="DataModel.Store.AbstractResultEntries_TestResult" Multiplicity="*" />
-    <End Role="TestPoolEntry" Type="DataModel.Store.TestPoolEntries" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="TestPoolEntry">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TestResult">
-        <PropertyRef Name="TestResultTestPoolEntry_TestResult_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1006,10 +989,6 @@
           <AssociationSet Name="TestPoolLabVariant" Association="DataModel.TestPoolLabVariant">
             <End Role="TestPool" EntitySet="TestPools" />
             <End Role="LabVariant" EntitySet="LabVariants" />
-          </AssociationSet>
-          <AssociationSet Name="TestResultTestPoolEntry" Association="DataModel.TestResultTestPoolEntry">
-            <End Role="TestResult" EntitySet="AbstractResultEntries" />
-            <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
           </AssociationSet>
           <AssociationSet Name="TestPoolTestPoolEntry" Association="DataModel.TestPoolTestPoolEntry">
             <End Role="TestPool" EntitySet="TestPools" />
@@ -1368,10 +1347,6 @@
         <Association Name="TestPoolLabVariant">
           <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
           <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
-        </Association>
-        <Association Name="TestResultTestPoolEntry">
-          <End Type="DataModel.TestResult" Role="TestResult" Multiplicity="1" />
-          <End Type="DataModel.TestPoolEntry" Role="TestPoolEntry" Multiplicity="1" />
         </Association>
         <Association Name="TestPoolTestPoolEntry">
           <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
@@ -1809,14 +1784,6 @@
         <ScalarProperty Name="Id" ColumnName="TestPool_Id" />
       </EndProperty>
       <EndProperty Name="LabVariant">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TestResultTestPoolEntry" TypeName="DataModel.TestResultTestPoolEntry" StoreEntitySet="AbstractResultEntries_TestResult">
-      <EndProperty Name="TestPoolEntry">
-        <ScalarProperty Name="Id" ColumnName="TestResultTestPoolEntry_TestResult_Id" />
-      </EndProperty>
-      <EndProperty Name="TestResult">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
