@@ -18,11 +18,9 @@ namespace GraphLabs.Site.Controllers
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class TestPoolEntryController : GraphLabsController
     {
-
         private readonly IEntityBasedModelSaver<SaveTestPoolEntryModel, TestPoolEntry> _modelSaver;
         private readonly IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> _modelRemover;
         private readonly IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> _modelLoader;
-
 
         public TestPoolEntryController(
             IEntityBasedModelSaver<SaveTestPoolEntryModel, TestPoolEntry> modelSaver,
@@ -45,8 +43,7 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Create(SaveTestPoolEntryModel saveTestPoolEntry)
         {
             var testPoolEntryCreated = _modelSaver.CreateOrUpdate(saveTestPoolEntry);
-            //testPoolEntryCreated.TestPool.TestPoolEntries.Add(testPoolEntryCreated);
-            return Json(true);
+            return Json(testPoolEntryCreated.Id);
         }
 
         [HttpPost]
@@ -62,10 +59,11 @@ namespace GraphLabs.Site.Controllers
             return RedirectToAction("Index", "TestPoolEntry");
         }
 
+        [HttpPost]
         public ActionResult Delete(long testPoolEntryId)
         {
             _modelRemover.Remove(testPoolEntryId);
-            return RedirectToAction("Index", "TestPoolEntry");
+            return RedirectToAction("Edit", "TestPool", new {id = testPoolEntryId});
         }
 
     }

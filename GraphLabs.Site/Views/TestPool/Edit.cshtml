@@ -36,36 +36,35 @@
 
                     foreach (var item in Model.TestPoolEntries)
                     {
-                        @*<div class="editor-label">
-                            Вопрос тестпула № @item.Id
-                        </div>*@
                         <div class="row" id="testPoolEntry @item.Id">
-                                <div class="col-md-3">
-                                    <p>Выбранный вопрос</p>
-                                    <p id="score @item.Id">@item.TestQuestion.Question</p>
-                                    @*<input id="score @item.Id" type="text" value="@item.TestQuestion.Question"/>*@
-                                </div>
-                                <div class="col-md-3">
-                                    <p>Количество баллов</p>
-                                    <input id="score @item.Id" type="number" value="@item.Score"/>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="editor-label">
-                                        Выбор стратегии
-                                    </div>
-                                    <select>
-                                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
-                                            Учёт только верных
-                                        </option>
-                                        <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)" value="1">
-                                            Учёт всех
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete @item.Id">Удалить</button>
-                                </div>
+                            <div id="itemId @item.Id" hidden="true">
+                                @item.Id
                             </div>
+                            <div class="col-md-3">
+                                <p>Выбранный вопрос</p>
+                                <p id="score @item.Id">@item.TestQuestion.Question</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>Количество баллов</p>
+                                <input id="score @item.Id" type="number" value="@item.Score"/>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    Выбор стратегии
+                                </div>
+                                <select>
+                                    <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
+                                        Учёт только верных
+                                    </option>
+                                    <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)" value="1">
+                                        Учёт всех
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete @item.Id">Удалить</button>
+                            </div>
+                        </div>
                     }
                 }
                 else
@@ -110,6 +109,7 @@
                 <button onclick="addTestPoolEntry();" type="button">Добавить вопрос</button>
             </div>
         </div>
+        <div id="systemMessage"></div>
         <br />
     <p>
         <input type="submit" value="Завершить редактирование"/>
@@ -176,7 +176,7 @@
 
             if (n === 1 && suggest_selected < suggest_count) {
                 suggest_selected++;
-            } else if (n == -1 && suggest_selected > 0) {
+            } else if (n === -1 && suggest_selected > 0) {
                 suggest_selected--;
             }
 
@@ -245,6 +245,10 @@
             event.stopPropagation();
         });
 
+        var checkIt = (first, second) => {
+            return first === second;
+        }
+
         var addTestPoolEntry = () => {
             $.ajax({
                 url: '/testpoolentry/Create',
@@ -257,7 +261,41 @@
                     TestQuestion: parseInt($("#questionIdNew").val())
                 }),
                 contentType: 'application/json; charset=utf-8',
-                success: data => { }
+                success: data => {
+                    if (data != null) {
+                        if (checkIt('У этого тестпула ещё нет добавленных вопросов.', $("#editorRows").find("p").text())) {
+                            $("#editorRows").html("");
+                        }
+                        $("#editorRows").append("" +
+                            '<div class="row" id="testPoolEntry ' + data + '">' +
+                                '<div class="itemId" hidden="true">' + data + '</div>' +
+                                '<div class="col-md-3">' +
+                                    '<p>Выбранный вопрос</p>' +
+                                    '<p id="score ' + data + '">' + $("#search_box").val() + '</p>' +
+                                '</div>' +
+                                '<div class="col-md-3">' +
+                                    '<p>Количество баллов</p>' +
+                                    '<input id="score ' + data + '" type="number" value="' + $("#scoreNew").val() + '"/>' +
+                                '</div>' +
+                                '<div class="col-md-3">' +
+                                    '<div class="editor-label">Выбор стратегии</div>' +
+                                    '<select>' +
+                                        '<option selected="' + checkIt($("#selectNew option:selected").val(),"Учёт только верных") + '" value="0">Учёт только верных</option>' +
+                                        '<option selected="' + checkIt($("#selectNew option:selected").val(),"Учёт всех") + '" value="1">Учёт всех</option>' +
+                                    '</select>' +
+                                '</div>' +
+                                '<div class="col-md-3">' +
+                                    '<button onclick="deleteTestPoolEntry(' + data + ');" type="button" id="delete ' + data + '">Удалить</button>' +
+                                '</div>' +
+                            '</div>');
+                        $("#scoreNew").val("");
+                        $("#testPoolId").val("");
+                        $("#questionIdNew").val("");
+                        $("#search_box").val("");
+                    } else {
+                        $("#systemMessage").html("<p style='color: red'>Не получилось добавить данные. Попробуйте позже.</p>");
+                    }
+                }
             });
         };
 
@@ -265,8 +303,8 @@
             $.ajax({
                 url: '/testpoolentry/Delete',
                 method: "POST",
-                data: id,
-                success: () => { $("#delete " + id).html("") }
+                data: (id),
+                contentType: 'application/text; charset=utf-8'
             });
         };
     </script>
