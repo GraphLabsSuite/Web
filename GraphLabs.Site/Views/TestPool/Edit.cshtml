@@ -36,17 +36,17 @@
 
                     foreach (var item in Model.TestPoolEntries)
                     {
-                        <div class="row" id="testPoolEntry @item.Id">
-                            <div id="itemId @item.Id" hidden="true">
+                        <div class="row" id="testPoolEntry_@item.Id">
+                            <div id="itemId_@item.Id" hidden="true">
                                 @item.Id
                             </div>
                             <div class="col-md-3">
                                 <p>Выбранный вопрос</p>
-                                <p id="score @item.Id">@item.TestQuestion.Question</p>
+                                <p id="question_@item.Id">@item.TestQuestion.Question</p>
                             </div>
                             <div class="col-md-3">
                                 <p>Количество баллов</p>
-                                <input id="score @item.Id" type="number" value="@item.Score"/>
+                                <input id="score_@item.Id" type="number" value="@item.Score"/>
                             </div>
                             <div class="col-md-3">
                                 <div class="editor-label">
@@ -62,7 +62,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete @item.Id">Удалить</button>
+                                <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete_@item.Id">Удалить</button>
                             </div>
                         </div>
                     }
@@ -267,26 +267,26 @@
                             $("#editorRows").html("");
                         }
                         $("#editorRows").append("" +
-                            '<div class="row" id="testPoolEntry ' + data + '">' +
-                                '<div class="itemId" hidden="true">' + data + '</div>' +
-                                '<div class="col-md-3">' +
-                                    '<p>Выбранный вопрос</p>' +
-                                    '<p id="score ' + data + '">' + $("#search_box").val() + '</p>' +
-                                '</div>' +
-                                '<div class="col-md-3">' +
-                                    '<p>Количество баллов</p>' +
-                                    '<input id="score ' + data + '" type="number" value="' + $("#scoreNew").val() + '"/>' +
-                                '</div>' +
-                                '<div class="col-md-3">' +
-                                    '<div class="editor-label">Выбор стратегии</div>' +
-                                    '<select>' +
-                                        '<option selected="' + checkIt($("#selectNew option:selected").val(),"Учёт только верных") + '" value="0">Учёт только верных</option>' +
-                                        '<option selected="' + checkIt($("#selectNew option:selected").val(),"Учёт всех") + '" value="1">Учёт всех</option>' +
-                                    '</select>' +
-                                '</div>' +
-                                '<div class="col-md-3">' +
-                                    '<button onclick="deleteTestPoolEntry(' + data + ');" type="button" id="delete ' + data + '">Удалить</button>' +
-                                '</div>' +
+                            '<div class="row" id="testPoolEntry_' + data + '">' +
+                            '<div class="itemId" hidden="true">' + data + '</div>' +
+                            '<div class="col-md-3">' +
+                            '<p>Выбранный вопрос</p>' +
+                            '<p id="question_' + data + '">' + $("#search_box").val() + '</p>' +
+                            '</div>' +
+                            '<div class="col-md-3">' +
+                            '<p>Количество баллов</p>' +
+                            '<input id="score_' + data + '" type="number" value="' + $("#scoreNew").val() + '"/>' +
+                            '</div>' +
+                            '<div class="col-md-3">' +
+                            '<div class="editor-label">Выбор стратегии</div>' +
+                            '<select>' +
+                            '<option selected="' + checkIt($("#selectNew option:selected").val(), "Учёт только верных") + '" value="0">Учёт только верных</option>' +
+                            '<option selected="' + checkIt($("#selectNew option:selected").val(), "Учёт всех") + '" value="1">Учёт всех</option>' +
+                            '</select>' +
+                            '</div>' +
+                            '<div class="col-md-3">' +
+                            '<button onclick="deleteTestPoolEntry(' + data + ');" type="button" id="delete_' + data + '">Удалить</button>' +
+                            '</div>' +
                             '</div>');
                         $("#scoreNew").val("");
                         $("#testPoolId").val("");
@@ -299,12 +299,29 @@
             });
         };
 
-        var deleteTestPoolEntry = (id) => {
+        var deleteTestPoolEntry = (data) => {
             $.ajax({
                 url: '/testpoolentry/Delete',
                 method: "POST",
-                data: (id),
-                contentType: 'application/text; charset=utf-8'
+                data: JSON.stringify({
+                    Id: parseInt(data),
+                    Score: 0,
+                    ScoringStrategy: 0,
+                    TestPool: 0,
+                    TestQuestion: 0
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: answer => {
+                    if (answer) {
+                        console.log($("#testPoolEntry_" + data));
+                        $("#testPoolEntry_" + data).text("");
+                        if ($("#editorRows").text().trim() === '') {
+                            $("#editorRows").html('<p>У этого тестпула ещё нет добавленных вопросов.</p>');
+                        }
+                    } else {
+                        $("#systemMessage").html("<p style='color: red'>Не получилось удалить элемент. Попробуйте позже.</p>");
+                    }
+                }
             });
         };
     </script>

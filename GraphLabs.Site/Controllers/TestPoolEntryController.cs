@@ -47,23 +47,25 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(long? testPoolId)
+        public ActionResult Edit(SaveTestPoolEntryModel saveTestPoolEntry)
         {
-            var testPool = _modelLoader.Load(testPoolId);
-            //TestPool res = _modelSaver.CreateOrUpdate(testPool);
-            //if (res != null)
-            {
-                return RedirectToAction("Index", "TestPoolEntry");
-            }
-            ViewBag.Message = "Невозможно обновить тестпул";
-            return RedirectToAction("Index", "TestPoolEntry");
+            _modelSaver.CreateOrUpdate(saveTestPoolEntry);
+            return Json(true);
         }
 
         [HttpPost]
-        public ActionResult Delete(long testPoolEntryId)
+        public ActionResult Delete(SaveTestPoolEntryModel testPoolEntryIdStr)
         {
-            _modelRemover.Remove(testPoolEntryId);
-            return RedirectToAction("Edit", "TestPool", new {id = testPoolEntryId});
+            try
+            {
+                var testPoolEntryId = testPoolEntryIdStr.Id;
+                _modelRemover.Remove(testPoolEntryId);
+                return Json(true);
+            }
+            catch (Exception e)
+            {
+                return Json(false);
+            }
         }
 
     }
