@@ -29,10 +29,11 @@ var chooseIt = (str, i) => {
 
 $("#search_box").keypress(i => {
     $.ajax({
-        url: "/survey/Load",
+        url: "/survey/LoadUnique",
         method: "POST",
         data: JSON.stringify({
-            Question: $("#search_box").val() + i.key
+            Question: $("#search_box").val() + i.key,
+            TestPool: $('#testPoolId').text()
         }),
         contentType: "application/json; charset=utf-8",
         success: data => {

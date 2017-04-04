@@ -13,12 +13,16 @@ using System.Web.Helpers;
 using System.Web.Routing;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Models.Infrastructure;
+using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Controllers
 {
     public class QuestionLookForModel
     {
         public string Question { get; set; }
+
+        public long TestPool { get; set; }
     }
 
 
@@ -27,9 +31,14 @@ namespace GraphLabs.Site.Controllers
 	{
 	    private readonly ISurveyRepository _surveyRepository;
 	    private readonly ICategoryRepository _categoryRepository;
+        private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _modelLoader;
 
-	    public SurveyController(ISurveyRepository surveyRepository, ICategoryRepository categoryRepository)
-	    {
+        public SurveyController(
+            ISurveyRepository surveyRepository,
+            ICategoryRepository categoryRepository,
+            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader)
+        {
+            _modelLoader = modelLoader;
 	        _surveyRepository = surveyRepository;
 	        _categoryRepository = categoryRepository;
 	    }
@@ -68,6 +77,20 @@ namespace GraphLabs.Site.Controllers
             var json = Json(questionArray);
 	        return json;
 	    }
+
+	    [HttpPost]
+	    public ActionResult LoadUnique(QuestionLookForModel input)
+	    {
+	        // Новый код подгружает только те вопросы, которых ещё нет в данном тестпуле
+	        var entity = _modelLoader.Load(input.TestPool);
+	        TestQuestion[] questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
+	        var questionArray = questions
+                .Where(q => entity.TestPoolEntries.All(t => t.TestQuestion.Question != q.Question))
+                .Select(q => new Tuple<string, long>(q.Question, q.Id))
+                .ToArray();
+            var json = Json(questionArray);
+            return json;
+        }
 
 		#endregion
 
