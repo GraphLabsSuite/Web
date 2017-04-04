@@ -18,7 +18,7 @@ namespace GraphLabs.Site.App_Start
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap"));
+                "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Common/TestPool").Include("~/Scripts/Common/TestPool.js"));
 
