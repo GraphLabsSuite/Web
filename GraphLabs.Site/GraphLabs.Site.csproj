@@ -440,10 +440,7 @@
     <Content Include="Views\TestPool\Create.cshtml" />
     <Content Include="Views\TestPool\Edit.cshtml" />
     <Content Include="Views\TestPool\Index.cshtml" />
-    <Content Include="Views\TestPoolEntry\_TestPoolEntryRow.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
-    <Content Include="Views\TestPoolEntry\Index.cshtml" />
-    <Content Include="Views\TestPoolEntry\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

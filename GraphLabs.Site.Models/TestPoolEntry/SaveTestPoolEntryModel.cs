@@ -15,8 +15,8 @@ namespace GraphLabs.Site.Models.TestPoolEntry
 
         public ScoringStrategy ScoringStrategy { get; set; }
 
-        public int TestQuestion { get; set; }
+        public long TestQuestion { get; set; }
 
-        public int TestPool { get; set; }
+        public long TestPool { get; set; }
     }
 }

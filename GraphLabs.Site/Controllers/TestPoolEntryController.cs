@@ -47,10 +47,49 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(SaveTestPoolEntryModel saveTestPoolEntry)
+        public ActionResult Edit(AuxTestPoolEntryModel editTestPoolEntry)
         {
-            _modelSaver.CreateOrUpdate(saveTestPoolEntry);
-            return Json(true);
+            try
+            {
+                var type = editTestPoolEntry.Type;
+                var value = editTestPoolEntry.Value;
+                var entity = _modelLoader.Load(editTestPoolEntry.Id);
+                switch (type)
+                {
+                    case "ScoringStrategy":
+                        switch (value)
+                        {
+                            case 0:
+                                entity.ScoringStrategy = ScoringStrategy.AllCorrectVariantsShouldBeSpecified;
+                                break;
+                            case 1:
+                                entity.ScoringStrategy = ScoringStrategy.AnyCorrectVariantCanBeSpecified;
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "Score":
+                        entity.Score = value;
+                        break;
+                    default:
+                        break;
+                }
+                var model = new SaveTestPoolEntryModel
+                {
+                    Id = entity.Id,
+                    Score = entity.Score,
+                    ScoringStrategy = entity.ScoringStrategy,
+                    TestPool = entity.TestPool.Id,
+                    TestQuestion = entity.TestQuestion.Id,
+                };
+                _modelSaver.CreateOrUpdate(model);
+                return Json(true);
+            }
+            catch (Exception e)
+            {
+                return Json(false);
+            }
         }
 
         [HttpPost]

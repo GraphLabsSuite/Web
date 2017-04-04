@@ -156,3 +156,54 @@ var deleteTestPoolEntry = (data) => {
         }
     });
 };
+
+
+var editTestPoolEntrySelect = (data) => {
+    var value = document.getElementById("select_" + data).value;
+    $.ajax({
+        url: '/testpoolentry/Edit',
+        method: "POST",
+        data: JSON.stringify({
+            Id: parseInt(data),
+            Type: 'ScoringStrategy',
+            Value: value
+        }),
+        contentType: 'application/json; charset=utf-8',
+        success: answer => {
+            if (answer) {
+                $("#editorRows").prepend('<div class="alert alert-success" role="alert">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    'Значение успешно изменилось!</div>');
+            } else {
+                $("#editorRows").prepend('<div class="alert alert-danger" role="alert">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    'Значение не изменилось, повторите позже!</div>');
+            }
+        }
+    });
+};
+
+var editTestPoolEntryScore = (data) => {
+    var value = document.getElementById("score_" + data).value;
+    $.ajax({
+        url: '/testpoolentry/Edit',
+        method: "POST",
+        data: JSON.stringify({
+            Id: parseInt(data),
+            Type: 'Score',
+            Value: value
+        }),
+        contentType: 'application/json; charset=utf-8',
+        success: answer => {
+            if (answer) {
+                $("#editorRows").prepend('<div class="alert alert-success" role="alert">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    'Значение успешно изменилось!</div>');
+            } else {
+                $("#editorRows").prepend('<div class="alert alert-danger" role="alert">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    'Значение не изменилось, повторите позже!</div>');
+            }
+        }
+    });
+};
