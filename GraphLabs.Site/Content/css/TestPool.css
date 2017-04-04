@@ -1,0 +1,41 @@
+﻿    .search_area {
+        width: 350px;
+        margin: 0px;
+        position: relative;
+    }
+
+    #search_box {
+        width: 200px;
+        padding: 2px;
+        margin: 1px;
+        border: 1px solid #000;
+    }
+
+    #search_advice_wrapper {
+        display: none;
+        width: 350px;
+        background-color: rgb(80, 80, 114);
+        color: rgb(255, 227, 189);
+        -moz-opacity: 0.95;
+        opacity: 0.95;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=95);
+        filter: alpha(opacity=95);
+    }
+
+    #search_advice_wrapper .advice_variant {
+        cursor: pointer;
+        padding: 5px;
+        text-align: left;
+    }
+
+    #search_advice_wrapper .advice_variant:hover {
+        color: #FEFFBD;
+        background-color: #818187;
+    }
+      
+    #search_advice_wrapper .active {
+        cursor: pointer;
+        padding: 5px;
+        color: #FEFFBD;
+        background-color: #818187;
+    }

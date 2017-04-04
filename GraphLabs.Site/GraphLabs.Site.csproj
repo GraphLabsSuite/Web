@@ -247,6 +247,7 @@
     <Content Include="Content\css\PopUp.css" />
     <Content Include="Content\css\ResultBoardTable.css" />
     <Content Include="Content\css\Table.css" />
+    <Content Include="Content\css\TestPool.css" />
     <Content Include="Content\css\ValidationHelpers.css" />
     <Content Include="Content\css\Webgrid.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -322,6 +323,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Common\TestPool.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.js" />
