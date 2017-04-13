@@ -14,18 +14,11 @@ using System.Web.Routing;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models.Infrastructure;
+using GraphLabs.Site.Models.Question;
 using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Controllers
 {
-    public class QuestionLookForModel
-    {
-        public string Question { get; set; }
-
-        public long TestPool { get; set; }
-    }
-
-
 	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class SurveyController : GraphLabsController
 	{
