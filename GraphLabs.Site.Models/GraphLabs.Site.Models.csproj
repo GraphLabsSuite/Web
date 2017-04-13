@@ -222,12 +222,10 @@
     <Compile Include="TestPoolEntry\SaveTestPoolEntryModelSaver.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelLoader.cs" />
-    <Compile Include="TestPoolEntry\TestPoolEntryModelRemover.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelSaver.cs" />
     <Compile Include="TestPool\TestPoolListModel.cs" />
     <Compile Include="TestPool\TestPoolModel.cs" />
     <Compile Include="TestPool\TestPoolModelLoader.cs" />
-    <Compile Include="TestPool\TestPoolModelRemover.cs" />
     <Compile Include="TestPool\TestPoolModelSaver.cs" />
   </ItemGroup>
   <ItemGroup>

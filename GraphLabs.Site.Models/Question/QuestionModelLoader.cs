@@ -1,4 +1,5 @@
-﻿using GraphLabs.DomainModel;
+﻿using System;
+using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 using System.Diagnostics.Contracts;
 
@@ -12,7 +13,7 @@ namespace GraphLabs.Site.Models.Question
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override QuestionModel Load(TestQuestion question)
         {
-            Contract.Requires(question != null);
+            Contract.Requires<ArgumentNullException>(question != null);
 
             var model = new QuestionModel
             {

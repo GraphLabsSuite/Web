@@ -83,30 +83,31 @@ namespace GraphLabs.Site.Controllers
         public ViewResult Delete(long testPoolId)
         {
             var result = _modelRemover.Remove(testPoolId);
-            if (result == RemovalStatus.Success)
+            switch (result)
             {
-                ViewBag.Message = "Тестпул был успешно удалён!";
-                var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                return View("Index", model);
-            }
-            else if (result == RemovalStatus.SomeFKExistOnTheElement)
-            {
-                ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
-                var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                return View("Index", model);
-            } else if (result == RemovalStatus.UnknownFailure)
-            {
-                ViewBag.Message = "Кто его знает, что тут произошло.";
-                var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                return View("Index", model);
-            }
-            else
-            {
-                ViewBag.Message = "Такого элемента нету.";
-                var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                return View("Index", model);
+                case RemovalStatus.Success:
+                {
+                    ViewBag.Message = "Тестпул был успешно удалён!";
+                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                    return View("Index", model);
+                }
+                case RemovalStatus.SomeFKExistOnTheElement:
+                {
+                    ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
+                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                    return View("Index", model);
+                }
+                case RemovalStatus.UnknownFailure:
+                {
+                    ViewBag.Message = "Кто его знает, что тут произошло.";
+                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                    return View("Index", model);
+                }
+                default:
+                {
+                    throw new NotImplementedException();
+                }
             }
         }
-
     }
 }
