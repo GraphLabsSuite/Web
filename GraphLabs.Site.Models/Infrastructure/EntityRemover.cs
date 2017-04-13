@@ -13,17 +13,17 @@ using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Site.Models.Infrastructure
 {
-    internal abstract class AbstractModelRemover<TEntity> : IEntityRemover<TEntity>
+    internal abstract class EntityRemover<TEntity> : IEntityRemover<TEntity>
         where TEntity : AbstractEntity
     {
         private readonly IOperationContextFactory<IGraphLabsContext> _operationContextFactory;
 
-        protected AbstractModelRemover(IOperationContextFactory<IGraphLabsContext> operationContextFactory)
+        protected EntityRemover(IOperationContextFactory<IGraphLabsContext> operationContextFactory)
         {
             _operationContextFactory = operationContextFactory;
         }
 
-        public RemovalStatus Remove(long id)
+        public RemovalStatus Remove(object id)
         {
             using (var operation = _operationContextFactory.Create())
             {

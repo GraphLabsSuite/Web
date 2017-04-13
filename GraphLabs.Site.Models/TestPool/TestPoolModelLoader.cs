@@ -27,18 +27,16 @@ namespace GraphLabs.Site.Models.TestPool
         public override TestPoolModel Load(DomainModel.TestPool testPool)
         {
             Contract.Requires(testPool != null);
-            var array = new Collection<TestPoolEntryModel>();
-            testPool.TestPoolEntries.ForEach(a =>
-            {
-                array.Add(new TestPoolEntryModel
+            var array = testPool.TestPoolEntries.Select(a =>
+                new TestPoolEntryModel
                 {
                     Id = a.Id,
-                    Score =  a.Score,
+                    Score = a.Score,
                     ScoringStrategy = a.ScoringStrategy,
                     TestQuestion = a.TestQuestion,
                     TestPool = a.TestPool
-                });
-            });
+                })
+                .ToArray();
 
             var model = new TestPoolModel()
             {

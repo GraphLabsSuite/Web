@@ -12,7 +12,7 @@ using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Models.TestPoolEntry
 {
-    internal sealed class TestPoolEntryModelRemover : AbstractModelRemover<DomainModel.TestPoolEntry>
+    internal sealed class TestPoolEntryModelRemover : EntityRemover<DomainModel.TestPoolEntry>
     {
 
         public TestPoolEntryModelRemover(
