@@ -63,7 +63,7 @@ namespace GraphLabs.Site.Controllers
 	    [HttpPost]
 	    public ActionResult Load(QuestionLookForModel input)
 	    {
-	        TestQuestion[] questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
+	        var questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
             var questionArray = questions.Select(q => new Tuple<string, long>(
             q.Question,q.Id))
                 .ToArray();
@@ -76,7 +76,7 @@ namespace GraphLabs.Site.Controllers
 	    {
 	        // Новый код подгружает только те вопросы, которых ещё нет в данном тестпуле
 	        var entity = _modelLoader.Load(input.TestPool);
-	        TestQuestion[] questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
+	        var questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
 	        var questionArray = questions
                 .Where(q => entity.TestPoolEntries.All(t => t.TestQuestion.Question != q.Question))
                 .Select(q => new Tuple<string, long>(q.Question, q.Id))

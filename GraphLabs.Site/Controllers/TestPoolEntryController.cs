@@ -56,7 +56,7 @@ namespace GraphLabs.Site.Controllers
                 var entity = _modelLoader.Load(editTestPoolEntry.Id);
                 switch (type)
                 {
-                    case "ScoringStrategy":
+                    case nameof(SaveTestPoolEntryModel.ScoringStrategy):
                         switch (value)
                         {
                             case 0:
@@ -69,11 +69,11 @@ namespace GraphLabs.Site.Controllers
                                 break;
                         }
                         break;
-                    case "Score":
+                    case nameof(SaveTestPoolEntryModel.Score):
                         entity.Score = value;
                         break;
                     default:
-                        break;
+                        throw new Exception("Присланное не соответствует формату данных!");
                 }
                 var model = new SaveTestPoolEntryModel
                 {
