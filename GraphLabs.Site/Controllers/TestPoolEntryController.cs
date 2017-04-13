@@ -19,12 +19,12 @@ namespace GraphLabs.Site.Controllers
     public class TestPoolEntryController : GraphLabsController
     {
         private readonly IEntityBasedModelSaver<SaveTestPoolEntryModel, TestPoolEntry> _modelSaver;
-        private readonly IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> _modelRemover;
+        private readonly IEntityRemover<TestPoolEntry> _modelRemover;
         private readonly IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> _modelLoader;
 
         public TestPoolEntryController(
             IEntityBasedModelSaver<SaveTestPoolEntryModel, TestPoolEntry> modelSaver,
-            IEntityBasedModelRemover<TestPoolEntryModel, TestPoolEntry> modelRemover,
+            IEntityRemover<TestPoolEntry> modelRemover,
             IEntityBasedModelLoader<TestPoolEntryModel, TestPoolEntry> modelLoader
             )
         {

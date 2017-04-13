@@ -22,13 +22,13 @@ namespace GraphLabs.Site.Controllers
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<TestPoolModel, TestPool> _modelSaver;
         private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _modelLoader;
-        private readonly IEntityBasedModelRemover<TestPoolModel, TestPool> _modelRemover;
+        private readonly IEntityRemover<TestPool> _modelRemover;
 
         public TestPoolController(
             IListModelLoader listModelLoader,
             IEntityBasedModelSaver<TestPoolModel, TestPool> modelSaver,
             IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader,
-            IEntityBasedModelRemover<TestPoolModel, TestPool> modelRemover
+            IEntityRemover<TestPool> modelRemover
             )
         {
             _listModelLoader = listModelLoader;

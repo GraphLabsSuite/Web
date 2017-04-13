@@ -165,7 +165,7 @@
     <Compile Include="Groups\GroupModelLoader.cs" />
     <Compile Include="Groups\GroupModelSaver.cs" />
     <Compile Include="Infrastructure\RemovalStatus.cs" />
-    <Compile Include="Infrastructure\IEntityBasedModelRemover.cs" />
+    <Compile Include="Infrastructure\IEntityRemover.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelSaver.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelLoader.cs" />
     <Compile Include="Infrastructure\ListModelBase.cs" />

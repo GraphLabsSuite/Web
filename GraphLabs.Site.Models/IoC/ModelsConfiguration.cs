@@ -47,11 +47,11 @@ namespace GraphLabs.Site.Models.IoC
             // тестпулы
             container.RegisterType<IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool>, TestPoolModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelSaver<TestPoolModel, DomainModel.TestPool>, TestPoolModelSaver>(new PerResolveLifetimeManager());
-            container.RegisterType<IEntityBasedModelRemover<TestPoolModel, DomainModel.TestPool>, TestPoolModelRemover>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityRemover<DomainModel.TestPool>, TestPoolModelRemover>(new PerResolveLifetimeManager());
 
             // тестпулэнтри
             container.RegisterType<IEntityBasedModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry>, TestPoolEntryModelSaver>(new PerResolveLifetimeManager());
-            container.RegisterType<IEntityBasedModelRemover<TestPoolEntryModel, DomainModel.TestPoolEntry>, TestPoolEntryModelRemover>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityRemover<DomainModel.TestPoolEntry>, TestPoolEntryModelRemover>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry>, TestPoolEntryModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelSaver<SaveTestPoolEntryModel, DomainModel.TestPoolEntry>, SaveTestPoolEntryModelSaver>(new PerResolveLifetimeManager());
 

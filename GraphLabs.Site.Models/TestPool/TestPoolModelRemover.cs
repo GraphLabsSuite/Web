@@ -11,7 +11,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.TestPool
 {
-    internal sealed class TestPoolModelRemover : AbstractModelRemover<TestPoolModel, DomainModel.TestPool>
+    internal sealed class TestPoolModelRemover : AbstractModelRemover<DomainModel.TestPool>
     {
         public TestPoolModelRemover(IOperationContextFactory<IGraphLabsContext> operationContextFactory)
             : base(operationContextFactory)

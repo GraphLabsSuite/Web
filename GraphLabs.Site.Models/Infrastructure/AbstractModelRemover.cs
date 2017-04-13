@@ -13,8 +13,7 @@ using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Site.Models.Infrastructure
 {
-    internal abstract class AbstractModelRemover<TModel, TEntity> : IEntityBasedModelRemover<TModel, TEntity>
-        where TModel : IEntityBasedModel<TEntity>
+    internal abstract class AbstractModelRemover<TEntity> : IEntityRemover<TEntity>
         where TEntity : AbstractEntity
     {
         private readonly IOperationContextFactory<IGraphLabsContext> _operationContextFactory;
