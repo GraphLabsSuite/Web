@@ -89,6 +89,15 @@ namespace GraphLabs.DomainModel {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Необработанная ошибка обновления базы данных.
+        /// </summary>
+        internal static string DB_Update_Неизвестная_ошибка_ {
+            get {
+                return ResourceManager.GetString("DB_Update_Неизвестная_ошибка_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Существуют сущности, связанные с данной.
         /// </summary>
         internal static string DB_Update_Существуют_FK_ {

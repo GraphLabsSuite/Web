@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Models.Infrastructure
         {
             using (var operation = _operationContextFactory.Create())
             {
-                var entityToDelete = operation.DataContext.Query.Get<TEntity>(id);
+                var entityToDelete = operation.DataContext.Query.Find<TEntity>(id);
                 if (entityToDelete == null) return RemovalStatus.ElementDoesNotExist;
                 Contract.Assert(typeof (TEntity).IsAssignableFrom(typeof (TEntity)));
                 try
@@ -38,7 +38,7 @@ namespace GraphLabs.Site.Models.Infrastructure
                 }
                 catch (GraphLabsDbUpdateException e)
                 {
-                    if (e.HResult == -2146233088) // Это код ошибки наличия внешних ключей на данный элемент в базе данных (вроде как)
+                    if (e.Message == "Существуют сущности, связанные с данной")
                     {
                         return RemovalStatus.SomeFKExistOnTheElement;
                     }

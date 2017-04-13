@@ -115,7 +115,7 @@ namespace GraphLabs.Dal.Ef
             }
             catch (DbUpdateException e)
             {
-                throw new GraphLabsDbUpdateException(e.InnerException,e.Message);
+                throw new GraphLabsDbUpdateException(e.InnerException);
             }
 
         }

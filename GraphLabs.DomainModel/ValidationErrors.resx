@@ -207,4 +207,7 @@
   <data name="DB_Update_Существуют_FK_" xml:space="preserve">
     <value>Существуют сущности, связанные с данной</value>
   </data>
+  <data name="DB_Update_Неизвестная_ошибка_" xml:space="preserve">
+    <value>Необработанная ошибка обновления базы данных</value>
+  </data>
 </root>
