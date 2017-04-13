@@ -20,13 +20,6 @@ namespace GraphLabs.Site.Models.TestPoolEntry
             ) : base(operationContextFactory)
         {
         }
-
-        /// <summary> Существует ли соответствующая запись в БД? </summary>
-        /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
-        protected override bool ExistsInDatabase(long id)
-        {
-            return id != 0;
-        }
     }
 }
 

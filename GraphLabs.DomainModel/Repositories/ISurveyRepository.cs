@@ -18,6 +18,11 @@ namespace GraphLabs.DomainModel.Repositories
 		/// <summary> Получить все вопросы в заданной категории </summary>
 		TestQuestion[] GetQuestionByCategory(long CategoryId);
 
+        /// <summary>
+        /// Получить все вопросы, начинающиеся с входного критерия
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
 	    TestQuestion[] GetQuestionsSimilarToString(string criteria);
 
 		#endregion
@@ -58,7 +63,7 @@ namespace GraphLabs.DomainModel.Repositories
 
         public TestQuestion[] GetQuestionsSimilarToString(string criteria)
         {
-
+            Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
             return new TestQuestion[0];
         }
 

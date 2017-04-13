@@ -28,32 +28,24 @@ namespace GraphLabs.Site.Models.Infrastructure
         {
             using (var operation = _operationContextFactory.Create())
             {
-                if (ExistsInDatabase(id))
+                var entityToDelete = operation.DataContext.Query.Get<TEntity>(id);
+                if (entityToDelete == null) return RemovalStatus.ElementDoesNotExist;
+                Contract.Assert(typeof (TEntity).IsAssignableFrom(typeof (TEntity)));
+                try
                 {
-                    Contract.Assert(typeof (TEntity).IsAssignableFrom(typeof (TEntity)));
-                    try
-                    {
-                        operation.DataContext.Factory.Delete(operation.DataContext.Query.Get<TEntity>(id));
-                        operation.Complete();
-                        return RemovalStatus.Success;
-                    }
-                    catch (GraphLabsDbUpdateException e)
-                    {
-                        if (e.HResult == -2146233088) // Это код ошибки наличия внешних ключей на данный элемент в базе данных (вроде как)
-                        {
-                            return RemovalStatus.SomeFKExistOnTheElement;
-                        }
-                        return RemovalStatus.UnknownFailure;
-                    }
+                    operation.DataContext.Factory.Delete(entityToDelete);
+                    operation.Complete();
+                    return RemovalStatus.Success;
                 }
-
-                return RemovalStatus.ElementDoesNotExist;
+                catch (GraphLabsDbUpdateException e)
+                {
+                    if (e.HResult == -2146233088) // Это код ошибки наличия внешних ключей на данный элемент в базе данных (вроде как)
+                    {
+                        return RemovalStatus.SomeFKExistOnTheElement;
+                    }
+                    return RemovalStatus.UnknownFailure;
+                }
             }
         }
-
-        /// <summary> Существует ли соответствующая запись в БД? </summary>
-        /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
-        protected abstract bool ExistsInDatabase(long id);
-
     }
 }
