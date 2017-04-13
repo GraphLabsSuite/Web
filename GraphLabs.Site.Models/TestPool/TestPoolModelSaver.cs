@@ -26,11 +26,6 @@ namespace GraphLabs.Site.Models.TestPool
 
         protected override Action<DomainModel.TestPool> GetEntityInitializer(TestPoolModel model, IEntityQuery query)
         {
-            //ICollection<DomainModel.TestPoolEntry> testPoolEntries = new Collection<DomainModel.TestPoolEntry>();
-            //model.TestPoolEntries.ForEach(a =>
-            //{
-            //        testPoolEntries.Add(_testPoolEntryModelSaver.CreateOrUpdate(a));
-            //});
             var entity = query.Get<DomainModel.TestPool>(model.Id);
             return g =>
             {

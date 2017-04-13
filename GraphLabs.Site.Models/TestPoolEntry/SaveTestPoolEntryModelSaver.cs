@@ -35,7 +35,6 @@ namespace GraphLabs.Site.Models.TestPool
                 g.ScoringStrategy = model.ScoringStrategy;
                 g.TestQuestion = entityQuestion;
                 g.TestPool = entityPool;
-                //g.TestResults = new List<TestResult>();
             };
         }
 

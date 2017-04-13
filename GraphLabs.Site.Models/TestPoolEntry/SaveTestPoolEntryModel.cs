@@ -7,6 +7,9 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.TestPoolEntry
 {
+    /// <summary>
+    /// Модель для сохранения вопроса в тестпуле
+    /// </summary>
     public class SaveTestPoolEntryModel : IEntityBasedModel<DomainModel.TestPoolEntry>
     {
         public long Id { get; set; }
