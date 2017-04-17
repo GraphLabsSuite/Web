@@ -42,8 +42,19 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(SaveTestPoolEntryModel saveTestPoolEntry)
         {
-            var testPoolEntryCreated = _modelSaver.CreateOrUpdate(saveTestPoolEntry);
-            return Json(testPoolEntryCreated.Id);
+            try
+            {
+                var testPoolEntryCreated = _modelSaver.CreateOrUpdate(saveTestPoolEntry);
+                return Json(testPoolEntryCreated.Id);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return Json(false);
+            }
+            catch (GraphLabsDbUpdateException e)
+            {
+                return Json(false);
+            }
         }
 
         [HttpPost]
@@ -86,7 +97,11 @@ namespace GraphLabs.Site.Controllers
                 _modelSaver.CreateOrUpdate(model);
                 return Json(true);
             }
-            catch (Exception e)
+            catch (GraphLabsDbUpdateException e)
+            {
+                return Json(false);
+            }
+            catch (EntityNotFoundException e)
             {
                 return Json(false);
             }
@@ -101,7 +116,11 @@ namespace GraphLabs.Site.Controllers
                 _modelRemover.Remove(testPoolEntryId);
                 return Json(true);
             }
-            catch (Exception e)
+            catch (GraphLabsDbUpdateException e)
+            {
+                return Json(false);
+            }
+            catch (EntityNotFoundException e)
             {
                 return Json(false);
             }

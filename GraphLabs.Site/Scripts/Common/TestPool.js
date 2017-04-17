@@ -94,7 +94,7 @@ var addTestPoolEntry = () => {
         }),
         contentType: "application/json; charset=utf-8",
         success: data => {
-            if (data != null) {
+            if (data !== false) {
                 if (checkIt("У этого тестпула ещё нет добавленных вопросов.", $("#editorRows").find("p").text())) {
                     $("#editorRows").html("");
                 }
@@ -125,8 +125,15 @@ var addTestPoolEntry = () => {
                 $("#questionIdNew").val("");
                 $("#search_box").val("");
             } else {
-                $("#systemMessage").html("<p style='color: red'>Не получилось добавить данные. Попробуйте позже.</p>");
+                $("#editorRows").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
+                    "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>" +
+                    "Добавление прошло неуспешно, проверьте данные!</div>");
             }
+        },
+        error: data => {
+            $("#editorRows").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
+                    "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>" +
+                    "Нельзя добавить такие данные!</div>");
         }
     });
 };
@@ -145,13 +152,14 @@ var deleteTestPoolEntry = (data) => {
         contentType: "application/json; charset=utf-8",
         success: answer => {
             if (answer) {
-                console.log($("#testPoolEntry_" + data));
                 $("#testPoolEntry_" + data).text("");
                 if ($("#editorRows").text().trim() === "") {
                     $("#editorRows").html("<p>У этого тестпула ещё нет добавленных вопросов.</p>");
                 }
             } else {
-                $("#systemMessage").html("<p style='color: red'>Не получилось удалить элемент. Попробуйте позже.</p>");
+                $("#editorRows").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
+                    "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>" +
+                    "Невозможно удалить этот элемент!</div>");
             }
         }
     });
