@@ -13,12 +13,12 @@ using GraphLabs.Site.Core.OperationContext;
 
 namespace GraphLabs.Site.Models.Infrastructure
 {
-    internal abstract class EntityRemover<TEntity> : IEntityRemover<TEntity>
+    internal class EntityRemover<TEntity> : IEntityRemover<TEntity>
         where TEntity : AbstractEntity
     {
         private readonly IOperationContextFactory<IGraphLabsContext> _operationContextFactory;
 
-        protected EntityRemover(IOperationContextFactory<IGraphLabsContext> operationContextFactory)
+        public EntityRemover(IOperationContextFactory<IGraphLabsContext> operationContextFactory)
         {
             _operationContextFactory = operationContextFactory;
         }
@@ -38,7 +38,7 @@ namespace GraphLabs.Site.Models.Infrastructure
                 }
                 catch (GraphLabsDbUpdateException e)
                 {
-                    if (e.Message == "Существуют сущности, связанные с данной")
+                    if (e.ExceptionFailure == DbUpgradeFailure.FkViolated)
                     {
                         return RemovalStatus.SomeFKExistOnTheElement;
                     }
