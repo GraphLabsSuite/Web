@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace GraphLabs.Site.Core
 {
@@ -9,6 +10,7 @@ namespace GraphLabs.Site.Core
 
         public GraphLabsException(Exception innerException)
         {
+            Contract.Requires<ArgumentNullException>(innerException != null);
             this.innerException = innerException;
         }
 

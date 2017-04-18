@@ -25,6 +25,7 @@ namespace GraphLabs.Site.Models.Infrastructure
 
         public RemovalStatus Remove(object id)
         {
+            Contract.Requires<ArgumentNullException>(id != null);
             using (var operation = _operationContextFactory.Create())
             {
                 var entityToDelete = operation.DataContext.Query.Find<TEntity>(id);
@@ -38,7 +39,7 @@ namespace GraphLabs.Site.Models.Infrastructure
                 }
                 catch (GraphLabsDbUpdateException e)
                 {
-                    if (e.ExceptionFailure == DbUpgradeFailure.FkViolated)
+                    if (e.ExceptionCode == DbUpgradeFailure.FkViolated)
                     {
                         return RemovalStatus.SomeFKExistOnTheElement;
                     }
