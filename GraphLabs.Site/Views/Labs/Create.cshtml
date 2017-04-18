@@ -7,6 +7,8 @@
 
 <h2>@ViewBag.Title</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
+<a id="goto-preview" target="_blank" href=""></a>
+
 
 <div class="widthSection">
     <span id="error" class="field-validation-error"></span>
@@ -100,6 +102,13 @@
                 p.val(2);
             };
             $("#firstSelect").attr("size", p.val());
+
+            // эти параметры должны 1) быть нормальными 2) браться со страницы
+            var taskId = 30040;
+            var labWorkId = 44;
+
+            $("#goto-preview").attr("href", "Preview/TaskVariant?TaskId=" + taskId + "&LabWorkId=" + labWorkId);
+            alert("preview!");
         });
 
         $("#secondSelectSize").change(function () {

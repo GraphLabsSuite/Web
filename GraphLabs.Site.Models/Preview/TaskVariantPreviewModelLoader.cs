@@ -28,7 +28,7 @@ namespace GraphLabs.Site.Models.Preview
             return model;
         }
 
-        private TaskVariantPreviewModel CreateTaskVariantPreviewModel(int taskId, int labWorkId)
+        private TaskVariantPreviewModel CreateTaskVariantPreviewModel(int taskId, int labWorkId) 
         {
             long variantId;
             try
