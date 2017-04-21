@@ -151,6 +151,7 @@
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\EntityQueryExtensions.cs" />
+    <Compile Include="GraphLabsDbUpdateException.cs" />
     <Compile Include="GroupLabSchedule.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>

@@ -157,12 +157,15 @@
     <Compile Include="AvailableLab\DemoLabListModel.cs" />
     <Compile Include="AvailableLab\DemoLabModelLoader.cs" />
     <Compile Include="AvailableLab\TestingLabModel.cs" />
+    <Compile Include="Infrastructure\EntityRemover.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
     <Compile Include="Groups\GroupListModel.cs" />
     <Compile Include="Groups\GroupModel.cs" />
     <Compile Include="Groups\GroupModelLoader.cs" />
     <Compile Include="Groups\GroupModelSaver.cs" />
+    <Compile Include="Infrastructure\RemovalStatus.cs" />
+    <Compile Include="Infrastructure\IEntityRemover.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelSaver.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelLoader.cs" />
     <Compile Include="Infrastructure\ListModelBase.cs" />
@@ -190,6 +193,7 @@
     <Compile Include="Preview\TaskVariantPreviewModelLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question\QuestionListModel.cs" />
+    <Compile Include="Question\QuestionLookForModel.cs" />
     <Compile Include="Question\QuestionModel.cs" />
     <Compile Include="Question\QuestionModelLoader.cs" />
     <Compile Include="Schedule\Edit\EditIndividualLabScheduleModel.cs" />
@@ -213,7 +217,12 @@
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />
     <Compile Include="TaskResults\TaskResultModelLoader.cs" />
+    <Compile Include="TestPoolEntry\AuxTestPoolEntryModel.cs" />
+    <Compile Include="TestPoolEntry\SaveTestPoolEntryModel.cs" />
+    <Compile Include="TestPoolEntry\SaveTestPoolEntryModelSaver.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
+    <Compile Include="TestPoolEntry\TestPoolEntryModelLoader.cs" />
+    <Compile Include="TestPoolEntry\TestPoolEntryModelSaver.cs" />
     <Compile Include="TestPool\TestPoolListModel.cs" />
     <Compile Include="TestPool\TestPoolModel.cs" />
     <Compile Include="TestPool\TestPoolModelLoader.cs" />

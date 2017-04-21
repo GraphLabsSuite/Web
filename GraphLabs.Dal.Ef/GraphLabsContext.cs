@@ -5,8 +5,10 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using GraphLabs.Dal.Ef.Infrastructure;
+using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Infrastructure;
 using log4net;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Dal.Ef
 {
@@ -110,6 +112,10 @@ namespace GraphLabs.Dal.Ef
                 var errorMessage = string.Join(Environment.NewLine, ex.EntityValidationErrors
                     .SelectMany(err => err.ValidationErrors.Select(e => e.ErrorMessage)));
                 throw new GraphLabsValidationException(ex, errorMessage);
+            }
+            catch (DbUpdateException e)
+            {
+                throw new GraphLabsDbUpdateException(e.InnerException);
             }
 
         }

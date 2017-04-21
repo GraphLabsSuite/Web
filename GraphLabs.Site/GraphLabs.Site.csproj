@@ -232,6 +232,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\Button.css" />
     <Content Include="Content\css\LabWorkCreate.css" />
     <Content Include="Content\css\LabWorkExecution.css" />
@@ -243,6 +247,7 @@
     <Content Include="Content\css\PopUp.css" />
     <Content Include="Content\css\ResultBoardTable.css" />
     <Content Include="Content\css\Table.css" />
+    <Content Include="Content\css\TestPool.css" />
     <Content Include="Content\css\ValidationHelpers.css" />
     <Content Include="Content\css\Webgrid.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -305,13 +310,20 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\copy.png" />
     <Content Include="Images\graphlabs.png" />
     <Content Include="Images\graphlabs_logo.png" />
     <Content Include="Images\graphlabs_medium.png" />
     <Content Include="Images\PopUp\cross.png" />
     <Content Include="connections.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Common\TestPool.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.js" />
@@ -341,6 +353,7 @@
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
     <Compile Include="Controllers\TestingLabController.cs" />
     <Compile Include="Controllers\TestPoolController.cs" />
+    <Compile Include="Controllers\TestPoolEntryController.cs" />
     <Compile Include="Utils\SmartModelBinder.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Models\Survey\TestQuestionListViewModel.cs" />
@@ -423,11 +436,12 @@
     <Content Include="Views\TestingLab\Index.cshtml" />
     <Content Include="Views\Preview\TaskVariant.cshtml" />
     <Content Include="Views\Preview\Index.cshtml" />
-    <Content Include="Views\Question\SelectQuestions.cshtml" />    <Content Include="Views\TestPool\Create.cshtml" />
+    <Content Include="Views\Question\SelectQuestions.cshtml" />
+    <Content Include="Views\TestPool\Create.cshtml" />
     <Content Include="Views\TestPool\Edit.cshtml" />
     <Content Include="Views\TestPool\Index.cshtml" />
-    <Content Include="Views\TestPool\_TestPoolEntryRow.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />  </ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

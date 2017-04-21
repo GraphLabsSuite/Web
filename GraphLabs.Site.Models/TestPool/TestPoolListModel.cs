@@ -17,14 +17,14 @@ namespace GraphLabs.Site.Models.TestPool
         private readonly IEntityQuery _query;
         private readonly IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool> _modelLoader;
 
-        /// <summary> Модель списка групп </summary>
+        /// <summary> Модель списка тестпулов </summary>
         public TestPoolListModel(IEntityQuery query, IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool> modelLoader)
         {
             _query = query;
             _modelLoader = modelLoader;
         }
 
-        /// <summary> Загружает группы </summary>
+        /// <summary> Загружает тестпулы</summary>
         protected override TestPoolModel[] LoadItems()
         {
             return _query.OfEntities<DomainModel.TestPool>()

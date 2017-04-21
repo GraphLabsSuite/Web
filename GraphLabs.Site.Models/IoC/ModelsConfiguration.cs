@@ -15,6 +15,7 @@ using GraphLabs.Site.Models.StudentActions;
 using GraphLabs.Site.Models.TaskResults;
 using GraphLabs.Site.Models.TaskResultsWithActions;
 using GraphLabs.Site.Models.TestPool;
+using GraphLabs.Site.Models.TestPoolEntry;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 using GraphLabs.Site.Models.Question;
@@ -46,6 +47,13 @@ namespace GraphLabs.Site.Models.IoC
             // тестпулы
             container.RegisterType<IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool>, TestPoolModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelSaver<TestPoolModel, DomainModel.TestPool>, TestPoolModelSaver>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityRemover<DomainModel.TestPool>, EntityRemover<DomainModel.TestPool>>(new PerResolveLifetimeManager());
+
+            // тестпулэнтри
+            container.RegisterType<IEntityBasedModelSaver<TestPoolEntryModel, DomainModel.TestPoolEntry>, TestPoolEntryModelSaver>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityRemover<DomainModel.TestPoolEntry>, EntityRemover<DomainModel.TestPoolEntry>>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry>, TestPoolEntryModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelSaver<SaveTestPoolEntryModel, DomainModel.TestPoolEntry>, SaveTestPoolEntryModelSaver>(new PerResolveLifetimeManager());
 
             // лабы
             container.RegisterType<IEntityBasedModelLoader<LabModel, LabWork>, LabModelLoader>(new PerResolveLifetimeManager());

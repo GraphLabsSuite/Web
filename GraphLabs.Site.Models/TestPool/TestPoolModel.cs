@@ -17,8 +17,6 @@ namespace GraphLabs.Site.Models.TestPool
 
         public string Name { get; set; }
 
-        public ICollection<LabVariant> LabVariants { get; set; }
-
         public ICollection<TestPoolEntryModel> TestPoolEntries { get; set; }
 
     }

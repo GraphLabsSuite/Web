@@ -22,15 +22,19 @@ namespace GraphLabs.Site.Controllers
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<TestPoolModel, TestPool> _modelSaver;
         private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _modelLoader;
+        private readonly IEntityRemover<TestPool> _modelRemover;
 
         public TestPoolController(
             IListModelLoader listModelLoader,
             IEntityBasedModelSaver<TestPoolModel, TestPool> modelSaver,
-            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader)
+            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader,
+            IEntityRemover<TestPool> modelRemover
+            )
         {
             _listModelLoader = listModelLoader;
             _modelSaver = modelSaver;
             _modelLoader = modelLoader;
+            _modelRemover = modelRemover;
         }
 
         [HttpGet]
@@ -50,13 +54,12 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(TestPoolModel testPool)
         {
-            if (ModelState.IsValid)
-            {
-                _modelSaver.CreateOrUpdate(testPool);
-                return RedirectToAction("Index");
+            TestPool res = _modelSaver.CreateOrUpdate(testPool);
+            if (res != null) {
+                return RedirectToAction("Edit",new {id = res.Id});
             }
 
-            ViewBag.Message = "Невозможно сохранить группу";
+            ViewBag.Message = "Невозможно сохранить тестпул";
             return View(testPool);
         }
 
@@ -65,28 +68,46 @@ namespace GraphLabs.Site.Controllers
             return View(_modelLoader.Load(id));
         }
 
-        public ViewResult BlankEditorRow(TestPoolModel testPool)
-        {
-            var testPoolEntry = new TestPoolEntryModel();
-            testPool.TestPoolEntries.Add(testPoolEntry);
-            return View(
-                "_TestPoolEntryRow",
-                testPoolEntry
-                );
-        }
-
         [HttpPost]
         public ActionResult Edit(TestPoolModel testPool)
         {
-            if (ModelState.IsValid)
+            TestPool res = _modelSaver.CreateOrUpdate(testPool);
+            if (res != null)
             {
-                _modelSaver.CreateOrUpdate(testPool);
                 return RedirectToAction("Index");
             }
-
             ViewBag.Message = "Невозможно обновить тестпул";
             return View(testPool);
         }
 
+        public ViewResult Delete(long testPoolId)
+        {
+            var result = _modelRemover.Remove(testPoolId);
+            switch (result)
+            {
+                case RemovalStatus.Success:
+                {
+                    ViewBag.Message = "Тестпул был успешно удалён!";
+                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                    return View("Index", model);
+                }
+                case RemovalStatus.SomeFKExistOnTheElement:
+                {
+                    ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
+                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                    return View("Index", model);
+                }
+                case RemovalStatus.UnknownFailure:
+                {
+                    ViewBag.Message = "Кто его знает, что тут произошло.";
+                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                    return View("Index", model);
+                }
+                default:
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
     }
 }
