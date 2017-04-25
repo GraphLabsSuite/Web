@@ -37,12 +37,10 @@ namespace GraphLabs.WcfServices
             {
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
                 TaskVariant taskVariant = null;
-                if ((int)session.User.Role == (int)UserRole.Administrator)//вообще должен быть Teacher/Admin
+                if (new [] {UserRole.Teacher, UserRole.Administrator}.Contains(session.User.Role))//вообще должен быть Teacher/Admin
                 {
                     var task = op.DataContext.Query.Get<Task>(taskId);
-                    var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
-                    var variant = resultLog.LabVariant;
-                    taskVariant = variant.TaskVariants.Single(v => v.Task == task);
+                    taskVariant = op.DataContext.Query.OfEntities<TaskVariant>().First(v => v.Task == task);
 
                 }
                 else if ((int)session.User.Role == (int)UserRole.Student)
@@ -62,8 +60,10 @@ namespace GraphLabs.WcfServices
                     taskResultLog.StudentActions.Add(action);
 
                     op.Complete();
-
-
+                }
+                else
+                {
+                    throw new NotSupportedException("Неизвестный науке зверь!");
                 }
                 return new TaskVariantDto
                 {
