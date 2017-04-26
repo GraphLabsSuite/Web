@@ -7,6 +7,8 @@
 
 <h2>@ViewBag.Title</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
+<a id="goto-preview" target="_blank" href=""></a>
+
 
 <div class="widthSection">
     <span id="error" class="field-validation-error"></span>
@@ -183,6 +185,11 @@
                     };
                     break;
             };
+        });
+        $("#firstSelect").change(function() {
+            // я не уверена в правильности параметров
+           $("#goto-preview").attr("href", "../Preview/TaskVariant?TaskId=" + $(this).val());
+            window.open($("#goto-preview").attr('href'), "_blank");
         });
 
         $("#secondSelect").keydown(function (e) {

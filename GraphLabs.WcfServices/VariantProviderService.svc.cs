@@ -36,23 +36,35 @@ namespace GraphLabs.WcfServices
             using (var op = _operationFactory.Create())
             {
                 var session = GetSessionWithChecks(op.DataContext.Query, sessionGuid);
+                TaskVariant taskVariant = null;
+                if (new [] {UserRole.Teacher, UserRole.Administrator}.Contains(session.User.Role))//вообще должен быть Teacher/Admin
+                {
+                    var task = op.DataContext.Query.Get<Task>(taskId);
+                    taskVariant = op.DataContext.Query.OfEntities<TaskVariant>().First(v => v.Task == task);
 
-                var task = op.DataContext.Query.Get<Task>(taskId);
-                var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
-                var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
+                }
+                else if ((int)session.User.Role == (int)UserRole.Student)
+                {
+                    var task = op.DataContext.Query.Get<Task>(taskId);
+                    var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
+                    var taskResultLog = GetCurrentTaskResultLog(resultLog, task);
 
-                var variant = resultLog.LabVariant;
-                var taskVariant = variant.TaskVariants.Single(v => v.Task == task);
+                    var variant = resultLog.LabVariant;
+                    taskVariant = variant.TaskVariants.Single(v => v.Task == task);
 
-                var action = op.DataContext.Factory.Create<StudentAction>();
-                action.TaskResult = taskResultLog;
-                action.Time = _systemDate.Now();
-                action.Description = $"['Task {task.Id}' -> Variant {taskVariant.Number}]";
-                action.Penalty = 0;
-                taskResultLog.StudentActions.Add(action);
+                    var action = op.DataContext.Factory.Create<StudentAction>();
+                    action.TaskResult = taskResultLog;
+                    action.Time = _systemDate.Now();
+                    action.Description = "$['Task {task.Id}' -> Variant {taskVariant.Number}]";
+                    action.Penalty = 0;
+                    taskResultLog.StudentActions.Add(action);
 
-                op.Complete();
-
+                    op.Complete();
+                }
+                else
+                {
+                    throw new NotSupportedException("Неизвестный науке зверь!");
+                }
                 return new TaskVariantDto
                 {
                     Data = taskVariant.Data,
@@ -61,6 +73,7 @@ namespace GraphLabs.WcfServices
                     Number = taskVariant.Number,
                     Version = taskVariant.Version
                 };
+
             }
         }
 
@@ -83,7 +96,7 @@ namespace GraphLabs.WcfServices
             //TODO +проверка контрольной суммы и тп - всё надо куда-то в Security вытащить
             if (session.IP != HttpContext.Current.Request.UserHostAddress)
             {
-                throw new EntityNotFoundException(typeof(Session), new object[] {sessionGuid});
+                throw new EntityNotFoundException(typeof(Session), new object[] { sessionGuid });
             }
 
             return session;

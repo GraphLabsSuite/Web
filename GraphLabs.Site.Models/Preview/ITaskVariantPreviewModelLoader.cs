@@ -8,6 +8,6 @@ namespace GraphLabs.Site.Models.Preview
 {
     public interface ITaskVariantPreviewModelLoader
     {
-        TaskVariantPreviewModel Load(int taskId, int labWorkId);
+        TaskVariantPreviewModel Load(int taskId);
     }
 }
