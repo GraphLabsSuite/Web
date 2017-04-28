@@ -43,7 +43,7 @@ namespace GraphLabs.WcfServices
                     taskVariant = op.DataContext.Query.OfEntities<TaskVariant>().First(v => v.Task == task);
 
                 }
-                else if ((int)session.User.Role == (int)UserRole.Student)
+                else if (session.User.Role == UserRole.Student)
                 {
                     var task = op.DataContext.Query.Get<Task>(taskId);
                     var resultLog = GetCurrentResultLog(op.DataContext.Query, session);
