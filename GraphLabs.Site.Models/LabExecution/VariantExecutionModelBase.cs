@@ -32,9 +32,25 @@ namespace GraphLabs.Site.Models.LabExecution
 
     public class TestExecutionModel : VariantExecutionModelBase
     {
+        /// <summary>
+        /// Название тестпула
+        /// </summary>
         public string Name { get; set; }
 
-        public ICollection<DomainModel.TestPoolEntry> Entries { get; set; }
+        /// <summary>
+        /// ID вопроса
+        /// </summary>
+        public long QuestionId { get; set; }
+
+        /// <summary>
+        /// Текст вопроса
+        /// </summary>
+        public string Question { get; set; }
+
+        /// <summary>
+        /// Ответы на вопросы
+        /// </summary>
+        public ICollection<AnswerVariant> Answers { get; set; }
     }
 
 

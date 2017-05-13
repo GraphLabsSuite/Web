@@ -153,7 +153,9 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
         {
             var model = new TestExecutionModel();
             model.Name = test.TestPool.Name;
-            model.Entries = test.TestPool.TestPoolEntries;
+            model.Question = test.TestQuestion.Question;
+            model.Answers = test.TestQuestion.AnswerVariants;
+            model.QuestionId = test.Id;
             model.OtherTasks = GetOtherTasksModels(lab, result, null, test).ToArray();
             model.VariantId = variant.Id;
             model.LabName = lab.Name;
