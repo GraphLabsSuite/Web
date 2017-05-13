@@ -31,10 +31,10 @@ namespace GraphLabs.Site.Controllers
                 ));
         }
 
-        public ActionResult Index(long labVarId, int? taskIndex = null)
+        public ActionResult Index(long labVarId, int? taskIndex = null, int? testIndex = null)
         {
             var nextTaskLink = GetNextTaskUri(labVarId);
-            return View(_demoVariantModelLoader.Load(labVarId, taskIndex, nextTaskLink));
+            return View(_demoVariantModelLoader.Load(labVarId, taskIndex, testIndex, nextTaskLink));
         }
     }
 
@@ -62,10 +62,10 @@ namespace GraphLabs.Site.Controllers
                 ));
         }
 
-        public ActionResult Index(long labVarId, int? taskIndex = null)
+        public ActionResult Index(long labVarId, int? testIndex, int? taskIndex = null)
         {
             var nextTaskLink = GetNextTaskUri(labVarId);
-            return View(_demoVariantModelLoader.Load(labVarId, taskIndex, nextTaskLink));
+            return View(_demoVariantModelLoader.Load(labVarId, taskIndex, testIndex, nextTaskLink));
         }
     }
 }

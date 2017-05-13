@@ -1277,7 +1277,6 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="LabVariants" Relationship="DataModel.TestPoolLabVariant" FromRole="TestPool" ToRole="LabVariant" />
           <NavigationProperty Name="TestPoolEntries" Relationship="DataModel.TestPoolTestPoolEntry" FromRole="TestPool" ToRole="TestPoolEntry" />
         </EntityType>
         <Association Name="LabWorkGroup">

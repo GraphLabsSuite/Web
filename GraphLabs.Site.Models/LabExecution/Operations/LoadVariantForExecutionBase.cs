@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
@@ -16,26 +17,29 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
         private readonly IAuthenticationSavingService _authService;
         private readonly IInitParamsProvider _initParamsProvider;
         private readonly TaskExecutionModelLoader _taskModelLoader;
+        private readonly TestExecutionModelLoader _testModelLoader;
 
         protected LoadVariantForExecutionBase(
             IOperationContextFactory<IGraphLabsContext> operationFactory,
             IAuthenticationSavingService authService,
             IInitParamsProvider initParamsProvider,
-            TaskExecutionModelLoader taskModelLoader)
+            TaskExecutionModelLoader taskModelLoader,
+            TestExecutionModelLoader testModelLoader)
             : base(operationFactory)
         {
+            _testModelLoader = testModelLoader;
             _authService = authService;
             _initParamsProvider = initParamsProvider;
             _taskModelLoader = taskModelLoader;
         }
 
-        protected VariantExecutionModelBase LoadImpl(LabVariant variant, int? taskIndex, Uri taskCompleteRedirect)
+        protected VariantExecutionModelBase LoadImpl(LabVariant variant, int? taskIndex, int? testIndex, Uri taskCompleteRedirect)
         {
             
             var lab = variant.LabWork;
 
             var student = GetCurrentStudent();
-            var resultsToInterrupt = FindResultsToInterrup(student);
+            var resultsToInterrupt = FindResultsToInterrupt(student);
             var latestCurrentResult = FindLatestCurrentResult(resultsToInterrupt, lab);
 
             // Если есть, то вместо начала нового выполнения, продолжим старое.
@@ -70,6 +74,19 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
                     result.AbstractResultEntries.Add(taskResult);
                 }
+                var randomArray = new Randomizer[variant.TestPool.TestPoolEntries.Count];
+                randomArray = Randomizer.InitializeArray(randomArray);
+                var randomer = new Random(variant.TestPool.TestPoolEntries.Count);
+                foreach (var testQuestion in variant.TestPool.TestPoolEntries)
+                {
+                    var testResult = Factory.Create<TestResult>();
+                    testResult.TestPoolEntry = testQuestion;
+                    var number = Randomizer.GetNewValue(randomArray, randomer);
+                    testResult.Index = number.ToString();
+                    randomArray = Randomizer.ChoseNumber(randomArray, number);
+                    testResult.StudentAnswers = new List<StudentAnswer>();
+                    result.AbstractResultEntries.Add(testResult);
+                }
             }
             else
             {
@@ -80,11 +97,73 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                 ? GetTaskByIndex(lab, taskIndex.Value)
                 : GetFirstUnsolvedTask(result);
 
-            var model = task == null
-                ? CompleteVariant(result) :
-                CreateTaskExecutionModel(taskCompleteRedirect, task, variant, lab, result);
+            DomainModel.TestPoolEntry test = GetTestPoolEntry(variant, testIndex);
+
+            var model = task == null 
+                ? testIndex == null ? CompleteVariant(result) : CreateTestExecutionModel(taskCompleteRedirect, test, variant, lab, result)
+                : IsTestPoolCompleted(variant, testIndex) ? CreateTestExecutionModel(taskCompleteRedirect, test, variant, lab, result) : CreateTaskExecutionModel(taskCompleteRedirect, task, variant, lab, result);
 
             return model;
+        }
+
+        private class Randomizer
+        {
+            public int Number;
+            public bool Chosen;
+
+            public Randomizer(int number, bool chosen)
+            {
+                this.Number = number;
+                this.Chosen = chosen;
+            }
+
+            public static Randomizer[] InitializeArray(Randomizer[] array)
+            {
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i].Number = i;
+                    array[i].Chosen = false;
+                }
+                return array;
+            }
+
+            public static Randomizer[] ChoseNumber(Randomizer[] array, int number)
+            {
+                array[number].Chosen = true;
+                return array;
+            }
+
+            private static bool CheckChosen(Randomizer[] array, int number)
+            {
+                return array[number].Chosen;
+            }
+
+            public static int GetNewValue(Randomizer[] array, Random randomer)
+            {
+                var next = randomer.Next();
+                while (CheckChosen(array, next))
+                {
+                    next = randomer.Next();
+                }
+                return next;
+            }
+        }
+
+        private VariantExecutionModelBase CreateTestExecutionModel(Uri taskCompleteRedirect, DomainModel.TestPoolEntry test, LabVariant variant, LabWork lab, Result result)
+        {
+            var model = new TestExecutionModel();
+            model.Name = test.TestPool.Name;
+            model.Entries = test.TestPool.TestPoolEntries;
+            model.OtherTasks = GetOtherTasksModels(lab, result, null, test).ToArray();
+            model.VariantId = variant.Id;
+            model.LabName = lab.Name;
+            return model;
+        }
+
+        private bool IsTestPoolCompleted(LabVariant variant, int? testIndex)
+        {
+            // TODO: Добавить организацию запрещения перехода к заданию, если TestPool - блокирующий (При добавлении подобного функционала в БД)
+            return testIndex != null;
         }
 
         private VariantExecutionModelBase CreateTaskExecutionModel(Uri taskCompleteRedirect, Task task, LabVariant variant, LabWork lab, Result result)
@@ -100,24 +179,32 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             model.TaskName = task.Name;
             model.TaskId = task.Id;
             model.InitParams = _initParamsProvider.GetInitParamsString(initParams);
-
             return model;
         }
 
-        private IEnumerable<TaskListEntryModel> GetOtherTasksModels(LabWork lab, Result result, Task task)
+        private IEnumerable<BaseListEntryModel> GetOtherTasksModels(LabWork lab, Result result, Task task, DomainModel.TestPoolEntry testPoolEntry)
         {
-            var otherTasks = lab.LabEntries
-                .Select(e =>
+            var otherTasks = result.AbstractResultEntries.Select(e =>
+            {
+                var testResult = e as TestResult;
+                var entry = testResult.TestPoolEntry;
+                var model = _testModelLoader.Load(result, entry);
+                if (testResult.TestPoolEntry.Id == testPoolEntry?.Id)
                 {
-                    var model = _taskModelLoader.Load(result, e);
-                    if (e.Task.Id == task?.Id)
-                    {
-                        model.State = TaskExecutionState.CurrentlySolving;
-                    }
-                    return model;
-                });
-
-            return otherTasks;
+                    model.State = TaskExecutionState.CurrentlySolving;
+                }
+                return model as BaseListEntryModel;
+            });
+            var addTasks = lab.LabEntries.Select(e =>
+            {
+                var model = _taskModelLoader.Load(result, e);
+                if (e.Task.Id == task?.Id)
+                {
+                    model.State = TaskExecutionState.CurrentlySolving;
+                }
+                return model as BaseListEntryModel;
+            });
+            return otherTasks.Concat(addTasks);
         }
 
         private TModel CreateModelHeader<TModel>(Result result, Task currentTask)
@@ -130,7 +217,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             {
                 VariantId = variant.Id,
                 LabName = lab.Name,
-                OtherTasks = GetOtherTasksModels(lab, result, currentTask).ToArray()
+                OtherTasks = GetOtherTasksModels(lab, result, currentTask, null).ToArray()
             };
         }
 
@@ -198,6 +285,12 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return searchResult?.Task;
         }
 
+        private DomainModel.TestPoolEntry GetTestPoolEntry(LabVariant lab, int? testIndex)
+        {
+            if (testIndex == null) return null;
+            return lab.TestPool.TestPoolEntries.SingleOrDefault(e => e.Id == testIndex.Value);
+        }
+
         private Task GetTaskByIndex(LabWork lab, int index)
         {
             var result = lab.LabEntries
@@ -230,7 +323,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             throw new Exception("Сессия студента не найдена.");
         }
 
-        private Result[] FindResultsToInterrup(Student student)
+        private Result[] FindResultsToInterrupt(Student student)
         {
             //Найти неоконченные результаты выполнения
             return student.Results

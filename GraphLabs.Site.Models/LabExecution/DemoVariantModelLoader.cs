@@ -25,11 +25,11 @@ namespace GraphLabs.Site.Models.LabExecution
             _taskModelLoader = taskModelLoader;
         }
 
-        public VariantExecutionModelBase Load(long labVariantId, int? taskIndex, Uri taskCompleteRedirect)
+        public VariantExecutionModelBase Load(long labVariantId, int? taskIndex, int? testIndex, Uri taskCompleteRedirect)
         {
             using (var operation = new LoadDemoVariantForExecution(_operationFactory, _authService, _initParamsProvider, _taskModelLoader))
             {
-                return operation.Load(labVariantId, taskIndex, taskCompleteRedirect);
+                return operation.Load(labVariantId, taskIndex, testIndex, taskCompleteRedirect);
             }
         }
     }
