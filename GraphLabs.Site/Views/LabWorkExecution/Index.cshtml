@@ -42,9 +42,8 @@
 @if (@Model is TestExecutionModel)
 {
     var testModel = (TestExecutionModel)@Model;
-    <h2>Вопрос @testModel.Name</h2>
-    <label>Текст вопроса</label>
-    <p id="questionText">@testModel.Question</p>
+    <h3>Вопрос @testModel.Name</h3>
+    <p id="questionText"><b>Текст вопроса: </b> @testModel.Question</p>
     <ul id="questionAnswers">
         @foreach (var answer in @testModel.Answers)
         {
@@ -52,6 +51,7 @@
         }
     </ul>
     <button onclick="sendQuestion(@testModel.QuestionId);" type="button">Отправить</button>
+    <br/>
 }
 @for (int i = 0; i < Model.OtherTasks.Length; ++i)
 {
@@ -83,7 +83,7 @@
     <script>
         var sendTask = (task) => {
             if (confirm("Будет потерян прогресс текущего задания! Продолжить?")) {
-                location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&testIndex=" + task;
+                location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&taskIndex=" + task;
             }
         };
 

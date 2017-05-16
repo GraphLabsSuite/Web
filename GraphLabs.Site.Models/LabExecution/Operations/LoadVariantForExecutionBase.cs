@@ -296,10 +296,11 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private Task GetTaskByIndex(LabWork lab, int index)
         {
-            var result = lab.LabEntries
-                .OrderBy(e => e.Order)
-                .Skip(index)
-                .FirstOrDefault();
+            //var result = lab.LabEntries
+            //    .OrderBy(e => e.Order)
+            //    .Skip(index)
+            //    .FirstOrDefault();
+            var result = lab.LabEntries.FirstOrDefault(e => e.Task.Id == index);
 
             if (result == null)
                 throw new Exception("«адани€ с запрошенным номером не существует.");
