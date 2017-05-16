@@ -89,7 +89,7 @@ CREATE TABLE [dbo].[LabVariants] (
     [Version] bigint  NOT NULL,
     [IntroducingVariant] bit  NOT NULL,
     [LabWork_Id] bigint  NOT NULL,
-    [TestPool_Id] bigint  NOT NULL
+    [TestPool_Id] bigint  NULL
 );
 GO
 

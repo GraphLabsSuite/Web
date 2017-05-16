@@ -36,6 +36,15 @@ namespace GraphLabs.Site.Controllers
             var nextTaskLink = GetNextTaskUri(labVarId);
             return View(_demoVariantModelLoader.Load(labVarId, taskIndex, testIndex, nextTaskLink));
         }
+
+        /// <summary>
+        /// Обработка выполнения тестового задания студентом
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Test(long labVarId, int testPoolEntryId, AnswerVariant answers)
+        {
+            return RedirectToAction("Index");
+        }
     }
 
     [GLAuthorize(UserRole.Student)]

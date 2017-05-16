@@ -13,8 +13,9 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             IOperationContextFactory<IGraphLabsContext> operationFactory,
             IAuthenticationSavingService authService,
             IInitParamsProvider initParamsProvider, 
-            TaskExecutionModelLoader taskModelLoader) 
-            : base(operationFactory, authService, initParamsProvider, taskModelLoader)
+            TaskExecutionModelLoader taskModelLoader,
+            TestExecutionModelLoader testExecutionModelLoader) 
+            : base(operationFactory, authService, initParamsProvider, taskModelLoader, testExecutionModelLoader)
         {
         }
 

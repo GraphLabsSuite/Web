@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/29/2017 11:25:55
+-- Date Created: 05/16/2017 16:44:49
 -- Generated from EDMX file: C:\Users\Егор\Documents\GitHub\Web\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
@@ -291,7 +291,7 @@ CREATE TABLE [dbo].[LabVariants] (
     [Version] bigint  NOT NULL,
     [IntroducingVariant] bit  NOT NULL,
     [LabWork_Id] bigint  NOT NULL,
-    [TestPool_Id] bigint  NOT NULL
+    [TestPool_Id] bigint  NULL
 );
 GO
 

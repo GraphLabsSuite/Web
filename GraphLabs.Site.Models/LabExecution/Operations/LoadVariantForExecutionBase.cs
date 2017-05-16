@@ -9,6 +9,7 @@ using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Tasks.Contract;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.LabExecution.Operations
 {
@@ -83,6 +84,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                     testResult.TestPoolEntry = testQuestion;
                     var number = Randomizer.GetNewValue(randomArray, randomer);
                     testResult.Index = number.ToString();
+                    testResult.Result = result;
                     randomArray = Randomizer.ChoseNumber(randomArray, number);
                     testResult.StudentAnswers = new List<StudentAnswer>();
                     result.AbstractResultEntries.Add(testResult);
@@ -121,8 +123,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             {
                 for (int i = 0; i < array.Length; i++)
                 {
-                    array[i].Number = i;
-                    array[i].Chosen = false;
+                    array[i] = new Randomizer(i, false);
                 }
                 return array;
             }
@@ -140,7 +141,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
             public static int GetNewValue(Randomizer[] array, Random randomer)
             {
-                var next = randomer.Next();
+                var next = randomer.Next(array.Length);
                 while (CheckChosen(array, next))
                 {
                     next = randomer.Next();
@@ -186,16 +187,16 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private IEnumerable<BaseListEntryModel> GetOtherTasksModels(LabWork lab, Result result, Task task, DomainModel.TestPoolEntry testPoolEntry)
         {
-            var otherTasks = result.AbstractResultEntries.Select(e =>
+            var otherTasks = result.AbstractResultEntries.Where(e => e is TestResult).Select(e =>
             {
-                var testResult = e as TestResult;
+                var testResult = (TestResult) e;
                 var entry = testResult.TestPoolEntry;
                 var model = _testModelLoader.Load(result, entry);
                 if (testResult.TestPoolEntry.Id == testPoolEntry?.Id)
                 {
                     model.State = TaskExecutionState.CurrentlySolving;
                 }
-                return model as BaseListEntryModel;
+                return (BaseListEntryModel) model;
             });
             var addTasks = lab.LabEntries.Select(e =>
             {
@@ -204,9 +205,9 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                 {
                     model.State = TaskExecutionState.CurrentlySolving;
                 }
-                return model as BaseListEntryModel;
-            });
-            return otherTasks.Concat(addTasks);
+                return (BaseListEntryModel) model;
+            }).ToArray();
+            return otherTasks.Union(addTasks);
         }
 
         private TModel CreateModelHeader<TModel>(Result result, Task currentTask)

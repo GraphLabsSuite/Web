@@ -15,8 +15,8 @@ namespace GraphLabs.Site.Models.LabExecution
                 .SingleOrDefault(result => result.TaskVariant.Task.Id == entryToLoad.Task.Id);
 
             var taskState = resultForEntry?.Status == ExecutionStatus.Complete
-                ? TaskListEntryModel.TaskExecutionState.Solved
-                : TaskListEntryModel.TaskExecutionState.New;
+                ? TaskExecutionState.Solved
+                : TaskExecutionState.New;
 
             return new TaskListEntryModel()
             {
