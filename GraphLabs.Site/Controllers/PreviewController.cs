@@ -30,9 +30,9 @@ namespace GraphLabs.Site.Controllers
         }
 
         /// <summary> Превью конкретного модуля </summary>
-        public ActionResult TaskVariant(int taskId, int labWorkId)
+        public ActionResult TaskVariant(int taskId)
         {
-            return View(_taskVariantPreviewModelLoader.Load(taskId, labWorkId));
+            return View(_taskVariantPreviewModelLoader.Load(taskId));
         }
 
     }
