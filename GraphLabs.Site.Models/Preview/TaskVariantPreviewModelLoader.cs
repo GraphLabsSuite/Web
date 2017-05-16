@@ -22,13 +22,13 @@ namespace GraphLabs.Site.Models.Preview
             _entityQuery = entityQuery;
         }
 
-        public TaskVariantPreviewModel Load(int taskId, int labWorkId)
+        public TaskVariantPreviewModel Load(int taskId)
         {
-            var model = CreateTaskVariantPreviewModel(taskId, labWorkId);
+            var model = CreateTaskVariantPreviewModel(taskId);
             return model;
         }
 
-        private TaskVariantPreviewModel CreateTaskVariantPreviewModel(int taskId, int labWorkId)
+        private TaskVariantPreviewModel CreateTaskVariantPreviewModel(int taskId) 
         {
             long variantId;
             try
@@ -45,7 +45,7 @@ namespace GraphLabs.Site.Models.Preview
                 _authService.GetSessionInfo().SessionGuid,
                 taskId,
                 variantId,
-                labWorkId,
+                -1,
                 null);
 
             var model = new TaskVariantPreviewModel
