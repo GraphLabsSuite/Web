@@ -9,6 +9,8 @@ namespace GraphLabs.Site.Models.StudentAnswer
 {
     public class StudentAnswerModel : IEntityBasedModel<DomainModel.StudentAnswer>
     {
+        public long Id { get; set; }
+
         public long ChosenAnswerId { get; set; }
 
         public long TestResultId { get; set; }

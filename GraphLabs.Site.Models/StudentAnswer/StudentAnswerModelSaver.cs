@@ -47,7 +47,7 @@ namespace GraphLabs.Site.Models.StudentAnswer
         /// <remarks> При реализации - просто проверить ключ, в базу лазить НЕ НАДО </remarks>
         protected override bool ExistsInDatabase(StudentAnswerModel model)
         {
-            return false;
+            return model.Id != 0;
         }
 
         /// <summary> При реализации возвращает массив первичных ключей сущности </summary>

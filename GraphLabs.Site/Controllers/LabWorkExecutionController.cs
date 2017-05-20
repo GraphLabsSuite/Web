@@ -4,6 +4,8 @@ using System;
 using System.Net;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Contexts;
+using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.LabExecution;
 using GraphLabs.Site.Models.StudentAnswer;
@@ -17,16 +19,19 @@ namespace GraphLabs.Site.Controllers
 
         private readonly IDemoVariantModelLoader _demoVariantModelLoader;
         private readonly IEntityBasedModelSaver<StudentAnswerModel, StudentAnswer> _answerSaver;
+        private readonly IOperationContextFactory<IGraphLabsContext> _operationContextFactory;
 
         #endregion
 
         public LabWorkExecutionController(
+            IOperationContextFactory<IGraphLabsContext> operationContextFactory,
             IDemoVariantModelLoader demoVariantModelLoader,
             IEntityBasedModelSaver<StudentAnswerModel,StudentAnswer> answerSaver 
             )
         {
             _demoVariantModelLoader = demoVariantModelLoader;
             _answerSaver = answerSaver;
+            _operationContextFactory = operationContextFactory;
         }
 
         private Uri GetNextTaskUri(long labVarId)
@@ -56,8 +61,12 @@ namespace GraphLabs.Site.Controllers
             {
                 foreach (var answer in answers.ChosenAnswerIds)
                 {
+                    var operation = _operationContextFactory.Create();
+                    var entity = operation.DataContext.Query.OfEntities<StudentAnswer>().FirstOrDefault(e => e.TestResult.Id == answers.TestResultId && e.AnswerVariant.Id == answer);
+                    var Id = entity == null ? 0 : entity.Id;
                     _answerSaver.CreateOrUpdate(new StudentAnswerModel
                     {
+                        Id = Id,
                         ChosenAnswerId = answer,
                         TestResultId = answers.TestResultId
                     });
