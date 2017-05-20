@@ -1,9 +1,12 @@
 ﻿using System.Linq;
 using GraphLabs.Site.Controllers.Attributes;
 using System;
+using System.Net;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.LabExecution;
+using GraphLabs.Site.Models.StudentAnswer;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -13,12 +16,17 @@ namespace GraphLabs.Site.Controllers
         #region Зависимости
 
         private readonly IDemoVariantModelLoader _demoVariantModelLoader;
+        private readonly IEntityBasedModelSaver<StudentAnswerModel, StudentAnswer> _answerSaver;
 
         #endregion
 
-        public LabWorkExecutionController(IDemoVariantModelLoader demoVariantModelLoader)
+        public LabWorkExecutionController(
+            IDemoVariantModelLoader demoVariantModelLoader,
+            IEntityBasedModelSaver<StudentAnswerModel,StudentAnswer> answerSaver 
+            )
         {
             _demoVariantModelLoader = demoVariantModelLoader;
+            _answerSaver = answerSaver;
         }
 
         private Uri GetNextTaskUri(long labVarId)
@@ -41,9 +49,25 @@ namespace GraphLabs.Site.Controllers
         /// Обработка выполнения тестового задания студентом
         /// </summary>
         /// <returns></returns>
-        public ActionResult Test(long labVarId, int testPoolEntryId, AnswerVariant answers)
+        [HttpPost]
+        public ActionResult Test(StudentAnswersModel answers)
         {
-            return RedirectToAction("Index");
+            try
+            {
+                foreach (var answer in answers.ChosenAnswerIds)
+                {
+                    _answerSaver.CreateOrUpdate(new StudentAnswerModel
+                    {
+                        ChosenAnswerId = answer,
+                        TestResultId = answers.TestResultId
+                    });
+                }
+                return Json(true);
+            }
+            catch (GraphLabsDbUpdateException e)
+            {
+                return Json(false);
+            }
         }
     }
 

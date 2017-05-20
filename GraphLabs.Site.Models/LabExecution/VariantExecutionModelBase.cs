@@ -47,6 +47,8 @@ namespace GraphLabs.Site.Models.LabExecution
         /// </summary>
         public string Question { get; set; }
 
+        public long TestResult { get; set; }
+
         /// <summary>
         /// Ответы на вопросы
         /// </summary>

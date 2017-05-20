@@ -3,9 +3,11 @@
 @{
     ViewBag.Title = "Лабораторная работа";
     ViewBag.HideNavigationMenu = true;
+
+    @Styles.Render("~/Content/bootstrap")
 }
 
-<h2>@Model.LabName</h2>
+<h2>Л/р: @Model.LabName</h2>
 
 @if (@Model is TaskVariantExecutionModel)
 {
@@ -42,16 +44,24 @@
 @if (@Model is TestExecutionModel)
 {
     var testModel = (TestExecutionModel)@Model;
-    <h3>Вопрос @testModel.Name</h3>
-    <p id="questionText"><b>Текст вопроса: </b> @testModel.Question</p>
-    <ul id="questionAnswers">
-        @foreach (var answer in @testModel.Answers)
-        {
-            <li><input type="checkbox" id="answer_@answer.Id" value="@answer.Answer"/> @answer.Answer</li>
-        }
-    </ul>
-    <button onclick="sendQuestion(@testModel.QuestionId);" type="button">Отправить</button>
-    <br/>
+    <h4>Вопрос @testModel.Name</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <p id="questionText"><b>Текст вопроса: </b> @testModel.Question</p>
+            <ul id="questionAnswers">
+                @foreach (var answer in @testModel.Answers)
+                {
+                    <li><input type="checkbox" id="answer_@answer.Id" value="@answer.Answer"/> @answer.Answer</li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+            <button onclick="sendQuestion(@Model.VariantId, @testModel.QuestionId, @testModel.TestResult);" type="button">Отправить</button>
+        </div>
+    </div>
+
 }
 @for (int i = 0; i < Model.OtherTasks.Length; ++i)
 {
@@ -59,7 +69,7 @@
     {
         var testTask = (TaskListEntryModel)@Model.OtherTasks[i];
 
-        <input type="button" class="TaskNavigation" onclick="sendTask(@testTask.TaskId)" value="@(i + 1)"
+        <input type="button" class="btn btn-primary" onclick="sendTask(@testTask.TaskId)" value="@(i + 1)"
                @if (Model.OtherTasks[i].State != TaskExecutionState.New)
                {
                    @Html.Raw(" disabled ")
@@ -68,7 +78,7 @@
     if (Model.OtherTasks[i] is TestListEntryModel)
     {
         var testTask = (TestListEntryModel)@Model.OtherTasks[i];
-        <input type="button" class="TestNavigation" onclick="sendTest(@testTask.QuestionId)" value="@(i + 1)"
+        <input type="button" class="btn btn-info" onclick="sendTest(@testTask.QuestionId)" value="@(i + 1)"
                @if (Model.OtherTasks[i].State != TaskExecutionState.New)
                {
                    @Html.Raw(" disabled ")
@@ -79,6 +89,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
 
     <script>
         var sendTask = (task) => {
@@ -93,15 +104,43 @@
             }
         };
 
-        var sendQuestion = (test) => {
-            location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&testIndex=" + test;
+        var sendQuestion = (variant, test, testResult) => {
+            var array = [];
+            var inputs = $("#questionAnswers").children('li');
+            for (var i = 0; i < inputs.length; i++) {
+                if ($($(inputs[i]).children('input').get(0)).prop('checked')) {
+                    var id = $($(inputs[i]).children('input').get(0)).attr('id');
+                    var splitted = id.split('_');
+                    array.push(parseInt(splitted[1]));
+                }
+            }
+            //location.href = "/LabWorkExecution/Test?&answers=" + {
+            //    LabVarId: variant,
+            //    TestPoolEntryId: test,
+            //    ChosenAnswerIds: array,
+            //    TestResultId: testResult
+            //};
+            $.ajax({
+                url: '/LabWorkExecution/Test',
+                method: 'POST',
+                data: JSON.stringify({
+                    LabVarId: variant,
+                    TestPoolEntryId: test,
+                    ChosenAnswerIds: array,
+                    TestResultId: testResult
+                }),
+                contentType: "application/json; charset=utf-8",
+                success: () => {
+                    location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&testIndex=" + test;
+                }
+        });
         };
 
         var TaskComplete = () => {
             location.href = "/LabWorkExecution/TaskComplete";
         };
 
-        var onTaskModuleLoaded = () => {
+        var ontaskmoduleloaded = () => {
             // делаем размер изменимым
             $("#task-module-wrapper").resizable();
             // убираем надпись о загрузке

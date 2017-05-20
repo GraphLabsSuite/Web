@@ -134,6 +134,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -214,6 +215,9 @@
     <Compile Include="StudentActions\StudentActionModelLoader.cs" />
     <Compile Include="LabExecution\TaskListEntryModel.cs" />
     <Compile Include="LabExecution\TaskExecutionModelLoader.cs" />
+    <Compile Include="StudentAnswer\StudentAnswerModel.cs" />
+    <Compile Include="StudentAnswer\StudentAnswerModelSaver.cs" />
+    <Compile Include="StudentAnswer\StudentAnswersModel.cs" />
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModel.cs" />
     <Compile Include="TaskResultsWithActions\TaskResultWithActionsModelLoader.cs" />
     <Compile Include="TaskResults\TaskResultModel.cs" />

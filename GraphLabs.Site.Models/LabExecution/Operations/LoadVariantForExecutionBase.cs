@@ -19,6 +19,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
         private readonly IInitParamsProvider _initParamsProvider;
         private readonly TaskExecutionModelLoader _taskModelLoader;
         private readonly TestExecutionModelLoader _testModelLoader;
+        private readonly IOperationContextFactory<IGraphLabsContext> _operationFactory;
 
         protected LoadVariantForExecutionBase(
             IOperationContextFactory<IGraphLabsContext> operationFactory,
@@ -32,6 +33,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             _authService = authService;
             _initParamsProvider = initParamsProvider;
             _taskModelLoader = taskModelLoader;
+            _operationFactory = operationFactory;
         }
 
         protected VariantExecutionModelBase LoadImpl(LabVariant variant, int? taskIndex, int? testIndex, Uri taskCompleteRedirect)
@@ -86,7 +88,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                     testResult.Index = number.ToString();
                     testResult.Result = result;
                     randomArray = Randomizer.ChoseNumber(randomArray, number);
-                    testResult.StudentAnswers = new List<StudentAnswer>();
+                    testResult.StudentAnswers = new List<DomainModel.StudentAnswer>();
                     result.AbstractResultEntries.Add(testResult);
                 }
             }
@@ -160,6 +162,10 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             model.OtherTasks = GetOtherTasksModels(lab, result, null, test).ToArray();
             model.VariantId = variant.Id;
             model.LabName = lab.Name;
+            var operation = _operationFactory.Create();
+            var testResult = operation.DataContext.Query.OfEntities<TestResult>().FirstOrDefault(e => e.TestPoolEntry.Id == test.Id & e.Result.Id == result.Id);
+            operation.Complete();
+            model.TestResult = testResult.Id;
             return model;
         }
 
