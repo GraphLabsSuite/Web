@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GraphLabs.Tests.Site
 {
-    [TestClass]
-    public class UnitTest1
+    public class TestPoolEntryControllerTest
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
         }
