@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using GraphLabs.Site.Controllers.Attributes;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
@@ -70,6 +71,9 @@ namespace GraphLabs.Site.Controllers
                         ChosenAnswerId = answer,
                         TestResultId = answers.TestResultId
                     });
+                    var testResult = operation.DataContext.Query.OfEntities<TestResult>().FirstOrDefault(e => e.Id == answers.TestResultId);
+                    testResult.Score = CalculateMarkForTheTest(testResult);
+                    operation.Complete();
                 }
                 return Json(true);
             }
@@ -77,6 +81,23 @@ namespace GraphLabs.Site.Controllers
             {
                 return Json(false);
             }
+        }
+
+        private int CalculateMarkForTheTest(TestResult testResult)
+        {
+            var score = testResult.TestPoolEntry.Score;
+            var realAnswers = testResult.TestPoolEntry.TestQuestion.AnswerVariants;
+            var studentAnswers = testResult.StudentAnswers;
+            var strategy = (int)testResult.TestPoolEntry.ScoringStrategy;
+            var wrongAnswersChosen = testResult.StudentAnswers.Where(e => e.AnswerVariant.IsCorrect).Select(e => e.AnswerVariant.Id).ToArray();
+            var correctAnswersNotChosen = testResult.TestPoolEntry.TestQuestion.AnswerVariants
+                .Where(e => e.IsCorrect && !testResult.StudentAnswers.Select(r => r.AnswerVariant).Contains(e)).Select(d => d.Id).ToArray();
+            wrongAnswersChosen.Union(correctAnswersNotChosen);
+            var wrongAnswerNumber = testResult.TestPoolEntry.TestQuestion.AnswerVariants.Count(e => !e.IsCorrect);
+            var rightAnswerNumber = testResult.TestPoolEntry.TestQuestion.AnswerVariants.Count - wrongAnswerNumber;
+            var multiplier = (score/(rightAnswerNumber + strategy*wrongAnswerNumber));
+            var correctAnswersChosen = testResult.StudentAnswers.Where(e => e.AnswerVariant.IsCorrect).ToArray().Length;
+            return score - strategy * wrongAnswersChosen.Length * multiplier - correctAnswersChosen * multiplier;
         }
     }
 
