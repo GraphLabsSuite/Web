@@ -97,9 +97,8 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                 result = latestCurrentResult;
             }
 
-            var task = taskIndex.HasValue
-                ? GetTaskByIndex(lab, taskIndex.Value)
-                : GetFirstUnsolvedTask(result);
+            var task = TryGetTaskByIndex(result, lab, taskIndex) 
+                ?? GetFirstUnsolvedTask(result);
 
             var test = testIndex.HasValue
                 ? GetTestPoolEntry(variant, testIndex.Value)
@@ -315,18 +314,25 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return lab.TestPool.TestPoolEntries.SingleOrDefault(e => e.Id == testIndex.Value);
         }
 
-        private Task GetTaskByIndex(LabWork lab, int index)
+        private Task TryGetTaskByIndex(Result labResult, LabWork lab, int? index)
         {
-            //var result = lab.LabEntries
-            //    .OrderBy(e => e.Order)
-            //    .Skip(index)
-            //    .FirstOrDefault();
-            var result = lab.LabEntries.FirstOrDefault(e => e.Task.Id == index);
+            if (!index.HasValue)
+                return null;
 
-            if (result == null)
-                throw new Exception("«адани€ с запрошенным номером не существует.");
+            var taskEntry = lab.LabEntries.FirstOrDefault(e => e.Task.Id == index);
+            if (taskEntry == null)
+                return null;
 
-            return result.Task;
+            var taskResult = labResult
+                .AbstractResultEntries
+                .OfType<TaskResult>()
+                .SingleOrDefault(tr => tr.TaskVariant.Task.Id == taskEntry.Id && 
+                                       tr.Status == ExecutionStatus.Complete);
+
+            if (taskResult?.Status == ExecutionStatus.Complete)
+                return null;
+
+            return taskEntry.Task;
         }
 
         private Student GetCurrentStudent()
