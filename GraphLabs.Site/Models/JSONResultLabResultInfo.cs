@@ -75,6 +75,8 @@ namespace GraphLabs.Site.Models
 
         public string LabName { get; set; }
 
+        public long? HasTestPool { get; set; }
+
         public TaskInfo[] Tasks { get; set; }
 
         public string[] Problems { get; set; }
@@ -97,6 +99,7 @@ namespace GraphLabs.Site.Models
             Place = GetPlace(ctx, labVar, studentId);
             Tasks = GetTaskInfo(ctx, id, studentId);
             Problems = GetProblems(ctx, id);
+            HasTestPool = result.LabVariant?.Id;
         }
 
     private TaskInfo[] GetTaskInfo(GraphLabsContext ctx, int id, long studentId)

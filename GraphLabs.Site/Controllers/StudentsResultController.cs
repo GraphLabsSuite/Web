@@ -70,7 +70,7 @@ namespace GraphLabs.Site.Controllers
             {
                 var temp = new StudentsResultModel(results[i].LabVariant.Id, results[i].LabVariant.LabWork.Name,
                     results[i].StartDateTime, results[i].LabVariant.Number, results[i].Id, results[i].Score,
-                    results[i].Status, results[i].LabVariant.Id);
+                    results[i].Status, results[i].LabVariant.Id, results[i].LabVariant.TestPool?.Id);
                 resultModel[i] = temp;
             }
             return resultModel;
