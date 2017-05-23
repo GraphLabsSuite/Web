@@ -74,5 +74,11 @@ namespace GraphLabs.Site.Controllers
             var model = _taskResultWithActionsModelLoader.Load(id);
             return View(model);
         }
+
+        public ActionResult TestResult(long id = 0)
+        {
+            var model = _taskResultWithActionsModelLoader.Load(id);
+            return View(model);
+        }
     }
 }

@@ -100,9 +100,8 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             var task = TryGetTaskByIndex(result, lab, taskIndex) 
                 ?? GetFirstUnsolvedTask(result);
 
-            var test = testIndex.HasValue
-                ? GetTestPoolEntry(variant, testIndex.Value)
-                : GetFirstUnsolvedTest(result);
+            var test = TryGetTestPoolEntry(result, variant, testIndex)
+                ?? GetFirstUnsolvedTest(result);
 
             var model = task == null 
                 ? test == null ? CompleteVariant(result) : CreateTestExecutionModel(taskCompleteRedirect, test, variant, lab, result)
@@ -308,10 +307,24 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return searchResult;
         }
 
-        private DomainModel.TestPoolEntry GetTestPoolEntry(LabVariant lab, int? testIndex)
+        private DomainModel.TestPoolEntry TryGetTestPoolEntry(Result result, LabVariant lab, int? testIndex)
         {
-            if (testIndex == null) return null;
-            return lab.TestPool.TestPoolEntries.SingleOrDefault(e => e.Id == testIndex.Value);
+            if (!testIndex.HasValue)
+                return null;
+
+            var testEntry = lab.TestPool.TestPoolEntries.SingleOrDefault(e => e.Id == testIndex.Value);
+            if (testEntry == null)
+                return null;
+
+            var testResult = result
+                .AbstractResultEntries
+                .OfType<TestResult>()
+                .SingleOrDefault(tr => tr.TestPoolEntry.Id == testEntry.Id
+                                       && tr.Status == ExecutionStatus.Complete);
+            if (testResult?.Status == ExecutionStatus.Complete)
+                return null;
+
+            return testEntry;
         }
 
         private Task TryGetTaskByIndex(Result labResult, LabWork lab, int? index)
