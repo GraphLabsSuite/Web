@@ -8,14 +8,14 @@
 
 <h2>@ViewBag.Title</h2>
 <style type="text/css">
-    .varColumn2 { visibility: hidden; width: 0;}
-     .idColumn { width: 7%; }
+    .varColumn2 {visibility: hidden;width: 0;}
+    .idColumn { width: 7%; }
     .nameColumn { width: 43%; }
     .dateColumn { width: 10%; }
     .varColumn { width: 10%; }
     .resultColumn { width: 10%; }
     .markColumn { width: 10%; }
-    .statusColumn { width: 10%}
+    .statusColumn { width: 10% }
 </style>
 
 @{
@@ -55,6 +55,7 @@
                 <br/>
 
                 <div>
+                    <div id="testPoolInfo"></div>
                     <table id="labTable"></table>
                 </div>
 
@@ -100,32 +101,26 @@
 
         function Suc(data) {
             var obj = jQuery.parseJSON(data);
-            switch (obj.Result) {
-                case 0:
-                    $("#error").html("");
-                    $("#labInfo").css("display", "block");
-                    $("#labInfo h3").html(obj.LabName);
-                    $("#labInfo h6").html("По результатам выполнения работы Вы на " + obj.Place + " месте из " + obj.StudentsNumber + " среди студентов группы");
+            $("#error").html("");
+            $("#labInfo").css("display", "block");
+            $("#labInfo h3").html(obj.LabName);
+            $("#labInfo h6").html("По результатам выполнения работы Вы на " + obj.Place + " месте из " + obj.StudentsNumber + " среди студентов группы");
+            var resultId = obj.Result;
+            $("#testPoolInfo").html("<button onclick='getTestPoolInfo(" + resultId + ");'>Посмотреть данные по тестовым вопросам</button>");
+            $("#labTable tr").detach();
+            $("#labTable").append("<tr><th>Задания</th><th>Вариант</th><th>Результат</th></tr>");
 
-                    $("#labTable tr").detach();
-                    $("#labTable").append("<tr><th>Задания</th><th>Вариант</th><th>Результат</th></tr>");
-
-                    for (var i = 0; i < obj.Tasks.length; i++) {
-                        $("#labTable").append("<tr value='" + obj.Tasks[i].Id + "'><td>" + obj.Tasks[i].Name + "</td><td>" + obj.Tasks[i].Variant + "</td><td>" + obj.Tasks[i].Result +
-                            "<td><input type='button' onclick='javascript:GetTaskDetail(" + obj.Tasks[i].Id + ")' value ='Посмотреть отчёт по заданию'/></td></tr>");
-                    };
-                   
-                    $("#problemsTable tr").detach();
-                    $("#problemsTable").append("<tr><th>Проблемные области</th></tr>");
-
-                    for (var j = 0; j < obj.Problems.length; j++) {
-                        $("#problemsTable").append("<tr><td>" + obj.Problems[j] + "</td></tr>");
-                    };
-                    break;
-                case 1:
-                    $("#error").html("Ошибка! Попробуйте обновить страницу");
-                    break;
+            for (var i = 0; i < obj.Tasks.length; i++) {
+                $("#labTable").append("<tr value='" + obj.Tasks[i].Id + "'><td>" + obj.Tasks[i].Name + "</td><td>" + obj.Tasks[i].Variant + "</td><td>" + obj.Tasks[i].Result +
+                    "<td><input type='button' onclick='javascript:GetTaskDetail(" + obj.Tasks[i].Id + ")' value ='Посмотреть отчёт по заданию'/></td></tr>");
             };
+                   
+            $("#problemsTable tr").detach();
+            $("#problemsTable").append("<tr><th>Проблемные области</th></tr>");
+
+            for (var j = 0; j < obj.Problems.length; j++) {
+                $("#problemsTable").append("<tr><td>" + obj.Problems[j] + "</td></tr>");
+            }
         };
 
         $(function () {
@@ -133,6 +128,24 @@
                 GetTaskDetail($(this).find('a:value').text());
             });
         });
+
+        var getTestPoolInfo = (id) => {
+            $("#error").html("Идет отправка данных...");
+            var result = "resultId=" + id;
+            $.ajax({
+                type: "POST",
+                url: "StudentsResult/GetTestDetails",
+                data: result,
+                error: (error) => {
+                    console.log(error);
+                    $("#error").html("Невозможно отправить данные");
+                    $("#taskInfo").css("display", "none");
+                },
+                success: (data) => {
+                    suc3(data);
+                }
+            });
+        };
 
         function GetTaskDetail(id) {
             $("#error").html("Идет отправка данных...");
@@ -172,6 +185,22 @@
                 case 1:
                     $("#error").html("Ошибка! Попробуйте обновить страницу");
                     break;
+            };
+        };
+
+        var suc3 = (data) => {
+            console.log(data);
+            var obj = jQuery.parseJSON(data);
+            $("#error").html("");
+
+            $("#taskInfo h3").html("");
+            $("#taskInfo").css("display", "block");
+            $("#taskInfo h3").html("Название тестпула: " + obj.TestPoolName);
+
+            $("#taskTable").html("");
+            $("#taskTable").append("<tr><th>Название вопроса</th><th>Балл за задание</th><th>Набранный балл</th></tr>");
+            for (var i = 0; i < obj.TestEntries.length; i++) {
+                $("#taskTable").append("<tr><td>" + obj.TestEntries[i].QuestionName + "</td><td>" + obj.TestEntries[i].Score + "</td><td>" + obj.TestEntries[i].Mark + "</td></tr>");
             };
         };
 

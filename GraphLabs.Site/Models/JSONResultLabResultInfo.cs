@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel;
 
@@ -28,9 +29,49 @@ namespace GraphLabs.Site.Models
         }
     }
 
+    public class TestInfo : JsonResult
+    {
+        public string TestPoolName { get; set; }
+
+        public TestResultInfo[] TestEntries { get; set; }
+
+        public TestInfo(GraphLabsContext ctx, int resultId)
+        {
+            var result = ctx.Results.FirstOrDefault(e => e.Id == resultId);
+            if (result == null) throw new Exception("Результат не найден!");
+            var testResults = result
+                .AbstractResultEntries
+                .OfType<TestResult>()
+                .ToArray();
+            if (!testResults.Any()) throw new Exception("В тестпуле не оказалось заданий!");
+            var testPool = testResults.First().TestPoolEntry.TestPool;
+
+            TestPoolName = testPool.Name;
+            TestEntries = new TestResultInfo[testResults.Length];
+            for (int i = 0; i < testResults.Length; i++)
+            {
+                TestEntries.SetValue(new TestResultInfo
+                {
+                    QuestionName = testResults.ElementAt(i).TestPoolEntry.TestQuestion.Question,
+                    Score = testResults.ElementAt(i).TestPoolEntry.Score,
+                    Mark = testResults.ElementAt(i).Score
+                }, i);
+            }
+        }
+    }
+
+    public class TestResultInfo
+    {
+        public string QuestionName { get; set; }
+
+        public int Score { get; set; }
+
+        public int Mark { get; set; }
+    }
+
     public class JSONResultLabResultInfo
     {
-        public int Result { get; set; }
+        public long Result { get; set; }
 
         public string LabName { get; set; }
 
@@ -50,7 +91,7 @@ namespace GraphLabs.Site.Models
             var labName = result.LabVariant.LabWork.Name;
             var resultStudent = ctx.Results.Where(tr => tr.Student.Id == studentId).ToArray();
             var groupId = resultStudent[0].Student.Group.Id;
-            Result = 0;
+            Result = result.Id;
             LabName = labName;
             StudentsNumber = ctx.Groups.Count(tr => tr.Id == groupId);
             Place = GetPlace(ctx, labVar, studentId);
