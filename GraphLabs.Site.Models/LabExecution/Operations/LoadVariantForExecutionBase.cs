@@ -257,18 +257,34 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
                 sum = (int)scores[i] + sum;
 
             }
-
-            return sum / scores.Length;
+            var test = GetTestResultScore(taskResults) ?? 0;
+            sum = sum + test;
+            return sum / (scores.Length + 1);
         }
 
         private int?[] GetTaskResultsScore(ICollection<AbstractResultEntry> taskResults)
         {
-            var taskResultsArray = taskResults.ToArray();
+            var taskResultsArray = taskResults.OfType<TaskResult>().ToArray();
             var result = new int?[taskResultsArray.Length];
             for (var i = 0; i < taskResultsArray.Length; i++)
             {
                 result[i] = taskResultsArray[i].Score;
             }
+            return result;
+        }
+
+        private int? GetTestResultScore(ICollection<AbstractResultEntry> testResults)
+        {
+            var testResult = testResults.OfType<TestResult>().ToArray();
+            if (testResult.Length == 0) return null;
+            var realSum = 0;
+            var maxSum = 0;
+            for (var i = 0; i < testResult.Length; i++)
+            {
+                realSum = realSum + testResult[i].Score;
+                maxSum = maxSum + testResult[i].TestPoolEntry.Score;
+            }
+            var result = (int) 100*realSum/maxSum;
             return result;
         }
 
