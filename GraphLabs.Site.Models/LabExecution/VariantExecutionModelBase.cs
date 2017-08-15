@@ -1,4 +1,5 @@
-﻿using GraphLabs.DomainModel;
+﻿using System.Collections.Generic;
+using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.LabExecution
@@ -13,7 +14,7 @@ namespace GraphLabs.Site.Models.LabExecution
         public string LabName { get; set; }
 
         /// <summary> Задания </summary>
-        public TaskListEntryModel[] OtherTasks { get; set; }
+        public BaseListEntryModel[] OtherTasks { get; set; }
     }
 
     /// <summary> Модель для выполнения варианта лабы </summary>
@@ -27,6 +28,31 @@ namespace GraphLabs.Site.Models.LabExecution
 
         /// <summary> Строка инициализации </summary>
         public string InitParams { get; set; }
+    }
+
+    public class TestExecutionModel : VariantExecutionModelBase
+    {
+        /// <summary>
+        /// Название тестпула
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// ID вопроса
+        /// </summary>
+        public long QuestionId { get; set; }
+
+        /// <summary>
+        /// Текст вопроса
+        /// </summary>
+        public string Question { get; set; }
+
+        public long TestResult { get; set; }
+
+        /// <summary>
+        /// Ответы на вопросы
+        /// </summary>
+        public ICollection<AnswerVariant> Answers { get; set; }
     }
 
 

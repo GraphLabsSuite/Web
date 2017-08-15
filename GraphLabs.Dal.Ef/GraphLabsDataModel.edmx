@@ -250,7 +250,7 @@
     <Property Name="Version" Type="bigint" Nullable="false" />
     <Property Name="IntroducingVariant" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="LabWork_Id" Type="bigint" Nullable="false" />
-    <Property Name="TestPool_Id" Type="bigint" Nullable="false" />
+    <Property Name="TestPool_Id" Type="bigint" Nullable="true" />
   </EntityType>
   <EntityType Name="TestQuestions">
     <Key>
@@ -688,7 +688,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="TestPoolLabVariant">
-    <End Role="TestPool" Type="DataModel.Store.TestPools" Multiplicity="1" />
+    <End Role="TestPool" Type="DataModel.Store.TestPools" Multiplicity="0..1" />
     <End Role="LabVariant" Type="DataModel.Store.LabVariants" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TestPool">
@@ -1277,7 +1277,6 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="LabVariants" Relationship="DataModel.TestPoolLabVariant" FromRole="TestPool" ToRole="LabVariant" />
           <NavigationProperty Name="TestPoolEntries" Relationship="DataModel.TestPoolTestPoolEntry" FromRole="TestPool" ToRole="TestPoolEntry" />
         </EntityType>
         <Association Name="LabWorkGroup">
@@ -1345,7 +1344,7 @@
           <End Type="DataModel.StudentAnswer" Role="StudentAnswer" Multiplicity="*" />
         </Association>
         <Association Name="TestPoolLabVariant">
-          <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="1" />
+          <End Type="DataModel.TestPool" Role="TestPool" Multiplicity="0..1" />
           <End Type="DataModel.LabVariant" Role="LabVariant" Multiplicity="*" />
         </Association>
         <Association Name="TestPoolTestPoolEntry">
@@ -1786,6 +1785,7 @@
       <EndProperty Name="LabVariant">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
+      <Condition ColumnName="TestPool_Id" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="TestPoolTestPoolEntry" TypeName="DataModel.TestPoolTestPoolEntry" StoreEntitySet="TestPoolEntries">
       <EndProperty Name="TestPool">

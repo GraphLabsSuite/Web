@@ -19,6 +19,7 @@ using GraphLabs.Site.Models.TestPoolEntry;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
 using GraphLabs.Site.Models.Question;
+using GraphLabs.Site.Models.StudentAnswer;
 
 namespace GraphLabs.Site.Models.IoC
 {
@@ -43,6 +44,7 @@ namespace GraphLabs.Site.Models.IoC
             container.RegisterType<IEntityBasedModelLoader<ResultModel, Result>, ResultModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<StudentActionModel, StudentAction>, StudentActionModelLoader>(new PerResolveLifetimeManager());
             container.RegisterType<IEntityBasedModelLoader<TaskResultModel, TaskResult>, TaskResultModelLoader>(new PerResolveLifetimeManager());
+            container.RegisterType<IEntityBasedModelSaver<StudentAnswerModel, DomainModel.StudentAnswer>, StudentAnswerModelSaver>(new PerResolveLifetimeManager());
 
             // тестпулы
             container.RegisterType<IEntityBasedModelLoader<TestPoolModel, DomainModel.TestPool>, TestPoolModelLoader>(new PerResolveLifetimeManager());

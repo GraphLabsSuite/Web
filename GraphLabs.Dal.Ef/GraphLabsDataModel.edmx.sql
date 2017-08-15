@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/02/2017 09:34:58
--- Generated from EDMX file: E:\Рабочий стол\graphlabs\git\graphlabs.site\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
+-- Date Created: 05/16/2017 16:44:49
+-- Generated from EDMX file: C:\Users\Егор\Documents\GitHub\Web\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -291,7 +291,7 @@ CREATE TABLE [dbo].[LabVariants] (
     [Version] bigint  NOT NULL,
     [IntroducingVariant] bit  NOT NULL,
     [LabWork_Id] bigint  NOT NULL,
-    [TestPool_Id] bigint  NOT NULL
+    [TestPool_Id] bigint  NULL
 );
 GO
 

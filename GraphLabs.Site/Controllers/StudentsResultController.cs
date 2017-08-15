@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using GraphLabs.Dal.Ef;
 using GraphLabs.DomainModel;
@@ -67,7 +68,9 @@ namespace GraphLabs.Site.Controllers
             var resultModel = new StudentsResultModel[results.Length];
             for (int i = 0; i < results.Length; i++)
             {
-                var temp = new StudentsResultModel(results[i].LabVariant.Id, results[i].LabVariant.LabWork.Name, results[i].StartDateTime, results[i].LabVariant.Number, results[i].Id, results[i].Score, results[i].Status, results[i].LabVariant.Id);
+                var temp = new StudentsResultModel(results[i].LabVariant.Id, results[i].LabVariant.LabWork.Name,
+                    results[i].StartDateTime, results[i].LabVariant.Number, results[i].Id, results[i].Score,
+                    results[i].Status, results[i].LabVariant.Id, results[i].LabVariant.TestPool?.Id);
                 resultModel[i] = temp;
             }
             return resultModel;
@@ -86,5 +89,12 @@ namespace GraphLabs.Site.Controllers
             return result;
         }
 
+        [HttpPost]
+        public string GetTestDetails(int resultId)
+        {
+
+            var result = new TestInfo(_ctx, resultId);
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

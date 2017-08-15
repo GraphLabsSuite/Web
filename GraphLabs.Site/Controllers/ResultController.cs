@@ -9,6 +9,7 @@ using GraphLabs.Site.Models.LabExecution;
 using GraphLabs.Site.Models.Results;
 using GraphLabs.Site.Models.ResultsWithTaskInfo;
 using GraphLabs.Site.Models.TaskResultsWithActions;
+using GraphLabs.Site.Models.TestPool;
 
 
 namespace GraphLabs.Site.Controllers
@@ -22,6 +23,7 @@ namespace GraphLabs.Site.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult> _taskResultWithActionsModelLoader;
         private readonly IEntityBasedModelLoader<ResultModel, Result> _resultModelLoader;
+        private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _testPoolModelLoader;
         private readonly IEntityBasedModelLoader<ResultWithTaskInfoModel, Result> _resultWithTaskInfoModelLoader;
         private readonly IEntityBasedModelLoader<GroupModel, Group> _groupModelLoader;
         private readonly IListModelLoader _listModelLoader;
@@ -32,6 +34,7 @@ namespace GraphLabs.Site.Controllers
             IUserRepository userRepository,
             IEntityBasedModelLoader<TaskResultWithActionsModel, TaskResult> taskResultWithActionsModelLoader,
             IEntityBasedModelLoader<ResultWithTaskInfoModel, Result> resultWithTaskInfoModelLoader,
+            IEntityBasedModelLoader<TestPoolModel, TestPool> testPoolModelLoader,
             IListModelLoader listModelLoader,
             IEntityBasedModelLoader<GroupModel, Group> groupModelLoader,
             IEntityBasedModelLoader<ResultModel, Result> resultModelLoader)
@@ -39,6 +42,7 @@ namespace GraphLabs.Site.Controllers
             _userRepository = userRepository;
             _taskResultWithActionsModelLoader = taskResultWithActionsModelLoader;
             _resultWithTaskInfoModelLoader = resultWithTaskInfoModelLoader;
+            _testPoolModelLoader = testPoolModelLoader;
             _groupModelLoader = groupModelLoader;
             _listModelLoader = listModelLoader;
             _resultModelLoader = resultModelLoader;
@@ -72,6 +76,12 @@ namespace GraphLabs.Site.Controllers
         public ActionResult TaskResult(long id = 0)
         {
             var model = _taskResultWithActionsModelLoader.Load(id);
+            return View(model);
+        }
+
+        public ActionResult TestResult(long id = 0)
+        {
+            var model = _testPoolModelLoader.Load(id);
             return View(model);
         }
     }

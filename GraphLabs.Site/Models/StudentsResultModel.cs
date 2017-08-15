@@ -20,6 +20,8 @@ namespace GraphLabs.Site.Models
 
         public long ResultId { get; set; }
 
+        public long? HasTestPool { get; set; }
+
         public long LabVariant { get; set; }
 
         public String Result { get; set; }
@@ -28,7 +30,7 @@ namespace GraphLabs.Site.Models
 
         public String Status { get; set; }
 
-        public StudentsResultModel(long id, string name, DateTime date, string variant, long resId, int? result,ExecutionStatus status, long labvariant)
+        public StudentsResultModel(long id, string name, DateTime date, string variant, long resId, int? result,ExecutionStatus status, long labvariant, long? hasTestPool)
         {
             Id = id;
             Name = name;
@@ -39,6 +41,7 @@ namespace GraphLabs.Site.Models
             SetStatus(status);
             SetMark(result);
             LabVariant = labvariant;
+            HasTestPool = hasTestPool;
         }
 
         private void SetMark(int? result)
