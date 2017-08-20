@@ -10,7 +10,7 @@
 <a id="goto-preview" target="_blank" href=""></a>
 
 
-<div class="widthSection">
+<div>
     <span id="error" class="field-validation-error"></span>
     <span id="success" class="field-validation-success"></span>
     <fieldset>
@@ -27,6 +27,7 @@
 
 <div id="createLabLeftPanel">
     <h3 class="buttonCenter">Список доступных заданий</h3>
+@*    <h6>Кликните дважды, чтобы открыть предпросмотр</h6>*@
     <input id="firstSelectSize" type="number" value="8" />
 <select id="firstSelect" class="labSelectLeft" size="8">
     @foreach (var item in Model.Tasks)
@@ -52,7 +53,7 @@
     </div>
 </div>
 
-<div class="widthSection">
+<div style="clear: both">
     <input id="save" type="button" value="Сохранить"/>
     <input id="saveAndCreate" type="button" value="Сохранить и перейти к созданию вариантов"/>
 </div>
@@ -186,8 +187,8 @@
                     break;
             };
         });
-        $("#firstSelect").change(function() {
-           $("#goto-preview").attr("href", "../Preview/TaskVariant?TaskId=" + $(this).val());
+        $("#firstSelect option").dblclick(function() {
+            $("#goto-preview").attr("href", "../Preview/TaskVariant?TaskId=" + $(this).val());
             window.open($("#goto-preview").attr('href'), "_blank");
         });
 

@@ -442,6 +442,7 @@
     <Content Include="Views\TestPool\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Result\TestResult.cshtml" />
+    <Content Include="Views\Labs\GenerateVariant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

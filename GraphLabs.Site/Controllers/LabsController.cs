@@ -190,6 +190,13 @@ namespace GraphLabs.Site.Controllers
             return Json(new JSONResultEditVariant(variant) );
         }
 
+        public ActionResult GenerateVariant(long? taskId)
+        {
+            var task = _tasksContext.Tasks.Find(taskId);
+            ViewBag.Task = task;
+            return View();
+        }
+
         #endregion
     }
 }
