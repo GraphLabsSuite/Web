@@ -1,11 +1,11 @@
-﻿@using GraphLabs.Site.Controllers.LabWorks
-@model GraphLabs.Site.Models.CreateLabVariantModel
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Controllers.LabWorks
 
 @{
     ViewBag.Title = "Создание варианта лабораторной работы";
 }
 
-<h2>@ViewBag.Title "@Model.Name"</h2>
+<h2>@ViewBag.Title "@ViewBag.LabVariantModel.Name"</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
 
 <br />
@@ -25,9 +25,8 @@
     <tr>
         <th class="tableHeader">Задания</th>
         <th class="tableHeader">Варианты</th>
-        <th></th>
-    </tr>
-@foreach (var item in Model.Variant)
+        <th></th>    </tr>
+@foreach (var item in ViewBag.LabVariantModel.Variant)
 {
     <tr>
         <th>@item.Key.Value</th>
@@ -47,6 +46,15 @@
 }
 </table>
 <br />
+<h3>Выбрать тестпул</h3>
+<select>
+    <option>Без тестов</option>
+    @foreach (var testPool in ViewBag.TestPoolListModel)
+    {
+        <option value="@testPool.Id">@testPool.Name </option>
+    }
+</select>
+<br/>
 <input id="IntroducingVariant" type="checkbox"> Доступен в ознакомительной версии<br />
 <br />
 <input disabled id="save" type="button" value="Сохранить"/>
@@ -56,12 +64,12 @@
 {
     <script>
         $(document).ready(function () {
-            if (@Model.varId != 0)
+            if (@ViewBag.LabVariantModel.varId != 0)
             {
                 $("title").html("Редактирование варианта лабораторной работы");
-                $("h2").html('Редактирование варианта лабораторной работы "@Model.Name"');
+                $("h2").html('Редактирование варианта лабораторной работы "@ViewBag.LabVariantModel.Name"');
                 $("#error").html("Вариант загружается...");
-                var result="varId=@Model.varId";
+                var result="varId=@ViewBag.LabVariantModel.varId";
                 $.ajax({
                     type: "POST",
                     url: "GetVariantInfo",
@@ -138,18 +146,18 @@
                 list.push($(this).val());
             });
             var result = "";
-            @if ( !(Model.varId > 0))
+            @if ( !(ViewBag.LabVariantModel.varId > 0))
             {
-                @Html.Raw("result = \"Id=" + @Model.id.ToString() + "&\";")
+                @Html.Raw("result = \"Id=" + @ViewBag.LabVariantModel.id.ToString() + "&\";")
             }
             result = result + "Number=" + document.getElementById("varNum").value + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
-            @if (Model.varId > 0)
+            @if (ViewBag.LabVariantModel.varId > 0)
             {
-                @Html.Raw("result = result + \"&variantId=" + @Model.varId.ToString() + "\";")
+                @Html.Raw("result = result + \"&variantId=" + @ViewBag.LabVariantModel.varId.ToString() + "\";")
             }
             $.ajax({
                 type: "POST",
-                url: @(Model.varId > 0 ? Html.Raw("\"EditVariant\"") : Html.Raw("\"CreateVariant\"")),
+                url: @(ViewBag.LabVariantModel.varId > 0 ? Html.Raw("\"EditVariant\"") : Html.Raw("\"CreateVariant\"")),
                 data: result,
                 error: function () {
                     $("#error").html("Невозможно отправить данные");

@@ -32,6 +32,5 @@ namespace GraphLabs.Site.Models.TestPool
                 .Select(_modelLoader.Load)
                 .ToArray();
         }
-
     }
 }

@@ -12,6 +12,7 @@ using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models.CreateLab;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
+using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -25,6 +26,7 @@ namespace GraphLabs.Site.Controllers
         private readonly ITasksContext _tasksContext;
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelLoader<CreateLabModel, LabWork> _modelLoader;
+        private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _testPoolModelLoader;
 
         #endregion
 
@@ -118,7 +120,10 @@ namespace GraphLabs.Site.Controllers
         {
             var lab = _labRepository.GetLabWorkById(labId);
 
-            return View( new CreateLabVariantModel(lab, varId) );
+            ViewBag.LabVariantModel = new CreateLabVariantModel(lab, varId);
+            ViewBag.TestPoolListModel = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+
+            return View();
         }
 
 		[HttpPost]

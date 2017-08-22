@@ -36,7 +36,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             _operationFactory = operationFactory;
         }
 
-        protected VariantExecutionModelBase LoadImpl(LabVariant variant, int? taskIndex, int? testIndex, Uri taskCompleteRedirect)
+        protected VariantExecutionModelBase LoadImpl(DomainModel.LabVariant variant, int? taskIndex, int? testIndex, Uri taskCompleteRedirect)
         {
             
             var lab = variant.LabWork;
@@ -152,7 +152,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             }
         }
 
-        private VariantExecutionModelBase CreateTestExecutionModel(Uri taskCompleteRedirect, DomainModel.TestPoolEntry test, LabVariant variant, LabWork lab, Result result)
+        private VariantExecutionModelBase CreateTestExecutionModel(Uri taskCompleteRedirect, DomainModel.TestPoolEntry test, DomainModel.LabVariant variant, LabWork lab, Result result)
         {
             var model = new TestExecutionModel();
             model.Name = test.TestPool.Name;
@@ -169,13 +169,13 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return model;
         }
 
-        private bool IsTestPoolCompleted(LabVariant variant, int? testIndex)
+        private bool IsTestPoolCompleted(DomainModel.LabVariant variant, int? testIndex)
         {
             // TODO: Добавить организацию запрещения перехода к заданию, если TestPool - блокирующий (При добавлении подобного функционала в БД)
             return testIndex != null;
         }
 
-        private VariantExecutionModelBase CreateTaskExecutionModel(Uri taskCompleteRedirect, Task task, LabVariant variant, LabWork lab, Result result)
+        private VariantExecutionModelBase CreateTaskExecutionModel(Uri taskCompleteRedirect, Task task, DomainModel.LabVariant variant, LabWork lab, Result result)
         {
             var initParams = InitParams.ForDemoMode(
                 _authService.GetSessionInfo().SessionGuid,
@@ -323,7 +323,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             return searchResult;
         }
 
-        private DomainModel.TestPoolEntry TryGetTestPoolEntry(Result result, LabVariant lab, int? testIndex)
+        private DomainModel.TestPoolEntry TryGetTestPoolEntry(Result result, DomainModel.LabVariant lab, int? testIndex)
         {
             if (!testIndex.HasValue)
                 return null;

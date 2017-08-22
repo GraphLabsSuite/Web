@@ -15,7 +15,7 @@ namespace GraphLabs.Site.Models
 
         public bool IntroducingVariant { get; set; }
 
-        public JSONResultEditVariant(LabVariant variant)
+        public JSONResultEditVariant(DomainModel.LabVariant variant)
         {
             Name = variant.Number;
             Variant = MakeVariantFromTasksVariant(variant.TaskVariants);
