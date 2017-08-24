@@ -15,14 +15,14 @@ namespace GraphLabs.Site.Models
 
         public bool IntroducingVariant { get; set; }
 
-        public DomainModel.TestPool TestPool { get; set; }
+        public long TestPoolId { get; set; }
 
         public JSONResultEditVariant(DomainModel.LabVariant variant)
         {
             Name = variant.Number;
             Variant = MakeVariantFromTasksVariant(variant.TaskVariants);
             IntroducingVariant = variant.IntroducingVariant;
-            TestPool = variant.TestPool;
+            TestPoolId = (variant.TestPool != null) ? variant.TestPool.Id : -1;
         }
 
         private List<KeyValuePair<long, long>> MakeVariantFromTasksVariant(ICollection<TaskVariant> taskVariants)
