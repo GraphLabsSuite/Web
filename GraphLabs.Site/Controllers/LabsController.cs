@@ -24,17 +24,19 @@ namespace GraphLabs.Site.Controllers
         private readonly ILabWorksContext _labWorksContext;
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
+        private readonly ITestPoolRepository _testPoolRepository;
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelLoader<CreateLabModel, LabWork> _modelLoader;
         private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _testPoolModelLoader;
 
         #endregion
 
-        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, IListModelLoader listModelLoader, IEntityBasedModelLoader<CreateLabModel, LabWork> modelLoader)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, ITestPoolRepository testPoolRepository, IListModelLoader listModelLoader, IEntityBasedModelLoader<CreateLabModel, LabWork> modelLoader)
         {
             _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
+            _testPoolRepository = testPoolRepository;
             _listModelLoader = listModelLoader;
             _modelLoader = modelLoader;
         }
@@ -147,7 +149,7 @@ namespace GraphLabs.Site.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult EditVariant(string Number, string JsonArr, bool IntrVar, long variantId)
+		public JsonResult EditVariant(string Number, string JsonArr, bool IntrVar, long variantId, long testPoolId)
 		{
 			LabVariant labVar = _labRepository.GetLabVariantById(variantId);
 			long labId = labVar.LabWork.Id;
@@ -162,6 +164,7 @@ namespace GraphLabs.Site.Controllers
 			labVar.Version += 1;
 			labVar.TaskVariants.Clear();
 			labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
+		    labVar.TestPool = _testPoolRepository.GetTestPoolById(testPoolId);
 
 			try
 			{

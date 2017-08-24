@@ -46,14 +46,25 @@
 }
 </table>
 <br />
-<h3>Выбрать тестпул</h3>
-<select>
-    <option>Без тестов</option>
-    @foreach (var testPool in ViewBag.TestPoolListModel)
-    {
-        <option value="@testPool.Id">@testPool.Name </option>
-    }
-</select>
+<table>
+    <tr>
+        <th>Выбрать тестпул</th>
+        <td>
+            <select id="testpool">
+                <option>Без тестов</option>
+                @foreach (var testPool in ViewBag.TestPoolListModel)
+                {
+                    <option value="@testPool.Id">@testPool.Name </option>
+                }
+            </select>
+        </td>
+        <td>
+            <a id="create-testpool" target="_blank" href="../TestPool/Create">Создать новый тестпул</a>
+        </td>
+        <td><a id="preview-testpool" target="_blank" href="../TestPool">Просмореть тестпул</a></td>
+    </tr>
+</table>
+
 <br/>
 <input id="IntroducingVariant" type="checkbox"> Доступен в ознакомительной версии<br />
 <br />
@@ -98,6 +109,12 @@
                     return $("<td>").html(oldHTML);
                 });
             };
+            $("#testpool").children().each(function() {
+                if ($(this).val() == obj.TestPool.Id) {
+                    alert('sdf')
+                    $(this).attr("selected", "true");
+                }
+            });
             if ($("option[value='no']").size() == 0) {
                 $("#save").removeAttr("disabled");
             };
@@ -150,7 +167,7 @@
             {
                 @Html.Raw("result = \"Id=" + @ViewBag.LabVariantModel.id.ToString() + "&\";")
             }
-            result = result + "Number=" + document.getElementById("varNum").value + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
+            result = result + "Number=" + document.getElementById("varNum").value + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked") + "&testPoolId=" + $("#testpool").val();
             @if (ViewBag.LabVariantModel.varId > 0)
             {
                 @Html.Raw("result = result + \"&variantId=" + @ViewBag.LabVariantModel.varId.ToString() + "\";")
