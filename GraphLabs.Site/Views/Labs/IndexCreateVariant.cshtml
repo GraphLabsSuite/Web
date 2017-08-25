@@ -57,7 +57,7 @@
         <th>Выбрать тестпул</th>
         <td>
             <select id="testpool">
-                <option value="0">Без тестов</option>
+                <option value="-1">Без тестов</option>
                 @foreach (var testPool in ViewBag.TestPoolListModel)
                 {
                     <option value="@testPool.Id">@testPool.Name </option>
@@ -65,9 +65,11 @@
             </select>
         </td>
         <td>
+            <a id="preview-testpool" target="_blank" href="../TestPool">Предпросмотр тестпула</a>
+        </td>
+        <td>            
             <a id="create-testpool" target="_blank" href="../TestPool/Create">Создать новый тестпул</a>
         </td>
-        <td><a id="preview-testpool" target="_blank" href="../TestPool">Просмореть тестпул</a></td>
     </tr>
 </table>
 
@@ -189,7 +191,7 @@
             };
             $("#error").html("Отправка данных на сервер...");
             var list = new Array();
-            $("select").each(function() {
+            $(".select-task-variant").each(function() {
                 list.push($(this).val());
             });
             var result = "";

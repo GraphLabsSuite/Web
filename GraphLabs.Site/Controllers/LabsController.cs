@@ -158,17 +158,18 @@ namespace GraphLabs.Site.Controllers
 			{
 				return Json(ResponseConstants.LabVariantNameCollisionSystemName);
 			}
-
-			labVar.Number = Number;
+            
+            labVar.Number = Number;
 			labVar.IntroducingVariant = IntrVar;
 			labVar.Version += 1;
-			labVar.TaskVariants.Clear();
-			labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
-		    labVar.TestPool = _testPoolRepository.GetTestPoolById(testPoolId);
+		    labVar.TaskVariants.Clear();
+            labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
+            // TODO: не обновляет на null. Однако, если поставить точку остановки после получения labVar - null ставится
+            labVar.TestPool = (testPoolId > 0) ? _testPoolRepository.GetTestPoolById(testPoolId) : null;
 
-			try
+            try
 			{
-				_labRepository.ModifyLabVariant(labVar);
+                _labRepository.ModifyLabVariant(labVar);
 			}
 			catch (Exception)
 			{
