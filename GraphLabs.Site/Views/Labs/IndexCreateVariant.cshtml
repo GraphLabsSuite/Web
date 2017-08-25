@@ -65,7 +65,8 @@
             </select>
         </td>
         <td>
-            <a id="preview-testpool" target="_blank" href="../TestPool">Предпросмотр тестпула</a>
+            <input type="hidden" id="template-link-for-preview-testpool" value="../TestPool?testPoolId=" />
+            <a id="preview-testpool" target="_blank" href="">Предпросмотр тестпула</a>
         </td>
         <td>            
             <a id="create-testpool" target="_blank" href="../TestPool/Create">Создать новый тестпул</a>
@@ -101,6 +102,7 @@
                         SucEditLoad(data);
                         $(".preview-task-variant").each(function() {
                             previewTaskVariantLink($(this));
+                            previewTestPoolLink();
                         });
                     }
                 });
@@ -109,6 +111,7 @@
                 $(".preview-task-variant").each(function() {
                     previewTaskVariantLink($(this));
                 });
+                previewTestPoolLink();
             }
         });
 
@@ -145,6 +148,20 @@
             previewTaskVariantLink($(this));
         });
 
+        function previewTaskVariantLink(obj) {
+            var parentRow = $(obj).parents("tr");
+            var href = parentRow.find(".template-link-for-preview-task-variant").val();
+            var taskVariantId = parentRow.find(".select-task-variant").val();
+            var previewLink = parentRow.find(".preview-task-variant");
+            if (taskVariantId != "no") {
+                previewLink.show();
+                previewLink.attr("href", href + taskVariantId);
+            } else {
+                previewLink.hide();
+            }
+            return;
+        }
+
 
         $("#random").click(function() {
             $("select").each(function() {
@@ -169,18 +186,20 @@
             };
         };
 
-        function previewTaskVariantLink(obj) {
-            var parentRow = $(obj).parents("tr");
-            var href = parentRow.find(".template-link-for-preview-task-variant").val();
-            var taskVariantId = parentRow.find(".select-task-variant").val();
-            var previewLink = parentRow.find(".preview-task-variant");
-            if (taskVariantId != "no") {
+        $("#testpool").change(function() {
+            previewTestPoolLink();
+        });
+
+        function previewTestPoolLink() {
+            var href = $("#template-link-for-preview-testpool").val();
+            var testPoolId = $("#testpool").val();
+            var previewLink = $("#preview-testpool");
+            if (testPoolId > 0) {
                 previewLink.show();
-                previewLink.attr("href", href + taskVariantId);
+                previewLink.attr("href", href + testPoolId);
             } else {
                 previewLink.hide();
             }
-            return;
         }
 
         $("#save").click(function() {

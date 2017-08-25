@@ -47,6 +47,7 @@
 }
 
 <div id="testpool-previews">
+    <input type="hidden" id="base-testpool" value="@ViewBag.PreviewTestPoolId"/>
     @foreach (var test in Model.Items)
     {
         var questionCounter = 0;
@@ -56,7 +57,8 @@
             @foreach (var entry in test.TestPoolEntries)
             {
                 questionCounter++;
-                <h6>Вопрос @questionCounter: @entry.TestQuestion.Question</h6>
+                <p><b>Вопрос @questionCounter: @entry.TestQuestion.Question</b>
+                </p>
                 foreach (var variant in entry.TestQuestion.AnswerVariants)
                 {
                     if (variant.IsCorrect)
@@ -77,15 +79,23 @@
 
 @section scripts{
     <script type="text/javascript">
-        $('tbody tr').click(function () {
+        $(document).ready(function () {
+            showTestPoolPreview($("#base-testpool").val());
+        });
+
+        $('tbody tr').click(function() {
             var testpoolId = $(this).find('td:first').text();
-            $("#testpool-previews").find(".testpool-preview-id").each(function() {
-                if ($(this).val() == testpoolId) {
+            showTestPoolPreview(testpoolId);
+        });
+
+        function showTestPoolPreview(id) {
+            $("#testpool-previews").find(".testpool-preview-id").each(function () {
+                if ($(this).val() == id) {
                     $(this).parent().show();
                 } else {
                     $(this).parent().hide();
                 }
             });
-        });
+        }
     </script>
 }
