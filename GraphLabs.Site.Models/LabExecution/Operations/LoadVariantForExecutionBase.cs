@@ -77,19 +77,23 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
                     result.AbstractResultEntries.Add(taskResult);
                 }
-                var randomArray = new Randomizer[variant.TestPool.TestPoolEntries.Count];
-                randomArray = Randomizer.InitializeArray(randomArray);
-                var randomer = new Random(variant.TestPool.TestPoolEntries.Count);
-                foreach (var testQuestion in variant.TestPool.TestPoolEntries)
+
+                if (variant.TestPool != null)
                 {
-                    var testResult = Factory.Create<TestResult>();
-                    testResult.TestPoolEntry = testQuestion;
-                    var number = Randomizer.GetNewValue(randomArray, randomer);
-                    testResult.Index = number.ToString();
-                    testResult.Result = result;
-                    randomArray = Randomizer.ChoseNumber(randomArray, number);
-                    testResult.StudentAnswers = new List<DomainModel.StudentAnswer>();
-                    result.AbstractResultEntries.Add(testResult);
+                    var randomArray = new Randomizer[variant.TestPool.TestPoolEntries.Count];
+                    randomArray = Randomizer.InitializeArray(randomArray);
+                    var randomer = new Random(variant.TestPool.TestPoolEntries.Count);
+                    foreach (var testQuestion in variant.TestPool.TestPoolEntries)
+                    {
+                        var testResult = Factory.Create<TestResult>();
+                        testResult.TestPoolEntry = testQuestion;
+                        var number = Randomizer.GetNewValue(randomArray, randomer);
+                        testResult.Index = number.ToString();
+                        testResult.Result = result;
+                        randomArray = Randomizer.ChoseNumber(randomArray, number);
+                        testResult.StudentAnswers = new List<DomainModel.StudentAnswer>();
+                        result.AbstractResultEntries.Add(testResult);
+                    }
                 }
             }
             else
