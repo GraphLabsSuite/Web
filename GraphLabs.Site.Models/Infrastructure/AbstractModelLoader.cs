@@ -1,4 +1,5 @@
 ﻿using GraphLabs.DomainModel;
+using System.Linq;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.DomainModel.Infrastructure;
@@ -22,7 +23,7 @@ namespace GraphLabs.Site.Models.Infrastructure
 
         public TModel Load(object key)
         {
-            var entity = _query.Get<TEntity>(key);
+            var entity = _query.OfEntities<TEntity>().OfType<Group>().Where(g => g.FirstYear == 2011).ToArray();
             return Load(entity);
         }
 

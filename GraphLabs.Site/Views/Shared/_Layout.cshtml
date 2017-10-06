@@ -51,28 +51,36 @@
             @if (MenuIsVisible())
             {
                 <nav id="menu">
-                    <ul>
+                    <ul class="mainmenu">
                         @if (User.IsInAnyRole(UserRole.Teacher))
                         {
-                            <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Группы", "Index", "Group")</li>
-                            <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
-                            <li>@Html.ActionLink("Категории", "Index", "Category")</li>
-                            <li>@Html.ActionLink("Задания", "Index", "Task")</li>
+                            <li>@Html.ActionLink("Личный кабинет", "Index", "Home")</li>  //пока будет вести на главную
+                            <li class="with">@Html.ActionLink("Новости", "Index", "Home")</li>
+                            <li class="with">@Html.ActionLink("Группы", "Index", "Group")</li>
+                            <li class="with">@Html.ActionLink("Студенты", "Index", "User")</li>
+                            /*<li>@Html.ActionLink("Задания", "Index", "Task")</li>
                             <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
                             <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
                             <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
                             <li>@Html.ActionLink("Тестпулы", "Index", "TestPool")</li>
-                            <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
-                            <li>@Html.ActionLink("Система", "Index", "Settings")</li>
+                            <li>@Html.ActionLink("Результаты", "Index", "Result")</li>*/
+                            <li class="with" id="some">
+                                <a>Базы &gt;<i class="icon-twitter icon-large"></i></a>
+                                <ul class="submenu">
+                                    <li style="white-space: nowrap">@Html.ActionLink("База вариантов заданий", "Index", "Task")</li>
+                                    <li style="white-space: nowrap">@Html.ActionLink("База лабораторных работ", "Index", "Labs")</li>
+                                    <li style="white-space: nowrap">@Html.ActionLink("База вопросов", "Index", "Survey")</li>
+                                    <li style="white-space: nowrap">@Html.ActionLink("База тестов", "Index", "TestPool")</li>
+                                </ul>
+                            </li>
                         }
                         <!-- Админу кнопки студента не показываем -->
                         @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
                         {
                             <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Подготовка", "Index", "DemoLab")</li>
-                            <li>@Html.ActionLink("Контрольные", "Index", "TestingLab")</li>
-                            <li>@Html.ActionLink("Результаты", "Index", "StudentsResult")</li>
+                            <li class="with">@Html.ActionLink("Подготовка", "Index", "DemoLab")</li>
+                            <li class="with">@Html.ActionLink("Контрольные", "Index", "TestingLab")</li>
+                            <li class="with">@Html.ActionLink("Результаты", "Index", "StudentsResult")</li>
                         }
                     </ul>
                 </nav>
