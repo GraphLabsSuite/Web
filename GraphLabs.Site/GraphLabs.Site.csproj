@@ -246,6 +246,7 @@
     <Content Include="Content\css\OrderedList.css" />
     <Content Include="Content\css\PopUp.css" />
     <Content Include="Content\css\ResultBoardTable.css" />
+    <Content Include="Content\css\Search.css" />
     <Content Include="Content\css\Table.css" />
     <Content Include="Content\css\TestPool.css" />
     <Content Include="Content\css\ValidationHelpers.css" />

@@ -15,6 +15,7 @@
     <meta charset="utf-8"/>
     <title>@ViewBag.Title - GraphLabs</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width"/>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
@@ -29,9 +30,25 @@
         <span id="logo">
             <a href="~/"><img alt="GL" src="~/Images/graphlabs_logo.png" height="40" /></a>
         </span>
+        @if (!User.Identity.IsAuthenticated)
+        {
+        <section id="notauth">
+            @Html.Partial("_LoginPartial")
+        </section>
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
         <section id="login">
             @Html.Partial("_LoginPartial")
         </section>
+        <br>
+        <section id="search">
+            <div class="forinput">
+                <span class="icon"><i class="fa fa-search"></i></span>
+                <input type="search" placeholder="поиск..." />
+            </div>
+        </section>
+        }
     </div>
 </div>
 
