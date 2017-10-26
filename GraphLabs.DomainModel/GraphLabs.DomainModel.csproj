@@ -257,6 +257,7 @@
     </Compile>
     <Compile Include="Triggers\AbstractLabSchedule.cs" />
     <Compile Include="Triggers\Action.cs" />
+    <Compile Include="Triggers\AbstractLabStartpage.cs" />
     <Compile Include="Triggers\Group.cs" />
     <Compile Include="Infrastructure\ITrackableEntity.cs" />
     <Compile Include="Triggers\LabEntry.cs" />
@@ -281,6 +282,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="GraphLabsDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GraphLabsDataModel.cs</LastGenOutput>

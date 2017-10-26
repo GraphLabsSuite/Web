@@ -7,7 +7,7 @@ using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Models.Infrastructure;
 using JetBrains.Annotations;
 
-namespace GraphLabs.Site.Models.Schedule.Edit
+namespace GraphLabs.Site.Models.Startpage.Edit
 {
     /// <summary> Загрузчик модели <see cref="EditLabScheduleModelBase"/> </summary>
     [UsedImplicitly]

@@ -71,14 +71,14 @@
                     <ul class="mainmenu">
                         @if (User.IsInAnyRole(UserRole.Teacher))
                         {
-                            <li>@Html.ActionLink("Личный кабинет", "Index", "Home")</li>  //пока будет вести на главную
+                            <li>@Html.ActionLink("Личный кабинет", "Index", "StartPage")</li>
                             <li class="with">@Html.ActionLink("Новости", "Index", "Home")</li>
                             <li class="with">@Html.ActionLink("Группы", "Index", "Group")</li>
                             <li class="with">@Html.ActionLink("Студенты", "Index", "User")</li>
                             /*<li>@Html.ActionLink("Задания", "Index", "Task")</li>
-                            <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
-                            <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
-                            <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
+                            <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>*/
+                            <li class="with">@Html.ActionLink("Расписание", "Index", "Schedule")</li>
+                            /*<li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
                             <li>@Html.ActionLink("Тестпулы", "Index", "TestPool")</li>
                             <li>@Html.ActionLink("Результаты", "Index", "Result")</li>*/
                             <li class="with" id="some">

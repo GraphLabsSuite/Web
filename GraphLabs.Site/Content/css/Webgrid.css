@@ -1,5 +1,6 @@
 ﻿.webgrid {
     border: 1px solid #e2e2e2;
+    width: inherit;
 }
 
 .webgrid-header {

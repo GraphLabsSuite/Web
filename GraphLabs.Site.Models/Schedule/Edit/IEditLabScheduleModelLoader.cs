@@ -1,7 +1,7 @@
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.Schedule.Edit
+namespace GraphLabs.Site.Models.Startpage.Edit
 {
     public interface IEditLabScheduleModelLoader : IEntityBasedModelLoader<EditLabScheduleModelBase, AbstractLabSchedule>
     {

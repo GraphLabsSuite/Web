@@ -1,0 +1,45 @@
+.grid {
+}
+
+.grid-header {
+    border-bottom: 1.2px solid #000000;
+    font-size: 0.75em;
+}
+
+.grid-footer {
+    text-align: end;
+    font-size: 0.85em;
+}
+
+.grid-header td {
+    font-size: 0.9em;
+    border-spacing: 15px;
+} 
+
+.grid-header th {
+    text-align: center;
+} 
+
+.grid-row {
+    font-size: 0.85em;    
+}
+
+.grid-row td, .grid-altrow td, .grid th {
+    border: none;
+    text-align: center;
+}
+
+.grid-row td:first-child {
+    text-align: justify;
+}
+
+/*Для стартовой страницы*/
+
+.rline {
+    text-indent: 5%;
+    font-size: 0.9em;
+}
+
+.week {
+    font-size: 0.9em;
+}

@@ -1,0 +1,53 @@
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Models
+@using GraphLabs.Site.Models.Startpage
+@model LabStartpageListModel
+
+@{
+    ViewBag.Title = "Личный кабинет";
+}
+
+<table>
+    <tr>
+        <td></td>
+        <td class="rline">@Html.ActionLink("+ Добавить работу в расписание", "Index", "Schedule")</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td align="right", width="13.5%">
+            <button class="left-button"></button>
+        </td>
+        <td align="center", width="73%">
+        @{
+            var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, defaultSort: "Дата открытия");
+                    @grid.GetHtml(
+             tableStyle: "Grids",
+             headerStyle: "grid-header",
+             footerStyle: "grid-footer",
+             rowStyle: "grid-row",
+             alternatingRowStyle: "grid-row",
+             selectedRowStyle: "grid-row",
+             displayHeader: true,
+             htmlAttributes: new { width = "85%" },
+             columns: grid.Columns(
+             grid.Column(header: "Лабораторная работа", format: item => item.LabName, columnName: "LabName"),
+             grid.Column(header: "Выполняет", format: item => item.Doer, columnName: "Doer"),
+             grid.Column(header: "Дата открытия", format: item => item.DateFrom, columnName: "DateFrom"),
+             grid.Column(header: "Дата закрытия", format: item => item.DateTill, columnName: "DateTill"),
+             grid.Column(header: "", format: item => Html.ActionLink("\u270E", "EditSchedule", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" })),
+             grid.Column(header: "", format: item => Html.ActionLink("\u2630", "EditSchedule", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" })),
+             grid.Column(header: "", format: item => Html.ActionLink("\u2716", "EditSchedule", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" }))
+
+            ));
+        }
+        </td>
+        <td align="left", width="13.5%">
+            <button class="right-button"></button>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td align="center", class="week">8 неделя, 10.04.17 - 17.04.17</td>
+        <td></td>
+    </tr>
+</table>

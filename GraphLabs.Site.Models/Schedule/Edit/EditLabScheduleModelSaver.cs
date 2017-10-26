@@ -7,7 +7,7 @@ using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.Infrastructure;
 using JetBrains.Annotations;
 
-namespace GraphLabs.Site.Models.Schedule.Edit
+namespace GraphLabs.Site.Models.Startpage.Edit
 {
     /// <summary> Сохранятор моделей <see cref="AbstractLabSchedule"/> </summary>
     [UsedImplicitly]
