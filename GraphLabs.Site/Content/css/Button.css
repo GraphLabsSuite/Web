@@ -84,5 +84,5 @@ submit:active:disabled {
 
 .right-button:hover {
    background-color:white;
-   border-left: 30px solid red;
+   border-left: 30px solid #8aa5b7;
 }

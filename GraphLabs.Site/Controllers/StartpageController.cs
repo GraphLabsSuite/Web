@@ -5,6 +5,8 @@ using GraphLabs.Site.Utils;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Startpage;
 using GraphLabs.Site.Models.Startpage.Edit;
+using System;
+using System.Globalization;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -31,7 +33,10 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Index(string message)
         {
             ViewBag.Message = message;
-            var model = _listModelLoader.LoadListModel<LabStartpageListModel, LabStartpageModel>();
+            var model = _listModelLoader
+                .LoadListModel<LabStartpageListModel, LabStartpageModel>()
+                .FilterByDate(DateTime.Today.AddDays((DayOfWeek.Monday - DateTime.Today.DayOfWeek) * (DateTime.Today.DayOfWeek - DateTime.Today.AddDays(-1).DayOfWeek)),
+                DateTime.Today.AddDays(7 + (DayOfWeek.Monday - DateTime.Today.DayOfWeek) * (DateTime.Today.DayOfWeek - DateTime.Today.AddDays(-1).DayOfWeek)));
             return View(model);
         }
     }

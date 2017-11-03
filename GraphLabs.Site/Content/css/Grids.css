@@ -4,6 +4,7 @@
 .grid-header {
     border-bottom: 1.2px solid #000000;
     font-size: 0.75em;
+    white-space: nowrap;
 }
 
 .grid-footer {
