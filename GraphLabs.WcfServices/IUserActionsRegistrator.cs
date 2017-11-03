@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using GraphLabs.WcfServices.Data;
+using System.ServiceModel.Web;
 
 namespace GraphLabs.WcfServices
 {
@@ -16,6 +17,9 @@ namespace GraphLabs.WcfServices
         /// <returns> Количество баллов студента </returns>
         /// <remarks> От этой штуки зависит GraphLabs.Components </remarks>
         [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "action?id={taskId}&sid={sessionGuid}&finished={isTaskFinished}"
+            )]
         int? RegisterUserActions(long taskId, Guid sessionGuid, ActionDescription[] actions, bool isTaskFinished = false);
     }
 }
