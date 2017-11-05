@@ -146,9 +146,28 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GraphLabs.Common">
+      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Common.dll</HintPath>
+    </Reference>
     <Reference Include="GraphLabs.Common.Utils, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GraphLabs.Common.Utils.1.1.1\lib\portable-net45+sl50+win+wpa81+wp80\GraphLabs.Common.Utils.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="GraphLabs.CommonUI">
+      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.CommonUI.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphLabs.Graphs">
+      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphLabs.Graphs.UIComponents">
+      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Graphs.UIComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphLabs.Tasks.Contract, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Tasks.Contract.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphLabs.Utils">
+      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Utils.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -237,6 +256,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\Button.css" />
+    <Content Include="Content\css\Container.css" />
+    <Content Include="Content\css\Grids.css" />
     <Content Include="Content\css\LabWorkCreate.css" />
     <Content Include="Content\css\LabWorkExecution.css" />
     <Content Include="Content\css\LabWorkIndex.css" />
@@ -246,6 +267,7 @@
     <Content Include="Content\css\OrderedList.css" />
     <Content Include="Content\css\PopUp.css" />
     <Content Include="Content\css\ResultBoardTable.css" />
+    <Content Include="Content\css\Search.css" />
     <Content Include="Content\css\Table.css" />
     <Content Include="Content\css\TestPool.css" />
     <Content Include="Content\css\ValidationHelpers.css" />
@@ -351,6 +373,7 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
+    <Compile Include="Controllers\StartpageController.cs" />
     <Compile Include="Controllers\TestingLabController.cs" />
     <Compile Include="Controllers\TestPoolController.cs" />
     <Compile Include="Controllers\TestPoolEntryController.cs" />
@@ -442,6 +465,8 @@
     <Content Include="Views\TestPool\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Result\TestResult.cshtml" />
+    <Content Include="Views\StartPage\Index.cshtml" />
+    <Content Include="Views\StartPage\StartPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -563,10 +588,37 @@
       <Project>{406b1579-80a6-4c94-ac1d-3dad87a12404}</Project>
       <Name>GraphLabs.Site.ServicesConfig</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.DomainModel\GraphLabs.Tests.DomainModel.csproj">
+      <Project>{ee5bf057-1db5-44fc-aa1c-967da88ec2b2}</Project>
+      <Name>GraphLabs.Tests.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Site.Logic\GraphLabs.Tests.Site.Logic.csproj">
+      <Project>{be55a060-0224-4f6a-b05f-b06bec346ca9}</Project>
+      <Name>GraphLabs.Tests.Site.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Site.Models\GraphLabs.Tests.Site.Models.csproj">
+      <Project>{47fc998c-4129-4d8b-a5dc-12d1288c788c}</Project>
+      <Name>GraphLabs.Tests.Site.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Site\GraphLabs.Tests.Site.csproj">
+      <Project>{7b12eb52-6778-405c-a644-48acdc750296}</Project>
+      <Name>GraphLabs.Tests.Site</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Utils\GraphLabs.Tests.Utils.csproj">
+      <Project>{b16b7d30-a083-404c-8298-1c3bbf586d02}</Project>
+      <Name>GraphLabs.Tests.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>
       <Name>GraphLabs.Site.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.WcfServices\GraphLabs.WcfServices.csproj">
+      <Project>{2b682ab7-8258-490e-9361-224c12ad1212}</Project>
+      <Name>GraphLabs.WcfServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

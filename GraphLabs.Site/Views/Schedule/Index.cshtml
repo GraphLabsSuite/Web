@@ -1,4 +1,5 @@
 ﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Models
 @using GraphLabs.Site.Models.Schedule
 @using GraphLabs.Site.Models.Schedule.Edit
 @model LabScheduleListModel
@@ -15,14 +16,14 @@
 </p>
 
 @{
-    var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage:10);
+    var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10);
     @grid.Pager(WebGridPagerModes.All);
-        @grid.GetHtml(tableStyle: "webGrid",
+    @grid.GetHtml(tableStyle: "webGrid",
             headerStyle: "webgrid-header",
-            footerStyle : "webgrid-footer",
+            footerStyle: "webgrid-footer",
             rowStyle: "webgrid-row",
             alternatingRowStyle: "webgrid-altrow",
-            selectedRowStyle : "webgrid-selected-row",
+            selectedRowStyle: "webgrid-selected-row",
             caption: null,
             displayHeader: true,
             htmlAttributes: new { id = "datatable", width = "100%" },

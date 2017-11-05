@@ -2,23 +2,23 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.Schedule
+namespace GraphLabs.Site.Models.Startpage
 {
     /// <summary> Модель расписания (списка) </summary>
-    public class LabScheduleListModel : ListModelBase<LabScheduleModel>
+    public class LabScheduleListModel : ListModelBase<LabStartpageModel>
     {
         private readonly IEntityQuery _query;
-        private readonly IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> _modelLoader;
+        private readonly IEntityBasedModelLoader<LabStartpageModel, AbstractLabSchedule> _modelLoader;
 
         public LabScheduleListModel(
             IEntityQuery query,
-            IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> modelLoader)
+            IEntityBasedModelLoader<LabStartpageModel, AbstractLabSchedule> modelLoader)
         {
             _query = query;
             _modelLoader = modelLoader;
         }
 
-        protected override LabScheduleModel[] LoadItems()
+        protected override LabStartpageModel[] LoadItems()
         {
             return _query
                 .OfEntities<AbstractLabSchedule>()

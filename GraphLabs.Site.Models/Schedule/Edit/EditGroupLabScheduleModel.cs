@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GraphLabs.Site.Models.Schedule.Edit
+namespace GraphLabs.Site.Models.Startpage.Edit
 {
     /// <summary> Модель редактирования строки расписания </summary>
     public class EditGroupLabScheduleModel : EditLabScheduleModelBase

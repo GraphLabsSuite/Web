@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.Schedule.Edit
+namespace GraphLabs.Site.Models.Startpage.Edit
 {
     /// <summary> Модель редактирования строки расписания </summary>
     public abstract class EditLabScheduleModelBase : IEntityBasedModel<AbstractLabSchedule>

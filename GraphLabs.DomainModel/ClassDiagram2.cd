@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GraphLabs.DomainModel.AbstractLabStartpage">
+    <Position X="0.75" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAIAAAAAAABAAAAAQIAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Triggers\AbstractLabStartpage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphLabs.DomainModel.AbstractLabSchedule">
+    <Position X="4.25" Y="1.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAIAAAAAAABAAAAAQIAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>AbstractLabSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphLabs.DomainModel.Infrastructure.AbstractEntity" Collapsed="true">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAABQAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\AbstractEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

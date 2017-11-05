@@ -4,18 +4,18 @@ using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Models.Infrastructure;
 
-namespace GraphLabs.Site.Models.Schedule
+namespace GraphLabs.Site.Models.Startpage
 {
-    /// <summary> Загрузчик модели <see cref="LabScheduleModel"/> </summary>
-    class LabScheduleModelLoader : AbstractModelLoader<LabScheduleModel, AbstractLabSchedule>
+    /// <summary> Загрузчик модели <see cref="LabStartpageModel"/> </summary>
+    class LabScheduleModelLoader : AbstractModelLoader<LabStartpageModel, AbstractLabSchedule>
     {
         public LabScheduleModelLoader(IEntityQuery query) : base(query)
         {
         }
 
-        public override LabScheduleModel Load(AbstractLabSchedule entity)
+        public override LabStartpageModel Load(AbstractLabSchedule entity)
         {
-            var model = new LabScheduleModel
+            var model = new LabStartpageModel
             {
                 Id = entity.Id,
                 DateFrom = entity.DateFrom,

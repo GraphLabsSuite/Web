@@ -211,6 +211,8 @@
     <Compile Include="ResultsWithTaskInfo\ResultWithTaskInfoModel.cs" />
     <Compile Include="Results\ResultModel.cs" />
     <Compile Include="Results\ResultModelLoader.cs" />
+    <Compile Include="Startpage\LabStartpageModel.cs" />
+    <Compile Include="Startpage\LabStartpageListModel.cs" />
     <Compile Include="StudentActions\StudentActionModel.cs" />
     <Compile Include="StudentActions\StudentActionModelLoader.cs" />
     <Compile Include="LabExecution\TaskListEntryModel.cs" />
@@ -249,6 +251,26 @@
     <ProjectReference Include="..\GraphLabs.Site.Logic\GraphLabs.Site.Logic.csproj">
       <Project>{10122BC1-5AAD-4278-8803-B4B8D1449410}</Project>
       <Name>GraphLabs.Site.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.DomainModel\GraphLabs.Tests.DomainModel.csproj">
+      <Project>{ee5bf057-1db5-44fc-aa1c-967da88ec2b2}</Project>
+      <Name>GraphLabs.Tests.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Site.Logic\GraphLabs.Tests.Site.Logic.csproj">
+      <Project>{be55a060-0224-4f6a-b05f-b06bec346ca9}</Project>
+      <Name>GraphLabs.Tests.Site.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Site.Models\GraphLabs.Tests.Site.Models.csproj">
+      <Project>{47fc998c-4129-4d8b-a5dc-12d1288c788c}</Project>
+      <Name>GraphLabs.Tests.Site.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Site\GraphLabs.Tests.Site.csproj">
+      <Project>{7b12eb52-6778-405c-a644-48acdc750296}</Project>
+      <Name>GraphLabs.Tests.Site</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Tests.Utils\GraphLabs.Tests.Utils.csproj">
+      <Project>{b16b7d30-a083-404c-8298-1c3bbf586d02}</Project>
+      <Name>GraphLabs.Tests.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>

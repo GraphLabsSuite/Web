@@ -38,7 +38,7 @@ hgroup, section {
 #header {
     clear: both;
     background-color: #e8edef;
-    height: auto;
+    height: 70px;
     top: 0;
     left:0;
     width: 100%;
@@ -47,6 +47,7 @@ hgroup, section {
 
 #logo {
     font-weight: 500;
+    
 }
 
 #logo a{
@@ -58,7 +59,7 @@ hgroup, section {
     clear: both;
     left:0;
     width: 100%;
-    top: 48px;
+    top: 70px;
     bottom: 40px;
     position: absolute;
 }
@@ -87,7 +88,7 @@ hgroup, section {
     }
 
 #header .content-wrapper {
-    padding-top: 5px;
+    padding-top: 14px;
 }
 
 #footer {
