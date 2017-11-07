@@ -6,7 +6,7 @@
     margin-left: 0; 
     display: table;
     color: #ff0000;
-    margin-bottom: 1%;
+    margin-bottom: 4.55%;
 }
 
 .mainmenu li {
@@ -55,4 +55,3 @@
 #some:hover .submenu{
     display: block;
 }
-
