@@ -9,14 +9,14 @@ using GraphLabs.Site.Utils;
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
-    public class ScheduleController : GraphLabsController
+    public class StartpageController : GraphLabsController
     {
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> _modelSaver;
         private readonly IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> _modelLoader;
         private readonly IEditLabScheduleModelLoader _editModelLoader;
 
-        public ScheduleController(
+        public StartpageController(
             IListModelLoader listModelLoader,
             IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> modelSaver,
             IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> modelLoader,

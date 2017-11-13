@@ -54,3 +54,35 @@ submit:active:disabled {
 	position:relative;
 	top:0px;
 }
+
+.left-button {
+    all: initial;
+	width: 0;
+	height: 0;
+    border-left:none;
+	border-top: 40px solid transparent;
+	border-right: 30px solid #5c7e94;
+	border-bottom: 40px solid transparent;
+
+}
+
+.left-button:hover {
+   background-color:white;
+   border-right: 30px solid #8aa5b7;
+}
+
+.right-button {
+    all: initial;
+	width: 0;
+	height: 0;
+    border-right:none;
+	border-top: 40px solid transparent;
+	border-left: 30px solid #5c7e94;
+	border-bottom: 40px solid transparent;
+
+}
+
+.right-button:hover {
+   background-color:white;
+   border-left: 30px solid #8aa5b7;
+}
