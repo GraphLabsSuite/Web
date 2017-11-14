@@ -5,18 +5,19 @@ using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Schedule;
 using GraphLabs.Site.Models.Schedule.Edit;
 using GraphLabs.Site.Utils;
+using System;
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
-    public class ScheduleController : GraphLabsController
+    public class StartpageController : GraphLabsController
     {
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> _modelSaver;
         private readonly IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> _modelLoader;
         private readonly IEditLabScheduleModelLoader _editModelLoader;
 
-        public ScheduleController(
+        public StartpageController(
             IListModelLoader listModelLoader,
             IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> modelSaver,
             IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> modelLoader,
@@ -31,8 +32,10 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Index(string message)
         {
             ViewBag.Message = message;
-
-            var model = _listModelLoader.LoadListModel<LabScheduleListModel, LabScheduleModel>();
+            var model = _listModelLoader
+                 .LoadListModel<LabScheduleListModel, LabScheduleModel>()
+                 .FilterByDate(DateTime.Today.AddDays((DayOfWeek.Monday - DateTime.Today.DayOfWeek) * (DateTime.Today.DayOfWeek - DateTime.Today.AddDays(-1).DayOfWeek)),
+                    DateTime.Today.AddDays(7 + (DayOfWeek.Monday - DateTime.Today.DayOfWeek) * (DateTime.Today.DayOfWeek - DateTime.Today.AddDays(-1).DayOfWeek)));
             return View(model);
         }
 
