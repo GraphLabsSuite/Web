@@ -28,14 +28,16 @@ namespace GraphLabs.Site.Controllers
             _modelLoader = modelLoader;
             _editModelLoader = editModelLoader;
         }
-
-        public ActionResult Index(string message)
+        
+        public ActionResult Index(string message, string ourdatestring = "today")
         {
+            var ourdate = DateTime.Today;
+            if (!ourdatestring.Equals("today")) ourdate = DateTime.Parse(ourdatestring);
             ViewBag.Message = message;
             var model = _listModelLoader
                  .LoadListModel<LabScheduleListModel, LabScheduleModel>()
-                 .FilterByDate(DateTime.Today.AddDays((DayOfWeek.Monday - DateTime.Today.DayOfWeek) * (DateTime.Today.DayOfWeek - DateTime.Today.AddDays(-1).DayOfWeek)),
-                    DateTime.Today.AddDays(7 + (DayOfWeek.Monday - DateTime.Today.DayOfWeek) * (DateTime.Today.DayOfWeek - DateTime.Today.AddDays(-1).DayOfWeek)));
+                 .FilterByDate(ourdate.AddDays((DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)),
+                    ourdate.AddDays(7 + (DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)));
             return View(model);
         }
 
@@ -53,7 +55,6 @@ namespace GraphLabs.Site.Controllers
                 ViewBag.Message = "Расписание создано";
                 return RedirectToAction("Index");
             }
-
             ViewBag.Message = "Невозможно сохранить строку расписания";
             return View(schedule);
         }

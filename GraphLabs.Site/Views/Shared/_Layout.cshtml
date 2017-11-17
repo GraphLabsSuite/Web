@@ -21,8 +21,6 @@
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
 
-
-
 </head>
 <body>
     <div id="header">
@@ -71,7 +69,7 @@
                         <ul class="mainmenu">
                             @if (User.IsInAnyRole(UserRole.Teacher))
                             {
-                                <li>@Html.ActionLink("Личный кабинет", "Index", "Startpage")</li>  //пока будет вести на главную
+                                <li>@Html.ActionLink("Личный кабинет", "Index", "Startpage" )</li>  //пока будет вести на главную
                                 <li class="with">@Html.ActionLink("Новости", "Index", "Home")</li>
                                 <li class="with">@Html.ActionLink("Расписание", "Index", "Schedule")</li>
                                 <li class="with">@Html.ActionLink("Группы", "Index", "Group")</li>
