@@ -63,7 +63,7 @@ submit:active:disabled {
 	border-top: 40px solid transparent;
 	border-right: 30px solid #5c7e94;
 	border-bottom: 40px solid transparent;
-
+    margin-top: 25%;
 }
 
 .left-button:hover {
@@ -79,6 +79,7 @@ submit:active:disabled {
 	border-top: 40px solid transparent;
 	border-left: 30px solid #5c7e94;
 	border-bottom: 40px solid transparent;
+    margin-top: 25%;
 
 }
 

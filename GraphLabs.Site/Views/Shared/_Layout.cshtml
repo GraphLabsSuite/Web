@@ -51,7 +51,7 @@
     </div>
 
     @functions
-{
+    {
         // говорят так нехорошо но пока оставлю это здесь
         private bool MenuIsVisible()
         {
@@ -64,7 +64,7 @@
         <div id="main">
             <div class="content-wrapper">
                 @if (MenuIsVisible())
-            {
+                {
                     <nav id="menu">
                         <ul class="mainmenu">
                             @if (User.IsInAnyRole(UserRole.Teacher))
@@ -95,7 +95,7 @@
                         </ul>
                     </nav>
                 }
-                <section class="@(MenuIsVisible() ? "main-content-with-menu" : "main-content-without-menu")">
+                <!--<section class="@(MenuIsVisible() ? "main-content-with-menu" : "main-content-without-menu")">-->
                     @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
                     {
                         <div class="error">
@@ -103,7 +103,7 @@
                         </div>
                     }
                     @RenderBody()
-                </section>
+               <!--</section>--> 
             </div>
         </div>
     </div>

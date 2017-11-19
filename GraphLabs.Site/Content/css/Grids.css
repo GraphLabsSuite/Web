@@ -3,17 +3,15 @@
 
 .grid-header {
     border-bottom: 1.2px solid #000000;
-    font-size: 0.75em;
     white-space: nowrap;
+    font-size: 0.8em;
 }
 
 .grid-footer {
     text-align: end;
-    font-size: 0.85em;
 }
 
 .grid-header td {
-    font-size: 0.9em;
     border-spacing: 15px;
 } 
 
@@ -22,7 +20,6 @@
 } 
 
 .grid-row {
-    font-size: 0.85em;    
 }
 
 .grid-row td, .grid-altrow td, .grid th {
@@ -38,9 +35,7 @@
 
 .rline {
     text-indent: 5%;
-    font-size: 0.9em;
 }
 
 .week {
-    font-size: 0.9em;
 }
