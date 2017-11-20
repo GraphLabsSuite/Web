@@ -23,7 +23,7 @@ namespace GraphLabs.Site.Models.Infrastructure
 
         public TModel Load(object key)
         {
-            var entity = _query.OfEntities<TEntity>().OfType<Group>().Where(g => g.FirstYear == 2011).ToArray();
+            var entity = _query.Get<TEntity>(key);
             return Load(entity);
         }
 

@@ -67,10 +67,10 @@
                          grid.Column(header: "Выполняет", format: item => item.Doer, columnName: "Doer"),
                          grid.Column(header: "Дата открытия", format: item => item.DateFrom, columnName: "DateFrom"),
                          grid.Column(header: "Дата закрытия", format: item => item.DateTill, columnName: "DateTill"),
-                         grid.Column(header: "", format: item => Html.ActionLink("\u270E", "/Schedule/EditSchedule/", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" })),
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href=""/Schedule/EditSchedule/{0}"">&#9998;</a>",
+                         item.Id)), columnName: ""),
                          grid.Column(header: "", format: item => Html.ActionLink("\u2630", "???", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" })),
-                         grid.Column(header: "", format: item => Html.ActionLink("\u2716", "DeleteSchedule", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" }))//,
-                                                                                                                                                                                                 //     grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a href=""/Schedule"">&#9998;</a>", item.Id, Url.Content("../Images/edit.png"))), columnName: "")
+                         grid.Column(header: "", format: item => Html.ActionLink("\u2716", "DeleteSchedule", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" }))
                          ));
                 }
         </td>
