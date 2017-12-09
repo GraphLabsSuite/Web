@@ -1,5 +1,6 @@
 ﻿@using GraphLabs.DomainModel
-@model GraphLabs.Site.Models.TaskResultWithActions.TaskResultWithActionsModel
+@model GraphLabs.Site.Models.TaskResultsWithActions.TaskResultWithActionsModel
+
 
 @{
     ViewBag.Title = "Результаты";
@@ -7,9 +8,15 @@
 
 <hgroup>
     <h2>@ViewBag.Title</h2>
-    @Html.ActionLink("Обратно к результатам лабораторной работы", "LabWorkResult", new { id = Model.ResultId })
+    @Html.ActionLink("Обратно к результатам лабораторной работы", "LabWorkResult", new { id = Model.Result })
 </hgroup>
 <br />
+
+@{
+    <text>
+        <span>@Model.TaskName</span>
+    </text>
+}
 
 <style type="text/css">
     .idColumn {

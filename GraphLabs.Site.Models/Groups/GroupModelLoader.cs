@@ -29,6 +29,7 @@ namespace GraphLabs.Site.Models.Groups
                 Students = group.Students,
                 FirstYear = group.FirstYear,
                 Name = group.Name
+
             };
 
             return model;

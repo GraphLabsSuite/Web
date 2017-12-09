@@ -1,7 +1,8 @@
-﻿@model GraphLabs.Site.Models.ResultsWithTaskInfo.ResultWithTaskInfoModel
+﻿@using GraphLabs.DomainModel
+@model GraphLabs.Site.Models.ResultsWithTaskInfo.ResultWithTaskInfoModel
 
 @{
-    ViewBag.Title = "Результаты";
+    ViewBag.Title = "Отчёт";
 }
 
 <hgroup>
@@ -10,38 +11,56 @@
 </hgroup>
 <br />
 
+@{
+
+    <text>  
+        <span>@Model.LabWorkName  @Model.StartDateTime
+        <br>Вариант: @Model.LabVariantNumber
+        <br>Результат: @Model.Score
+        <Br>Выполнил: @Model.StudentName</span>
+
+    </text>
+}
+
+@{  <br>
+    <br>
+    <font size="+2"> Последовательность выполнения работы </font>
+    <br>
+    <br>
+}
+
 <style type="text/css">
-    .idColumn { width: 10%; }
-    .taskNameColumn { width: 20%; }
-    .taskVariantNumberColumn { width: 20%; }
-    .statusColumn { width: 20%; }
+    .descriptionColumn { width: 50%; }
+    .timeColumn { width: 25%; }
+    .penaltyColumn { width: 25%; } 
 </style>
 
 @{
-    var grid = new WebGrid(Model.TaskResults, canPage: true, canSort: true, rowsPerPage: 10);
+    
+    var grid = new WebGrid(Model.StudentActions, canPage: true, canSort: true, rowsPerPage: 10);
     grid.Pager(WebGridPagerModes.All);
-    @grid.GetHtml(tableStyle: "webGrid",
-            headerStyle: "webgrid-header",
-            footerStyle: "webgrid-footer",
-            rowStyle: "webgrid-row",
-            alternatingRowStyle: "webgrid-altrow",
-            selectedRowStyle: "webgrid-selected-row",
-            caption: null,
-            displayHeader: true,
-            htmlAttributes: new { id = "datatable" },
+    @grid.GetHtml(tableStyle: "Grids",
+                    headerStyle: "grid-header",
+                    footerStyle: "grid-footer",
+                    rowStyle: "grid-row",
+                    alternatingRowStyle: "grid-row",
+                    selectedRowStyle: "grid-selected-row",
+                    caption: null,
+                    displayHeader: true,
+                    htmlAttributes: new { id = "datatable" },
 
-            columns: grid.Columns(
-                grid.Column(header: "#", format: @<text>
-                    <span>@item.Id</span> </text>, columnName: "Id", style: "idColumn"),
-                grid.Column(header: "Задание", format: @<text>
-                    <span>@item.TaskName</span> </text>, columnName: "TaskName", style: "taskNameColumn"),
-                grid.Column(header: "Вариант", format: @<text>
-                    <span>@item.TaskVariantNumber</span> </text>, columnName: "TaskVariantNumber", style: "taskVariantNumberColumn"),
-                grid.Column(header: "Статус", format: @<text>
-                    <span>@item.Status</span> </text>, columnName: "Status", style: "statusColumn")
-                )
-            );
+                    columns: grid.Columns(
+                        grid.Column(header: "Время", format: @<text>
+                    <span>@item.Time</span> </text>, columnName: "Time", style: "timeColumn"),
+                        grid.Column(header: "Описание действия", format: @<text>
+                    <span>@item.Description</span> </text>, columnName: "Description", style: "descriptionColumn"),
+                        grid.Column(header: "Штрафной балл", format: @<text>
+                    <span>@item.Penalty</span> </text>, columnName: "Penalty", style: "penaltyColumn")
+                        )
 
+
+    
+                        );
 
 }
 
@@ -49,14 +68,3 @@
 
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script type="text/javascript">
-        $(function () {
-            $('tbody tr').click(function () {
-                location.href = '/Result/TaskResult/' + $(this).find('td:first').text();
-            });
-        });
-    </script>
-}
