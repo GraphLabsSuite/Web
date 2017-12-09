@@ -21,7 +21,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         public VariantExecutionModelBase Load(long labVariantId, int? taskIndex, int? testIndex, Uri taskCompleteRedirect)
         {
-            var variant = Query.Get<LabVariant>(labVariantId);
+            var variant = Query.Get<DomainModel.LabVariant>(labVariantId);
             if (!variant.IntroducingVariant)
             {
                 throw new Exception("Запрошенный вариант не предназначен для ознакомительного решения.");

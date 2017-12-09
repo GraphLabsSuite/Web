@@ -17,7 +17,7 @@ namespace GraphLabs.Site.Models
 
             public bool IntrVar { get; set; }
 
-            public ResultVariants(LabVariant variant)
+            public ResultVariants(DomainModel.LabVariant variant)
             {
                 VarId = variant.Id;
                 VarName = variant.Number;
@@ -63,7 +63,7 @@ namespace GraphLabs.Site.Models
             return result;
         }
 
-        private List<ResultVariants> MakeVariantsFromLabVariants(ICollection<LabVariant> variants)
+        private List<ResultVariants> MakeVariantsFromLabVariants(ICollection<DomainModel.LabVariant> variants)
         {
             var result = new List<ResultVariants>();
             foreach (var v in variants)

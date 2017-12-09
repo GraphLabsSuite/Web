@@ -39,7 +39,7 @@ namespace GraphLabs.Site.Models.AvailableLab
         /// <summary> Проверка соответствия варианта лабораторной работы содержанию работы </summary>
         private bool VerifyCompleteVariant(long variantId)
         {
-            long labWorkId = _query.OfEntities<LabVariant>()
+            long labWorkId = _query.OfEntities<DomainModel.LabVariant>()
                 .Where(v => v.Id == variantId)
                 .Select(v => v.LabWork.Id)
                 .Single();
@@ -49,7 +49,7 @@ namespace GraphLabs.Site.Models.AvailableLab
                 .Select(e => e.Task.Id)
                 .ToArray();
 
-            long[] currentVariantEntry = _query.OfEntities<LabVariant>()
+            long[] currentVariantEntry = _query.OfEntities<DomainModel.LabVariant>()
                 .Where(l => l.Id == variantId)
                 .SelectMany(t => t.TaskVariants)
                 .Select(t => t.Task.Id)

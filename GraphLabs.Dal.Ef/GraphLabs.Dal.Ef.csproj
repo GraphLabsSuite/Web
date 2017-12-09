@@ -194,6 +194,7 @@
     <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="Repositories\ResultsRepository.cs" />
     <Compile Include="Repositories\SessionRepository.cs" />
+    <Compile Include="Repositories\TestPoolRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Infrastructure\ChangesTracker.cs" />
     <Compile Include="Services\SystemDateService.cs" />

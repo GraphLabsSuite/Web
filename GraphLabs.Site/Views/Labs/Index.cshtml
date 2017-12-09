@@ -91,7 +91,7 @@
                     $("#labViewLeftTable tr").detach();
                     $("#labViewRightTable tr").detach();
 
-                    $("#labViewLeftTable").append("<tr><th>Задания</th></tr>");
+                    $("#labViewLeftTable").append("<tr><th>Задания | Варианты работы</th></tr>");
                     $("#labViewRightTable").append("<tr id='variantsHeaders'></tr>");
                     for (var i = 0; i < obj.Tasks.length; i++) {
                         $("#labViewLeftTable").append("<tr value='" + obj.Tasks[i].Key + "'><td>" + obj.Tasks[i].Value + "</td></tr>");
