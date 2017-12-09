@@ -346,7 +346,6 @@
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
-    <Compile Include="Controllers\LabController.cs" />
     <Compile Include="Controllers\PreviewController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
