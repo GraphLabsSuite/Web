@@ -16,17 +16,20 @@ namespace GraphLabs.Site.Controllers
         private readonly IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> _modelSaver;
         private readonly IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> _modelLoader;
         private readonly IEditLabScheduleModelLoader _editModelLoader;
+        private readonly IEntityRemover<AbstractLabSchedule> _modelRemover;
 
         public StartpageController(
             IListModelLoader listModelLoader,
             IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> modelSaver,
             IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> modelLoader,
-            IEditLabScheduleModelLoader editModelLoader)
+            IEditLabScheduleModelLoader editModelLoader,
+            IEntityRemover<AbstractLabSchedule> modelRemover)
         {
             _listModelLoader = listModelLoader;
             _modelSaver = modelSaver;
             _modelLoader = modelLoader;
             _editModelLoader = editModelLoader;
+            _modelRemover = modelRemover;
         }
         
         public ActionResult Index(string message, string ourdatestring = "today")
@@ -77,5 +80,23 @@ namespace GraphLabs.Site.Controllers
             ViewBag.Message = "Невозможно обновить строку расписания";
             return View(schedule);
         }
+
+        public ActionResult Delete(long id = 0)
+        {
+            return View(_modelRemover.Remove(id));
+        }
+
+        [HttpPost]
+        public ActionResult Delete([ModelBinder(typeof(SmartModelBinder))]EditLabScheduleModelBase schedule)
+        {
+            if (ModelState.IsValid)
+            {
+                _modelSaver.CreateOrUpdate(schedule);
+                ViewBag.Message = "Изменения сохранены";
+                return RedirectToAction("Index");
+            }
+            ViewBag.Message = "Невозможно обновить строку расписания";
+                  return View(schedule);
+         }
     }
 }

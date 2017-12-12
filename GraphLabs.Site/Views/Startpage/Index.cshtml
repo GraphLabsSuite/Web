@@ -42,8 +42,14 @@
 </script>
 <table align="center">
     <tr>
+        <!-- Нужно будет раскомментировать, когда будет общая страница для добавления работ в расписание
         <td></td>
-        <td>@Html.ActionLink("+ Добавить работу в расписание", "Index", "Schedule")</td>
+        <td>@Html.ActionLink("+ Добавить работу в расписание", "", "")</td> 
+        <td></td>
+        -->
+        <td></td>
+        <td>@Html.ActionLink("+ Добавить для группы", "CreateSchedule", new { Kind = EditLabScheduleModelBase.Kind.Group }) 
+        @Html.ActionLink("+ Добавить для студента", "CreateSchedule", new { Kind = EditLabScheduleModelBase.Kind.Individual })</td>
         <td></td>
     </tr>
     <tr>
@@ -69,9 +75,12 @@
                          grid.Column(header: "Дата закрытия", format: item => item.DateTill, columnName: "DateTill"),
                          grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href=""/Schedule/EditSchedule/{0}"">&#9998;</a>",
                          item.Id)), columnName: ""),
-                         grid.Column(header: "", format: item => Html.ActionLink("\u2630", "???", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" })),
-                         grid.Column(header: "", format: item => Html.ActionLink("\u2716", "DeleteSchedule", new { id = item.Id }, new { @style = "text-decoration: none; text-align: center" }))
-                         ));
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href="""">&#9776;</a>",
+                         item.Id)), columnName: ""),
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href="""">&#10006;</a>",
+                         "Delete", new { Id = item.Id }, null)), columnName: "")
+                             /*        grid.Column(header: "Удалить", format: item => @Html.ActionLink("Удалить", "Delete", new { testPoolId = item.Id }, null), columnName: "Delete", style: "deleteColumn")
+                                   */  ));
                 }
         </td>
         <td align="left" , width="13.5%">
@@ -81,6 +90,11 @@
     <tr>
         <td></td>
         <td id ="weekAndDate" style="text-align:center; font-size: 0.9em"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style="text-align:center; font-size: 0.9em">@Html.ActionLink("Вернуться к текущей неделе", "Index", "Startpage")</td>
         <td></td>
     </tr>
 </table>
