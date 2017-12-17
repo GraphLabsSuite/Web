@@ -247,6 +247,7 @@
     <Content Include="Content\css\OrderedList.css" />
     <Content Include="Content\css\PopUp.css" />
     <Content Include="Content\css\ResultBoardTable.css" />
+    <Content Include="Content\css\Search.css" />
     <Content Include="Content\css\Table.css" />
     <Content Include="Content\css\TestPool.css" />
     <Content Include="Content\css\ValidationHelpers.css" />
@@ -353,6 +354,7 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
+    <Compile Include="Controllers\StartpageController.cs" />
     <Compile Include="Controllers\TestingLabController.cs" />
     <Compile Include="Controllers\TestPoolController.cs" />
     <Compile Include="Controllers\TestPoolEntryController.cs" />
@@ -444,6 +446,7 @@
     <Content Include="Views\TestPool\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Result\TestResult.cshtml" />
+    <Content Include="Views\Startpage\Index.cshtml" />
     <Content Include="Views\Labs\GenerateVariant.cshtml" />
     <Content Include="Views\Lab\Index.cshtml" />
     <Content Include="Views\Lab\Create.cshtml" />

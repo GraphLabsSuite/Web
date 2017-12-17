@@ -1,9 +1,10 @@
-.grid {
+п»ї.grid {
 }
 
 .grid-header {
     border-bottom: 1.2px solid #000000;
     font-size: 0.75em;
+    white-space: nowrap;
 }
 
 .grid-footer {
@@ -33,7 +34,7 @@
     text-align: justify;
 }
 
-/*Для стартовой страницы*/
+/*Р”Р»СЏ СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹*/
 
 .rline {
     text-indent: 5%;

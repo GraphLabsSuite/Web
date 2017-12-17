@@ -31,7 +31,6 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Index(string message)
         {
             ViewBag.Message = message;
-
             var model = _listModelLoader.LoadListModel<LabScheduleListModel, LabScheduleModel>();
             return View(model);
         }
