@@ -12,6 +12,7 @@ using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Models.CreateLab;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Lab;
+using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -23,16 +24,19 @@ namespace GraphLabs.Site.Controllers
         private readonly ILabWorksContext _labWorksContext;
         private readonly ILabRepository _labRepository;
         private readonly ITasksContext _tasksContext;
+        private readonly ITestPoolRepository _testPoolRepository;
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelLoader<CreateLabModel, LabWork> _modelLoader;
+        private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _testPoolModelLoader;
 
         #endregion
 
-        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, IListModelLoader listModelLoader, IEntityBasedModelLoader<CreateLabModel, LabWork> modelLoader)
+        public LabsController(ILabWorksContext labWorksContext, ILabRepository labRepository, ITasksContext tasksContext, ITestPoolRepository testPoolRepository, IListModelLoader listModelLoader, IEntityBasedModelLoader<CreateLabModel, LabWork> modelLoader)
         {
             _labWorksContext = labWorksContext;
             _labRepository = labRepository;
             _tasksContext = tasksContext;
+            _testPoolRepository = testPoolRepository;
             _listModelLoader = listModelLoader;
             _modelLoader = modelLoader;
         }
@@ -118,7 +122,10 @@ namespace GraphLabs.Site.Controllers
         {
             var lab = _labRepository.GetLabWorkById(labId);
 
-            return View( new CreateLabVariantModel(lab, varId) );
+            ViewBag.LabVariantModel = new CreateLabVariantModel(lab, varId);
+            ViewBag.TestPoolListModel = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+
+            return View();
         }
 
 		[HttpPost]
@@ -142,7 +149,7 @@ namespace GraphLabs.Site.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult EditVariant(string Number, string JsonArr, bool IntrVar, long variantId)
+		public JsonResult EditVariant(string Number, string JsonArr, bool IntrVar, long variantId, long testPoolId)
 		{
 			LabVariant labVar = _labRepository.GetLabVariantById(variantId);
 			long labId = labVar.LabWork.Id;
@@ -151,16 +158,18 @@ namespace GraphLabs.Site.Controllers
 			{
 				return Json(ResponseConstants.LabVariantNameCollisionSystemName);
 			}
-
-			labVar.Number = Number;
+            
+            labVar.Number = Number;
 			labVar.IntroducingVariant = IntrVar;
 			labVar.Version += 1;
-			labVar.TaskVariants.Clear();
-			labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
+		    labVar.TaskVariants.Clear();
+            labVar.TaskVariants = MakeTaskVariantsList(JsonConvert.DeserializeObject<long[]>(JsonArr));
+            // TODO: не обновляет на null. Однако, если поставить точку остановки после получения labVar - null ставится
+            labVar.TestPool = (testPoolId > 0) ? _testPoolRepository.GetTestPoolById(testPoolId) : null;
 
-			try
+            try
 			{
-				_labRepository.ModifyLabVariant(labVar);
+                _labRepository.ModifyLabVariant(labVar);
 			}
 			catch (Exception)
 			{
@@ -188,6 +197,13 @@ namespace GraphLabs.Site.Controllers
         {
             var variant = _labRepository.GetLabVariantById(varId);
             return Json(new JSONResultEditVariant(variant) );
+        }
+
+        public ActionResult GenerateVariant(long? taskId)
+        {
+            var task = _tasksContext.Tasks.Find(taskId);
+            ViewBag.Task = task;
+            return View();
         }
 
         #endregion

@@ -183,6 +183,7 @@
     <Compile Include="LabExecution\Operations\LoadVariantForExecutionBase.cs" />
     <Compile Include="LabExecution\TestExecutionModelLoader.cs" />
     <Compile Include="LabExecution\VariantExecutionModelBase.cs" />
+    <Compile Include="LabVariant\LabVariantModel.cs" />
     <Compile Include="Lab\LabListModel.cs" />
     <Compile Include="Lab\LabModel.cs" />
     <Compile Include="Lab\LabModelLoader.cs" />

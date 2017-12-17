@@ -106,7 +106,7 @@ hgroup, section {
 
 .widthSection {
     display: block;
-    clear: both;
+/*    clear: both;*/
 }
 
 /* --- */

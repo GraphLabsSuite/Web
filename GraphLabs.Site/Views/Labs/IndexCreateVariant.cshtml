@@ -1,11 +1,11 @@
-﻿@using GraphLabs.Site.Controllers.LabWorks
-@model GraphLabs.Site.Models.CreateLabVariantModel
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Controllers.LabWorks
 
 @{
     ViewBag.Title = "Создание варианта лабораторной работы";
 }
 
-<h2>@ViewBag.Title "@Model.Name"</h2>
+<h2>@ViewBag.Title "@ViewBag.LabVariantModel.Name"</h2>
 @Html.ActionLink("Обратно к списку лабораторных работ", "Index")
 
 <br />
@@ -25,24 +25,56 @@
     <tr>
         <th class="tableHeader">Задания</th>
         <th class="tableHeader">Варианты</th>
+        <th></th>
+        <th></th>    
     </tr>
-@foreach (var item in Model.Variant)
+@foreach (var item in ViewBag.LabVariantModel.Variant)
 {
     <tr>
-    <th>@item.Key.Value</th>
-    <td>
-    <select id="@item.Key.Key">
-        <option value="no">Не выбрано...</option>
-        @foreach (var elem in item.Value)
-        {
-            <option value ="@elem.Key">@elem.Value</option>
-        }
-    </select>
-    </td>
+        <th>@item.Key.Value</th>
+        <td>
+            <select id="@item.Key.Key" class="select-task-variant">
+                <option value="no">Не выбрано...</option>
+                @foreach (var elem in item.Value)
+                {
+                    <option value ="@elem.Key">@elem.Value</option>
+                }
+            </select>
+        </td>
+        <td>
+            <input type="hidden" class="template-link-for-preview-task-variant" value="../TaskVariant/@item.Key.Key/EditVariant/" />
+            <a class="preview-task-variant" target="_blank" href="">Предпросмотр варианта</a>
+        </td>
+        <td>
+            <a class="generate-task-variant" target="_blank" href="../Labs/GenerateVariant?taskId=@item.Key.Key">Сгенерировать новый вариант</a>
+        </td>
     </tr>
 }
 </table>
 <br />
+<table>
+    <tr>
+        <th>Выбрать тестпул</th>
+        <td>
+            <select id="testpool">
+                <option value="-1">Без тестов</option>
+                @foreach (var testPool in ViewBag.TestPoolListModel)
+                {
+                    <option value="@testPool.Id">@testPool.Name </option>
+                }
+            </select>
+        </td>
+        <td>
+            <input type="hidden" id="template-link-for-preview-testpool" value="../TestPool?testPoolId=" />
+            <a id="preview-testpool" target="_blank" href="">Предпросмотр тестпула</a>
+        </td>
+        <td>            
+            <a id="create-testpool" target="_blank" href="../TestPool/Create">Создать новый тестпул</a>
+        </td>
+    </tr>
+</table>
+
+<br/>
 <input id="IntroducingVariant" type="checkbox"> Доступен в ознакомительной версии<br />
 <br />
 <input disabled id="save" type="button" value="Сохранить"/>
@@ -51,25 +83,35 @@
 @section Scripts
 {
     <script>
-        $(document).ready(function () {
-            if (@Model.varId != 0)
-            {
+        $(document).ready(function() {
+            if (@ViewBag.LabVariantModel.varId != 0) {
                 $("title").html("Редактирование варианта лабораторной работы");
-                $("h2").html('Редактирование варианта лабораторной работы "@Model.Name"');
+                $("h2").html('Редактирование варианта лабораторной работы "@ViewBag.LabVariantModel.Name"');
                 $("#error").html("Вариант загружается...");
-                var result="varId=@Model.varId";
+                var result = "varId=@ViewBag.LabVariantModel.varId";
                 $.ajax({
                     type: "POST",
                     url: "GetVariantInfo",
                     data: result,
-                    error: function() {
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ": " + errorThrown);
                         alert("Невозможно загрузить вариант работы");
                         location.href = "/Labs";
                     },
-                    success: function (data) {
+                    success: function(data) {
                         SucEditLoad(data);
+                        $(".preview-task-variant").each(function() {
+                            previewTaskVariantLink($(this));
+                            previewTestPoolLink();
+                        });
                     }
                 });
+            } 
+            else {
+                $(".preview-task-variant").each(function() {
+                    previewTaskVariantLink($(this));
+                });
+                previewTestPoolLink();
             }
         });
 
@@ -80,49 +122,87 @@
                 $("#IntroducingVariant").prop("checked", true);
             };
             for (var i = 0; i < obj.Variant.length; ++i) {
-                $("#" + obj.Variant[i].Key).find("option[value=" + obj.Variant[i].Value + "]").attr("selected", "selected");
+                $("#" + obj.Variant[i].Key).find("option[value=" + obj.Variant[i].Value + "]")
+                    .attr("selected", "selected");
                 $("#" + obj.Variant[i].Key).find("option[value='no']").detach();
-                $("#" + obj.Variant[i].Key).parent().parent().find("th").replaceWith(function (index, oldHTML) {
+                $("#" + obj.Variant[i].Key).parent().parent().find("th").replaceWith(function(index, oldHTML) {
                     return $("<td>").html(oldHTML);
                 });
             };
+            $("#testpool").children().each(function() {
+                if ($(this).val() == obj.TestPoolId) {
+                    $(this).attr("selected", "true");
+                }
+            });
             if ($("option[value='no']").size() == 0) {
                 $("#save").removeAttr("disabled");
             };
         };
 
-        $("select").change( function () {
+        $(".select-task-variant").change(function() {
             $(this).find("option[value='no']").detach();
-            $(this).parent().parent().find("th").replaceWith(function (index, oldHTML) {
+            $(this).parent().parent().find("th").replaceWith(function(index, oldHTML) {
                 return $("<td>").html(oldHTML);
             });
             CheckChoosingAndUnlockSaveButton();
+            previewTaskVariantLink($(this));
         });
 
-        $("#random").click(function () {
-            $("select").each(function () {
-                if ( $(this).find("option").length == 1 && $(this).find("option[value='no']") != null ) {
+        function previewTaskVariantLink(obj) {
+            var parentRow = $(obj).parents("tr");
+            var href = parentRow.find(".template-link-for-preview-task-variant").val();
+            var taskVariantId = parentRow.find(".select-task-variant").val();
+            var previewLink = parentRow.find(".preview-task-variant");
+            if (taskVariantId != "no") {
+                previewLink.show();
+                previewLink.attr("href", href + taskVariantId);
+            } else {
+                previewLink.hide();
+            }
+            return;
+        }
+
+
+        $("#random").click(function() {
+            $("select").each(function() {
+                if ($(this).find("option").length == 1 && $(this).find("option[value='no']") != null) {
                     return;
                 } else {
                     $(this).find("option[value='no']").detach();
                 };
                 var num = $(this).find("option").length;
-                $(this).parent().parent().find("th").replaceWith(function (index, oldHTML) {
+                $(this).parent().parent().find("th").replaceWith(function(index, oldHTML) {
                     return $("<td>").html(oldHTML);
                 });
                 var rand = Math.floor(Math.random() * num);
-                $(this).find("option:eq("+rand+")").attr("selected", "selected");
+                $(this).find("option:eq(" + rand + ")").attr("selected", "selected");
             });
             CheckChoosingAndUnlockSaveButton();
         });
 
-        function CheckChoosingAndUnlockSaveButton () {
+        function CheckChoosingAndUnlockSaveButton() {
             if ($("option[value='no']").size() == 0) {
                 $("#save").removeAttr("disabled");
             };
         };
 
-        $("#save").click(function () {
+        $("#testpool").change(function() {
+            previewTestPoolLink();
+        });
+
+        function previewTestPoolLink() {
+            var href = $("#template-link-for-preview-testpool").val();
+            var testPoolId = $("#testpool").val();
+            var previewLink = $("#preview-testpool");
+            if (testPoolId > 0) {
+                previewLink.show();
+                previewLink.attr("href", href + testPoolId);
+            } else {
+                previewLink.hide();
+            }
+        }
+
+        $("#save").click(function() {
             $("#success").html("");
             if (document.getElementById("varNum").value == "") {
                 $("#error").html("Необходимо ввести номер варианта");
@@ -130,27 +210,35 @@
             };
             $("#error").html("Отправка данных на сервер...");
             var list = new Array();
-            $("select").each(function () {
+            $(".select-task-variant").each(function() {
                 list.push($(this).val());
             });
             var result = "";
-            @if ( !(Model.varId > 0))
+            @if (!(ViewBag.LabVariantModel.varId > 0))
             {
-                @Html.Raw("result = \"Id=" + @Model.id.ToString() + "&\";")
+                @Html.Raw("result = \"Id=" + @ViewBag.LabVariantModel.id.ToString() + "&\";")
             }
-            result = result + "Number=" + document.getElementById("varNum").value + "&JsonArr=" + JSON.stringify(list) + "&IntrVar=" + $("#IntroducingVariant").prop("checked");
-            @if (Model.varId > 0)
+            result = result +
+                "Number=" +
+                document.getElementById("varNum").value +
+                "&JsonArr=" +
+                JSON.stringify(list) +
+                "&IntrVar=" +
+                $("#IntroducingVariant").prop("checked") +
+                "&testPoolId=" +
+                $("#testpool").val();
+            @if (ViewBag.LabVariantModel.varId > 0)
             {
-                @Html.Raw("result = result + \"&variantId=" + @Model.varId.ToString() + "\";")
+                @Html.Raw("result = result + \"&variantId=" + @ViewBag.LabVariantModel.varId.ToString() + "\";")
             }
             $.ajax({
                 type: "POST",
-                url: @(Model.varId > 0 ? Html.Raw("\"EditVariant\"") : Html.Raw("\"CreateVariant\"")),
+                url: @(ViewBag.LabVariantModel.varId > 0 ? Html.Raw("\"EditVariant\"") : Html.Raw("\"CreateVariant\"")),
                 data: result,
-                error: function () {
+                error: function() {
                     $("#error").html("Невозможно отправить данные");
                 },
-                success: function (data) {
+                success: function(data) {
                     Suc(data);
                 }
             });
@@ -160,21 +248,21 @@
             $("#error").html("");
             $("#success").html("");
             switch (data) {
-                case @ResponseConstants.LabVariantSaveSuccessSystemName:
-                    $("#success").html("Вариант успешно сохранен!");                    
-                    break;                    
-                case @ResponseConstants.LabVariantModifySuccessSystemName:
-                    $("#success").html('Вариант успешно обновлен!');
-                    break;
-                case @ResponseConstants.LabVariantNameCollisionSystemName:
-                    $("#error").html('Невозможно сохранить вариант: вариант с таким названием уже существует');
-                    break;
-                case @ResponseConstants.LabVariantSaveErrorSystemName:
-                    $("#error").html('Невозможно сохранить вариант, попробуйте обновить страницу');
-                    break;
-                case @ResponseConstants.LabVariantModifyErrorSystemName:
-                    $("#error").html('Невозможно обновить вариант, попробуйте обновить страницу');
-                    break;
+            case @ResponseConstants.LabVariantSaveSuccessSystemName:
+                $("#success").html("Вариант успешно сохранен!");
+                break;
+            case @ResponseConstants.LabVariantModifySuccessSystemName:
+                $("#success").html('Вариант успешно обновлен!');
+                break;
+            case @ResponseConstants.LabVariantNameCollisionSystemName:
+                $("#error").html('Невозможно сохранить вариант: вариант с таким названием уже существует');
+                break;
+            case @ResponseConstants.LabVariantSaveErrorSystemName:
+                $("#error").html('Невозможно сохранить вариант, попробуйте обновить страницу');
+                break;
+            case @ResponseConstants.LabVariantModifyErrorSystemName:
+                $("#error").html('Невозможно обновить вариант, попробуйте обновить страницу');
+                break;
             };
         };
     </script>

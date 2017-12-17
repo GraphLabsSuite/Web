@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 using GraphLabs.WcfServices.Data;
+using System.ServiceModel.Web;
 
 namespace GraphLabs.WcfServices
 {
@@ -10,6 +11,9 @@ namespace GraphLabs.WcfServices
         /// <summary> Получает вариант задания по Id </summary>
         /// <param name="id"> Id варианта</param>
         [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "genvariant?id={id}"
+            )]
         TaskVariantDto GetVariant(long id);
 
         /// <summary> Регистрирует завершение выполнения задания </summary>
@@ -18,6 +22,9 @@ namespace GraphLabs.WcfServices
         /// <param name="updateExistent"> Обновить существующую версию? </param>
         /// <returns> True, если успешно сохранили. False, если вариант с таким номером уже есть в этом задании. </returns>
         [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "genvariant?id={taskId}&update={updateExistent}"
+            )]
         void SaveVariant(TaskVariantDto info, long taskId, bool updateExistent = false);
     }
 }
