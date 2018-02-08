@@ -42,8 +42,11 @@
                 <br>
                 <section id="search">
                     <div class="forinput">
+                    @using (Html.BeginForm("Index", "Search", FormMethod.Post, new { id = "formsearch" }))
+                    {
                         <span class="icon"><i class="fa fa-search"></i></span>
-                        <input type="search" placeholder="поиск..." />
+                        @Html.TextBox("stringsearch", "", new { type = "search", placeholder = "поиск...", onkeypress = "return search(event)" })
+                    }
                     </div>
                 </section>
             }
@@ -54,10 +57,10 @@
     {
         // говорят так нехорошо но пока оставлю это здесь
         private bool MenuIsVisible()
-        {
-            return ViewBag.HideNavigationMenu == null || !ViewBag.HideNavigationMenu;
-        }
-    }
+                        {
+                            return ViewBag.HideNavigationMenu == null || !ViewBag.HideNavigationMenu;
+                        }
+                            }
 
 
     <div id="body">
@@ -125,3 +128,12 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+    // поиск по нажатию на enter
+    $("#sitesearch").keyup(function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            document.getElementById("formsearch").submit();
+        }
+    });
+</script>

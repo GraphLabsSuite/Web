@@ -6,8 +6,26 @@
 @{
     ViewBag.Title = "Личный кабинет";
 }
-<!--Скрипт, содержащий функции для определения дат-->
 <script>
+
+    // функция для удаления работы из расписания
+    function deleteSchedule(x) {
+        console.log(typeof x, x);
+        var del = confirm("Подтвердите удаление записи в расписании.");
+        if (del) {
+            var xhr = new XMLHttpRequest();
+            var body = 'id=' + encodeURIComponent(x);
+            xhr.open("POST", '/Schedule/Delete/2', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = () => {
+                location.reload()
+            }
+            xhr.send(body);
+            alert("Работа удалена из расписания");
+        }
+        return false;
+    }
+    // функции для определения дат
     // представляет дату предыдущей недели в формате строки (через точки)
     function calcPrevDate(x) {
         const date = x.split(".");
@@ -15,7 +33,7 @@
         prevDate.setDate(prevDate.getDate() - 7);
         return prevDate.getDate() + "." + (prevDate.getMonth() + 1) + "." + prevDate.getFullYear();
     }
-    // представляет дату следующей недели в формате строки (через точки) 
+    // представляет дату следующей недели в формате строки (через точки)
     function calcNextDate(x) {
         const date = x.split(".");
         var nextDate = new Date(parseInt(date[2]), parseInt(date[1]) - 1, parseInt(date[0]));
@@ -48,8 +66,8 @@
         <td></td>
         -->
         <td></td>
-        <td>@Html.ActionLink("+ Добавить для группы", "CreateSchedule", new { Kind = EditLabScheduleModelBase.Kind.Group }) 
-        @Html.ActionLink("+ Добавить для студента", "CreateSchedule", new { Kind = EditLabScheduleModelBase.Kind.Individual })</td>
+        <td>@Html.ActionLink("+ Добавить для группы", "CreateSchedule", "Schedule", new { Kind = EditLabScheduleModelBase.Kind.Group },null) 
+        @Html.ActionLink("+ Добавить для студента", "CreateSchedule", "Schedule", new { Kind = EditLabScheduleModelBase.Kind.Individual }, null)</td>
         <td></td>
     </tr>
     <tr>
@@ -77,10 +95,8 @@
                          item.Id)), columnName: ""),
                          grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href="""">&#9776;</a>",
                          item.Id)), columnName: ""),
-                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href="""">&#10006;</a>",
-                         "Delete", new { Id = item.Id }, null)), columnName: "")
-                             /*        grid.Column(header: "Удалить", format: item => @Html.ActionLink("Удалить", "Delete", new { testPoolId = item.Id }, null), columnName: "Delete", style: "deleteColumn")
-                                   */  ));
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a href='#' onclick=""deleteSchedule({0})"" style =""text-decoration:none"" >&#10006;</a>",
+                         item.Id)), columnName: "")));
                 }
         </td>
         <td align="left" , width="13.5%">
@@ -114,4 +130,5 @@
         url = url.replace("replace", nextdate);
         window.location.href = url;
     });
+    
 </script>

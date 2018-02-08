@@ -353,6 +353,7 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StartpageController.cs" />
     <Compile Include="Controllers\TestingLabController.cs" />
     <Compile Include="Controllers\TestPoolController.cs" />
@@ -446,6 +447,8 @@
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Result\TestResult.cshtml" />
     <Content Include="Views\Startpage\Index.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Schedule\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

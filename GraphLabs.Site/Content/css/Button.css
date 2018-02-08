@@ -64,6 +64,8 @@ submit:active:disabled {
 	border-right: 30px solid #5c7e94;
 	border-bottom: 40px solid transparent;
     margin-top: 25%;
+    background-color:white;
+    -moz-border-radius:0px;
 }
 
 .left-button:hover {
@@ -80,7 +82,8 @@ submit:active:disabled {
 	border-left: 30px solid #5c7e94;
 	border-bottom: 40px solid transparent;
     margin-top: 25%;
-
+    background-color:white;
+    -moz-border-radius:0px;
 }
 
 .right-button:hover {
