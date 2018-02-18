@@ -4,7 +4,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.Schedule
 {
-    /// <summary> Модель расписания (списка) </summary>
+    /// <summary> РњРѕРґРµР»СЊ СЂР°СЃРїРёСЃР°РЅРёСЏ (СЃРїРёСЃРєР°) </summary>
     public class LabScheduleListModel : ListModelBase<LabScheduleModel>
     {
         private readonly IEntityQuery _query;

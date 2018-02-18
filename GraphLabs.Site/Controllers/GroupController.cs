@@ -1,8 +1,12 @@
-﻿using GraphLabs.Site.Controllers.Attributes;
+﻿using System;
+using System.Linq;
+using GraphLabs.Site.Controllers.Attributes;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Core;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
+using WebGrease.Css.Extensions;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -23,11 +27,12 @@ namespace GraphLabs.Site.Controllers
             _modelLoader = modelLoader;
         }
 
-        public ActionResult Index(string message)
+        public ActionResult Index(string message, string Name)
         {
             ViewBag.Message = message;
-
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>();
+            
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().FilterByName(Name);
+            
             return View(model);
         }
 

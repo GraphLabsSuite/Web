@@ -232,6 +232,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\Helpers\GraphLabsUIFactory.cs" />
+    <Compile Include="Views\Helpers\GraphLabsWebGrid.cs" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -529,7 +531,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -600,8 +601,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>cd "$(SolutionDir)"
-powershell  "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
+    <!--<PreBuildEvent>cd "$(SolutionDir)"-->
+    <!--powershell  "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>-->
   </PropertyGroup>
   <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">
     <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />

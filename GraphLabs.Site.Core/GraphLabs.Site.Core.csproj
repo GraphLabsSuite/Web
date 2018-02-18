@@ -119,6 +119,9 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GraphLabs.Site.Models, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.Site.Models.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -135,6 +138,8 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="FiltersInfo.cs" />
+    <Compile Include="Filters\IFilterableByName.cs" />
     <Compile Include="GraphLabsException.cs" />
     <Compile Include="IChangesTracker.cs" />
     <Compile Include="OperationContext\IOperationContext.cs" />
@@ -144,8 +149,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>cd "$(SolutionDir)"
-powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
+    <!--<PreBuildEvent>cd "$(SolutionDir)"-->
+    <!--powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>-->
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
