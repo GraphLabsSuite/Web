@@ -30,10 +30,14 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Index(string message, string Name)
         {
             ViewBag.Message = message;
+            if (Name == "")
+            {
+                Name = null;
+            }
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>()
+                .filter(g => Name ==  null || Name.Equals(g.Name));
             
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().FilterByName(Name);
-            
-            return View(model);
+            return View((GroupListModel) model);
         }
 
         public ActionResult Create()

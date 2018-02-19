@@ -50,26 +50,24 @@ namespace ASP.Helpers
 
         private void addHtmlFilters(StringBuilder stringBuilder)
         {
-            var types = new FiltersInfo().GetFilters();
             var mainDiv = new HtmlGenericControl("div");
             var form = GraphLabsUIFactory.createHtmlForm();
             mainDiv.Controls.Add(form);
             
-            foreach (var type in types)
+            if (isA(_source, typeof(IFilterable<,>)))
             {
-                if (isA(_source, type))
+                var e = getType(_source, typeof(IFilterable<,>));
+               
+                var genericArgument = e.GetGenericArguments()[1];
+                foreach (var propertyInfo in genericArgument.GetProperties())
                 {
-                    MethodInfo textMethod = null;
-                    foreach (var method in type.GetMethods())
+                    foreach (var customAttributeData in propertyInfo.CustomAttributes)
                     {
-                        if (method.Name.EndsWith("Text"))
-                        {
-                            textMethod = method;
+                        if (customAttributeData.AttributeType.GetInterfaces().Contains(typeof(IFilterAttribute)))
+                        {   
+                            form.Controls.Add(GraphLabsUIFactory.createInputField(propertyInfo.Name, (string) customAttributeData.ConstructorArguments[0].Value));
                         }
                     }
-                    var m = _source.GetType().GetMethod(textMethod.Name);
-                    var s = m.Invoke(_source, null);
-                    form.Controls.Add(GraphLabsUIFactory.createInputField(type.Name.Split(new[]{"By", "`"}, StringSplitOptions.None)[1], (string)s));
                 }
             }
 
@@ -83,11 +81,16 @@ namespace ASP.Helpers
             mainDiv.RenderControl(new HtmlTextWriter(new StringWriter(stringBuilder)));
         }
 
-        private static bool isA(object o, Type t)
+        private static Type getType(object o, Type t)
         {
-            return (o.GetType().GetInterfaces().Any(x =>
+            return (o.GetType().GetInterfaces().FirstOrDefault(x =>
                 x.IsGenericType &&
                 x.GetGenericTypeDefinition() == t));
+        }
+
+        private static bool isA(object o, Type t)
+        {
+            return getType(o, t) != null;
         }
     }
 }

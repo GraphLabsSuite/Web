@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using GraphLabs.DomainModel;
@@ -10,12 +11,11 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.Groups
 {
     /// <summary> Модель списка групп </summary>
-    public sealed class GroupListModel : ListModelBase<GroupModel>,
-            IFilterableByName<GroupListModel, GroupModel>
+    public sealed class GroupListModel : ListModelBase<GroupModel>, IFilterable<Group, GroupModel>
     {
         private readonly IEntityQuery _query;
         private readonly IEntityBasedModelLoader<GroupModel, Group> _modelLoader;
-        private string _name = "";
+        private Expression<Func<Group, bool>> _filter = (group => true);
 
         /// <summary> Модель списка групп </summary>
         public GroupListModel(IEntityQuery query, IEntityBasedModelLoader<GroupModel, Group> modelLoader)
@@ -28,21 +28,16 @@ namespace GraphLabs.Site.Models.Groups
         protected override GroupModel[] LoadItems()
         {
             return _query.OfEntities<Group>()
-                .Where(m => _name == "" || _name.Equals(m.Name))
+                .Where(_filter)
                 .ToArray()
                 .Select(_modelLoader.Load)
                 .ToArray();
         }
 
-        public GroupListModel FilterByName(String name)
+        public IListModel<GroupModel> filter(Expression<Func<Group, bool>> filter)
         {
-            _name = name ?? "";
+            _filter = filter;
             return this;
-        }
-
-        public string FilterableByNameText()
-        {
-            return "Номер группы";
         }
     }
 }

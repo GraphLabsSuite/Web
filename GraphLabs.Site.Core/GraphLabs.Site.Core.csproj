@@ -119,6 +119,9 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GraphLabs.DomainModel, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.DomainModel.dll</HintPath>
+    </Reference>
     <Reference Include="GraphLabs.Site.Models, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.Site.Models.dll</HintPath>
     </Reference>
@@ -138,8 +141,10 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="FiltersInfo.cs" />
-    <Compile Include="Filters\IFilterableByName.cs" />
+    <Compile Include="Filters\IFilterableModel.cs" />
+    <Compile Include="Filters\IFilterAttribute.cs" />
+    <Compile Include="Filters\IFilterable.cs" />
+    <Compile Include="Filters\StringFilterAttribute.cs" />
     <Compile Include="GraphLabsException.cs" />
     <Compile Include="IChangesTracker.cs" />
     <Compile Include="OperationContext\IOperationContext.cs" />
