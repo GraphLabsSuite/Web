@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Controllers
             _modelLoader = modelLoader;
         }
 
-        public ActionResult Index(string message, string Name)
+        public ActionResult Index(string message, string Name, bool? isOpen)
         {
             ViewBag.Message = message;
             if (Name == "")
@@ -35,7 +35,8 @@ namespace GraphLabs.Site.Controllers
                 Name = null;
             }
             var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>()
-                .filter(g => Name ==  null || Name.Equals(g.Name));
+                .filter(g => (Name ==  null || Name.Equals(g.Name))
+                              && (isOpen == null || g.IsOpen == isOpen));
             
             return View((GroupListModel) model);
         }

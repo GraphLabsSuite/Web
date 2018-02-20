@@ -24,6 +24,7 @@ namespace ASP.Helpers
         {
             var checkBox = new HtmlInputCheckBox();
             checkBox.Attributes.Add("class", "graphlabs-checkbox");
+            checkBox.Value = "";
             return checkBox;
         }
         
@@ -62,6 +63,33 @@ namespace ASP.Helpers
             var div = new HtmlGenericControl("div");
             div.Controls.Add(label);
             label.Controls.Add(input);
+            return div;
+        }
+        
+        public static Control createInputCheckBox(string name, string labelText)
+        {
+            var input = GraphLabsUIFactory.createHtmlInputCheckBox();
+            input.Name = name;
+            input.ID = name;
+            input.Value = "true";
+            input.Attributes.Add("onchange", "checkboxChange(this)");
+            var hiddenInput = new HtmlGenericControl("input");
+            hiddenInput.Attributes.Add("type", "hidden");
+            hiddenInput.Attributes.Add("value", "");
+            hiddenInput.Attributes.Add("name", name);
+            hiddenInput.Attributes.Add("id", "h" + name);
+            
+            HtmlGenericControl script = new HtmlGenericControl("script");
+            script.InnerHtml = "function checkboxChange(chkBox) { document.getElementById(\"h" + name + "\").value = \"false\";} ";//"if (chkBox.checked) { chkBox.value = \"true\";} else { chkBox.value = \"false\"; }}";
+            var label = GraphLabsUIFactory.createHtmlLabel();
+            label.InnerText = labelText;
+            
+            var div = new HtmlGenericControl("div");
+            div.Controls.Add(label);
+            
+            label.Controls.Add(input);
+            label.Controls.Add(hiddenInput);
+            label.Controls.Add(script);
             return div;
         }
     }

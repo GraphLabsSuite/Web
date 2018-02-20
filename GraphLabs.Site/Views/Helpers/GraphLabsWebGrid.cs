@@ -64,8 +64,15 @@ namespace ASP.Helpers
                     foreach (var customAttributeData in propertyInfo.CustomAttributes)
                     {
                         if (customAttributeData.AttributeType.GetInterfaces().Contains(typeof(IFilterAttribute)))
-                        {   
-                            form.Controls.Add(GraphLabsUIFactory.createInputField(propertyInfo.Name, (string) customAttributeData.ConstructorArguments[0].Value));
+                        {
+                            if (propertyInfo.PropertyType == typeof(bool))
+                            {
+                                form.Controls.Add(GraphLabsUIFactory.createInputCheckBox(propertyInfo.Name,
+                                    (string) customAttributeData.ConstructorArguments[0].Value));
+                            } else {
+                                form.Controls.Add(GraphLabsUIFactory.createInputField(propertyInfo.Name, 
+                                    (string) customAttributeData.ConstructorArguments[0].Value));
+                            }
                         }
                     }
                 }

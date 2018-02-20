@@ -11,7 +11,8 @@ namespace GraphLabs.Site.Models.Groups
 
         [StringFilter("Номер группы")]
         public string Name { get; set; }
-
+        
+        [StringFilter("Возможность вступить в группу")]
         public bool IsOpen { get; set; }
 
         public ICollection<Student> Students { get; set; }
