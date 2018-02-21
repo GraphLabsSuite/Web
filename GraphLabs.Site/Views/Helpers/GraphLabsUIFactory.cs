@@ -6,44 +6,44 @@ namespace ASP.Helpers
 {
     public static class GraphLabsUIFactory
     {
-        public static HtmlGenericControl createHtmlForm()
+        public static HtmlGenericControl CreateHtmlForm()
         {
             var form = new HtmlGenericControl("form");
             form.Attributes.Add("class", "graphlabs-form");
             return form;
         }
 
-        public static HtmlInputText createHtmlInputText()
+        public static HtmlInputText CreateHtmlInputText()
         {
             var text = new HtmlInputText("text");
             text.Attributes.Add("class", "graphlabs-input-text");
             return text;
         }
-        
-        public static HtmlInputCheckBox createHtmlInputCheckBox()
+
+        public static HtmlInputCheckBox CreateHtmlInputCheckBox()
         {
             var checkBox = new HtmlInputCheckBox();
             checkBox.Attributes.Add("class", "graphlabs-checkbox");
             checkBox.Value = "";
             return checkBox;
         }
-        
-        public static HtmlGenericControl createHtmlLabel()
+
+        public static HtmlGenericControl CreateHtmlLabel()
         {
             var label = new HtmlGenericControl("label");
             label.Attributes.Add("class", "graphlabs-label");
             return label;
         }
-        
-        public static HtmlInputButton createHtmlSubmitButton()
+
+        public static HtmlInputButton CreateHtmlSubmitButton()
         {
             var button = new HtmlInputButton("submit");
             button.Attributes.Add("class", "graphlabs-submit");
             button.Value = "Применить";
             return button;
         }
-        
-        public static HtmlInputButton createHtmlResetButton()
+
+        public static HtmlInputButton CreateHtmlResetButton()
         {
             var button = new HtmlInputButton("reset");
             button.Attributes.Add("class", "graphlabs-reset");
@@ -51,13 +51,13 @@ namespace ASP.Helpers
             return button;
         }
 
-        public static Control createInputField(string name, string labelText)
+        public static Control CreateInputField(string name, string labelText)
         {
-            var input = GraphLabsUIFactory.createHtmlInputText();
+            var input = GraphLabsUIFactory.CreateHtmlInputText();
             input.Name = name;
             input.ID = name;
-            
-            var label = GraphLabsUIFactory.createHtmlLabel();
+
+            var label = GraphLabsUIFactory.CreateHtmlLabel();
             label.InnerText = labelText;
 
             var div = new HtmlGenericControl("div");
@@ -65,30 +65,25 @@ namespace ASP.Helpers
             label.Controls.Add(input);
             return div;
         }
-        
-        public static Control createInputCheckBox(string name, string labelText)
+
+        public static Control CreateInputCheckBox(string name, string labelText)
         {
-            var input = GraphLabsUIFactory.createHtmlInputCheckBox();
+            var input = GraphLabsUIFactory.CreateHtmlInputCheckBox();
             input.Name = name;
             input.ID = name;
             input.Value = "true";
             input.Attributes.Add("onchange", "checkboxChange(this)");
-            var hiddenInput = new HtmlGenericControl("input");
-            hiddenInput.Attributes.Add("type", "hidden");
-            hiddenInput.Attributes.Add("value", "");
-            hiddenInput.Attributes.Add("name", name);
-            hiddenInput.Attributes.Add("id", "h" + name);
-            
+
             HtmlGenericControl script = new HtmlGenericControl("script");
-            script.InnerHtml = "function checkboxChange(chkBox) { document.getElementById(\"h" + name + "\").value = \"false\";} ";//"if (chkBox.checked) { chkBox.value = \"true\";} else { chkBox.value = \"false\"; }}";
-            var label = GraphLabsUIFactory.createHtmlLabel();
+            script.InnerHtml = "function checkboxChange(chkBox) {  if (chkBox.value==\"true\") {chkBox.value= \"false\"; chkBox.indeterminate = true;} else { chkBox.value= \"true\"; chkBox.checked=true; } }";
+
+            var label = GraphLabsUIFactory.CreateHtmlLabel();
             label.InnerText = labelText;
-            
+
             var div = new HtmlGenericControl("div");
             div.Controls.Add(label);
-            
+
             label.Controls.Add(input);
-            label.Controls.Add(hiddenInput);
             label.Controls.Add(script);
             return div;
         }

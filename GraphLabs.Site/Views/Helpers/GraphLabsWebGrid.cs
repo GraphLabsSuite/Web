@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Helpers;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using GraphLabs.Site.Core;
 using GraphLabs.Site.Core.Filters;
-using Microsoft.Practices.Unity;
 
 namespace ASP.Helpers
 {
@@ -39,7 +33,7 @@ namespace ASP.Helpers
             int numericLinksCount = 5, object htmlAttributes = null)
         {
             var buildHtml = new StringBuilder();
-            addHtmlFilters(buildHtml);
+            AddHtmlFilters(buildHtml);
             buildHtml.AppendLine(base.GetHtml(tableStyle, headerStyle, footerStyle, rowStyle, alternatingRowStyle,
                 selectedRowStyle, caption, displayHeader, fillEmptyRows, emptyRowCellValue, columns, exclusions, mode,
                 firstText, previousText, nextText, lastText, numericLinksCount, htmlAttributes
@@ -48,15 +42,15 @@ namespace ASP.Helpers
             return new HtmlString(buildHtml.ToString());
         }
 
-        private void addHtmlFilters(StringBuilder stringBuilder)
+        private void AddHtmlFilters(StringBuilder stringBuilder)
         {
             var mainDiv = new HtmlGenericControl("div");
-            var form = GraphLabsUIFactory.createHtmlForm();
+            var form = GraphLabsUIFactory.CreateHtmlForm();
             mainDiv.Controls.Add(form);
             
-            if (isA(_source, typeof(IFilterable<,>)))
+            if (IsA(_source, typeof(IFilterable<,>)))
             {
-                var e = getType(_source, typeof(IFilterable<,>));
+                var e = GetType(_source, typeof(IFilterable<,>));
                
                 var genericArgument = e.GetGenericArguments()[1];
                 foreach (var propertyInfo in genericArgument.GetProperties())
@@ -67,10 +61,10 @@ namespace ASP.Helpers
                         {
                             if (propertyInfo.PropertyType == typeof(bool))
                             {
-                                form.Controls.Add(GraphLabsUIFactory.createInputCheckBox(propertyInfo.Name,
+                                form.Controls.Add(GraphLabsUIFactory.CreateInputCheckBox(propertyInfo.Name,
                                     (string) customAttributeData.ConstructorArguments[0].Value));
                             } else {
-                                form.Controls.Add(GraphLabsUIFactory.createInputField(propertyInfo.Name, 
+                                form.Controls.Add(GraphLabsUIFactory.CreateInputField(propertyInfo.Name, 
                                     (string) customAttributeData.ConstructorArguments[0].Value));
                             }
                         }
@@ -83,21 +77,21 @@ namespace ASP.Helpers
                 return;
             }
 
-            form.Controls.Add(GraphLabsUIFactory.createHtmlResetButton());
-            form.Controls.Add(GraphLabsUIFactory.createHtmlSubmitButton());
+            form.Controls.Add(GraphLabsUIFactory.CreateHtmlResetButton());
+            form.Controls.Add(GraphLabsUIFactory.CreateHtmlSubmitButton());
             mainDiv.RenderControl(new HtmlTextWriter(new StringWriter(stringBuilder)));
         }
 
-        private static Type getType(object o, Type t)
+        private static Type GetType(object o, Type t)
         {
             return (o.GetType().GetInterfaces().FirstOrDefault(x =>
                 x.IsGenericType &&
                 x.GetGenericTypeDefinition() == t));
         }
 
-        private static bool isA(object o, Type t)
+        private static bool IsA(object o, Type t)
         {
-            return getType(o, t) != null;
+            return GetType(o, t) != null;
         }
     }
 }
