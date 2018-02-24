@@ -1,17 +1,13 @@
-﻿using System;
-using System.Linq;
-using GraphLabs.Site.Controllers.Attributes;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GraphLabs.DomainModel;
-using GraphLabs.Site.Core;
+using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
-using WebGrease.Css.Extensions;
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
-    public class GroupController : GraphLabsController
+    public class GroupController : GraphLabsFilteringController<GroupModel, Group>
     {
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<GroupModel, Group> _modelSaver;
@@ -27,17 +23,10 @@ namespace GraphLabs.Site.Controllers
             _modelLoader = modelLoader;
         }
 
-        public ActionResult Index(string message, string Name, bool? isOpen)
+        public ActionResult Index(string message)
         {
             ViewBag.Message = message;
-            if (Name == "")
-            {
-                Name = null;
-            }
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>()
-                .filter(g => (Name ==  null || Name.Equals(g.Name))
-                              && (isOpen == null || g.IsOpen == isOpen));
-            
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().Filter(_fiExpression);
             return View((GroupListModel) model);
         }
 

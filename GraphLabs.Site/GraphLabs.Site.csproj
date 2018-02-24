@@ -232,6 +232,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\GraphLabsFilteringController.cs" />
     <Compile Include="Views\Helpers\GraphLabsUIFactory.cs" />
     <Compile Include="Views\Helpers\GraphLabsWebGrid.cs" />
     <Content Include="Content\bootstrap-theme.css" />

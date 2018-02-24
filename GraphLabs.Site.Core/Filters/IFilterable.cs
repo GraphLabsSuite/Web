@@ -7,9 +7,9 @@ namespace GraphLabs.Site.Core.Filters
 {
     public interface IFilterable<TEntity, TModel> 
         where TEntity : AbstractEntity
-        where TModel : IFilterableModel<TEntity>
+        where TModel : AbstractFilterableModel<TEntity>
     {
-        IListModel<TModel> filter(Expression<Func<TEntity, bool>> filter);
+        IListModel<TModel> Filter(Expression<Func<TEntity, bool>> filter);
     }
 
 }

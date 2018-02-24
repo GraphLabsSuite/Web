@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using GraphLabs.DomainModel;
-using GraphLabs.Site.Core;
 using GraphLabs.Site.Core.Filters;
 using GraphLabs.Site.Models.Infrastructure;
 
@@ -34,7 +31,7 @@ namespace GraphLabs.Site.Models.Groups
                 .ToArray();
         }
 
-        public IListModel<GroupModel> filter(Expression<Func<Group, bool>> filter)
+        public IListModel<GroupModel> Filter(Expression<Func<Group, bool>> filter)
         {
             _filter = filter;
             return this;

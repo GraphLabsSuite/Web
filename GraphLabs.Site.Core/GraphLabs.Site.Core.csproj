@@ -141,7 +141,8 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="Filters\IFilterableModel.cs" />
+    <Compile Include="Filters\FilterParams.cs" />
+    <Compile Include="Filters\AbstractFilterableModel.cs" />
     <Compile Include="Filters\IFilterAttribute.cs" />
     <Compile Include="Filters\IFilterable.cs" />
     <Compile Include="Filters\StringFilterAttribute.cs" />
