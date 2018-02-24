@@ -5,13 +5,6 @@ using System;
 
 namespace GraphLabs.Site.Models.Schedule
 {
-
-    public interface IFilterableByDate<TListModel, TModel>
-        where TListModel : IListModel<TModel>
-    {
-        TListModel FilterByDate(DateTime? from, DateTime? till);
-    }
-
     /// <summary> Модель расписания (списка) </summary>
     public class LabScheduleListModel : ListModelBase<LabScheduleModel>,
         IFilterableByDate<LabScheduleListModel, LabScheduleModel>

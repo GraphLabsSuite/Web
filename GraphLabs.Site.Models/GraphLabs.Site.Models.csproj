@@ -158,6 +158,7 @@
     <Compile Include="AvailableLab\DemoLabListModel.cs" />
     <Compile Include="AvailableLab\DemoLabModelLoader.cs" />
     <Compile Include="AvailableLab\TestingLabModel.cs" />
+    <Compile Include="Infrastructure\IFilterableByDate.cs" />
     <Compile Include="Infrastructure\EntityRemover.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Groups\GroupModel.cs" />
     <Compile Include="Groups\GroupModelLoader.cs" />
     <Compile Include="Groups\GroupModelSaver.cs" />
+    <Compile Include="Infrastructure\IFilterableByUser.cs" />
     <Compile Include="Infrastructure\RemovalStatus.cs" />
     <Compile Include="Infrastructure\IEntityRemover.cs" />
     <Compile Include="Infrastructure\IEntityBasedModelSaver.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Question\QuestionLookForModel.cs" />
     <Compile Include="Question\QuestionModel.cs" />
     <Compile Include="Question\QuestionModelLoader.cs" />
+    <Compile Include="Results\ResultListModel.cs" />
     <Compile Include="Schedule\Edit\EditIndividualLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditGroupLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelBase.cs" />
