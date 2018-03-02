@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using GraphLabs.WcfServices.Data;
+using System.ServiceModel.Web;
 
 namespace GraphLabs.WcfServices
 {
@@ -13,6 +14,9 @@ namespace GraphLabs.WcfServices
         /// <param name="sessionGuid"> Идентификатор сессии </param>
         /// <returns> Вариант задания </returns>
         [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "variant?id={taskId}&sid={sessionGuid}"
+            )]
         TaskVariantDto GetVariant(long taskId, Guid sessionGuid);
     }
 }

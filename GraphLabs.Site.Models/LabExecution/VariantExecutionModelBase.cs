@@ -5,7 +5,7 @@ using GraphLabs.Site.Models.Infrastructure;
 namespace GraphLabs.Site.Models.LabExecution
 {
     /// <summary> Модель для выполнения варианта лабы </summary>
-    public abstract class VariantExecutionModelBase : IEntityBasedModel<LabVariant>
+    public abstract class VariantExecutionModelBase : IEntityBasedModel<DomainModel.LabVariant>
     {
         /// <summary> ID варианта </summary>
         public long VariantId { get; set; }

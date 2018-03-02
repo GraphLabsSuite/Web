@@ -450,6 +450,9 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Schedule\Delete.cshtml" />
     <Content Include="Views\TestPool\Look.cshtml" />
+    <Content Include="Views\Labs\GenerateVariant.cshtml" />
+    <Content Include="Views\Lab\Index.cshtml" />
+    <Content Include="Views\Lab\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

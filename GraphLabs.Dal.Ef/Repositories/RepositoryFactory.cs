@@ -74,5 +74,13 @@ namespace GraphLabs.Dal.Ef.Repositories
 
             return new SurveyRepository(_context);
         }
+
+        [NotNull]
+        public ITestPoolRepository GetTestPoolRepository()
+        {
+            Contract.Ensures(Contract.Result<ITestPoolRepository>() != null);
+
+            return new TestPoolRepository(_context);
+        }
     }
 }

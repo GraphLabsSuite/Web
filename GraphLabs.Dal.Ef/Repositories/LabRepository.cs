@@ -8,7 +8,7 @@ using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Dal.Ef.Repositories
 {
-    /// <summary> Репозиторий с группами </summary>
+    /// <summary> Репозиторий с лабами </summary>
     internal class LabRepository : RepositoryBase, ILabRepository
     {
 		private readonly ITasksContext _taskRepository;

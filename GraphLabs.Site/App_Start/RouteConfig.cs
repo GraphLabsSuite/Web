@@ -19,6 +19,13 @@ namespace GraphLabs.Site.App_Start
                 );
 
             routes.MapRoute(
+                name: "GenerateTaskVariant",
+                url: "TaskVariant/GenerateVariant/{taskId}",
+                defaults:
+                new { controller = "TaskVariant", action = "GenerateVariant"}
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
