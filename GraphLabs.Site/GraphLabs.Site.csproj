@@ -449,6 +449,7 @@
     <Content Include="Views\Startpage\Index.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Schedule\Delete.cshtml" />
+    <Content Include="Views\TestPool\Look.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
