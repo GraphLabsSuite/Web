@@ -38,9 +38,10 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string message)
+        public ActionResult Index(string message, long? testPoolId)
         {
             ViewBag.Message = message;
+            ViewBag.PreviewTestPoolId = testPoolId;
 
             var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
             return View(model);

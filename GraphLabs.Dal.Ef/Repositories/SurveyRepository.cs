@@ -5,10 +5,10 @@ using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Dal.Ef.Repositories
 {
-    /// <summary> Репозиторий с группами </summary>
+    /// <summary> Репозиторий с вопросами </summary>
     internal class SurveyRepository : RepositoryBase, ISurveyRepository
     {
-        /// <summary> Репозиторий с группами </summary>
+        /// <summary> Репозиторий с вопросами </summary>
         public SurveyRepository(GraphLabsContext context)
             : base(context)
         {
