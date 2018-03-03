@@ -341,7 +341,5 @@ namespace GraphLabs.DomainModel {
                 return ResourceManager.GetString("User_OnValidating_Указан_неверный_Email_адрес_", resourceCulture);
             }
         }
-
-        public static string AbstractLabStartpage_OnEntityValidating_Дата_с_должна_быть_больше_даты_по { get; internal set; }
     }
 }
