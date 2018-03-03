@@ -3,35 +3,101 @@
 
 
 @{
-    ViewBag.Title = "Создание тестпула";
+    ViewBag.Title = "Создать тест";
 }
 
 <hgroup>
     <h2>@ViewBag.Title.</h2>
-    @Html.ActionLink("Обратно к списку", "Index")
+    @Html.ActionLink("Вернуться к списку тестов", "Index")
 </hgroup>
+<table align="center">
+    <tr>
+        <td>Выберите тему и подтему</td>
+        <td>Оцените размер общего балла</td>
+        <td>Выбор стратегии</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <form action="select_theme_create.php" method="post">
+                <p>
+                    <select size="1" name="hero[]">
+                        <option autofocus>Тема не выбрана</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </p>
+            </form>
+        </td>
+        <td>
+            <form action="select_theme_create.php" method="post">
+                <p>
+                    <select size="1" name="hero[]">
+                        <option autofocus>Тема не выбрана</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </p>
+            </form>
+        </td>
+        <td>
+            <form action="select_theme_create.php" method="post">
+                <p>
+                    <select size="1" name="hero[]">
+                        <option autofocus>Тема не выбрана</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </p>
+            </form>
+        </td>
+        <td>&#10006;</td>
+    </tr>
+    <tr>
+        <td>
+            <form action="select_theme_create.php" method="post">
+                <p>
+                    <select size="1" name="hero[]">
+                        <option autofocus>Тема не выбрана</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </p>
+            </form>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>    
+<button>+</button> Добавить подтему
+<button>Сохранить</button>
+        <!--
+        <span class="field-validation-error">
+         /*   @ViewBag.Message*/
+        </span>
 
-<span class="field-validation-error">
-    @ViewBag.Message
-</span>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            <fieldset>
+                <div class="editor-label">
+                    Название тестпула
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <p>
+                    <input type="submit" value="Создать" />
+                </p>
+            </fieldset>
+        }-->
 
-@using (Html.BeginForm())
-{
-@Html.ValidationSummary(true)
-<fieldset>
-    <div class="editor-label">
-        Название тестпула
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name)
-    </div>
-    <p>
-        <input type="submit" value="Создать"/>
-    </p>
-</fieldset>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

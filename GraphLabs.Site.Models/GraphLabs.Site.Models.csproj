@@ -205,6 +205,9 @@
     <Compile Include="Schedule\Edit\EditLabScheduleModelLoader.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelSaver.cs" />
     <Compile Include="Schedule\Edit\IEditLabScheduleModelLoader.cs" />
+    <Compile Include="Infrastructure\IFilterableByDate.cs" />
+    <Compile Include="Infrastructure\IFilterableByLabName.cs" />
+    <Compile Include="Infrastructure\IFilterableByUser.cs" />
     <Compile Include="Schedule\LabScheduleListModel.cs" />
     <Compile Include="Schedule\LabScheduleModel.cs" />
     <Compile Include="Schedule\LabScheduleModelLoader.cs" />
