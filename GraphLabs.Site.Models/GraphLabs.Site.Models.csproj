@@ -199,6 +199,7 @@
     <Compile Include="Question\QuestionLookForModel.cs" />
     <Compile Include="Question\QuestionModel.cs" />
     <Compile Include="Question\QuestionModelLoader.cs" />
+    <Compile Include="Results\ResultListModel.cs" />
     <Compile Include="Schedule\Edit\EditIndividualLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditGroupLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelBase.cs" />

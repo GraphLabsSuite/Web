@@ -1,9 +1,9 @@
 ﻿using GraphLabs.Site.Controllers.Attributes;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using System;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.Schedule;
-using System;
 
 namespace GraphLabs.Site.Controllers
 {

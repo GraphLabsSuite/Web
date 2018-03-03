@@ -432,7 +432,6 @@
     <Content Include="Views\Result\LabWorkResult.cshtml" />
     <Content Include="Views\Result\StudentList.cshtml" />
     <Content Include="Views\Result\StudentResult.cshtml" />
-    <Content Include="Views\Result\TaskResult.cshtml" />
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
     <Content Include="Views\Schedule\_ScheduleEditors.cshtml" />
