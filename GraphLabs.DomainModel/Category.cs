@@ -24,6 +24,7 @@ namespace GraphLabs.DomainModel
     
         public long Id { get; set; }
         public string Name { get; set; }
+        public bool IsSubCategory { get; set; }
     }
     
     #pragma warning restore 1591

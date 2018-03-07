@@ -1,20 +1,38 @@
 ﻿@model GraphLabs.Site.Models.SurveyIndexViewModel
-
 @{
-    ViewBag.Title = "Тестовые вопросы";
+    ViewBag.Title = "Вопросы";
 }
 
 <hgroup>
-    <h2>Тестовые вопросы</h2>
-    @Html.ActionLink("Добавить", "Create")
+    <h2>Вопросы</h2>
 </hgroup>
 
-<div class="editor-label">
-    Выберите категорию
-</div>
-<div class="editor-field">
-    @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
-</div>
+@Html.ActionLink("+ Добавить вопрос", "Create") 
+<br />
+@Html.ActionLink("+ Добавить подтему", "")
+<br />
+@Html.ActionLink("+ Добавить тему", "")
+<br />
+
+<table>
+    <tr>
+        <td>
+            <div class="editor-label">
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList.Where(x => x.)
+            </div>
+        </td>
+        <td>
+            <div class="editor-label">
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
+            </div>
+        </td>
+    </tr>
+</table>
+
 
 <div id="TestQuestionList">
 

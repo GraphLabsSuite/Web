@@ -1,10 +1,5 @@
-﻿using GraphLabs.Dal.Ef;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel.Repositories;
 
 namespace GraphLabs.Site.Models
@@ -33,11 +28,11 @@ namespace GraphLabs.Site.Models
             {
                 QuestionId = q.Id,
                 Question = q.Question,
-                QuestionCategory = q.Category.Name
+                QuestionCategory = q.Category.Name,
+                QuestionSubCategory = q.SubCategory.Name
             })
                 .ToList();
         }
-
 		public TestQuestionListViewModel(ISurveyRepository surveyRepository)
 		{
 		    _surveyRepository = surveyRepository;
@@ -49,5 +44,6 @@ namespace GraphLabs.Site.Models
 		public long QuestionId { get; set; }
 		public string Question { get; set; }
 		public string QuestionCategory { get; set; }
-	}
+        public string QuestionSubCategory { get; set; }
+    }
 }
