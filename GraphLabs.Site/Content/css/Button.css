@@ -10,11 +10,12 @@ submit {
 	display:inline-block;
 	cursor:pointer;
 	color:#000000;
-	font-family:arial;
+	font-family:inherit;
 	font-size:13px;
-	padding:6px 28px;
+	padding: 5px 40px;
 	text-decoration:none;
     width:auto;
+    margin-top: 50px;
 }
 
 input[type="button"]:hover,
@@ -55,6 +56,8 @@ submit:active:disabled {
 	top:0px;
 }
 
+/*кнопка в виде направленного влево треугольника*/
+
 .left-button {
     all: initial;
 	width: 0;
@@ -73,6 +76,8 @@ submit:active:disabled {
    border-right: 30px solid #8aa5b7;
 }
 
+/*кнопка в виде направленного вправо треугольника*/
+
 .right-button {
     all: initial;
 	width: 0;
@@ -89,4 +94,23 @@ submit:active:disabled {
 .right-button:hover {
    background-color:white;
    border-left: 30px solid #8aa5b7;
+}
+
+/*кнопка добавления*/
+
+.circle-add-button {
+    all: initial;
+	background-color: white;
+    border: 1px solid #6e6e6e;
+    border-radius: 50%;
+	width: 30px;
+    height: 30px;
+    font-size: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.circle-add-button:before {
+    content: "+";
 }

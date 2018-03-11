@@ -16,7 +16,7 @@ namespace GraphLabs.Site.Models
 
 		public List<TestQuestionDto> Items { get; private set; }
 
-        public void Load(long CategoryId)
+        public void Load(long CategoryId)//, long SubCategoryId)
         {
             ShowCategory = CategoryId == 0;
 
@@ -29,11 +29,11 @@ namespace GraphLabs.Site.Models
                 QuestionId = q.Id,
                 Question = q.Question,
                 QuestionCategory = q.Category.Name,
-                QuestionSubCategory = q.SubCategory.Name
+               // QuestionSubCategory = q.SubCategory.Name
             })
                 .ToList();
         }
-		public TestQuestionListViewModel(ISurveyRepository surveyRepository)
+        public TestQuestionListViewModel(ISurveyRepository surveyRepository)
 		{
 		    _surveyRepository = surveyRepository;
 		}
@@ -44,6 +44,6 @@ namespace GraphLabs.Site.Models
 		public long QuestionId { get; set; }
 		public string Question { get; set; }
 		public string QuestionCategory { get; set; }
-        public string QuestionSubCategory { get; set; }
+       // public string QuestionSubCategory { get; set; }
     }
 }

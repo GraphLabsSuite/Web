@@ -1,4 +1,4 @@
-﻿del GraphLabs.Site.Models.SurveyIndexViewModel
+﻿@model GraphLabs.Site.Models.SurveyIndexViewModel
 @{
     ViewBag.Title = "Вопросы";
 }
@@ -7,7 +7,7 @@
     <h2>Вопросы</h2>
 </hgroup>
 
-@Html.ActionLink("+ Добавить вопрос", "Create") 
+@Html.ActionLink("+ Добавить вопрос", "Create")
 <br />
 @Html.ActionLink("+ Добавить подтему", "")
 <br />
@@ -18,6 +18,7 @@
     <tr>
         <td>
             <div class="editor-label">
+                Выберите тему
             </div>
             <div class="editor-field">
                 @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
@@ -25,6 +26,7 @@
         </td>
         <td>
             <div class="editor-label">
+                Выберите подтему
             </div>
             <div class="editor-field">
                 @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
@@ -32,7 +34,6 @@
         </td>
     </tr>
 </table>
-
 
 <div id="TestQuestionList">
 

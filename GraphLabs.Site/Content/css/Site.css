@@ -273,6 +273,19 @@ label.checkbox {
     display: inline;
 }
 
+.editText input, textarea {
+    width: 100%
+}
+
+.dropDown {
+    width: 100%;
+    height: 35px;
+    border: 1px solid #e2e2e2;
+    font-size: 1em;
+    font-family: inherit; 
+    margin: 5px;
+}
+
 input, textarea {
     border: 1px solid #e2e2e2;
     background: #fff;
@@ -283,12 +296,14 @@ input, textarea {
     width: 300px;
 }
 
-textarea {
-    font-family: inherit;
-    width: 300px;
+.editwidth {
 }
 
-    input:focus, textarea:focus {
+textarea {
+    font-family: inherit;
+}
+
+   input:focus, textarea:focus {
         border: 1px solid #7ac0da;
     }
 
@@ -302,10 +317,10 @@ textarea {
         background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;
-        font-size: 1.2em;
-        font-weight: 600;
-        padding: 7px;
-        margin-right: 8px;
+        font-size: 1.0em;
+        font-weight: 500;
+        padding: 5px 40px;
+        margin-top: 50px;
         width: auto;
     }
 
