@@ -61,4 +61,5 @@ tr.pager td {
 
 .nakedTable, .nakedTable td {
     padding: 10px 20px 10px 0;
+    border:dotted;
 }
