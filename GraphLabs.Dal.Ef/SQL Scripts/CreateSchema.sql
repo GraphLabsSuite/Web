@@ -97,7 +97,7 @@ GO
 CREATE TABLE [dbo].[TestQuestions] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Question] nvarchar(max)  NOT NULL,
-    [Category_Id] bigint  NOT NULL
+    [SubCategory_Id] bigint  NOT NULL
 );
 GO
 
@@ -203,6 +203,14 @@ CREATE TABLE [dbo].[AbstractStudentActions] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Time] datetime  NOT NULL,
     [Penalty] int  NOT NULL
+);
+GO
+
+-- Creating table 'SubCategories'
+CREATE TABLE [dbo].[SubCategories] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Category_Id] bigint  NOT NULL
 );
 GO
 
@@ -395,6 +403,12 @@ GO
 -- Creating primary key on [Id] in table 'AbstractStudentActions'
 ALTER TABLE [dbo].[AbstractStudentActions]
 ADD CONSTRAINT [PK_AbstractStudentActions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SubCategories'
+ALTER TABLE [dbo].[SubCategories]
+ADD CONSTRAINT [PK_SubCategories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -613,21 +627,6 @@ GO
 CREATE INDEX [IX_FK_TaskLabEntry]
 ON [dbo].[LabEntries]
     ([Task_Id]);
-GO
-
--- Creating foreign key on [Category_Id] in table 'TestQuestions'
-ALTER TABLE [dbo].[TestQuestions]
-ADD CONSTRAINT [FK_TestQuestionCategory]
-    FOREIGN KEY ([Category_Id])
-    REFERENCES [dbo].[Categories]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestionCategory'
-CREATE INDEX [IX_FK_TestQuestionCategory]
-ON [dbo].[TestQuestions]
-    ([Category_Id]);
 GO
 
 -- Creating foreign key on [TaskData_Id] in table 'Tasks'
@@ -862,6 +861,36 @@ GO
 CREATE INDEX [IX_FK_TestPoolEntryTestResult]
 ON [dbo].[AbstractResultEntries_TestResult]
     ([TestPoolEntry_Id]);
+GO
+
+-- Creating foreign key on [SubCategory_Id] in table 'TestQuestions'
+ALTER TABLE [dbo].[TestQuestions]
+ADD CONSTRAINT [FK_TestQuestionSubCategory]
+    FOREIGN KEY ([SubCategory_Id])
+    REFERENCES [dbo].[SubCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestionSubCategory'
+CREATE INDEX [IX_FK_TestQuestionSubCategory]
+ON [dbo].[TestQuestions]
+    ([SubCategory_Id]);
+GO
+
+-- Creating foreign key on [Category_Id] in table 'SubCategories'
+ALTER TABLE [dbo].[SubCategories]
+ADD CONSTRAINT [FK_CategorySubCategory]
+    FOREIGN KEY ([Category_Id])
+    REFERENCES [dbo].[Categories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CategorySubCategory'
+CREATE INDEX [IX_FK_CategorySubCategory]
+ON [dbo].[SubCategories]
+    ([Category_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Student'

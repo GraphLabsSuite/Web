@@ -26,9 +26,8 @@ namespace GraphLabs.DomainModel
         public long Id { get; private set; }
         public string Question { get; set; }
     
-        public virtual Category Category { get; set; }
-        public virtual Category SubCategory { get; set; }
         public virtual ICollection<AnswerVariant> AnswerVariants { get; set; }
+        public virtual SubCategory SubCategory { get; set; }
     }
     
     #pragma warning restore 1591

@@ -20,11 +20,13 @@ namespace GraphLabs.DomainModel
     {
         protected Category()
         {
+            this.SubCategories = new HashSet<SubCategory>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
-        public bool IsSubCategory { get; set; }
+    
+        public virtual ICollection<SubCategory> SubCategories { get; set; }
     }
     
     #pragma warning restore 1591
