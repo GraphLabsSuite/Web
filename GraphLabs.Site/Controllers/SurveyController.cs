@@ -39,19 +39,19 @@ namespace GraphLabs.Site.Controllers
 	    #region Просмотр списка
 
 		[HttpGet]
-		public ActionResult Index(long CategoryId = 0)
+		public ActionResult Index(long SubCategoryId = 0)
 		{
             var model = new SurveyIndexViewModel(_surveyRepository, _categoryRepository);
-            model.Load(CategoryId);
+            model.Load(SubCategoryId);
 
 			return View("~/Views/Survey/Index.cshtml", model);
 		}
 
 		[HttpGet]
-		public ActionResult TestQuestionList(long CategoryId)
+		public ActionResult TestQuestionList(long SubCategoryId)
 		{
 			var model = new TestQuestionListViewModel(_surveyRepository);
-            model.Load(CategoryId);
+            model.Load(SubCategoryId);
 
 			return new JsonResult
 			{
@@ -119,6 +119,85 @@ namespace GraphLabs.Site.Controllers
 			return View("~/Views/Survey/Create.cshtml", model);
 		}
 
-		#endregion
-	}
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            var emptyQuestion = new SurveyCreatingModel(_surveyRepository, _categoryRepository);
+            emptyQuestion.Question = "";
+            emptyQuestion.QuestionOptions.Add(new KeyValuePair<string, bool>("", true));
+
+            return View("~/Views/Survey/Edit.cshtml", emptyQuestion);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+        {
+            //Question, QuestionOptions, CategoryId
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                CategoryId = CategoryId,
+                QuestionOptions = QuestionOptions.ToList(),
+                Question = Question
+            };
+
+            if (model.IsValid)
+            {
+                model.Save();
+                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+            }
+
+            return View("~/Views/Survey/Edit.cshtml", model);
+        }
+
+        [HttpGet]
+        public ActionResult AddCategory()
+        {
+            return View("~/Views/Survey/AddCategory.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult AddCategory(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+        {
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                CategoryId = CategoryId,
+                QuestionOptions = QuestionOptions.ToList(),
+                Question = Question
+            };
+
+            if (model.IsValid)
+            {
+                model.Save();
+                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+            }
+
+            return View("~/Views/Survey/AddCategory.cshtml");
+        }
+
+        [HttpGet]
+        public ActionResult AddSubCategory()
+        {
+            return View("~/Views/Survey/AddSubCategory.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult AddSubCategory(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+        {
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                CategoryId = CategoryId,
+                QuestionOptions = QuestionOptions.ToList(),
+                Question = Question
+            };
+
+            if (model.IsValid)
+            {
+                model.Save();
+                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+            }
+
+            return View("~/Views/Survey/AddSubCategory.cshtml");
+        }
+        #endregion
+    }
 }

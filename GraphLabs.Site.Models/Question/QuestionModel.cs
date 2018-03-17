@@ -12,6 +12,6 @@ namespace GraphLabs.Site.Models.Question
     {
         public long Id { get; set; }
         public string Question { get; set; }
-        public virtual Category Category { get; set; }
+        public virtual SubCategory Category { get; set; }
     }
 }

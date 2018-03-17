@@ -29,7 +29,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		{
 			CheckNotDisposed();
 
-			return Context.TestQuestions.Where(tq => tq.Category.Id == categoryId).ToArray();
+			return Context.TestQuestions.Where(tq => tq.SubCategory.Id == categoryId).ToArray();
 		}
 
         public TestQuestion[] GetQuestionsSimilarToString(string criteria)
@@ -48,7 +48,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 
             var quest = Context.TestQuestions.Create();
             quest.Question = question;
-            quest.Category = Context.Categories.Single(c => c.Id == categoryId);
+            quest.SubCategory = Context.SubCategories.Single(c => c.Id == categoryId);
 
             Context.TestQuestions.Add(quest);
 
@@ -69,7 +69,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		{
 			CheckNotDisposed();
 
-			return Context.TestQuestions.Count(tq => tq.Category.Id == CategoryId);
+			return Context.TestQuestions.Count(tq => tq.SubCategory.Id == CategoryId);
 		}
     }
 }

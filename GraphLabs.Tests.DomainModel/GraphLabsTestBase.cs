@@ -16,7 +16,7 @@ namespace GraphLabs.Tests.DomainModel
 
         private GraphLabsContext CreateDbContext()
         {
-            return new GraphLabsContext("GraphLabsTestContext");
+            return new GraphLabsContext();
         }
 
         #region Скрипты
