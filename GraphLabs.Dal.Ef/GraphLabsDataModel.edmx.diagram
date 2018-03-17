@@ -36,8 +36,7 @@
         </AssociationConnector>
         <AssociationConnector Association="DataModel.LabWorkLabEntry" />
         <AssociationConnector Association="DataModel.TaskLabEntry" />
-        <EntityTypeShape EntityType="DataModel.Category" Width="1.5" PointX="8.625" PointY="8.375" FillColor="Purple" />
-        <AssociationConnector Association="DataModel.TestQuestionCategory" />
+        <EntityTypeShape EntityType="DataModel.Category" Width="1.5" PointX="8.875" PointY="7.875" FillColor="Purple" />
         <EntityTypeShape EntityType="DataModel.TaskData" Width="1.125" PointX="3.375" PointY="8.25" IsExpanded="true" FillColor="0, 192, 192" />
         <AssociationConnector Association="DataModel.TaskTaskData" />
         <EntityTypeShape EntityType="DataModel.TaskResult" Width="1.5" PointX="0.5" PointY="2.75" FillColor="Maroon" />
@@ -75,6 +74,9 @@
         <AssociationConnector Association="DataModel.TestPoolLabVariant" />
         <AssociationConnector Association="DataModel.TestPoolTestPoolEntry" />
         <AssociationConnector Association="DataModel.TestPoolEntryTestResult" />
+        <EntityTypeShape EntityType="DataModel.SubCategory" Width="1.5" PointX="8.875" PointY="10" FillColor="Purple" />
+        <AssociationConnector Association="DataModel.TestQuestionSubCategory" />
+        <AssociationConnector Association="DataModel.CategorySubCategory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

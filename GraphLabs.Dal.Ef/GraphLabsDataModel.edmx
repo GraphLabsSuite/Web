@@ -26,6 +26,7 @@
     <EntitySet Name="TestPoolEntries" EntityType="DataModel.Store.TestPoolEntries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractResultEntries" EntityType="DataModel.Store.AbstractResultEntries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractStudentActions" EntityType="DataModel.Store.AbstractStudentActions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SubCategories" EntityType="DataModel.Store.SubCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Student" EntityType="DataModel.Store.Users_Student" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractResultEntries_TaskResult" EntityType="DataModel.Store.AbstractResultEntries_TaskResult" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AbstractStudentActions_StudentAction" EntityType="DataModel.Store.AbstractStudentActions_StudentAction" store:Type="Tables" Schema="dbo" />
@@ -78,10 +79,6 @@
     <AssociationSet Name="TaskLabEntry" Association="DataModel.Store.TaskLabEntry">
       <End Role="Task" EntitySet="Tasks" />
       <End Role="LabEntry" EntitySet="LabEntries" />
-    </AssociationSet>
-    <AssociationSet Name="TestQuestionCategory" Association="DataModel.Store.TestQuestionCategory">
-      <End Role="TestQuestion" EntitySet="TestQuestions" />
-      <End Role="Category" EntitySet="Categories" />
     </AssociationSet>
     <AssociationSet Name="TaskTaskData" Association="DataModel.Store.TaskTaskData">
       <End Role="Task" EntitySet="Tasks" />
@@ -146,6 +143,14 @@
     <AssociationSet Name="TestPoolEntryTestResult" Association="DataModel.Store.TestPoolEntryTestResult">
       <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
       <End Role="TestResult" EntitySet="AbstractResultEntries_TestResult" />
+    </AssociationSet>
+    <AssociationSet Name="TestQuestionSubCategory" Association="DataModel.Store.TestQuestionSubCategory">
+      <End Role="TestQuestion" EntitySet="TestQuestions" />
+      <End Role="SubCategory" EntitySet="SubCategories" />
+    </AssociationSet>
+    <AssociationSet Name="CategorySubCategory" Association="DataModel.Store.CategorySubCategory">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="SubCategory" EntitySet="SubCategories" />
     </AssociationSet>
     <AssociationSet Name="FK_Student_inherits_User" Association="DataModel.Store.FK_Student_inherits_User">
       <End Role="User" EntitySet="Users" />
@@ -258,7 +263,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Category_Id" Type="bigint" Nullable="false" />
+    <Property Name="SubCategory_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="AnswerVariants">
     <Key>
@@ -364,6 +369,14 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Time" Type="datetime" Nullable="false" />
     <Property Name="Penalty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SubCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Category_Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Users_Student">
     <Key>
@@ -543,18 +556,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TestQuestionCategory">
-    <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="*" />
-    <End Role="Category" Type="DataModel.Store.Categories" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Category">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TestQuestion">
-        <PropertyRef Name="Category_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="TaskTaskData">
     <End Role="Task" Type="DataModel.Store.Tasks" Multiplicity="*" />
     <End Role="TaskData" Type="DataModel.Store.TaskDatas" Multiplicity="1" />
@@ -720,6 +721,30 @@
       </Principal>
       <Dependent Role="TestResult">
         <PropertyRef Name="TestPoolEntry_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestQuestionSubCategory">
+    <End Role="TestQuestion" Type="DataModel.Store.TestQuestions" Multiplicity="*" />
+    <End Role="SubCategory" Type="DataModel.Store.SubCategories" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SubCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestQuestion">
+        <PropertyRef Name="SubCategory_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CategorySubCategory">
+    <End Role="Category" Type="DataModel.Store.Categories" Multiplicity="1" />
+    <End Role="SubCategory" Type="DataModel.Store.SubCategories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubCategory">
+        <PropertyRef Name="Category_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -928,10 +953,6 @@
             <End Role="LabEntry" EntitySet="LabEntries" />
           </AssociationSet>
           <EntitySet Name="Categories" EntityType="DataModel.Category" />
-          <AssociationSet Name="TestQuestionCategory" Association="DataModel.TestQuestionCategory">
-            <End Role="TestQuestion" EntitySet="TestQuestions" />
-            <End Role="Category" EntitySet="Categories" />
-          </AssociationSet>
           <EntitySet Name="TaskDatas" EntityType="DataModel.TaskData" />
           <AssociationSet Name="TaskTaskData" Association="DataModel.TaskTaskData">
             <End Role="Task" EntitySet="Tasks" />
@@ -997,6 +1018,15 @@
           <AssociationSet Name="TestPoolEntryTestResult" Association="DataModel.TestPoolEntryTestResult">
             <End Role="TestPoolEntry" EntitySet="TestPoolEntries" />
             <End Role="TestResult" EntitySet="AbstractResultEntries" />
+          </AssociationSet>
+          <EntitySet Name="SubCategories" EntityType="DataModel.SubCategory" />
+          <AssociationSet Name="TestQuestionSubCategory" Association="DataModel.TestQuestionSubCategory">
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="CategorySubCategory" Association="DataModel.CategorySubCategory">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="News">
@@ -1098,8 +1128,8 @@
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="Question" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Category" Relationship="DataModel.TestQuestionCategory" FromRole="TestQuestion" ToRole="Category" />
           <NavigationProperty Name="AnswerVariants" Relationship="DataModel.TestQuestionAnswerVariant" FromRole="TestQuestion" ToRole="AnswerVariant" />
+          <NavigationProperty Name="SubCategory" Relationship="DataModel.TestQuestionSubCategory" FromRole="TestQuestion" ToRole="SubCategory" />
         </EntityType>
         <EntityType Name="AnswerVariant">
           <Key>
@@ -1210,11 +1240,8 @@
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="SubCategories" Relationship="DataModel.CategorySubCategory" FromRole="Category" ToRole="SubCategory" />
         </EntityType>
-        <Association Name="TestQuestionCategory">
-          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="*" />
-          <End Type="DataModel.Category" Role="Category" Multiplicity="1" />
-        </Association>
         <EntityType Name="TaskData">
           <Key>
             <PropertyRef Name="Id" />
@@ -1354,6 +1381,22 @@
         <Association Name="TestPoolEntryTestResult">
           <End Type="DataModel.TestPoolEntry" Role="TestPoolEntry" Multiplicity="1" />
           <End Type="DataModel.TestResult" Role="TestResult" Multiplicity="*" />
+        </Association>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="DataModel.CategorySubCategory" FromRole="SubCategory" ToRole="Category" />
+        </EntityType>
+        <Association Name="TestQuestionSubCategory">
+          <End Type="DataModel.TestQuestion" Role="TestQuestion" Multiplicity="*" />
+          <End Type="DataModel.SubCategory" Role="SubCategory" Multiplicity="1" />
+        </Association>
+        <Association Name="CategorySubCategory">
+          <End Type="DataModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="DataModel.SubCategory" Role="SubCategory" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1593,6 +1636,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SubCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.SubCategory)">
+        <MappingFragment StoreEntitySet="SubCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="UserNews" TypeName="DataModel.UserNews" StoreEntitySet="News">
       <EndProperty Name="Publisher">
         <ScalarProperty Name="Id" ColumnName="User_Id" />
@@ -1671,14 +1722,6 @@
         <ScalarProperty Name="Id" ColumnName="Task_Id" />
       </EndProperty>
       <EndProperty Name="LabEntry">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TestQuestionCategory" TypeName="DataModel.TestQuestionCategory" StoreEntitySet="TestQuestions">
-      <EndProperty Name="Category">
-        <ScalarProperty Name="Id" ColumnName="Category_Id" />
-      </EndProperty>
-      <EndProperty Name="TestQuestion">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -1800,6 +1843,22 @@
         <ScalarProperty Name="Id" ColumnName="TestPoolEntry_Id" />
       </EndProperty>
       <EndProperty Name="TestResult">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestQuestionSubCategory" TypeName="DataModel.TestQuestionSubCategory" StoreEntitySet="TestQuestions">
+      <EndProperty Name="SubCategory">
+        <ScalarProperty Name="Id" ColumnName="SubCategory_Id" />
+      </EndProperty>
+      <EndProperty Name="TestQuestion">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CategorySubCategory" TypeName="DataModel.CategorySubCategory" StoreEntitySet="SubCategories">
+      <EndProperty Name="Category">
+        <ScalarProperty Name="Id" ColumnName="Category_Id" />
+      </EndProperty>
+      <EndProperty Name="SubCategory">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

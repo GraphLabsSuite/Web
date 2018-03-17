@@ -46,5 +46,6 @@ namespace GraphLabs.Dal.Ef
         public DbSet<TestPoolEntry> TestPoolEntries { get; set; }
         public DbSet<AbstractResultEntry> AbstractResultEntries { get; set; }
         public DbSet<AbstractStudentAction> AbstractStudentActions { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
     }
 }

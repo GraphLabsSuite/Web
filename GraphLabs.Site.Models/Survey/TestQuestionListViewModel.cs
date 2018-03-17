@@ -16,20 +16,19 @@ namespace GraphLabs.Site.Models
 
 		public List<TestQuestionDto> Items { get; private set; }
 
-        public void Load(long CategoryId)//, long SubCategoryId)
+        public void Load(long SubCategoryId)
         {
-            ShowCategory = CategoryId == 0;
+            ShowCategory = SubCategoryId == 0;
 
-            var questions = CategoryId == 0
+            var questions = SubCategoryId == 0
                 ? _surveyRepository.GetAllQuestions()
-                : _surveyRepository.GetQuestionByCategory(CategoryId);
+                : _surveyRepository.GetQuestionByCategory(SubCategoryId);
 
             Items = questions.Select(q => new TestQuestionDto
             {
                 QuestionId = q.Id,
                 Question = q.Question,
-                QuestionCategory = q.Category.Name,
-               // QuestionSubCategory = q.SubCategory.Name
+                QuestionSubCategory = q.SubCategory.Name,
             })
                 .ToList();
         }
@@ -43,7 +42,6 @@ namespace GraphLabs.Site.Models
 	{
 		public long QuestionId { get; set; }
 		public string Question { get; set; }
-		public string QuestionCategory { get; set; }
-       // public string QuestionSubCategory { get; set; }
+		public string QuestionSubCategory { get; set; }
     }
 }

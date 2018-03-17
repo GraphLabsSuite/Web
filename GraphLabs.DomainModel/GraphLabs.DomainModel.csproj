@@ -229,6 +229,9 @@
     <Compile Include="StudentAnswer.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SubCategory.cs">
+      <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Task.cs">
       <DependentUpon>GraphLabsDataModel.tt</DependentUpon>
     </Compile>
