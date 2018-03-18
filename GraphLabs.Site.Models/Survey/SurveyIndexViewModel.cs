@@ -45,16 +45,6 @@ namespace GraphLabs.Site.Models
                         Selected = CategoryId == 0
                     }
                 })
-                .ToList()
-                .Concat(new List<SelectListItem>
-                {
-                    new SelectListItem
-                    {
-                        Value = "0",
-                        Text = "Все категории",
-                        Selected = CategoryId == 0
-                    }
-                })
                 .ToList();
         }
 

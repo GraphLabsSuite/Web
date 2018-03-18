@@ -37,7 +37,7 @@
                     @question.QuestionId
                 </td>
                 <td>
-                    @question.Question
+                    @Html.ActionLink(@question.Question, "Edit", "Survey", new { Question = @question.Question }, null);
                 </td>
                 @if (Model.ShowCategory)
                 {

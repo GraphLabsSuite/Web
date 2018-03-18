@@ -120,13 +120,13 @@ namespace GraphLabs.Site.Controllers
 		}
 
         [HttpGet]
-        public ActionResult Edit()
+        public ActionResult Edit(string Question)
         {
-            var emptyQuestion = new SurveyCreatingModel(_surveyRepository, _categoryRepository);
-            emptyQuestion.Question = "";
-            emptyQuestion.QuestionOptions.Add(new KeyValuePair<string, bool>("", true));
-
-            return View("~/Views/Survey/Edit.cshtml", emptyQuestion);
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                Question = Question
+            };
+            return View("~/Views/Survey/Edit.cshtml", model);
         }
 
         [HttpPost]
@@ -136,17 +136,17 @@ namespace GraphLabs.Site.Controllers
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
                 CategoryId = CategoryId,
-                QuestionOptions = QuestionOptions.ToList(),
+                QuestionOptions = QuestionOptions.ToList().Where(x => x.Key != "controller" && x.Key != "action").ToList(),
                 Question = Question
             };
 
             if (model.IsValid)
             {
                 model.Save();
-                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } }); //Надо настроить редирект
             }
 
-            return View("~/Views/Survey/Edit.cshtml", model);
+            return View("~/Views/Survey/Edit.cshtml", model); //Надо настроить редирект
         }
 
         [HttpGet]
