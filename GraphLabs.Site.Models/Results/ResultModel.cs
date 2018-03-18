@@ -13,6 +13,8 @@ namespace GraphLabs.Site.Models.Results
         public string Status { get; set; }
         public string LabWorkName { get; set; }
         public string LabVariantNumber { get; set; }
+        public string Student { get; set; }
+        public string SelectedLabWorkId { get; set; }
 
         private DateTime? _dateFrom;
         private DateTime? _dateTill;
@@ -26,6 +28,10 @@ namespace GraphLabs.Site.Models.Results
             _dateTill = till?.Date.AddDays(1).AddMilliseconds(-1);
 
             return this;
+        }
+        public long GetLabWorkId()
+        {
+            return long.Parse(SelectedLabWorkId);
         }
     }
 }

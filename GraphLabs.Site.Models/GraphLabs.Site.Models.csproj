@@ -216,6 +216,8 @@
     <Compile Include="ResultsWithTaskInfo\ResultWithTaskInfoModel.cs" />
     <Compile Include="Results\ResultModel.cs" />
     <Compile Include="Results\ResultModelLoader.cs" />
+    <Compile Include="Schedule\ScheduleStudentListModelLoader.cs" />
+    <Compile Include="Schedule\ScheduleStudentListResult.cs" />
     <Compile Include="StudentActions\StudentActionModel.cs" />
     <Compile Include="StudentActions\StudentActionModelLoader.cs" />
     <Compile Include="LabExecution\TaskListEntryModel.cs" />

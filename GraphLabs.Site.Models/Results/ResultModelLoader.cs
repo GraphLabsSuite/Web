@@ -1,10 +1,12 @@
 ﻿using System;
+using GraphLabs.Dal.Ef.Services;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphLabs.DomainModel;
+using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.TaskResults;
 
@@ -26,7 +28,8 @@ namespace GraphLabs.Site.Models.Results
                 Score = result.Score,
                 Status = ExecutionStatusToString(result.Status),
                 StartDateTime = result.StartDateTime,
-                LabWorkName = result.LabVariant.LabWork.Name
+                LabWorkName = result.LabVariant.LabWork.Name,
+                Student = result.Student.GetShortName()
             };
 
             return model;

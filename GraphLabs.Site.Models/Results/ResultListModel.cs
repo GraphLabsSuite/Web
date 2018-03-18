@@ -29,6 +29,7 @@ namespace GraphLabs.Site.Models.Results
                 .Select(r => _resultLoader.Load(r))
                 .ToArray();
         }
+
         private DateTime? _from;
         private DateTime? _till;
         private string _email;
@@ -39,6 +40,7 @@ namespace GraphLabs.Site.Models.Results
             InvalidateItems();
             return this;
         }
+        
 
         public ResultListModel FilterByUser(string email)
         {

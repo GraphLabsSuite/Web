@@ -452,6 +452,7 @@
     <Content Include="Views\Labs\GenerateVariant.cshtml" />
     <Content Include="Views\Lab\Index.cshtml" />
     <Content Include="Views\Lab\Create.cshtml" />
+    <Content Include="Views\Result\ScheduleStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

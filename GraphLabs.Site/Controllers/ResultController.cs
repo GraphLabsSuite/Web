@@ -59,17 +59,19 @@ namespace GraphLabs.Site.Controllers
             return View(_groupModelLoader.Load(id));
         }
 
-        public ActionResult StudentResult(long id = 0, string ourdatestring = "today")
+        public ActionResult StudentResult(long id = 0)
 
         {
-            var ourdate = DateTime.Today;
-            if (!ourdatestring.Equals("today")) ourdate = DateTime.Parse(ourdatestring);
-            var student = (Student)_userRepository.GetUserById(id);
-           // ViewBag.GroupId = student.Group.Id;
-            var model = _listModelLoader.LoadListModel<ResultListModel, ResultModel>()
-                .FilterByUser(student.Email)
+            /*, string ourdatestring = "today"
+             * 
+             * var ourdate = DateTime.Today;
+             if (!ourdatestring.Equals("today")) ourdate = DateTime.Parse(ourdatestring);
+             var student = (Student)_userRepository.GetUserById(id);
+            // ViewBag.GroupId = student.Group.Id;*/
+            var model = _listModelLoader.LoadListModel<ResultListModel, ResultModel>();
+                /*.FilterByUser(student.Email)
                  .FilterByDate(ourdate.AddDays((DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)),
-                    ourdate.AddDays(7 + (DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)));
+                    ourdate.AddDays(7 + (DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)));*/
             return View(model);
         }
 
@@ -88,6 +90,11 @@ namespace GraphLabs.Site.Controllers
         public ActionResult TestResult(long id = 0)
         {
             var model = _testPoolModelLoader.Load(id);
+            return View(model);
+        }
+        public ActionResult ScheduleStudents(long id = 0)
+        {
+            var model = _listModelLoader.LoadListModel<ResultListModel, ResultModel>();
             return View(model);
         }
     }

@@ -43,7 +43,16 @@
 </a>",
                             item.Id,
                             Url.Content("../Images/edit.png"))),
-                    columnName: "Actions")
+                    columnName: "Actions"),
+                grid.Column(
+                    header: "Результат",
+                    format: item => Html.Raw(string.Format(
+                            @"<a href=""/Result/ScheduleStudents/{0}"">
+<img src=""{1}"" alt=""Посмотреть результат"" width=""24"" height=""24\"" />
+</a>",
+                            item.Id,
+                            Url.Content("../Images/edit.png"))),
+                    columnName: "Results")
                 )
             );
 }
