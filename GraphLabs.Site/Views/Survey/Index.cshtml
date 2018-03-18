@@ -55,7 +55,7 @@
                 type: "Get",
                 url: "/survey/TestQuestionList",
                 data: {
-                    CategoryId: $('#SelectedCategoryId').val()
+                    SubCategoryId: $('#SelectedCategoryId').val()
                 },
                 success: function (data) {
                     $('#TestQuestionList').html(data);
