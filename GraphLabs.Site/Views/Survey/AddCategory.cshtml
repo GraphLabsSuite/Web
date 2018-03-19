@@ -38,84 +38,30 @@
 @section Scripts
 {
     <script>
-        var optionsCount = 0;
+        var countCategory = 1;
                 
                 /*добавление строки с новой темой*/
                 $("#addCategory").click(addCategory);
 
                 function addCategory(e) {
                     e.preventDefault();
+                    countCategory++;
                     var newField = this.parentElement.offsetParent.previousElementSibling.cloneNode(true) //клонирую таблицу
                     //переделать надо id аргументы
                     newField.lastChild.firstChild.children[1].children[0].children[0].value = ""; //удаляю содержимое
-                    this.parentElement.offsetParent.parentElement.insertBefore(newField, this.parentElement.offsetParent) //прикремпляю перед кнопкой добавления.
-                                       
+                    this.parentElement.offsetParent.parentElement.insertBefore(newField, this.parentElement.offsetParent) //прикрепляю перед кнопкой добавления
+                    newField.lastChild.firstChild.children[2].addEventListener('click',deleteCategory);
                 }
 
-                function deleteOption() {
-                  //  console.log($(this))
-                    $(this).parent().parent().remove();
-                    optionsCount--;
-                    for(i = 1; i < optionsCount + 3; ++i)
-                    {
-                        $("table tr:eq(" + i + ") td input:eq(0)").attr("id","QuestionOptions_" + (i - 1).toString() + "__Key");
-                        $("table tr:eq(" + i + ") td input:eq(0)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Key");
+                /*удаление строки с темой*/
+                $("#deleteCategory").click(deleteCategory);
 
-                        $("table tr:eq(" + i + ") td input:eq(1)").attr("id","QuestionOptions_" + (i - 1).toString() + "__Value");
-                        $("table tr:eq(" + i + ") td input:eq(1)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Value");
-
-                        $("table tr:eq(" + i + ") td input:eq(2)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Value");
-                    }
-                }
-
-                function deleteQuestion(e) {
+                function deleteCategory(e) {
                     e.preventDefault();
-                    if (countQuestions == 1) { alert("Нельзя удалить последний вопрос!"); return }
-                    countQuestions--;
+                    if (countCategory == 1) { alert("Нельзя удалить последнюю тему!"); return }
+                    countCategory--;
                     var thisTable = this.parentNode.offsetParent;
-                    var temp = thisTable.nextSibling;
-                    while (temp.id !== 'tableAddOption') {
-                        let temp1 = temp.nextSibling
-                        temp.remove();
-                        temp = temp1;
-                    }
-                    temp.remove();
                     thisTable.remove()
                 }
-
-                function addQuestion(e) {
-                    e.preventDefault();
-                    countQuestions++;
-                    var tableAddQuestion = $(this)[0].parentNode.parentNode.parentNode.parentNode;
-                    var submitButton = document.getElementById('submitButton');
-                    tableAddQuestion.remove();
-                    submitButton.remove();
-                    //console.log(document.getElementById('tableQuestion').parentNode.childNodes)
-                    var [,a,b,c,] = document.getElementById('tableQuestion').parentNode.childNodes;
-                    [a,b,c] = [a,b,c].map(x => x.cloneNode(true));
-                    console.log("abc");
-                    console.log(a);
-                    console.log(b);
-                    console.log(c);
-                    a.querySelector('input').value = "";
-                    var bArray = Array.from(b.childNodes[1].childNodes);
-                    console.log("ghbdtn");
-                    bArray.slice(2, bArray.length).map(x => x.remove())
-                    //b.querySelector('input').value = "";
-                    a.querySelector('a').addEventListener('click', deleteQuestion);
-                    b.querySelector('a').addEventListener('click', deleteOption);
-                    c.querySelector('button').addEventListener('click', createOption)
-
-
-                    $('#tableQuestion')[0].parentNode.appendChild(a);
-                    $('#tableQuestion')[0].parentNode.appendChild(b);
-                    $('#tableQuestion')[0].parentNode.appendChild(c);
-                    $('#tableQuestion')[0].parentNode.appendChild(tableAddQuestion);
-                    $('#tableQuestion')[0].parentNode.appendChild(submitButton);
-                }
-
-                /*очистить текст вопроса?*/
-                $('#deleteQuestion').click(deleteQuestion);
-
     </script>
 }
