@@ -14,12 +14,11 @@
     <table width="60%" id="tableSubCategory" class="nakedTable">
         <tr>
             <td width="16%">
-                Введите название темы
+                Введите название подтемы
             </td>
             <td>
                 <div class="editor-field editText">
-                    @Html.EditorFor(model => model.CategoryId)
-                    @Html.ValidationMessageFor(model => model.CategoryId)
+                    @Html.Editor("QuestionSubCategory")
                 </div>
             </td>
             <td width="20px">
@@ -36,5 +35,34 @@
                 Добавить новую подтему
             </td>
         </tr>
-    </table><input type="submit" value="Сохранить" id="submitButton" />
+    </table><input type="submit" value="Сохранить" id="submitButton" />}
+@section Scripts
+{
+    <script>
+        var countSubCategory = 1;
+
+                /*добавление строки с новой темой*/
+                $("#addSubCategory").click(addSubCategory);
+
+                function addSubCategory(e) {
+                    e.preventDefault();
+                    countSubCategory++;
+                    var newField = this.parentElement.offsetParent.previousElementSibling.cloneNode(true) //клонирую таблицу
+                    //переделать надо id аргументы
+                    newField.lastChild.firstChild.children[1].children[0].children[0].value = ""; //удаляю содержимое
+                    this.parentElement.offsetParent.parentElement.insertBefore(newField, this.parentElement.offsetParent) //прикрепляю перед кнопкой добавления
+                    newField.lastChild.firstChild.children[2].addEventListener('click',deleteSubCategory);
+                }
+
+                /*удаление строки с темой*/
+                $("#deleteSubCategory").click(deleteSubCategory);
+
+                function deleteSubCategory(e) {
+                    e.preventDefault();
+                    if (countSubCategory == 1) { alert("Нельзя удалить последнюю тему!"); return }
+                    countSubCategory--;
+                    var thisTable = this.parentNode.offsetParent;
+                    thisTable.remove()
+                }
+    </script>
 }
