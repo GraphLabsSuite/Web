@@ -1,22 +1,19 @@
 ﻿@model GraphLabs.Site.Models.TestQuestionListViewModel
 
-<table>
-    <thead>
+<table class="grid" width="60%">
+    <thead class="grid-header">
         <tr>
             <th>
-                #
+                №
             </th>
             <th>
                 Вопрос
             </th>
-            @if (Model.ShowCategory)
-            {
-                <th>
-                    Тема
-                </th>
-            }
             <th>
                 Подтема
+            </th>
+            <th>
+                Тема
             </th>
             <th>
                 Верно ответили
@@ -29,7 +26,7 @@
             </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="grid-number-row">
         @foreach (var question in Model.Items)
         {
             <tr>
@@ -37,14 +34,23 @@
                     @question.QuestionId
                 </td>
                 <td>
-                    @Html.ActionLink(@question.Question, "Edit", "Survey", new { Question = @question.Question }, null);
+                    @question.Question
                 </td>
-                @if (Model.ShowCategory)
-                {
-                    <td>
+                <td>
                         @question.QuestionSubCategory
-                    </td>
-                }
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    @Html.ActionLink("\u270E", "Edit", "Survey", new { Question = @question.Question }, new { style = "text-decoration:none" })
+                </td>
+                <td>
+                    @Html.ActionLink("\u2716", "", "", new { Question = @question.Question }, new { style = "text-decoration:none" })
+                </td>
             </tr>
         }
     </tbody>

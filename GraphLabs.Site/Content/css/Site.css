@@ -153,7 +153,8 @@ h1 {
 }
 
 h2 {
-    font-size: 1.75em;
+    font-size: 1.65em;
+    font-weight: 500;
 }
 
 h3 {
@@ -284,6 +285,15 @@ label.checkbox {
     font-size: 1em;
     font-family: inherit; 
     margin: 5px;
+}
+
+.dropDownNarrow {
+    width: 98%;
+    height: 29px;
+    border: 1px solid #333;
+    font-size: 1em;
+    font-family: inherit; 
+    margin: 1px;
 }
 
 input, textarea {

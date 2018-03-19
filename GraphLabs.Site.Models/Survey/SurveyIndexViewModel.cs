@@ -17,7 +17,7 @@ namespace GraphLabs.Site.Models
 
 		public string SelectedCategoryId { get; set; }
 
-		private List<SelectListItem> _categoryList;
+        private List<SelectListItem> _categoryList;
 
 		public List<SelectListItem> CategoryList
 		{
@@ -41,14 +41,14 @@ namespace GraphLabs.Site.Models
                     new SelectListItem
                     {
                         Value = "0",
-                        Text = "Все категории",
+                        Text = "Все темы",
                         Selected = CategoryId == 0
                     }
                 })
                 .ToList();
         }
 
-		public SurveyIndexViewModel(ISurveyRepository surveyRepository, ICategoryRepository categoryRepository)
+        public SurveyIndexViewModel(ISurveyRepository surveyRepository, ICategoryRepository categoryRepository)
 		{
 		    _surveyRepository = surveyRepository;
 		    _categoryRepository = categoryRepository;

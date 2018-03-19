@@ -71,10 +71,10 @@
         <td></td>
     </tr>
     <tr>
-        <td align="right" , width="13.5%">
+        <td align="right" width="13.5%">
             <button class="left-button"></button>
         </td>
-        <td align="center" , width="73%">
+        <td align="center" width="73%">
                 @{
                     var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, defaultSort: "Дата открытия");
                     @grid.GetHtml(
@@ -99,7 +99,7 @@
                          item.Id)), columnName: "")));
                 }
         </td>
-        <td align="left" , width="13.5%">
+        <td align="left" width="13.5%">
             <button class="right-button"></button>
         </td>
     </tr>

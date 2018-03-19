@@ -1,19 +1,21 @@
 ﻿.grid {
+
 }
 
 .grid-header {
     border-bottom: 1.2px solid #000000;
-    font-size: 0.75em;
+    font-size: 0.85em;
     white-space: nowrap;
+    font-weight: 400;
 }
 
 .grid-footer {
     text-align: end;
-    font-size: 0.85em;
+    font-size: 0.95em;
 }
 
 .grid-header td {
-    font-size: 0.9em;
+    font-size: 1.0em;
     border-spacing: 15px;
 } 
 
@@ -22,7 +24,7 @@
 } 
 
 .grid-row {
-    font-size: 0.85em;    
+    font-size: 0.95em;    
 }
 
 .grid-row td, .grid-altrow td, .grid th {
@@ -38,9 +40,20 @@
 
 .rline {
     text-indent: 5%;
-    font-size: 0.9em;
+    font-size: 1.0em;
 }
 
 .week {
-    font-size: 0.9em;
+    font-size: 1.0em;
+}
+
+/*для таблиц с нумерацией*/
+
+.grid-number-row {
+    font-size: 0.95em;    
+}
+
+.grid-number-row td, .grid-altrow td, .grid th {
+    border: none;
+    text-align: justify;
 }
