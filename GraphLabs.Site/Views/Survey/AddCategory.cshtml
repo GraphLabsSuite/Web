@@ -1,4 +1,4 @@
-﻿@model GraphLabs.Site.Models.SurveyCreatingModel
+﻿@model GraphLabs.Site.Models.TestQuestionListViewModel
 
 @{
     ViewBag.Title = "Добавить тему";
@@ -18,8 +18,7 @@
             </td>
             <td>
                 <div class="editor-field editText">
-                    @Html.EditorFor(model => model.CategoryId)
-                    @Html.ValidationMessageFor(model => model.CategoryId)
+                    @Html.Editor("QuestionSubCategory")
                 </div>
             </td>
             <td width="20px">
@@ -39,83 +38,18 @@
 @section Scripts
 {
     <script>
-
-                //отсчет от 0
-                /*var optionsCount = (Model.QuestionOptions.Count - 1);
-                var countQuestions = 1;*/
-
+        var optionsCount = 0;
+                
                 /*добавление строки с новой темой*/
-                $("#addCategory").click(createCategory);
+                $("#addCategory").click(addCategory);
 
-                function createCategory(e) {
+                function addCategory(e) {
                     e.preventDefault();
-                    alert("Я пришел");
-                    //optionsCount++;
-                    var child = document.createElement('tr');
-                    var subchild = document.createElement('td');
-                    subchild.setAttribute('width','16%');
-                    subchild.textContent = 'Введите название темы';
-                    child.appendChild(subchild);
-                    subchild = document.createElement('td');
-                    var div = document.createElement('div');
-                    div.setAttribute('class','editor-field editText')
-                    div.appendChild(input);
-                    var subchild = document.createElement('td');
-                    subchild.setAttribute('width','20px');
-                    subchild.textContent = 'Введите название темы';
-                    var a = document.createElement('a');
-                    a.setAttribute('href','#');
-                    a.setAttribute('class','deleteOption');
-                    a.setAttribute('title', 'Нажмите, чтобы удалить вариант ответа');
-                    a.setAttribute('style','font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px');
-                    a.textContent = "✕";
-                    subchild.appendChild(a);
-                    child.appendChild(subchild);
-                    $(this)[0].parentNode.parentNode.offsetParent.previousElementSibling.childNodes[1].append(child);
-                    a.addEventListener('click', deleteOption);
-                    
-                    /*child.appendChild(subchild);
-                    subchild = document.createElement('td');
-                    var input = document.createElement('input');
-                    input.setAttribute('class','text-box single-line');
-                    input.setAttribute('type','text');
-                    input.setAttribute('value','');
-                    input.setAttribute('id','QuestionOptions_' + optionsCount.toString() + '__Key');
-                    input.setAttribute('name','QuestionOptions[' + optionsCount.toString() + '].Key');
-                    var div = document.createElement('div');
-                    div.setAttribute('class','editor-field editText')
-                    div.appendChild(input);
-                    subchild.appendChild(div);
-                    child.appendChild(subchild);
-                    subchild = document.createElement('td');
-                    input = document.createElement('input');
-                    input.setAttribute('class','check-box');
-                    input.setAttribute('data-val','true');
-                    input.setAttribute('data-val-required','Требуется поле Value.');
-                    input.setAttribute('id','QuestionOptions_' + optionsCount.toString() + '__Value');
-                    input.setAttribute('name','QuestionOptions[' + optionsCount.toString() + '].Value');
-                    input.setAttribute('type','checkbox');
-                    input.setAttribute('value','true');
-                    subchild.appendChild(input);
-                    input = document.createElement('input');
-                    input.setAttribute('name','QuestionOptions[' + optionsCount.toString() + '].Value');
-                    input.setAttribute('type','hidden');
-                    input.setAttribute('value','false');
-                    subchild.appendChild(input);
-                    subchild.innerHTML+=" Правильный ответ";
-                    child.appendChild(subchild);
-                    subchild = document.createElement('td');
-                    subchild.setAttribute('width','20px');
-                    var a = document.createElement('a');
-                    a.setAttribute('href','#');
-                    a.setAttribute('class','deleteOption');
-                    a.setAttribute('title', 'Нажмите, чтобы удалить вариант ответа');
-                    a.setAttribute('style','font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px');
-                    a.textContent = "✕";
-                    subchild.appendChild(a);
-                    child.appendChild(subchild);
-                    $(this)[0].parentNode.parentNode.offsetParent.previousElementSibling.childNodes[1].append(child);
-                    a.addEventListener('click', deleteOption);*/
+                    var newField = this.parentElement.offsetParent.previousElementSibling.cloneNode(true) //клонирую таблицу
+                    //переделать надо id аргументы
+                    newField.lastChild.firstChild.children[1].children[0].children[0].value = ""; //удаляю содержимое
+                    this.parentElement.offsetParent.parentElement.insertBefore(newField, this.parentElement.offsetParent) //прикремпляю перед кнопкой добавления.
+                                       
                 }
 
                 function deleteOption() {
@@ -179,9 +113,6 @@
                     $('#tableQuestion')[0].parentNode.appendChild(tableAddQuestion);
                     $('#tableQuestion')[0].parentNode.appendChild(submitButton);
                 }
-
-                /*добавление нового вопроса*/
-                $("#addQuestion").click(addQuestion)
 
                 /*очистить текст вопроса?*/
                 $('#deleteQuestion').click(deleteQuestion);
