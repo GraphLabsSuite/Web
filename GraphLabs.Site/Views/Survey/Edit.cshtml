@@ -46,8 +46,9 @@
             </td>
         </tr>
     </table><table width="60%" id="tableOption" class="nakedTable">
-    @for (var i = 0; i < Model.QuestionOptions.Count; ++i)
-        {
+    @if(Model.QuestionOptions.Count != 0)
+    {for (var i = 0; i < Model.QuestionOptions.Count; ++i)
+    {
         <tr>
             <td width="15px"></td>
             <td width="21%">
@@ -65,7 +66,16 @@
                 <a href='#' id="deleteOption" title="Нажмите, чтобы удалить вариант ответа" style="font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px">&#10005;</a>
             </td>
         </tr>}
-    </table><table width="60%" id="tableAddOption" class="nakedTable">
+    }
+    else
+    {
+        <tr>
+            <td width="21%">
+                Нет вариантов ответа
+            </td>
+            <td></td>
+        </tr>
+    }</table><table width="60%" id="tableAddOption" class="nakedTable">
         <tr>
             <td width="15px"></td>
             <td width="15px">
@@ -82,17 +92,17 @@
     <script>
 
                 //отсчет от 0
-                var optionsCount = @(Model.QuestionOptions.Count - 1);
-                var countQuestions = 1;
+                var optionsCount = @Model.QuestionOptions.Count;
 
                 /*добавление строки с вариантом ответа*/
-                $("#addOption").click(createOption);
+                $("#addOption").click(addOption);
 
-                /*удаление строки с вариантом ответа*/
-                $("#deleteOption").click(deleteOption);
-
-                function createOption(e) {
+                function addOption(e) {
                     e.preventDefault();
+                    if(optionsCount == 0) 
+                    {
+                        $(this)[0].parentNode.parentNode.offsetParent.previousElementSibling.childNodes[1].childNodes[0].remove()
+                    }
                     optionsCount++;
                     var child = document.createElement("tr");
                     var subchild = document.createElement("td");
@@ -145,8 +155,11 @@
                     a.addEventListener('click', deleteOption);
                 }
 
+                /*удаление строки с вариантом ответа*/
+                $("#deleteOption").click(deleteOption);
+
                 function deleteOption() {
-                  //  console.log($(this))
+                    if(optionsCount == 1) { alert("Нельзя удалить единственный вариант ответа!"); return}
                     $(this).parent().parent().remove();
                     optionsCount--;
                     for(i = 1; i < optionsCount + 3; ++i)

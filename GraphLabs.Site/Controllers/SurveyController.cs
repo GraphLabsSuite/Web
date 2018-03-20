@@ -152,7 +152,8 @@ namespace GraphLabs.Site.Controllers
         [HttpGet]
         public ActionResult AddCategory()
         {
-            return View("~/Views/Survey/AddCategory.cshtml");
+            var model= new SurveyCreatingModel(_surveyRepository, _categoryRepository);
+            return View("~/Views/Survey/AddCategory.cshtml", model);
         }
 
         [HttpPost]
@@ -171,13 +172,14 @@ namespace GraphLabs.Site.Controllers
                 return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
             }
 
-            return View("~/Views/Survey/AddCategory.cshtml");
+            return View("~/Views/Survey/AddCategory.cshtml", model);
         }
 
         [HttpGet]
         public ActionResult AddSubCategory()
         {
-            return View("~/Views/Survey/AddSubCategory.cshtml");
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository);
+            return View("~/Views/Survey/AddSubCategory.cshtml", model);
         }
 
         [HttpPost]
@@ -196,7 +198,7 @@ namespace GraphLabs.Site.Controllers
                 return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
             }
 
-            return View("~/Views/Survey/AddSubCategory.cshtml");
+            return View("~/Views/Survey/AddSubCategory.cshtml", model);
         }
         #endregion
     }

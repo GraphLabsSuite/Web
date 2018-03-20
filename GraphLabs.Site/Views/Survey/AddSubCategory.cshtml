@@ -3,14 +3,21 @@
 @{
     ViewBag.Title = "Добавить подтему";
 }
-
 <hgroup>
     <h2>@ViewBag.Title</h2>
     @Html.ActionLink("Вернуться к списку вопросов", "Index")
 </hgroup>
-
+<br/>
 @using (Html.BeginForm())
 {
+    <div style="width:20%">
+        <div class="editor-label">
+            Выберите тему
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+        </div>
+    </div>
     <table width="60%" id="tableSubCategory" class="nakedTable">
         <tr>
             <td width="16%">

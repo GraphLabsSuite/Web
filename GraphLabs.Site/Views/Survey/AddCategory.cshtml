@@ -1,14 +1,13 @@
-﻿@model GraphLabs.Site.Models.TestQuestionListViewModel
+﻿@model GraphLabs.Site.Models.SurveyCreatingModel
 
 @{
     ViewBag.Title = "Добавить тему";
 }
-
 <hgroup>
     <h2>@ViewBag.Title</h2>
     @Html.ActionLink("Вернуться к списку вопросов", "Index")
 </hgroup>
-
+<br/>
 @using (Html.BeginForm())
 {
     <table width="60%" id="tableCategory" class="nakedTable">

@@ -153,7 +153,7 @@
                 }
 
                 function deleteOption() {
-                  //  console.log($(this))
+                    if(optionsCount == 0) { alert("Нельзя удалить единственный вариант ответа!"); return}
                     $(this).parent().parent().remove();
                     optionsCount--;
                     for(i = 1; i < optionsCount + 3; ++i)
@@ -190,18 +190,11 @@
                     var submitButton = document.getElementById('submitButton');
                     tableAddQuestion.remove();
                     submitButton.remove();
-                    //console.log(document.getElementById('tableQuestion').parentNode.childNodes)
                     var [,a,b,c,] = document.getElementById('tableQuestion').parentNode.childNodes;
                     [a,b,c] = [a,b,c].map(x => x.cloneNode(true));
-                    console.log("abc");
-                    console.log(a);
-                    console.log(b);
-                    console.log(c);
                     a.querySelector('input').value = "";
                     var bArray = Array.from(b.childNodes[1].childNodes);
-                    console.log("ghbdtn");
                     bArray.slice(2, bArray.length).map(x => x.remove())
-                    //b.querySelector('input').value = "";
                     a.querySelector('a').addEventListener('click', deleteQuestion);
                     b.querySelector('a').addEventListener('click', deleteOption);
                     c.querySelector('button').addEventListener('click', createOption)
