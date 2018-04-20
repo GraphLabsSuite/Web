@@ -5,7 +5,7 @@ namespace GraphLabs.Site.Core.Filters
 {
     public abstract class AbstractFilterableModel<T>
     {
-        public static Expression<Func<T, bool>> CreateFilter(FilterParams filterParams)
+        public static Expression<Func<T, bool>> CreateFilter(FilterParams<T> filterParams)
         {
             return t => true;
         }

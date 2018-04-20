@@ -23,7 +23,7 @@ namespace GraphLabs.Site.Controllers
         {
             if (filterContext.ActionDescriptor.ActionName.Equals(nameof(Index)))//может быть это ограничение лишнее
             {
-                FilterParams filterParams = new FilterParams(Request.QueryString);
+                FilterParams<TModel> filterParams = new FilterParams<TModel>(Request.QueryString);
                 Type type = typeof(TModel);
                 if (!_methodInfos.ContainsKey(type))
                 {

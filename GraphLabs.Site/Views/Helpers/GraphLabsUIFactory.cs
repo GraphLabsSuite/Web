@@ -1,4 +1,5 @@
-﻿using System.Web.UI;
+﻿using System.Collections.Generic;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
 
 
@@ -28,10 +29,11 @@ namespace ASP.Helpers
             return checkBox;
         }
 
-        public static HtmlGenericControl CreateHtmlLabel()
+        public static HtmlGenericControl CreateHtmlLabel(string labelText)
         {
             var label = new HtmlGenericControl("label");
             label.Attributes.Add("class", "graphlabs-label");
+            label.InnerText = labelText;
             return label;
         }
 
@@ -53,14 +55,13 @@ namespace ASP.Helpers
 
         public static Control CreateInputField(string name, string labelText)
         {
-            var input = GraphLabsUIFactory.CreateHtmlInputText();
+            var input = CreateHtmlInputText();
             input.Name = name;
             input.ID = name;
 
-            var label = GraphLabsUIFactory.CreateHtmlLabel();
-            label.InnerText = labelText;
+            var label = CreateHtmlLabel(labelText);
 
-            var div = new HtmlGenericControl("div");
+            var div = CreateDiv();
             div.Controls.Add(label);
             label.Controls.Add(input);
             return div;
@@ -68,7 +69,7 @@ namespace ASP.Helpers
 
         public static Control CreateInputCheckBox(string name, string labelText)
         {
-            var input = GraphLabsUIFactory.CreateHtmlInputCheckBox();
+            var input = CreateHtmlInputCheckBox();
             input.Name = name;
             input.ID = name;
             input.Value = "true";
@@ -77,15 +78,44 @@ namespace ASP.Helpers
             HtmlGenericControl script = new HtmlGenericControl("script");
             script.InnerHtml = "function checkboxChange(chkBox) {  if (chkBox.value==\"true\") {chkBox.value= \"false\"; chkBox.indeterminate = true;} else { chkBox.value= \"true\"; chkBox.checked=true; } }";
 
-            var label = GraphLabsUIFactory.CreateHtmlLabel();
-            label.InnerText = labelText;
+            var label = CreateHtmlLabel(labelText);
 
-            var div = new HtmlGenericControl("div");
+            var div = CreateDiv();
             div.Controls.Add(label);
 
             label.Controls.Add(input);
             label.Controls.Add(script);
             return div;
+        }
+
+        public static Control CreateDiv()
+        {
+            return new HtmlGenericControl("div");
+        }
+
+        public static Control CreateSelectField(string name, string desc, Dictionary<string, string> options)
+        {
+            var div = CreateDiv();
+            var label = CreateHtmlLabel(desc);
+            
+            var select = new HtmlGenericControl("select");
+            select.Attributes.Add("name", name);
+            foreach (var option in options)
+            {
+                select.Controls.Add(CreateHtmlOption(option.Key, option.Value));
+            }
+            
+            div.Controls.Add(label);
+            div.Controls.Add(select);
+            return div;
+        }
+
+        private static Control CreateHtmlOption(string value, string desc)
+        {
+            var option = new HtmlGenericControl("option");
+            option.Attributes.Add("value", value);
+            option.InnerText = desc;
+            return option;
         }
     }
 }

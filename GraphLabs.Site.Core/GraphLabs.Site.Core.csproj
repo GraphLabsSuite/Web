@@ -125,6 +125,9 @@
     <Reference Include="GraphLabs.Site.Models, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.Site.Models.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -141,6 +144,7 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="Filters\BoundedFilterAttribute.cs" />
     <Compile Include="Filters\FilterParams.cs" />
     <Compile Include="Filters\AbstractFilterableModel.cs" />
     <Compile Include="Filters\IFilterAttribute.cs" />
