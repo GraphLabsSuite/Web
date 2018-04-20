@@ -14,7 +14,7 @@ namespace GraphLabs.Site.Models.Groups
         [StringFilter("Номер группы")]
         public string Name { get; set; }
         
-        [StringFilter("Возможность вступить в группу")]
+        [StringFilter("Доступность для регистрации")]
         public bool IsOpen { get; set; }
 
         public ICollection<Student> Students { get; set; }
@@ -25,10 +25,10 @@ namespace GraphLabs.Site.Models.Groups
         
         public static Expression<Func<Group, bool>> CreateFilter(FilterParams filterParams)
         {
-            string Name = filterParams.GetStringParam("Name");
+            string name = filterParams.GetStringParam("Name");
             bool? isOpen = filterParams.GetBoolParam("IsOpen");
             
-            return g => (Name == null || Name.Equals(g.Name))
+            return g => (name == null || name.ToLower().Equals(g.Name.ToLower()))
                          && (isOpen == null || g.IsOpen == isOpen);
         }
     }

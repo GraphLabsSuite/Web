@@ -23,10 +23,10 @@ namespace GraphLabs.Site.Controllers
             _modelLoader = modelLoader;
         }
 
-        public ActionResult Index(string message)
+        public override ActionResult Index(string message)
         {
             ViewBag.Message = message;
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().Filter(_fiExpression);
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().Filter(FiExpression);
             return View((GroupListModel) model);
         }
 
