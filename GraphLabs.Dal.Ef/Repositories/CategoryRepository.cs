@@ -30,6 +30,13 @@ namespace GraphLabs.Dal.Ef.Repositories
 			return Context.Categories.ToArray();
 		}
 
+        public SubCategory[] GetAllSubCategories()
+        {
+            CheckNotDisposed();
+
+            return Context.SubCategories.ToArray();
+        }
+
         ///<summary> Сохранение категории </summary>
         public void SaveCategory(Category category)
         {

@@ -2,10 +2,6 @@
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models.Question;
 using GraphLabs.Site.Models.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GraphLabs.Site.Controllers
@@ -30,6 +26,5 @@ namespace GraphLabs.Site.Controllers
             var model = _listModelLoader.LoadListModel<QuestionListModel, QuestionModel>();
             return View(model);
         }
-
     }
 }

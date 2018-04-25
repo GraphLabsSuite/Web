@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {
@@ -15,11 +16,21 @@ namespace GraphLabs.Site.Models
 
         #endregion
 
-		public string SelectedCategoryId { get; set; }
+        public string SelectedSubCategoryId { get; set; }
+        public string SelectedCategoryId { get; set; }
 
+        private List<SelectListItem> _subCategoryList;
         private List<SelectListItem> _categoryList;
 
-		public List<SelectListItem> CategoryList
+        public List<SelectListItem> SubCategoryList
+        {
+            get
+            {
+                return _subCategoryList;
+            }
+        }
+
+        public List<SelectListItem> CategoryList
 		{
 			get
 			{
@@ -27,9 +38,11 @@ namespace GraphLabs.Site.Models
 			}
 		}
 
-        public void Load(long CategoryId = 0)
+        public void Load(long SubCategoryId = 0, long CategoryId = 0)
         {
-            _categoryList = _categoryRepository.GetAllCategories()
+            var catList = _categoryRepository.GetAllCategories();
+            var subCatList = _categoryRepository.GetAllSubCategories();
+            _categoryList = catList
                 .Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
@@ -43,6 +56,23 @@ namespace GraphLabs.Site.Models
                         Value = "0",
                         Text = "Все темы",
                         Selected = CategoryId == 0
+                    }
+                })
+                .ToList();
+            _subCategoryList = subCatList
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name,
+                    Selected = SubCategoryId == c.Id
+                })
+                .Concat(new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Value = "0",
+                        Text = "Все подтемы",
+                        Selected = SubCategoryId == 0
                     }
                 })
                 .ToList();

@@ -25,33 +25,36 @@ namespace GraphLabs.Site.Controllers
 	    private readonly ISurveyRepository _surveyRepository;
 	    private readonly ICategoryRepository _categoryRepository;
         private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _modelLoader;
+        //private readonly IEntityBasedModelSaver<CategoryModel, Category> _categorySaver;
 
         public SurveyController(
             ISurveyRepository surveyRepository,
             ICategoryRepository categoryRepository,
-            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader)
+            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader
+            /*IEntityBasedModelSaver<CategoryModel, Category> categorySaver*/)
         {
             _modelLoader = modelLoader;
 	        _surveyRepository = surveyRepository;
 	        _categoryRepository = categoryRepository;
+            //_categorySaver = categorySaver;
 	    }
 
 	    #region Просмотр списка
 
 		[HttpGet]
-		public ActionResult Index(long SubCategoryId = 0)
+		public ActionResult Index(long SubCategoryId = 0, long CategoryId = 0)
 		{
             var model = new SurveyIndexViewModel(_surveyRepository, _categoryRepository);
-            model.Load(SubCategoryId);
+            model.Load(SubCategoryId, CategoryId);
 
 			return View("~/Views/Survey/Index.cshtml", model);
 		}
 
 		[HttpGet]
-		public ActionResult TestQuestionList(long SubCategoryId)
+		public ActionResult TestQuestionList(long SubCategoryId = 0, long CategoryId = 0)
 		{
 			var model = new TestQuestionListViewModel(_surveyRepository);
-            model.Load(SubCategoryId);
+            model.Load(SubCategoryId, CategoryId);
 
 			return new JsonResult
 			{
@@ -149,31 +152,40 @@ namespace GraphLabs.Site.Controllers
             return View("~/Views/Survey/Edit.cshtml", model); //Надо настроить редирект
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult AddCategory()
         {
             var model= new SurveyCreatingModel(_surveyRepository, _categoryRepository);
             return View("~/Views/Survey/AddCategory.cshtml", model);
-        }
+        }*/
 
-        [HttpPost]
-        public ActionResult AddCategory(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+       /* [HttpPost]
+        public ActionResult AddCategory(CategoryModel category)
         {
-            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            if (ModelState.IsValid)
             {
-                CategoryId = CategoryId,
-                QuestionOptions = QuestionOptions.ToList(),
-                Question = Question
-            };
-
-            if (model.IsValid)
-            {
-                model.Save();
-                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+                _categorySaver.CreateOrUpdate(category);
+                return RedirectToAction("Index");
             }
 
-            return View("~/Views/Survey/AddCategory.cshtml", model);
-        }
+            ViewBag.Message = "Невозможно сохранить категорию";
+            return View(category);
+        }*/
+        /*     public ActionResult Create(GroupModel group)
+        {
+            if (ModelState.IsValid)
+            {
+                _modelSaver.CreateOrUpdate(group);
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Message = "Невозможно сохранить группу";
+            return View(group);
+        }*/
+
+
+
+
 
         [HttpGet]
         public ActionResult AddSubCategory()

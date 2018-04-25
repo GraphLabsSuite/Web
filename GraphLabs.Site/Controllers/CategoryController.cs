@@ -8,6 +8,8 @@ using System;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Models.Question;
+using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -16,11 +18,15 @@ namespace GraphLabs.Site.Controllers
 	{
 	    private readonly ICategoryRepository _categoryRepository;
 	    private readonly ITestsContext _testsContext;
+        private readonly IEntityBasedModelSaver<CategoryModel, Category> _categorySaver;
 
-	    public CategoryController(ICategoryRepository categoryRepository, ITestsContext testsContext)
+
+        public CategoryController(ICategoryRepository categoryRepository, ITestsContext testsContext,
+            IEntityBasedModelSaver<CategoryModel, Category> categorySaver)
 	    {
 	        _categoryRepository = categoryRepository;
 	        _testsContext = testsContext;
+            _categorySaver = categorySaver;
 	    }
 
 	    #region Просмотр списка
@@ -65,6 +71,25 @@ namespace GraphLabs.Site.Controllers
             return View("~/Views/Category/Create.cshtml", request);
 		}
 
-		#endregion
-	}
+        /*[HttpGet]
+        public ActionResult AddCategory()
+        {
+            var model= new SurveyCreatingModel(_surveyRepository, _categoryRepository);
+            return View("~/Views/Survey/AddCategory.cshtml", model);
+        }*/
+
+         [HttpPost]
+         public ActionResult AddCategory(CategoryModel category)
+         {
+             if (ModelState.IsValid)
+             {
+                 _categorySaver.CreateOrUpdate(category);
+                 return RedirectToAction("Index");
+             }
+
+             ViewBag.Message = "Невозможно сохранить категорию";
+             return View(category);
+         }
+        #endregion
+    }
 }

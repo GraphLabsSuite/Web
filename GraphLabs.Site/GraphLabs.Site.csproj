@@ -347,6 +347,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Attributes\AcceptParameter.cs" />
     <Compile Include="Controllers\Attributes\GLAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DemoLabController.cs" />
     <Compile Include="Controllers\PreviewController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
@@ -453,6 +454,7 @@
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\Survey\AddCategory.cshtml" />
     <Content Include="Views\Survey\AddSubCategory.cshtml" />
+    <Content Include="Views\Category\AddCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

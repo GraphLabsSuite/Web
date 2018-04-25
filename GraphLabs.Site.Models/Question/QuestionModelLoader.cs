@@ -19,7 +19,8 @@ namespace GraphLabs.Site.Models.Question
             {
                 Id = question.Id,
                 Question = question.Question,
-                Category = question.SubCategory
+                Category = question.SubCategory.Category,
+                SubCategory = question.SubCategory
             };
 
             return model;

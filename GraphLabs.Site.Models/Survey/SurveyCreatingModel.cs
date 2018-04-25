@@ -28,6 +28,7 @@ namespace GraphLabs.Site.Models
         public List<KeyValuePair<String, bool>> QuestionOptions { get; set; }
 
         public long CategoryId { get; set; }
+        public long SubCategoryId { get; set; }
 
         public List<SelectListItem> CategoryList
         { 
@@ -90,6 +91,7 @@ namespace GraphLabs.Site.Models
             _surveyRepository.SaveQuestion(
                 this.Question,
                 this.QuestionOptions.ToDictionary(qo => qo.Key, qo => qo.Value),
+                SubCategoryId,
                 CategoryId);
 		}
         //репозиторий если есть такой вопрос, то обновить

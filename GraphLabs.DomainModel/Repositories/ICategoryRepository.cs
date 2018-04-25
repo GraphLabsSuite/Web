@@ -14,12 +14,16 @@ namespace GraphLabs.DomainModel.Repositories
 		///<summary> Получить все категории </summary>
 		Category[] GetAllCategories();
 
+        ///<summary> Получить все категории </summary>
+        SubCategory[] GetAllSubCategories();
+
         ///<summary> Сохранение категории </summary>
         void SaveCategory(Category category);
 
 		///<summary> Редактирование категории </summary>
 		void EditCategory(Category category);
-	}
+        
+    }
 
 	/// <summary> Репозиторий с группами </summary>
 	[ContractClassFor(typeof(ICategoryRepository))]
@@ -44,6 +48,13 @@ namespace GraphLabs.DomainModel.Repositories
 
 			return new Category[0];
 		}
+
+        public SubCategory[] GetAllSubCategories()
+        {
+            Contract.Ensures(Contract.Result<SubCategory[]>() != null);
+
+            return new SubCategory[0];
+        }
 
         public void SaveCategory(Category category)
         {

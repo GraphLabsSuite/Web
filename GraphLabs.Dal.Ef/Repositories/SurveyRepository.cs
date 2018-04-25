@@ -29,7 +29,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		{
 			CheckNotDisposed();
 
-			return Context.TestQuestions.Where(tq => tq.SubCategory.Id == categoryId).ToArray();
+			return Context.TestQuestions.Where(tq => tq.SubCategory.Category.Id == categoryId).ToArray();
 		}
 
         public TestQuestion[] GetQuestionsSimilarToString(string criteria)
@@ -42,13 +42,14 @@ namespace GraphLabs.Dal.Ef.Repositories
 		#endregion
 
         ///<summary> Сохранение вопроса </summary>
-        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
+        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId)
         {
             CheckNotDisposed();
 
             var quest = Context.TestQuestions.Create();
             quest.Question = question;
-            quest.SubCategory = Context.SubCategories.Single(c => c.Id == categoryId);
+            quest.SubCategory = Context.SubCategories.Single(c => c.Id == subCategoryId);
+            quest.SubCategory.Category = Context.Categories.Single(c => c.Id == categoryId);
 
             Context.TestQuestions.Add(quest);
 

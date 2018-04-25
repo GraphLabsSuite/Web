@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace GraphLabs.Site.Models.Question
 {
-    public class QuestionModel : IEntityBasedModel<TestQuestion>
+    public class CategoryModel : IEntityBasedModel<Category>
     {
         public long Id { get; set; }
-        public string Question { get; set; }
-        public virtual SubCategory SubCategory { get; set; }
-        public virtual Category Category { get; set; }
+        public string Name { get; set; }
     }
 }
