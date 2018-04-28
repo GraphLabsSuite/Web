@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reflection;
@@ -8,6 +9,7 @@ namespace GraphLabs.Site.Core.Filters
     public class FilterParams<T>
     {
         private readonly NameValueCollection _filterParams;
+        private Dictionary<string, object> cache = new Dictionary<string, object>();
 
         public FilterParams(NameValueCollection filterParams)
         {
@@ -42,6 +44,17 @@ namespace GraphLabs.Site.Core.Filters
                 {
                     return ((ReadOnlyCollection<CustomAttributeTypedArgument>) customAttributeData
                         .ConstructorArguments[1].Value)[index.Value].Value;
+                } else if (customAttributeData.AttributeType == typeof(DynamicBoundFilterAttribute))
+                {
+                    if (cache.ContainsKey(name))
+                    {
+                        return cache[name];
+                    }
+                    var key = GetParam(name + "ver");
+                    var values = (object[]) GraphLabsValuesHolder.getAndRemove(key);
+                    var result = values[index.Value];
+                    cache[name] = result;
+                    return result;
                 }
             }
 

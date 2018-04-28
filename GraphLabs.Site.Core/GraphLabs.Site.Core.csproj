@@ -125,6 +125,9 @@
     <Reference Include="GraphLabs.Site.Models, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.Site.Models.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -145,11 +148,14 @@
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
     <Compile Include="Filters\BoundedFilterAttribute.cs" />
+    <Compile Include="Filters\DynamicBoundFilterAttribute.cs" />
     <Compile Include="Filters\FilterParams.cs" />
     <Compile Include="Filters\AbstractFilterableModel.cs" />
     <Compile Include="Filters\IFilterAttribute.cs" />
     <Compile Include="Filters\IFilterable.cs" />
+    <Compile Include="Filters\IFilterValuesProvider.cs" />
     <Compile Include="Filters\StringFilterAttribute.cs" />
+    <Compile Include="Filters\GraphLabsValuesHolder.cs" />
     <Compile Include="GraphLabsException.cs" />
     <Compile Include="IChangesTracker.cs" />
     <Compile Include="OperationContext\IOperationContext.cs" />

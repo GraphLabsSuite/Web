@@ -10,6 +10,7 @@ using System.Web.Helpers;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using GraphLabs.Site.Core.Filters;
+using Microsoft.Practices.Unity;
 
 namespace ASP.Helpers
 {
@@ -84,6 +85,20 @@ namespace ASP.Helpers
                                     .Select(a => a.Value)
                                     .Select((v, i) => new {Key = i, Value = v})
                                     .ToDictionary(o => o.Key.ToString(), o => o.Value.ToString());
+                                form.Controls.Add(GraphLabsUIFactory.CreateSelectField(propertyInfo.Name,
+                                    (string) customAttributeData.ConstructorArguments[0].Value, options));
+                            }
+                            else if (customAttributeData.AttributeType == typeof(DynamicBoundFilterAttribute))
+                            {
+                                //фильтрация динамически по генерации опций в run-time
+                                var type = (Type) customAttributeData.ConstructorArguments[1].Value;
+                                var filters = ((IFilterValuesProvider) new UnityContainer().Resolve(type))
+                                    .getValues();
+                                var key = GraphLabsValuesHolder.registerValue(filters);
+                                var options = filters
+                                    .Select((v, i) => new {Key = i, Value = v})
+                                    .ToDictionary(o => o.Key.ToString(), o => o.Value.ToString());
+                                form.Controls.Add(GraphLabsUIFactory.CreateHiddenField(propertyInfo.Name + "ver", key));
                                 form.Controls.Add(GraphLabsUIFactory.CreateSelectField(propertyInfo.Name,
                                     (string) customAttributeData.ConstructorArguments[0].Value, options));
                             }

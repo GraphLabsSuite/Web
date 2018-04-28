@@ -117,5 +117,14 @@ namespace ASP.Helpers
             option.InnerText = desc;
             return option;
         }
+
+        public static Control CreateHiddenField(string name, string value)
+        {
+            var hidden = new HtmlGenericControl("input");
+            hidden.Attributes.Add("type", "hidden");
+            hidden.Attributes.Add("value", value);
+            hidden.Attributes.Add("name", name);
+            return hidden;
+        }
     }
 }
