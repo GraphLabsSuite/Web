@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using System.Runtime.CompilerServices;
 
 namespace GraphLabs.Guard
 {
@@ -12,134 +14,138 @@ namespace GraphLabs.Guard
 
         private sealed class ContractException : Exception
         {
-            public ContractException(string description, string nameOfMethod) : base(FormatErrorMessage(description, nameofMethod)) { }
+            public ContractException(string description, string memberName, string filePath, int lineNumber ) : base(FormatErrorMessage(description, memberName, filePath, lineNumber)) { }
 
-            private static string FormatErrorMessage(string description, string nameOfMethod)
+            private static string FormatErrorMessage(string description, string memberName, string filePath, int lineNumber )
             {
-                return ($"{description} in method {nameOfMethod}.");
+                return ($"{description} in method {memberName}, source file path: {filePath}, line {lineNumber}.");
             }
         }
 
         [Conditional("DEBUG")]
         public static void IsNotNull<T>(
-        string nameOfMethod,
-        T argument)
+        T argument,
+        [InvokerParameterName]string argName,
+        [CallerMemberName]string memberName = null,
+        [CallerFilePath]string filePath = null,
+        [CallerLineNumber]int lineNumber = 0
+        )
         where T : class
         {
             if (argument == null)
             {
-                throw new ContractException("Argument shoud be not null ", nameOfMethod);
+                throw new ContractException($"Argument {argName} shoud be not null ", memberName, filePath, lineNumber);
             }
         }
 
-        //Resharper.Annotations
         [Conditional("DEBUG")]
         public static void AreAssignedTypes(
-        string nameOfMethod,
+        Type type,
         Type defaultType,
-        Type type
+        [InvokerParameterName]string argName1,
+        [InvokerParameterName]string argName2,
+        [CallerMemberName]string memberName = null,
+        [CallerFilePath]string filePath = null,
+        [CallerLineNumber]int lineNumber = 0
         )
         {
-            if (!typeof(defaultType).IsAssignableFrom(type))
+            if (!type.IsAssignableFrom(defaultType))
             {
-                throw new ContractException("Specified type can not be assigned to the current type ", nameOfMethod);
+                throw new ContractException($"Type of {argName1} should be assigned to the current type {argName2} ", memberName, filePath, lineNumber);
             }
         }
 
         [Conditional("DEBUG")]
-        public static void AreEqualTypes(
-        string nameOfMethod,
-        Type defaultType,
-        Type type
+        public static void AreEqual<T>(
+        T a, 
+        T b,
+        [InvokerParameterName]string argName1,
+        [InvokerParameterName]string argName2,
+        [CallerMemberName]string memberName = null,
+        [CallerFilePath]string filePath = null,
+        [CallerLineNumber]int lineNumber = 0
         )
         {
-            if (!typeof(defaultType).IsAssignableFrom(type))
+            if (!Equals(a, b))
             {
-                throw new ContractException("Specified type is not equal to the current type ", nameOfMethod);
+                throw new ContractException($"{argName1} should be equal to the {argName2} ", memberName, filePath, lineNumber);
             }
         }
 
+
         [Conditional("DEBUG")]
-        public static void IsNotWhiteSpace(
-            string nameOfMethod,
-            string argument)
+        public static void IsNotNullOrWhiteSpace(
+            string argument,
+            [InvokerParameterName]string argName,
+            [CallerMemberName]string memberName = null,
+            [CallerFilePath]string filePath = null,
+            [CallerLineNumber]int lineNumber = 0
+            )
         {
             if (string.IsNullOrWhiteSpace(argument))
             {
-                throw new ContractException("String should not be null or white space ", nameOfMethod);
+                throw new ContractException($"String argument {argName} should not be null or white space ", memberName, filePath, lineNumber);
             }
         }
 
         [Conditional("DEBUG")]
-        public static void IsPositiveLong(
-            string nameOfMethod,
-            long num)
-        {
-            if (num <= 0)
-            {
-                throw new ContractException("Long must be positive ", nameOfMethod);
-            }
-        }
-
-        [Conditional("DEBUG")]
-        public static void IsPositiveInt(
-            string nameOfMethod,
-            int num)
-        {
-            if (num <= 0)
-            {
-                throw new ContractException("Int must be positive ", nameOfMethod);
-            }
-        }
-
-        [Conditional("DEBUG")]
-        public static void ComparingDates(
-            string nameOfMethod,
-            DateTime newDate,
-            DateTime currentDate
+        public static void IsPositive(
+            long num,
+            [InvokerParameterName]string argName,
+            [CallerMemberName]string memberName = null,
+            [CallerFilePath]string filePath = null,
+            [CallerLineNumber]int lineNumber = 0    
             )
         {
-            if (newDate < currentDate)
+            if (num <= 0)
             {
-                throw new ContractException("New date should be greater than current date ", nameOfMethod);
-            }
-        }
-
-
-        [Conditional("DEBUG")]
-        public static void IsCorrectIP( 
-            string nameOfMethod,
-            string ip)
-        {
-            if (!IpHelper.CheckIsValidIP(ip))
-            {
-                throw new ContractException("The current ip is not correct ", nameOfMethod;
+                throw new ContractException($"Long argument {argName} should be positive ", memberName, filePath, lineNumber);
             }
         }
 
         [Conditional("DEBUG")]
-        public static void IsNotEmpty<T>( // и для строки
-            string nameOfMethod,
-            T argument)
+        public static void IsPositive(
+            int num,
+            [InvokerParameterName]string argName,
+            [CallerMemberName]string memberName = null,
+            [CallerFilePath]string filePath = null,
+            [CallerLineNumber]int lineNumber = 0
+            )
         {
-            if (argument == T.Empty)
+            if (num <= 0)
             {
-                throw new ContractException("Argumen shoud not be empty ", nameOfMethod);
+                throw new ContractException($"Int argument {argName} should be positive ", memberName, filePath, lineNumber);
             }
         }
 
-        //roles.Any() используется только один раз
+        [Conditional("DEBUG")]
+        public static void IsNotEmpty(
+            string argument,
+            [InvokerParameterName]string argName, // nameof(argument)
+            [CallerMemberName]string memberName = null,
+            [CallerFilePath]string filePath = null,
+            [CallerLineNumber]int lineNumber = 0
+            )
+        {
+            if (argument == string.Empty)
+            {
+                throw new ContractException($"String {argName} shoud not be empty ", memberName, filePath, lineNumber);
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
+        [Conditional("DEBUG")]
+        public static void IsTrueAssertion(
+            bool argument,
+            [InvokerParameterName]string argName, // "argument"
+            [CallerMemberName]string memberName = null,
+            [CallerFilePath]string filePath = null,
+            [CallerLineNumber]int lineNumber = 0)
+        {
+            if (argument == false)
+            {
+                throw new ContractException($"Assertion {argName} shoud be true ", memberName, filePath, lineNumber);
+            }
+        }
 
     }
 
