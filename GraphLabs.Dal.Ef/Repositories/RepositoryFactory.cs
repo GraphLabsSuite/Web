@@ -18,6 +18,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         public RepositoryFactory(GraphLabsContext context, ISystemDateService systemDateService, ITasksContext tasksContext)
         {
             Contract.Requires(context != null);
+            Guard.Guard.IsNotNull(context, nameof(context)); //*
             _context = context;
             _systemDateService = systemDateService;
             _tasksContext = tasksContext;
@@ -28,8 +29,9 @@ namespace GraphLabs.Dal.Ef.Repositories
         public IGroupRepository GetGroupRepository()
         {
             Contract.Ensures(Contract.Result<IGroupRepository>() != null);
-
-            return new GroupRepository(_context);
+            GroupRepository groupRepository = new GroupRepository(_context);
+            Guard.Guard.IsNotNull(groupRepository, nameof(groupRepository));
+            return groupRepository;
         }
 
         /// <summary> Получить репозиторий с группами </summary>
@@ -37,8 +39,9 @@ namespace GraphLabs.Dal.Ef.Repositories
         public IUserRepository GetUserRepository()
         {
             Contract.Ensures(Contract.Result<IUserRepository>() != null);
-
-            return new UserRepository(_context);
+            UserRepository userRepository = new UserRepository(_context);
+            Guard.Guard.IsNotNull(userRepository, nameof(userRepository));
+            return userRepository;
         }
 
         /// <summary> Получить репозиторий с группами </summary>
@@ -46,8 +49,9 @@ namespace GraphLabs.Dal.Ef.Repositories
         public ISessionRepository GetSessionRepository()
         {
             Contract.Ensures(Contract.Result<ISessionRepository>() != null);
-
-            return new SessionRepository(_context, _systemDateService);
+            SessionRepository sessionRepository = new SessionRepository(_context, _systemDateService);
+            Guard.Guard.IsNotNull(sessionRepository, nameof(sessionRepository));
+            return sessionRepository;
         }
 
         /// <summary> Получить репозиторий с лабораторными работами </summary>
@@ -55,32 +59,36 @@ namespace GraphLabs.Dal.Ef.Repositories
         public ILabRepository GetLabRepository()
         {
             Contract.Ensures(Contract.Result<ILabRepository>() != null);
-
-            return new LabRepository(_context, _tasksContext);
+            LabRepository labRepository = new LabRepository(_context, _tasksContext);
+            Guard.Guard.IsNotNull(labRepository, nameof(labRepository));
+            return labRepository;
         }
 
 		[NotNull]
 		public ICategoryRepository GetCategoryRepository()
 		{
 			Contract.Ensures(Contract.Result<ICategoryRepository>() != null);
-
-			return new CategoryRepository(_context);
+            CategoryRepository categoryRepository = new CategoryRepository(_context);
+            Guard.Guard.IsNotNull(categoryRepository, nameof(categoryRepository));
+            return categoryRepository;
 		}
 
         [NotNull]
         public ISurveyRepository GetSurveyRepository()
         {
             Contract.Ensures(Contract.Result<ISurveyRepository>() != null);
-
-            return new SurveyRepository(_context);
+            SurveyRepository surveyRepository = new SurveyRepository(_context);
+            Guard.Guard.IsNotNull(surveyRepository, nameof(surveyRepository));
+            return surveyRepository;
         }
 
         [NotNull]
         public ITestPoolRepository GetTestPoolRepository()
         {
             Contract.Ensures(Contract.Result<ITestPoolRepository>() != null);
-
-            return new TestPoolRepository(_context);
+            TestPoolRepository testPoolRepository = new TestPoolRepository(_context);
+            Guard.Guard.IsNotNull(testPoolRepository, nameof(testPoolRepository));
+            return testPoolRepository;
         }
     }
 }

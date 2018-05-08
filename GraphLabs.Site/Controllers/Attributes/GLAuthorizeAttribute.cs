@@ -25,6 +25,7 @@ namespace GraphLabs.Site.Controllers.Attributes
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             Contract.Assert(filterContext != null);
+            Guard.Guard.IsNotNull(filterContext, nameof(filterContext)); //*
 
             var httpContext = filterContext.HttpContext;
             if (httpContext.User.Identity.IsAuthenticated)

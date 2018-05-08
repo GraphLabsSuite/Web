@@ -29,6 +29,7 @@ namespace GraphLabs.Site.Models
         public TaskVariantModel(TaskVariant variant)
         {
             Contract.Requires(variant != null);
+            Guard.Guard.IsNotNull(variant, nameof(variant)); //*
 
             Id = variant.Id;
             Number = variant.Number;

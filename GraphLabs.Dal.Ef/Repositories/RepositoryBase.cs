@@ -14,6 +14,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         protected RepositoryBase(GraphLabsContext context)
         {
             Contract.Requires(context != null);
+            Guard.Guard.IsNotNull(context, nameof(context)); //*
 
             _disposed = false;
             Context = context;

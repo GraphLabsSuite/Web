@@ -95,6 +95,7 @@ namespace GraphLabs.Site.Utils.Results
         public static ResultOrError<TResult> Failure(string errorFormat, params object[] args)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(errorFormat));
+            Guard.Guard.IsNotNullOrWhiteSpace(errorFormat);
 
             return new ResultOrError<TResult>(string.Format(errorFormat, args));
         }

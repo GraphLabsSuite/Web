@@ -171,6 +171,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphLabs.Guard\GraphLabs.Guard.csproj">
+      <Project>{d0a05aef-dc7e-4b2b-a82a-9a23eaa0af95}</Project>
+      <Name>GraphLabs.Guard</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>cd "$(SolutionDir)"

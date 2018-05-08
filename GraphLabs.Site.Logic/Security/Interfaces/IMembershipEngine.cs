@@ -36,9 +36,12 @@ namespace GraphLabs.Site.Logic.Security
         public LoginResult TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
             Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
+            Guard.Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp)); 
             Contract.Ensures(
                 Contract.Result<LoginResult>() != LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) == Guid.Empty ||
                 Contract.Result<LoginResult>() == LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) != Guid.Empty);
+            Guard.Guard.IsTrueAssertion(default(LoginResult) != LoginResult.Success & sessionGuid == Guid.Empty ||
+                default(LoginResult) == LoginResult.Success & sessionGuid != Guid.Empty);
 
             return default(LoginResult);
         }
@@ -47,10 +50,12 @@ namespace GraphLabs.Site.Logic.Security
         public LoginResult TryForceLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
             Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
+            Guard.Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp));
             Contract.Ensures(
                 Contract.Result<LoginResult>() != LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) == Guid.Empty ||
                 Contract.Result<LoginResult>() == LoginResult.Success & Contract.ValueAtReturn(out sessionGuid) != Guid.Empty);
-
+            Guard.Guard.IsTrueAssertion(default(LoginResult) != LoginResult.Success & sessionGuid == Guid.Empty ||
+                default(LoginResult) == LoginResult.Success & sessionGuid != Guid.Empty);
             return default(LoginResult);
         }
 
@@ -63,10 +68,15 @@ namespace GraphLabs.Site.Logic.Security
         public bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(email));
+            Guard.Guard.IsNotNullOrWhiteSpace(email);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+            Guard.Guard.IsNotNullOrWhiteSpace(name);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(surname));
+            Guard.Guard.IsNotNullOrWhiteSpace(surname);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(password));
+            Guard.Guard.IsNotNullOrWhiteSpace(password);
             Contract.Requires<ArgumentException>(groupId > 0);
+            Guard.Guard.IsTrueAssertion(groupId > 0);
 
             return default(bool);
         }
@@ -81,10 +91,15 @@ namespace GraphLabs.Site.Logic.Security
         public bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(email));
+            Guard.Guard.IsNotNullOrWhiteSpace(email);
             Contract.Requires<ArgumentException>(sessionGuid != Guid.Empty);
+            Guard.Guard.IsTrueAssertion(sessionGuid != Guid.Empty);
             Contract.Requires<ArgumentException>(IpHelper.CheckIsValidIP(clientIp));
+            Guard.Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(currentPassword));
+            Guard.Guard.IsNotNullOrWhiteSpace(currentPassword);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newPassword));
+            Guard.Guard.IsNotNullOrWhiteSpace(newPassword);
 
             return default(bool);
         }

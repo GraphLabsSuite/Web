@@ -40,18 +40,16 @@ namespace GraphLabs.Guard
 
         [Conditional("DEBUG")]
         public static void AreAssignedTypes(
-        Type type,
         Type defaultType,
-        [InvokerParameterName]string argName1,
-        [InvokerParameterName]string argName2,
+        Type type,
         [CallerMemberName]string memberName = null,
         [CallerFilePath]string filePath = null,
         [CallerLineNumber]int lineNumber = 0
         )
         {
-            if (!type.IsAssignableFrom(defaultType))
+            if (!defaultType.IsAssignableFrom(type))
             {
-                throw new ContractException($"Type of {argName1} should be assigned to the current type {argName2} ", memberName, filePath, lineNumber);
+                throw new ContractException($"Type should be assigned to the default type", memberName, filePath, lineNumber);
             }
         }
 
@@ -76,7 +74,6 @@ namespace GraphLabs.Guard
         [Conditional("DEBUG")]
         public static void IsNotNullOrWhiteSpace(
             string argument,
-            [InvokerParameterName]string argName,
             [CallerMemberName]string memberName = null,
             [CallerFilePath]string filePath = null,
             [CallerLineNumber]int lineNumber = 0
@@ -84,7 +81,7 @@ namespace GraphLabs.Guard
         {
             if (string.IsNullOrWhiteSpace(argument))
             {
-                throw new ContractException($"String argument {argName} should not be null or white space ", memberName, filePath, lineNumber);
+                throw new ContractException($"String argument should not be null or white space ", memberName, filePath, lineNumber);
             }
         }
 
@@ -121,7 +118,7 @@ namespace GraphLabs.Guard
         [Conditional("DEBUG")]
         public static void IsNotEmpty(
             string argument,
-            [InvokerParameterName]string argName, // nameof(argument)
+            [InvokerParameterName]string argName, 
             [CallerMemberName]string memberName = null,
             [CallerFilePath]string filePath = null,
             [CallerLineNumber]int lineNumber = 0
@@ -136,14 +133,27 @@ namespace GraphLabs.Guard
         [Conditional("DEBUG")]
         public static void IsTrueAssertion(
             bool argument,
-            [InvokerParameterName]string argName, // "argument"
+            [NotNull] string message,
             [CallerMemberName]string memberName = null,
             [CallerFilePath]string filePath = null,
             [CallerLineNumber]int lineNumber = 0)
         {
             if (argument == false)
             {
-                throw new ContractException($"Assertion {argName} shoud be true ", memberName, filePath, lineNumber);
+                throw new ContractException(message, memberName, filePath, lineNumber);
+            }
+        }
+
+        [Conditional("DEBUG")]
+        public static void IsTrueAssertion(
+          bool argument,
+          [CallerMemberName]string memberName = null,
+          [CallerFilePath]string filePath = null,
+          [CallerLineNumber]int lineNumber = 0)
+        {
+            if (argument == false)
+            {
+                throw new ContractException(message, memberName, filePath, lineNumber);
             }
         }
 

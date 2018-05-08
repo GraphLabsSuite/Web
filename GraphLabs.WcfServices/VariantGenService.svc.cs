@@ -36,7 +36,7 @@ namespace GraphLabs.WcfServices
                 if (variant == null)
                     throw new ArgumentException("Вариант с указанным Id не найден.");
 
-                return new TaskVariantDto
+                TaskVariantDto taskVariantDto = new TaskVariantDto
                 {
                     Data = variant.Data,
                     GeneratorVersion = variant.GeneratorVersion,
@@ -44,6 +44,10 @@ namespace GraphLabs.WcfServices
                     Version = variant.Version,
                     Id = variant.Id
                 };
+
+                Guard.Guard.IsNotNull(taskVariantDto, "taskVariantDto"); //*
+
+                return taskVariantDto;
             }
         }
 

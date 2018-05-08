@@ -12,6 +12,7 @@ using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Core.OperationContext;
 using log4net;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Site.Logic.Security
 {
@@ -32,7 +33,9 @@ namespace GraphLabs.Site.Logic.Security
             IOperationContextFactory<IGraphLabsContext> operationFactory) 
         {
             Contract.Requires(hashCalculator != null);
+            Guard.Guard.IsNotNull(hashCalculator, nameof(hashCalculator));
             Contract.Requires(systemDateService != null);
+            Guard.Guard.IsNotNull(systemDateService, nameof(systemDateService));
 
             _hashCalculator = hashCalculator;
             _systemDateService = systemDateService;
@@ -40,18 +43,24 @@ namespace GraphLabs.Site.Logic.Security
         }
 
         /// <summary> Выполняет вход </summary>
-        public LoginResult TryLogin(string email, string password, string clientIp, out Guid sessionGuid)
+        public LoginResult TryLogin(string email, string password, string clientIp, ref Guid sessionGuid)//ref, мы же не инициализируем его в функции 
         {
-            return TryLoginImpl(email, password, clientIp, out sessionGuid, force: false);
+            Guard.Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp));
+            Guard.Guard.IsTrueAssertion(TryLoginImpl(email, password, clientIp, ref sessionGuid, force: false) != LoginResult.Success & sessionGuid == Guid.Empty ||
+                TryLoginImpl(email, password, clientIp, ref sessionGuid, force: false) == LoginResult.Success & sessionGuid != Guid.Empty);
+            return TryLoginImpl(email, password, clientIp, ref sessionGuid, force: false);
         }
 
         /// <summary> Выполняет вход, убивая все сессии на других браузерах/компьютерах </summary>
-        public LoginResult TryForceLogin(string email, string password, string clientIp, out Guid sessionGuid)
+        public LoginResult TryForceLogin(string email, string password, string clientIp, ref Guid sessionGuid)
         {
-            return TryLoginImpl(email, password, clientIp, out sessionGuid, force: true);
+            Guard.Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp));
+            Guard.Guard.IsTrueAssertion(TryLoginImpl(email, password, clientIp, ref sessionGuid, force: true) != LoginResult.Success & sessionGuid == Guid.Empty ||
+                TryLoginImpl(email, password, clientIp, ref sessionGuid, force: true) == LoginResult.Success & sessionGuid != Guid.Empty);
+            return TryLoginImpl(email, password, clientIp,  ref sessionGuid, force: true);
         }
 
-        private LoginResult TryLoginImpl(string email, string password, string clientIp, out Guid sessionGuid, bool force)
+        private LoginResult TryLoginImpl(string email, string password, string clientIp, ref Guid sessionGuid, bool force)
         {
             using (var operation = _operationFactory.Create())
             {
@@ -165,6 +174,12 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Поменять пароль </summary>
         public bool ChangePassword(string email, Guid sessionGuid, string clientIp, string currentPassword, string newPassword)
         {
+            Guard.Guard.IsNotNullOrWhiteSpace(email);
+            Guard.Guard.IsTrueAssertion(sessionGuid != Guid.Empty);
+            Guard.Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp));
+            Guard.Guard.IsNotNullOrWhiteSpace(currentPassword);
+            Guard.Guard.IsNotNullOrWhiteSpace(newPassword);
+
             using (var operation = _operationFactory.Create())
             {
                 var session = FindSession(operation.DataContext.Query, email, sessionGuid, clientIp);
@@ -193,6 +208,12 @@ namespace GraphLabs.Site.Logic.Security
         /// <returns> false, если такой пользователь уже есть (с таким email), иначе true </returns>
         public bool RegisterNewStudent(string email, string name, string fatherName, string surname, string password, long groupId)
         {
+            Guard.Guard.IsNotNullOrWhiteSpace(email);
+            Guard.Guard.IsNotNullOrWhiteSpace(name);
+            Guard.Guard.IsNotNullOrWhiteSpace(surname);
+            Guard.Guard.IsNotNullOrWhiteSpace(password);
+            Guard.Guard.IsTrueAssertion(groupId > 0);
+
             var passHash = _hashCalculator.Crypt(password);
 
             using (var operation = _operationFactory.Create())

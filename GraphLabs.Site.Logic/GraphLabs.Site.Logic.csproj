@@ -219,6 +219,10 @@
       <Project>{3e515720-d0a1-4b01-a3e0-c82412b2d663}</Project>
       <Name>GraphLabs.DomainModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphLabs.Guard\GraphLabs.Guard.csproj">
+      <Project>{d0a05aef-dc7e-4b2b-a82a-9a23eaa0af95}</Project>
+      <Name>GraphLabs.Guard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
       <Project>{d62cc3f4-3ea1-44ff-b9e2-492582788b3b}</Project>
       <Name>GraphLabs.Site.Core</Name>

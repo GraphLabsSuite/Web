@@ -55,6 +55,7 @@ namespace GraphLabs.Site.Logic.Security
         bool IPrincipal.IsInRole(string role)
         {
             Contract.Assert(!string.IsNullOrWhiteSpace(role));
+            Guard.Guard.IsNotNullOrWhiteSpace(role);
 
             UserRole actualRole;
             if (!Enum.TryParse(role, false, out actualRole))

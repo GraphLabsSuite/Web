@@ -26,6 +26,7 @@ namespace GraphLabs.DomainModel.Infrastructure
         public bool PropertyChanged(string propertyName)
         {
             Contract.Requires<ArgumentException>(string.IsNullOrWhiteSpace(propertyName));
+            Guard.Guard.IsNotNullOrWhiteSpace(propertyName);
             return default(bool);
         }
 
@@ -34,7 +35,7 @@ namespace GraphLabs.DomainModel.Infrastructure
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyDictionary<string, object>>() != null);
+                Contract.Ensures(Contract.Result<IReadOnlyDictionary<string, object>>() != null);//переписать сразу у наследников
                 return default(IReadOnlyDictionary<string, object>);
             }
         }
@@ -44,7 +45,7 @@ namespace GraphLabs.DomainModel.Infrastructure
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyDictionary<string, object>>() != null);
+                Contract.Ensures(Contract.Result<IReadOnlyDictionary<string, object>>() != null);// у наследников
                 return default(IReadOnlyDictionary<string, object>);
             }
         }

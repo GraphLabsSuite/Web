@@ -57,6 +57,7 @@ namespace GraphLabs.Site.Models
         public TaskModel(Task task, bool loadForTableView = false)
         {
             Contract.Requires(task != null);
+            Guard.Guard.IsNotNull(task, "task"); //*
 
             Id = task.Id;
             Name = task.Name;

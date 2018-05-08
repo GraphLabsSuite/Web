@@ -52,6 +52,7 @@ namespace GraphLabs.Site.Logic.XapParsing
         public IXapInfo Parse(Stream stream)
         {
             Contract.Assert(stream != null);
+            Guard.Guard.IsNotNull(stream, nameof(stream));
 
             // Парсим примерно следующее (AppManifest.xaml):
             /*

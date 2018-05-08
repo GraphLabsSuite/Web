@@ -4,6 +4,8 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Infrastructure;
+using GraphLabs.Guard;
+
 
 namespace GraphLabs.Dal.Ef
 {
@@ -35,6 +37,7 @@ namespace GraphLabs.Dal.Ef
         private Type GetEntityTypeFor(Type type)
         {
             Contract.Assert(typeof(AbstractEntity).IsAssignableFrom(type));
+            Guard.Guard.AreAssignedTypes(typeof(AbstractEntity), type); //* 
 
             var baseType = type.BaseType;
             if (baseType == typeof(AbstractEntity))
