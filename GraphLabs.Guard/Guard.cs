@@ -153,7 +153,7 @@ namespace GraphLabs.Guard
         {
             if (argument == false)
             {
-                throw new ContractException(message, memberName, filePath, lineNumber);
+                throw new ContractException("Assertion should be true", memberName, filePath, lineNumber);
             }
         }
 
