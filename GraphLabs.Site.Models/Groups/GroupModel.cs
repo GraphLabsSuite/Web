@@ -12,11 +12,11 @@ namespace GraphLabs.Site.Models.Groups
         public long Id { get; set; }
 
 //        [StringFilter("Номер группы")]
-//        [BoundedFilter("Выбери номер", new Object[]{"Б14-505", "К08-221"})]
-        [DynamicBoundFilter("Выбери номер", typeof(NameFilterProvider))]
+        [BoundedFilter("Номер группы", new Object[]{"Б14-505", "Б14-506", "М18-501"})]
+//        [DynamicBoundFilter("Выбери номер", typeof(NameFilterProvider))]
         public string Name { get; set; }
         
-        [StringFilter("Доступность для регистрации")]
+//        [StringFilter("Доступность для регистрации")]
         public bool IsOpen { get; set; }
 
         public ICollection<Student> Students { get; set; }

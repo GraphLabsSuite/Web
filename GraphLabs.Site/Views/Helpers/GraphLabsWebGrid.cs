@@ -9,7 +9,9 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using GraphLabs.Site;
 using GraphLabs.Site.Core.Filters;
+using GraphLabs.Site.ServicesConfig;
 using Microsoft.Practices.Unity;
 
 namespace ASP.Helpers
@@ -92,7 +94,7 @@ namespace ASP.Helpers
                             {
                                 //фильтрация динамически по генерации опций в run-time
                                 var type = (Type) customAttributeData.ConstructorArguments[1].Value;
-                                var filters = ((IFilterValuesProvider) new UnityContainer().Resolve(type))
+                                var filters = ((IFilterValuesProvider) IoC.GetChildContainer().Resolve(type))
                                     .getValues();
                                 var key = GraphLabsValuesHolder.registerValue(filters);
                                 var options = filters
