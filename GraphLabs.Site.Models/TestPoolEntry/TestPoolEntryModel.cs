@@ -20,5 +20,7 @@ namespace GraphLabs.Site.Models.TestPoolEntry
         public TestQuestion TestQuestion { get; set; }
 
         public DomainModel.TestPool TestPool { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
     }
 }

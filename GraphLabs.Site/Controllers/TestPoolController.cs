@@ -82,17 +82,12 @@ namespace GraphLabs.Site.Controllers
             return View(testPool);
         }
 
-        [HttpPost]
-        public ActionResult Look(TestPoolModel testPool)
+        public ActionResult Look(long id = 0)
         {
-     /*       TestPool res = _modelSaver.CreateOrUpdate(testPool);
-            if (res != null)
-            {
-                return RedirectToAction("Index");
-            }
-            ViewBag.Message = "Невозможно обновить тестпул";*/
-            return View(testPool);
+            return View(_modelLoader.Load(id));
         }
+
+        [HttpPost]
 
         public ViewResult Delete(long testPoolId)
         {

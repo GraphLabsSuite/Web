@@ -28,6 +28,7 @@ namespace GraphLabs.DomainModel
     
         public virtual TestQuestion TestQuestion { get; set; }
         public virtual TestPool TestPool { get; set; }
+        public object Category { get; set; }
     }
     
     #pragma warning restore 1591

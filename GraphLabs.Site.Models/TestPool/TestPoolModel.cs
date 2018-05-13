@@ -19,5 +19,8 @@ namespace GraphLabs.Site.Models.TestPool
 
         public ICollection<TestPoolEntryModel> TestPoolEntries { get; set; }
 
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
+
     }
 }
