@@ -47,6 +47,10 @@
                     RenderTable();
                 });
 
+                $('#SelectedSubCategoryId').change(function () {
+                    RenderTable();
+                });
+
                 function RenderTable() {
                     $.ajax({
                         type: "Get",
@@ -59,5 +63,16 @@
                         }
                     });
                 }
+
+                $('#SubCategoryList').change(function () {
+                    alert('ghbdtn');
+                    location.reload();
+                })
+
+                function RenderPage() {
+                    alert('ghbdtn');
+                    location.reload();
+                }
+
             </script>
         }

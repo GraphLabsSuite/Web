@@ -25,18 +25,18 @@ namespace GraphLabs.Site.Controllers
 	    private readonly ISurveyRepository _surveyRepository;
 	    private readonly ICategoryRepository _categoryRepository;
         private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _modelLoader;
-        //private readonly IEntityBasedModelSaver<CategoryModel, Category> _categorySaver;
+        private readonly IEntityBasedModelSaver<CategoryModel, Category> _categorySaver;
 
         public SurveyController(
             ISurveyRepository surveyRepository,
             ICategoryRepository categoryRepository,
-            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader
-            /*IEntityBasedModelSaver<CategoryModel, Category> categorySaver*/)
+            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader,
+            IEntityBasedModelSaver<CategoryModel, Category> categorySaver)
         {
             _modelLoader = modelLoader;
 	        _surveyRepository = surveyRepository;
 	        _categoryRepository = categoryRepository;
-            //_categorySaver = categorySaver;
+            _categorySaver = categorySaver;
 	    }
 
 	    #region Просмотр списка

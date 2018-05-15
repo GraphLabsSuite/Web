@@ -28,21 +28,14 @@ namespace GraphLabs.Site.Models
             if (ShowCategory) {
                 if (ShowSubCategory)
                 {
-                    questions = _surveyRepository.GetQuestionByCategory(CategoryId);
-                    //questions = _surveyRepository.GetQuestionsBySubCategory(SubCategoryId);
+                    questions = _surveyRepository.GetQuestionBySubCategory(SubCategoryId);
                 }
                 else
                 {
                     questions = _surveyRepository.GetQuestionByCategory(CategoryId);
                 }
             }
-
-            /*var questions = SubCategoryId == 0
-                ? _surveyRepository.GetAllQuestions()
-                : _surveyRepository.GetQuestionByCategory(SubCategoryId);*/
-
-            //var questions = CategoryId == 
-            
+                        
             Items = questions.Select(q => new TestQuestionDto
             {
                 QuestionId = q.Id,
