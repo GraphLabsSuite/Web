@@ -14,11 +14,7 @@ namespace GraphLabs.Site.Models.TestPoolEntry
     {
         public long Id { get; set; }
 
-        public int Score { get; set; }
-
-        public ScoringStrategy ScoringStrategy { get; set; }
-
-        public long TestQuestion { get; set; }
+        public long SubCategoryId { get; set; }
 
         public long TestPool { get; set; }
     }

@@ -268,6 +268,7 @@
     <Compile Include="TestPoolEntry\AuxTestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\SaveTestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\SaveTestPoolEntryModelSaver.cs" />
+    <Compile Include="TestPoolEntry\SubCategoryModel.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelLoader.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelSaver.cs" />

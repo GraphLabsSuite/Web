@@ -40,6 +40,8 @@ namespace GraphLabs.Site.Models
             {
                 QuestionId = q.Id,
                 Question = q.Question,
+                Score = q.Score,
+                ScoringStrategy = q.ScoringStrategy.ToString(),
                 QuestionSubCategory = q.SubCategory.Name,
                 QuestionCategory = q.SubCategory.Category.Name,                
             })
@@ -56,6 +58,8 @@ namespace GraphLabs.Site.Models
 	{
 		public long QuestionId { get; set; }
 		public string Question { get; set; }
+        public int Score { get; set; }
+        public string ScoringStrategy { get; set; }
         public string QuestionCategory { get; set; }
         public string QuestionSubCategory { get; set; }
     }

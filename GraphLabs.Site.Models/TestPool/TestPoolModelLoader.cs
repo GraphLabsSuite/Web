@@ -1,44 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLabs.DomainModel;
-using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.TestPoolEntry;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.TestPool
 {
     /// <summary> Загрузчик моделей тестпулов </summary>
     internal sealed class TestPoolModelLoader : AbstractModelLoader<TestPoolModel, DomainModel.TestPool>
     {
+        private readonly IEntityBasedModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry> _entryLoader;
 
         /// <summary> Загрузчик моделей тестпулов </summary>
         public TestPoolModelLoader(
-            IEntityQuery query) : base(query)
+            IEntityQuery query,
+            IEntityBasedModelLoader<TestPoolEntryModel, DomainModel.TestPoolEntry> entryLoader) : base(query)
         {
+            _entryLoader = entryLoader;
         }
 
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override TestPoolModel Load(DomainModel.TestPool testPool)
         {
             Contract.Requires(testPool != null);
-            var array = testPool.TestPoolEntries.Select(a =>
-                new TestPoolEntryModel
-                {
-                    Id = a.Id,
-                    Score = a.Score,
-                    ScoringStrategy = a.ScoringStrategy,
-                    TestQuestion = a.TestQuestion,
-                    TestPool = a.TestPool
-                })
-                .ToArray();
+            var array = testPool.TestPoolEntries.Select(_entryLoader.Load).ToArray();
 
-            var model = new TestPoolModel()
+            var model = new TestPoolModel
             {
                 Id = testPool.Id,
                 Name = testPool.Name,
