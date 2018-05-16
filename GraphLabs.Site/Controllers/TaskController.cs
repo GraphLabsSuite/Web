@@ -93,7 +93,6 @@ namespace GraphLabs.Site.Controllers
         {
             string jsModuleFullPath = AppDomain.CurrentDomain.BaseDirectory + "Scripts/modules/";
             string cssModuleFullPath = AppDomain.CurrentDomain.BaseDirectory + "Content/css/modules/";
-            string jsFileName = "";
             string path;
 
             int fileCounter = 0;
@@ -106,34 +105,26 @@ namespace GraphLabs.Site.Controllers
 
             if (fileCounter != 2) return RedirectToAction("UploadReactTask", "Task", new { ErrorMessage = "Загружено не два файла!" });
 
-            foreach (string upload in Request.Files)
-            {
-                string filename = Path.GetFileName(Request.Files[upload].FileName);
-                if (getType(filename).Equals(TaskType.JS))
-                {
-                    path = jsModuleFullPath;
-                    jsFileName = filename;
-                }
-                else
-                {
-                    path = cssModuleFullPath;
-                }
-                Request.Files[upload].SaveAs(Path.Combine(path, filename));
-            }
-
             TaskPoco newTask;
+            string jsFileName = Path.GetFileName(Request.Files[0].FileName);
             try
             {
                 newTask = _taskManager.UploadReactTask(jsFileName);
             }
             catch (Exception)
             {
-                return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.UPLOAD_ERROR });
+                return RedirectToAction("UploadReactTask", "Task", new { ErrorMessage = UserMessages.UPLOAD_ERROR });
             }
 
             if (newTask == null)
-                return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
+                return RedirectToAction("UploadReactTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
 
+            foreach (string upload in Request.Files)
+            {
+                string filename = Path.GetFileName(Request.Files[upload].FileName);
+                path = (getType(filename).Equals(TaskType.JS)) ? jsModuleFullPath : cssModuleFullPath;
+                Request.Files[upload].SaveAs(Path.Combine(path, filename));
+            }
             long id = createTask(newTask);
 
             return RedirectToAction("EditTask", "Task", new { Id = id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
