@@ -208,6 +208,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\TaskType.cs" />
     <Compile Include="Tasks\ITaskManager.cs" />
     <Compile Include="Tasks\TaskManager.cs" />
     <Compile Include="XapParsing\IXapInfo.cs" />

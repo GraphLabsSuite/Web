@@ -20,19 +20,7 @@
                 <img src="../../Images/graphlabs.png" alt="" />
                 <p>Задание загружается. Пожалуйста, подождите.</p>
             </div>
-            <object id="task-module-object" data="data:application/x-silverlight-2," type="application/x-silverlight-2">
-                <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@taskModel.TaskId" />
-                <param name="onerror" value="onSilverlightError" />
-                <param name="background" value="#E8EDEF" />
-                <param name="minRuntimeVersion" value="2.0.31005.0" />
-                <param name="autoUpgrade" value="true" />
-                <param name="initParams" value="@taskModel.InitParams" />
-                <param name="onload" value="onTaskModuleLoaded" />
-                <param name="onerror" value="onTaskModuleLoaded" />
-                <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
-                    <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
-                </a>
-            </object>
+            <div id="task-react"> </div>
         </div>
 }
 

@@ -1,32 +1,17 @@
 ﻿@using GraphLabs.Site.Models.Preview
 @model TaskVariantPreviewModel
 @{
-    ViewBag.Title = "Предпросмотр демонстрационного задания модуля ________";
+    ViewBag.Title = "Предпросмотр демонстрационного задания модуля";
 }
 
 @{
     var taskModel = @Model as TaskVariantPreviewModel;
 }
 
-<h2>Предпросмотр варианта __ модуля __</h2>
+<h2>Предпросмотр варианта модуля </h2>
 
 
-<div id="task-module-wrapper" class="ui-resizable">
-    <div id="loading-please-wait">
-        <img src="../../Images/graphlabs.png" alt="" />
-        <p>Задание загружается. Пожалуйста, подождите.</p>
-    </div>
-    <object id="task-module-object" data="data:application/x-silverlight-2," type="application/x-silverlight-2">
-        <param name="source" value="/Content/SilverlightAppsProvider.ashx?kind=task&taskId=@taskModel.TaskId" />
-        <param name="onerror" value="onSilverlightError" />
-        <param name="background" value="#E8EDEF" />
-        <param name="minRuntimeVersion" value="2.0.31005.0" />
-        <param name="autoUpgrade" value="true" />
-        <param name="initParams" value="@taskModel.InitParams" />
-        <param name="onload" value="onTaskModuleLoaded" />
-        <param name="onerror" value="onTaskModuleLoaded" />
-        <a href="http://go.microsoft.com/fwlink/?LinkID=124807" style="text-decoration: none;">
-            <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none" />
-        </a>
-    </object>
-</div>
+<div id="task-react" class="ui-resizable" style="width:100%; height:400px;"></div>
+
+<!--
+<script type="text/javascript" src="../Scripts/bundle.min.js"></script> -->

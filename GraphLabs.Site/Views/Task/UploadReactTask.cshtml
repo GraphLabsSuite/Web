@@ -1,0 +1,28 @@
+﻿@model GraphLabs.Site.Models.TaskModel
+
+@{
+    ViewBag.Title = "Загрузить новое задание React";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+
+<p class="error">@ViewBag.ErrorMessage</p>
+
+@using (Html.BeginForm("UploadReactTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    <p>Укажите React-приложение для загрузки:</p>
+    <input type="file" name="js-script" />
+    <p>Укажите файл со стилями приложения для загрузки:</p>
+    <input type="file" name="css-style" /><br />
+
+    <p><input type="submit" value="Загрузить" /></p>
+}
+
+<script>
+
+</script>
+

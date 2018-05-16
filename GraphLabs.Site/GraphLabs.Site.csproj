@@ -41,7 +41,7 @@
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
-    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeCallSiteRequires>True</CodeContractsRuntimeCallSiteRequires>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
     <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
     <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
@@ -71,7 +71,7 @@
     <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
     <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
     <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
@@ -118,7 +118,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -131,7 +131,7 @@
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
@@ -325,6 +325,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bundle.min.js" />
     <Content Include="Scripts\Common\TestPool.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -452,6 +453,7 @@
     <Content Include="Views\Labs\GenerateVariant.cshtml" />
     <Content Include="Views\Lab\Index.cshtml" />
     <Content Include="Views\Lab\Create.cshtml" />
+    <Content Include="Views\Task\UploadReactTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -537,6 +539,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
+    <Folder Include="Scripts\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

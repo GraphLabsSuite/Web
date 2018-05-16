@@ -1,7 +1,7 @@
 ﻿@model GraphLabs.Site.Models.TaskModel
 
 @{
-    ViewBag.Title = "Загрузить новое задание";
+    ViewBag.Title = "Загрузить новое задание Silverlight";
 }
 
 <hgroup>
@@ -14,8 +14,9 @@
 @using (Html.BeginForm("UploadTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
-    <p>Укажите Silverlight-приложение (*.xap) для загрузки:</p>
-    <p><input type="file" name="xap" required /></p>
+    <p>Укажите React-приложение для загрузки:</p>
+    <p><input type="file" name="js" required /></p>
+
     <p><input type="submit" value="Загрузить" /></p>
 }    
 

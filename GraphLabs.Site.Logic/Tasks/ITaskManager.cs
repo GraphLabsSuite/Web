@@ -7,9 +7,13 @@ namespace GraphLabs.Site.Logic.Tasks
     /// <summary> Менеджер заданий </summary>
     public interface ITaskManager
     {
-        /// <summary> Загрузить задание </summary>
+        /// <summary> Загрузить задание Silverlight </summary>
         [CanBeNull]
         TaskPoco UploadTask([NotNull]Stream stream);
+
+        /// <summary> Загрузить задание React </summary>
+        [CanBeNull]
+        TaskPoco UploadReactTask(string scriptName);
 
         /// <summary> Загрузить задание и прописать в название время загрузки </summary>
         /// <remarks> Для отладочных целей </remarks>

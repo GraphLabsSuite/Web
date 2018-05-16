@@ -8,6 +8,8 @@ using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Logic.Tasks;
 using GraphLabs.Site.Models;
 using GraphLabs.Site.Core.OperationContext;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -38,7 +40,7 @@ namespace GraphLabs.Site.Controllers
             return View(tasks);
         }
 
-        #region UploadTask
+        #region UploadSilverlightTask
 
         /// <summary> Начальная отрисовка формы загрузки </summary>
         public ActionResult UploadTask(string errorMessage)
@@ -68,24 +70,7 @@ namespace GraphLabs.Site.Controllers
                 if (newTask == null)
                     return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
 
-                long id;
-                using (var op = _operationFactory.Create())
-                {
-                    var task = op.DataContext.Factory.Create<Task>();
-                    var data = op.DataContext.Factory.Create<TaskData>();
-                    data.Xap = newTask.Xap;
-
-                    task.Name = newTask.Name;
-                    task.VariantGenerator = null;
-                    task.Sections = newTask.Sections;
-                    task.Version = newTask.Version;
-                    task.TaskData = data;
-                    task.Note = "";
-
-                    op.Complete();
-
-                    id = task.Id;
-                }
+                long id = createTask(newTask);
 
                 return RedirectToAction("EditTask", "Task", new { Id = id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
             }
@@ -94,11 +79,111 @@ namespace GraphLabs.Site.Controllers
             return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.UPLOAD_FILE_NOT_SPECIFIED }); 
         }
 
+        /// <summary> Начальная отрисовка формы загрузки React модуля </summary>
+        public ActionResult UploadReactTask(string errorMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+            return View();
+        }
+
+        /// <summary> Загружаем задание React </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadReactTask(HttpPostedFileBase scriptFiles)
+        {
+            string jsModuleFullPath = AppDomain.CurrentDomain.BaseDirectory + "Scripts/modules/";
+            string cssModuleFullPath = AppDomain.CurrentDomain.BaseDirectory + "Content/css/modules/";
+            string jsFileName = "";
+            string path;
+
+            int fileCounter = 0;
+
+            foreach (string upload in Request.Files)
+            {
+                if (!IsFileValid(Request.Files[upload])) break;
+                fileCounter++;
+            }
+
+            if (fileCounter != 2) return RedirectToAction("UploadReactTask", "Task", new { ErrorMessage = "Загружено не два файла!" });
+
+            foreach (string upload in Request.Files)
+            {
+                string filename = Path.GetFileName(Request.Files[upload].FileName);
+                if (getType(filename).Equals(TaskType.JS))
+                {
+                    path = jsModuleFullPath;
+                    jsFileName = filename;
+                }
+                else
+                {
+                    path = cssModuleFullPath;
+                }
+                Request.Files[upload].SaveAs(Path.Combine(path, filename));
+            }
+
+            TaskPoco newTask;
+            try
+            {
+                newTask = _taskManager.UploadReactTask(jsFileName);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.UPLOAD_ERROR });
+            }
+
+            if (newTask == null)
+                return RedirectToAction("UploadTask", "Task", new { ErrorMessage = UserMessages.TASK_EXISTS });
+
+            long id = createTask(newTask);
+
+            return RedirectToAction("EditTask", "Task", new { Id = id, StatusMessage = UserMessages.TaskController_UploadTask_Задание_успешно_загружено });
+        }
+
+        private bool IsFileValid(HttpPostedFileBase file)
+        {
+            return (file != null && file.ContentLength > 0) ? true : false;
+        }
+
+        private TaskType getType(string fileName)
+        {
+            if(new Regex(@"\w*\.js", RegexOptions.RightToLeft).Matches(fileName).Count > 0)
+            {
+                return TaskType.JS;
+            }
+            if (new Regex(@"\w*\.css", RegexOptions.RightToLeft).Matches(fileName).Count > 0)
+            {
+                return TaskType.CSS;
+            }
+            throw new ArgumentException("Неверный формат файла! " + fileName);
+        }
+
+        private long createTask(TaskPoco newTask)
+        {
+            long id;
+            using (var op = _operationFactory.Create())
+            {
+                var task = op.DataContext.Factory.Create<Task>();
+                var data = op.DataContext.Factory.Create<TaskData>();
+                data.Xap = newTask.Xap;
+
+                task.Name = newTask.Name;
+                task.VariantGenerator = null;
+                task.Sections = newTask.Sections;
+                task.Version = newTask.Version;
+                task.TaskData = data;
+                task.Note = "";
+
+                op.Complete();
+
+                id = task.Id;
+            }
+            return id;
+        }
+
         #endregion
 
-
         #region EditTask
-        
+
         //
         // GET: /Tasks/Edit
         /// <summary> Начальная отрисовка формы редактирования </summary>
