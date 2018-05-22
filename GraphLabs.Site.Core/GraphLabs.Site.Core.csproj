@@ -119,18 +119,6 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GraphLabs.DomainModel, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.DomainModel.dll</HintPath>
-    </Reference>
-    <Reference Include="GraphLabs.Site.Models, Version=0.1.0.461, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\GraphLabs.WcfServices\Bin\GraphLabs.Site.Models.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -165,8 +153,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <!--<PreBuildEvent>cd "$(SolutionDir)"-->
-    <!--powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>-->
+    <PreBuildEvent>cd "$(SolutionDir)"
+    powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

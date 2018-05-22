@@ -609,8 +609,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <!--<PreBuildEvent>cd "$(SolutionDir)"-->
-    <!--powershell  "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>-->
+    <PreBuildEvent>cd "$(SolutionDir)"
+    powershell  "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
   </PropertyGroup>
   <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">
     <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />

@@ -173,8 +173,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <!--<PreBuildEvent>cd "$(SolutionDir)"-->
-<!--powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>-->
+    <PreBuildEvent>cd "$(SolutionDir)"
+powershell "&amp; ""$(SolutionDir)\generateVersionInfo.ps1"""</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

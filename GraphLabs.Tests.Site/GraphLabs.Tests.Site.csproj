@@ -68,12 +68,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GraphLabs.Site.Core\GraphLabs.Site.Core.csproj">
-      <Project>{D62CC3F4-3EA1-44FF-B9E2-492582788B3B}</Project>
-      <Name>GraphLabs.Site.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
