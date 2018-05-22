@@ -15,23 +15,25 @@ namespace GraphLabs.Site.Controllers
         private readonly IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> _modelSaver;
         private readonly IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> _modelLoader;
         private readonly IEditLabScheduleModelLoader _editModelLoader;
+        private readonly IEntityRemover<AbstractLabSchedule> _modelRemover;
 
         public ScheduleController(
             IListModelLoader listModelLoader,
             IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> modelSaver,
             IEntityBasedModelLoader<LabScheduleModel, AbstractLabSchedule> modelLoader,
-            IEditLabScheduleModelLoader editModelLoader)
+            IEditLabScheduleModelLoader editModelLoader,
+            IEntityRemover<AbstractLabSchedule> modelRemover)
         {
             _listModelLoader = listModelLoader;
             _modelSaver = modelSaver;
             _modelLoader = modelLoader;
             _editModelLoader = editModelLoader;
+            _modelRemover = modelRemover;
         }
 
         public ActionResult Index(string message)
         {
             ViewBag.Message = message;
-
             var model = _listModelLoader.LoadListModel<LabScheduleListModel, LabScheduleModel>();
             return View(model);
         }
@@ -72,6 +74,25 @@ namespace GraphLabs.Site.Controllers
 
             ViewBag.Message = "Невозможно обновить строку расписания";
             return View(schedule);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(long id = 0)
+        {
+            try
+            {
+                _modelRemover.Remove(id);
+                return RedirectToAction("Index");
+            }
+            catch (GraphLabsDbUpdateException e)
+            {
+                return Json(false);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return Json(false);
+            }
+
         }
     }
 }

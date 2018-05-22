@@ -240,6 +240,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\Button.css" />
+    <Content Include="Content\css\Grids.css" />
     <Content Include="Content\css\LabWorkCreate.css" />
     <Content Include="Content\css\LabWorkExecution.css" />
     <Content Include="Content\css\LabWorkIndex.css" />
@@ -249,6 +250,7 @@
     <Content Include="Content\css\OrderedList.css" />
     <Content Include="Content\css\PopUp.css" />
     <Content Include="Content\css\ResultBoardTable.css" />
+    <Content Include="Content\css\Search.css" />
     <Content Include="Content\css\Table.css" />
     <Content Include="Content\css\TestPool.css" />
     <Content Include="Content\css\ValidationHelpers.css" />
@@ -354,6 +356,8 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\LabWorkExecutionController.cs" />
     <Compile Include="Controllers\LabWorks\ResponseConstants.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StartpageController.cs" />
     <Compile Include="Controllers\TestingLabController.cs" />
     <Compile Include="Controllers\TestPoolController.cs" />
     <Compile Include="Controllers\TestPoolEntryController.cs" />
@@ -431,7 +435,6 @@
     <Content Include="Views\Result\LabWorkResult.cshtml" />
     <Content Include="Views\Result\StudentList.cshtml" />
     <Content Include="Views\Result\StudentResult.cshtml" />
-    <Content Include="Views\Result\TaskResult.cshtml" />
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
     <Content Include="Views\Schedule\_ScheduleEditors.cshtml" />
@@ -445,6 +448,10 @@
     <Content Include="Views\TestPool\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Result\TestResult.cshtml" />
+    <Content Include="Views\Startpage\Index.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Schedule\Delete.cshtml" />
+    <Content Include="Views\TestPool\Look.cshtml" />
     <Content Include="Views\Labs\GenerateVariant.cshtml" />
     <Content Include="Views\Lab\Index.cshtml" />
     <Content Include="Views\Lab\Create.cshtml" />

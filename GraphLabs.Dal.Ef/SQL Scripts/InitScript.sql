@@ -43,6 +43,16 @@ VALUES
 	4)
 GO
 
+--Учетка преподавателя
+INSERT INTO [dbo].[Users]
+	(Surname, Name, FatherName, PasswordHash, Email, Role)
+VALUES 
+    ('Tutor', 'Tutor', 'Tutor', 
+	'$2a$06$LzfX0oshO/c9C2yKVIBmfOupOcoIfqDrXdteGR1yVQjdKj6BDztZO',
+	'tutor@graphlabs.ru', 
+	2)
+GO
+
 -- Учётка пользователя
 INSERT INTO [dbo].[Users] 
 	(Surname, Name, FatherName, PasswordHash, Email, Role)

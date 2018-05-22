@@ -23,12 +23,21 @@ namespace GraphLabs.Site.Models.Infrastructure
         /// <summary> Модель списка </summary>
         protected ListModelBase()
         {
+            InvalidateItems();
+        }
+
+        /// <summary>
+        /// Пересоздаёт коллекцию <see cref="Items"/>
+        /// (например, если меняются фильтры)
+        /// </summary>
+        protected void InvalidateItems()
+        {
             _itemsLazy = new Lazy<TModel[]>(LoadItems);
         }
 
         /// <summary> Реализация этого метода должна загружать список моделей </summary>
         protected abstract TModel[] LoadItems();
-        private readonly Lazy<TModel[]> _itemsLazy;
+        private Lazy<TModel[]> _itemsLazy;
 
 
         /// <summary> Список </summary>

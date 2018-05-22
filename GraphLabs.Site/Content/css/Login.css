@@ -1,25 +1,39 @@
 ﻿#login {
     margin: 0 0 0px;
     text-align: right;
-    height: 30px;
-    display: inline-block;
+    height: 1px;
     float: right;
-    margin-top: 10px;
-
+    display: inline-table;
+    margin-top: -5px;
 }
 
     #login a {
-        margin-left: 10px;
-        margin-right: 10px;
         text-decoration: none;
         font-family: Segoe UI, Verdana, Helvetica;
-	    font-size: 1.2em;
+	    font-size: 1.0em;
 	    font-style: normal;
         color: #5c7e94;
     }
 
     #login a.username {
         margin: 0;
-        padding: 0;
+        padding: 0px;
         text-decoration: underline;
     }
+
+#notauth {
+    margin: 0 0 0px;
+    text-align: right;
+    height: 1px;
+    float: right;
+    display: inline-table;
+    margin-top: 10px;
+}
+
+#notauth a {
+        text-decoration: none;
+        font-family: Segoe UI, Verdana, Helvetica;
+	    font-size: 1.2em;
+	    font-style: normal;
+        color: #5c7e94;
+}

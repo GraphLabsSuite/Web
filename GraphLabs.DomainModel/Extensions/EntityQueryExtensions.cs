@@ -27,7 +27,7 @@ namespace GraphLabs.DomainModel.Extensions
         {
             var entity = query.Find<TEntity>(keyValue);
             if (entity == null)
-                throw new EntityNotFoundException(typeof(TEntity), new [] { keyValue });
+                 throw new EntityNotFoundException(typeof(TEntity), new [] { keyValue });
 
             return entity;
         }

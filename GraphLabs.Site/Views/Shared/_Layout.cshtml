@@ -11,73 +11,94 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>@ViewBag.Title - GraphLabs</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-    <meta name="viewport" content="width=device-width"/>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width" />
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
 
-
-
 </head>
 <body>
-<div id="header">
-    <div class="content-wrapper">
-        <span id="logo">
-            <a href="~/"><img alt="GL" src="~/Images/graphlabs_logo.png" height="40" /></a>
-        </span>
-        <section id="login">
-            @Html.Partial("_LoginPartial")
-        </section>
-    </div>
-</div>
-
-@functions
-{
-    // говорят так нехорошо но пока оставлю это здесь
-    private bool MenuIsVisible()
-    {
-        return ViewBag.HideNavigationMenu == null || !ViewBag.HideNavigationMenu;
-    }
-}
-
-
-<div id="body">
-    <div id="main">
+    <div id="header">
         <div class="content-wrapper">
-            @if (MenuIsVisible())
+            <span id="logo">
+                <a href="~/"><img alt="GL" src="~/Images/graphlabs_logo.png" height="40" /></a>
+            </span>
+            @if (!User.Identity.IsAuthenticated)
             {
-                <nav id="menu">
-                    <ul>
-                        @if (User.IsInAnyRole(UserRole.Teacher))
-                        {
-                            <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Группы", "Index", "Group")</li>
-                            <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
-                            <li>@Html.ActionLink("Категории", "Index", "Category")</li>
-                            <li>@Html.ActionLink("Задания", "Index", "Task")</li>
-                            <li>@Html.ActionLink("Лабораторные", "Index", "Labs")</li>
-                            <li>@Html.ActionLink("Расписание", "Index", "Schedule")</li>
-                            <li>@Html.ActionLink("Вопросы", "Index", "Survey")</li>
-                            <li>@Html.ActionLink("Тестпулы", "Index", "TestPool")</li>
-                            <li>@Html.ActionLink("Результаты", "Index", "Result")</li>
-                            <li>@Html.ActionLink("Система", "Index", "Settings")</li>
-                        }
-                        <!-- Админу кнопки студента не показываем -->
-                        @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
-                        {
-                            <li>@Html.ActionLink("Новости", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Подготовка", "Index", "DemoLab")</li>
-                            <li>@Html.ActionLink("Контрольные", "Index", "TestingLab")</li>
-                            <li>@Html.ActionLink("Результаты", "Index", "StudentsResult")</li>
-                        }
-                    </ul>
-                </nav>
+                <section id="notauth">
+                    @Html.Partial("_LoginPartial")
+                </section>
             }
-                <section class="@(MenuIsVisible() ? "main-content-with-menu" : "main-content-without-menu")">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+                <br>
+                <section id="search">
+                    <div class="forinput">
+                    @using (Html.BeginForm("Index", "Search", FormMethod.Post, new { id = "formsearch" }))
+                    {
+                        <span class="icon"><i class="fa fa-search"></i></span>
+                        @Html.TextBox("stringsearch", "", new { type = "search", placeholder = "поиск...", onkeypress = "return search(event)" })
+                    }
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+
+    @functions
+    {
+        // говорят так нехорошо но пока оставлю это здесь
+        private bool MenuIsVisible()
+                        {
+                            return ViewBag.HideNavigationMenu == null || !ViewBag.HideNavigationMenu;
+                        }
+                            }
+
+
+    <div id="body">
+        <div id="main">
+            <div class="content-wrapper">
+                @if (MenuIsVisible())
+                {
+                    <nav id="menu">
+                        <ul class="mainmenu">
+                            @if (User.IsInAnyRole(UserRole.Teacher))
+                            {
+                                <li>@Html.ActionLink("Личный кабинет", "Index", "Startpage" )</li>  //пока будет вести на главную
+                                <li class="with">@Html.ActionLink("Новости", "Index", "Home")</li>
+                                <li class="with">@Html.ActionLink("Расписание", "Index", "Schedule")</li>
+                                <li class="with">@Html.ActionLink("Группы", "Index", "Group")</li>
+                                <li class="with">@Html.ActionLink("Студенты", "Index", "User")</li>
+                                <li class="with">@Html.ActionLink("Результаты", "Index", "Result")</li>
+                                <li class="with" id="some">
+                                    <a>Базы &gt;<i class="icon-twitter icon-large"></i></a>
+                                    <ul class="submenu">
+                                        <li style="white-space: nowrap">@Html.ActionLink("База вариантов заданий", "Index", "Task")</li>
+                                        <li style="white-space: nowrap">@Html.ActionLink("База лабораторных работ", "Index", "Labs")</li>
+                                        <li style="white-space: nowrap">@Html.ActionLink("База вопросов", "Index", "Survey")</li>
+                                        <li style="white-space: nowrap">@Html.ActionLink("База тестов", "Index", "TestPool")</li>
+                                    </ul>
+                                </li>
+                            }
+                            <!-- Админу кнопки студента не показываем -->
+                            @if (User.IsInRole(UserRole.Student) && !User.IsInRole(UserRole.Administrator))
+                            {
+                                <li>@Html.ActionLink("Новости", "Index", "Home")</li>
+                                <li class="with">@Html.ActionLink("Подготовка", "Index", "DemoLab")</li>
+                                <li class="with">@Html.ActionLink("Контрольные", "Index", "TestingLab")</li>
+                                <li class="with">@Html.ActionLink("Результаты", "Index", "StudentsResult")</li>
+                            }
+                        </ul>
+                    </nav>
+                }
                     @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
                     {
                         <div class="error">
@@ -85,26 +106,35 @@
                         </div>
                     }
                     @RenderBody()
-                </section>
+               <!--</section>--> 
+            </div>
         </div>
     </div>
-</div>
-<div id="footer">
-    <div class="content-wrapper">
-        <div class="float-left">
-            <p>&copy; 2012 - @DateTime.Now.Year &nbsp;&nbsp; Национальный Исследовательский Ядерный Университет «МИФИ»</p>
-        </div>
-        <div class="float-right">
-            <p>
-                <a href="mailto:svt.zhr@gmail.com">Сообщить об ошибке</a>
-            </p>
+    <div id="footer">
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; 2012 - @DateTime.Now.Year &nbsp;&nbsp; Национальный Исследовательский Ядерный Университет «МИФИ»</p>
+            </div>
+            <div class="float-right">
+                <p>
+                    <a href="mailto:svt.zhr@gmail.com">Сообщить об ошибке</a>
+                </p>
+            </div>
         </div>
     </div>
-</div>
 
 
-@Scripts.Render("~/bundles/jquery")
-@*@Scripts.Render("~/bundles/jquery-int")*@
-@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery-int")*@
+    @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+    // поиск по нажатию на enter
+    $("#sitesearch").keyup(function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            document.getElementById("formsearch").submit();
+        }
+    });
+</script>

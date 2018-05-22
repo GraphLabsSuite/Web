@@ -56,8 +56,9 @@ namespace GraphLabs.Site.Controllers
         public ActionResult Create(TestPoolModel testPool)
         {
             TestPool res = _modelSaver.CreateOrUpdate(testPool);
-            if (res != null) {
-                return RedirectToAction("Edit",new {id = res.Id});
+            if (res != null)
+            {
+                return RedirectToAction("Edit", new { id = res.Id });
             }
 
             ViewBag.Message = "Невозможно сохранить тестпул";
@@ -81,33 +82,45 @@ namespace GraphLabs.Site.Controllers
             return View(testPool);
         }
 
+        [HttpPost]
+        public ActionResult Look(TestPoolModel testPool)
+        {
+     /*       TestPool res = _modelSaver.CreateOrUpdate(testPool);
+            if (res != null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Message = "Невозможно обновить тестпул";*/
+            return View(testPool);
+        }
+
         public ViewResult Delete(long testPoolId)
         {
             var result = _modelRemover.Remove(testPoolId);
             switch (result)
             {
                 case RemovalStatus.Success:
-                {
-                    ViewBag.Message = "Тестпул был успешно удалён!";
-                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                    return View("Index", model);
-                }
+                    {
+                        ViewBag.Message = "Тестпул был успешно удалён!";
+                        var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                        return View("Index", model);
+                    }
                 case RemovalStatus.SomeFKExistOnTheElement:
-                {
-                    ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
-                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                    return View("Index", model);
-                }
+                    {
+                        ViewBag.Message = "На этот пул кто-то ещё ссылается с помощью внешнего ключа!";
+                        var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                        return View("Index", model);
+                    }
                 case RemovalStatus.UnknownFailure:
-                {
-                    ViewBag.Message = "Кто его знает, что тут произошло.";
-                    var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
-                    return View("Index", model);
-                }
+                    {
+                        ViewBag.Message = "Кто его знает, что тут произошло.";
+                        var model = _listModelLoader.LoadListModel<TestPoolListModel, TestPoolModel>();
+                        return View("Index", model);
+                    }
                 default:
-                {
-                    throw new NotImplementedException();
-                }
+                    {
+                        throw new NotImplementedException();
+                    }
             }
         }
     }

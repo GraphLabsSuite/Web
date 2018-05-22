@@ -200,12 +200,16 @@
     <Compile Include="Question\QuestionLookForModel.cs" />
     <Compile Include="Question\QuestionModel.cs" />
     <Compile Include="Question\QuestionModelLoader.cs" />
+    <Compile Include="Results\ResultListModel.cs" />
     <Compile Include="Schedule\Edit\EditIndividualLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditGroupLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelBase.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelLoader.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelSaver.cs" />
     <Compile Include="Schedule\Edit\IEditLabScheduleModelLoader.cs" />
+    <Compile Include="Infrastructure\IFilterableByDate.cs" />
+    <Compile Include="Infrastructure\IFilterableByLabName.cs" />
+    <Compile Include="Infrastructure\IFilterableByUser.cs" />
     <Compile Include="Schedule\LabScheduleListModel.cs" />
     <Compile Include="Schedule\LabScheduleModel.cs" />
     <Compile Include="Schedule\LabScheduleModelLoader.cs" />
