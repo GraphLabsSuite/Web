@@ -94,7 +94,8 @@ namespace ASP.Helpers
                             {
                                 //фильтрация динамически по генерации опций в run-time
                                 var type = (Type) customAttributeData.ConstructorArguments[1].Value;
-                                var filters = ((IFilterValuesProvider) IoC.GetChildContainer().Resolve(type))
+                                var ioc = GraphLabsApplication.GetRequestUnitOfWork().Container;
+                                var filters = ((IFilterValuesProvider) ioc.Resolve(type))
                                     .getValues();
                                 var key = GraphLabsValuesHolder.registerValue(filters);
                                 var options = filters

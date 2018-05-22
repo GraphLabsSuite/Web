@@ -12,13 +12,13 @@ using Microsoft.Practices.Unity;
 namespace GraphLabs.Site
 {
     /// <summary> Приложение GraphLabs - точка входа </summary>
-    public class GraphLabsApplication : HttpApplication
+    internal class GraphLabsApplication : HttpApplication
     {
         private static readonly string _requestUnitOfWork = "transactionManager";
 
         private static HttpContext CurrentContext => HttpContext.Current;
 
-        private static RequestUnitOfWork GetRequestUnitOfWork()
+        public static RequestUnitOfWork GetRequestUnitOfWork()
         {
             if (CurrentContext == null)
                 return null;
