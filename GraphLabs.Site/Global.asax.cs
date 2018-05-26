@@ -12,7 +12,7 @@ using Microsoft.Practices.Unity;
 namespace GraphLabs.Site
 {
     /// <summary> Приложение GraphLabs - точка входа </summary>
-    internal class GraphLabsApplication : HttpApplication
+    public class GraphLabsApplication : HttpApplication
     {
         private static readonly string _requestUnitOfWork = "transactionManager";
 
