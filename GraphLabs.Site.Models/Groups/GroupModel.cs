@@ -11,12 +11,12 @@ namespace GraphLabs.Site.Models.Groups
     {
         public long Id { get; set; }
 
-//        [StringFilter("Номер группы")]
-        [BoundedFilter("Номер группы", new Object[]{"Б14-505", "Б14-506", "М18-501"})]
+//        [BoundedFilter("Номер группы", new Object[]{"Б14-505", "Б14-506", "М18-501"})]
 //        [DynamicBoundFilter("Выбери номер", typeof(NameFilterProvider))]
+        [StringFilter("Номер группы")]
         public string Name { get; set; }
         
-//        [StringFilter("Доступность для регистрации")]
+        [StringFilter("Доступность для регистрации")]
         public bool IsOpen { get; set; }
 
         public ICollection<Student> Students { get; set; }
@@ -27,7 +27,7 @@ namespace GraphLabs.Site.Models.Groups
         
         public static Expression<Func<Group, bool>> CreateFilter(FilterParams<GroupModel> filterParams)
         {
-            string name = (string) filterParams.GetBoundedParam(nameof(Name));
+            string name = filterParams.GetStringParam(nameof(Name));
             bool? isOpen = filterParams.GetBoolParam(nameof(IsOpen));
             
             return g => (name == null || name.ToLower().Equals(g.Name.ToLower()))

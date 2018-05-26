@@ -15,7 +15,7 @@ using GraphLabs.Site.Models.TestPool;
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
-    public class ResultController : GraphLabsController
+    public class ResultController : GraphLabsFilteringController<GroupModel, Group>
 	{
         // TODO: избавиться от UserRepository
         #region Зависимости
@@ -48,10 +48,11 @@ namespace GraphLabs.Site.Controllers
             _resultModelLoader = resultModelLoader;
         }
 
-        public ActionResult Index()
+        public override ActionResult Index(string msg)
         {
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>();
-            return View(model);
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().Filter(FiExpression);
+            
+            return View((GroupListModel) model);
         }
 
         public ActionResult StudentList(long id = 0)

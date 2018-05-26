@@ -19,11 +19,13 @@ namespace ASP.Helpers
     public class GraphLabsWebGrid : WebGrid
     {
         private IEnumerable<dynamic> _source;
+        private readonly string[] _filtersToDiplay;
 
-        public GraphLabsWebGrid(IEnumerable<dynamic> source)
+        public GraphLabsWebGrid(IEnumerable<dynamic> source, params string[] filtersToDiplay)
             : base(source, canPage: true, canSort: true, rowsPerPage: 10)
         {
             _source = source;
+            _filtersToDiplay = filtersToDiplay;
         }
 
         public IHtmlString GetHtml(string tableStyle = "webGrid", string headerStyle = "webgrid-header",
@@ -47,6 +49,16 @@ namespace ASP.Helpers
             return new HtmlString(buildHtml.ToString());
         }
 
+        //by default display all filters
+        private bool mustDisplayFilterFor(string fieldName)
+        {
+            if (_filtersToDiplay.Length == 0)
+            {
+                return true;
+            }
+            return _filtersToDiplay.Contains(fieldName);
+        }
+
         private void AddHtmlFilters(StringBuilder stringBuilder)
         {
             var mainDiv = new HtmlGenericControl("div");
@@ -60,50 +72,54 @@ namespace ASP.Helpers
                 var genericArgument = e.GetGenericArguments()[1];
                 foreach (var propertyInfo in genericArgument.GetProperties())
                 {
-                    foreach (var customAttributeData in propertyInfo.CustomAttributes)
+                    if (mustDisplayFilterFor(propertyInfo.Name))
                     {
-                        if (customAttributeData.AttributeType.GetInterfaces().Contains(typeof(IFilterAttribute)))
+                        foreach (var customAttributeData in propertyInfo.CustomAttributes)
                         {
-                            if (customAttributeData.AttributeType == typeof(StringFilterAttribute))
+                            if (customAttributeData.AttributeType.GetInterfaces().Contains(typeof(IFilterAttribute)))
                             {
-                                //фильтрация по одному полю с подписью
-                                if (propertyInfo.PropertyType == typeof(bool))
+                                if (customAttributeData.AttributeType == typeof(StringFilterAttribute))
                                 {
-                                    form.Controls.Add(GraphLabsUIFactory.CreateInputCheckBox(propertyInfo.Name,
-                                        (string) customAttributeData.ConstructorArguments[0].Value));
+                                    //фильтрация по одному полю с подписью
+                                    if (propertyInfo.PropertyType == typeof(bool))
+                                    {
+                                        form.Controls.Add(GraphLabsUIFactory.CreateInputCheckBox(propertyInfo.Name,
+                                            (string) customAttributeData.ConstructorArguments[0].Value));
+                                    }
+                                    else
+                                    {
+                                        form.Controls.Add(GraphLabsUIFactory.CreateInputField(propertyInfo.Name,
+                                            (string) customAttributeData.ConstructorArguments[0].Value));
+                                    }
                                 }
-                                else
+                                else if (customAttributeData.AttributeType == typeof(BoundedFilterAttribute))
                                 {
-                                    form.Controls.Add(GraphLabsUIFactory.CreateInputField(propertyInfo.Name,
-                                        (string) customAttributeData.ConstructorArguments[0].Value));
+                                    //фильтрация с подписанным фильтруемым полем с ограниченным набором значений
+                                    var options =
+                                        ((ReadOnlyCollection<CustomAttributeTypedArgument>) customAttributeData
+                                            .ConstructorArguments[1].Value)
+                                        .Select(a => a.Value)
+                                        .Select((v, i) => new {Key = i, Value = v})
+                                        .ToDictionary(o => o.Key.ToString(), o => o.Value.ToString());
+                                    form.Controls.Add(GraphLabsUIFactory.CreateSelectField(propertyInfo.Name,
+                                        (string) customAttributeData.ConstructorArguments[0].Value, options));
                                 }
-                            }
-                            else if (customAttributeData.AttributeType == typeof(BoundedFilterAttribute))
-                            {
-                                //фильтрация с подписанным фильтруемым полем с ограниченным набором значений
-                                var options =
-                                    ((ReadOnlyCollection<CustomAttributeTypedArgument>) customAttributeData
-                                        .ConstructorArguments[1].Value)
-                                    .Select(a => a.Value)
-                                    .Select((v, i) => new {Key = i, Value = v})
-                                    .ToDictionary(o => o.Key.ToString(), o => o.Value.ToString());
-                                form.Controls.Add(GraphLabsUIFactory.CreateSelectField(propertyInfo.Name,
-                                    (string) customAttributeData.ConstructorArguments[0].Value, options));
-                            }
-                            else if (customAttributeData.AttributeType == typeof(DynamicBoundFilterAttribute))
-                            {
-                                //фильтрация динамически по генерации опций в run-time
-                                var type = (Type) customAttributeData.ConstructorArguments[1].Value;
-                                var ioc = GraphLabsApplication.GetRequestUnitOfWork().Container;
-                                var filters = ((IFilterValuesProvider) ioc.Resolve(type))
-                                    .getValues();
-                                var key = GraphLabsValuesHolder.registerValue(filters);
-                                var options = filters
-                                    .Select((v, i) => new {Key = i, Value = v})
-                                    .ToDictionary(o => o.Key.ToString(), o => o.Value.ToString());
-                                form.Controls.Add(GraphLabsUIFactory.CreateHiddenField(propertyInfo.Name + "ver", key));
-                                form.Controls.Add(GraphLabsUIFactory.CreateSelectField(propertyInfo.Name,
-                                    (string) customAttributeData.ConstructorArguments[0].Value, options));
+                                else if (customAttributeData.AttributeType == typeof(DynamicBoundFilterAttribute))
+                                {
+                                    //фильтрация динамически по генерации опций в run-time
+                                    var type = (Type) customAttributeData.ConstructorArguments[1].Value;
+                                    var ioc = GraphLabsApplication.GetRequestUnitOfWork().Container;
+                                    var filters = ((IFilterValuesProvider) ioc.Resolve(type))
+                                        .getValues();
+                                    var key = GraphLabsValuesHolder.registerValue(filters);
+                                    var options = filters
+                                        .Select((v, i) => new {Key = i, Value = v})
+                                        .ToDictionary(o => o.Key.ToString(), o => o.Value.ToString());
+                                    form.Controls.Add(
+                                        GraphLabsUIFactory.CreateHiddenField(propertyInfo.Name + "ver", key));
+                                    form.Controls.Add(GraphLabsUIFactory.CreateSelectField(propertyInfo.Name,
+                                        (string) customAttributeData.ConstructorArguments[0].Value, options));
+                                }
                             }
                         }
                     }
