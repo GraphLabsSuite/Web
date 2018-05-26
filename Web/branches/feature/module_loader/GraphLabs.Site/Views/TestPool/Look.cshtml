@@ -1,0 +1,61 @@
+﻿@using GraphLabs.Site.Models.TestPool
+@model GraphLabs.Site.Models.TestPool.TestPoolListModel
+
+
+@{
+    ViewBag.Title = "Имя теста";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Вернуться к списку тестов", "Index")
+</hgroup>
+<table>
+    <tr>
+        <td>
+            <form action="select_theme_show.php" method="post">
+                <p>
+                    <select size="1" name="hero[]">
+                        <option autofocus>Тема не выбрана</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </p>
+            </form>
+        </td>
+        <td>
+            <form action="select_theme_show.php" method="post">
+                <p>
+                    <select size="1" name="hero[]">
+                        <option autofocus>Подтема не выбрана</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </p>
+            </form>
+        </td>
+    </tr>
+</table>
+@{
+    var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, defaultSort: "№");
+    grid.Pager(WebGridPagerModes.All);
+    @grid.GetHtml(tableStyle: "Grids",
+            headerStyle: "grid-header",
+            footerStyle: "grid-footer",
+            rowStyle: "grid-row",
+            alternatingRowStyle: "grid-row",
+            selectedRowStyle: "grid-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            columns: grid.Columns(
+                grid.Column(header: "№", format: item => item.Name, columnName: "Name", style: "nameColumn"),
+                grid.Column(header: "Подтема", format: item => item.Name, columnName: "Name", style: "nameColumn"),
+                grid.Column(header: "Тема", format: item => item.Name, columnName: "Name", style: "nameColumn"),
+                grid.Column(header: "Верно ответили", format: item => item.Name, columnName: "Name", style: "nameColumn"),
+                grid.Column(header: "Время ответа", format: item => item.Name, columnName: "Name", style: "nameColumn")
+                )
+            );
+}

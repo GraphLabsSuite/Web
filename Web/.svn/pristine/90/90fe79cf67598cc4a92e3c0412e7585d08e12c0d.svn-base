@@ -1,0 +1,93 @@
+﻿@using GraphLabs.Site.Controllers
+@model GraphLabs.Site.Models.RegistrationModel
+
+@{
+    ViewBag.Title = "Создание учётной записи студента";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <fieldset>
+        <legend>Данные для регистрации</legend>
+        <p>
+            @Html.ValidationMessage(GraphLabsController.STD_VALIDATION_MSG_KEY)
+        </p>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfirmEmail)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ConfirmEmail)
+            @Html.ValidationMessageFor(model => model.ConfirmEmail)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ConfirmPassword)
+            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Surname)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FatherName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FatherName)
+            @Html.ValidationMessageFor(model => model.FatherName)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IdGroup)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.IdGroup, (IEnumerable<SelectListItem>)ViewBag.GroupsList)
+            @Html.ValidationMessageFor(model => model.IdGroup)
+        </div>
+        
+        <p>
+            <input type="submit" value="Регистрация" />
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

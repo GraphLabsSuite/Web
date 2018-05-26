@@ -1,0 +1,60 @@
+﻿@model GraphLabs.Site.Models.CategoryListViewModel
+
+@{
+    ViewBag.Title = "Категории";
+}
+
+<hgroup>
+    <h2>Категории</h2>
+    @Html.ActionLink("Добавить", "Create", "Category")
+</hgroup>
+
+@if (Model.Items.Any())
+{
+    <table>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Название
+            </th>
+            <th>
+                Кол-во вопросов в категории
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var category in Model.Items)
+        {
+            <tr>
+                <td>
+                    @category.Id
+                </td>
+                <td>
+                    @category.Name
+                </td>
+                <td>
+                    @category.QuestionCount
+                </td>
+                <td>
+                    <a href="/Category/Edit?Id=@category.Id">
+                        Редактировать
+                    </a>
+
+                    <a href="/Survey/Index?CategoryId=@category.Id">
+                        Просмотреть вопросы
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>
+        <b>
+            Нет данных
+        </b>
+    </p>
+}

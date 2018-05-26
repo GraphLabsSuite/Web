@@ -10,6 +10,7 @@ using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.LabExecution;
 using GraphLabs.Site.Models.StudentAnswer;
+using GraphLabs.Site.Models.Question;
 
 namespace GraphLabs.Site.Controllers
 {
@@ -72,7 +73,7 @@ namespace GraphLabs.Site.Controllers
                         TestResultId = answers.TestResultId
                     });
                     var testResult = operation.DataContext.Query.OfEntities<TestResult>().FirstOrDefault(e => e.Id == answers.TestResultId);
-                    testResult.Score = CalculateMarkForTheTest(testResult);
+                    testResult.Score = CalculateMarkForTheTest(testResult, testResult.TestQuestion);
                     operation.Complete();
                 }
                 return Json(true);
@@ -83,12 +84,12 @@ namespace GraphLabs.Site.Controllers
             }
         }
 
-        private int CalculateMarkForTheTest(TestResult testResult)
+        private int CalculateMarkForTheTest(TestResult testResult, TestQuestion testQuestion)
         {
-            var score = testResult.TestPoolEntry.Score;
-            var realAnswers = testResult.TestPoolEntry.TestQuestion.AnswerVariants;
+            var score = testResult.TestQuestion.Score;
+            var realAnswers = testResult.TestQuestion.AnswerVariants;
             var studentAnswers = testResult.StudentAnswers;
-            var strategy = (int)testResult.TestPoolEntry.ScoringStrategy;
+            var strategy = (int)testResult.TestQuestion.ScoringStrategy;
             var wrongAnswersChosen = studentAnswers.Where(e => e.AnswerVariant.IsCorrect).Select(e => e.AnswerVariant.Id).ToArray();
             var correctAnswersNotChosen = realAnswers
                 .Where(e => e.IsCorrect && !testResult.StudentAnswers.Select(r => r.AnswerVariant).Contains(e)).Select(d => d.Id).ToArray();

@@ -1,15 +1,9 @@
-﻿using GraphLabs.Dal.Ef;
-using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Controllers.LabWorks;
+﻿using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
-using GraphLabs.Site.Utils;
-using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Web.Helpers;
 using System.Web.Routing;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
@@ -19,7 +13,7 @@ using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Controllers
 {
-	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
+    [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class SurveyController : GraphLabsController
 	{
 	    private readonly ISurveyRepository _surveyRepository;
@@ -77,15 +71,16 @@ namespace GraphLabs.Site.Controllers
 	    [HttpPost]
 	    public ActionResult LoadUnique(QuestionLookForModel input)
 	    {
-	        // Новый код подгружает только те вопросы, которых ещё нет в данном тестпуле
-	        var entity = _modelLoader.Load(input.TestPool);
-	        var questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
-	        var questionArray = questions
-                .Where(q => entity.TestPoolEntries.All(t => t.TestQuestion.Question != q.Question))
-                .Select(q => new Tuple<string, long>(q.Question, q.Id))
-                .ToArray();
-            var json = Json(questionArray);
-            return json;
+            //// Новый код подгружает только те вопросы, которых ещё нет в данном тестпуле
+            //var entity = _modelLoader.Load(input.TestPool);
+            //var questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
+            //var questionArray = questions
+            //       .Where(q => entity.TestPoolEntries.All(t => t.TestQuestion.Question != q.Question))
+            //       .Select(q => new Tuple<string, long>(q.Question, q.Id))
+            //       .ToArray();
+            //   var json = Json(questionArray);
+            //   return json;
+            return null;
         }
 
 		#endregion

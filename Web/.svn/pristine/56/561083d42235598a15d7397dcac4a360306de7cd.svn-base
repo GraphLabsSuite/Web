@@ -1,0 +1,164 @@
+﻿@model GraphLabs.Site.Models.SurveyCreatingModel
+
+@{
+    ViewBag.Title = "Редактировать вопрос";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Вернуться к списку вопросов", "Index")
+</hgroup>
+<br />
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <table width="40%" class="nakedTable">
+        <tr>
+            <td>
+                <div class="editor-label">
+                    Выберите тему
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                </div>
+            </td>
+            <td>
+                <div class="editor-label">
+                    Выберите подтему
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                </div>
+            </td>
+        </tr>
+    </table><table width="60%" id="tableQuestion" class="nakedTable">
+        <tr>
+            <td width="16%">
+                Введите вопрос
+            </td>
+            <td>
+                <div class="editor-field editText">
+                    @Html.EditorFor(model => model.Question)
+                    @Html.ValidationMessageFor(model => model.Question)
+                </div>
+            </td>
+            <td width="20px">
+                <a href='#' id="deleteQuestion" title="Нажмите, чтобы удалить текст вопроса" style="font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px">&#10005;</a>
+            </td>
+        </tr>
+    </table><table width="60%" id="tableOption" class="nakedTable">
+    @for (var i = 0; i < Model.QuestionOptions.Count; ++i)
+        {
+        <tr>
+            <td width="15px"></td>
+            <td width="21%">
+                Введите вариант ответа
+            </td>
+            <td>
+                <div class="editor-field editText">
+                    @Html.EditorFor(model => model.QuestionOptions[0].Key)
+                </div>
+            </td>
+            <td>
+                @(Html.EditorFor(model => model.QuestionOptions[0].Value)) Правильный ответ
+            </td>
+            <td width="20px">
+                <a href='#' id="deleteOption" title="Нажмите, чтобы удалить вариант ответа" style="font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px">&#10005;</a>
+            </td>
+        </tr>}
+    </table><table width="60%" id="tableAddOption" class="nakedTable">
+        <tr>
+            <td width="15px"></td>
+            <td width="15px">
+                <button class="circle-add-button" id="addOption" value="Добавить новый вариант ответа"></button>
+            </td>
+            <td>
+                Добавить новый вариант ответа
+            </td>
+        </tr>
+    </table><input type="submit" value="Сохранить" id="submitButton" />}
+
+@section Scripts
+{
+    <script>
+
+                //отсчет от 0
+                var optionsCount = @(Model.QuestionOptions.Count - 1);
+                var countQuestions = 1;
+
+                /*добавление строки с вариантом ответа*/
+                $("#addOption").click(createOption);
+
+                /*удаление строки с вариантом ответа*/
+                $("#deleteOption").click(deleteOption);
+
+                function createOption(e) {
+                    e.preventDefault();
+                    optionsCount++;
+                    var child = document.createElement("tr");
+                    var subchild = document.createElement("td");
+                    subchild.setAttribute('width','15px');
+                    child.appendChild(subchild);
+                    subchild = document.createElement('td');
+                    subchild.setAttribute('width','21%');
+                    subchild.textContent = 'Введите вариант ответа';
+                    child.appendChild(subchild);
+                    subchild = document.createElement('td');
+                    var input = document.createElement('input');
+                    input.setAttribute('class','text-box single-line');
+                    input.setAttribute('type','text');
+                    input.setAttribute('value','');
+                    input.setAttribute('id','QuestionOptions_' + optionsCount.toString() + '__Key');
+                    input.setAttribute('name','QuestionOptions[' + optionsCount.toString() + '].Key');
+                    var div = document.createElement('div');
+                    div.setAttribute('class','editor-field editText')
+                    div.appendChild(input);
+                    subchild.appendChild(div);
+                    child.appendChild(subchild);
+                    subchild = document.createElement('td');
+                    input = document.createElement('input');
+                    input.setAttribute('class','check-box');
+                    input.setAttribute('data-val','true');
+                    input.setAttribute('data-val-required','Требуется поле Value.');
+                    input.setAttribute('id','QuestionOptions_' + optionsCount.toString() + '__Value');
+                    input.setAttribute('name','QuestionOptions[' + optionsCount.toString() + '].Value');
+                    input.setAttribute('type','checkbox');
+                    input.setAttribute('value','true');
+                    subchild.appendChild(input);
+                    input = document.createElement('input');
+                    input.setAttribute('name','QuestionOptions[' + optionsCount.toString() + '].Value');
+                    input.setAttribute('type','hidden');
+                    input.setAttribute('value','false');
+                    subchild.appendChild(input);
+                    subchild.innerHTML+=" Правильный ответ";
+                    child.appendChild(subchild);
+                    subchild = document.createElement('td');
+                    subchild.setAttribute('width','20px');
+                    var a = document.createElement('a');
+                    a.setAttribute('href','#');
+                    a.setAttribute('class','deleteOption');
+                    a.setAttribute('title', 'Нажмите, чтобы удалить вариант ответа');
+                    a.setAttribute('style','font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px');
+                    a.textContent = "✕";
+                    subchild.appendChild(a);
+                    child.appendChild(subchild);
+                    $(this)[0].parentNode.parentNode.offsetParent.previousElementSibling.childNodes[1].append(child);
+                    a.addEventListener('click', deleteOption);
+                }
+
+                function deleteOption() {
+                  //  console.log($(this))
+                    $(this).parent().parent().remove();
+                    optionsCount--;
+                    for(i = 1; i < optionsCount + 3; ++i)
+                    {
+                        $("table tr:eq(" + i + ") td input:eq(0)").attr("id","QuestionOptions_" + (i - 1).toString() + "__Key");
+                        $("table tr:eq(" + i + ") td input:eq(0)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Key");
+
+                        $("table tr:eq(" + i + ") td input:eq(1)").attr("id","QuestionOptions_" + (i - 1).toString() + "__Value");
+                        $("table tr:eq(" + i + ") td input:eq(1)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Value");
+
+                        $("table tr:eq(" + i + ") td input:eq(2)").attr("name","QuestionOptions[" + (i - 1).toString() + "].Value");
+                    }
+                }
+    </script>
+}

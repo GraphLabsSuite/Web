@@ -1,0 +1,134 @@
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Models.Schedule
+@using GraphLabs.Site.Models.Schedule.Edit
+@model LabScheduleListModel
+
+@{
+    ViewBag.Title = "Личный кабинет";
+}
+<script>
+
+    // функция для удаления работы из расписания
+    function deleteSchedule(x) {
+        console.log(typeof x, x);
+        var del = confirm("Подтвердите удаление записи в расписании.");
+        if (del) {
+            var xhr = new XMLHttpRequest();
+            var body = 'id=' + encodeURIComponent(x);
+            xhr.open("POST", '/Schedule/Delete/2', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = () => {
+                location.reload()
+            }
+            xhr.send(body);
+            alert("Работа удалена из расписания");
+        }
+        return false;
+    }
+    // функции для определения дат
+    // представляет дату предыдущей недели в формате строки (через точки)
+    function calcPrevDate(x) {
+        const date = x.split(".");
+        var prevDate = new Date(parseInt(date[2]), parseInt(date[1]) - 1, parseInt(date[0]));
+        prevDate.setDate(prevDate.getDate() - 7);
+        return prevDate.getDate() + "." + (prevDate.getMonth() + 1) + "." + prevDate.getFullYear();
+    }
+    // представляет дату следующей недели в формате строки (через точки)
+    function calcNextDate(x) {
+        const date = x.split(".");
+        var nextDate = new Date(parseInt(date[2]), parseInt(date[1]) - 1, parseInt(date[0]));
+        nextDate.setDate(nextDate.getDate() + 7);
+        return nextDate.getDate() + "." + (nextDate.getMonth() + 1) + "." + nextDate.getFullYear();
+    }
+    // представляет начало и конец недели, к которой принадлежит текущая дата
+    function weekDatesString(curr) {
+        var first = curr;
+        first.setDate(first.getDate() - first.getDay() + 1);
+        var last = new Date(first.getTime());
+        last.setDate(last.getDate() + 6);
+        return first.getDate() + "." + (first.getMonth() + 1) + "." + first.getFullYear() + " - " +
+            last.getDate() + "." + (last.getMonth() + 1) + "." + last.getFullYear();
+    }
+    // задание текущей даты на странице
+    var currdate;
+    if (location.search === "") {
+        var x = new Date();
+        currdate = x.getDate() + "." + (x.getMonth() + 1) + "." + x.getFullYear();
+    } else currdate = location.search.split('ourdatestring=')[1];
+    var nextdate = calcNextDate(currdate);
+    var prevdate = calcPrevDate(currdate);
+</script>
+<table align="center">
+    <tr>
+        <!-- Нужно будет раскомментировать, когда будет общая страница для добавления работ в расписание
+        <td></td>
+        <td>@Html.ActionLink("+ Добавить работу в расписание", "", "")</td> 
+        <td></td>
+        -->
+        <td></td>
+        <td>@Html.ActionLink("+ Добавить для группы", "CreateSchedule", "Schedule", new { Kind = EditLabScheduleModelBase.Kind.Group },null) 
+        @Html.ActionLink("+ Добавить для студента", "CreateSchedule", "Schedule", new { Kind = EditLabScheduleModelBase.Kind.Individual }, null)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td align="right" width="13.5%">
+            <button class="left-button"></button>
+        </td>
+        <td align="center" width="73%">
+                @{
+                    var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, defaultSort: "Дата открытия");
+                    @grid.GetHtml(
+                         tableStyle: "Grids",
+                         headerStyle: "grid-header",
+                         footerStyle: "grid-footer",
+                         rowStyle: "grid-row",
+                         alternatingRowStyle: "grid-row",
+                         selectedRowStyle: "grid-row",
+                         displayHeader: true,
+                         mode: WebGridPagerModes.All,
+                         columns: grid.Columns(
+                         grid.Column(header: "Лабораторная работа", format: item => item.LabName, columnName: "LabName"),
+                         grid.Column(header: "Выполняет", format: item => item.Doer, columnName: "Doer"),
+                         grid.Column(header: "Дата открытия", format: item => item.DateFrom, columnName: "DateFrom"),
+                         grid.Column(header: "Дата закрытия", format: item => item.DateTill, columnName: "DateTill"),
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href=""/Schedule/EditSchedule/{0}"">&#9998;</a>",
+                         item.Id)), columnName: ""),
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a style =""text-decoration:none"" href="""">&#9776;</a>",
+                         item.Id)), columnName: ""),
+                         grid.Column(header: "", format: item => Html.Raw(string.Format(@"<a href='#' onclick=""deleteSchedule({0})"" style =""text-decoration:none"" >&#10006;</a>",
+                         item.Id)), columnName: "")));
+                }
+        </td>
+        <td align="left" width="13.5%">
+            <button class="right-button"></button>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td id ="weekAndDate" style="text-align:center; font-size: 0.9em"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style="text-align:center; font-size: 0.9em">@Html.ActionLink("Вернуться к текущей неделе", "Index", "Startpage")</td>
+        <td></td>
+    </tr>
+</table>
+@Scripts.Render("~/Scripts/jquery-1.9.1.min.js")
+<!--Скрипт, обрабатывающий нажатия на кнопки-переключатели недель-->
+<script>
+    var d = currdate.split(".");
+    var localcurrdate = new Date(parseInt(d[2]), parseInt(d[1]) - 1, parseInt(d[0]));
+    $("#weekAndDate").text(weekDatesString(localcurrdate))
+    $(".left-button").click(function () {
+        var url = '@Url.Action("Index", "Startpage", new { ourdatestring = "replace" })';
+        url = url.replace("replace", prevdate);
+        window.location.href = url;
+    });
+    $(".right-button").click(function () {
+        var url = '@Url.Action("Index", "Startpage", new { ourdatestring = "replace" })';
+        url = url.replace("replace", nextdate);
+        window.location.href = url;
+    });
+    
+</script>

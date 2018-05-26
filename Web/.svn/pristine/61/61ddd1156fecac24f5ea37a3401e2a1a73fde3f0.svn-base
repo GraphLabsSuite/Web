@@ -1,0 +1,78 @@
+﻿@model GraphLabs.Site.Models.SurveyIndexViewModel
+@{
+    ViewBag.Title = "Вопросы";
+}
+
+<hgroup>
+    <h2>Вопросы</h2>
+</hgroup>
+
+<div style="padding:13px 0px 5px">
+    @Html.ActionLink("+ Добавить вопрос", "Create")
+</div>
+<div style="padding:5px 0px 5px">
+    @Html.ActionLink("+ Добавить подтему", "AddSubCategory")
+</div>
+<div style="padding:5px 0px 5px">
+    @Html.ActionLink("+ Добавить тему", "AddCategory")
+</div>
+
+        <table width="33%">
+            <tr>
+                <td>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList, new { @class = "dropDownNarrow" })
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.SelectedSubCategoryId, Model.SubCategoryList, new { @class = "dropDownNarrow" })
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div id="TestQuestionList">
+
+        </div>
+
+        @section Scripts
+{
+            <script>
+                $().ready(function () {
+                    RenderTable();
+                });
+
+                $('#SelectedCategoryId').change(function () {
+                    RenderTable();
+                });
+
+                $('#SelectedSubCategoryId').change(function () {
+                    RenderTable();
+                });
+
+                function RenderTable() {
+                    $.ajax({
+                        type: "Get",
+                        url: "/survey/TestQuestionList",
+                        data: {
+                            SubCategoryId: $('#SelectedCategoryId').val()
+                        },
+                        success: function (data) {
+                            $('#TestQuestionList').html(data);
+                        }
+                    });
+                }
+
+                $('#SubCategoryList').change(function () {
+                    alert('ghbdtn');
+                    location.reload();
+                })
+
+                function RenderPage() {
+                    alert('ghbdtn');
+                    location.reload();
+                }
+
+            </script>
+        }

@@ -1,0 +1,55 @@
+﻿@model GraphLabs.Site.Models.TaskModel
+
+@{
+    ViewBag.Title = "Загрузить новое задание React";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+
+<p class="error">@ViewBag.ErrorMessage</p>
+
+@using (Html.BeginForm("UploadReactTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data", id = "load-module-form" }))
+{
+    @Html.AntiForgeryToken();
+    <p>Укажите React-приложение для загрузки:</p>
+    <input type="file" id="js-script" name="js-script" />
+    <p>Укажите файл со стилями приложения для загрузки:</p>
+    <input type="file" id="css-style" name="css-style" /><br />
+
+    <p><button type="button" id="load-button"> Загрузить </button></p>
+}
+
+@section Scripts
+{
+    <script>
+        $('#load-button').click(function () {
+            var jsRegex = /^[a-z]+-\d+\.\d+(\.\d+)?\.min\.js$/;
+            var jsFileName = $('#js-script').val().replace(/C:\\fakepath\\/i, '');
+            if (!jsRegex.test(jsFileName)) {
+                alert('Имя js файла не соотвествует формату!');
+                return false;
+            }
+            var cssRegex = /^[a-z]+-\d+\.\d+(\.\d+)?\.min\.css$/;
+            var cssFileName = $('#css-style').val().replace(/C:\\fakepath\\/i, '');
+            if (!cssRegex.test(cssFileName)) {
+                alert('Имя css файла не соотвествует формату!');
+                return false;
+            }
+            var jsName = getModuleName(jsFileName);
+            var cssName = getModuleName(cssFileName);
+            if (jsName !== cssName) {
+                alert('Имена скриптов не совпадают!');
+                return false;
+            }
+            $('#load-module-form').submit();
+        });
+
+        function getModuleName(name) {
+            return name.split('.min.')[0].split('-')[0];
+        }
+    </script>
+}
+

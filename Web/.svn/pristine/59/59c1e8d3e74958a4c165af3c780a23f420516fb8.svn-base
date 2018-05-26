@@ -1,0 +1,72 @@
+﻿@model GraphLabs.Site.Models.AvailableLab.DemoLabListModel
+
+@{
+    ViewBag.Title = "Ознакомительные лабораторные работы";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (!Model.Any())
+{
+    <h2 class="field-validation-error">В данный момент нет доступных лабораторных работ</h2>
+}
+else
+{
+<table>
+    <tr>
+        <th>Лабораторная работа</th>
+        <th>Варианты</th>
+        <th>Доступна до</th>
+    </tr>
+    @for (var i = 0; i < Model.Items.Length;i++)
+    //@foreach (var m in Model)
+    {
+        var m = Model.Items[i];
+        <tr data-LabWorkId="@m.Id">
+            <td>
+                @m.Name
+            </td>
+            <td>
+                @if (m.Variants.Count == 0)
+                {
+                    <span class="field-validation-error">Отсутствуют</span>
+                }
+                else
+                {
+                    <select>
+                        @for (var j = 0; j < Model.Items[i].Variants.Count; j++)
+                        //@foreach (var v in Model.Items[i])
+                        {
+                            var v = Model.Items[i].Variants.ElementAt(j);
+                            //<option value = "@m.key
+                            <option value=" @Model.Items[i].Variants.ElementAt(j).Key">
+                                <!--m.Value-->
+                                @Model.Items[i].Variants.ElementAt(j).Value
+                            </option>
+                        }
+                </select>
+                }
+            </td>
+            <td>
+                @m.AcquaintanceTill.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @if (m.Variants.Count != 0)
+                {
+                    <input type="button" value="Приступить!"/>
+                }
+            </td>
+        </tr>
+    }
+</table>
+}
+
+@section scripts{
+    <script>
+        $("input").click(function () {
+            labId = $(this).parent().parent().attr("data-LabWorkId");
+            varId = $(this).parent().parent().find("td select").val();
+            location.href = "/LabWorkExecution/Index?labId=" + labId + "&labVarId=" + varId;
+        });
+    </script>
+}

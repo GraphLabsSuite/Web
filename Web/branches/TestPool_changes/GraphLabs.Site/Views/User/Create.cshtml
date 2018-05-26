@@ -1,0 +1,118 @@
+﻿@using GraphLabs.DomainModel
+@model GraphLabs.Site.Models.Account.UserCreate
+
+@{
+    ViewBag.Title = "Добавление пользователя";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+<br />
+
+<div class="mesage-error">
+    @ViewBag.Message
+</div>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Role)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("Role", Model.RoleList)
+            @Html.ValidationMessageFor(model => model.Role)
+        </div>
+
+        <div id="Group" style="display: none;">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GroupID)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("GroupID", Model.GroupList)
+            @Html.ValidationMessageFor(model => model.GroupID)
+        </div>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Surname)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FatherName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FatherName)
+            @Html.ValidationMessageFor(model => model.FatherName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Pass)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Pass)
+            @Html.ValidationMessageFor(model => model.Pass)
+        </div>
+
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $().ready(function () {
+            var condition = "@(Model.Role == UserRole.Student)";
+            if (condition == "True") {
+                setEnabled();
+            }
+        });
+
+        $('#Role').change(function(){
+            checkRole();
+        });
+
+        function checkRole() {
+            var roleValue = $('#Role').val();
+            if (roleValue == 4 || roleValue == 2) {
+                setDisabled();
+            } else {
+                setEnabled();
+            }
+        };
+
+        function setDisabled() {
+            $('#Group').attr('style', 'display: none;');
+        };
+
+        function setEnabled() {
+            $('#Group').attr('style', '');
+        };
+    </script>
+}

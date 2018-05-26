@@ -1,0 +1,85 @@
+﻿@using System.Globalization
+@using GraphLabs.DomainModel
+@using GraphLabs.Site.Utils
+
+@model GraphLabs.Site.Models.Schedule.Edit.EditLabScheduleModelBase
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        @Html.Hidden(SmartModelBinder.ModelTypeField, Model.GetType().FullName)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SelectedLabWorkId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedLabWorkId, Model.LabWorks.Select(g => new SelectListItem
+                                                                                               {
+                                                                                                   Text = g.Value,
+                                                                                                   Value = g.Key.ToString(CultureInfo.InvariantCulture)
+                                                                                               }).OrderBy(i => i.Text))
+            @Html.ValidationMessageFor(model => model.SelectedDoerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SelectedDoerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedDoerId, Model.Doers.Select(g => new SelectListItem
+                                                                                         {
+                                                                                             Text = g.Value,
+                                                                                             Value = g.Key.ToString(CultureInfo.InvariantCulture)
+                                                                                         }).OrderBy(i => i.Text))
+            @Html.ValidationMessageFor(model => model.SelectedDoerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Mode)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Mode, new [] {
+                                                           new SelectListItem
+                                                           {
+                                                               Text = "Ознакомительный",
+                                                               Value = LabExecutionMode.IntroductoryMode.ToString()
+                                                           },
+                                                           new SelectListItem
+                                                           {
+                                                               Text = "Контрольный",
+                                                               Value = LabExecutionMode.TestMode.ToString()
+                                                           }
+                                                       })
+            @Html.ValidationMessageFor(model => model.SelectedDoerId)
+        </div>
+
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateFrom)
+        </div>
+        <div class="editor-field">
+            <div id="DatePickerFrom" class="input-group input-append date">
+                <input id="DateFrom" name="DateFrom" type="text" value="@Model.DateFrom" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.DateFrom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateTill)
+        </div>
+        <div class="editor-field">
+            <div id="DatePickerTill" class="input-group input-append date">
+                <input id="DateTill" name="DateTill" type="text" value="@Model.DateTill"/>
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.DateTill)
+        </div>
+
+        <p>
+            <input type="submit" value="@ViewBag.ActionLabel"/>
+        </p>
+    </fieldset>
+}

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="User_OnValidating_Указан_неверный_Email_адрес_" xml:space="preserve">
+    <value>Указан неверный Email-адрес.</value>
+  </data>
+  <data name="User_OnValidating_Должно_быть_указано_значение_HashSalt_" xml:space="preserve">
+    <value>Должно быть указано значение HashSalt.</value>
+  </data>
+  <data name="User_OnValidating_Необходимо_указать_имя_пользователя_" xml:space="preserve">
+    <value>Необходимо указать имя пользователя.</value>
+  </data>
+  <data name="User_OnValidating_Должно_быть_указано_значение_PasswordHash_" xml:space="preserve">
+    <value>Должно быть указано значение PasswordHash.</value>
+  </data>
+  <data name="User_OnValidating_Необходимо_указать_фамилию_пользователя_" xml:space="preserve">
+    <value>Необходимо указать фамилию пользователя.</value>
+  </data>
+  <data name="Session_OnValidating_Должна_быть_указана_контрольная_сумма_" xml:space="preserve">
+    <value>Должна быть указана контрольная сумма.</value>
+  </data>
+  <data name="Session_OnValidating_Момент_последнего_действия_не_может_находиться_раньше_момента_создания_сессии_" xml:space="preserve">
+    <value>Момент последнего действия не может находиться раньше момента создания сессии.</value>
+  </data>
+  <data name="Session_OnValidating_IP_адрес_имеет_неверный_формат_" xml:space="preserve">
+    <value>IP-адрес имеет неверный формат.</value>
+  </data>
+  <data name="Session_OnValidating_Нельзя_менять_значение_IP_адреса_" xml:space="preserve">
+    <value>Нельзя менять значение IP-адреса.</value>
+  </data>
+  <data name="News_OnValidating_Заголовок_новости_не_может_быть_пустым_" xml:space="preserve">
+    <value>Заголовок новости не может быть пустым.</value>
+  </data>
+  <data name="News_OnValidating_Текст_новости_не_может_быть_пустым_" xml:space="preserve">
+    <value>Текст новости не может быть пустым.</value>
+  </data>
+  <data name="Settings_OnValidating_Новое_значение_системного_времени_не_может_быть_меньше_старого_" xml:space="preserve">
+    <value>Новое значение системного времени не может быть меньше старого.</value>
+  </data>
+  <data name="LabWork_OnValidating_Название_лабораторной_работы_не_может_быть_пустым_" xml:space="preserve">
+    <value>Название лабораторной работы не может быть пустым.</value>
+  </data>
+  <data name="LabWork_OnValidating_Указан_некорректный_период_ознакомления_" xml:space="preserve">
+    <value>Указан некорректный период ознакомления (дата окончания должна быть строго больше даты начала).</value>
+  </data>
+  <data name="Task_OnValidating_Необходимо_указать_название_задания_" xml:space="preserve">
+    <value>Необходимо указать название задания.</value>
+  </data>
+  <data name="Task_OnValidating_Указан_пустой_исполняемый_файл_задания_" xml:space="preserve">
+    <value>Указан пустой исполняемый файл задания.</value>
+  </data>
+  <data name="Task_OnValidating_Необходимо_указать_версию_" xml:space="preserve">
+    <value>Необходимо указать версию.</value>
+  </data>
+  <data name="TaskVariant_OnValidating_Необходимо_указать_номер_варианта_" xml:space="preserve">
+    <value>Необходимо указать номер варианта.</value>
+  </data>
+  <data name="TaskVariant_OnValidating_Необходимо_указать_версию_генератора_варианта_" xml:space="preserve">
+    <value>Необходимо указать версию генератора варианта.</value>
+  </data>
+  <data name="TaskVariant_OnValidating_Должны_быть_указаны_данные_варианта_" xml:space="preserve">
+    <value>Должны быть указаны данные варианта.</value>
+  </data>
+  <data name="TaskVariant_OnValidating_Версия_должна_быть_больше_0_" xml:space="preserve">
+    <value>Версия должна быть больше 0.</value>
+  </data>
+  <data name="LabVariant_OnEntityValidating_Номер_варианта_не_может_быть_пустым_" xml:space="preserve">
+    <value>Номер варианта не может быть пустым.</value>
+  </data>
+  <data name="LabVariant_OnEntityValidating_Версия_варианта_должна_быть_больше_0_" xml:space="preserve">
+    <value>Версия варианта должна быть больше 0.</value>
+  </data>
+  <data name="Action_OnEntityValidating_Необходимо_указать_описание_действия_" xml:space="preserve">
+    <value>Необходимо указать описание действия.</value>
+  </data>
+  <data name="Action_OnEntityValidating_Штрафной_балл_может_находиться_только_в_диапазоне_от_0_до_100_" xml:space="preserve">
+    <value>Штрафной балл может находиться только в диапазоне от 0 до 100.</value>
+  </data>
+  <data name="GraphLabsValidationException_Ошибка_валидации_значения_0_1" xml:space="preserve">
+    <value>Ошибка валидации значения [{0}]. {1}</value>
+  </data>
+  <data name="GraphLabsValidationException_Ошибка_валидации_0" xml:space="preserve">
+    <value>Ошибка валидации: {0}</value>
+  </data>
+  <data name="AbstractLabSchedule_OnEntityValidating_Дата_с_должна_быть_больше_даты_по" xml:space="preserve">
+    <value>Дата "с" должна быть больше даты "по".</value>
+  </data>
+  <data name="Group_OnEntityValidating_Необходимо_указать_непустое_название_группы" xml:space="preserve">
+    <value>Необходимо указать непустое название группы.</value>
+  </data>
+  <data name="DB_Update_Существуют_FK_" xml:space="preserve">
+    <value>Существуют сущности, связанные с данной</value>
+  </data>
+  <data name="DB_Update_Неизвестная_ошибка_" xml:space="preserve">
+    <value>Необработанная ошибка обновления базы данных</value>
+  </data>
+</root>

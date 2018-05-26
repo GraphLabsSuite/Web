@@ -1,0 +1,58 @@
+﻿@model GraphLabs.Site.Models.TaskModel
+
+<h3>Генератор вариантов.</h3>
+
+@using (Html.BeginForm("EditVariantGenerator", "Task", FormMethod.Post, 
+    new {
+            enctype = "multipart/form-data",
+            onsubmit= Model.HasVariantGenerator ? "return confirm('Вы собираетесь совершить необратимое действие. Продолжить?');" : "return true;"
+        }))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(model => model.Id)
+    
+    if (!Model.HasVariantGenerator)
+    {
+         <p>
+             Модуль-задание использует генератор вариантов по-умолчанию. 
+         </p>
+         <p>
+             Чтобы указать специальный генератор для этого задания, выберите
+             соответствующее silverlight-приложение (*.xap) и нажмите "Загрузить".
+         </p> 
+        <p><input type="file" name="newGenerator" required /></p>
+        <p><input type="submit" name="Upload" value="Загрузить" /></p>
+    }
+    else
+    {
+        <fieldset>
+            <legend>Задание</legend>
+       
+            <div class="readonly-editor">
+                @Html.LabelFor(model => model.VariantGeneratorName)
+                @Html.TextBoxFor(model => model.VariantGeneratorName, new {@readonly = "readonly"})
+            </div>
+       
+            <div class="readonly-editor">
+                @Html.LabelFor(model => model.VariantGeneratorVersion)
+                @Html.TextBoxFor(model => model.VariantGeneratorVersion, new {@readonly = "readonly"})
+            </div>
+        </fieldset>
+        <p>
+            Модуль-задание использует специальный генератор вариантов. 
+        </p>
+        <p>
+            Чтобы обновить генератор для этого задания, выберите 
+            соответствующее silverlight-приложение (*.xap) и нажмите "Загрузить".
+        </p>
+        <p>
+            Чтобы модуль использовал генератор вариантов по-умолчанию, нажмите "Удалить".
+        </p> 
+        <p><input type="file" name="newGenerator" /></p>
+        <p>
+            <input type="submit" name="Upload" value="Загрузить" />
+            <input type="submit" name="Delete" value="Удалить" />
+        </p>
+    }
+}

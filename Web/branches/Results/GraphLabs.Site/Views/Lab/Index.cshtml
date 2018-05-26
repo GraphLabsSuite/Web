@@ -1,0 +1,142 @@
+﻿@model GraphLabs.Site.Models.Lab.LabListModel
+
+@{
+    ViewBag.Title = "Лабораторные работы";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ActionLink("Добавить лабораторную работу", "Create")
+
+<style type="text/css">
+    .idColumn { width:10%; }
+    .nameColumn { width:90%; }
+</style>
+
+@{
+    var grid = new WebGrid(Model, canPage:true ,canSort:false, rowsPerPage:10);
+    grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(tableStyle: "webGrid", 
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            
+            columns: grid.Columns(
+                grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
+                grid.Column(header: "Название",   format: item => item.Name,     columnName: "Name",     style:"nameColumn")
+                )
+            );
+}
+<br />
+<span id="error" class="field-validation-error"></span>
+
+<div id="labInfo" style="display:none">
+    <h3></h3>
+    <br />
+    <div class="widthSection">
+        <input id="addVar" type="button" value="Добавить варианты" />
+        <input id="modLab" type="button" value="Изменить лабораторную работу" />
+    </div>
+
+    <div id="labViewLeft">
+    <table id="labViewLeftTable" class="labViewTable">
+    </table>
+    </div>
+    <div id="labViewRight">
+    <table id="labViewRightTable" class="labViewTable">
+    </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var labId = 0;
+
+        $(function() {            
+            $('#datatable tbody tr').click(function () {
+                Send($(this).find('td:first').text());
+            });
+        });
+
+        function Send(id) {
+            $("#error").html("Идет отправка данных...");
+            var result = "Id="+id;
+            $.ajax({
+                type: "POST",
+                url: "labs/GetLabInfo",
+                data: result,
+                error: function () {
+                    $("#error").html("Невозможно отправить данные");
+                    $("#labInfo").css("display", "none");
+                },
+                success: function (data) {
+                    Suc(data);
+                }
+            });
+        };
+
+        function Suc(obj) {
+            switch (obj.Result) {
+                case 0:
+                    $("#error").html("");
+                    $("#labInfo").css("display", "block");
+                    labId = obj.LabId;
+                    $("#labInfo h3").html(obj.LabName);
+
+                    $("#labViewLeftTable tr").detach();
+                    $("#labViewRightTable tr").detach();
+
+                    $("#labViewLeftTable").append("<tr><th>Задания | Варианты работы</th></tr>");
+                    $("#labViewRightTable").append("<tr id='variantsHeaders'></tr>");
+                    for (var i = 0; i < obj.Tasks.length; i++) {
+                        $("#labViewLeftTable").append("<tr value='" + obj.Tasks[i].Key + "'><td>" + obj.Tasks[i].Value + "</td></tr>");
+                        $("#labViewRightTable").append("<tr value='" + obj.Tasks[i].Key + "'></tr>");
+                    };
+
+                    $("#labViewRightTable").append("<tr id='varButtons'></tr>");
+
+                    for (var i = 0; i < obj.Variants.length; i++) {
+                        $("#variantsHeaders").append("<th value='" + obj.Variants[i].VarId + "'>" + obj.Variants[i].VarName + "</th>");
+
+                        $("#labViewRightTable tr:not(#variantsHeaders, #varButtons)").append("<td value='" + obj.Variants[i].VarId + "'></td>");
+
+                        for (var j = 0; j < obj.Variants[i].TasksVar.length; j++) {
+                            $("#labViewRightTable tr[value='" + obj.Variants[i].TasksVar[j].Key + "'] td[value='" + obj.Variants[i].VarId + "']").html(obj.Variants[i].TasksVar[j].Value);
+                        };
+
+                        var pic;
+                        if (obj.Variants[i].TasksVar.length == obj.Tasks.length) {
+                            pic = '<img src="/Images/_true.png" />';
+                        } else {
+                            pic = '<img src="/Images/_false.png" />';
+                        };
+
+                        if (obj.Variants[i].IntrVar == true) {
+                            pic = pic + '  <img src="/Images/demo.png" />';
+                        };
+
+                        $("#varButtons").append('<td>' + pic + '<br /><a href="/Labs/IndexCreateVariant?labId=' + labId + '&varId=' + obj.Variants[i].VarId + '">Редактировать</a></td>');
+                    };
+
+                    break;
+                case 1:
+                    $("#error").html("Лабораторная работа не найдена");
+                    $("#labInfo").css("display", "none");
+                    break;
+            };
+        };
+
+        $("#addVar").click(function () {
+            location.href = "/Labs/IndexCreateVariant?labId=" + labId;
+        });
+
+        $("#modLab").click(function () {
+            location.href = "/Labs/Create?Id=" + labId;
+        });
+    </script>
+}

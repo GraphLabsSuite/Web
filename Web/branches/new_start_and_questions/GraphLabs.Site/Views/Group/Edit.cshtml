@@ -1,0 +1,105 @@
+﻿@model GraphLabs.Site.Models.Groups.GroupModel
+
+@{
+    ViewBag.Title = "Редактирование группы";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+<br />
+
+<span class="field-validation-error">
+    @ViewBag.Message
+</span>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            Год начала обучения
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstYear)
+            @Html.ValidationMessageFor(model => model.FirstYear)
+        </div>
+
+        <div class="editor-label">
+            Номер группы
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            Доступность для регистрации
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsOpen)
+            @Html.ValidationMessageFor(model => model.IsOpen)
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<style type="text/css">
+    .idColumn { width:10%; }
+    .surnameColumn { width: 20%; }
+    .nameColumn { width:20%; }
+    .fatherNameColumn { width:20%; }
+    .emailNameColumn { width:20%; }
+    .isVerColumn { width:10%; }
+    .isdismiss { color: #a3a3a3; }
+</style>
+
+@{
+    var grid = new WebGrid(Model.Students, canPage: true, canSort: true, rowsPerPage: 10);
+    grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(tableStyle: "webGrid",
+            headerStyle: "webgrid-header",
+            footerStyle: "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle: "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+
+            columns: grid.Columns(
+                grid.Column(header: "#", format: @<text> @if (item.IsDismissed) {<span class="isdismiss">@item.Id</span>} else {<span>@item.Id</span>} </text>, columnName: "Id", style: "idColumn"),
+                grid.Column(header: "Фамилия", format: @<text> @if (item.IsDismissed) {<span class="isdismiss">@item.Surname</span>} else {<span>@item.Surname</span>} </text>, columnName: "Surname", style: "surnameColumn"),
+                grid.Column(header: "Имя", format: @<text> @if (item.IsDismissed) {<span class="isdismiss">@item.Name</span>} else {<span>@item.Name</span>} </text>, columnName: "Name", style: "nameColumn"),
+                grid.Column(header: "Отчество", format: @<text> @if (item.IsDismissed) {<span class="isdismiss">@item.FatherName</span>} else {<span>@item.FatherName</span>} </text>, columnName: "FatherName", style: "fatherNameColumn"),
+                grid.Column(header: "E-mail", format: @<text> @if (item.IsDismissed) {<span class="isdismiss">@item.Email</span>} else {<span>@item.Email</span>} </text>, columnName: "Email", style: "emailColumn"),
+                grid.Column(header: "Подтвержден", format: @<text>@Html.Raw("<img src=\"/Images/_" + item.IsVerified + ".png\" />")</text>, columnName: "IsVerified", style: "isVerColumn")
+                )
+            );
+
+
+}
+
+<div>
+    
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function () {
+            $('tbody tr').click(function () {
+                location.href = '/User/Edit/' + $(this).find('td:first').text();
+            });
+        });
+    </script>
+}

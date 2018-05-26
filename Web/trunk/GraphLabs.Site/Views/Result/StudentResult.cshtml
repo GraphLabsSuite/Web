@@ -1,0 +1,99 @@
+﻿@using GraphLabs.DomainModel
+@model GraphLabs.Site.Models.Results.ResultListModel
+
+@{
+    ViewBag.Title = "Результаты";
+}
+
+
+
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Обратно к списку студентов группы", "StudentList", new { id = ViewBag.GroupId })
+</hgroup>
+<br />
+
+
+
+        <span>  Фильтровать по дате</span>
+@Html.TextBox("datesearch", "", new { type = "date", onkeypress = "return search(event)" })
+<br>
+        <span>  Фильтровать по  названию работы</span>
+@Html.TextBox("labsearch", "", new { type = "text", onkeypress = "return search(event)" })
+<br>
+        <style type="text/css">
+            .idColumn {
+                width: 5%;
+            }
+
+            .labWorkNameColumn {
+                width: 30%;
+            }
+
+            .labVariantNumberColumn {
+                width: 10%;
+            }
+
+            .startDateTimeColumn {
+                width: 30%;
+            }
+
+            .statusColumn {
+                width: 20%;
+            }
+
+            .scoreColumn {
+                width: 10%;
+            }
+        </style>
+
+        @{
+            var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10);
+            grid.Pager(WebGridPagerModes.All);
+            @grid.GetHtml(tableStyle: "Grids",
+            headerStyle: "grid-header",
+            footerStyle: "grid-footer",
+            rowStyle: "grid-row",
+            alternatingRowStyle: "grid-row",
+            selectedRowStyle: "grid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+
+            columns: grid.Columns(
+                 grid.Column(header: "#", format: @<text>
+                    <span>@item.Id</span> </text>, columnName: "Id", style: "idColumn"),
+                grid.Column(header: "Лабораторная работа", format: @<text>
+                    <span>@item.LabWorkName</span> </text>, columnName: "LabWorkName", style: "labWorkNameColumn"),
+                grid.Column(header: "Вариант", format: @<text>
+                    <span>@item.LabVariantNumber</span> </text>, columnName: "LabVariantNumber", style: "labVariantNumberColumn"),
+                grid.Column(header: "Дата", format: @<text>
+                    <span>@item.StartDateTime</span> </text>, columnName: "StartDateTime", style: "startDateTimeColumn"),
+                grid.Column(header: "Статус", format: @<text>
+                    <span>@item.Status</span> </text>, columnName: "Status", style: "statusColumn"),
+                grid.Column(header: "Результат", format: @<text>
+                    @if (item.Status == "Закончена")
+                    {
+        <span>@item.Score</span> }
+                    else
+                    {
+        <span>-</span> } </text>, columnName: "Score", style: "scoreColumn")
+                )
+            );
+
+
+        }
+
+ 
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+
+            <script type="text/javascript">
+                $(function () {
+                    $('tbody tr').click(function () {
+                        location.href = '/Result/LabWorkResult/' + $(this).find('td:first').text();
+                    });
+                });
+            </script>
+        }

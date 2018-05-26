@@ -65,36 +65,6 @@
             );
 }
 
-<div id="testpool-previews">
-    <input type="hidden" id="base-testpool" value="@ViewBag.PreviewTestPoolId"/>
-    @foreach (var test in Model.Items)
-    {
-        var questionCounter = 0;
-        <div class="testpool-preview" style="display: none;">
-            <input type="hidden" class="testpool-preview-id" value="@test.Id"/>
-            <h3>Тест "@test.Name"</h3>
-            @foreach (var entry in test.TestPoolEntries)
-            {
-                questionCounter++;
-                <p><b>Вопрос @questionCounter: @entry.TestQuestion.Question</b>
-                </p>
-                foreach (var variant in entry.TestQuestion.AnswerVariants)
-                {
-                    if (variant.IsCorrect)
-                    {
-                        <input type="checkbox" checked disabled=""/>
-                    }
-                    else
-                    {
-                        <input type="checkbox" disabled=""/>
-                    }
-                    <span>@variant.Answer</span>
-                    <br/>
-                }
-            }
-        </div>
-    }
-</div>
 
 @section scripts{
     <script type="text/javascript">

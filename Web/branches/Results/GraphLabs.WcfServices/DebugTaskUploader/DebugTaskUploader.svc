@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GraphLabs.WcfServices.DebugTaskUploader.DebugTaskUploader" CodeBehind="DebugTaskUploader.svc.cs" Factory="GraphLabs.WcfServices.Infrastructure.WcfServiceFactory" %>

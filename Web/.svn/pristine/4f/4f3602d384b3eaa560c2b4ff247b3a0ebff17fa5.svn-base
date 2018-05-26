@@ -1,0 +1,66 @@
+﻿@model GraphLabs.Site.Models.SurveyIndexViewModel
+@{
+    ViewBag.Title = "Вопросы";
+}
+
+<hgroup>
+    <h2>Вопросы</h2>
+</hgroup>
+
+@Html.ActionLink("+ Добавить вопрос", "Create")
+<br />
+@Html.ActionLink("+ Добавить подтему", "AddSubCategory")
+<br />
+@Html.ActionLink("+ Добавить тему", "AddCategory")
+<br />
+
+<table>
+    <tr>
+        <td>
+            <div class="editor-label">
+                Выберите тему
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
+            </div>
+        </td>
+        <td>
+            <div class="editor-label">
+                Выберите подтему
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList)
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="TestQuestionList">
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            RenderTable();
+        });
+
+        $('#SelectedCategoryId').change(function () {
+            RenderTable();
+        });
+
+        function RenderTable() {
+            $.ajax({
+                type: "Get",
+                url: "/survey/TestQuestionList",
+                data: {
+                    CategoryId: $('#SelectedCategoryId').val()
+                },
+                success: function (data) {
+                    $('#TestQuestionList').html(data);
+                }
+            });
+        }
+    </script>
+}

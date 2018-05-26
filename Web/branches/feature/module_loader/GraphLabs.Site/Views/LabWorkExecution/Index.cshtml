@@ -1,0 +1,142 @@
+﻿@using GraphLabs.Site.Models.LabExecution
+@model VariantExecutionModelBase
+@{
+    ViewBag.Title = "Лабораторная работа";
+    ViewBag.HideNavigationMenu = true;
+
+    @Styles.Render("~/Content/bootstrap")
+}
+
+<h2>Л/р: @Model.LabName</h2>
+
+@if (@Model is TaskVariantExecutionModel)
+{
+    var taskModel = (TaskVariantExecutionModel)@Model;
+    if (taskModel != null)
+        <h5>@taskModel.TaskName</h5>
+
+        <div id="task-module-wrapper" class="ui-resizable">
+            <div id="loading-please-wait">
+                <img src="../../Images/graphlabs.png" alt="" />
+                <p>Задание загружается. Пожалуйста, подождите.</p>
+            </div>
+            <div id="task-react"> </div>
+        </div>
+}
+
+@if (@Model is VariantExecutionCompleteModel) {
+    var completeModel = (VariantExecutionCompleteModel)Model;
+    <h4>@completeModel.ResultMessage</h4>
+}
+
+@if (@Model is TestExecutionModel)
+{
+    var testModel = (TestExecutionModel)@Model;
+    <h4>Вопрос @testModel.Name</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <p id="questionText"><b>Текст вопроса: </b> @testModel.Question</p>
+            <ul id="questionAnswers">
+                @foreach (var answer in @testModel.Answers)
+                {
+                    <li><input type="checkbox" id="answer_@answer.Id" value="@answer.Answer"/> @answer.Answer</li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+            <button onclick="sendQuestion(@Model.VariantId, @testModel.QuestionId, @testModel.TestResult);" type="button">Отправить</button>
+        </div>
+    </div>
+
+}
+@for (int i = 0; i < Model.OtherTasks.Length; ++i)
+{
+    if (Model.OtherTasks[i] is TaskListEntryModel)
+    {
+        var testTask = (TaskListEntryModel)@Model.OtherTasks[i];
+
+        <input type="button" class="btn btn-primary" onclick="sendTask(@testTask.TaskId)" value="@(i + 1)"
+               @if (Model.OtherTasks[i].State != TaskExecutionState.New)
+               {
+                   @Html.Raw(" disabled ")
+               }/>
+    }
+    if (Model.OtherTasks[i] is TestListEntryModel)
+    {
+        var testTask = (TestListEntryModel)@Model.OtherTasks[i];
+        <input type="button" class="btn btn-info" onclick="sendTest(@testTask.QuestionId)" value="@(i + 1)"
+               @if (Model.OtherTasks[i].State != TaskExecutionState.New)
+               {
+                   @Html.Raw(" disabled ")
+               } />
+    }
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        var sendTask = (task) => {
+            if (confirm("Будет потерян прогресс текущего задания! Продолжить?")) {
+                location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&taskIndex=" + task;
+            }
+        };
+
+        var sendTest = (test) => {
+            if (confirm("Будет потерян прогресс текущего задания! Продолжить?")) {
+                location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&testIndex=" + test;
+            }
+        };
+
+        var sendQuestion = (variant, test, testResult) => {
+            var array = [];
+            var inputs = $("#questionAnswers").children('li');
+            for (var i = 0; i < inputs.length; i++) {
+                if ($($(inputs[i]).children('input').get(0)).prop('checked')) {
+                    var id = $($(inputs[i]).children('input').get(0)).attr('id');
+                    var splitted = id.split('_');
+                    array.push(parseInt(splitted[1]));
+                }
+            }
+            //location.href = "/LabWorkExecution/Test?&answers=" + {
+            //    LabVarId: variant,
+            //    TestPoolEntryId: test,
+            //    ChosenAnswerIds: array,
+            //    TestResultId: testResult
+            //};
+            $.ajax({
+                url: '/LabWorkExecution/Test',
+                method: 'POST',
+                data: JSON.stringify({
+                    LabVarId: variant,
+                    TestPoolEntryId: test,
+                    ChosenAnswerIds: array,
+                    TestResultId: testResult
+                }),
+                contentType: "application/json; charset=utf-8",
+                success: () => {
+                    location.href = "/LabWorkExecution/Index?&LabVarId=" + @Model.VariantId + "&testIndex=" + test;
+                }
+        });
+        };
+
+        var TaskComplete = () => {
+            location.href = "/LabWorkExecution/TaskComplete";
+        };
+
+        var ontaskmoduleloaded = () => {
+            // делаем размер изменимым
+            $("#task-module-wrapper").resizable();
+            // убираем надпись о загрузке
+            $("loading-please-wait").remove();
+
+            // хак, чтобы объект после загрузки принял нужную форму
+            $("#task-module-object").css("height", "100%");
+            $("#task-module-object").css("min-height", 400);
+        };
+    </script>
+}

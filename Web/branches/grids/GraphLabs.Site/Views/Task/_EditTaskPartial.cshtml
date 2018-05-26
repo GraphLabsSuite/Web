@@ -1,0 +1,35 @@
+﻿@model GraphLabs.Site.Models.TaskModel
+
+<h3>Модуль-задание.</h3>
+@using (Html.BeginForm("EditTask", "Task"))
+{
+    @Html.AntiForgeryToken()
+
+    <fieldset>
+        <legend>Задание</legend>
+        
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="readonly-editor">
+            @Html.LabelFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new {@readonly = "readonly"})
+        </div>
+        
+        <div class="readonly-editor">
+            @Html.LabelFor(model => model.Version)
+            @Html.TextBoxFor(model => model.Version, new {@readonly = "readonly"})
+        </div>
+        
+        <div class="readonly-editor">
+            @Html.LabelFor(model => model.Sections)
+            @Html.TextBoxFor(model => model.Sections, new {@readonly = "readonly"})
+        </div>
+       
+        <div>
+            @Html.LabelFor(model => model.Note)
+            @Html.TextAreaFor(model => model.Note)
+        </div>
+    </fieldset>
+    
+    <input type="submit" value="Сохранить"/>
+}

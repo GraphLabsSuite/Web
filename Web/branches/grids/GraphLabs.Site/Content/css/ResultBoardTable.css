@@ -1,0 +1,21 @@
+﻿table.boardTable {
+    border: solid 1px;
+}
+
+    table.boardTable th {
+        padding-left: 3px;
+        border:solid 1px;
+    }
+
+    table.boardTable td {
+        padding-left: 3px;
+        border:solid 1px;
+    }
+
+    table.boardTable tr:hover td {
+        background-color: #908b8b;
+    }
+
+    table.boardTable th:hover {
+        background-color: #908b8b;
+    }

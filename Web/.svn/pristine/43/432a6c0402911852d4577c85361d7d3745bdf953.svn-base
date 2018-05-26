@@ -1,0 +1,75 @@
+﻿@model GraphLabs.Site.Models.SurveyCreatingModel
+
+@{
+    ViewBag.Title = "Добавить подтему";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Вернуться к списку вопросов", "Index")
+</hgroup>
+<br/>
+@using (Html.BeginForm())
+{
+    <div style="width:20%">
+        <div class="editor-label">
+            Выберите тему
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+        </div>
+    </div>
+    <table width="60%" id="tableSubCategory" class="nakedTable">
+        <tr>
+            <td width="16%">
+                Введите название подтемы
+            </td>
+            <td>
+                <div class="editor-field editText">
+                    @Html.Editor("QuestionSubCategory")
+                </div>
+            </td>
+            <td width="20px">
+                <a href='#' id="deleteSubCategory" title="Нажмите, чтобы удалить подтему" style="font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px">&#10005;</a>
+            </td>
+        </tr>
+    </table>
+    <table width="60%" id="tableAddSubCategory" class="nakedTable">
+        <tr>
+            <td width="15px">
+                <button class="circle-add-button" id="addSubCategory" value="Добавить новую подтему"></button>
+            </td>
+            <td>
+                Добавить новую подтему
+            </td>
+        </tr>
+    </table><input type="submit" value="Сохранить" id="submitButton" />}
+@section Scripts
+{
+    <script>
+        var countSubCategory = 1;
+
+                /*добавление строки с новой темой*/
+                $("#addSubCategory").click(addSubCategory);
+
+                function addSubCategory(e) {
+                    e.preventDefault();
+                    countSubCategory++;
+                    var newField = this.parentElement.offsetParent.previousElementSibling.cloneNode(true) //клонирую таблицу
+                    //переделать надо id аргументы
+                    newField.lastChild.firstChild.children[1].children[0].children[0].value = ""; //удаляю содержимое
+                    this.parentElement.offsetParent.parentElement.insertBefore(newField, this.parentElement.offsetParent) //прикрепляю перед кнопкой добавления
+                    newField.lastChild.firstChild.children[2].addEventListener('click',deleteSubCategory);
+                }
+
+                /*удаление строки с темой*/
+                $("#deleteSubCategory").click(deleteSubCategory);
+
+                function deleteSubCategory(e) {
+                    e.preventDefault();
+                    if (countSubCategory == 1) { alert("Нельзя удалить последнюю тему!"); return }
+                    countSubCategory--;
+                    var thisTable = this.parentNode.offsetParent;
+                    thisTable.remove()
+                }
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Пользователи системы";
+}
+
+<hgroup>
+    <h1>@ViewBag.Title.</h1>
+    <br />
+</hgroup>
+
+<section id="upPanel">
+    @Html.Partial("_IndexOptionPartial")
+</section>
+<section id="downPanel">
+    @Html.Partial("_IndexListPartial")
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('tbody tr').click(function () {
+                location.href = '/User/Edit/' + $(this).find('td:first').text();
+            });
+        });
+
+        function fillall(value) {
+            document.getElementById('Admin').checked = value;
+            document.getElementById('Teacher').checked = value;
+            document.getElementById('VerStudent').checked = value;
+            document.getElementById('UnVerStudent').checked = value;
+            document.getElementById('DismissStudent').checked = value;
+        }
+
+    </script>
+}

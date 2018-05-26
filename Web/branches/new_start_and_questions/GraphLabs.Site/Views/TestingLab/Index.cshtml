@@ -1,0 +1,48 @@
+﻿@model GraphLabs.Site.Models.AvailableLab.TestingLabListModel
+
+@{
+    ViewBag.Title = "Контрольные лабораторные работы";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (!Model.Any())
+{
+    <h2 class="field-validation-error">В данный момент нет доступных лабораторных работ</h2>
+}
+else
+{
+<table>
+    <tr>
+        <th>Лабораторная работа</th>
+        <th>Варианты</th>
+        <th>Доступна до</th>
+    </tr>
+    @for (var i = 0; i < Model.Items.Length;i++)
+    {
+        var m = Model.Items[i];
+        <tr data-LabWorkId="@m.Id" data-Id="@m.Id">
+            <td>
+                @m.Name
+            </td>
+            
+            <td>
+                @m.AvailableTill.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                <input type="button" value="Приступить!"/>
+            </td>
+        </tr>
+    }
+</table>
+}
+
+@section scripts{
+    <script>
+        $("input").click(function () {
+            labId = $(this).parent().parent().attr("data-LabWorkId");
+            schId = $(this).parent().parent().attr("data-Id");
+            location.href = "/LabWorkExecutionTESTING/Index?labId=" + labId + "&scheduleId=" + schId;
+        });
+    </script>
+}

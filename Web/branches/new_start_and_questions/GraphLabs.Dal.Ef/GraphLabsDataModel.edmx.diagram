@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5f7580c0e9f842cb890c9caf94520fdb" Name="Diagram" ZoomLevel="89">
+        <EntityTypeShape EntityType="DataModel.News" Width="1.75" PointX="6.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.User" Width="1.625" PointX="9" PointY="0.5" FillColor="255, 128, 0" />
+        <AssociationConnector Association="DataModel.UserNews" />
+        <EntityTypeShape EntityType="DataModel.Group" Width="1.5" PointX="12.625" PointY="4.375" FillColor="Green" />
+        <EntityTypeShape EntityType="DataModel.Result" Width="1.5" PointX="10.125" PointY="3.5" FillColor="Maroon" />
+        <EntityTypeShape EntityType="DataModel.StudentAction" Width="1.5" PointX="0.5" PointY="0.75" FillColor="Maroon" />
+        <EntityTypeShape EntityType="DataModel.LabWork" Width="1.625" PointX="13.25" PointY="6.875" FillColor="192, 192, 0" />
+        <EntityTypeShape EntityType="DataModel.Task" Width="1.625" PointX="2.75" PointY="5.125" FillColor="0, 192, 192" />
+        <EntityTypeShape EntityType="DataModel.LabVariant" Width="1.625" PointX="10.75" PointY="6.5" FillColor="0, 192, 192" />
+        <EntityTypeShape EntityType="DataModel.TestQuestion" Width="1.5" PointX="6.625" PointY="8" FillColor="Purple" />
+        <EntityTypeShape EntityType="DataModel.AnswerVariant" Width="1.5" PointX="4.75" PointY="8" FillColor="Purple" />
+        <EntityTypeShape EntityType="DataModel.Session" Width="1.5" PointX="15.625" PointY="0.625" />
+        <AssociationConnector Association="DataModel.UserSession" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DataModel.Settings" Width="2" PointX="18.25" PointY="0.75" FillColor="Gray" />
+        <EntityTypeShape EntityType="DataModel.Student" Width="1.5" PointX="12.875" PointY="1.125" FillColor="255, 128, 0" />
+        <InheritanceConnector EntityType="DataModel.Student" ManuallyRouted="false" >
+        </InheritanceConnector>
+        <AssociationConnector Association="DataModel.GroupStudent" />
+        <AssociationConnector Association="DataModel.StudentResult" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DataModel.TaskVariant" Width="1.625" PointX="0.5" PointY="5.25" FillColor="0, 192, 192" />
+        <AssociationConnector Association="DataModel.TaskTaskVariant" />
+        <EntityTypeShape EntityType="DataModel.LabEntry" Width="1.5" PointX="15.25" PointY="8.375" FillColor="192, 192, 0" />
+        <AssociationConnector Association="DataModel.LabVariantTaskVariant" />
+        <AssociationConnector Association="DataModel.LabWorkLabVariant" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="DataModel.LabVariantResult" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="DataModel.LabWorkLabEntry" />
+        <AssociationConnector Association="DataModel.TaskLabEntry" />
+        <EntityTypeShape EntityType="DataModel.Category" Width="1.5" PointX="8.875" PointY="7.875" FillColor="Purple" />
+        <EntityTypeShape EntityType="DataModel.TaskData" Width="1.125" PointX="3.375" PointY="8.25" IsExpanded="true" FillColor="0, 192, 192" />
+        <AssociationConnector Association="DataModel.TaskTaskData" />
+        <EntityTypeShape EntityType="DataModel.TaskResult" Width="1.5" PointX="0.5" PointY="2.75" FillColor="Maroon" />
+        <AssociationConnector Association="DataModel.TaskResultStudentAction" />
+        <AssociationConnector Association="DataModel.TaskResultTaskVariant" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DataModel.AbstractLabSchedule" Width="1.875" PointX="16.5" PointY="3.25" />
+        <EntityTypeShape EntityType="DataModel.GroupLabSchedule" Width="1.5" PointX="14.875" PointY="5.5" />
+        <InheritanceConnector EntityType="DataModel.GroupLabSchedule" />
+        <AssociationConnector Association="DataModel.GroupGroupLabSchedule" />
+        <EntityTypeShape EntityType="DataModel.IndividualLabSchedule" Width="1.5" PointX="14.75" PointY="3.25" />
+        <InheritanceConnector EntityType="DataModel.IndividualLabSchedule" />
+        <InheritanceConnector EntityType="DataModel.IndividualLabSchedule" />
+        <InheritanceConnector EntityType="DataModel.GroupLabSchedule" />
+        <AssociationConnector Association="DataModel.StudentIndividualLabSchedule" />
+        <AssociationConnector Association="DataModel.LabWorkAbstractLabSchedule" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DataModel.TestPool" Width="1.5" PointX="8.25" PointY="5.75" FillColor="Purple" />
+        <AssociationConnector Association="DataModel.LabWorkGroup" />
+        <AssociationConnector Association="DataModel.TestQuestionAnswerVariant" />
+        <EntityTypeShape EntityType="DataModel.TestPoolEntry" Width="1.5" PointX="5.875" PointY="5.5" FillColor="Purple" />
+        <AssociationConnector Association="DataModel.TestQuestionTestPoolEntry" />
+        <EntityTypeShape EntityType="DataModel.AbstractResultEntry" Width="1.5" PointX="7.75" PointY="3.375" FillColor="Maroon" />
+        <AssociationConnector Association="DataModel.ResultAbstractResultEntry" />
+        <InheritanceConnector EntityType="DataModel.TaskResult" ManuallyRouted="false" >
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="DataModel.TestResult" Width="1.5" PointX="5.125" PointY="3.5" FillColor="Maroon" IsExpanded="true" />
+        <InheritanceConnector EntityType="DataModel.TestResult" />
+        <EntityTypeShape EntityType="DataModel.StudentAnswer" Width="1.5" PointX="4.375" PointY="0.75" FillColor="Maroon" />
+        <AssociationConnector Association="DataModel.TestResultStudentAnswer" />
+        <EntityTypeShape EntityType="DataModel.AbstractStudentAction" Width="1.5" PointX="2.25" PointY="0.5" FillColor="Maroon" />
+        <InheritanceConnector EntityType="DataModel.StudentAction" />
+        <InheritanceConnector EntityType="DataModel.StudentAnswer" />
+        <AssociationConnector Association="DataModel.AnswerVariantStudentAnswer" />
+        <AssociationConnector Association="DataModel.TestPoolLabVariant" />
+        <AssociationConnector Association="DataModel.TestPoolTestPoolEntry" />
+        <AssociationConnector Association="DataModel.TestPoolEntryTestResult" />
+        <EntityTypeShape EntityType="DataModel.SubCategory" Width="1.5" PointX="8.875" PointY="10" FillColor="Purple" />
+        <AssociationConnector Association="DataModel.TestQuestionSubCategory" />
+        <AssociationConnector Association="DataModel.CategorySubCategory" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

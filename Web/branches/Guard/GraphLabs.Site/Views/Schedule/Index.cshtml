@@ -1,0 +1,49 @@
+﻿@using GraphLabs.DomainModel
+@using GraphLabs.Site.Models.Schedule
+@using GraphLabs.Site.Models.Schedule.Edit
+@model LabScheduleListModel
+
+@{
+    ViewBag.Title = "Расписание лабораторных работ";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p>
+    @Html.ActionLink("Добавить для группы", "CreateSchedule", new { Kind = EditLabScheduleModelBase.Kind.Group })
+    @Html.ActionLink("Добавить для студента", "CreateSchedule", new { Kind = EditLabScheduleModelBase.Kind.Individual })
+</p>
+
+@{
+    var grid = new WebGrid(Model, canPage:true ,canSort:true, rowsPerPage:10);
+    @grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(tableStyle: "webGrid",
+            headerStyle: "webgrid-header",
+            footerStyle : "webgrid-footer",
+            rowStyle: "webgrid-row",
+            alternatingRowStyle: "webgrid-altrow",
+            selectedRowStyle : "webgrid-selected-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable", width = "100%" },
+
+            columns: grid.Columns(
+                grid.Column(header: "#", format: item => item.Id, columnName: "Id"),
+                grid.Column(header: "Лабораторная работа", format: item => item.LabName, columnName: "LabName"),
+                grid.Column(header: "Выполняет", format: item => item.Doer, columnName: "Doer"),
+                grid.Column(header: "Дата открытия", format: item => item.DateFrom, columnName: "DateFrom"),
+                grid.Column(header: "Дата закрытия", format: item => item.DateTill, columnName: "DateTill"),
+                grid.Column(header: "Режим выполнения", format: item => item.Mode == LabExecutionMode.IntroductoryMode ? "Ознакомительный" : "Контрольный",
+                            columnName: "Mode"),
+                grid.Column(
+                    header: "Действия",
+                    format: item => Html.Raw(string.Format(
+                            @"<a href=""/Schedule/EditSchedule/{0}"">
+<img src=""{1}"" alt=""Редактировать"" width=""24"" height=""24\"" />
+</a>",
+                            item.Id,
+                            Url.Content("../Images/edit.png"))),
+                    columnName: "Actions")
+                )
+            );
+}

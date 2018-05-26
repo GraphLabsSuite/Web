@@ -1,0 +1,128 @@
+﻿@using GraphLabs.DomainModel
+@model GraphLabs.Site.Models.TestPool.TestPoolModel
+
+
+@{
+    ViewBag.Title = "Редактирование тестпула";
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/css/TestPool.css")
+}
+
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @*@Html.ActionLink("Прекратить редактирование", "Index")*@
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="editor-label">
+            <h3>Название тестпула</h3>
+        </div>
+        <div id="testPoolId" hidden="true">@Model.Id</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <br />
+    <div class="editor-label">
+        <h3>Вопросы тестпула</h3>
+    </div>
+        <div class="editor-row" id="editorRows">
+            @if (Model != null)
+            {
+                if (Model.TestPoolEntries.Count > 0)
+                {
+
+                    foreach (var item in Model.TestPoolEntries)
+                    {
+                        <div class="row" id="testPoolEntry_@item.Id">
+                            <div id="itemId_@item.Id" hidden="true">
+                                @item.Id
+                            </div>
+                            <div class="col-md-3">
+                                <p>Выбранный вопрос</p>
+                                <p id="question_@item.Id"><b>@item.TestQuestion.Question</b></p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>Количество баллов</p>
+                                <input id="score_@item.Id" type="number" value="@item.Score" onblur="editTestPoolEntryScore(@item.Id);"/>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    Выбор стратегии
+                                </div>
+                                <select id="select_@item.Id" onblur="editTestPoolEntrySelect(@item.Id);">
+                                    <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
+                                        Учёт только верных
+                                    </option>
+                                    <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)" value="1">
+                                        Учёт всех
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete_@item.Id">Удалить</button>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>У этого тестпула ещё нет добавленных вопросов.</p>
+                }
+            }
+        </div>
+        <br />
+        <div class="editor-label">
+            <h3>Добавить новый вопрос</h3>
+        </div>
+        <div class="row" id="newQuestion">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    Выбрать вопрос
+                </div>
+                <input type="text" id="search_box" autocomplete="off"/>
+                <input type="hidden" value="" id="questionIdNew"/>
+                <div id="search_advice_wrapper"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    Оценить размер общего балла
+                </div>
+                <input type="number" id="scoreNew"/>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    Выбор стратегии
+                </div>
+                <select id="selectNew">
+                    <option value="0">
+                        Учёт только верных
+                    </option>
+                    <option value="1">
+                        Учёт всех
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button onclick="addTestPoolEntry();" type="button">Добавить вопрос</button>
+            </div>
+        </div>
+        <div id="systemMessage"></div>
+        <br />
+    <p>
+        <input type="submit" value="Завершить редактирование"/>
+    </p>
+        </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/Common/TestPool")
+    @Scripts.Render("~/bundles/bootstrap")
+}
+
+
+

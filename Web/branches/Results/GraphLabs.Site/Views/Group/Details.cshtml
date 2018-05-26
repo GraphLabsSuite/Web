@@ -1,0 +1,59 @@
+﻿@model GraphLabs.DomainModel.Group
+
+@{
+    ViewBag.Title = "Состав группы";
+}
+
+<h2>Состав группы</h2>
+
+<fieldset>
+    <legend>@Html.DisplayFor(model => model.GetNumber())</legend>
+    
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayName("Имя")
+            </th>
+            <th>
+                @Html.DisplayName("Фамилия")
+            </th>
+            <th>
+                @Html.DisplayName("Отчество")
+            </th>
+            <th>
+                @Html.DisplayName("E-mail")
+            </th>
+            <th>
+                @Html.DisplayName("Подтвержден")
+            </th>
+            <th>
+            </th>
+        </tr>
+@foreach (var item in Model.StudyInGroups)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FatherName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.IsVerified)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", "User", new { id=item.User.Id_User })
+        </td>
+    </tr>
+}
+    </table>
+</fieldset>
+<p>
+    @Html.ActionLink("Обратно к списку", "Index")
+</p>

@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Редактировать задание";
+}
+
+<hgroup>
+    <h1>@ViewBag.Title.</h1>
+    @Html.ActionLink("Обратно к списку", "Index")
+</hgroup>
+
+@Html.Partial("_StatusMessagePartial");
+
+<section id="leftPanel">
+    @Html.Partial("_EditTaskPartial")
+</section>
+<section id="rightPanel">
+    @Html.Partial("_EditVariantGeneratorPartial")
+</section>
