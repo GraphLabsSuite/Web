@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Reflection;
 
 namespace GraphLabs.Site.Core.Filters
@@ -26,6 +27,14 @@ namespace GraphLabs.Site.Core.Filters
         public string GetStringParam(string name)
         {
             return GetParam(name);
+        }
+
+        public DateTime? GetDateTimeParam(string name)
+        {
+            var val = GetParam(name);
+            if (val == null) 
+                return null;
+            return DateTime.ParseExact(val, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
         }
 
         public object GetBoundedParam(string name)

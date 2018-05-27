@@ -126,5 +126,21 @@ namespace ASP.Helpers
             hidden.Attributes.Add("name", name);
             return hidden;
         }
+
+        public static Control CreateInputDateTimeField(string propertyInfoName, string value)
+        {
+            var input = CreateHtmlInputText();
+            input.Name = propertyInfoName;
+            input.ID = propertyInfoName;
+            input.Attributes.Add("type", "datetime-local");
+
+            var label = CreateHtmlLabel(value);
+
+            var div = CreateDiv();
+            div.Controls.Add(label);
+            label.Controls.Add(input);
+            return div;
+            
+        }
     }
 }

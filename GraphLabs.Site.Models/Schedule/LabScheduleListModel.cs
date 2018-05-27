@@ -2,11 +2,13 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.Site.Models.Infrastructure;
 using System;
+using System.Linq.Expressions;
+using GraphLabs.Site.Core.Filters;
 
 namespace GraphLabs.Site.Models.Schedule
 {
     /// <summary> Модель расписания (списка) </summary>
-    public class LabScheduleListModel : ListModelBase<LabScheduleModel>,
+    public class LabScheduleListModel : ListModelBase<LabScheduleModel>, IFilterable<AbstractLabSchedule, LabScheduleModel>, 
         IFilterableByDate<LabScheduleListModel, LabScheduleModel>, 
         IFilterableByUser<LabScheduleListModel, LabScheduleModel>,
         IFilterableByLabName<LabScheduleListModel, LabScheduleModel>
@@ -28,7 +30,7 @@ namespace GraphLabs.Site.Models.Schedule
         private string _user1;
         private string _user2;
         private string _labname;
-        
+        private Expression<Func<AbstractLabSchedule, bool>> _filter;
 
         public LabScheduleListModel FilterByDate(DateTime? from, DateTime? till)
         {
@@ -70,6 +72,15 @@ namespace GraphLabs.Site.Models.Schedule
 
         protected override LabScheduleModel[] LoadItems()
         {
+            if (_filter != null)
+            {
+                return _query
+                    .OfEntities<AbstractLabSchedule>()
+                    .Where(_filter)
+                    .ToArray()
+                    .Select(_modelLoader.Load)
+                    .ToArray();
+            }
             return _query
                 .OfEntities<AbstractLabSchedule>()
                 .OrderBy(m => m.DateFrom)
@@ -97,6 +108,12 @@ namespace GraphLabs.Site.Models.Schedule
                 .ToArray()
                 .Select(_modelLoader.Load)
                 .ToArray();
+        }
+
+        public IListModel<LabScheduleModel> Filter(Expression<Func<AbstractLabSchedule, bool>> filter)
+        {
+            _filter = filter;
+            return this;
         }
     }
 }

@@ -86,6 +86,11 @@ namespace ASP.Helpers
                                         form.Controls.Add(GraphLabsUIFactory.CreateInputCheckBox(propertyInfo.Name,
                                             (string) customAttributeData.ConstructorArguments[0].Value));
                                     }
+                                    else if (propertyInfo.PropertyType == typeof(DateTime))
+                                    {
+                                        form.Controls.Add(GraphLabsUIFactory.CreateInputDateTimeField(propertyInfo.Name,
+                                            (string) customAttributeData.ConstructorArguments[0].Value));
+                                    }
                                     else
                                     {
                                         form.Controls.Add(GraphLabsUIFactory.CreateInputField(propertyInfo.Name,
