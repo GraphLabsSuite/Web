@@ -23,7 +23,7 @@ namespace GraphLabs.DomainModel
             this.AnswerVariants = new HashSet<AnswerVariant>();
         }
     
-        public long Id { get; private set; }
+        public long Id { get; set; }
         public string Question { get; set; }
     
         public virtual ICollection<AnswerVariant> AnswerVariants { get; set; }

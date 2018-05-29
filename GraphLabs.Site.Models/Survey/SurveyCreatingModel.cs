@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {
@@ -27,6 +28,7 @@ namespace GraphLabs.Site.Models
         [Required(ErrorMessage = "Укажите варианты ответа")]
         public List<KeyValuePair<String, bool>> QuestionOptions { get; set; }
 
+        public long QuestionId { get; set; }
         public long CategoryId { get; set; }
         public long SubCategoryId { get; set; }
 
@@ -40,6 +42,20 @@ namespace GraphLabs.Site.Models
                     Value = cat.Id.ToString(),
                     Text = cat.Name
                 }
+                ).ToList();
+            }
+        }
+
+        public List<SelectListItem> SubCategoryList
+        {
+            get
+            {
+                return _categoryRepository.GetAllSubCategories().Select(
+                    scat => new SelectListItem
+                    {
+                        Value = scat.Id.ToString(),
+                        Text = scat.Name
+                    }
                 ).ToList();
             }
         }
@@ -82,18 +98,30 @@ namespace GraphLabs.Site.Models
 		{
 		    _surveyRepository = surveyRepository;
 		    _categoryRepository = categoryRepository;
-
 		    QuestionOptions = new List<KeyValuePair<String, bool>>();
 		}
 
         public void Save()
 		{
             _surveyRepository.SaveQuestion(
+                this.QuestionId,
                 this.Question,
                 this.QuestionOptions.ToDictionary(qo => qo.Key, qo => qo.Value),
                 SubCategoryId,
                 CategoryId);
 		}
+
+        public void Delete()
+        {
+
+        }
+
+
+        /*public void Edit()
+        {
+            _surveyRepository.SaveQuestion
+        }*/
+
         //репозиторий если есть такой вопрос, то обновить
         //если нет, то сохранить
         //также может быть левое

@@ -18,7 +18,7 @@
                     Выберите тему
                 </div>
                 <div class="editor-field">
-                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.CategoryList, "Value", "Text", Model.CategoryId.ToString()), new { @class = "dropDown" })
                 </div>
             </td>
             <td>
@@ -26,7 +26,7 @@
                     Выберите подтему
                 </div>
                 <div class="editor-field">
-                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                    @Html.DropDownListFor(model => model.SubCategoryId, new SelectList(Model.SubCategoryList, "Value", "Text", Model.SubCategoryId.ToString()), new { @class = "dropDown" })
                 </div>
             </td>
         </tr>
@@ -56,11 +56,11 @@
             </td>
             <td>
                 <div class="editor-field editText">
-                    @Html.EditorFor(model => model.QuestionOptions[0].Key)
+                    @Html.EditorFor(model => model.QuestionOptions[i].Key)
                 </div>
             </td>
             <td>
-                @(Html.EditorFor(model => model.QuestionOptions[0].Value)) Правильный ответ
+                @Html.EditorFor(model => model.QuestionOptions[i].Value) Правильный ответ
             </td>
             <td width="20px">
                 <a href='#' id="deleteOption" title="Нажмите, чтобы удалить вариант ответа" style="font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px">&#10005;</a>

@@ -42,15 +42,23 @@ namespace GraphLabs.Dal.Ef.Repositories
 		#endregion
 
         ///<summary> Сохранение вопроса </summary>
-        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId)
+        public void SaveQuestion(long questionId, string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId)
         {
             CheckNotDisposed();
 
+            bool questionModified = Context.TestQuestions.Where(q => q.Id == questionId).Count() > 0;
+
             var quest = Context.TestQuestions.Create();
+            quest.Id = questionId;
             quest.Question = question;
             quest.SubCategory = Context.SubCategories.Single(c => c.Id == subCategoryId);
             quest.SubCategory.Category = Context.Categories.Single(c => c.Id == categoryId);
 
+            /*
+            if (questionModified)
+            {
+                Context.TestQuestions.
+            }*/
             Context.TestQuestions.Add(quest);
 
             foreach (var answerVar in questionOptions)
@@ -65,8 +73,54 @@ namespace GraphLabs.Dal.Ef.Repositories
             Context.SaveChanges();
         }
 
-		/// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
-		public int GetCategorizesTestQuestionCount(long CategoryId)
+        ///<summary> Сохранение вопроса </summary>
+        public void DeleteQuestion(TestQuestion question)
+        {
+            CheckNotDisposed();
+
+            var deleteQuestion = Context.TestQuestions.Where(q => q == question).First();
+            var deleteAnswers = Context.AnswerVariants.Where(q => q.TestQuestion == deleteQuestion);
+
+            Context.TestQuestions.Remove(deleteQuestion);
+            if (deleteAnswers != null)
+            {
+                foreach (var answer in deleteAnswers)
+                {
+                    Context.AnswerVariants.Remove(answer);
+                }
+            }
+
+            //bool questionModified = Context.TestQuestions.Where(q => q.Id == questionId).;
+
+            /*var deleteAnswers = Context.AnswerVariants.Where(q => q.TestQuestion == changeQuestion));
+            foreach (var answer in deleteAnswers)
+            {
+                Context.AnswerVariants.Remove(answer);
+            }
+            /*Context.TestQuestions.Remove(changeQuestion);*/
+
+            /*var quest = Context.TestQuestions.Create();
+            quest.Id = questionId;
+            quest.Question = question;
+            quest.SubCategory = Context.SubCategories.Single(c => c.Id == subCategoryId);
+            quest.SubCategory.Category = Context.Categories.Single(c => c.Id == categoryId);
+
+            Context.TestQuestions.Add(quest);
+
+            foreach (var answerVar in questionOptions)
+            {
+                var answerVariant = Context.AnswerVariants.Create();
+                answerVariant.TestQuestion = quest;
+                answerVariant.IsCorrect = answerVar.Value;
+                answerVariant.Answer = answerVar.Key;
+                Context.AnswerVariants.Add(answerVariant);
+            }
+
+            Context.SaveChanges();*/
+        }
+
+        /// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
+        public int GetCategorizesTestQuestionCount(long CategoryId)
 		{
 			CheckNotDisposed();
 

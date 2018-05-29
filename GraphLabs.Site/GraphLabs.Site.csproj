@@ -455,6 +455,7 @@
     <Content Include="Views\Survey\AddCategory.cshtml" />
     <Content Include="Views\Survey\AddSubCategory.cshtml" />
     <Content Include="Views\Category\AddCategory.cshtml" />
+    <Content Include="Views\Survey\ViewQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
