@@ -1,4 +1,4 @@
-﻿@model GraphLabs.Site.Models.SurveyCreatingModel
+﻿@model GraphLabs.Site.Models.Question.CategoryModel
 
 @{
     ViewBag.Title = "Добавить тему";
@@ -7,7 +7,7 @@
     <h2>@ViewBag.Title</h2>
     @Html.ActionLink("Вернуться к списку вопросов", "Index")
 </hgroup>
-<br/>
+<br />
 @using (Html.BeginForm())
 {
     <table width="60%" id="tableCategory" class="nakedTable">
@@ -17,28 +17,29 @@
             </td>
             <td>
                 <div class="editor-field editText">
-                    @Html.Editor("QuestionCategory")
+                    @Html.EditorFor(model => model.Name)
                 </div>
             </td>
             <td width="20px">
                 <a href='#' id="deleteCategory" title="Нажмите, чтобы удалить тему" style="font-size:2.0em; text-decoration-color:#282828; text-decoration:none; vertical-align:10px">&#10005;</a>
             </td>
         </tr>
-    </table><table width="60%" id="tableAddCategory" class="nakedTable">
-    <tr>
-        <td width="15px">
-            <button class="circle-add-button" id="addCategory" value="Добавить новую тему"></button>
-        </td>
-        <td>
-            Добавить новую тему
-        </td>
-    </tr>
-</table><input type="submit" value="Сохранить" id="submitButton" />}
+    </table>
+    <table width="60%" id="tableAddCategory" class="nakedTable">
+        <tr>
+            <td width="15px">
+                <button class="circle-add-button" id="addCategory" value="Добавить новую тему"></button>
+            </td>
+            <td>
+                Добавить новую тему
+            </td>
+        </tr>
+    </table><input type="submit" value="Сохранить" id="submitButton" />}
 @section Scripts
 {
     <script>
         var countCategory = 1;
-                
+
                 /*добавление строки с новой темой*/
                 $("#addCategory").click(addCategory);
 
