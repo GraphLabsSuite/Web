@@ -17,7 +17,7 @@ using GraphLabs.Site.Models.TestPool;
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
-    public class LabsController : GraphLabsController
+    public class LabsController : GraphLabsFilteringController<LabModel, LabWork>
     {
         #region Зависимости
 
@@ -43,10 +43,10 @@ namespace GraphLabs.Site.Controllers
 
         #region Отображение списка лабораторных работ
 
-        public ActionResult Index()
+        public override ActionResult Index(string arg)
         {
-            var model = _listModelLoader.LoadListModel<LabListModel, LabModel>();
-            return View(model);
+            var model = _listModelLoader.LoadListModel<LabListModel, LabModel>().Filter(FiExpression);
+	        return View((LabListModel) model);
         }
 
         [HttpPost]

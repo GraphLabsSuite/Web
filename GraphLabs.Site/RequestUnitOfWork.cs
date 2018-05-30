@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 namespace GraphLabs.Site
 {
     /// <summary> Менеджер 'главной' транзакции запроса </summary>
-    internal sealed class RequestUnitOfWork
+    public sealed class RequestUnitOfWork
     {
         /// <summary> Контейнер </summary>
         public IUnityContainer Container { get; private set; }

@@ -9,7 +9,7 @@ using GraphLabs.Site.Utils;
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
-    public class ScheduleController : GraphLabsController
+    public class ScheduleController : GraphLabsFilteringController<LabScheduleModel, AbstractLabSchedule>
     {
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<EditLabScheduleModelBase, AbstractLabSchedule> _modelSaver;
@@ -31,11 +31,11 @@ namespace GraphLabs.Site.Controllers
             _modelRemover = modelRemover;
         }
 
-        public ActionResult Index(string message)
+        public override ActionResult Index(string message)
         {
             ViewBag.Message = message;
-            var model = _listModelLoader.LoadListModel<LabScheduleListModel, LabScheduleModel>();
-            return View(model);
+            var model = _listModelLoader.LoadListModel<LabScheduleListModel, LabScheduleModel>().Filter(FiExpression);
+            return View((LabScheduleListModel) model);
         }
 
         public ActionResult CreateSchedule(EditLabScheduleModelBase.Kind kind)

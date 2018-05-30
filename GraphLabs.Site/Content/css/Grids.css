@@ -25,15 +25,16 @@
 
 .grid-row {
     font-size: 0.95em;    
+    text-align: justify;   
 }
 
 .grid-row td, .grid-altrow td, .grid th {
     border: none;
-    text-align: center;
+    text-align: justify;
 }
 
 .grid-row td:first-child {
-    text-align: justify;
+    text-align: center;
 }
 
 /*Для стартовой страницы*/

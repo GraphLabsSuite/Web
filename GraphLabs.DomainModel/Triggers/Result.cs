@@ -22,5 +22,7 @@ namespace GraphLabs.DomainModel
         {
             yield break;
         }
+        public virtual ICollection<StudentAction> StudentActions { get; set; }
+        public virtual TaskVariant TaskVariant { get; set; }
     }
 }

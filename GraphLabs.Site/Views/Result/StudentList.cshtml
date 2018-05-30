@@ -24,12 +24,12 @@
 @{
     var grid = new WebGrid(Model.Students, canPage: true, canSort: true, rowsPerPage: 10);
     grid.Pager(WebGridPagerModes.All);
-    @grid.GetHtml(tableStyle: "webGrid",
-            headerStyle: "webgrid-header",
-            footerStyle: "webgrid-footer",
-            rowStyle: "webgrid-row",
-            alternatingRowStyle: "webgrid-altrow",
-            selectedRowStyle: "webgrid-selected-row",
+    @grid.GetHtml(tableStyle: "Grids",
+            headerStyle: "grid-header",
+            footerStyle: "grid-footer",
+            rowStyle: "grid-row",
+            alternatingRowStyle: "grid-row",
+            selectedRowStyle: "grid-selected-row",
             caption: null,
             displayHeader: true,
             htmlAttributes: new { id = "datatable" },
