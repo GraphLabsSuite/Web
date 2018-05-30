@@ -116,12 +116,6 @@ namespace GraphLabs.Site.Models
 
         }
 
-
-        /*public void Edit()
-        {
-            _surveyRepository.SaveQuestion
-        }*/
-
         //репозиторий если есть такой вопрос, то обновить
         //если нет, то сохранить
         //также может быть левое

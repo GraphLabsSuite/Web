@@ -234,6 +234,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question\CategoryModel.cs" />
     <Compile Include="Question\CategoryModelSaver.cs" />
+    <Compile Include="Question\SubCategoryCreatingModel.cs" />
+    <Compile Include="Question\SubCategoryModelSaver.cs" />
+    <Compile Include="Question\SubCategoryModel.cs" />
     <Compile Include="Question\QuestionModelLoader.cs" />
     <Compile Include="Question\QuestionListModel.cs" />
     <Compile Include="Question\QuestionLookForModel.cs" />

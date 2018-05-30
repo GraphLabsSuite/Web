@@ -2,6 +2,7 @@
 using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
+using System;
 
 namespace GraphLabs.Dal.Ef.Repositories
 {
@@ -70,7 +71,7 @@ namespace GraphLabs.Dal.Ef.Repositories
             Context.SaveChanges();
         }
 
-        ///<summary> Сохранение вопроса </summary>
+        ///<summary> Удаление вопроса </summary>
         public void DeleteQuestion(TestQuestion question)
         {
             CheckNotDisposed();
@@ -79,41 +80,32 @@ namespace GraphLabs.Dal.Ef.Repositories
             var deleteAnswers = Context.AnswerVariants.Where(q => q.TestQuestion == deleteQuestion);
 
             Context.TestQuestions.Remove(deleteQuestion);
-            if (deleteAnswers != null)
-            {
+            /*if (deleteAnswers != null)
+            {*/
                 foreach (var answer in deleteAnswers)
                 {
                     Context.AnswerVariants.Remove(answer);
                 }
-            }
+            //}
 
-            //bool questionModified = Context.TestQuestions.Where(q => q.Id == questionId).;
+            Context.SaveChanges();
+        }
 
-            /*var deleteAnswers = Context.AnswerVariants.Where(q => q.TestQuestion == changeQuestion));
-            foreach (var answer in deleteAnswers)
-            {
-                Context.AnswerVariants.Remove(answer);
-            }
-            /*Context.TestQuestions.Remove(changeQuestion);*/
+        ///<summary> Сохранить подтему </summary>
+        public void SaveSubCategory(long categoryId, long subCategoryId, String name)
+        {
+            CheckNotDisposed();
 
-            /*var quest = Context.TestQuestions.Create();
-            quest.Id = questionId;
-            quest.Question = question;
-            quest.SubCategory = Context.SubCategories.Single(c => c.Id == subCategoryId);
-            quest.SubCategory.Category = Context.Categories.Single(c => c.Id == categoryId);
+            Category cat = Context.Categories.Where(c => c.Id == categoryId).First();
+            var subCategory = Context.SubCategories.Create();
+            subCategory.Id = subCategoryId;
+            subCategory.Name = name;
+            subCategory.Category = cat;
 
-            Context.TestQuestions.Add(quest);
+            Context.SubCategories.Add(subCategory);
 
-            foreach (var answerVar in questionOptions)
-            {
-                var answerVariant = Context.AnswerVariants.Create();
-                answerVariant.TestQuestion = quest;
-                answerVariant.IsCorrect = answerVar.Value;
-                answerVariant.Answer = answerVar.Key;
-                Context.AnswerVariants.Add(answerVariant);
-            }
+            Context.SaveChanges();
 
-            Context.SaveChanges();*/
         }
 
         /// <summary> Получить количество вопросов в категории с id == CategoryId </summary>

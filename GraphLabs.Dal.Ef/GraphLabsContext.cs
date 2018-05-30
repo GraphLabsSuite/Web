@@ -90,7 +90,8 @@ namespace GraphLabs.Dal.Ef
         /// <summary> Saves all changes made in this context to the underlying database. </summary>
         public override int SaveChanges()
         {
-            var trackables = ChangeTracker.Entries<ITrackableEntity>().ToArray();
+            var track = ChangeTracker.Entries<ITrackableEntity>();
+            var trackables = track.ToArray();
 
             // added
             foreach (var item in trackables.Where(t => t.State == EntityState.Added))

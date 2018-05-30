@@ -1,4 +1,4 @@
-﻿@model GraphLabs.Site.Models.SurveyCreatingModel
+﻿@model GraphLabs.Site.Models.SubCategoryCreatingModel
 
 @{
     ViewBag.Title = "Добавить подтему";
@@ -25,7 +25,7 @@
             </td>
             <td>
                 <div class="editor-field editText">
-                    @Html.Editor("QuestionSubCategory")
+                    @Html.EditorFor(model => model.Name)
                 </div>
             </td>
             <td width="20px">

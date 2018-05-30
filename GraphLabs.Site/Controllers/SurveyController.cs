@@ -105,7 +105,6 @@ namespace GraphLabs.Site.Controllers
         [HttpPost]
         public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId, long SubCategoryId)
         {
-            //Question, QuestionOptions, CategoryId
             long QuestionId = _surveyRepository.GetAllQuestions().Select(q => q.Id).Max() + 1;
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
@@ -119,7 +118,7 @@ namespace GraphLabs.Site.Controllers
             if (model.IsValid)
             {
                 model.Save();
-                //return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
             }
 
             return View("~/Views/Survey/Create.cshtml", model);
@@ -223,46 +222,36 @@ namespace GraphLabs.Site.Controllers
             ViewBag.Message = "Невозможно сохранить категорию";
             return View(category);
         }
-        /*     public ActionResult Create(GroupModel group)
-        {
-            if (ModelState.IsValid)
-            {
-                _modelSaver.CreateOrUpdate(group);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Message = "Невозможно сохранить группу";
-            return View(group);
-        }*/
-
-
-
-
 
         [HttpGet]
         public ActionResult AddSubCategory()
         {
-            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository);
-            return View("~/Views/Survey/AddSubCategory.cshtml", model);
+            var emptySubCategory = new SubCategoryCreatingModel(_surveyRepository, _categoryRepository);
+            emptySubCategory.Name = "";
+            emptySubCategory.CategoryId = 1;
+            return View("~/Views/Survey/AddSubCategory.cshtml", emptySubCategory);
         }
 
         [HttpPost]
-        public ActionResult AddSubCategory(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+        public ActionResult AddSubCategory(long categoryId, String name)
         {
-            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            long subCategoryId = _categoryRepository.GetAllSubCategories().Select(q => q.Id).Max() + 1;
+            var model = new SubCategoryCreatingModel(_surveyRepository, _categoryRepository)
             {
-                CategoryId = CategoryId,
-                QuestionOptions = QuestionOptions.ToList(),
-                Question = Question
+                SubCategoryId = subCategoryId,
+                CategoryId = categoryId,
+                Name = name
             };
 
             if (model.IsValid)
             {
                 model.Save();
-                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+                return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", categoryId } });
             }
 
             return View("~/Views/Survey/AddSubCategory.cshtml", model);
+
+
         }
         #endregion
     }

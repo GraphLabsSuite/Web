@@ -59,7 +59,7 @@ namespace GraphLabs.Site.Models.IoC
 
             // тестовые вопросы
             container.RegisterType<IEntityBasedModelSaver<CategoryModel, DomainModel.Category>, CategoryModelSaver>(new PerResolveLifetimeManager());
-            //container.RegisterType<IEntity> сюда для подкатегории
+            container.RegisterType<IEntityBasedModelSaver<SubCategoryModel, DomainModel.SubCategory>, SubCategoryModelSaver>(new PerResolveLifetimeManager());
 
             // лабы
             container.RegisterType<IEntityBasedModelLoader<LabModel, LabWork>, LabModelLoader>(new PerResolveLifetimeManager());
