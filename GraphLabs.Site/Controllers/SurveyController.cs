@@ -42,7 +42,7 @@ namespace GraphLabs.Site.Controllers
         #region Просмотр списка
 
         [HttpGet]
-        public ActionResult Index(long SubCategoryId = 0, long CategoryId = 0)
+        public ActionResult Index(long SubCategoryId = 1, long CategoryId = 1)
         {
             var model = new SurveyIndexViewModel(_surveyRepository, _categoryRepository);
             model.Load(SubCategoryId, CategoryId);
@@ -171,13 +171,13 @@ namespace GraphLabs.Site.Controllers
         #region Удаление вопроса
 
         [HttpGet]
-        public ActionResult ViewQuestion(long QuestionId)
+        public ActionResult ViewQuestion(long QuestionId, String questionText)
         {
             TestQuestion question = _surveyRepository.GetAllQuestions().Where(q => q.Id == QuestionId).First();
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
                 QuestionId = QuestionId,
-                Question = question.Question,
+                Question = questionText,
                 CategoryId = question.SubCategory.Category.Id,
                 SubCategoryId = question.SubCategory.Id,
                 QuestionOptions = question.AnswerVariants.Select(e => new KeyValuePair<String, Boolean>(e.Answer, e.IsCorrect)).ToList()
@@ -186,8 +186,9 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewQuestion(TestQuestion question)
+        public ActionResult ViewQuestion(long questionId)
         {
+            TestQuestion question = _surveyRepository.GetAllQuestions().Where(q => q.Id == questionId).First();
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
                 QuestionId = question.Id,
@@ -199,7 +200,8 @@ namespace GraphLabs.Site.Controllers
 
             model.Delete();
 
-            return View("~/Views/Survey/Edit.cshtml", model); //Надо настроить редирект   
+            //return View("~/Views/Survey/Index.cshtml"); //Надо настроить редирект   
+            return RedirectToAction("Index");
         }
 
 

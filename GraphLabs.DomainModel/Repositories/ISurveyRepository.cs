@@ -31,7 +31,7 @@ namespace GraphLabs.DomainModel.Repositories
 		void SaveQuestion(long questionId, string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId);
 
         ///<summary> Удалить вопрос </summary>
-		void DeleteQuestion(TestQuestion question);
+		void DeleteQuestion(long questionId);
 
         ///<summary> Сохранить подтему </summary>
         void SaveSubCategory(long subCategoryId, long categoryId, String name);
@@ -85,7 +85,7 @@ namespace GraphLabs.DomainModel.Repositories
 
 	    }
 
-        public void DeleteQuestion(TestQuestion question)
+        public void DeleteQuestion(long questionId)
         {
 
         }

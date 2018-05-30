@@ -49,6 +49,15 @@ namespace GraphLabs.Dal.Ef.Repositories
 
             var questionToEdit = Context.TestQuestions.Where(q => q.Id == questionId).SingleOrDefault();
             var quest = questionToEdit ?? Context.TestQuestions.Create();
+            var answersToDelete = Context.AnswerVariants.Where(a => a.TestQuestion.Id == quest.Id).ToList();
+            if (answersToDelete.Count != 0)
+            {
+                // тут нужно удаление
+                foreach (var answerVar in answersToDelete)
+                {
+                    Context.AnswerVariants.Remove(answerVar);
+                }
+            }
 
             quest.Question = question;
             quest.SubCategory = Context.SubCategories.Single(c => c.Id == subCategoryId);
@@ -72,21 +81,21 @@ namespace GraphLabs.Dal.Ef.Repositories
         }
 
         ///<summary> Удаление вопроса </summary>
-        public void DeleteQuestion(TestQuestion question)
+        public void DeleteQuestion(long questionId)
         {
             CheckNotDisposed();
 
-            var deleteQuestion = Context.TestQuestions.Where(q => q == question).First();
-            var deleteAnswers = Context.AnswerVariants.Where(q => q.TestQuestion == deleteQuestion);
+            var questionToDelete = Context.TestQuestions.Where(q => q.Id == questionId).SingleOrDefault();
+            var deleteAnswers = Context.AnswerVariants.Where(q => q.TestQuestion.Id == questionToDelete.Id).ToList();
 
-            Context.TestQuestions.Remove(deleteQuestion);
-            /*if (deleteAnswers != null)
-            {*/
+            Context.TestQuestions.Remove(questionToDelete);
+            if (deleteAnswers.Count != 0)
+            {
                 foreach (var answer in deleteAnswers)
                 {
                     Context.AnswerVariants.Remove(answer);
                 }
-            //}
+            }
 
             Context.SaveChanges();
         }

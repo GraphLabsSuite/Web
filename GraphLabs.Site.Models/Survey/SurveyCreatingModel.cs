@@ -113,7 +113,9 @@ namespace GraphLabs.Site.Models
 
         public void Delete()
         {
-
+            _surveyRepository.DeleteQuestion(
+                this.QuestionId
+                );
         }
 
         //репозиторий если есть такой вопрос, то обновить
