@@ -11,7 +11,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
 {
     /// <summary> Сохранятор моделей <see cref="AbstractLabSchedule"/> </summary>
     [UsedImplicitly]
-    class EditLabScheduleModelSaver : AbstractModelSaver<EditLabScheduleModelBase, AbstractLabSchedule>
+    class )EditLabScheduleModelSaver : AbstractModelSaver<EditLabScheduleModelBase, AbstractLabSchedule>
     {
         public EditLabScheduleModelSaver(IOperationContextFactory<IGraphLabsContext> operationContextFactory) : base(operationContextFactory)
         {
@@ -29,7 +29,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
                 var groupSch = sch as GroupLabSchedule;
                 if (groupSch != null)
                 {
-                    Contract.Assert(model.ScheduleKind == EditLabScheduleModelBase.Kind.Group);
+                    Guard.IsTrueAssertion(model.ScheduleKind == EditLabScheduleModelBase.Kind.Group);
                     groupSch.Group = query.Get<Group>(model.GetDoerId());
                     return;
                 }
@@ -37,7 +37,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
                 var studentSch = sch as IndividualLabSchedule;
                 if (studentSch != null)
                 {
-                    Contract.Assert(model.ScheduleKind == EditLabScheduleModelBase.Kind.Individual);
+                    Guard.IsTrueAssertion(model.ScheduleKind == EditLabScheduleModelBase.Kind.Individual);
                     studentSch.Student = query.Get<Student>(model.GetDoerId());
                     return;
                 }

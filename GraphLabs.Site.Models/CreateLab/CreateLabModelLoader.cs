@@ -16,7 +16,7 @@ namespace GraphLabs.Site.Models.CreateLab
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override CreateLabModel Load(LabWork labWork)
         {
-            Contract.Requires(labWork != null);
+            Guard.IsNotNull(nameof(labWork), labWork);
 
             var model = new CreateLabModel
             {

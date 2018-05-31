@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий результатов </summary>
-    [ContractClass(typeof(ResultsRepositoryContracts))]
+   // [ContractClass(typeof(ResultsRepositoryContracts))]
     [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface IResultsRepository
     {
@@ -18,24 +18,24 @@ namespace GraphLabs.DomainModel.Repositories
     }
 
     /// <summary> Репозиторий результатов - контракты</summary>
-    [ContractClassFor(typeof(IResultsRepository))]
-    internal abstract class ResultsRepositoryContracts : IResultsRepository
-    {
-        // ReSharper disable AssignNullToNotNullAttribute
+    //[ContractClassFor(typeof(IResultsRepository))]
+    //internal abstract class ResultsRepositoryContracts : IResultsRepository
+    //{
+    //    // ReSharper disable AssignNullToNotNullAttribute
 
-        /// <summary> Записать результат в БД </summary>
-        public void Insert(Result result)
-        {
-            Contract.Requires<ArgumentNullException>(result != null);
-        }
+    //    /// <summary> Записать результат в БД </summary>
+    //    public void Insert(Result result)
+    //    {
+    //        Contract.Requires<ArgumentNullException>(result != null);
+    //    }
 
-        /// <summary> Найти неоконченные результаты выполнения </summary>
-        public Result[] FindNotFinishedResults(Student student)
-        {
-            Contract.Requires<ArgumentNullException>(student != null);
-            Contract.Ensures(Contract.Result<Result[]>() != null);
+    //    /// <summary> Найти неоконченные результаты выполнения </summary>
+    //    public Result[] FindNotFinishedResults(Student student)
+    //    {
+    //        Contract.Requires<ArgumentNullException>(student != null);
+    //        Contract.Ensures(Contract.Result<Result[]>() != null);
 
-            return default(Result[]);
-        }
-    }
+    //        return default(Result[]);
+    //    }
+    //}
 }

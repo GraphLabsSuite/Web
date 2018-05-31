@@ -24,8 +24,7 @@ namespace GraphLabs.Site.Controllers.Attributes
         /// <summary> Обрабатывает HTTP-запрос, не прошедший авторизацию. </summary>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            Contract.Assert(filterContext != null);
-            Guard.Guard.IsNotNull(filterContext, nameof(filterContext)); //*
+            Guard.IsNotNull(nameof(filterContext), filterContext); 
 
             var httpContext = filterContext.HttpContext;
             if (httpContext.User.Identity.IsAuthenticated)

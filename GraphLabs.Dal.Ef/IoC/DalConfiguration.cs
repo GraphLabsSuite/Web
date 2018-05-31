@@ -17,7 +17,7 @@ namespace GraphLabs.Dal.Ef.IoC
         /// <summary> Сконфигурировать </summary>
         public void ConfigureContainer(IUnityContainer container)
         {
-            Guard.Guard.IsNotNull(container, nameof(container));
+            Guard.IsNotNull(nameof(container), container);
             // Сам EF-контекст
             container.RegisterType<GraphLabsContext>(new HierarchicalLifetimeManager());
 

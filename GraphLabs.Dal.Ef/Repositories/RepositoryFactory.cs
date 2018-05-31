@@ -17,8 +17,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Фабрика репозиториев </summary>
         public RepositoryFactory(GraphLabsContext context, ISystemDateService systemDateService, ITasksContext tasksContext)
         {
-            Contract.Requires(context != null);
-            Guard.Guard.IsNotNull(context, nameof(context)); //*
+            Guard.IsNotNull(nameof(context), context); 
             _context = context;
             _systemDateService = systemDateService;
             _tasksContext = tasksContext;
@@ -28,9 +27,8 @@ namespace GraphLabs.Dal.Ef.Repositories
         [NotNull]
         public IGroupRepository GetGroupRepository()
         {
-            Contract.Ensures(Contract.Result<IGroupRepository>() != null);
-            GroupRepository groupRepository = new GroupRepository(_context);
-            Guard.Guard.IsNotNull(groupRepository, nameof(groupRepository));
+            var groupRepository = new GroupRepository(_context);
+            Guard.IsNotNull(nameof(groupRepository), groupRepository);
             return groupRepository;
         }
 
@@ -38,9 +36,8 @@ namespace GraphLabs.Dal.Ef.Repositories
         [NotNull]
         public IUserRepository GetUserRepository()
         {
-            Contract.Ensures(Contract.Result<IUserRepository>() != null);
-            UserRepository userRepository = new UserRepository(_context);
-            Guard.Guard.IsNotNull(userRepository, nameof(userRepository));
+            var userRepository = new UserRepository(_context);
+            Guard.IsNotNull(nameof(userRepository), userRepository);
             return userRepository;
         }
 
@@ -48,9 +45,8 @@ namespace GraphLabs.Dal.Ef.Repositories
         [NotNull]
         public ISessionRepository GetSessionRepository()
         {
-            Contract.Ensures(Contract.Result<ISessionRepository>() != null);
-            SessionRepository sessionRepository = new SessionRepository(_context, _systemDateService);
-            Guard.Guard.IsNotNull(sessionRepository, nameof(sessionRepository));
+            var sessionRepository = new SessionRepository(_context, _systemDateService);
+            Guard.IsNotNull(nameof(sessionRepository), sessionRepository);
             return sessionRepository;
         }
 
@@ -58,36 +54,32 @@ namespace GraphLabs.Dal.Ef.Repositories
         [NotNull]
         public ILabRepository GetLabRepository()
         {
-            Contract.Ensures(Contract.Result<ILabRepository>() != null);
-            LabRepository labRepository = new LabRepository(_context, _tasksContext);
-            Guard.Guard.IsNotNull(labRepository, nameof(labRepository));
+            var labRepository = new LabRepository(_context, _tasksContext);
+            Guard.IsNotNull(nameof(labRepository), labRepository);
             return labRepository;
         }
 
 		[NotNull]
 		public ICategoryRepository GetCategoryRepository()
 		{
-			Contract.Ensures(Contract.Result<ICategoryRepository>() != null);
-            CategoryRepository categoryRepository = new CategoryRepository(_context);
-            Guard.Guard.IsNotNull(categoryRepository, nameof(categoryRepository));
+            var categoryRepository = new CategoryRepository(_context);
+            Guard.IsNotNull(nameof(categoryRepository), categoryRepository);
             return categoryRepository;
 		}
 
         [NotNull]
         public ISurveyRepository GetSurveyRepository()
         {
-            Contract.Ensures(Contract.Result<ISurveyRepository>() != null);
-            SurveyRepository surveyRepository = new SurveyRepository(_context);
-            Guard.Guard.IsNotNull(surveyRepository, nameof(surveyRepository));
+            var surveyRepository = new SurveyRepository(_context);
+            Guard.IsNotNull(nameof(surveyRepository), surveyRepository);
             return surveyRepository;
         }
 
         [NotNull]
         public ITestPoolRepository GetTestPoolRepository()
         {
-            Contract.Ensures(Contract.Result<ITestPoolRepository>() != null);
-            TestPoolRepository testPoolRepository = new TestPoolRepository(_context);
-            Guard.Guard.IsNotNull(testPoolRepository, nameof(testPoolRepository));
+            var testPoolRepository = new TestPoolRepository(_context);
+            Guard.IsNotNull(nameof(testPoolRepository), testPoolRepository);
             return testPoolRepository;
         }
     }

@@ -13,7 +13,7 @@ namespace GraphLabs.Site.Models.Question
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override QuestionModel Load(TestQuestion question)
         {
-            Contract.Requires<ArgumentNullException>(question != null);
+            Guard.IsNotNull(nameof(question), question);
 
             var model = new QuestionModel
             {

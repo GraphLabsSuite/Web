@@ -33,7 +33,7 @@ namespace GraphLabs.Site.Models.Infrastructure
                 if (!ExistsInDatabase(model))
                 {
                     var type = GetEntityType(model);
-                    Contract.Assert(typeof(TEntity).IsAssignableFrom(type));
+                    Guard.AreAssignedTypes(typeof(TEntity), type);
                     entity = (TEntity)operation.DataContext.Factory.Create(
                         type,
                         o => GetEntityInitializer(model, operation.DataContext.Query)((TEntity)o));

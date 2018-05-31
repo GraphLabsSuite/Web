@@ -19,6 +19,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <remarks> т.е. подтверждённого, не отчисленного и не удалённого. </remarks>
         public User FindActiveUserByEmail(string email)
         {
+            Guard.IsNotNullOrWhiteSpace(email);
             CheckNotDisposed();
 
             return Context.Users.SingleOrDefault(u => u.Email == email &&
@@ -28,6 +29,11 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Создать нового студента </summary>
         public Student CreateNotVerifiedStudent(string email, string name, string fatherName, string surname, string passwordHash, Group group)
         {
+            Guard.IsNotNullOrWhiteSpace(email);
+            Guard.IsNotNullOrWhiteSpace(name);
+            Guard.IsNotNullOrWhiteSpace(surname);
+            Guard.IsNotNullOrWhiteSpace(passwordHash);
+            Guard.IsTrueAssertion(group != null && group.IsOpen);
             CheckNotDisposed();
 
             var student = Context.Users.Create<Student>();
@@ -42,6 +48,7 @@ namespace GraphLabs.Dal.Ef.Repositories
             student.Group = group;
             Context.Users.Add(student);
 
+            Guard.IsNotNull(student);
             return student;
 		}
 
@@ -51,65 +58,72 @@ namespace GraphLabs.Dal.Ef.Repositories
 		public User[] GetAllUsers()
 		{
 			CheckNotDisposed();
-
-			return Context.Users.ToArray();
+            
+            var result = Context.Users.ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		/// <summary> Получить массив пользователей-администраторов </summary>
 		public User[] GetAdministrators()
 		{
 			CheckNotDisposed();
-
-			return Context.Users.Where(user => user.Role == UserRole.Administrator).ToArray();
+            var result = Context.Users.Where(user => user.Role == UserRole.Administrator).ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		/// <summary> Получить массив пользователей-преподавателей </summary>
 		public User[] GetTeachers()
 		{
 			CheckNotDisposed();
-
-			return Context.Users.Where(user => user.Role == UserRole.Teacher).ToArray();
+            var result = Context.Users.Where(user => user.Role == UserRole.Teacher).ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		/// <summary> Получить массив исключенных студентов </summary>
 		public Student[] GetDismissedStudents()
 		{
 			CheckNotDisposed();
-
-			return Context.Users
-				.Where(user => user.Role == UserRole.Student)
-				.ToArray()
-				.Select(user => (Student)user)
-				.Where(student => student.IsDismissed == true)
-				.ToArray();
+            var result = Context.Users
+                .Where(user => user.Role == UserRole.Student)
+                .ToArray()
+                .Select(user => (Student)user)
+                .Where(student => student.IsDismissed == true)
+                .ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		/// <summary> Получить массив подтвержденных студентов </summary>
 		public Student[] GetVerifiedStudents()
 		{
 			CheckNotDisposed();
-
-			return Context.Users
-				.Where(user => user.Role == UserRole.Student)
-				.ToArray()
-				.Select(user => (Student)user)
-				.Where(student => student.IsDismissed == false)
-				.Where(student => student.IsVerified == true)
-				.ToArray();
+            var result = Context.Users
+                .Where(user => user.Role == UserRole.Student)
+                .ToArray()
+                .Select(user => (Student)user)
+                .Where(student => student.IsDismissed == false)
+                .Where(student => student.IsVerified == true)
+                .ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		/// <summary> Получить массив неподтвержденных студентов </summary>
 		public Student[] GetUnverifiedStudents()
 		{
 			CheckNotDisposed();
-
-			return Context.Users
-				.Where(user => user.Role == UserRole.Student)
-				.ToArray()
-				.Select(user => (Student)user)
-				.Where(student => student.IsDismissed == false)
-				.Where(student => student.IsVerified == false)
-				.ToArray();
+            var result = Context.Users
+                .Where(user => user.Role == UserRole.Student)
+                .ToArray()
+                .Select(user => (Student)user)
+                .Where(student => student.IsDismissed == false)
+                .Where(student => student.IsVerified == false)
+                .ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		#endregion
@@ -117,7 +131,10 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Получить пользователя по Id </summary>
 		public User GetUserById(long Id)
 		{
-			return Context.Users.Find(Id);
+            Guard.IsPositive(Id, nameof(Id));
+            var result = Context.Users.Find(Id);
+            Guard.IsNotNull(result);
+            return result;
 		}
 
 		#region Сохранение и редактирование
@@ -125,6 +142,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Попытка сохранить нового пользователя </summary>
 		public bool TrySaveUser(User user)
 		{
+            Guard.IsNotNull(nameof(user), user);
 			CheckNotDisposed();
 
 			try
@@ -143,7 +161,8 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Попытка изменить пользователя </summary>
 		public bool TryEditUser(User user)
 		{
-			CheckNotDisposed();
+            Guard.IsNotNull(nameof(user), user);
+            CheckNotDisposed();
 
 			try
 			{
@@ -161,6 +180,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Утвердить аккаунт студента </summary>
 		public void VerifyStudent(long Id)
 		{
+            Guard.IsPositive(Id, nameof(Id));
 			CheckNotDisposed();
 
 			var user = Context.Users.Find(Id);
@@ -175,7 +195,8 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Исключить студента </summary>
 		public void DismissStudent(long Id)
 		{
-			CheckNotDisposed();
+            Guard.IsPositive(Id, nameof(Id));
+            CheckNotDisposed();
 
 			var user = Context.Users.Find(Id);
 			if (user.Role != UserRole.Student)
@@ -189,7 +210,8 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Восстановить исключенного студента </summary>
 		public void RestoreStudent(long Id)
 		{
-			CheckNotDisposed();
+            Guard.IsPositive(Id, nameof(Id));
+            CheckNotDisposed();
 
 			var user = Context.Users.Find(Id);
 			if (user.Role != UserRole.Student)

@@ -28,7 +28,7 @@ namespace GraphLabs.Site.Models.IoC
     {
         public void ConfigureContainer(IUnityContainer container)
         {
-            Guard.Guard.IsNotNull(container, nameof(container));
+            Guard.IsNotNull(nameof(container), container);
             container.RegisterType<IListModelLoader, ListModelLoader>(new HierarchicalLifetimeManager());
 
             // группы

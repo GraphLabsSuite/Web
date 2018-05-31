@@ -19,7 +19,7 @@ namespace GraphLabs.Site.Models.TaskResultsWithActions
 
         public override TaskResultWithActionsModel Load(TaskResult taskResult)
         {
-            Contract.Requires(taskResult != null);
+            Guard.IsNotNull(nameof(taskResult), taskResult);
 
             var model = new TaskResultWithActionsModel()
             {

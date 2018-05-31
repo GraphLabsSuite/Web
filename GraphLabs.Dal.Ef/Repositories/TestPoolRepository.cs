@@ -15,6 +15,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 
         public TestPool GetTestPoolById(long id)
         {
+            Guard.IsPositive(id, nameof(id));
             CheckNotDisposed();
             return Context.TestPools.SingleOrDefault(l => l.Id == id);
         }

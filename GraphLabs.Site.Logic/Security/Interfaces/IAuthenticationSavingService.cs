@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.Site
 {
     /// <summary> Сервис фиксации результата аутентификации </summary>
-    [ContractClass(typeof(AuthenticationSavingServiceContracts))]
+   // [ContractClass(typeof(AuthenticationSavingServiceContracts))]
     public interface IAuthenticationSavingService
     {
         /// <summary> Пишем в cookies, что вошли </summary>
@@ -33,28 +33,28 @@ namespace GraphLabs.Site
     }
 
     /// <summary> Сервис фиксации результата аутентификации - контракты </summary>
-    [ContractClassFor(typeof(IAuthenticationSavingService))]
-    internal abstract class AuthenticationSavingServiceContracts : IAuthenticationSavingService
-    {
-        // ReSharper disable AssignNullToNotNullAttribute
+    //[ContractClassFor(typeof(IAuthenticationSavingService))]
+    //internal abstract class AuthenticationSavingServiceContracts : IAuthenticationSavingService
+    //{
+    //    // ReSharper disable AssignNullToNotNullAttribute
 
-        /// <summary> Пишем в cookies, что вошли </summary>
-        public void SignIn(string email, Guid sessionGuid)
-        {
-            Contract.Requires(!string.IsNullOrWhiteSpace(email));
-            Contract.Requires(sessionGuid != Guid.Empty);
-        }
+    //    /// <summary> Пишем в cookies, что вошли </summary>
+    //    public void SignIn(string email, Guid sessionGuid)
+    //    {
+    //        Contract.Requires(!string.IsNullOrWhiteSpace(email));
+    //        Contract.Requires(sessionGuid != Guid.Empty);
+    //    }
 
-        /// <summary> Пишем в cookies, что вышли </summary>
-        public void SignOut()
-        {
-        }
+    //    /// <summary> Пишем в cookies, что вышли </summary>
+    //    public void SignOut()
+    //    {
+    //    }
 
-        /// <summary> Получить текущую сессию из cookies </summary>
-        public ISessionInfo GetSessionInfo()
-        {
-            return default(ISessionInfo);
-        }
+    //    /// <summary> Получить текущую сессию из cookies </summary>
+    //    public ISessionInfo GetSessionInfo()
+    //    {
+    //        return default(ISessionInfo);
+    //    }
 
-    }
+    //}
 }

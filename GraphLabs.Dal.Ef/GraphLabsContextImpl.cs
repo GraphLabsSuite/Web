@@ -36,8 +36,7 @@ namespace GraphLabs.Dal.Ef
 
         private Type GetEntityTypeFor(Type type)
         {
-            Contract.Assert(typeof(AbstractEntity).IsAssignableFrom(type));
-            Guard.Guard.AreAssignedTypes(typeof(AbstractEntity), type); //* 
+            Guard.AreAssignedTypes(typeof(AbstractEntity), type); 
 
             var baseType = type.BaseType;
             if (baseType == typeof(AbstractEntity))

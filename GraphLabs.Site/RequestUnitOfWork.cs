@@ -28,8 +28,7 @@ namespace GraphLabs.Site
         /// <summary> Успешное выполнение запроса </summary>
         public void OnRequestSuccess()
         {
-            Contract.Assert(Container != null, "Один из методов завершения запроса уже был вызван.");
-            Guard.Guard.IsTrueAssertion(Container != null, "Один из методов завершения запроса уже был вызван.");
+            Guard.IsTrueAssertion("Один из методов завершения запроса уже был вызван.",Container != null );
 
             Container.Resolve<IChangesTracker>().SaveChanges();
 
@@ -39,8 +38,7 @@ namespace GraphLabs.Site
         /// <summary> Ошибка при выполнении запроса </summary>
         public void OnRequestFailure()
         {
-            Contract.Assert(Container != null, "Один из методов завершения запроса уже был вызван.");
-
+            Guard.IsTrueAssertion("Один из методов завершения запроса уже был вызван.", Container != null);
             OnRequestEnding();
         }
     }

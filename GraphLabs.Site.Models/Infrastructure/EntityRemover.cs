@@ -25,12 +25,12 @@ namespace GraphLabs.Site.Models.Infrastructure
 
         public RemovalStatus Remove(object id)
         {
-            Contract.Requires<ArgumentNullException>(id != null);
+            Guard.IsNotNull(nameof(id), id);
             using (var operation = _operationContextFactory.Create())
             {
                 var entityToDelete = operation.DataContext.Query.Find<TEntity>(id);
                 if (entityToDelete == null) return RemovalStatus.ElementDoesNotExist;
-                Contract.Assert(typeof (TEntity).IsAssignableFrom(typeof (TEntity)));
+                Guard.AreAssignedTypes(typeof(TEntity), typeof(TEntity));
                 try
                 {
                     operation.DataContext.Factory.Delete(entityToDelete);

@@ -61,8 +61,7 @@ namespace GraphLabs.Site.Utils.Results
         /// <summary>Создает результат работы метода без ошибки, с информационным сообщением</summary>
         public static ResultMessage Info(string messageFormat, params object[] args)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(messageFormat));
-            Guard.Guard.IsNotNullOrWhiteSpace(messageFormat);
+            Guard.IsNotNullOrWhiteSpace(messageFormat);
 
             return new ResultMessage(string.Format(messageFormat, args), false);
         }
@@ -70,8 +69,7 @@ namespace GraphLabs.Site.Utils.Results
         /// <summary>Создает результат работы метода с сообщением об ошибке</summary>
         public static ResultMessage Failure(string errorFormat, params object[] args)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(errorFormat));
-            Guard.Guard.IsNotNullOrWhiteSpace(errorFormat);
+            Guard.IsNotNullOrWhiteSpace(errorFormat);
 
             return new ResultMessage(string.Format(errorFormat, args), true);
         }

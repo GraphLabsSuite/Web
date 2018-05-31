@@ -35,7 +35,7 @@
     <ProjectGuid>{D0A05AEF-DC7E-4B2B-A82A-9A23EAA0AF95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphLabs.Guard</RootNamespace>
+    <RootNamespace>GraphLabs</RootNamespace>
     <AssemblyName>GraphLabs.Guard</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

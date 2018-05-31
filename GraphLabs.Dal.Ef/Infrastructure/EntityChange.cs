@@ -27,7 +27,7 @@ namespace GraphLabs.Dal.Ef.Infrastructure
         /// <summary> Изменилось ли свойство? </summary>
         public bool PropertyChanged(string propertyName)
         {
-            Guard.Guard.IsNotNullOrWhiteSpace(propertyName);
+            Guard.IsNotNullOrWhiteSpace(propertyName);
             return _entry.CurrentValues[propertyName] != _entry.OriginalValues[propertyName];
         }
 
@@ -36,7 +36,6 @@ namespace GraphLabs.Dal.Ef.Infrastructure
             
             get
             {
-                Guard.Guard.IsNotNull(_originalValues.Value, nameof(_originalValues.Value));
                 return _originalValues.Value;
             }
         }
@@ -45,7 +44,6 @@ namespace GraphLabs.Dal.Ef.Infrastructure
         {
             get
             {
-                Guard.Guard.IsNotNull(_currentValues.Value, nameof(_currentValues.Value));
                 return _currentValues.Value;
             }
         }

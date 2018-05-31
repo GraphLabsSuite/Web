@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с лабораторными работами </summary>
-    [ContractClass(typeof(LabRepositoryContracts))]
+   // [ContractClass(typeof(LabRepositoryContracts))]
     [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ILabRepository : IDisposable
     {
@@ -120,205 +120,205 @@ namespace GraphLabs.DomainModel.Repositories
 		#endregion
 	}
 
-    /// <summary> Репозиторий с лаораторными работами - контракты </summary>
-    [ContractClassFor(typeof(ILabRepository))]
-    internal abstract class LabRepositoryContracts : ILabRepository
-    {
-        /// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
-        public void Dispose()
-        {
-        }
+ //   /// <summary> Репозиторий с лаораторными работами - контракты </summary>
+ //   [ContractClassFor(typeof(ILabRepository))]
+ //   internal abstract class LabRepositoryContracts : ILabRepository
+ //   {
+ //       /// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
+ //       public void Dispose()
+ //       {
+ //       }
 
-        #region Получение массива лабораторных работ
+ //       #region Получение массива лабораторных работ
 
-        public LabWork[] GetLabWorks()
-        {
-            Contract.Ensures(Contract.Result<LabWork[]>() != null);
+ //       public LabWork[] GetLabWorks()
+ //       {
+ //           Contract.Ensures(Contract.Result<LabWork[]>() != null);
 
-            return new LabWork[0];
-        }
+ //           return new LabWork[0];
+ //       }
 
-        public LabWork[] GetDemoLabs(DateTime currentDate)
-        {
-            Contract.Requires(currentDate != null);
-            Contract.Ensures(Contract.Result<LabWork[]>() != null);
+ //       public LabWork[] GetDemoLabs(DateTime currentDate)
+ //       {
+ //           Contract.Requires(currentDate != null);
+ //           Contract.Ensures(Contract.Result<LabWork[]>() != null);
 
-            return new LabWork[0];
-        }
+ //           return new LabWork[0];
+ //       }
 
-        #endregion
+ //       #endregion
 
-        #region Получение массива вариантов лабораторной работы
+ //       #region Получение массива вариантов лабораторной работы
 
-        public LabVariant[] GetLabVariantsByLabWorkId(long id)
-        {
-            Contract.Requires(id > 0);
-            Contract.Ensures(Contract.Result<LabVariant[]>() != null);
+ //       public LabVariant[] GetLabVariantsByLabWorkId(long id)
+ //       {
+ //           Contract.Requires(id > 0);
+ //           Contract.Ensures(Contract.Result<LabVariant[]>() != null);
 
-            return new LabVariant[0];
-        }
+ //           return new LabVariant[0];
+ //       }
 
-        public LabVariant[] GetDemoLabVariantsByLabWorkId(long labId)
-        {
-            Contract.Requires(labId > 0);
-            Contract.Ensures(Contract.Result<LabVariant[]>() != null);
+ //       public LabVariant[] GetDemoLabVariantsByLabWorkId(long labId)
+ //       {
+ //           Contract.Requires(labId > 0);
+ //           Contract.Ensures(Contract.Result<LabVariant[]>() != null);
 
-            return new LabVariant[0];
-        }
+ //           return new LabVariant[0];
+ //       }
 
-        public LabVariant[] GetCompleteDemoLabVariantsByLabWorkId(long labId)
-        {
-            Contract.Requires(labId > 0);
-            Contract.Ensures(Contract.Result<LabVariant[]>() != null);
+ //       public LabVariant[] GetCompleteDemoLabVariantsByLabWorkId(long labId)
+ //       {
+ //           Contract.Requires(labId > 0);
+ //           Contract.Ensures(Contract.Result<LabVariant[]>() != null);
 
-            return new LabVariant[0];
-        }
+ //           return new LabVariant[0];
+ //       }
 
-        #endregion
+ //       #endregion
 
-        #region Проверки
+ //       #region Проверки
 
-        public bool CheckLabWorkExist(long id)
-        {
-            Contract.Requires(id > 0);
+ //       public bool CheckLabWorkExist(long id)
+ //       {
+ //           Contract.Requires(id > 0);
 
-            return false;
-        }
+ //           return false;
+ //       }
 
-        public bool CheckLabWorkExist(string name)
-        {
-            Contract.Requires(name != "");
+ //       public bool CheckLabWorkExist(string name)
+ //       {
+ //           Contract.Requires(name != "");
 
-            return false;
-        }
+ //           return false;
+ //       }
 
-        public bool CheckLabVariantExist(long id)
-        {
-            Contract.Requires(id > 0);
+ //       public bool CheckLabVariantExist(long id)
+ //       {
+ //           Contract.Requires(id > 0);
 
-            return false;
-        }
+ //           return false;
+ //       }
 
-		public bool CheckLabVariantExist(long labId, string name)
-		{
-			Contract.Requires(labId > 0);
-			Contract.Requires(name != "");
+	//	public bool CheckLabVariantExist(long labId, string name)
+	//	{
+	//		Contract.Requires(labId > 0);
+	//		Contract.Requires(name != "");
 
-			return false;
-		}
+	//		return false;
+	//	}
 
-        public bool CheckLabVariantBelongLabWork(long labId, long labVarId)
-        {
-            Contract.Requires(labId > 0);
-            Contract.Requires(labVarId > 0);
+ //       public bool CheckLabVariantBelongLabWork(long labId, long labVarId)
+ //       {
+ //           Contract.Requires(labId > 0);
+ //           Contract.Requires(labVarId > 0);
 
-            return false;
-        }
+ //           return false;
+ //       }
 
-        public bool VerifyCompleteVariant(long variantId)
-        {
-            Contract.Requires(variantId > 0);
+ //       public bool VerifyCompleteVariant(long variantId)
+ //       {
+ //           Contract.Requires(variantId > 0);
 
-            return false;
-        }
+ //           return false;
+ //       }
 
-        #endregion
+ //       #endregion
 
-        #region Получение разнородной информации по id
+ //       #region Получение разнородной информации по id
 
-        public LabWork GetLabWorkById(long id)
-        {
-            Contract.Requires(id > 0);
-            Contract.Ensures(Contract.Result<LabWork>() != null);
+ //       public LabWork GetLabWorkById(long id)
+ //       {
+ //           Contract.Requires(id > 0);
+ //           Contract.Ensures(Contract.Result<LabWork>() != null);
 
-            return default(LabWork);
-        }
+ //           return default(LabWork);
+ //       }
 
-		public LabVariant GetLabVariantById(long id)
-		{
-			Contract.Requires(id > 0);
-			Contract.Ensures(Contract.Result<LabVariant>() != null);
+	//	public LabVariant GetLabVariantById(long id)
+	//	{
+	//		Contract.Requires(id > 0);
+	//		Contract.Ensures(Contract.Result<LabVariant>() != null);
 
-			return default(LabVariant);
-		}
+	//		return default(LabVariant);
+	//	}
 
-        public LabVariant FindLabVariantById(long id)
-        {
-            Contract.Requires(id > 0);
+ //       public LabVariant FindLabVariantById(long id)
+ //       {
+ //           Contract.Requires(id > 0);
 
-            return default(LabVariant);
-        }
+ //           return default(LabVariant);
+ //       }
 
-        public TaskVariant[] GetTaskVariantsByLabVarId(long labVarId)
-        {
-            Contract.Requires(labVarId > 0);
-            Contract.Ensures(Contract.Result<TaskVariant[]>() != null);
+ //       public TaskVariant[] GetTaskVariantsByLabVarId(long labVarId)
+ //       {
+ //           Contract.Requires(labVarId > 0);
+ //           Contract.Ensures(Contract.Result<TaskVariant[]>() != null);
 
-            return new TaskVariant[0];
-        }
+ //           return new TaskVariant[0];
+ //       }
 
-        #endregion
+ //       #endregion
 
-		#region Изменение в БД
+	//	#region Изменение в БД
 
-		public void DeleteEntries(long labWorkId)
-		{
-			Contract.Requires(labWorkId > 0);
-		}
+	//	public void DeleteEntries(long labWorkId)
+	//	{
+	//		Contract.Requires(labWorkId > 0);
+	//	}
 
-		public void SaveLabWork(LabWork lab)
-		{
-			Contract.Requires(lab != null);
-		}
+	//	public void SaveLabWork(LabWork lab)
+	//	{
+	//		Contract.Requires(lab != null);
+	//	}
 
-		public void ModifyLabWork(LabWork lab)
-		{
-			Contract.Requires(lab != null);
-			Contract.Requires(lab.Id > 0);
-		}
+	//	public void ModifyLabWork(LabWork lab)
+	//	{
+	//		Contract.Requires(lab != null);
+	//		Contract.Requires(lab.Id > 0);
+	//	}
 
-		public void SaveLabEntries(long labWorkId, long[] tasksId)
-		{
-			Contract.Requires(labWorkId > 0);
-			Contract.Requires(tasksId != null);
-		}
+	//	public void SaveLabEntries(long labWorkId, long[] tasksId)
+	//	{
+	//		Contract.Requires(labWorkId > 0);
+	//		Contract.Requires(tasksId != null);
+	//	}
 
-		public void DeleteExcessTaskVariantsFromLabVariants(long labWorkId)
-		{
-			Contract.Requires(labWorkId > 0);
-		}
+	//	public void DeleteExcessTaskVariantsFromLabVariants(long labWorkId)
+	//	{
+	//		Contract.Requires(labWorkId > 0);
+	//	}
 
-		public void SaveLabVariant(LabVariant labVar)
-		{
-			Contract.Requires(labVar != null);
-		}
+	//	public void SaveLabVariant(LabVariant labVar)
+	//	{
+	//		Contract.Requires(labVar != null);
+	//	}
 
-		public void ModifyLabVariant(LabVariant labVar)
-		{
-			Contract.Requires(labVar != null);
-		}
+	//	public void ModifyLabVariant(LabVariant labVar)
+	//	{
+	//		Contract.Requires(labVar != null);
+	//	}
 
-		#endregion
+	//	#endregion
 
-		#region Получение Id экземпляров
+	//	#region Получение Id экземпляров
 
-		public long GetLabWorkIdByName(string name)
-		{
-			Contract.Requires(name != "");
-			Contract.Ensures(Contract.Result<long>() != 0);
+	//	public long GetLabWorkIdByName(string name)
+	//	{
+	//		Contract.Requires(name != "");
+	//		Contract.Ensures(Contract.Result<long>() != 0);
 
-			return 0;
-		}
+	//		return 0;
+	//	}
 
-		public long GetLabVariantIdByNumber(long labId, string number)
-		{
-			Contract.Requires(labId > 0);
-			Contract.Requires(number != "");
-			Contract.Ensures(Contract.Result<long>() != 0);
+	//	public long GetLabVariantIdByNumber(long labId, string number)
+	//	{
+	//		Contract.Requires(labId > 0);
+	//		Contract.Requires(number != "");
+	//		Contract.Ensures(Contract.Result<long>() != 0);
 
-			return 0;
-		}
+	//		return 0;
+	//	}
 
-		#endregion
-	}
+	//	#endregion
+	//}
 }

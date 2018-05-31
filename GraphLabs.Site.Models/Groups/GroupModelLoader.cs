@@ -20,7 +20,7 @@ namespace GraphLabs.Site.Models.Groups
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override GroupModel Load(Group group)
         {
-            Contract.Requires(group != null);
+            Guard.IsNotNull(nameof(group), group);
 
             var model = new GroupModel
             {

@@ -5,6 +5,7 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.Dal.Ef.Services;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.Site.Utils;
 
 namespace GraphLabs.Dal.Ef.Repositories
 {
@@ -34,14 +35,18 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Найти сессии по пользователю </summary>
         public Session[] FindByUser(User user)
         {
+            Guard.IsNotNull(user);
             CheckNotDisposed();
-
-            return Context.Sessions.Where(s => s.User.Id == user.Id).ToArray();
+            var result = Context.Sessions.Where(s => s.User.Id == user.Id).ToArray();
+            Guard.IsNotNull(result,);
+            return result;
         }
 
         /// <summary> Создать сессию </summary>
         public Session Create(User user, string ip)
         {
+            Guard.IsNotNull(nameof(user), user);
+            Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(ip));
             CheckNotDisposed();
 
             var now = _systemDateService.Now();
@@ -52,13 +57,15 @@ namespace GraphLabs.Dal.Ef.Repositories
             session.CreationTime = now;
             session.LastAction = now;
             Context.Sessions.Add(session);
-
+            Guard.IsNotNull(nameof(session), session);
+            
             return session;
         }
 
         /// <summary> Удалить сессию </summary>
         public void Remove(Session session)
         {
+            Guard.IsNotNull(nameof(session), session);
             CheckNotDisposed();
 
             Context.Sessions.Remove(session);
@@ -67,6 +74,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Удалить несколько сессий </summary>
         public void RemoveRange(IEnumerable<Session> sessions)
         {
+            Guard.IsNotNull(nameof(sessions), sessions);
             CheckNotDisposed();
 
             Context.Sessions.RemoveRange(sessions);

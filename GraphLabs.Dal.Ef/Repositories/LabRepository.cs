@@ -35,22 +35,27 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Получить ознакомительные варианты лабораторной работы по id лабораторной работы </summary>
         public LabVariant[] GetDemoLabVariantsByLabWorkId(long labId)
         {
+            Guard.IsPositive(labId,nameof(labId));
             CheckNotDisposed();
-
-            return Context.LabVariants
+            var result = Context.LabVariants
                 .Where(lv => lv.LabWork.Id == labId)
                 .Where(lv => lv.IntroducingVariant)
                 .ToArray();
+            Guard.IsNotNull(result);
+            return result;
+
         }
 
         /// <summary> Получить готовые ознакомительные варианты лабораторной работы по id лабораторной работы </summary>
         public LabVariant[] GetCompleteDemoLabVariantsByLabWorkId(long labId)
         {
+            Guard.IsPositive(labId, nameof(labId));
             CheckNotDisposed();
-
-            return GetDemoLabVariantsByLabWorkId(labId)
+            var result = GetDemoLabVariantsByLabWorkId(labId)
                 .Where(lv => VerifyCompleteVariant(lv.Id))
                 .ToArray();
+            Guard.IsNotNull(result);
+            return result;
         }
 
         #endregion
@@ -60,6 +65,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Проверить существование лабораторной работы </summary>
         public bool CheckLabWorkExist(long id)
         {
+            Guard.IsPositive(id, nameof(id));
             CheckNotDisposed();
 
             LabWork lab = Context.LabWorks.SingleOrDefault(l => l.Id == id);
@@ -70,6 +76,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Проверить существование лабораторной работы по имени</summary>
         public bool CheckLabWorkExist(string name)
         {
+            Guard.IsTrueAssertion(name != "");
             CheckNotDisposed();
 
             LabWork lab = Context.LabWorks.SingleOrDefault(l => l.Name == name);
@@ -80,6 +87,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Проверить существование варианта лабораторной работы по Id</summary>
         public bool CheckLabVariantExist(long id)
         {
+            Guard.IsPositive(id, nameof(id));
             CheckNotDisposed();
 
             LabVariant labVariant = Context.LabVariants.SingleOrDefault(l => l.Id == id);
@@ -90,7 +98,10 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Проверить существование варианта лабораторной работы по имени</summary>
 		public bool CheckLabVariantExist(long labId, string name)
 		{
-			CheckNotDisposed();
+            Guard.IsPositive(labId, nameof(labId));
+            Guard.IsTrueAssertion(name != "");
+
+            CheckNotDisposed();
 
 			LabVariant labVariant = Context.LabVariants
 										.Where(lv => lv.LabWork.Id == labId)
@@ -102,6 +113,8 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Проверить принадлежность варианта л.р. лабораторной работе </summary>
         public bool CheckLabVariantBelongLabWork(long labId, long labVarId)
         {
+            Guard.IsPositive(labId, nameof(labId));
+            Guard.IsPositive(labVarId, nameof(labVarId));
             CheckNotDisposed();
 
             LabVariant labVariant = Context.LabVariants.Where(lv => lv.Id == labVarId).SingleOrDefault(lv => lv.LabWork.Id == labId);
@@ -112,6 +125,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Проверка соответствия варианта лабораторной работы содержанию работы </summary>
         public bool VerifyCompleteVariant(long variantId)
         {
+            Guard.IsPositive(variantId, nameof(variantId));
             CheckNotDisposed();
 
             long labWorkId = Context.LabVariants
@@ -140,24 +154,29 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Получить лабораторную работу по id </summary>
         public LabWork GetLabWorkById(long id)
         {
+            Guard.IsPositive(id, nameof(id));
             CheckNotDisposed();
-
-            return Context.LabWorks.SingleOrDefault(l => l.Id == id);
+            var result = Context.LabWorks.SingleOrDefault(l => l.Id == id);
+            Guard.IsNotNull(result);
+            return result;
         }
 
 		/// <summary> Получить вариант л.р. по id </summary>
 		public LabVariant GetLabVariantById(long id)
 		{
-			CheckNotDisposed();
-
-			return Context.LabVariants
-						.Include(lv => lv.LabWork)
-						.SingleOrDefault(lv => lv.Id == id);
+            Guard.IsPositive(id, nameof(id));
+            CheckNotDisposed();
+            var result = Context.LabVariants
+                        .Include(lv => lv.LabWork)
+                        .SingleOrDefault(lv => lv.Id == id);
+            Guard.IsNotNull(result);
+            return result;
 		}
 
         /// <summary> Найти вариант лабораторной работы по id </summary>
         public LabVariant FindLabVariantById(long id)
         {
+            Guard.IsPositive(id, nameof(id));
             CheckNotDisposed();
 
             return Context.LabVariants.SingleOrDefault(lv => lv.Id == id);
@@ -166,13 +185,15 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Получить варианты заданий с заданиями варианта лабораторной работы </summary>
         public TaskVariant[] GetTaskVariantsByLabVarId(long labVarId)
         {
+            Guard.IsPositive(labVarId, nameof(labVarId));
             CheckNotDisposed();
-
-            return Context.LabVariants
+            var result = Context.LabVariants
                 .Where(v => v.Id == labVarId)
                 .SelectMany(v => v.TaskVariants)
                 .Include(v => v.Task)
                 .ToArray();
+            Guard.IsNotNull(result);
+            return result;
         }
 
         #endregion
@@ -182,6 +203,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Удаление содержания лабораторной работы </summary>
 		public void DeleteEntries(long labWorkId)
 		{
+            Guard.IsPositive(labWorkId, nameof(labWorkId));
 			CheckNotDisposed();
 
 			var entries = (from e in Context.LabEntries
@@ -198,6 +220,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Сохранение лабораторной работы </summary>
 		public void SaveLabWork(LabWork lab)
 		{
+            Guard.IsNotNull(nameof(lab), lab);
 			CheckNotDisposed();
 
 			Context.LabWorks.Add(lab);
@@ -207,7 +230,9 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Изменение лабораторной работы </summary>
 		public void ModifyLabWork(LabWork lab)
 		{
-			CheckNotDisposed();
+            Guard.IsNotNull(nameof(lab), lab);
+            Guard.IsPositive(lab.Id, nameof(lab));
+            CheckNotDisposed();
 
 			Context.Entry(lab).State = EntityState.Modified;
 			Context.SaveChanges();
@@ -216,7 +241,9 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Сохранение содержания лабораторной работы </summary>
 		public void SaveLabEntries(long labWorkId, long[] tasksId)
 		{
-			CheckNotDisposed();
+            Guard.IsPositive(labWorkId, nameof(labWorkId));
+            Guard.IsNotNull(nameof(tasksId), tasksId);
+            CheckNotDisposed();
 
 			int i = 0;
 			LabWork lab = GetLabWorkById(labWorkId);
@@ -237,7 +264,8 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Удаляет лишние варианты заданий из вариантов лабораторной работы для соответствия содержанию </summary>
 		public void DeleteExcessTaskVariantsFromLabVariants(long labWorkId)
 		{
-			CheckNotDisposed();
+            Guard.IsPositive(labWorkId, nameof(labWorkId));
+            CheckNotDisposed();
 
 			bool flag;
 			var labTasks = (from e in Context.LabEntries
@@ -272,6 +300,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Сохранение варианта л.р. </summary>
 		public void SaveLabVariant(LabVariant labVar)
 		{
+            Guard.IsNotNull(nameof(labVar), labVar);
 			CheckNotDisposed();
 
 			Context.LabVariants.Add(labVar);
@@ -281,7 +310,8 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Изменение варианта л.р. </summary>
 		public void ModifyLabVariant(LabVariant labVar)
 		{
-			CheckNotDisposed();
+            Guard.IsNotNull(nameof(labVar), labVar);
+            CheckNotDisposed();
 
 			Context.Entry(labVar).State = EntityState.Modified;
 			Context.SaveChanges();
@@ -294,15 +324,19 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Получить id лабораторной работы по ее имени </summary>
 		public long GetLabWorkIdByName(string name)
 		{
+            Guard.IsTrueAssertion(name != "");
 			CheckNotDisposed();
-
-			return Context.LabWorks.Single(l => l.Name == name).Id;
+            var result = Context.LabWorks.Single(l => l.Name == name).Id;
+            Guard.IsTrueAssertion(result != 0);
+            return result;
 		}
 
 		/// <summary> Получить id варианта л.р. по его имени </summary>
 		public long GetLabVariantIdByNumber(long labId, string number)
 		{
-			CheckNotDisposed();
+            Guard.IsPositive(labId, nameof(labId));
+            Guard.IsTrueAssertion(number != "");
+            CheckNotDisposed();
 
 			return Context.LabVariants
 						.Where(lv => lv.LabWork.Id == labId)

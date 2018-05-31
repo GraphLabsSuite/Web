@@ -26,7 +26,7 @@ namespace GraphLabs.Site.Models.TestPool
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override TestPoolModel Load(DomainModel.TestPool testPool)
         {
-            Contract.Requires(testPool != null);
+            Guard.IsNotNull(nameof(TestPool), testPool);
             var array = testPool.TestPoolEntries.Select(a =>
                 new TestPoolEntryModel
                 {

@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с группами </summary>
-	[ContractClass(typeof(CategoryRepositoryContracts))]
+	//[ContractClass(typeof(CategoryRepositoryContracts))]
     [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ICategoryRepository : IDisposable
 	{
@@ -22,37 +22,37 @@ namespace GraphLabs.DomainModel.Repositories
 	}
 
 	/// <summary> Репозиторий с группами </summary>
-	[ContractClassFor(typeof(ICategoryRepository))]
-	internal abstract class CategoryRepositoryContracts : ICategoryRepository
-	{
-		/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
-		public void Dispose()
-		{
-		}
+	//[ContractClassFor(typeof(ICategoryRepository))]
+	//internal abstract class CategoryRepositoryContracts : ICategoryRepository
+	//{
+	//	/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
+	//	public void Dispose()
+	//	{
+	//	}
 
-		public Category GetById(long id)
-		{
-			Contract.Requires(id > 0);
-			Contract.Ensures(Contract.Result<Category>() != null);
+	//	public Category GetById(long id)
+	//	{
+	//		Contract.Requires(id > 0);
+	//		Contract.Ensures(Contract.Result<Category>() != null);
 
-			return default(Category);
-		}
+	//		return default(Category);
+	//	}
 
-		public Category[] GetAllCategories()
-		{
-			Contract.Ensures(Contract.Result<Category[]>() != null);
+	//	public Category[] GetAllCategories()
+	//	{
+	//		Contract.Ensures(Contract.Result<Category[]>() != null);
 
-			return new Category[0];
-		}
+	//		return new Category[0];
+	//	}
 
-        public void SaveCategory(Category category)
-        {
-            Contract.Requires(category != null);
-        }
+ //       public void SaveCategory(Category category)
+ //       {
+ //           Contract.Requires(category != null);
+ //       }
 
-		public void EditCategory(Category category)
-		{
-			Contract.Requires(category != null);
-		}
-	}
+	//	public void EditCategory(Category category)
+	//	{
+	//		Contract.Requires(category != null);
+	//	}
+	//}
 }

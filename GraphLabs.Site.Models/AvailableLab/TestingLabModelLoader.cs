@@ -13,8 +13,8 @@ namespace GraphLabs.Site.Models.AvailableLab
         /// <summary> Загрузить по сущности-прототипу </summary>
         public override TestingLabModel Load(AbstractLabSchedule sch)
         {
-            Contract.Requires(sch != null);
-            Contract.Requires(sch.Mode == LabExecutionMode.TestMode);
+            Guard.IsNotNull(nameof(sch), sch);
+            Guard.IsTrueAssertion(sch.Mode == LabExecutionMode.TestMode));
 
             var model = new TestingLabModel
             {

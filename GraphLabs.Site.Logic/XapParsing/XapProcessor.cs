@@ -51,8 +51,7 @@ namespace GraphLabs.Site.Logic.XapParsing
         /// <returns> null, если во время обработки произошла ошибка; иначе - новую сущность </returns>
         public IXapInfo Parse(Stream stream)
         {
-            Contract.Assert(stream != null);
-            Guard.Guard.IsNotNull(stream, nameof(stream));
+            Guard.IsNotNull(nameof(stream), stream);
 
             // Парсим примерно следующее (AppManifest.xaml):
             /*
@@ -84,8 +83,8 @@ namespace GraphLabs.Site.Logic.XapParsing
                         {
                             var deploymentSection = XDocument.Load(reader).Root;
 
-                            Contract.Assume(deploymentSection != null);
-                            Contract.Assume(deploymentSection.Name.LocalName == DEPLOYMENT_SECTION_NAME);
+                            Guard.IsNotNull(deploymentSection);
+                            Guard.IsTrueAssertion(deploymentSection.Name.LocalName == DEPLOYMENT_SECTION_NAME);
 
                             var entryPointAssemblyName = deploymentSection
                                 .Attributes()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
 
-namespace GraphLabs.Guard
+namespace GraphLabs
 {
     public static class Guard
     {
@@ -24,8 +24,8 @@ namespace GraphLabs.Guard
 
         [Conditional("DEBUG")]
         public static void IsNotNull<T>(
-        T argument,
         [InvokerParameterName]string argName,
+         T argument,
         [CallerMemberName]string memberName = null,
         [CallerFilePath]string filePath = null,
         [CallerLineNumber]int lineNumber = 0
@@ -35,6 +35,21 @@ namespace GraphLabs.Guard
             if (argument == null)
             {
                 throw new ContractException($"Argument {argName} shoud be not null ", memberName, filePath, lineNumber);
+            }
+        }
+
+        [Conditional("DEBUG")]
+        public static void IsNotNull<T>(
+        T argument,
+        [CallerMemberName]string memberName = null,
+        [CallerFilePath]string filePath = null,
+        [CallerLineNumber]int lineNumber = 0
+        )
+        where T : class
+        {
+            if (argument == null)
+            {
+                throw new ContractException($"Argument shoud be not null ", memberName, filePath, lineNumber);
             }
         }
 
@@ -132,8 +147,9 @@ namespace GraphLabs.Guard
 
         [Conditional("DEBUG")]
         public static void IsTrueAssertion(
-            bool argument,
             [NotNull] string message,
+            bool argument,
+     
             [CallerMemberName]string memberName = null,
             [CallerFilePath]string filePath = null,
             [CallerLineNumber]int lineNumber = 0)

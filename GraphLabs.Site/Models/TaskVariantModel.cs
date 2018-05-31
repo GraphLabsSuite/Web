@@ -28,8 +28,7 @@ namespace GraphLabs.Site.Models
         /// <summary> Ctor. </summary>
         public TaskVariantModel(TaskVariant variant)
         {
-            Contract.Requires(variant != null);
-            Guard.Guard.IsNotNull(variant, nameof(variant)); //*
+            Guard.IsNotNull(nameof(variant), variant);
 
             Id = variant.Id;
             Number = variant.Number;

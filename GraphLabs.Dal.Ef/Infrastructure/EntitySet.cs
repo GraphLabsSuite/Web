@@ -29,6 +29,7 @@ namespace GraphLabs.Dal.Ef.Infrastructure
         /// <exception cref="EntityNotFoundException">Не удалось найти сущность с заданным ключом</exception>
         public TEntity Get(params object[] keyValues)
         {
+            Guard.IsPositive(keyValues.Length, nameof(keyValues));
             var entity = _ctx.Set<TEntity>().Find(keyValues);
             if (entity == null)
                 throw new EntityNotFoundException(typeof(TEntity), keyValues);
@@ -42,7 +43,7 @@ namespace GraphLabs.Dal.Ef.Infrastructure
             var set = _ctx.Set<TEntity>();
             var entity = set.Create<TDerivedEntity>();
             set.Add(entity);
-
+            Guard.IsNotNull(entity);
             return entity;
         }
 
@@ -52,7 +53,7 @@ namespace GraphLabs.Dal.Ef.Infrastructure
             var set = _ctx.Set<TEntity>();
             var entity = set.Create();
             set.Add(entity);
-
+            Guard.IsNotNull(entity, "entity");
             return entity;
         }
     }

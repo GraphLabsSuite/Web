@@ -16,8 +16,8 @@ namespace GraphLabs.Site.Models.Results
 
         public override ResultModel Load(Result result)
         {
-            Contract.Requires(result != null);
-
+            Guard.IsNotNull(nameof(result), result);
+           
             var model = new ResultModel()
             {
                 Id = result.Id,

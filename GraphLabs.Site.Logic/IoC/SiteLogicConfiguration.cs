@@ -19,7 +19,7 @@ namespace GraphLabs.Site.Logic.IoC
     {
         public void ConfigureContainer(IUnityContainer container)
         {
-            Guard.Guard.IsNotNull(container, nameof(container));
+            Guard.IsNotNull(nameof(container), container);
             // Сервисы для сайта
             container.RegisterType<IHashCalculator, BCryptCalculator>(new PerResolveLifetimeManager());
             container.RegisterType<IInitParamsProvider, InitParamsProvider>(new PerResolveLifetimeManager());
