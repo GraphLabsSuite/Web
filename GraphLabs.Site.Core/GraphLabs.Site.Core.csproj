@@ -135,15 +135,6 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="Filters\BoundedFilterAttribute.cs" />
-    <Compile Include="Filters\DynamicBoundFilterAttribute.cs" />
-    <Compile Include="Filters\FilterParams.cs" />
-    <Compile Include="Filters\AbstractFilterableModel.cs" />
-    <Compile Include="Filters\IFilterAttribute.cs" />
-    <Compile Include="Filters\IFilterable.cs" />
-    <Compile Include="Filters\IFilterValuesProvider.cs" />
-    <Compile Include="Filters\StringFilterAttribute.cs" />
-    <Compile Include="Filters\GraphLabsValuesHolder.cs" />
     <Compile Include="GraphLabsException.cs" />
     <Compile Include="IChangesTracker.cs" />
     <Compile Include="OperationContext\IOperationContext.cs" />
