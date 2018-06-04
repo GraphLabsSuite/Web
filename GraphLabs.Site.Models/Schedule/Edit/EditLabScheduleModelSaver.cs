@@ -11,7 +11,7 @@ namespace GraphLabs.Site.Models.Schedule.Edit
 {
     /// <summary> Сохранятор моделей <see cref="AbstractLabSchedule"/> </summary>
     [UsedImplicitly]
-    class )EditLabScheduleModelSaver : AbstractModelSaver<EditLabScheduleModelBase, AbstractLabSchedule>
+    class EditLabScheduleModelSaver : AbstractModelSaver<EditLabScheduleModelBase, AbstractLabSchedule>
     {
         public EditLabScheduleModelSaver(IOperationContextFactory<IGraphLabsContext> operationContextFactory) : base(operationContextFactory)
         {

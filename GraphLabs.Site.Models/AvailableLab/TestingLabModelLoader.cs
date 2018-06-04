@@ -14,7 +14,7 @@ namespace GraphLabs.Site.Models.AvailableLab
         public override TestingLabModel Load(AbstractLabSchedule sch)
         {
             Guard.IsNotNull(nameof(sch), sch);
-            Guard.IsTrueAssertion(sch.Mode == LabExecutionMode.TestMode));
+            Guard.IsTrueAssertion(sch.Mode == LabExecutionMode.TestMode);
 
             var model = new TestingLabModel
             {

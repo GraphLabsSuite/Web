@@ -38,7 +38,7 @@ namespace GraphLabs.Dal.Ef.Repositories
             Guard.IsNotNull(user);
             CheckNotDisposed();
             var result = Context.Sessions.Where(s => s.User.Id == user.Id).ToArray();
-            Guard.IsNotNull(result,);
+            Guard.IsNotNull(result);
             return result;
         }
 

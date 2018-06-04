@@ -51,7 +51,7 @@ namespace GraphLabs.Site.Logic.Security
         }
 
         /// <summary> Выполняет вход, убивая все сессии на других браузерах/компьютерах </summary>
-        public LoginResult TryForceLogin(string email, string password, string clientIp, ref Guid sessionGuid)
+        public LoginResult TryForceLogin(string email, string password, string clientIp, out Guid sessionGuid)
         {
             Guard.IsTrueAssertion(IpHelper.CheckIsValidIP(clientIp));
             var result = TryLoginImpl(email, password, clientIp, out sessionGuid, force: true);

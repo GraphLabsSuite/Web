@@ -4,7 +4,6 @@ using System.Linq;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Infrastructure;
-using GraphLabs.Guard;
 
 
 namespace GraphLabs.Dal.Ef

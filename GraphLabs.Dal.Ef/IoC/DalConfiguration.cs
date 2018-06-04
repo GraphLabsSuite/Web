@@ -8,6 +8,7 @@ using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
+using GraphLabs;
 
 namespace GraphLabs.Dal.Ef.IoC
 {
