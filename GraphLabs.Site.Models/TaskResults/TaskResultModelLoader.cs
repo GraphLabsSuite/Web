@@ -12,7 +12,7 @@ namespace GraphLabs.Site.Models.TaskResults
 
         public override TaskResultModel Load(TaskResult taskResult)
         {
-            Contract.Requires(taskResult != null);
+            Guard.IsNotNull(nameof(taskResult), taskResult);
 
             var model = new TaskResultModel()
             {

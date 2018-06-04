@@ -27,17 +27,25 @@ namespace GraphLabs.Dal.Ef.Infrastructure
         /// <summary> Изменилось ли свойство? </summary>
         public bool PropertyChanged(string propertyName)
         {
+            Guard.IsNotNullOrWhiteSpace(propertyName);
             return _entry.CurrentValues[propertyName] != _entry.OriginalValues[propertyName];
         }
 
         public IReadOnlyDictionary<string, object> OriginalValues
         {
-            get { return _originalValues.Value; }
+            
+            get
+            {
+                return _originalValues.Value;
+            }
         }
 
         public IReadOnlyDictionary<string, object> CurrentValues
         {
-            get { return _currentValues.Value; }
+            get
+            {
+                return _currentValues.Value;
+            }
         }
     }
 }

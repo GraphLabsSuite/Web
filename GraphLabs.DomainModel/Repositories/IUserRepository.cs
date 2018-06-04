@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с пользователями </summary>
-    [ContractClass(typeof(UserRepositoryContracts))]
+   // [ContractClass(typeof(UserRepositoryContracts))]
     [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface IUserRepository : IDisposable
     {
@@ -65,124 +65,124 @@ namespace GraphLabs.DomainModel.Repositories
 
 	#region Контракты
 
-	/// <summary> Репозиторий с пользователями - контракты </summary>
-    [ContractClassFor(typeof(IUserRepository))]
-    internal abstract class UserRepositoryContracts : IUserRepository
-    {
-		/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
-		public void Dispose()
-		{
-		}
+	///// <summary> Репозиторий с пользователями - контракты </summary>
+ //   [ContractClassFor(typeof(IUserRepository))]
+ //   internal abstract class UserRepositoryContracts : IUserRepository
+ //   {
+	//	/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
+	//	public void Dispose()
+	//	{
+	//	}
 
-        public User FindActiveUserByEmail(string email)
-        {
-            Contract.Requires(!string.IsNullOrWhiteSpace(email));
+ //       public User FindActiveUserByEmail(string email)
+ //       {
+ //           Contract.Requires(!string.IsNullOrWhiteSpace(email));
 
-            return default(User);
-        }
+ //           return default(User);
+ //       }
 
-        public Student CreateNotVerifiedStudent(string email, string name, string fatherName, string surname, string passwordHash, Group group)
-        {
-            Contract.Requires(!string.IsNullOrWhiteSpace(email));
-            Contract.Requires(!string.IsNullOrWhiteSpace(name));
-            Contract.Requires(!string.IsNullOrWhiteSpace(surname));
-            Contract.Requires(!string.IsNullOrWhiteSpace(passwordHash));
-            Contract.Requires(group != null && group.IsOpen);
+ //       public Student CreateNotVerifiedStudent(string email, string name, string fatherName, string surname, string passwordHash, Group group)
+ //       {
+ //           Contract.Requires(!string.IsNullOrWhiteSpace(email));
+ //           Contract.Requires(!string.IsNullOrWhiteSpace(name));
+ //           Contract.Requires(!string.IsNullOrWhiteSpace(surname));
+ //           Contract.Requires(!string.IsNullOrWhiteSpace(passwordHash));
+ //           Contract.Requires(group != null && group.IsOpen);
 
-            Contract.Ensures(Contract.Result<Student>() != null);
+ //           Contract.Ensures(Contract.Result<Student>() != null);
 
-            return null;
-        }
+ //           return null;
+ //       }
 
-		#region Получение массивов пользователей
+	//	#region Получение массивов пользователей
 
-		public User[] GetAllUsers()
-		{
-			Contract.Ensures(Contract.Result<User[]>() != null);
+	//	public User[] GetAllUsers()
+	//	{
+	//		Contract.Ensures(Contract.Result<User[]>() != null);
 
-			return new User[0];
-		}
+	//		return new User[0];
+	//	}
 
-		public User[] GetAdministrators()
-		{
-			Contract.Ensures(Contract.Result<User[]>() != null);
+	//	public User[] GetAdministrators()
+	//	{
+	//		Contract.Ensures(Contract.Result<User[]>() != null);
 
-			return new User[0];
-		}
+	//		return new User[0];
+	//	}
 
-		public User[] GetTeachers()
-		{
-			Contract.Ensures(Contract.Result<User[]>() != null);
+	//	public User[] GetTeachers()
+	//	{
+	//		Contract.Ensures(Contract.Result<User[]>() != null);
 
-			return new User[0];
-		}
+	//		return new User[0];
+	//	}
 
-		public Student[] GetDismissedStudents()
-		{
-			Contract.Ensures(Contract.Result<Student[]>() != null);
+	//	public Student[] GetDismissedStudents()
+	//	{
+	//		Contract.Ensures(Contract.Result<Student[]>() != null);
 
-			return new Student[0];
-		}
+	//		return new Student[0];
+	//	}
 
-		public Student[] GetVerifiedStudents()
-		{
-			Contract.Ensures(Contract.Result<Student[]>() != null);
+	//	public Student[] GetVerifiedStudents()
+	//	{
+	//		Contract.Ensures(Contract.Result<Student[]>() != null);
 
-			return new Student[0];
-		}
+	//		return new Student[0];
+	//	}
 
-		public Student[] GetUnverifiedStudents()
-		{
-			Contract.Ensures(Contract.Result<Student[]>() != null);
+	//	public Student[] GetUnverifiedStudents()
+	//	{
+	//		Contract.Ensures(Contract.Result<Student[]>() != null);
 
-			return new Student[0];
-		}
+	//		return new Student[0];
+	//	}
 
-		#endregion
+	//	#endregion
 
-		public User GetUserById(long Id)
-		{
-			Contract.Requires(Id > 0);
-			Contract.Ensures(Contract.Result<User>() != null);
+	//	public User GetUserById(long Id)
+	//	{
+	//		Contract.Requires(Id > 0);
+	//		Contract.Ensures(Contract.Result<User>() != null);
 
-			return default(User);
-		}
+	//		return default(User);
+	//	}
 
-		#region Сохранение и редактирование
+	//	#region Сохранение и редактирование
 
-		public bool TrySaveUser(User user)
-		{
-			Contract.Requires(user != null);
+	//	public bool TrySaveUser(User user)
+	//	{
+	//		Contract.Requires(user != null);
 
-			return false;
-		}
+	//		return false;
+	//	}
 
-		public bool TryEditUser(User user)
-		{
-			Contract.Requires(user != null);
-			return false;
-		}
+	//	public bool TryEditUser(User user)
+	//	{
+	//		Contract.Requires(user != null);
+	//		return false;
+	//	}
 
-		public void VerifyStudent(long Id)
-		{
-			Contract.Requires(Id > 0);
-			return;
-		}
+	//	public void VerifyStudent(long Id)
+	//	{
+	//		Contract.Requires(Id > 0);
+	//		return;
+	//	}
 
-		public void DismissStudent(long Id)
-		{
-			Contract.Requires(Id > 0);
-			return;
-		}
+	//	public void DismissStudent(long Id)
+	//	{
+	//		Contract.Requires(Id > 0);
+	//		return;
+	//	}
 
-		public void RestoreStudent(long Id)
-		{
-			Contract.Requires(Id > 0);
-			return;
-		}
+	//	public void RestoreStudent(long Id)
+	//	{
+	//		Contract.Requires(Id > 0);
+	//		return;
+	//	}
 
-		#endregion
-	}
+	//	#endregion
+	//}
 
 	#endregion
 }

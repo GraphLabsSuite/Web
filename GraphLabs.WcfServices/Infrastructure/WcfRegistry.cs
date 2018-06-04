@@ -15,6 +15,7 @@ namespace GraphLabs.WcfServices.Infrastructure
         /// <summary> Сконфигурировать </summary>
         public void ConfigureContainer(IUnityContainer container)
         {
+            Guard.IsNotNull(nameof(container), container);
             container.RegisterInstance(CreateMapper());
             container.RegisterType<IVariantProviderService, VariantProviderService>();
             container.RegisterType<IUserActionsRegistrator, UserActionsRegistrator>();

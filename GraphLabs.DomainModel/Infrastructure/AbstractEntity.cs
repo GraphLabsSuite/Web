@@ -14,13 +14,16 @@ namespace GraphLabs.DomainModel.Infrastructure
         /// <summary> Перед сохранением изменённой сущности в базу </summary>
         public virtual void OnChange(IEntityChange change)
         {
+            Guard.IsNotNull(nameof(change), change);
         }
 
         /// <summary> Валидация </summary>
         /// <remarks> Для переопределения валидации конеретных сущностей перекрывайте OnEntityValidating</remarks>
         public IEnumerable<EntityValidationError> OnValidating()
         {
-            return OnEntityValidating();
+            var result = OnEntityValidating();
+            Guard.IsNotNull(nameof(result), result);
+            return result;
         }
 
         /// <summary> Валидация </summary>

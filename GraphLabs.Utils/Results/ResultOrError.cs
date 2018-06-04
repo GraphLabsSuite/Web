@@ -94,7 +94,7 @@ namespace GraphLabs.Site.Utils.Results
         /// <summary>Создает результат работы метода с ошибкой</summary>
         public static ResultOrError<TResult> Failure(string errorFormat, params object[] args)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(errorFormat));
+            Guard.IsNotNullOrWhiteSpace(errorFormat);
 
             return new ResultOrError<TResult>(string.Format(errorFormat, args));
         }

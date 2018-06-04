@@ -239,7 +239,7 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private VariantExecutionModelBase CompleteVariant(Result result)
         {
-            Contract.Assert(result.AbstractResultEntries.All(r => r.Status == ExecutionStatus.Complete));
+            Guard.IsTrueAssertion(result.AbstractResultEntries.All(r => r.Status == ExecutionStatus.Complete));
 
             var mark = GetMark(result.AbstractResultEntries);
             result.Score = mark;

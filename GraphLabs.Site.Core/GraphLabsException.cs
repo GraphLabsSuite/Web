@@ -10,7 +10,7 @@ namespace GraphLabs.Site.Core
 
         public GraphLabsException(Exception innerException)
         {
-            Contract.Requires<ArgumentNullException>(innerException != null);
+            Guard.IsNotNull(nameof(innerException), innerException);
             this.innerException = innerException;
         }
 

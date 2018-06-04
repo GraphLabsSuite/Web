@@ -19,24 +19,28 @@ namespace GraphLabs.Dal.Ef.Repositories
         public Group[] GetAllGroups()
         {
             CheckNotDisposed();
-
-            return Context.Groups.ToArray();
+            var result = Context.Groups.ToArray();
+            Guard.IsNotNull(result);
+            return result;
         }
 
         /// <summary> Получить группы, открытые для регистрации </summary>
         public Group[] GetOpenGroups()
         {
             CheckNotDisposed();
-
-            return Context.Groups.Where(g => g.IsOpen).ToArray();
+            var result = Context.Groups.Where(g => g.IsOpen).ToArray();
+            Guard.IsNotNull(result);
+            return result;
         }
 
         /// <summary> Получить группу по id </summary>
         public Group GetGroupById(long id)
         {
+            Guard.IsPositive(id, "id");
             CheckNotDisposed();
-
-            return Context.Groups.Where(g => g.Id == id).Single();
+            var result = Context.Groups.Where(g => g.Id == id).Single();
+            Guard.IsNotNull(result);
+            return result;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GraphLabs.Site.Models.StudentActions
 
         public override StudentActionModel Load(StudentAction studentAction)
         {
-            Contract.Requires(studentAction != null);
+            Guard.IsNotNull(nameof(studentAction), studentAction);
 
             var model = new StudentActionModel()
             {

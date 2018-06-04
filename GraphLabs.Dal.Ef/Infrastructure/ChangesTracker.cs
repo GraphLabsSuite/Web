@@ -17,7 +17,7 @@ namespace GraphLabs.Dal.Ef.Infrastructure
         /// <summary> Менеджер изменений </summary>
         public ChangesTracker(GraphLabsContext context)
         {
-            Contract.Requires(context != null);
+            Guard.IsNotNull(nameof(context), context ); 
 
             _context = context;
         }

@@ -28,7 +28,7 @@ namespace GraphLabs.Site.Models.ResultsWithTaskInfo
 
         public override ResultWithTaskInfoModel Load(Result result)
         {
-            Contract.Requires(result != null);
+            Guard.IsNotNull(nameof(result), result);
             var name = result.Student.GetShortName();
             var model = new ResultWithTaskInfoModel()
             {

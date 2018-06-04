@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace GraphLabs.DomainModel.Repositories
 {
     /// <summary> Репозиторий с сессиями </summary>
-    [ContractClass(typeof(SessionRepositoryContracts))]
+    //[ContractClass(typeof(SessionRepositoryContracts))]
     [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ISessionRepository
     {
@@ -30,48 +30,48 @@ namespace GraphLabs.DomainModel.Repositories
         void RemoveRange(IEnumerable<Session> sessions);
     }
 
-    /// <summary> Репозиторий с сессиями - контракты </summary>
-    [ContractClassFor(typeof(ISessionRepository))]
-    internal abstract class SessionRepositoryContracts : ISessionRepository
-    {
-        // ReSharper disable AssignNullToNotNullAttribute
+    ///// <summary> Репозиторий с сессиями - контракты </summary>
+    //[ContractClassFor(typeof(ISessionRepository))]
+    //internal abstract class SessionRepositoryContracts : ISessionRepository
+    //{
+    //    // ReSharper disable AssignNullToNotNullAttribute
 
-        /// <summary> Найти сессию по идентификатору </summary>
-        public Session FindByGuid(Guid guid)
-        {
-            return default(Session);
-        }
+    //    /// <summary> Найти сессию по идентификатору </summary>
+    //    public Session FindByGuid(Guid guid)
+    //    {
+    //        return default(Session);
+    //    }
 
-        /// <summary> Найти сессии по пользователю </summary>
-        public Session[] FindByUser(User user)
-        {
-            Contract.Requires(user != null);
-            Contract.Ensures(Contract.Result<Session[]>() != null);
+    //    /// <summary> Найти сессии по пользователю </summary>
+    //    public Session[] FindByUser(User user)
+    //    {
+    //        Contract.Requires(user != null);
+    //        Contract.Ensures(Contract.Result<Session[]>() != null);
 
-            return default(Session[]);
-        }
+    //        return default(Session[]);
+    //    }
 
-        /// <summary> Создать сессию </summary>
-        public Session Create(User user, string ip)
-        {
-            Contract.Requires(user != null);
-            Contract.Requires(IpHelper.CheckIsValidIP(ip));
+    //    /// <summary> Создать сессию </summary>
+    //    public Session Create(User user, string ip)
+    //    {
+    //        Contract.Requires(user != null);
+    //        Contract.Requires(IpHelper.CheckIsValidIP(ip));
 
-            Contract.Ensures(Contract.Result<Session>() != null);
+    //        Contract.Ensures(Contract.Result<Session>() != null);
 
-            return default(Session);
-        }
+    //        return default(Session);
+    //    }
 
-        /// <summary> Удалить сессию </summary>
-        public void Remove(Session session)
-        {
-            Contract.Requires(session != null);
-        }
+    //    /// <summary> Удалить сессию </summary>
+    //    public void Remove(Session session)
+    //    {
+    //        Contract.Requires(session != null);
+    //    }
 
-        /// <summary> Удалить несколько сессий </summary>
-        public void RemoveRange(IEnumerable<Session> sessions)
-        {
-            Contract.Requires(sessions != null);
-        }
-    }
+    //    /// <summary> Удалить несколько сессий </summary>
+    //    public void RemoveRange(IEnumerable<Session> sessions)
+    //    {
+    //        Contract.Requires(sessions != null);
+    //    }
+    //}
 }

@@ -126,8 +126,8 @@ namespace GraphLabs.Site
             /// <summary> Информация о сессии </summary>
             public SessionInfo(string email, Guid guid)
             {
-                Contract.Requires(!string.IsNullOrWhiteSpace(email));
-                Contract.Requires(guid != Guid.Empty);
+                Guard.IsNotNullOrWhiteSpace(email);
+                Guard.IsTrueAssertion(guid != Guid.Empty, "Сессия не должна быть null." );
 
                 Email = email;
                 SessionGuid = guid;

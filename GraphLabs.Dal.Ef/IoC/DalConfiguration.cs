@@ -8,6 +8,7 @@ using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Utils.IoC;
 using Microsoft.Practices.Unity;
+using GraphLabs;
 
 namespace GraphLabs.Dal.Ef.IoC
 {
@@ -17,6 +18,7 @@ namespace GraphLabs.Dal.Ef.IoC
         /// <summary> Сконфигурировать </summary>
         public void ConfigureContainer(IUnityContainer container)
         {
+            Guard.IsNotNull(nameof(container), container);
             // Сам EF-контекст
             container.RegisterType<GraphLabsContext>(new HierarchicalLifetimeManager());
 

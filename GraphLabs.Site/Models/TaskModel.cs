@@ -56,7 +56,7 @@ namespace GraphLabs.Site.Models
         /// <summary> Ctor. </summary>
         public TaskModel(Task task, bool loadForTableView = false)
         {
-            Contract.Requires(task != null);
+            Guard.IsNotNull(nameof(task), task); 
 
             Id = task.Id;
             Name = task.Name;

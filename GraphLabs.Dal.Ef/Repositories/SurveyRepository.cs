@@ -20,23 +20,27 @@ namespace GraphLabs.Dal.Ef.Repositories
 		public TestQuestion[] GetAllQuestions()
 		{
 			CheckNotDisposed();
-
-			return Context.TestQuestions.ToArray();
+            var result = Context.TestQuestions.ToArray();
+            Guard.IsNotNull(result);
+            return result; 
 		}
 
 		/// <summary> Получить все вопросы в заданной категории </summary>
 		public TestQuestion[] GetQuestionByCategory(long categoryId)
 		{
-			CheckNotDisposed();
-
-			return Context.TestQuestions.Where(tq => tq.Category.Id == categoryId).ToArray();
+            Guard.IsPositive(categoryId, nameof(categoryId));
+            CheckNotDisposed();
+            var result = Context.TestQuestions.Where(tq => tq.Category.Id == categoryId).ToArray();
+            Guard.IsNotNull(result);
+            return result;
 		}
 
         public TestQuestion[] GetQuestionsSimilarToString(string criteria)
         {
             CheckNotDisposed();
-
-            return Context.TestQuestions.Where(tq => tq.Question.StartsWith(criteria)).ToArray();
+            var result = Context.TestQuestions.Where(tq => tq.Question.StartsWith(criteria)).ToArray();
+            Guard.IsNotNull(result);
+            return result;
         }
 
 		#endregion
@@ -67,6 +71,7 @@ namespace GraphLabs.Dal.Ef.Repositories
 		/// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
 		public int GetCategorizesTestQuestionCount(long CategoryId)
 		{
+            Guard.IsPositive(CategoryId, nameof(CategoryId));
 			CheckNotDisposed();
 
 			return Context.TestQuestions.Count(tq => tq.Category.Id == CategoryId);

@@ -6,7 +6,7 @@ using System.Runtime.Remoting.Contexts;
 namespace GraphLabs.DomainModel.Repositories
 {
 	/// <summary> Репозиторий с вопросами </summary>
-	[ContractClass(typeof(SurveyRepositoryContracts))]
+	//[ContractClass(typeof(SurveyRepositoryContracts))]
     [Obsolete("Использовать глобальный контекст IGraphLabsContext")]
     public interface ISurveyRepository : IDisposable
 	{
@@ -35,50 +35,50 @@ namespace GraphLabs.DomainModel.Repositories
         
 	}
 
-    /// <summary> Репозиторий с вопросами </summary>
-	[ContractClassFor(typeof(ISurveyRepository))]
-    internal abstract class SurveyRepositoryContracts : ISurveyRepository
-	{
-		/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
-		public void Dispose()
-		{
-		}
+ //   /// <summary> Репозиторий с вопросами </summary>
+	//[ContractClassFor(typeof(ISurveyRepository))]
+ //   internal abstract class SurveyRepositoryContracts : ISurveyRepository
+	//{
+	//	/// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
+	//	public void Dispose()
+	//	{
+	//	}
 
-		#region Получение массивов вопросов
+	//	#region Получение массивов вопросов
 
-		public TestQuestion[] GetAllQuestions()
-		{
-			Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
+	//	public TestQuestion[] GetAllQuestions()
+	//	{
+	//		Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
 
-			return new TestQuestion[0];
-		}
+	//		return new TestQuestion[0];
+	//	}
 
-		public TestQuestion[] GetQuestionByCategory(long CategoryId)
-		{
-			Contract.Requires(CategoryId > 0);
-			Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
+	//	public TestQuestion[] GetQuestionByCategory(long CategoryId)
+	//	{
+	//		Contract.Requires(CategoryId > 0);
+	//		Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
 
-			return new TestQuestion[0];
-		}
+	//		return new TestQuestion[0];
+	//	}
 
-        public TestQuestion[] GetQuestionsSimilarToString(string criteria)
-        {
-            Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
-            return new TestQuestion[0];
-        }
+ //       public TestQuestion[] GetQuestionsSimilarToString(string criteria)
+ //       {
+ //           Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
+ //           return new TestQuestion[0];
+ //       }
 
-        #endregion
+ //       #endregion
 
-        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
-        {
+ //       public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long categoryId)
+ //       {
 
-        }
+ //       }
 
-		public int GetCategorizesTestQuestionCount(long CategoryId)
-		{
-			Contract.Requires(CategoryId > 0);
+	//	public int GetCategorizesTestQuestionCount(long CategoryId)
+	//	{
+	//		Contract.Requires(CategoryId > 0);
 
-			return default(int);
-		}
-	}
+	//		return default(int);
+	//	}
+	//}
 }

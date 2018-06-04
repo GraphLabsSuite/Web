@@ -28,15 +28,13 @@ namespace GraphLabs.WcfServices
         /// <param name="id"> Id варианта</param>
         public TaskVariantDto GetVariant(long id)
         {
-            Contract.Assume(Contract.Result<TaskVariantDto>() != null);
-
             using (var op = _operationFactory.Create())
             {
                 var variant = op.DataContext.Query.Find<TaskVariant>(id);
                 if (variant == null)
                     throw new ArgumentException("Вариант с указанным Id не найден.");
 
-                return new TaskVariantDto
+                TaskVariantDto taskVariantDto = new TaskVariantDto
                 {
                     Data = variant.Data,
                     GeneratorVersion = variant.GeneratorVersion,
@@ -44,6 +42,9 @@ namespace GraphLabs.WcfServices
                     Version = variant.Version,
                     Id = variant.Id
                 };
+
+                Guard.IsNotNull(taskVariantDto);
+                return taskVariantDto;
             }
         }
 

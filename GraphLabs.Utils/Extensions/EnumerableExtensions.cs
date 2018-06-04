@@ -10,7 +10,7 @@ namespace GraphLabs.Site.Utils
         /// <summary> Сравнивает два списка, порядок элементов значения не имеет </summary>
         public static bool ContainsSameSet<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
         {
-            Contract.Requires<ArgumentNullException>(list1 != null && list2 != null);
+            Guard.IsTrueAssertion(list1 != null && list2 != null);
 
             if (list1.Count() != list2.Count())
             {

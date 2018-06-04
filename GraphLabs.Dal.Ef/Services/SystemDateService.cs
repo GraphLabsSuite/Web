@@ -27,7 +27,7 @@ namespace GraphLabs.Dal.Ef.Services
             var currentDate = GetDate();
             var newDate = newDateTime.Date;
 
-            Contract.Assume(newDate > currentDate, "Новая дата должна быть больше предыдущей.");
+            Guard.IsTrueAssertion("Новая дата должна быть больше предыдущей.", newDate > currentDate); 
 
             var settings = _context.Settings.Single();
             settings.SystemDate = newDate;

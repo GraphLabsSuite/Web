@@ -12,6 +12,7 @@ using GraphLabs.Site.Logic.XapParsing;
 using GraphLabs.Site.Utils.IoC;
 using GraphLabs.Tasks.Contract;
 using Microsoft.Practices.Unity;
+using GraphLabs;
 
 namespace GraphLabs.Site.Logic.IoC
 {
@@ -19,6 +20,7 @@ namespace GraphLabs.Site.Logic.IoC
     {
         public void ConfigureContainer(IUnityContainer container)
         {
+            Guard.IsNotNull(nameof(container), container);
             // Сервисы для сайта
             container.RegisterType<IHashCalculator, BCryptCalculator>(new PerResolveLifetimeManager());
             container.RegisterType<IInitParamsProvider, InitParamsProvider>(new PerResolveLifetimeManager());

@@ -13,7 +13,7 @@ namespace GraphLabs.Dal.Ef.Repositories
         /// <summary> Базовый репозиторий </summary>
         protected RepositoryBase(GraphLabsContext context)
         {
-            Contract.Requires(context != null);
+            Guard.IsNotNull(nameof(context), context); 
 
             _disposed = false;
             Context = context;

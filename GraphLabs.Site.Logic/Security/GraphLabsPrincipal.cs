@@ -41,8 +41,8 @@ namespace GraphLabs.Site.Logic.Security
             /// <summary> Личность </summary>
             public GraphLabsIdentity(string email, string displayName)
             {
-                Contract.Requires(!string.IsNullOrWhiteSpace(email));
-                Contract.Requires(!string.IsNullOrWhiteSpace(displayName));
+                Guard.IsNotNullOrWhiteSpace(email);
+                Guard.IsNotNullOrWhiteSpace(displayName);
                 Name = email;
                 DisplayName = displayName;
             }
@@ -54,7 +54,7 @@ namespace GraphLabs.Site.Logic.Security
         /// <summary> Determines whether the current principal belongs to the specified role. </summary>
         bool IPrincipal.IsInRole(string role)
         {
-            Contract.Assert(!string.IsNullOrWhiteSpace(role));
+            Guard.IsNotNullOrWhiteSpace(role);
 
             UserRole actualRole;
             if (!Enum.TryParse(role, false, out actualRole))
