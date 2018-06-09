@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.Lab.LabListModel
+﻿@using Helpers
+@model GraphLabs.Site.Models.Lab.LabListModel
 
 @{
     ViewBag.Title = "Лабораторные работы";
@@ -14,18 +15,10 @@
 </style>
 
 @{
-    var grid = new WebGrid(Model, canPage:true ,canSort:false, rowsPerPage:10);
+    var grid = new GraphLabsWebGrid(Model);
     grid.Pager(WebGridPagerModes.All);
-        @grid.GetHtml(tableStyle: "webGrid", 
-            headerStyle: "webgrid-header",
-            footerStyle : "webgrid-footer",
-            rowStyle: "webgrid-row",
-            alternatingRowStyle: "webgrid-altrow",
-            selectedRowStyle : "webgrid-selected-row",
-            caption: null,
-            displayHeader: true,
+        @grid.GetHtml(
             htmlAttributes: new { id = "datatable" },
-            
             columns: grid.Columns(
                 grid.Column(header: "#",          format: item => item.Id,       columnName: "Id",       style:"idColumn"),
                 grid.Column(header: "Название",   format: item => item.Name,     columnName: "Name",     style:"nameColumn")

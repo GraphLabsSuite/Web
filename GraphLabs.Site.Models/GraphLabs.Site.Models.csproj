@@ -158,6 +158,7 @@
     <Compile Include="AvailableLab\DemoLabListModel.cs" />
     <Compile Include="AvailableLab\DemoLabModelLoader.cs" />
     <Compile Include="AvailableLab\TestingLabModel.cs" />
+    <Compile Include="Groups\NameFilterProvider.cs" />
     <Compile Include="Infrastructure\EntityRemover.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
