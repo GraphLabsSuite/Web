@@ -1,1 +1,0 @@
-﻿<%@ WebHandler Language="C#" Class="GraphLabs.Site.SilverlightAppsProvider" CodeBehind="../App_Code/SilverlightAppsProvider.cs" %>
