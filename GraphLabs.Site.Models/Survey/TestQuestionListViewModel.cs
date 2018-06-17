@@ -29,8 +29,7 @@ namespace GraphLabs.Site.Models
             if (ShowCategory) {
                 if (ShowSubCategory)
                 {
-                    questions = _surveyRepository.GetQuestionByCategory(CategoryId);
-                    //questions = _surveyRepository.GetQuestionsBySubCategory(SubCategoryId);
+                    questions = _surveyRepository.GetQuestionBySubCategory(SubCategoryId);
                 }
                 else
                 {
@@ -38,16 +37,12 @@ namespace GraphLabs.Site.Models
                 }
             }
 
-            /*var questions = SubCategoryId == 0
-                ? _surveyRepository.GetAllQuestions()
-                : _surveyRepository.GetQuestionByCategory(SubCategoryId);*/
-
-            //var questions = CategoryId == 
-            
             Items = questions.Select(q => new TestQuestionDto
             {
                 QuestionId = q.Id,
                 Question = q.Question,
+                Score = q.Score,
+                ScoringStrategy = q.ScoringStrategy.ToString(),
                 QuestionSubCategory = q.SubCategory.Name,
                 QuestionCategory = q.SubCategory.Category.Name,
                 QuestionSubCategoryId = q.SubCategory.Id,

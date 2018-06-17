@@ -18,6 +18,9 @@ namespace GraphLabs.DomainModel.Repositories
 		/// <summary> Получить все вопросы в заданной категории </summary>
 		TestQuestion[] GetQuestionByCategory(long CategoryId);
 
+        /// <summary> Получить все вопросы в заданной подкатегории </summary>
+		TestQuestion[] GetQuestionBySubCategory(long subCategoryId);
+
         /// <summary>
         /// Получить все вопросы, начинающиеся с входного критерия
         /// </summary>
@@ -66,6 +69,14 @@ namespace GraphLabs.DomainModel.Repositories
 
 			return new TestQuestion[0];
 		}
+
+        public TestQuestion[] GetQuestionBySubCategory(long subCategoryId)
+        {
+            Contract.Requires(subCategoryId > 0);
+            Contract.Ensures(Contract.Result<TestQuestion[]>() != null);
+
+            return new TestQuestion[0];
+        }
 
         public TestQuestion[] GetQuestionsSimilarToString(string criteria)
         {

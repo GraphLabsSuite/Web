@@ -32,6 +32,14 @@ namespace GraphLabs.Dal.Ef.Repositories
 			return Context.TestQuestions.Where(tq => tq.SubCategory.Category.Id == categoryId).ToArray();
 		}
 
+        /// <summary> Получить все вопросы в заданной подкатегории </summary>
+		public TestQuestion[] GetQuestionBySubCategory(long subCategoryId)
+        {
+            CheckNotDisposed();
+
+            return Context.TestQuestions.Where(tq => tq.SubCategory.Id == subCategoryId).ToArray();
+        }
+
         public TestQuestion[] GetQuestionsSimilarToString(string criteria)
         {
             CheckNotDisposed();

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GraphLabs.DomainModel;
-using GraphLabs.Site.Models.Infrastructure;
+﻿using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Models.TestPoolEntry
@@ -13,12 +7,8 @@ namespace GraphLabs.Site.Models.TestPoolEntry
     {
         public long Id { get; set; }
 
-        public int Score { get; set; }
-
-        public ScoringStrategy ScoringStrategy { get; set; }
-
-        public TestQuestion TestQuestion { get; set; }
-
         public DomainModel.TestPool TestPool { get; set; }
+
+        public SubCategoryModel SubCategory { get; set; }
     }
 }

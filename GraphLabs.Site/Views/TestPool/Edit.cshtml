@@ -1,5 +1,5 @@
 ﻿@using GraphLabs.DomainModel
-@model GraphLabs.Site.Models.TestPool.TestPoolModel
+@model GraphLabs.Site.Models.Question.QuestionModel
 
 
 @{
@@ -7,7 +7,29 @@
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/css/TestPool.css")
 }
+<br>
+@{
+    var grid = new WebGrid(Model.TestPoolEntries, canPage: true, canSort: true, rowsPerPage: 10, defaultSort: "№");
+    grid.Pager(WebGridPagerModes.All);
+    @grid.GetHtml(tableStyle: "Grids",
+            headerStyle: "grid-header",
+            footerStyle: "grid-footer",
+            rowStyle: "grid-row",
+            alternatingRowStyle: "grid-row",
+            selectedRowStyle: "grid-row",
+            caption: null,
+            displayHeader: true,
+            htmlAttributes: new { id = "datatable" },
+            columns: grid.Columns(
+                grid.Column(header: "№", format: item => item.Id, columnName: "Id", style: "nameColumn"),
+                grid.Column(header: "Подтема", format: item => item.TestQuestion.Question, columnName: "Question", style: "nameColumn"),
+                grid.Column(header: "Тема", format: item => item.TestQuestion.Question, columnName: "Question", style: "nameColumn")
+                )
+            );
+}
 
+
+<br>
 <hgroup>
     <h2>@ViewBag.Title</h2>
     @*@Html.ActionLink("Прекратить редактирование", "Index")*@
@@ -43,7 +65,7 @@
                             </div>
                             <div class="col-md-3">
                                 <p>Выбранный вопрос</p>
-                                <p id="question_@item.Id"><b>@item.TestQuestion.Question</b></p>
+                                <p id="question_@item.Id"><b>@item.Question</b></p>
                             </div>
                             <div class="col-md-3">
                                 <p>Количество баллов</p>
@@ -83,8 +105,11 @@
                 <div class="editor-label">
                     Выбрать вопрос
                 </div>
-                <input type="text" id="search_box" autocomplete="off"/>
-                <input type="hidden" value="" id="questionIdNew"/>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.TestPoolEntries, Model.TestPoolModel, new { @class = "dropDownNarrow" })
+                </div>
+                <input type="text" id="search_box" autocomplete="on"/>
+                <input type="submit" value="" id="questionIdNew"/>
                 <div id="search_advice_wrapper"></div>
             </div>
             <div class="col-md-3">

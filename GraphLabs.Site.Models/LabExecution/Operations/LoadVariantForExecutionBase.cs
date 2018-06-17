@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
+using GraphLabs.Site.Core;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Tasks.Contract;
@@ -80,19 +81,30 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
                 if (variant.TestPool != null)
                 {
-                    var randomArray = new Randomizer[variant.TestPool.TestPoolEntries.Count];
-                    randomArray = Randomizer.InitializeArray(randomArray);
-                    var randomer = new Random(variant.TestPool.TestPoolEntries.Count);
-                    foreach (var testQuestion in variant.TestPool.TestPoolEntries)
+                    var subCategoryIds = variant.TestPool.TestPoolEntries.Select(e => e.SubCategory.Id).ToArray();
+                    var suitableQuestions = Query.OfEntities<TestQuestion>()
+                        .Where(q => subCategoryIds.Contains(q.SubCategory.Id))
+                        .ToArray()
+                        .GroupBy(q => q.SubCategory)
+                        .ToDictionary(g => g.Key, g => g.ToArray());
+
+                    var randomer = new Random();
+                    foreach (var entry in variant.TestPool.TestPoolEntries)
                     {
-                        var testResult = Factory.Create<TestResult>();
-                        testResult.TestPoolEntry = testQuestion;
-                        var number = Randomizer.GetNewValue(randomArray, randomer);
-                        testResult.Index = number.ToString();
-                        testResult.Result = result;
-                        randomArray = Randomizer.ChoseNumber(randomArray, number);
-                        testResult.StudentAnswers = new List<DomainModel.StudentAnswer>();
-                        result.AbstractResultEntries.Add(testResult);
+                        var randomArray = new Randomizer[suitableQuestions[entry.SubCategory].Length];
+                        randomArray = Randomizer.InitializeArray(randomArray);
+
+                        for (var i = 0; i < entry.QuestionsCount; ++i)
+                        {
+                            var testResult = Factory.Create<TestResult>();
+                            var number = Randomizer.GetNewValue(randomArray, randomer);
+                            testResult.Index = number.ToString();
+                            testResult.TestQuestion = suitableQuestions[entry.SubCategory][number];
+                            testResult.Result = result;
+                            randomArray = Randomizer.ChoseNumber(randomArray, number);
+                            testResult.StudentAnswers = new List<DomainModel.StudentAnswer>();
+                            result.AbstractResultEntries.Add(testResult);
+                        }
                     }
                 }
             }
@@ -147,6 +159,9 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
             public static int GetNewValue(Randomizer[] array, Random randomer)
             {
+                if (array.All(a => a.Chosen))
+                    throw new GraphLabsException("¬опросов в базе меньше, чем требуетс€ в тесте");
+
                 var next = randomer.Next(array.Length);
                 while (CheckChosen(array, next))
                 {
@@ -156,21 +171,25 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
             }
         }
 
-        private VariantExecutionModelBase CreateTestExecutionModel(Uri taskCompleteRedirect, DomainModel.TestPoolEntry test, DomainModel.LabVariant variant, LabWork lab, Result result)
+        private VariantExecutionModelBase CreateTestExecutionModel(Uri taskCompleteRedirect, 
+            DomainModel.TestPoolEntry test, DomainModel.LabVariant variant, LabWork lab, Result result)
         {
-            var model = new TestExecutionModel();
-            model.Name = test.TestPool.Name;
-            model.Question = test.TestQuestion.Question;
-            model.Answers = test.TestQuestion.AnswerVariants;
-            model.QuestionId = test.Id;
-            model.OtherTasks = GetOtherTasksModels(lab, result, null, test).ToArray();
-            model.VariantId = variant.Id;
-            model.LabName = lab.Name;
-            var operation = _operationFactory.Create();
-            var testResult = operation.DataContext.Query.OfEntities<TestResult>().FirstOrDefault(e => e.TestPoolEntry.Id == test.Id & e.Result.Id == result.Id);
-            operation.Complete();
-            model.TestResult = testResult.Id;
-            return model;
+            throw new NotImplementedException();
+
+
+            //var model = new TestExecutionModel();
+            //model.Name = test.TestPool.Name;
+            //model.Question = test.TestQuestion.Question;
+            //model.Answers = test.TestQuestion.AnswerVariants;
+            //model.QuestionId = test.Id;
+            //model.OtherTasks = GetOtherTasksModels(lab, result, null, test).ToArray();
+            //model.VariantId = variant.Id;
+            //model.LabName = lab.Name;
+            //var operation = _operationFactory.Create();
+            //var testResult = operation.DataContext.Query.OfEntities<TestResult>().FirstOrDefault(e => e.TestPoolEntry.Id == test.Id & e.Result.Id == result.Id);
+            //operation.Complete();
+            //model.TestResult = testResult.Id;
+            //return model;
         }
 
         private bool IsTestPoolCompleted(DomainModel.LabVariant variant, int? testIndex)
@@ -197,27 +216,28 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private IEnumerable<BaseListEntryModel> GetOtherTasksModels(LabWork lab, Result result, Task task, DomainModel.TestPoolEntry testPoolEntry)
         {
-            var otherTasks = result.AbstractResultEntries.Where(e => e is TestResult).Select(e =>
-            {
-                var testResult = (TestResult) e;
-                var entry = testResult.TestPoolEntry;
-                var model = _testModelLoader.Load(result, entry);
-                if (testResult.TestPoolEntry.Id == testPoolEntry?.Id)
-                {
-                    model.State = TaskExecutionState.CurrentlySolving;
-                }
-                return (BaseListEntryModel) model;
-            });
-            var addTasks = lab.LabEntries.Select(e =>
-            {
-                var model = _taskModelLoader.Load(result, e);
-                if (e.Task.Id == task?.Id)
-                {
-                    model.State = TaskExecutionState.CurrentlySolving;
-                }
-                return (BaseListEntryModel) model;
-            }).ToArray();
-            return otherTasks.Union(addTasks);
+            throw new NotImplementedException();
+            //var otherTasks = result.AbstractResultEntries.Where(e => e is TestResult).Select(e =>
+            //{
+            //    var testResult = (TestResult) e;
+            //    var entry = testResult.TestPoolEntry;
+            //    var model = _testModelLoader.Load(result, entry);
+            //    if (testResult.TestPoolEntry.Id == testPoolEntry?.Id)
+            //    {
+            //        model.State = TaskExecutionState.CurrentlySolving;
+            //    }
+            //    return (BaseListEntryModel) model;
+            //});
+            //var addTasks = lab.LabEntries.Select(e =>
+            //{
+            //    var model = _taskModelLoader.Load(result, e);
+            //    if (e.Task.Id == task?.Id)
+            //    {
+            //        model.State = TaskExecutionState.CurrentlySolving;
+            //    }
+            //    return (BaseListEntryModel) model;
+            //}).ToArray();
+            //return otherTasks.Union(addTasks);
         }
 
         private TModel CreateModelHeader<TModel>(Result result, Task currentTask)
@@ -279,17 +299,19 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private int? GetTestResultScore(ICollection<AbstractResultEntry> testResults)
         {
-            var testResult = testResults.OfType<TestResult>().ToArray();
-            if (testResult.Length == 0) return null;
-            var realSum = 0;
-            var maxSum = 0;
-            for (var i = 0; i < testResult.Length; i++)
-            {
-                realSum = realSum + testResult[i].Score;
-                maxSum = maxSum + testResult[i].TestPoolEntry.Score;
-            }
-            var result = (int) 100*realSum/maxSum;
-            return result;
+            throw new NotImplementedException();
+
+            //var testResult = testResults.OfType<TestResult>().ToArray();
+            //if (testResult.Length == 0) return null;
+            //var realSum = 0;
+            //var maxSum = 0;
+            //for (var i = 0; i < testResult.Length; i++)
+            //{
+            //    realSum = realSum + testResult[i].Score;
+            //    maxSum = maxSum + testResult[i].TestPoolEntry.Score;
+            //}
+            //var result = (int) 100*realSum/maxSum;
+            //return result;
         }
 
         #endregion
@@ -316,35 +338,37 @@ namespace GraphLabs.Site.Models.LabExecution.Operations
 
         private DomainModel.TestPoolEntry GetFirstUnsolvedTest(Result result)
         {
-            var searchResult = result
-                .AbstractResultEntries
-                .Where(r => r.Status != ExecutionStatus.Complete)
-                .OfType<TestResult>()
-                .OrderBy(r => r.Index)
-                .Select(r => r.TestPoolEntry)
-                .FirstOrDefault();
+            throw new NotImplementedException();
+            //var searchResult = result
+            //    .AbstractResultEntries
+            //    .Where(r => r.Status != ExecutionStatus.Complete)
+            //    .OfType<TestResult>()
+            //    .OrderBy(r => r.Index)
+            //    .Select(r => r.TestPoolEntry)
+            //    .FirstOrDefault();
 
-            return searchResult;
+            //return searchResult;
         }
 
         private DomainModel.TestPoolEntry TryGetTestPoolEntry(Result result, DomainModel.LabVariant lab, int? testIndex)
         {
-            if (!testIndex.HasValue)
-                return null;
+            throw new NotImplementedException();
+            //if (!testIndex.HasValue)
+            //    return null;
 
-            var testEntry = lab.TestPool.TestPoolEntries.SingleOrDefault(e => e.Id == testIndex.Value);
-            if (testEntry == null)
-                return null;
+            //var testEntry = lab.TestPool.TestPoolEntries.SingleOrDefault(e => e.Id == testIndex.Value);
+            //if (testEntry == null)
+            //    return null;
 
-            var testResult = result
-                .AbstractResultEntries
-                .OfType<TestResult>()
-                .SingleOrDefault(tr => tr.TestPoolEntry.Id == testEntry.Id
-                                       && tr.Status == ExecutionStatus.Complete);
-            if (testResult?.Status == ExecutionStatus.Complete)
-                return null;
+            //var testResult = result
+            //    .AbstractResultEntries
+            //    .OfType<TestResult>()
+            //    .SingleOrDefault(tr => tr.TestPoolEntry.Id == testEntry.Id
+            //                           && tr.Status == ExecutionStatus.Complete);
+            //if (testResult?.Status == ExecutionStatus.Complete)
+            //    return null;
 
-            return testEntry;
+            //return testEntry;
         }
 
         private Task TryGetTaskByIndex(Result labResult, LabWork lab, int? index)

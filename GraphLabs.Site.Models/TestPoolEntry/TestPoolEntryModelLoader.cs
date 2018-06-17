@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLabs.DomainModel;
-using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.Site.Models.TestPool;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.TestPoolEntry
 {
@@ -32,10 +25,14 @@ namespace GraphLabs.Site.Models.TestPoolEntry
             var model = new TestPoolEntryModel()
             {
                 Id = testPoolEntry.Id,
-                Score = testPoolEntry.Score,
-                ScoringStrategy = testPoolEntry.ScoringStrategy,
-                TestQuestion = testPoolEntry.TestQuestion,
-                TestPool = testPoolEntry.TestPool
+                TestPool = testPoolEntry.TestPool,
+                SubCategory = new SubCategoryModel()
+                {
+                    CategoryId = testPoolEntry.SubCategory.Category.Id,
+                    CategoryName = testPoolEntry.SubCategory.Category.Name,
+                    Id = testPoolEntry.SubCategory.Id,
+                    Name = testPoolEntry.SubCategory.Name
+                }
             };
 
             return model;
