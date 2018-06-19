@@ -1,4 +1,5 @@
-﻿@model GraphLabs.Site.Models.Groups.GroupListModel
+﻿@using Helpers
+@model GraphLabs.Site.Models.Groups.GroupListModel
 
 @{
     ViewBag.Title = "Результаты - Список групп";
@@ -9,19 +10,19 @@
 </hgroup>
 
 <style type="text/css">
-    .idColumn { width: 10%; }
-    .nameColumn { width: 70%; }
+    .idColumn { width: 5%; text-align: center; }
+    .nameColumn { width: 30%; }
 </style>
 
 @{
-    var grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10);
+    var grid = new GraphLabsWebGrid(Model, "Name");
     grid.Pager(WebGridPagerModes.All);
-    @grid.GetHtml(tableStyle: "webGrid",
-            headerStyle: "webgrid-header",
-            footerStyle: "webgrid-footer",
-            rowStyle: "webgrid-row",
-            alternatingRowStyle: "webgrid-altrow",
-            selectedRowStyle: "webgrid-selected-row",
+    @grid.GetHtml(tableStyle: "Grids",
+            headerStyle: "grid-header",
+            footerStyle: "grid-footer",
+            rowStyle: "grid-row",
+            alternatingRowStyle: "grid-row",
+            selectedRowStyle: "grid-selected-row",
             caption: null,
             displayHeader: true,
             htmlAttributes: new { id = "datatable" },

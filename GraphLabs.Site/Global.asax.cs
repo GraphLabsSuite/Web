@@ -18,7 +18,7 @@ namespace GraphLabs.Site
 
         private static HttpContext CurrentContext => HttpContext.Current;
 
-        private static RequestUnitOfWork GetRequestUnitOfWork()
+        public static RequestUnitOfWork GetRequestUnitOfWork()
         {
             if (CurrentContext == null)
                 return null;

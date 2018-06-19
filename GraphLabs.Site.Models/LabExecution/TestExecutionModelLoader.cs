@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models.LabExecution
 {
     internal sealed class TestExecutionModelLoader
     {
-        public TestListEntryModel Load(Result currentResult, DomainModel.TestPoolEntry testPoolEntry)
+        public TestListEntryModel Load(Result currentResult, DomainModel.TestQuestion question)
         {
             var resultForEntry = currentResult
                 .AbstractResultEntries
                 .OfType<TestResult>()
-                .SingleOrDefault(result => result.TestPoolEntry.Id == testPoolEntry.Id);
+                .SingleOrDefault(result => result.TestQuestion.Id == question.Id);
 
             var taskState = resultForEntry?.Status == ExecutionStatus.Complete
                 ? TaskExecutionState.Solved
@@ -22,8 +19,8 @@ namespace GraphLabs.Site.Models.LabExecution
 
             return new TestListEntryModel()
             {
-                QuestionId = testPoolEntry.Id,
-                TestName = testPoolEntry.TestQuestion.Question,
+                QuestionId = question.Id,
+                TestName = question.Question,
                 State = taskState
             };
         }

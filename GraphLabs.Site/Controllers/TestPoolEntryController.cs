@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using GraphLabs.DomainModel;
-using GraphLabs.DomainModel.Contexts;
 using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Models;
-using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
-using GraphLabs.Site.Models.TestPool;
 using GraphLabs.Site.Models.TestPoolEntry;
 
 namespace GraphLabs.Site.Controllers
@@ -65,7 +57,7 @@ namespace GraphLabs.Site.Controllers
                 var type = editTestPoolEntry.Type;
                 var value = editTestPoolEntry.Value;
                 var entity = _modelLoader.Load(editTestPoolEntry.Id);
-                switch (type)
+               /* switch (type)
                 {
                     case nameof(SaveTestPoolEntryModel.ScoringStrategy):
                         switch (value)
@@ -85,14 +77,12 @@ namespace GraphLabs.Site.Controllers
                         break;
                     default:
                         throw new Exception("Присланное не соответствует формату данных!");
-                }
+                } */
                 var model = new SaveTestPoolEntryModel
                 {
                     Id = entity.Id,
-                    Score = entity.Score,
-                    ScoringStrategy = entity.ScoringStrategy,
-                    TestPool = entity.TestPool.Id,
-                    TestQuestion = entity.TestQuestion.Id,
+                    SubCategoryId = entity.SubCategory.Id,
+                    TestPool = entity.TestPool.Id
                 };
                 _modelSaver.CreateOrUpdate(model);
                 return Json(true);

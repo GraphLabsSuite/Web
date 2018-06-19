@@ -31,10 +31,16 @@ namespace GraphLabs.DomainModel.Repositories
 		#endregion
 
 		///<summary> Сохранить вопрос </summary>
-		void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId);
+		void SaveQuestion(long questionId, string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId);
 
-		/// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
-		int GetCategorizesTestQuestionCount(long CategoryId);
+        ///<summary> Удалить вопрос </summary>
+		void DeleteQuestion(TestQuestion question);
+
+        ///<summary> Редактировать вопрос </summary>
+        //void EditQuestion(string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId);
+
+        /// <summary> Получить количество вопросов в категории с id == CategoryId </summary>
+        int GetCategorizesTestQuestionCount(long CategoryId);
         
 	}
 
@@ -80,7 +86,12 @@ namespace GraphLabs.DomainModel.Repositories
 
         #endregion
 
-        public void SaveQuestion(string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId)
+        public void SaveQuestion(long questionId, string question, Dictionary<string, bool> questionOptions, long subCategoryId, long categoryId)
+        {
+
+        }
+
+        public void DeleteQuestion(TestQuestion question)
         {
 
         }

@@ -1,13 +1,13 @@
-﻿using GraphLabs.Site.Controllers.Attributes;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GraphLabs.DomainModel;
+using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
-    public class GroupController : GraphLabsController
+    public class GroupController : GraphLabsFilteringController<GroupModel, Group>
     {
         private readonly IListModelLoader _listModelLoader;
         private readonly IEntityBasedModelSaver<GroupModel, Group> _modelSaver;
@@ -23,12 +23,11 @@ namespace GraphLabs.Site.Controllers
             _modelLoader = modelLoader;
         }
 
-        public ActionResult Index(string message)
+        public override ActionResult Index(string message)
         {
             ViewBag.Message = message;
-
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>();
-            return View(model);
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().Filter(FiExpression);
+            return View((GroupListModel) model);
         }
 
         public ActionResult Create()

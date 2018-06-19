@@ -49,6 +49,7 @@
             htmlAttributes: new { id = "datatable" },
 
             columns: grid.Columns(
+                grid.Column(header: "#", format: item => item.Id, columnName: "Id", style: "idColumn"),
                 grid.Column(header: "Название", format: item => item.Name, columnName: "Name", style: "nameColumn"),
                 grid.Column(header: "Темы", format: item => item.Name, columnName: "Name", style: "nameColumn"),
                 grid.Column(header: "Описание", format: item => item.Name, columnName: "Name", style: "nameColumn"),
@@ -60,41 +61,10 @@
                          item.Id)), columnName: ""),
                 grid.Column(header: "Редактировать", format:item => @Html.ActionLink("Редактировать","Edit",new {id = item.Id}, null), columnName: "Edit", style: "deleteColumn"),
                 grid.Column(header: "Удалить", format:item => @Html.ActionLink("Удалить","Delete",new {testPoolId = item.Id}, null), columnName: "Delete", style: "deleteColumn")
-
                 )
             );
 }
 
-<div id="testpool-previews">
-    <input type="hidden" id="base-testpool" value="@ViewBag.PreviewTestPoolId"/>
-    @foreach (var test in Model.Items)
-    {
-        var questionCounter = 0;
-        <div class="testpool-preview" style="display: none;">
-            <input type="hidden" class="testpool-preview-id" value="@test.Id"/>
-            <h3>Тест "@test.Name"</h3>
-            @foreach (var entry in test.TestPoolEntries)
-            {
-                questionCounter++;
-                <p><b>Вопрос @questionCounter: @entry.TestQuestion.Question</b>
-                </p>
-                foreach (var variant in entry.TestQuestion.AnswerVariants)
-                {
-                    if (variant.IsCorrect)
-                    {
-                        <input type="checkbox" checked disabled=""/>
-                    }
-                    else
-                    {
-                        <input type="checkbox" disabled=""/>
-                    }
-                    <span>@variant.Answer</span>
-                    <br/>
-                }
-            }
-        </div>
-    }
-</div>
 
 @section scripts{
     <script type="text/javascript">

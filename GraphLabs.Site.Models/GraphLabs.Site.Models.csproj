@@ -68,6 +68,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;CONTRACTS_FULL</DefineConstants>
@@ -121,15 +122,6 @@
     <Reference Include="GraphLabs.Common.Utils, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GraphLabs.Common.Utils.1.2.0\lib\portable-net45+sl50+win+wpa81+wp80\GraphLabs.Common.Utils.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="GraphLabs.CommonUI">
-      <HintPath>..\..\TaskCore\GraphLabs.CommonUI\Bin\Debug\GraphLabs.CommonUI.dll</HintPath>
-    </Reference>
-    <Reference Include="GraphLabs.Graphs">
-      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Graphs.dll</HintPath>
-    </Reference>
-    <Reference Include="GraphLabs.Graphs.UIComponents">
-      <HintPath>..\..\TaskCore\GraphLabs.Graphs.UIComponents\Bin\Debug\GraphLabs.Graphs.UIComponents.dll</HintPath>
     </Reference>
     <Reference Include="GraphLabs.Tasks.Contract, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GraphLabs.Tasks.Contract.1.2.0\lib\portable-net45+sl50+win+wpa81+wp80\GraphLabs.Tasks.Contract.dll</HintPath>
@@ -195,6 +187,16 @@
     <Compile Include="AvailableLab\DemoLabListModel.cs" />
     <Compile Include="AvailableLab\DemoLabModelLoader.cs" />
     <Compile Include="AvailableLab\TestingLabModel.cs" />
+    <Compile Include="Filters\AbstractFilterableModel.cs" />
+    <Compile Include="Filters\BoundedFilterAttribute.cs" />
+    <Compile Include="Filters\DynamicBoundFilterAttribute.cs" />
+    <Compile Include="Filters\FilterParams.cs" />
+    <Compile Include="Filters\GraphLabsValuesHolder.cs" />
+    <Compile Include="Filters\IFilterable.cs" />
+    <Compile Include="Filters\IFilterAttribute.cs" />
+    <Compile Include="Filters\IFilterValuesProvider.cs" />
+    <Compile Include="Filters\StringFilterAttribute.cs" />
+    <Compile Include="Groups\NameFilterProvider.cs" />
     <Compile Include="Infrastructure\EntityRemover.cs" />
     <Compile Include="Infrastructure\AbstractModelSaver.cs" />
     <Compile Include="Infrastructure\AbstractModelLoader.cs" />
@@ -238,12 +240,16 @@
     <Compile Include="Question\QuestionListModel.cs" />
     <Compile Include="Question\QuestionLookForModel.cs" />
     <Compile Include="Question\QuestionModel.cs" />
+    <Compile Include="Results\ResultListModel.cs" />
     <Compile Include="Schedule\Edit\EditIndividualLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditGroupLabScheduleModel.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelBase.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelLoader.cs" />
     <Compile Include="Schedule\Edit\EditLabScheduleModelSaver.cs" />
     <Compile Include="Schedule\Edit\IEditLabScheduleModelLoader.cs" />
+    <Compile Include="Infrastructure\IFilterableByDate.cs" />
+    <Compile Include="Infrastructure\IFilterableByLabName.cs" />
+    <Compile Include="Infrastructure\IFilterableByUser.cs" />
     <Compile Include="Schedule\LabScheduleListModel.cs" />
     <Compile Include="Schedule\LabScheduleModel.cs" />
     <Compile Include="Schedule\LabScheduleModelLoader.cs" />
@@ -268,6 +274,7 @@
     <Compile Include="TestPoolEntry\AuxTestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\SaveTestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\SaveTestPoolEntryModelSaver.cs" />
+    <Compile Include="TestPoolEntry\SubCategoryModel.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModel.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelLoader.cs" />
     <Compile Include="TestPoolEntry\TestPoolEntryModelSaver.cs" />
@@ -293,14 +300,6 @@
       <Project>{10122BC1-5AAD-4278-8803-B4B8D1449410}</Project>
       <Name>GraphLabs.Site.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GraphLabs.Tests.DomainModel\GraphLabs.Tests.DomainModel.csproj">
-      <Project>{ee5bf057-1db5-44fc-aa1c-967da88ec2b2}</Project>
-      <Name>GraphLabs.Tests.DomainModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphLabs.Tests.Site.Logic\GraphLabs.Tests.Site.Logic.csproj">
-      <Project>{be55a060-0224-4f6a-b05f-b06bec346ca9}</Project>
-      <Name>GraphLabs.Tests.Site.Logic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Tests.Site.Models\GraphLabs.Tests.Site.Models.csproj">
       <Project>{47fc998c-4129-4d8b-a5dc-12d1288c788c}</Project>
       <Name>GraphLabs.Tests.Site.Models</Name>
@@ -308,10 +307,6 @@
     <ProjectReference Include="..\GraphLabs.Tests.Site\GraphLabs.Tests.Site.csproj">
       <Project>{7b12eb52-6778-405c-a644-48acdc750296}</Project>
       <Name>GraphLabs.Tests.Site</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphLabs.Tests.Utils\GraphLabs.Tests.Utils.csproj">
-      <Project>{b16b7d30-a083-404c-8298-1c3bbf586d02}</Project>
-      <Name>GraphLabs.Tests.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphLabs.Utils\GraphLabs.Site.Utils.csproj">
       <Project>{bd1f9046-594d-4aef-882b-e3f08de56b36}</Project>

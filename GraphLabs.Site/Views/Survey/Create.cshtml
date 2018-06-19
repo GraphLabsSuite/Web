@@ -16,8 +16,10 @@
                 <div class="editor-label">
                     Выберите тему
                 </div>
-                <div class="editor-field">
-                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                <div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                    </div>
                 </div>
             </td>
             <td>
@@ -25,7 +27,7 @@
                     Выберите подтему
                 </div>
                 <div class="editor-field">
-                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "dropDown" })
+                    @Html.DropDownListFor(model => model.SubCategoryId, Model.SubCategoryList, new { @class = "dropDown" })
                 </div>
             </td>
         </tr>

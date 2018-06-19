@@ -1,5 +1,5 @@
 ﻿@using GraphLabs.DomainModel
-@model GraphLabs.Site.Models.TestPool.TestPoolModel
+@model GraphLabs.Site.Models.TestPool.TestPoolEditModel
 
 
 @{
@@ -64,25 +64,12 @@
                                 @item.Id
                             </div>
                             <div class="col-md-3">
-                                <p>Выбранный вопрос</p>
-                                <p id="question_@item.Id"><b>@item.TestQuestion.Question</b></p>
+                                <p>Выбранная подтема</p>
+                                <p id="question_@item.Id"><b>@item.SubCategory</b></p>
                             </div>
                             <div class="col-md-3">
                                 <p>Количество баллов</p>
-                                <input id="score_@item.Id" type="number" value="@item.Score" onblur="editTestPoolEntryScore(@item.Id);"/>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="editor-label">
-                                    Выбор стратегии
-                                </div>
-                                <select id="select_@item.Id" onblur="editTestPoolEntrySelect(@item.Id);">
-                                    <option selected="@(item.ScoringStrategy == ScoringStrategy.AllCorrectVariantsShouldBeSpecified)" value="0">
-                                        Учёт только верных
-                                    </option>
-                                    <option selected="@(item.ScoringStrategy == ScoringStrategy.AnyCorrectVariantCanBeSpecified)" value="1">
-                                        Учёт всех
-                                    </option>
-                                </select>
+                                <input id="score_@item.Id" type="number" value="@item.TestPool" onblur="editTestPoolEntryScore(@item.Id);"/>
                             </div>
                             <div class="col-md-3">
                                 <button onclick="deleteTestPoolEntry(@item.Id);" type="button" id="delete_@item.Id">Удалить</button>
@@ -111,12 +98,6 @@
                 <input type="text" id="search_box" autocomplete="on"/>
                 <input type="submit" value="" id="questionIdNew"/>
                 <div id="search_advice_wrapper"></div>
-            </div>
-            <div class="col-md-3">
-                <div class="editor-label">
-                    Оценить размер общего балла
-                </div>
-                <input type="number" id="scoreNew"/>
             </div>
             <div class="col-md-3">
                 <div class="editor-label">

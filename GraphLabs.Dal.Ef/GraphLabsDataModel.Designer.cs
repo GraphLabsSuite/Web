@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "C:\Users\yburavenkova\Downloads\Web\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx" включено. 
+﻿// Создание кода T4 для модели "C:\Users\yburavenkova\Downloads\Web-TestPool_changes\GraphLabs.Dal.Ef\GraphLabsDataModel.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

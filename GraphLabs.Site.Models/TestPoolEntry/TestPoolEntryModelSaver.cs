@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.TestPoolEntry;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.TestPool
 {
@@ -26,15 +19,17 @@ namespace GraphLabs.Site.Models.TestPool
         protected override Action<DomainModel.TestPoolEntry> GetEntityInitializer(TestPoolEntryModel model, IEntityQuery query)
         {
             var entity = query.Get<DomainModel.TestPoolEntry>(model.Id);
+            var subCategory = query.Get<SubCategory>(model.SubCategory.Id);
 
             return g =>
             {
                 g.Id = model.Id;
-                g.Score = model.Score;
-                g.ScoringStrategy = model.ScoringStrategy;
-                g.TestQuestion = model.TestQuestion;
+                g.SubCategory = subCategory;
                 g.TestPool = entity.TestPool;
+                g.QuestionsCount = model.QuestionsCount;
+
             };
+
         }
 
         /// <summary> Существует ли соответствующая запись в БД? </summary>

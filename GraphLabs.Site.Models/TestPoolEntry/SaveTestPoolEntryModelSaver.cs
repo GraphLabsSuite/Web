@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLabs.Site.Models.Infrastructure;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Contexts;
 using GraphLabs.DomainModel.Extensions;
 using GraphLabs.Site.Core.OperationContext;
 using GraphLabs.Site.Models.TestPoolEntry;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace GraphLabs.Site.Models.TestPool
 {
@@ -23,17 +16,16 @@ namespace GraphLabs.Site.Models.TestPool
         {
         }
 
-        protected override Action<DomainModel.TestPoolEntry> GetEntityInitializer(SaveTestPoolEntryModel model, IEntityQuery query)
+        protected override Action<DomainModel.TestPoolEntry> GetEntityInitializer(
+            SaveTestPoolEntryModel model, IEntityQuery query)
         {
             var entityPool = query.Get<DomainModel.TestPool>(model.TestPool);
-            var entityQuestion = query.Get<TestQuestion>(model.TestQuestion);
+            var subCategory = query.Get<SubCategory>(model.SubCategoryId);
 
             return g =>
             {
                 g.Id = model.Id;
-                g.Score = model.Score;
-                g.ScoringStrategy = model.ScoringStrategy;
-                g.TestQuestion = entityQuestion;
+                g.SubCategory = subCategory;
                 g.TestPool = entityPool;
             };
         }

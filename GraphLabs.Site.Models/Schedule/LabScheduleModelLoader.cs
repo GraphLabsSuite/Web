@@ -6,7 +6,7 @@ using GraphLabs.Site.Models.Infrastructure;
 
 namespace GraphLabs.Site.Models.Schedule
 {
-    /// <summary> Загрузчик модели <see cref="LabScheduleModel"/> </summary>
+    /// <summary> Р—Р°РіСЂСѓР·С‡РёРє РјРѕРґРµР»Рё <see cref="LabScheduleModel"/> </summary>
     class LabScheduleModelLoader : AbstractModelLoader<LabScheduleModel, AbstractLabSchedule>
     {
         public LabScheduleModelLoader(IEntityQuery query) : base(query)
@@ -38,7 +38,7 @@ namespace GraphLabs.Site.Models.Schedule
                 return model;
             }
 
-            throw new ArgumentOutOfRangeException($"Загрузка модели строки расписания для типа {entity.GetType()} не реализована.");
+            throw new ArgumentOutOfRangeException($"Р—Р°РіСЂСѓР·РєР° РјРѕРґРµР»Рё СЃС‚СЂРѕРєРё СЂР°СЃРїРёСЃР°РЅРёСЏ РґР»СЏ С‚РёРїР° {entity.GetType()} РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅР°.");
         }
     }
 }

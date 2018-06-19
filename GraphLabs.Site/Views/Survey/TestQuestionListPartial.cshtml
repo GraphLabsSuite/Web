@@ -1,5 +1,24 @@
 ﻿@model GraphLabs.Site.Models.TestQuestionListViewModel
+<script>
 
+    // функция для удаления работы из расписания
+    function deleteQuestion(x) {
+        console.log(typeof x, x);
+        var del = confirm("Подтвердите удаление записи в расписании.");
+        if (del) {
+            var xhr = new XMLHttpRequest();
+            var body = 'id=' + encodeURIComponent(x);
+            xhr.open("POST", '/Survey/Delete/2', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = () => {
+                location.reload()
+            }
+            xhr.send(body);
+            alert("Работа удалена из расписания");
+        }
+        return false;
+    }
+</script>
 <table class="grid" width="60%">
     <thead class="grid-header">
         <tr>
@@ -19,10 +38,10 @@
                 Верно ответили
             </th>
             <th>
-                
+
             </th>
             <th>
-                
+
             </th>
         </tr>
     </thead>
@@ -43,13 +62,12 @@
                     @question.QuestionSubCategory
                 </td>
                 <td>
-
                 </td>
                 <td>
-                    @Html.ActionLink("\u270E", "Edit", "Survey", new { Question = @question.Question }, new { style = "text-decoration:none" })
+                    @Html.ActionLink("\u270E", "Edit", "Survey", new { QuestionId = @question.QuestionId }, new { style = "text-decoration:none" })
                 </td>
                 <td>
-                    @Html.ActionLink("\u2716", "", "", new { Question = @question.Question }, new { style = "text-decoration:none" })
+                    @Html.ActionLink("\u2716", "ViewQuestion", "Survey", new { QuestionId = @question.QuestionId }, new { style = "text-decoration:none" })
                 </td>
             </tr>
         }

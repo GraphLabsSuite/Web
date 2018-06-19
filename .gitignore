@@ -2,7 +2,7 @@
 /[Pp]ackages
 
 *.user
-
+/.idea
 [Oo]bj
 [Bb]in
 /AssemblyVersion.cs

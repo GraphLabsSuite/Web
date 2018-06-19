@@ -44,7 +44,7 @@ namespace GraphLabs.Site.Models
                 .OfType<TestResult>()
                 .ToArray();
             if (!testResults.Any()) throw new Exception("В тестпуле не оказалось заданий!");
-            var testPool = testResults.First().TestPoolEntry.TestPool;
+            var testPool = result.LabVariant.TestPool;
 
             TestPoolName = testPool.Name;
             TestEntries = new TestResultInfo[testResults.Length];
@@ -52,8 +52,8 @@ namespace GraphLabs.Site.Models
             {
                 TestEntries.SetValue(new TestResultInfo
                 {
-                    QuestionName = testResults.ElementAt(i).TestPoolEntry.TestQuestion.Question,
-                    Score = testResults.ElementAt(i).TestPoolEntry.Score,
+                    QuestionName = testResults.ElementAt(i).TestQuestion.Question,
+                    Score = testResults.ElementAt(i).TestQuestion.Score,
                     Mark = testResults.ElementAt(i).Score
                 }, i);
             }

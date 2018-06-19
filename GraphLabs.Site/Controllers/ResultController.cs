@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using System;
 using System.Web.Mvc;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
 using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models.Groups;
 using GraphLabs.Site.Models.Infrastructure;
-using GraphLabs.Site.Models.LabExecution;
 using GraphLabs.Site.Models.Results;
 using GraphLabs.Site.Models.ResultsWithTaskInfo;
 using GraphLabs.Site.Models.TaskResultsWithActions;
@@ -15,7 +15,7 @@ using GraphLabs.Site.Models.TestPool;
 namespace GraphLabs.Site.Controllers
 {
     [GLAuthorize(UserRole.Teacher | UserRole.Administrator)]
-    public class ResultController : GraphLabsController
+    public class ResultController : GraphLabsFilteringController<GroupModel, Group>
 	{
         // TODO: избавиться от UserRepository
         #region Зависимости
@@ -48,10 +48,11 @@ namespace GraphLabs.Site.Controllers
             _resultModelLoader = resultModelLoader;
         }
 
-        public ActionResult Index()
+        public override ActionResult Index(string msg)
         {
-            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>();
-            return View(model);
+            var model = _listModelLoader.LoadListModel<GroupListModel, GroupModel>().Filter(FiExpression);
+            
+            return View((GroupListModel) model);
         }
 
         public ActionResult StudentList(long id = 0)
@@ -59,11 +60,17 @@ namespace GraphLabs.Site.Controllers
             return View(_groupModelLoader.Load(id));
         }
 
-        public ActionResult StudentResult(long id = 0)
+        public ActionResult StudentResult(long id = 0, string ourdatestring = "today")
+
         {
+            var ourdate = DateTime.Today;
+            if (!ourdatestring.Equals("today")) ourdate = DateTime.Parse(ourdatestring);
             var student = (Student)_userRepository.GetUserById(id);
-            var model = student.Results.Select(x => _resultModelLoader.Load(x)).ToArray();
-            ViewBag.GroupId = student.Group.Id;
+           // ViewBag.GroupId = student.Group.Id;
+            var model = _listModelLoader.LoadListModel<ResultListModel, ResultModel>()
+                .FilterByUser(student.Email)
+                 .FilterByDate(ourdate.AddDays((DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)),
+                    ourdate.AddDays(7 + (DayOfWeek.Monday - ourdate.DayOfWeek) * (ourdate.DayOfWeek - ourdate.AddDays(-1).DayOfWeek)));
             return View(model);
         }
 

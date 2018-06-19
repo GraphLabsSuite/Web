@@ -49,8 +49,8 @@ INSERT INTO [dbo].[Users]
 VALUES 
     ('Tutor', 'Tutor', 'Tutor', 
 	'$2a$06$LzfX0oshO/c9C2yKVIBmfOupOcoIfqDrXdteGR1yVQjdKj6BDztZO',
-	'admin@graphlabs.ru', 
-	4)
+	'tutor@graphlabs.ru', 
+	2)
 GO
 
 -- Учётка пользователя

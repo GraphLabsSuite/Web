@@ -1,15 +1,9 @@
-﻿using GraphLabs.Dal.Ef;
-using GraphLabs.Site.Controllers.Attributes;
-using GraphLabs.Site.Controllers.LabWorks;
+﻿using GraphLabs.Site.Controllers.Attributes;
 using GraphLabs.Site.Models;
-using GraphLabs.Site.Utils;
-using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Web.Helpers;
 using System.Web.Routing;
 using GraphLabs.DomainModel;
 using GraphLabs.DomainModel.Repositories;
@@ -19,24 +13,24 @@ using GraphLabs.Site.Models.TestPool;
 
 namespace GraphLabs.Site.Controllers
 {
-	[GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
+    [GLAuthorize(UserRole.Administrator, UserRole.Teacher)]
     public class SurveyController : GraphLabsController
 	{
 	    private readonly ISurveyRepository _surveyRepository;
 	    private readonly ICategoryRepository _categoryRepository;
         private readonly IEntityBasedModelLoader<TestPoolModel, TestPool> _modelLoader;
-        //private readonly IEntityBasedModelSaver<CategoryModel, Category> _categorySaver;
+        private readonly IEntityBasedModelSaver<CategoryModel, Category> _categorySaver;
 
         public SurveyController(
             ISurveyRepository surveyRepository,
             ICategoryRepository categoryRepository,
-            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader
-            /*IEntityBasedModelSaver<CategoryModel, Category> categorySaver*/)
+            IEntityBasedModelLoader<TestPoolModel, TestPool> modelLoader,
+            IEntityBasedModelSaver<CategoryModel, Category> categorySaver)
         {
             _modelLoader = modelLoader;
 	        _surveyRepository = surveyRepository;
 	        _categoryRepository = categoryRepository;
-            //_categorySaver = categorySaver;
+            _categorySaver = categorySaver;
 	    }
 
 	    #region Просмотр списка
@@ -77,15 +71,16 @@ namespace GraphLabs.Site.Controllers
 	    [HttpPost]
 	    public ActionResult LoadUnique(QuestionLookForModel input)
 	    {
-	        // Новый код подгружает только те вопросы, которых ещё нет в данном тестпуле
-	        var entity = _modelLoader.Load(input.TestPool);
-	        var questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
-	        var questionArray = questions
-                .Where(q => entity.TestPoolEntries.All(t => t.TestQuestion.Question != q.Question))
-                .Select(q => new Tuple<string, long>(q.Question, q.Id))
-                .ToArray();
-            var json = Json(questionArray);
-            return json;
+            //// Новый код подгружает только те вопросы, которых ещё нет в данном тестпуле
+            //var entity = _modelLoader.Load(input.TestPool);
+            //var questions = _surveyRepository.GetQuestionsSimilarToString(input.Question);
+            //var questionArray = questions
+            //       .Where(q => entity.TestPoolEntries.All(t => t.TestQuestion.Question != q.Question))
+            //       .Select(q => new Tuple<string, long>(q.Question, q.Id))
+            //       .ToArray();
+            //   var json = Json(questionArray);
+            //   return json;
+            return null;
         }
 
 		#endregion
@@ -103,12 +98,15 @@ namespace GraphLabs.Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+        public ActionResult Create(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId, long SubCategoryId)
         {
             //Question, QuestionOptions, CategoryId
+            long QuestionId = _surveyRepository.GetAllQuestions().Select(q => q.Id).Max() + 1;
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
+                QuestionId = QuestionId,
                 CategoryId = CategoryId,
+                SubCategoryId = SubCategoryId,
                 QuestionOptions = QuestionOptions.ToList(),
                 Question = Question
             };
@@ -116,29 +114,40 @@ namespace GraphLabs.Site.Controllers
             if (model.IsValid)
             {
                 model.Save();
-				return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
+				//return RedirectToAction("Index", new RouteValueDictionary { { "CategoryId", CategoryId } });
             }
 
 			return View("~/Views/Survey/Create.cshtml", model);
 		}
 
+        #endregion
+
+        #region Редактирование вопроса
+
         [HttpGet]
-        public ActionResult Edit(string Question)
+        public ActionResult Edit(long QuestionId)
         {
+            var questions = _surveyRepository.GetAllQuestions();
+            var question = questions.Where(q => q.Id == QuestionId).First();
+
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
-                Question = Question
+                Question = question.Question,
+                CategoryId = question.SubCategory.Category.Id,
+                SubCategoryId = question.SubCategory.Id,
+                QuestionOptions = question.AnswerVariants.Select(e => new KeyValuePair<String, Boolean>(e.Answer, e.IsCorrect)).ToList()
             };
             return View("~/Views/Survey/Edit.cshtml", model);
         }
 
         [HttpPost]
-        public ActionResult Edit(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId)
+        public ActionResult Edit(string Question, Dictionary<string, bool> QuestionOptions, long CategoryId, long SubCategoryId, long QuestionId)
         {
-            //Question, QuestionOptions, CategoryId
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
             {
+                QuestionId = QuestionId,
                 CategoryId = CategoryId,
+                SubCategoryId = SubCategoryId,
                 QuestionOptions = QuestionOptions.ToList().Where(x => x.Key != "controller" && x.Key != "action").ToList(),
                 Question = Question
             };
@@ -152,42 +161,79 @@ namespace GraphLabs.Site.Controllers
             return View("~/Views/Survey/Edit.cshtml", model); //Надо настроить редирект
         }
 
-        /*[HttpGet]
-        public ActionResult AddCategory()
-        {
-            var model= new SurveyCreatingModel(_surveyRepository, _categoryRepository);
-            return View("~/Views/Survey/AddCategory.cshtml", model);
-        }*/
+        #endregion
 
-       /* [HttpPost]
-        public ActionResult AddCategory(CategoryModel category)
-        {
-            if (ModelState.IsValid)
-            {
-                _categorySaver.CreateOrUpdate(category);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Message = "Невозможно сохранить категорию";
-            return View(category);
-        }*/
-        /*     public ActionResult Create(GroupModel group)
-        {
-            if (ModelState.IsValid)
-            {
-                _modelSaver.CreateOrUpdate(group);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Message = "Невозможно сохранить группу";
-            return View(group);
-        }*/
-
-
-
-
+        #region Удаление вопроса
 
         [HttpGet]
+        public ActionResult ViewQuestion(long QuestionId)
+        {
+            TestQuestion question = _surveyRepository.GetAllQuestions().Where(q => q.Id == QuestionId).First();
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                QuestionId = QuestionId,
+                Question = question.Question,
+                CategoryId = question.SubCategory.Category.Id,
+                SubCategoryId = question.SubCategory.Id,
+                QuestionOptions = question.AnswerVariants.Select(e => new KeyValuePair<String, Boolean>(e.Answer, e.IsCorrect)).ToList()
+            };
+            return View("~/Views/Survey/ViewQuestion.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult ViewQuestion(TestQuestion question)
+        {
+            var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository)
+            {
+                QuestionId = question.Id,
+                CategoryId = question.SubCategory.Category.Id,
+                SubCategoryId = question.SubCategory.Id,
+                QuestionOptions = question.AnswerVariants.Select(e => new KeyValuePair<String, Boolean>(e.Answer, e.IsCorrect)).ToList(),
+                Question = question.Question
+            };
+
+            model.Delete();
+
+            return View("~/Views/Survey/Edit.cshtml", model); //Надо настроить редирект   
+        }
+    
+
+    /*[HttpGet]
+    public ActionResult AddCategory()
+    {
+        var model= new SurveyCreatingModel(_surveyRepository, _categoryRepository);
+        return View("~/Views/Survey/AddCategory.cshtml", model);
+    }*/
+
+    /* [HttpPost]
+     public ActionResult AddCategory(CategoryModel category)
+     {
+         if (ModelState.IsValid)
+         {
+             _categorySaver.CreateOrUpdate(category);
+             return RedirectToAction("Index");
+         }
+
+         ViewBag.Message = "Невозможно сохранить категорию";
+         return View(category);
+     }*/
+    /*     public ActionResult Create(GroupModel group)
+    {
+        if (ModelState.IsValid)
+        {
+            _modelSaver.CreateOrUpdate(group);
+            return RedirectToAction("Index");
+        }
+
+        ViewBag.Message = "Невозможно сохранить группу";
+        return View(group);
+    }*/
+
+
+
+
+
+    [HttpGet]
         public ActionResult AddSubCategory()
         {
             var model = new SurveyCreatingModel(_surveyRepository, _categoryRepository);

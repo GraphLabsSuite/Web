@@ -59,23 +59,47 @@ namespace GraphLabs.Site.Models
                     }
                 })
                 .ToList();
-            _subCategoryList = subCatList
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name,
-                    Selected = SubCategoryId == c.Id
-                })
-                .Concat(new List<SelectListItem>
-                {
+            if (CategoryId == 0)
+            {
+                _subCategoryList = subCatList
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name,
+                        Selected = SubCategoryId == c.Id
+                    })
+                    .Concat(new List<SelectListItem>
+                    {
                     new SelectListItem
                     {
                         Value = "0",
                         Text = "Все подтемы",
                         Selected = SubCategoryId == 0
                     }
-                })
-                .ToList();
+                    })
+                    .ToList();
+            }
+            else
+            {
+                _subCategoryList = subCatList
+                    .Where(c => c.Category.Id == CategoryId)
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name,
+                        Selected = SubCategoryId == c.Id
+                    })
+                    .Concat(new List<SelectListItem>
+                    {
+                    new SelectListItem
+                    {
+                        Value = "0",
+                        Text = "Все подтемы",
+                        Selected = SubCategoryId == 0
+                    }
+                    })
+                    .ToList();
+            }
         }
 
         public SurveyIndexViewModel(ISurveyRepository surveyRepository, ICategoryRepository categoryRepository)

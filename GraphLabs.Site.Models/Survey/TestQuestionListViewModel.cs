@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GraphLabs.DomainModel.Repositories;
+using GraphLabs.DomainModel;
 
 namespace GraphLabs.Site.Models
 {
@@ -28,8 +29,7 @@ namespace GraphLabs.Site.Models
             if (ShowCategory) {
                 if (ShowSubCategory)
                 {
-                    questions = _surveyRepository.GetQuestionByCategory(CategoryId);
-                    //questions = _surveyRepository.GetQuestionsBySubCategory(SubCategoryId);
+                    questions = _surveyRepository.GetQuestionBySubCategory(SubCategoryId);
                 }
                 else
                 {
@@ -37,18 +37,18 @@ namespace GraphLabs.Site.Models
                 }
             }
 
-            /*var questions = SubCategoryId == 0
-                ? _surveyRepository.GetAllQuestions()
-                : _surveyRepository.GetQuestionByCategory(SubCategoryId);*/
-
-            //var questions = CategoryId == 
-            
             Items = questions.Select(q => new TestQuestionDto
             {
                 QuestionId = q.Id,
                 Question = q.Question,
                 QuestionSubCategory = q.SubCategory.Name,
-                QuestionCategory = q.SubCategory.Category.Name,                
+                QuestionCategory = q.SubCategory.Category.Name,
+                QuestionSubCategoryId = q.SubCategory.Id,
+                QuestionCategoryId = q.SubCategory.Category.Id,
+                StringAnswers = q.AnswerVariants.Select(a => a.Answer).ToList(),
+                RightAnswers = q.AnswerVariants.Select(a => a.IsCorrect).ToList(),
+                Answers = q.AnswerVariants.Select(e => new KeyValuePair<String, Boolean>(e.Answer, e.IsCorrect)).ToList()
+
             })
                 .ToList();
         }
@@ -63,7 +63,12 @@ namespace GraphLabs.Site.Models
 	{
 		public long QuestionId { get; set; }
 		public string Question { get; set; }
+        public long QuestionCategoryId { get; set; }
         public string QuestionCategory { get; set; }
+        public long QuestionSubCategoryId { get; set; }
         public string QuestionSubCategory { get; set; }
+        public IList<String> StringAnswers { get; set; }
+        public IList<bool> RightAnswers { get; set; }
+        public List<KeyValuePair<String, bool>> Answers { get; set; }
     }
 }
