@@ -1,0 +1,82 @@
+﻿@model GraphLabs.Site.Models.SurveyCreatingModel
+
+@{
+    ViewBag.Title = "Предпросмотр вопроса перед удалением";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    @Html.ActionLink("Вернуться к списку вопросов", "Index")
+</hgroup>
+<br />
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <table width="40%" class="nakedTable">
+        <tr>
+            <td>
+                <div class="editor-label">
+                    Выберите тему
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.CategoryList, "Value", "Text", Model.CategoryId.ToString()), new { @class = "dropDown", disabled = "true" })
+                </div>
+            </td>
+            <td>
+                <div class="editor-label">
+                    Выберите подтему
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.SubCategoryId, new SelectList(Model.SubCategoryList, "Value", "Text", Model.SubCategoryId.ToString()), new { @class = "dropDown", disabled = "true" })
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table width="60%" id="tableQuestion" class="nakedTable">
+        <tr>
+            <td width="16%">
+                Текст вопроса
+            </td>
+            <td>
+                <div class="editor-field editText">
+                    @Html.TextBoxFor(model => model.Question, new { disabled = "disabled" })
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table width="60%" id="tableOption" class="nakedTable">
+        @if (Model.QuestionOptions.Count != 0)
+        {
+            <tr>Варианты ответов</tr>
+            for (var i = 0; i < Model.QuestionOptions.Count; ++i)
+            {
+                <tr>
+                    <td width="15px"></td>
+                    <td>
+                        <div class="editor-field editText">
+                            @Html.TextBoxFor(model => model.QuestionOptions[i].Key, new { disabled = "disabled" })
+                        </div>
+                    </td>
+                    <td>
+                        @if (@Model.QuestionOptions[i].Value)
+                        {
+                            <p>Правильный ответ</p>
+                        }
+                        @if (!@Model.QuestionOptions[i].Value)
+                        {
+                            <p>Неправильный ответ</p>
+                        }
+
+                    </td>
+                </tr>}
+        }
+        else
+        {
+            <tr>
+                <td width="21%">
+                    Нет вариантов ответа
+                </td>
+                <td></td>
+            </tr>
+        }
+    </table>
+<input type="submit" value="Подтвердить удаление вопроса" id="submitButton" />}
